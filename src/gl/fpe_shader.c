@@ -24,9 +24,10 @@ static int comments = 1;
 
 const char* texvecsize[] = {"vec2", "vec3", "vec2"};
 const char* texxyzsize[] = {"xy", "xyz", "xy"};
-const char* texname[] = {"texture2D", "textureCube", "textureStream"};
-const char* texsampler[] = {"sampler2D", "samplerCube", "samplerStream"};
-int texnsize[] = {2, 3, 2};
+//                          2D          Rectangle    3D             CubeMap      Stream
+const char* texname[] = {"texture2D", "texture2D", "texture2D", "textureCube", "textureStream"};    // textureRectange and 3D are emulated with 2D
+const char* texsampler[] = {"sampler2D", "sampler2D", "sampler2D", "samplerCube", "samplerStream"};
+int texnsize[] = {2, 2, 3, 3, 2};
 const char texcoordname[] = {'s', 't', 'r', 'q'};
 const char texcoordNAME[] = {'S', 'T', 'R', 'Q'};
 const char texcoordxy[] = {'x', 'y', 'z', 'w'};
@@ -113,7 +114,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
 
     if(comments) {
         sprintf(buff, "// ** Vertex Shader **\n// ligthting=%d (twosided=%d, separate=%d, color_material=%d)\n// secondary=%d, planes=%s\n// texture=%s, point=%d\n",
-            lighting, twosided, light_separate, color_material, secondary, fpe_binary(planes, 6), fpe_packed(state->texture, 16, 2), point);
+            lighting, twosided, light_separate, color_material, secondary, fpe_binary(planes, 6), fpe_packed(state->textype, 24, 3), point);
         ShadAppend(buff);
         headers+=CountLine(buff);
     }
@@ -231,7 +232,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     }
     // textures coordinates
     for (int i=0; i<hardext.maxtex; i++) {
-        int t = (state->texture>>(i*2))&0x3;
+        int t = (state->textype>>(i*3))&0x7;
         if(t) {
             sprintf(buff, "varying %s _gl4es_TexCoord_%d;\n", texvecsize[t-1], i);
             ShadAppend(buff);
@@ -450,7 +451,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     if(state->textmat)
         ShadAppend("vec4 tmp_tex;\n");
     for (int i=0; i<hardext.maxtex; i++) {
-        int t = (state->texture>>(i*2))&0x3;
+        int t = (state->textype>>(i*3))&0x7;
         int mat = state->textmat&(1<<i)?1:0;
         int adjust = state->texadjust&(1<<i)?1:0;
         int tg[4];
@@ -625,7 +626,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     strcpy(shad, fpeshader_signature);
     
     if(comments) {
-        sprintf(buff, "// ** Fragment Shader **\n// lighting=%d, alpha=%d, secondary=%d, planes=%s, texture=%s, texformat=%s point=%d\n", lighting, alpha_test, secondary, fpe_binary(planes, 6), fpe_packed(state->texture, 16, 2), fpe_packed(state->texformat, 24, 3), point);
+        sprintf(buff, "// ** Fragment Shader **\n// lighting=%d, alpha=%d, secondary=%d, planes=%s, textype=%s, texformat=%s point=%d\n", lighting, alpha_test, secondary, fpe_binary(planes, 6), fpe_packed(state->textype, 24, 3), fpe_packed(state->texformat, 24, 3), point);
         ShadAppend(buff);
         headers+=CountLine(buff);
     }
@@ -663,7 +664,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     }
     // textures coordinates
     for (int i=0; i<hardext.maxtex; i++) {
-        int t = (state->texture>>(i*2))&0x3;
+        int t = (state->textype>>(i*3))&0x7;
         if(point && !pointsprite) t=0;
         if(t) {
             sprintf(buff, "varying %s _gl4es_TexCoord_%d;\n", texvecsize[t-1], i);
@@ -715,10 +716,10 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     ShadAppend(buff);
 
     //*** apply textures
-    if(state->texture && (!point || pointsprite) ) {
+    if(state->textype && (!point || pointsprite) ) {
         // fetch textures first
         for (int i=0; i<hardext.maxtex; i++) {
-            int t = (state->texture>>(i*2))&0x3;
+            int t = (state->textype>>(i*3))&0x7;
             if(t) {
                 if(point && pointsprite && pointsprite_coord) {
                     if(pointsprite_upper)
@@ -736,7 +737,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             ShadAppend("vec4 Arg0, Arg1, Arg2;\n");
         // fetch textures first
         for (int i=0; i<hardext.maxtex; i++) {
-            int t = (state->texture>>(i*2))&0x3;
+            int t = (state->textype>>(i*3))&0x7;
             if(t) {
                 int texenv = (state->texenv>>(i*3))&0x07;
                 int texformat = (state->texformat>>(i*3))&0x07;

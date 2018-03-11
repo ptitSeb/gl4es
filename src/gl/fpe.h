@@ -21,8 +21,10 @@
 
 #define FPE_TEX_OFF  0
 #define FPE_TEX_2D   1
-#define FPE_TEX_CUBE 2
-#define FPE_TEX_STRM 3
+#define FPE_TEX_RECT 2
+#define FPE_TEX_3D   3
+#define FPE_TEX_CUBE 4
+#define FPE_TEX_STRM 5
 
 #define FPE_ALWAYS   0
 #define FPE_NEVER    1
@@ -92,7 +94,6 @@ typedef struct {
     uint32_t texsrcalpha[3];             // 8 texenv src alpha n (SRC_n_ALPHA is 4 bits)
     uint8_t texcombine[8];               // 8 texture combined (RGB as lower 4 bits, A as higher 4 bits)
     uint16_t texoprgb[3];                // 8 texenv src op (OPERATION_n_RGB is 2 bits)
-    uint16_t texture;                    // 8 textures stored on 2 bits
     uint8_t texopalpha[3];               // 8 texenv src op (OPERATION_n_ALPHA is 1 bits)
     uint8_t texrgbscale;                 // 8 flags if RGB_SCALE for texture is != 1.0
     uint8_t texalphascale;               // 8 flags if ALPHA_SCALE for texture is != 1.0
@@ -101,6 +102,7 @@ typedef struct {
     uint8_t light_direction;             // 8 lights position[3].w==0 flags
     uint8_t textmat;                     // 8 flags if texture matrix is not identity
     uint8_t texadjust;                   // 8 flags if texture need adjustement
+    unsigned int textype:24;                    // 8 textures type stored on 3 bits
     unsigned int texformat:24;           // 8 textures (simplified) internal format on 3 bits
     unsigned int texenv:24;              // 8 texenv flags, each stored on 3bits
     uint8_t      texgen_s;               // 8 texgen S enabled on 1 bit

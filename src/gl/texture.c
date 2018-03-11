@@ -2517,12 +2517,6 @@ void realize_textures() {
             // bound...
             gles_glBindTexture(GL_TEXTURE_2D, t);
             glstate->actual_tex2d[i] = t;
-            /*
-            if(glstate->fpe_state) {
-                glstate->fpe_state->texformat &= ~(7<<(i*3));
-                glstate->fpe_state->texformat |= tex->fpe_format<<(i*3);
-            }
-            */
         }
     }
     glstate->bound_changed = 0;

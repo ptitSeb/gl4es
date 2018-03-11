@@ -90,7 +90,7 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
         }
     }
     // texturing
-    if(!dest->texture) {
+    if(!dest->textype) {
         dest->textmat = 0;
         dest->texenv = 0;
         memset(dest->texcombine, 0, sizeof(dest->texcombine));
@@ -111,7 +111,7 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
     } else {
         // individual textures
         for (int i=0; i<8; i++) {
-            if((dest->texture>>(i<<1))&3==0) { // texture is off
+            if((dest->textype>>(i*3))&7==0) { // texture is off
                 dest->textmat &= ~(1<<i);
                 dest->texformat &= ~(7<<(i*3));
                 dest->texadjust &= ~(1<<i);
@@ -133,7 +133,7 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
                 if (dest->texgen_q&(1<<i)==0)
                     dest->texgen_q_mode &= ~(7<<(i*3));
             }
-            if(dest->texenv>>(i*3)&7 != FPE_COMBINE || dest->texture>>(i<<1)&3==0) {
+            if(dest->texenv>>(i*3)&7 != FPE_COMBINE || dest->textype>>(i*3)&7==0) {
                 dest->texcombine[i] = 0;
                 for (int j=0; j<3; j++) {
                     dest->texsrcrgb[j] &= ~(0xf<<(i*4));
@@ -452,7 +452,7 @@ void realize_glenv(int ispoint) {
             glstate->fpe_state->texformat &= ~(7<<(i*3));
             glstate->fpe_state->texadjust &= ~(1<<i);
             // disable texture unit, in that case (binded texture is not valid)
-            glstate->fpe_state->texture &= ~(3<<(i*2));
+            glstate->fpe_state->textype &= ~(7<<(i*3));
             int texunit = fpe_gettexture(i);
             gltexture_t* tex = (texunit==-1)?NULL:glstate->texture.bound[i][texunit];
             if(tex && tex->valid) {
@@ -464,11 +464,13 @@ void realize_glenv(int ispoint) {
                         fmt = FPE_TEX_STRM;
                     else
 #endif
-                    fmt = FPE_TEX_2D;
+                    if(texunit==ENABLED_TEXTURE_RECTANGLE) fmt = FPE_TEX_RECT;
+                    else if(texunit==ENABLED_TEX3D) fmt = FPE_TEX_3D;
+                    else fmt = FPE_TEX_2D;
                 }
                 glstate->fpe_state->texformat |= tex->fpe_format<<(i*3);
                 glstate->fpe_state->texadjust |= tex->adjust<<i;
-                glstate->fpe_state->texture |= fmt<<(i*2);
+                glstate->fpe_state->textype |= fmt<<(i*3);
             }
         }
         glstate->fpe_bound_changed = 0;
