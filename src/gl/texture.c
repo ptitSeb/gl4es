@@ -1887,7 +1887,7 @@ void gl4es_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type,
         GLuint fbo;
 	
         // if the texture is not RGBA or RGB or ALPHA, the "just attach texture to the fbo" trick will not work, and a full Blit has to be done
-        if((bound->format==GL_RGBA || bound->format==GL_RGB || bound->format==GL_ALPHA) && (shrink==0)) {
+        if((bound->format==GL_RGBA || bound->format==GL_RGB || (bound->format==GL_BGRA && hardext.bgra8888) || bound->format==GL_ALPHA) && (shrink==0)) {
             gl4es_glGenFramebuffers(1, &fbo);
             gl4es_glBindFramebuffer(GL_FRAMEBUFFER_OES, fbo);
             gl4es_glFramebufferTexture2D(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, oldBind, 0);
