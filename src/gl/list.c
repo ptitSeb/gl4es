@@ -749,6 +749,7 @@ void adjust_renderlist(renderlist_t *list) {
 
     list->stage = STAGE_LAST;
     list->open = false;
+    if(hardext.esversion==1)    // no more adjustment needed for ES2
     for (int a=0; a<list->maxtex; a++) {
         const GLint itarget = get_target(glstate->enable.texture[a]);
 	    gltexture_t *bound = (itarget>=0)?glstate->texture.bound[a][itarget]:NULL;

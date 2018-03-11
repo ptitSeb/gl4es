@@ -89,12 +89,14 @@ void tex_coord_matrix(GLfloat *tex, GLsizei len, const GLfloat* mat) {
  * Or some NPOT texture used
  */
 int inline tex_setup_needchange(GLuint itarget) {
+    if(hardext.esversion>1) return 0; // no text ajustement on ES2
+
     GLuint texunit = glstate->texture.client;
     gltexture_t *bound = glstate->texture.bound[texunit][itarget];
     
     // check if some changes are needed
     if ((itarget == ENABLED_TEXTURE_RECTANGLE) 
-        || (hardext.esversion==1 && bound->adjust) // TODO: check that
+        || (hardext.esversion==1 && bound->adjust)
         || (hardext.esversion==1 && !globals4es.texmat && !glstate->texture_matrix[texunit]->identity)
         )
         return 1;
@@ -885,9 +887,16 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             bound->height = height;
             bound->nwidth = nwidth;
             bound->nheight = nheight;
-            bound->adjust = (width!=nwidth || height!=nheight);
-            bound->adjustxy[0] = (float)width / nwidth;
-            bound->adjustxy[1] = (float)height / nheight;
+            if(target==GL_TEXTURE_RECTANGLE_ARB && hardext.esversion==2) {
+                bound->adjust = 0;  // because this thest is used in a lot of places
+                bound->adjustxy[0] = 1.0f/width;
+                bound->adjustxy[1] = 1.0f/height;
+            } else {
+                // TEXTURE_RECTANGLE could be mutualize with npot texture probably
+                bound->adjust = (width!=nwidth || height!=nheight);
+                bound->adjustxy[0] = (float)width / nwidth;
+                bound->adjustxy[1] = (float)height / nheight;
+            }
             bound->compressed = false;
             bound->valid = 1;
         }
