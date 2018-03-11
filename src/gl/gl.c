@@ -1967,8 +1967,8 @@ void gl4es_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
         if(glstate->list.pending)
             flush();
         else {
-            // test if called between glBegin / glEnd but Texture is not active. In that case, ignore the call
-            if(hardext.esversion==1 || (glstate->list.begin && (glstate->list.compiling || glstate->enable.texture[0])))
+            // test if called between glBegin / glEnd but Texture is not active and not using a program. In that case, ignore the call
+            if(hardext.esversion==1 || glstate->glsl.program || (glstate->list.begin && (glstate->list.compiling || glstate->enable.texture[0])))
                 rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0, s, t, r, q);
         }
     }
