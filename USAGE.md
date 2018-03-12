@@ -15,7 +15,7 @@ Controls the Framebuffer output
 Controls tje version of GLES to use
  * 0 : Default, using GLES 1.1 backend (unless built with DEFAULT_ES 2)
  * 1 : Use GLES 1.1 backend
- * 2 : Use GLES 2.0 backend (not finished, don't use for now)
+ * 2 : Use GLES 2.0 backend
 
 ##### LIBGL_GL
 Controls the version of OpenGL exposed
@@ -158,7 +158,7 @@ Show/Hide initial text
 
 ##### LIBGL_NPOT
 Expose NPOT (Non Power of Two) Support
- * 0 : Default, don't expose the extension (but npot are still supported)
+ * 0 : Default, expose the extension that are availble by the GLES backend
  * 1 : Expose limited NPOT extension
  * 2 : Expose GL_ARB_texture_non_power_of_two extension
 
