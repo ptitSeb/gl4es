@@ -1516,7 +1516,13 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
         case GL_CLAMP_TO_BORDER:
 		    param = GL_CLAMP_TO_EDGE;
 		    break;
+        case GL_REPEAT:
+            if(hardext.npot<2 && texture->valid 
+            && (texture->width!=npot(texture->width) || texture->height!=npot(texture->height)))
+                param = GL_CLAMP_TO_EDGE;   // repeat is not support on NPOT with limited_npot
+            break;
 	    }
+
         if (pname==GL_TEXTURE_WRAP_S) texture->wrap_s = param;
 		if (pname==GL_TEXTURE_WRAP_T) texture->wrap_t = param;
 	    break;
