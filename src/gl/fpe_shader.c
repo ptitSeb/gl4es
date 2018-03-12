@@ -22,8 +22,8 @@ static int comments = 1;
 
 #define ShadAppend(S) shad = Append(shad, &shad_cap, S)
 
-const char* texvecsize[] = {"vec2", "vec3", "vec2"};
-const char* texxyzsize[] = {"xy", "xyz", "xy"};
+const char* texvecsize[] = {"vec2", "vec2", "vec2", "vec3", "vec2"};
+const char* texxyzsize[] = {"xy", "xy", "xy", "xyz", "xy"};
 //                          2D          Rectangle    3D             CubeMap      Stream
 const char* texname[] = {"texture2D", "texture2D", "texture2D", "textureCube", "textureStream"};    // textureRectange and 3D are emulated with 2D
 const char* texsampler[] = {"sampler2D", "sampler2D", "sampler2D", "samplerCube", "samplerStream"};
