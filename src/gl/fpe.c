@@ -8,6 +8,7 @@
 #include "shaderconv.h"
 #include "debug.h"
 #include "array.h"
+#include "init.h"
 
 //#define DEBUG
 #ifdef DEBUG
@@ -207,7 +208,10 @@ void fpe_program(int ispoint) {
         if(status!=GL_TRUE) {
             char buff[1000];
             gl4es_glGetShaderInfoLog(glstate->fpe->vert, 1000, NULL, buff);
-            printf("LIBGL: FPE Vertex shader compile failed: %s\n", buff);
+            if(globals4es.comments)
+                printf("LIBGL: FPE Vertex shader compile failed: source is\n%s\n\nError is: %s\n", fpe_VertexShader(glstate->fpe_state)[0], buff);
+            else
+                printf("LIBGL: FPE Vertex shader compile failed: %s\n", buff);
         }
         glstate->fpe->frag = gl4es_glCreateShader(GL_FRAGMENT_SHADER);
         gl4es_glShaderSource(glstate->fpe->frag, 1, fpe_FragmentShader(glstate->fpe_state), NULL);
@@ -216,7 +220,10 @@ void fpe_program(int ispoint) {
         if(status!=GL_TRUE) {
             char buff[1000];
             gl4es_glGetShaderInfoLog(glstate->fpe->frag, 1000, NULL, buff);
-            printf("LIBGL: FPE Fragment shader compile failed: %s\n", buff);
+            if(globals4es.comments)
+                printf("LIBGL: FPE Fragment shader compile failed: source is\n%s\n\nError is: %s\n", fpe_FragmentShader(glstate->fpe_state)[0], buff);
+            else
+                printf("LIBGL: FPE Fragment shader compile failed: %s\n", buff);
         }
         glstate->fpe->prog = gl4es_glCreateProgram();
         gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->vert);
