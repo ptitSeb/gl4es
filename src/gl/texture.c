@@ -309,7 +309,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 *format = GL_RGBA;
                 break;
             case GL_BGRA:
-                if(hardext.bgra8888 && ((*type)==GL_UNSIGNED_BYTE)) {
+                if(hardext.bgra8888 && ((*type)==GL_UNSIGNED_BYTE || (*type)==GL_FLOAT)) {
                     dest_format = GL_BGRA;
                     *format = GL_BGRA;
                 } else convert = true;
@@ -360,6 +360,12 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                     dest_format = GL_RGBA;
                     convert = true;
                 }
+                break;
+            case GL_FLOAT:
+                if(hardext.floattex)
+                    dest_type = GL_FLOAT;
+                else
+                    convert = true;
                 break;
             default:
                 convert = true;
