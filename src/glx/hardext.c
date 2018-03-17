@@ -183,7 +183,7 @@ void GetHardwareExtensions(int notest)
     }
     S("GL_OES_depth_texture", depthtex, 1);
     S("GL_OES_draw_texture", drawtex, 1);
-    S("GL_EXT_texture_rg", rgtex, 0);
+    S("GL_EXT_texture_rg", rgtex, 1);
     S("GL_OES_texture_float", floattex, 0);
 
     if (hardext.esversion>1) {
