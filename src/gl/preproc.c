@@ -308,52 +308,74 @@ char* preproc(const char* code, int keepcomments) {
     int status=0;
     int write=1;
     int incomment=0;
-    while(GetToken(&p, &tok, incomment)!=TK_NULL) {
+    int newline=0;
+    int gettok=0;
+    GetToken(&p, &tok, incomment);
+    while(tok.type!=TK_NULL) {
+        // pre get token switch
         switch(status) {
-            case 210:   // block comment done
             case 110:   // line comment done...
+            case 210:   // block comment done
+                if(!write && newline) {
+                    gettok=0;
+                    tok.type=TK_NEWLINE;
+                    strcpy(tok.str, "\n");
+                }
                 write = 1;
                 status = 0;
                 incomment=0;
-            case 0: // regular...
-                if(tok.type==TK_DOUBLESLASH) {
-                    status = 100; // line comment
-                    incomment = 1;
-                    if(!keepcomments) write=0;
-                } else if(tok.type==TK_OPENCOMMENT) {
-                    status = 200; // multi-line comment
-                    incomment = 1;
-                    if(!keepcomments) write=0;
-                }
-                break;
-
-            // line comment...
-            case 100:
-                if(tok.type==TK_BACKSLASH) {
-                    status = 120;   // is it backslash+endline for multiline?
-                } else if(tok.type==TK_NEWLINE) {
-                    status = 110;
-                }
-                break;
-            case 120:
-                status = 100;   // continue comment, what ever follow (NewLine or anything else)
-                break;
-
-            // block comment...
-            case 200:
-                if(tok.type==TK_CLOSECOMMENT) {
-                    status=210;
-                }
-                break;
+                newline=0;
+            break;
         }
-        if(write) {
-            int l = strlen(tok.str);
-            if(sz+l>=cap) {
-                cap+=2000;
-                ncode = (char*)realloc(ncode, cap);
+        // get token (if needed)
+        if (gettok) GetToken(&p, &tok, incomment);
+        gettok=1;
+        // post get token switch
+        if(tok.type!=TK_NULL) {
+            switch(status) {
+                case 0: // regular...
+                    if(tok.type==TK_DOUBLESLASH) {
+                        status = 100; // line comment
+                        incomment = 1;
+                        newline = 1;
+                        if(!keepcomments) write=0;
+                    } else if(tok.type==TK_OPENCOMMENT) {
+                        status = 200; // multi-line comment
+                        incomment = 1;
+                        if(!keepcomments) write=0;
+                    }
+                    break;
+
+                // line comment...
+                case 100:
+                    if(tok.type==TK_BACKSLASH) {
+                        status = 120;   // is it backslash+endline for multiline?
+                    } else if(tok.type==TK_NEWLINE) {
+                        status = 110;
+                    }
+                    break;
+                case 120:
+                    status = 100;   // continue comment, what ever follow (NewLine or anything else)
+                    break;
+
+                // block comment...
+                case 200:
+                    if(tok.type==TK_NEWLINE)
+                        newline=1;
+                    if(tok.type==TK_CLOSECOMMENT) {
+                        status=210;
+                    }
+                    break;
             }
-            strcat(ncode, tok.str);
-            sz+=l;
+            if(write) {
+                int l = strlen(tok.str);
+                if(sz+l>=cap) {
+                    cap+=2000;
+                    ncode = (char*)realloc(ncode, cap);
+                }
+                strcat(ncode, tok.str);
+                sz+=l;
+            }
         }
     }
 
