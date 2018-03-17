@@ -954,6 +954,16 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             bound->wrap_t = bound->wrap_s = GL_CLAMP_TO_EDGE;
             // check MIN/MAG Filter also?
         }
+        // check min/mag settings for GL_FLOAT type textures
+        if(type==GL_FLOAT) {
+            if (bound->min_filter!=GL_NEAREST && bound->min_filter!=GL_NEAREST_MIPMAP_NEAREST) {
+                GLenum m = GL_NEAREST;
+                if(bound->min_filter!=GL_LINEAR) m = GL_NEAREST_MIPMAP_NEAREST;
+                gles_glTexParameteri( rtarget, GL_TEXTURE_MIN_FILTER, m);
+            }
+            if (bound->mag_filter!=GL_NEAREST)
+                gles_glTexParameteri( rtarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        }
         int callgeneratemipmap = 0;
         if (!(globals4es.texstream && bound->streamed)) {
             if ((target!=GL_TEXTURE_RECTANGLE_ARB) && (globals4es.automipmap!=3) && (bound->mipmap_need || bound->mipmap_auto)) {
@@ -1550,6 +1560,10 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
 				    param = GL_LINEAR;
 				    break;
 			}
+        }
+        if(texture->valid && texture->type==GL_FLOAT) { // FLOAT textures have limited mipmap support in GLES2
+            if(param==GL_LINEAR) param=GL_NEAREST;
+            else if(param!=GL_NEAREST && param!=GL_NEAREST_MIPMAP_NEAREST) param=GL_NEAREST_MIPMAP_NEAREST;
         }
         if (pname==GL_TEXTURE_MIN_FILTER) texture->min_filter = param;
         if (pname==GL_TEXTURE_MAG_FILTER) texture->mag_filter = param;
