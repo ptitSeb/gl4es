@@ -332,6 +332,9 @@ void initialize_gl4es() {
     env(LIBGL_POTFRAMEBUFFER, globals4es.potframebuffer, "Force framebuffers to be on POT size");
 
     char *env_forcenpot = getenv("LIBGL_FORCENPOT");
+    if ((env_forcenpot && strcmp(env_forcenpot,"0") == 0) && (hardext.esversion==2 && hardext.npot==1)) {
+        SHUT(LOGD("LIBGL: Not forcing NPOT support\n"));
+    } else
     if ((env_forcenpot && strcmp(env_forcenpot,"1") == 0) || (hardext.esversion==2 && hardext.npot==1)) {
         if(hardext.npot==2) {
             SHUT(LOGD("LIBGL: NPOT texture handled in hardware\n"));

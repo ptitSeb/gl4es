@@ -115,7 +115,6 @@ typedef struct {
 	GLenum mag_filter;
     GLenum wrap_s;
     GLenum wrap_t;
-    GLboolean uploaded;
     GLboolean alpha;
     GLboolean compressed;
     GLboolean streamed;
@@ -128,6 +127,8 @@ typedef struct {
     int npot;
     int adjust; // flag if width/height has to be adjusted
     float adjustxy[2];  // adjust factor
+    int useratio;
+    float ratiox, ratioy;
     GLvoid *data;	// in case we want to keep a copy of it (it that case, always RGBA/GL_UNSIGNED_BYTE
 } gltexture_t;
 

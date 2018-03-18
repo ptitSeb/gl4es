@@ -26,7 +26,7 @@ bool pixel_transform(const GLvoid *src, GLvoid **dst,
 
 bool pixel_scale(const GLvoid *src, GLvoid **dst,
                   GLuint width, GLuint height,
-                  GLfloat ratio,
+                  GLuint new_width, GLuint new_height,
                   GLenum format, GLenum type);
 
 bool pixel_halfscale(const GLvoid *src, GLvoid **dst,

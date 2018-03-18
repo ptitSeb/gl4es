@@ -79,7 +79,6 @@ typedef struct {
     gleshard_t          gleshard;
     glesblit_t          *blit;
     fbo_t               fbo;
-    int                 filterpostupload;   // does the program seems to set filter after uploading texture?
     // scratch array
     int                 scratch_alloc;
     void*               scratch;

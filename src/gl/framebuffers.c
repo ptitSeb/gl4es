@@ -277,15 +277,20 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
             if (tex->shrink || (tex->adjust && hardext.npot==1 && !globals4es.potframebuffer)) {
                 LOGD("LIBGL: %s texture for FBO\n",(tex->shrink)?"unshrinking shrinked":"going back to npot size pot'ed");
                 if(tex->shrink) {
-                    tex->width *= 2*tex->shrink;
-                    tex->height *= 2*tex->shrink;
+                    if(tex->useratio) {
+                        tex->width = tex->nwidth/tex->ratiox;
+                        tex->height = tex->nheight/tex->ratioy;
+                    } else {
+                        tex->width *= 1<<tex->shrink;
+                        tex->height *= 1<<tex->shrink;
+                    }
                 }
                 tex->nwidth = hardext.npot>0?tex->width:npot(tex->width);
                 tex->nheight = hardext.npot>0?tex->height:npot(tex->height);
                 tex->adjustxy[0] = (float)tex->width / tex->nwidth;
                 tex->adjustxy[1] = (float)tex->height / tex->nheight;
                 tex->adjust=(tex->width!=tex->nwidth || tex->height!=tex->nheight);
-                tex->shrink = 0;
+                tex->shrink = 0; tex->useratio = 0;
                 gltexture_t *bound = glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D];
                 GLuint oldtex = bound->glname;
                 if(hardext.npot==1 && tex->adjust) {

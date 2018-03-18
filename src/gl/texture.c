@@ -669,7 +669,7 @@ static GLint proxy_intformat = 0;
 
 int wrap_npot(GLenum wrap) {
     switch(wrap) {
-        case 0: return 0;   // default is not good
+        case 0: return 1;   // default is ok (should not, it's GL_REPEAT)
         case GL_CLAMP:
         case GL_CLAMP_TO_EDGE:
         case GL_CLAMP_TO_BORDER:
@@ -811,7 +811,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     bound->shrink = shrink = get_shrinklevel(width, height, level);
 
     if(((width>>shrink)==0) && ((height>>shrink)==0)) return;   // nothing to do
-     if (datab) {
+    if (datab) {
 
         // implements GL_UNPACK_ROW_LENGTH
         if ((glstate->texture.unpack_row_length && glstate->texture.unpack_row_length != width) 
@@ -845,7 +845,13 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 if ((mipwidth > 1) && (mipheight > 1)) {
                     GLvoid *out = pixels;
                     GLfloat ratio = 0.5;
-                    pixel_scale(pixels, &out, width, height, ratio, format, type);
+                    if(bound->useratio) {
+                        bound->ratiox *= ratio;
+                        bound->ratioy *= ratio;
+                    } else
+                        bound->ratiox = bound->ratioy = ratio;
+                    bound->useratio = 1;
+                    pixel_scale(pixels, &out, width, height, width*bound->ratiox, height*bound->ratioy, format, type);
                     if (out != pixels && pixels!=datab)
                         free(pixels);
                     pixels = out;
@@ -855,13 +861,17 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 }
                 break;
             default:
+                bound->ratiox = bound->ratioy = 1.0f;
                 while(shrink) {
                     int toshrink = (shrink>1)?2:1;
                     GLvoid *out = pixels;
-                    if(toshrink==1)
+                    if(toshrink==1) {
                         pixel_halfscale(pixels, &out, width, height, format, type);
-                    else
+                        bound->ratiox *= 0.5f; bound->ratioy *= 0.5f;
+                    } else {
                         pixel_quarterscale(pixels, &out, width, height, format, type);
+                        bound->ratiox *= 0.25f; bound->ratioy *= 0.25f;
+                    }
                     if (out != pixels && pixels!=datab)
                         free(pixels);
                     pixels = out;
@@ -926,7 +936,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             if( (target==GL_TEXTURE_RECTANGLE_ARB) 
             || (hardext.npot==1 && 
                 ((bound->base_level<=0 && bound->max_level==0) || (globals4es.automipmap==3) || (globals4es.forcenpot==1)))
-            || (/*glstate->filterpostupload==0 &&*/ hardext.esversion>1 && hardext.npot==1 
+            || (hardext.esversion>1 && hardext.npot==1 
                 && ((!bound->mipmap_auto && (!wrap_npot(bound->wrap_s) || !wrap_npot(bound->wrap_t)))
                     || !minmag_npot(bound->min_filter) || !minmag_npot(bound->mag_filter)) ))
             {
@@ -949,6 +959,58 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             nwidth = width;
             nheight = height;
         }
+
+        if(limitednpot && rtarget==GL_TEXTURE_2D) {
+            if(target==GL_TEXTURE_RECTANGLE_ARB || (wrap_npot(bound->wrap_s) && wrap_npot(bound->wrap_t))) {
+                gles_glTexParameteri(rtarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                gles_glTexParameteri(rtarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                bound->wrap_t = bound->wrap_s = GL_CLAMP_TO_EDGE;
+            } else {
+                // resize to npot boundaries (not ideal if the wrap value is change after upload of the texture)
+                nwidth =  npot(width);
+                nheight = npot(height);
+                float ratiox, ratioy;
+                ratiox = ((float)nwidth)/width;
+                ratioy = ((float)nheight)/height;
+
+                GLvoid *out = pixels;
+                if(pixels)
+                    pixel_scale(pixels, &out, width, height, nwidth, nheight, format, type);
+                if (out != pixels && pixels!=datab)
+                    free(pixels);
+                pixels = out;
+                width = nwidth;
+                height = nheight;
+                limitednpot = 0;
+
+                if(level==0) {
+                    if(bound->useratio) {
+                        bound->ratiox *= ratiox;
+                        bound->ratioy *= ratioy;
+                    } else {
+                        bound->useratio = 1;
+                        if(bound->ratiox==0.f) bound->ratiox = bound->ratioy = 1.0f;
+                        bound->ratiox *= ratiox;
+                        bound->ratioy *= ratioy;
+                    }
+                    bound->npot = 0;
+                    bound->shrink = 1;
+                }
+            }
+        }
+        // check min/mag settings for GL_FLOAT type textures and for NPOT with limited support
+        if(type==GL_FLOAT || limitednpot) {
+            GLenum m = minmag_forcenpot(bound->min_filter);
+            if (m!=bound->min_filter)
+                gles_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, m);
+            m = minmag_forcenpot(bound->mag_filter);
+            if (m!=bound->mag_filter)
+                gles_glTexParameteri(rtarget, GL_TEXTURE_MAG_FILTER, m);
+            bound->mipmap_auto = 0; // no need to automipmap here
+        }
+        if ((globals4es.automipmap==4) && (nwidth!=nheight))
+            bound->mipmap_auto = 0;
+
         if (level == 0) {
             bound->width = width;
             bound->height = height;
@@ -967,28 +1029,10 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             bound->compressed = false;
             bound->valid = 1;
         }
-        if ((globals4es.automipmap==4) && (nwidth!=nheight))
-            bound->mipmap_auto = 0;
-
-        if(limitednpot && rtarget==GL_TEXTURE_2D) {
-            gles_glTexParameteri(rtarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            gles_glTexParameteri(rtarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-            bound->wrap_t = bound->wrap_s = GL_CLAMP_TO_EDGE;
-        }
-        // check min/mag settings for GL_FLOAT type textures and for NPOT with limited support
-        if(type==GL_FLOAT || limitednpot) {
-            GLenum m = minmag_forcenpot(bound->min_filter);
-            if (m!=bound->min_filter)
-                gles_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, m);
-            m = minmag_forcenpot(bound->mag_filter);
-            if (m!=bound->mag_filter)
-                gles_glTexParameteri(rtarget, GL_TEXTURE_MAG_FILTER, m);
-            bound->mipmap_auto = 0; // no need to automipmap here
-        }
 
         int callgeneratemipmap = 0;
         if (!(globals4es.texstream && bound->streamed)) {
-            if ((target!=GL_TEXTURE_RECTANGLE_ARB) && (globals4es.automipmap!=3) && (bound->mipmap_need || bound->mipmap_auto)) {
+            if ((target!=GL_TEXTURE_RECTANGLE_ARB) && (globals4es.automipmap!=3) && (bound->mipmap_need || bound->mipmap_auto) && !bound->npot) {
                 if(hardext.esversion<2)
                     gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
                 else
@@ -1220,18 +1264,35 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
             return;
         }
         // ok, now standard cases....
-        xoffset /= 2*bound->shrink;
-        yoffset /= 2*bound->shrink;
         old = pixels;
-        if (bound->shrink==1)
-            pixel_halfscale(pixels, &old, width, height, format, type);
-        else
-            pixel_quarterscale(pixels, &old, width, height, format, type);
-        if (old != pixels && pixels!=data)
-            free(pixels);
-        pixels = old;
-        width /= 2*bound->shrink;
-        height /= 2*bound->shrink;
+        if(bound->useratio) {
+            xoffset *= bound->ratiox;
+            yoffset *= bound->ratioy;
+            pixel_scale(pixels, &old, width, height, width*bound->ratiox, height*bound->ratioy, format, type);
+            width *= bound->ratiox;
+            height *= bound->ratioy;
+            if (old != pixels && pixels!=data)
+                free(pixels);
+            pixels = old;
+        } else {
+            xoffset /= 2*bound->shrink;
+            yoffset /= 2*bound->shrink;
+            int shrink = bound->shrink;
+            while(shrink) {
+                int toshrink = (shrink>1)?2:1;
+                GLvoid *out = pixels;
+                if(toshrink==1)
+                    pixel_halfscale(pixels, &old, width, height, format, type);
+                else
+                    pixel_quarterscale(pixels, &old, width, height, format, type);
+                if (old != pixels && pixels!=data)
+                    free(pixels);
+                pixels = old;
+                width = nlevel(width, toshrink);
+                height = nlevel(height, toshrink);
+                shrink-=toshrink;
+            }
+        }
     }
 
     if (globals4es.texdump) {
@@ -1487,19 +1548,13 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
             tex->glname = 0;    // special case for texture n# 0
         DBG(printf("getTexture(%s, %u), failed, creating texture %u\n", PrintEnum(target), texture, tex->glname);)
         tex->target = target;
-        /*tex->width = 0;
-        tex->height = 0;
-        tex->adjust = 0;*/
         tex->adjustxy[0] = tex->adjustxy[1] = 1.f;
-        //tex->uploaded = false;
         tex->mipmap_auto = (globals4es.automipmap==1);
         tex->mipmap_need = (globals4es.automipmap==1)?1:0;
         tex->streamingID = -1;
         tex->base_level = -1;
         tex->max_level = -1;
-        //tex->streamed = false;
         tex->alpha = true;
-        //tex->compressed = false;
         tex->min_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
         tex->mag_filter = GL_LINEAR;
         tex->fpe_format = FPE_TEX_RGBA;
@@ -1507,9 +1562,6 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
         tex->type = GL_UNSIGNED_BYTE;
         tex->inter_format = GL_RGBA;
         tex->inter_type = GL_UNSIGNED_BYTE;
-        /*tex->shrink = 0;
-        tex->valid = 0;
-        tex->data = NULL;*/
     } else {
         tex = kh_value(list, k);
     }
@@ -1593,7 +1645,6 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
         }
         if (pname==GL_TEXTURE_MIN_FILTER) texture->min_filter = param;
         if (pname==GL_TEXTURE_MAG_FILTER) texture->mag_filter = param;
-        if(!texture->valid) glstate->filterpostupload = 1;
         break;
 	case GL_TEXTURE_WRAP_S:
 	case GL_TEXTURE_WRAP_T:
@@ -1603,10 +1654,13 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
 		    param = GL_CLAMP_TO_EDGE;
 		    break;
         case GL_REPEAT:
-        //case GL_MIRRORED_REPEAT:
-            if(hardext.npot<2 && texture->valid 
-            && texture->npot)
+        case GL_MIRRORED_REPEAT_OES:
+            if(hardext.esversion>1 && hardext.npot<2 && texture->valid 
+            && texture->npot) {
+                // should "upgrade" the texture to POT size...
+        //printf("Warning, REPEAT / MIRRORED_REPEAT on NPOT texture\n");
                 param = GL_CLAMP_TO_EDGE;   // repeat is not support on NPOT with limited_npot
+            }
             break;
 	    }
 
@@ -1782,30 +1836,20 @@ void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
             memset(tex, 0, sizeof(gltexture_t));
 			tex->texture = textures[i];
 			tex->glname = textures[i];
-			/*tex->width = 0;
-			tex->height = 0;
-            tex->adjust = 0;
-            tex->npot = 0;*/
             tex->adjustxy[0] = tex->adjustxy[1] = 1.f;
-            //tex->uploaded = false;
             tex->mipmap_auto = (globals4es.automipmap==1);
             tex->mipmap_need = (globals4es.automipmap==1)?1:0;
 			tex->streamingID = -1;
             tex->base_level = -1;
             tex->max_level = -1;
-			/*tex->streamed = false;
-            tex->compressed = false;*/
             tex->alpha = true;
             tex->min_filter = tex->mag_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
-            tex->wrap_s = tex->wrap_t = GL_REPEAT;
+            tex->wrap_s = tex->wrap_t = 0;  //should be GL_REPEAT;
             tex->fpe_format = FPE_TEX_RGBA;
             tex->format = GL_RGBA;
             tex->type = GL_UNSIGNED_BYTE;
             tex->inter_format = GL_RGBA;
             tex->inter_type = GL_UNSIGNED_BYTE;
-            /*tex->shrink = 0;
-            tex->valid = 0;
-			tex->data = NULL;*/
 		} else {
 			tex = kh_value(list, k);
 			// in case of no delete here...
