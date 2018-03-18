@@ -49,6 +49,7 @@ typedef struct _globals4es {
  int gl;
  int usevbo;
  int comments;
+ int forcenpot;
  char version[50];
 } globals4es_t;
 

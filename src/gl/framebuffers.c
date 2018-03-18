@@ -548,6 +548,14 @@ void gl4es_glGenerateMipmap(GLenum target) {
     DBG(printf("glGenerateMipmap(%s)\n", PrintEnum(target));)
     LOAD_GLES2_OR_OES(glGenerateMipmap);
     
+    if(globals4es.forcenpot && hardext.npot==1) {
+        gltexture_t *bound = gl4es_getCurrentTexture(target);
+        if(bound->npot) {
+            noerrorShim();
+            return; // no need to generate mipmap, mipmap is disabled here
+        }
+    }
+
     errorGL();
     if(globals4es.automipmap != 3)
         gles_glGenerateMipmap(target);

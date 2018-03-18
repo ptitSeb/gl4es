@@ -125,6 +125,7 @@ typedef struct {
     int max_level;
     int aniso;
     int fpe_format; // tracking simplified internal format for FPE
+    int npot;
     int adjust; // flag if width/height has to be adjusted
     float adjustxy[2];  // adjust factor
     GLvoid *data;	// in case we want to keep a copy of it (it that case, always RGBA/GL_UNSIGNED_BYTE
@@ -148,6 +149,7 @@ static inline GLenum map_tex_target(GLenum target) {
     return target;
 }
 gltexture_t* gl4es_getTexture(GLenum target, GLuint texture);
+gltexture_t* gl4es_getCurrentTexture(GLenum target);
 
 static inline GLuint what_target(GLenum target) {
     switch(target) {

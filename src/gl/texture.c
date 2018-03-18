@@ -669,7 +669,7 @@ static GLint proxy_intformat = 0;
 
 int wrap_npot(GLenum wrap) {
     switch(wrap) {
-        case 0: return 1;
+        case 0: return 0;   // default is not good
         case GL_CLAMP:
         case GL_CLAMP_TO_EDGE:
         case GL_CLAMP_TO_BORDER:
@@ -679,12 +679,27 @@ int wrap_npot(GLenum wrap) {
 }
 int minmag_npot(GLenum mag) {
     switch(mag) {
-        case 0: return 1;
+        case 0: return 0;   // default is not good
         case GL_NEAREST:
         case GL_LINEAR:
             return 1;
     }
     return 0;
+}
+
+GLenum minmag_forcenpot(GLenum filt) {
+    switch(filt) {
+        case GL_LINEAR:
+        case GL_LINEAR_MIPMAP_NEAREST:
+        case GL_LINEAR_MIPMAP_LINEAR:
+            return GL_LINEAR;
+        /*case 0:
+        case GL_NEAREST:
+        case GL_NEAREST_MIPMAP_NEATEST:
+        case GL_NEAREST_MIPMAP_LINEAR:*/
+        default:
+            return GL_NEAREST;
+    }
 }
 
 void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
@@ -782,8 +797,10 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             else
                 bound->mipmap_need = 1;
      }
+     if(level>0 && (bound->npot && globals4es.forcenpot))
+        return;         // no mipmap...
      GLenum new_format = swizzle_internalformat(&internalformat, format, type);
-     if (level==0) {
+     if (level==0 || !bound->valid) {
          bound->orig_internal = internalformat;
          bound->internalformat = new_format;
      }
@@ -797,7 +814,8 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
      if (datab) {
 
         // implements GL_UNPACK_ROW_LENGTH
-        if ((glstate->texture.unpack_row_length && glstate->texture.unpack_row_length != width) || glstate->texture.unpack_skip_pixels || glstate->texture.unpack_skip_rows) {
+        if ((glstate->texture.unpack_row_length && glstate->texture.unpack_row_length != width) 
+        || glstate->texture.unpack_skip_pixels || glstate->texture.unpack_skip_rows) {
             int imgWidth, pixelSize;
             pixelSize = pixel_sizeof(format, type);
             imgWidth = ((glstate->texture.unpack_row_length)? glstate->texture.unpack_row_length:width) * pixelSize;
@@ -899,18 +917,22 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     LOAD_GLES(glTexImage2D);
     LOAD_GLES(glTexSubImage2D);
     LOAD_GLES(glTexParameteri);
-    int forceclamp = 0;
+    int limitednpot = 0;
     {
         GLsizei nheight = (hardext.npot==2)?height:npot(height);
         GLsizei nwidth = (hardext.npot==2)?width:npot(width);
-        if(nheight!=height || nwidth!=width)
-            if( (hardext.npot==1 && 
-                ((target==GL_TEXTURE_RECTANGLE_ARB) || (bound->base_level<=0 && bound->max_level==0) || (globals4es.automipmap==3)))
-            || (glstate->filterpostupload==0 && hardext.esversion>1 && hardext.npot==1 && !bound->mipmap_auto && wrap_npot(bound->wrap_s) && wrap_npot(bound->wrap_t) && minmag_npot(bound->min_filter) && minmag_npot(bound->mag_filter)) )
+        bound->npot = (nheight!=height || nwidth!=width);    // hardware that fully support NPOT doesn't care anyway
+        if(bound->npot)
+            if( (target==GL_TEXTURE_RECTANGLE_ARB) 
+            || (hardext.npot==1 && 
+                ((bound->base_level<=0 && bound->max_level==0) || (globals4es.automipmap==3) || (globals4es.forcenpot==1)))
+            || (/*glstate->filterpostupload==0 &&*/ hardext.esversion>1 && hardext.npot==1 
+                && ((!bound->mipmap_auto && (!wrap_npot(bound->wrap_s) || !wrap_npot(bound->wrap_t)))
+                    || !minmag_npot(bound->min_filter) || !minmag_npot(bound->mag_filter)) ))
             {
                 nheight = height;
                 nwidth = width;
-                forceclamp = 1;
+                limitednpot = 1;
             }
 #ifdef PANDORA
 #define NO_1x1
@@ -948,22 +970,22 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         if ((globals4es.automipmap==4) && (nwidth!=nheight))
             bound->mipmap_auto = 0;
 
-        if(forceclamp && rtarget==GL_TEXTURE_2D) {
+        if(limitednpot && rtarget==GL_TEXTURE_2D) {
             gles_glTexParameteri(rtarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             gles_glTexParameteri(rtarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
             bound->wrap_t = bound->wrap_s = GL_CLAMP_TO_EDGE;
-            // check MIN/MAG Filter also?
         }
-        // check min/mag settings for GL_FLOAT type textures
-        if(type==GL_FLOAT) {
-            if (bound->min_filter!=GL_NEAREST && bound->min_filter!=GL_NEAREST_MIPMAP_NEAREST) {
-                GLenum m = GL_NEAREST;
-                if(bound->min_filter!=GL_LINEAR) m = GL_NEAREST_MIPMAP_NEAREST;
-                gles_glTexParameteri( rtarget, GL_TEXTURE_MIN_FILTER, m);
-            }
-            if (bound->mag_filter!=GL_NEAREST)
-                gles_glTexParameteri( rtarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        // check min/mag settings for GL_FLOAT type textures and for NPOT with limited support
+        if(type==GL_FLOAT || limitednpot) {
+            GLenum m = minmag_forcenpot(bound->min_filter);
+            if (m!=bound->min_filter)
+                gles_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, m);
+            m = minmag_forcenpot(bound->mag_filter);
+            if (m!=bound->mag_filter)
+                gles_glTexParameteri(rtarget, GL_TEXTURE_MAG_FILTER, m);
+            bound->mipmap_auto = 0; // no need to automipmap here
         }
+
         int callgeneratemipmap = 0;
         if (!(globals4es.texstream && bound->streamed)) {
             if ((target!=GL_TEXTURE_RECTANGLE_ARB) && (globals4es.automipmap!=3) && (bound->mipmap_need || bound->mipmap_auto)) {
@@ -973,7 +995,8 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                     callgeneratemipmap = 1;
             } else {
                 //if(target!=GL_TEXTURE_RECTANGLE_ARB) gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_FALSE );
-                if ((itarget!=ENABLED_CUBE_MAP && target!=GL_TEXTURE_RECTANGLE_ARB) && (bound->mipmap_need || globals4es.automipmap==3)) {
+                if ((itarget!=ENABLED_CUBE_MAP && target!=GL_TEXTURE_RECTANGLE_ARB) 
+                && (bound->mipmap_need || globals4es.automipmap==3)) {
                     // remove the need for mipmap...
                     bound->mipmap_need = 0;
                     gles_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, bound->min_filter);
@@ -1439,6 +1462,10 @@ GLboolean gl4es_glIsTexture(GLuint texture) {
 	return GL_TRUE;
 }
 
+gltexture_t* gl4es_getCurrentTexture(GLenum target) {
+    GLuint itarget = what_target(target);
+    return glstate->texture.bound[glstate->texture.active][itarget];
+}
 gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
     // Get a texture based on glID
     gltexture_t* tex = NULL;
@@ -1561,9 +1588,8 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
 				    break;
 			}
         }
-        if(texture->valid && texture->type==GL_FLOAT) { // FLOAT textures have limited mipmap support in GLES2
-            if(param==GL_LINEAR) param=GL_NEAREST;
-            else if(param!=GL_NEAREST && param!=GL_NEAREST_MIPMAP_NEAREST) param=GL_NEAREST_MIPMAP_NEAREST;
+        if(texture->valid && (texture->type==GL_FLOAT) || (texture->npot && globals4es.forcenpot)) { // FLOAT textures have limited mipmap support in GLES2
+            param=minmag_forcenpot(param);
         }
         if (pname==GL_TEXTURE_MIN_FILTER) texture->min_filter = param;
         if (pname==GL_TEXTURE_MAG_FILTER) texture->mag_filter = param;
@@ -1577,8 +1603,9 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
 		    param = GL_CLAMP_TO_EDGE;
 		    break;
         case GL_REPEAT:
+        //case GL_MIRRORED_REPEAT:
             if(hardext.npot<2 && texture->valid 
-            && (texture->width!=npot(texture->width) || texture->height!=npot(texture->height)))
+            && texture->npot)
                 param = GL_CLAMP_TO_EDGE;   // repeat is not support on NPOT with limited_npot
             break;
 	    }
@@ -1752,21 +1779,23 @@ void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
 		if (k == kh_end(list)){
 			k = kh_put(tex, list, textures[i], &ret);
 			tex = kh_value(list, k) = malloc(sizeof(gltexture_t));
+            memset(tex, 0, sizeof(gltexture_t));
 			tex->texture = textures[i];
 			tex->glname = textures[i];
-			tex->width = 0;
+			/*tex->width = 0;
 			tex->height = 0;
             tex->adjust = 0;
+            tex->npot = 0;*/
             tex->adjustxy[0] = tex->adjustxy[1] = 1.f;
-            tex->uploaded = false;
+            //tex->uploaded = false;
             tex->mipmap_auto = (globals4es.automipmap==1);
             tex->mipmap_need = (globals4es.automipmap==1)?1:0;
 			tex->streamingID = -1;
             tex->base_level = -1;
             tex->max_level = -1;
-			tex->streamed = false;
+			/*tex->streamed = false;
+            tex->compressed = false;*/
             tex->alpha = true;
-            tex->compressed = false;
             tex->min_filter = tex->mag_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
             tex->wrap_s = tex->wrap_t = GL_REPEAT;
             tex->fpe_format = FPE_TEX_RGBA;
@@ -1774,9 +1803,9 @@ void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
             tex->type = GL_UNSIGNED_BYTE;
             tex->inter_format = GL_RGBA;
             tex->inter_type = GL_UNSIGNED_BYTE;
-            tex->shrink = 0;
+            /*tex->shrink = 0;
             tex->valid = 0;
-			tex->data = NULL;
+			tex->data = NULL;*/
 		} else {
 			tex = kh_value(list, k);
 			// in case of no delete here...

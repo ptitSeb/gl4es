@@ -178,7 +178,7 @@ if [ $OK = 0 ];then
 fi
 
 banner "GLES2.0: Foobillard Plus"
-launch_test foobillardplus 0000014748 20 798x478+1+1
+launch_test foobillardplus 0000014748 50 798x478+1+1
 if [ $OK = 0 ];then
     exit 1
 fi

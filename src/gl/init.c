@@ -332,12 +332,12 @@ void initialize_gl4es() {
     env(LIBGL_POTFRAMEBUFFER, globals4es.potframebuffer, "Force framebuffers to be on POT size");
 
     char *env_forcenpot = getenv("LIBGL_FORCENPOT");
-    if (env_forcenpot && strcmp(env_forcenpot,"1") == 0) {
+    if ((env_forcenpot && strcmp(env_forcenpot,"1") == 0) || (hardext.esversion==2 && hardext.npot==1)) {
         if(hardext.npot==2) {
             SHUT(LOGD("LIBGL: NPOT texture handled in hardware\n"));
         } else if(hardext.npot==1) {
-            globals4es.automipmap = 3;
-            SHUT(LOGD("LIBGL: Forcing NPOT support by disabling all MIPMAP support\n"));
+            globals4es.forcenpot = 1;
+            SHUT(LOGD("LIBGL: Forcing NPOT support by disabling MIPMAP support for NPOT textures \n"));
         } else {
             SHUT(LOGD("LIBGL: WARNING, No Limited or Full NPOT support in hardware, Forcing NPOT have no effect!\n"));
         }
