@@ -391,7 +391,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
             return;
     }
     errorGL();
-    if(gles_glTexEnvf)
+    if(hardext.esversion==1)
         gles_glTexEnvf(target, pname, param);
 }
 
