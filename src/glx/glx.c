@@ -246,7 +246,7 @@ static int get_config_default(Display *display, int attribute, int *value) {
             *value = 0;
             return 1;
     }
-    DBG(printf(" => 0x%04X\n", *value);)
+    //DBG(printf(" -> 0x%04X\n", *value);)
     return 0;
 }
 
@@ -769,6 +769,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
         fake->direct = true;
         fake->xid = 1;  //TODO: Proper handling of that id...
         fake->contextType = (config->drawableType)==GLX_PIXMAP_BIT?2:0;  //Pixmap:Window
+        fake->doublebuff = config->doubleBufferMode;
 
         egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_RED_SIZE, &fake->rbits);
         egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_GREEN_SIZE, &fake->gbits);
@@ -889,7 +890,7 @@ not set to EGL_NO_CONTEXT.
 Bool gl4es_glXMakeCurrent(Display *display,
                     GLXDrawable drawable,
                     GLXContext context) {
-    DBG(printf("glXMakeCurrent(%p, %p, %p), isPBuffer(drawable)=%d, context->drawable=%p, context->eglSurface=%p\n", display, drawable, context, isPBuffer(drawable), context?context->drawable:0, context?context->eglSurface:0);)                        
+    DBG(printf("glXMakeCurrent(%p, %p, %p), isPBuffer(drawable)=%d, context->drawable=%p, context->eglSurface=%p, context->doublebuff=%d\n", display, drawable, context, isPBuffer(drawable), context?context->drawable:0, context?context->eglSurface:0, context?context->doublebuff:0);)                        
     LOAD_EGL(eglMakeCurrent);
     LOAD_EGL(eglDestroySurface);
     LOAD_EGL(eglCreateWindowSurface);
@@ -899,13 +900,15 @@ Bool gl4es_glXMakeCurrent(Display *display,
 #else
     int created = (context)?isPBuffer(drawable):0;
 #endif
-    EGLint const sRGB[] = {EGL_GL_COLORSPACE_KHR, EGL_GL_COLORSPACE_SRGB_KHR, EGL_NONE};
     EGLContext eglContext = EGL_NO_CONTEXT;
     EGLSurface eglSurf = 0;
     EGLConfig eglConfig = 0;
     // flush current context if exist...
     if(glxContext && glxContext->glstate) {
-        gl4es_glFlush();
+        /*if(!context && !glxContext->doublebuff && !glxContext->contextType) {
+            gl4es_glXSwapBuffers(display, glxContext->drawable);
+        } else*/
+            gl4es_glFlush();
     }
     if(context && glxContext==context && context->drawable==drawable) {
         DBG(printf(" => True\n");)
@@ -915,10 +918,10 @@ Bool gl4es_glXMakeCurrent(Display *display,
     }
     if(context) {
         eglContext = context->eglContext;
-        if(context->drawable==drawable && context->eglSurface)
+        if(context->drawable==drawable && context->eglSurface) {
             // same-same, recycling...
             eglSurf = context->eglSurface;
-        else {
+        } else {
             // new one
             if(created) {
 #ifndef NOX11
@@ -932,6 +935,18 @@ Bool gl4es_glXMakeCurrent(Display *display,
                 }
 #endif
             } else {
+                EGLint attrib_list[5];
+                int cnt=0;
+                if(!context->doublebuff) {
+                    attrib_list[cnt++] = EGL_RENDER_BUFFER;
+                    attrib_list[cnt++] = EGL_SINGLE_BUFFER;
+                }
+                if(globals4es.glx_surface_srgb){
+                    attrib_list[cnt++] = EGL_GL_COLORSPACE_KHR;
+                    attrib_list[cnt++] = EGL_GL_COLORSPACE_SRGB_KHR;
+                }
+                attrib_list[cnt++] = EGL_NONE;
+
                 unsigned int width = 0, height = 0, depth = 0;
 #ifndef NOX11
                 if(globals4es.usefb && (bcm_host || globals4es.usepbuffer)) {
@@ -970,15 +985,14 @@ Bool gl4es_glXMakeCurrent(Display *display,
                         created = isPBuffer(drawable); 
                     } else
 #endif
-                    
                     if(eglSurface)
                         eglSurf = context->eglSurface = eglSurface;
-                    else 
-                        eglSurface = eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], (EGLNativeWindowType)create_native_window(width,height), (globals4es.glx_surface_srgb)?sRGB:NULL);
+                    else
+                        eglSurface = eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], (EGLNativeWindowType)create_native_window(width,height), attrib_list);
                 } else {
                     if(context->eglSurface)
                         egl_eglDestroySurface(eglDisplay, context->eglSurface);
-                    eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, (globals4es.glx_surface_srgb)?sRGB:NULL);
+                    eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, attrib_list);
                 }
             }
         }
@@ -1030,7 +1044,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
                 // create the main_fbo...
                 LOGD("LIBGL: Create FBO of %ix%i 32bits\n", g_width, g_height);
                 createMainFBO(g_width, g_height);
-            }
+            } else
             // finished
             DBG(printf(" => True\n");)
             return true;
@@ -1051,7 +1065,7 @@ Bool gl4es_glXMakeContextCurrent(Display *display, int drawable,
 void gl4es_glXSwapBuffers(Display *display,
                     int drawable) {
     static int frames = 0;
-    
+    DBG(printf("glXSwapBuffers(%p, 0x%X)\n", display, drawable);)
     LOAD_EGL(eglSwapBuffers);
     // TODO: what if active context is not on the drawable?
     realize_textures();
@@ -1236,6 +1250,7 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
     configs[0]->redBits = configs[0]->greenBits = configs[0]->blueBits = configs[0]->alphaBits = 0;
     configs[0]->nMultiSampleBuffers = 0; configs[0]->multiSampleSize = 0;
     configs[0]->depthBits = 16; configs[0]->stencilBits = 8;
+    //configs[0]->doubleBufferMode = 1; //need to force doublebuff?
     if(attrib_list) {
 		int i = 0;
 		while(attrib_list[i]!=0) {
@@ -1282,6 +1297,10 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                     configs[0]->multiSampleSize = attrib_list[i++];
                     DBG(printf("FBConfig multiSampleSize=%d\n", configs[0]->multiSampleSize);)
                     break;
+                case GLX_DOUBLEBUFFER:
+                    configs[0]->doubleBufferMode = attrib_list[i++];
+                    DBG(printf("FBConfig doubleBufferMode=%d\n", configs[0]->doubleBufferMode);)
+                    break;
                 default:
                     ++i;
 				// discard other stuffs
@@ -1294,6 +1313,7 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
 
 GLXFBConfig *gl4es_glXGetFBConfigs(Display *display, int screen, int *count) {
     DBG(printf("glXGetFBConfigs(%p, %d, %p)\n", display, screen, count);)
+    // this is wrong! The config table should be a static one built according to EGL Config capabilities...
     *count = 1;
     // this is to only do 1 malloc instead of 1 for the array and one for the element...
     GLXFBConfig *configs = (GLXFBConfig *)malloc(sizeof(GLXFBConfig) + sizeof(struct __GLXFBConfigRec));
@@ -1369,7 +1389,7 @@ int gl4es_glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribu
             *value = hardext.srgb;
             break;
         case GLX_DOUBLEBUFFER:
-            *value = 1; // force double buffer info...
+            *value = config->doubleBufferMode;
             break;
         default:
             return get_config_default(display, attribute, value);

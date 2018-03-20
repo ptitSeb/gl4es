@@ -160,6 +160,7 @@ struct __GLXContextRec {
     int stencil;
     int rbits, gbits, bbits, abits;
     int es2only;
+    int doublebuff;
     void* glstate;
     void* shared;
     int contextType;    // 0 = Window, 1 = PBuffer, 2 = PixmapBuffer, 3 = Emulated PixmapBuffer (with PBuffer)
