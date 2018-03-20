@@ -134,7 +134,8 @@ const char* PrintEnum(GLenum what) {
         p(GL_TEXTURE_MAG_FILTER);
         p(GL_CLAMP_TO_EDGE);
         p(GL_REPEAT);
-        //p(GL_MIRRORED_REPEAT);
+        p(GL_MIRRORED_REPEAT_OES);
+        p(GL_GENERATE_MIPMAP);
         // mode
         p(GL_POINTS);
         p(GL_LINES);
