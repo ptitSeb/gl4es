@@ -816,15 +816,15 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         // implements GL_UNPACK_ROW_LENGTH
         if ((glstate->texture.unpack_row_length && glstate->texture.unpack_row_length != width) 
         || glstate->texture.unpack_skip_pixels || glstate->texture.unpack_skip_rows) {
-            int imgWidth, pixelSize;
+            int imgWidth, pixelSize, dstWidth;
             pixelSize = pixel_sizeof(format, type);
             imgWidth = ((glstate->texture.unpack_row_length)? glstate->texture.unpack_row_length:width) * pixelSize;
-            const GLubyte *src = (GLubyte *)pixels;
-            pixels = malloc(width * height * pixelSize);
-            GLubyte *dst = (GLubyte *)pixels;
-            const int dstWidth = width * pixelSize;
+            GLubyte *dst = (GLubyte *)malloc(width * height * pixelSize);
+            pixels = (GLvoid *)dst;
+            dstWidth = width * pixelSize;
+            const GLubyte *src = (GLubyte *)datab;
             src += glstate->texture.unpack_skip_pixels * pixelSize + glstate->texture.unpack_skip_rows * imgWidth;
-            for (int y = 0; y < height; y++) {
+            for (int y = height; y; --y) {
                 memcpy(dst, src, dstWidth);
                 src += imgWidth;
                 dst += dstWidth;
@@ -1905,7 +1905,7 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
                         else
                             *(params) = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
                     } else
-                        (*params) = GL_RGBA;
+                        (*params) = bound->internalformat;
                 }
             }
 			break;
@@ -1967,6 +1967,12 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
                 errorShim(GL_INVALID_ENUM);
             else
                 (*params) = bound->aniso;
+            break;
+        case GL_TEXTURE_MAX_LEVEL:
+            if(!bound->valid || bound->max_level==-1)
+                (*params) = 1000;
+            else
+                (*params) = bound->max_level;
             break;
 		default:
 			errorShim(GL_INVALID_ENUM);	//Wrong here...
