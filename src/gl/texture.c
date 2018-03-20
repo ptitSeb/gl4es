@@ -1503,8 +1503,8 @@ GLboolean gl4es_glIsTexture(GLuint texture) {
     DBG(printf("glIsTexture(%d):", texture);)
 	noerrorShim();
 	if (!texture) {
-        DBG(printf("GL_FALSE\n");)
-		return GL_FALSE;
+        DBG(printf("%s\n", glstate->texture.zero->valid?"GL_TRUE":"GL_FALSE");)
+		return glstate->texture.zero->valid;
 	}
     int ret;
 	khint_t k;
@@ -1530,7 +1530,7 @@ gltexture_t* gl4es_getCurrentTexture(GLenum target) {
 gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
     // Get a texture based on glID
     gltexture_t* tex = NULL;
-    //if (texture == 0) return tex; // texture 0 is a texture like any other... it is not "unbind" texture in fact!!
+    if (texture == 0) return glstate->texture.zero; // texture 0 is a texture mostly like any other... it is not "unbind" texture in fact, but it's not shared
     int ret;
     khint_t k;
     khash_t(tex) *list = glstate->texture.list;

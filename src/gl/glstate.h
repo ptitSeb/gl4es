@@ -9,7 +9,7 @@ typedef struct {
     enable_state_t      enable;
     map_grid_t          map_grid[2];
     map_states_t        map1, map2;
-    khash_t(gllisthead) *headlists;
+    khash_t(gllisthead) *headlists;         // shared
     texgen_state_t      texgen[MAX_TEX];
     texenv_state_t      texenv[MAX_TEX];
     texture_state_t     texture;
@@ -47,15 +47,15 @@ typedef struct {
     glstack_t           *stack;
     glclientstack_t     *clientStack;
     raster_state_t      raster;
-    GLuint              actual_tex2d[MAX_TEX]; // store the texture actually boundon TEX2D unit, because it's shared...
+    GLuint              *actual_tex2d; // store the texture actually bounded TEX2D unit, because it's shared... (TODO: all binding and not only TEX2D)
     int                 bound_changed; // 0 if not changed or max TMU if changed...
     int                 fpe_bound_changed; // same but for fpe
 #ifdef TEXSTREAM
-    int                 bound_stream[MAX_TEX];
+    int                 bound_stream[MAX_TEX];  // should be shared too
 #endif
     int                 emulatedPixmap;
     int                 emulatedWin;
-    int                 shared_cnt;
+    int                 *shared_cnt;
     light_state_t       light;
     fog_t               fog;
     material_state_t    material;

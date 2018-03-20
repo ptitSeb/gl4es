@@ -13,14 +13,21 @@ glstate_t *default_glstate = NULL;
 void init_matrix(glstate_t* glstate);
 
 void* NewGLState(void* shared_glstate, int es2only) {
-    if(shared_glstate) {
-        glstate_t* glstate = (glstate_t*)shared_glstate;
-        glstate->shared_cnt++;
-        return (void*)glstate;
-    }
     glstate_t *glstate = (glstate_t*)malloc(sizeof(glstate_t));
-	GLfloat white[] = {1.0f, 1.0f, 1.0f, 1.0f};
 	memset(glstate, 0, sizeof(glstate_t));
+    if(shared_glstate) {
+        glstate_t* copy_state = (glstate_t*)shared_glstate;
+        if(!copy_state->shared_cnt) {
+            copy_state->shared_cnt = (int*)malloc(sizeof(int));
+            (*copy_state->shared_cnt) = 1;
+        } else
+            (*copy_state->shared_cnt)++;
+        glstate->shared_cnt = copy_state->shared_cnt;
+        glstate->headlists = copy_state->headlists;
+        glstate->actual_tex2d = copy_state->actual_tex2d;
+        glstate->texture.list = copy_state->texture.list;
+    }
+	GLfloat white[] = {1.0f, 1.0f, 1.0f, 1.0f};
 	memcpy(glstate->color, white, sizeof(GLfloat)*4);
 	glstate->last_error = GL_NO_ERROR;
     glstate->normal[2] = 1.0f; // default normal is 0/0/1
@@ -56,6 +63,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
         glstate->defaultvao = glvao;
     }
     // initialize gllists
+    if(!shared_glstate)
     {
         khint_t k;
         int ret;
@@ -63,10 +71,14 @@ void* NewGLState(void* shared_glstate, int es2only) {
 		kh_put(gllisthead, list, 1, &ret);
 		kh_del(gllisthead, list, 1);
     }
+    // actual_tex2d
+    if(!shared_glstate)
+    {
+        glstate->actual_tex2d = (GLuint*)malloc(MAX_TEX*sizeof(GLuint));
+        memset(glstate->actual_tex2d, 0, MAX_TEX*sizeof(GLuint));
+    }
     // Bind defaults...
     glstate->vao = glstate->defaultvao;
-
-    glstate->shared_cnt = 0;
 
     //raster & viewport
     glstate->raster.raster_zoomx=1.0f;
@@ -116,17 +128,20 @@ void* NewGLState(void* shared_glstate, int es2only) {
 
     // init the textures
     {
-        int ret;
-        khint_t k;
         gltexture_t* tex;
-        khash_t(tex) *list = glstate->texture.list;
-        list = glstate->texture.list = kh_init(tex);
-        // segfaults if we don't do a single put
-        kh_put(tex, list, 1, &ret);
-        kh_del(tex, list, 1);
-        // now add default "0" texture
-        k = kh_put(tex, list, 0, &ret);
-        glstate->texture.zero = tex = kh_value(list, k) = malloc(sizeof(gltexture_t));
+        if(!shared_glstate) {
+            int ret;
+            khint_t k;
+            khash_t(tex) *list = glstate->texture.list;
+            list = glstate->texture.list = kh_init(tex);
+            // segfaults if we don't do a single put
+            kh_put(tex, list, 1, &ret);
+            kh_del(tex, list, 1);
+        }
+        // now add default "0" texture => no, because tex 0 is not shared....
+        /*k = kh_put(tex, list, 0, &ret);
+        glstate->texture.zero = tex = kh_value(list, k) = malloc(sizeof(gltexture_t));*/
+        glstate->texture.zero = tex = malloc(sizeof(gltexture_t));
         memset(tex, 0, sizeof(gltexture_t));
         tex->adjustxy[0] = tex->adjustxy[1] = 1.f;
         tex->mipmap_auto = (globals4es.automipmap==1);
@@ -294,13 +309,17 @@ void DeleteGLState(void* oldstate) {
     if(!state) return;
 
     if(state->shared_cnt) {
-        --state->shared_cnt;
-        return;
+        if(!--(*state->shared_cnt)) {
+            free(state->shared_cnt);
+            state->shared_cnt = 0;
+        }
     }
 
     if(glstate == state)
         glstate = NULL;
 
+    if(!state->shared_cnt)
+        free(state->actual_tex2d);
 
     #define free_hashmap(T, N, K, F)        \
     {                                       \
@@ -313,9 +332,13 @@ void DeleteGLState(void* oldstate) {
     free_hashmap(glvao_t, vaos, glvao, free);
     free_hashmap(glbuffer_t, buffers, buff, free);
     free_hashmap(glquery_t, queries, queries, free);
-    free_hashmap(gltexture_t, texture.list, tex, free);
-    free_hashmap(renderlist_t, headlists, gllisthead, free_renderlist);
+    if(!state->shared_cnt) {
+        free_hashmap(gltexture_t, texture.list, tex, free);
+        free_hashmap(renderlist_t, headlists, gllisthead, free_renderlist);
+    }
     #undef free_hashmap
+    // free texture zero as it's not in the list anymore
+    free(glstate->texture.zero);
     // free eval maps
     #define freemap(dims, name)                              \
     { map_statef_t *m = (map_statef_t *)state->map##dims.name; \
@@ -329,7 +352,7 @@ void DeleteGLState(void* oldstate) {
     freemap(2, texture1); freemap(2, texture2); freemap(2, texture3); freemap(2, texture4);   
     #undef freemap
     // free active list
-    if(state->list.active) free_renderlist(state->list.active);
+    if(!state->shared_cnt && state->list.active) free_renderlist(state->list.active);
 
     // free matrix stack
     #define free_matrix(A)                  \
