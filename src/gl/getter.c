@@ -75,7 +75,6 @@ void BuildExtensionsList() {
                 "GL_EXT_vertex_array "
                 "GL_EXT_secondary_color "
                 "GL_ARB_multitexture "
-                "GL_ARB_texture_env_add "
                 "GL_ARB_texture_border_clamp "
                 "GL_ARB_point_parameters "
                 "GL_ARB_texture_env_add "
@@ -86,7 +85,6 @@ void BuildExtensionsList() {
                 "GL_EXT_texture_env_crossbar "
                 "GL_ARB_texture_env_dot3 "
                 "GL_EXT_texture_env_dot3 "
-                "GL_ARB_texture_mirrored_repeat "
                 "GL_SGIS_generate_mipmap "
                 "GL_EXT_packed_depth_stencil "
                 "GL_EXT_draw_range_elements "
@@ -130,6 +128,8 @@ void BuildExtensionsList() {
             strcat(extensions, "GL_EXT_blend_subtract ");
         if(hardext.aniso)
             strcat(extensions, "GL_EXT_texture_filter_anisotropic ");
+        if(hardext.mirrored)
+            strcat(extensions, "GL_ARB_texture_mirrored_repeat ");
         if(hardext.fbo)
             strcat(extensions,                 
                 "GL_ARB_framebuffer_object "
@@ -138,10 +138,14 @@ void BuildExtensionsList() {
                 "GL_ARB_draw_buffers ");
         if(hardext.pointsprite)
             strcat(extensions, "GL_ARB_point_sprite ");
-        if(hardext.cubemap)
+        if(hardext.cubemap) {
             strcat(extensions, "GL_ARB_texture_cube_map ");
+            strcat(extensions, "GL_EXT_texture_cube_map ");
+        }
         if(hardext.esversion>1) {
             strcat(extensions, "GL_EXT_fog_coord ");
+            strcat(extensions, "GL_EXT_separate_specular_color ");
+            strcat(extensions, "GL_EXT_rescale_normal ");
             strcat(extensions, "GL_ARB_ES2_compatibility ");
             strcat(extensions,
                 "GL_ARB_fragment_shader "
