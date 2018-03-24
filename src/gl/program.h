@@ -221,7 +221,7 @@ void gl4es_glValidateProgram(GLuint program);
     khint_t k_##program; \
     { \
         int ret; \
-        khash_t(programlist) *programs = glstate->glsl.programs; \
+        khash_t(programlist) *programs = glstate->glsl->programs; \
         k_##program = kh_get(programlist, programs, program); \
         if (k_##program != kh_end(programs)) \
             glprogram = kh_value(programs, k_##program); \
@@ -232,9 +232,9 @@ void gl4es_glValidateProgram(GLuint program);
     }
 
 #define APPLY_PROGRAM(prg, glprg) \
-    if(glstate->gleshard.program != prg) {  \
-        glstate->gleshard.program = prg;    \
-        glstate->gleshard.glprogram = glprg;\
+    if(glstate->gleshard->program != prg) {  \
+        glstate->gleshard->program = prg;    \
+        glstate->gleshard->glprogram = glprg;\
         LOAD_GLES2(glUseProgram);           \
         if(gles_glUseProgram)               \
             gles_glUseProgram(prg);         \

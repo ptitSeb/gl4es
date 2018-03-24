@@ -89,7 +89,7 @@ GLuint gl4es_glCreateProgram(void) {
     // store the new empty shader in the list for later use
    	khint_t k;
    	int ret;
-	khash_t(programlist) *programs = glstate->glsl.programs;
+	khash_t(programlist) *programs = glstate->glsl->programs;
     k = kh_get(programlist, programs, program);
     program_t *glprogram = NULL;
     if (k == kh_end(programs)){
@@ -147,7 +147,7 @@ void deleteProgram(program_t *glprogram, khint_t k_program) {
     if(glprogram->cache.cache)
         free(glprogram->cache.cache);
     // delete program
-    kh_del(programlist, glstate->glsl.programs, k_program);
+    kh_del(programlist, glstate->glsl->programs, k_program);
     free(glprogram);
 }
 
@@ -466,7 +466,7 @@ GLboolean gl4es_glIsProgram(GLuint program) {
     program_t *glprogram = NULL;
     khint_t k;
     int ret;
-    khash_t(programlist) *programs = glstate->glsl.programs;
+    khash_t(programlist) *programs = glstate->glsl->programs;
     k = kh_get(programlist, programs, program);
     if (k != kh_end(programs))
         return GL_TRUE;
@@ -644,19 +644,19 @@ void gl4es_glLinkProgram(GLuint program) {
 }
 
 void gl4es_glUseProgram(GLuint program) {
-    DBG(printf("glUseProgram(%d) old=%d\n", program, glstate->glsl.program);)
+    DBG(printf("glUseProgram(%d) old=%d\n", program, glstate->glsl->program);)
     PUSH_IF_COMPILING(glUseProgram);
     if(program==0) {
-        glstate->glsl.program=0;
-        glstate->glsl.glprogram=NULL;
+        glstate->glsl->program=0;
+        glstate->glsl->glprogram=NULL;
         return;
     }
     CHECK_PROGRAM(void, program)
     noerrorShim();
     DBG(printf("program id=%d\n", glprogram->id);)
 
-    glstate->glsl.program=glprogram->id;
-    glstate->glsl.glprogram=glprogram;
+    glstate->glsl->program=glprogram->id;
+    glstate->glsl->glprogram=glprogram;
 }
 
 void gl4es_glValidateProgram(GLuint program) {
@@ -714,7 +714,7 @@ GLvoid gl4es_glDeleteObject(GLhandleARB obj) {
     khint_t k_program;
     {
         int ret;
-        khash_t(programlist) *programs = glstate->glsl.programs;
+        khash_t(programlist) *programs = glstate->glsl->programs;
         k_program = kh_get(programlist, programs, obj);
         if (k_program != kh_end(programs))
             glprogram = kh_value(programs, k_program);
@@ -731,7 +731,7 @@ GLhandleARB gl4es_glGetHandle(GLenum pname) {
         errorShim(GL_INVALID_ENUM);
         return 0;
     }
-    return glstate->glsl.program;
+    return glstate->glsl->program;
 }
 
 GLvoid gl4es_glDetachObject(GLhandleARB containerObj, GLhandleARB attachedObj) {
@@ -758,7 +758,7 @@ GLvoid gl4es_glGetObjectParameterfv(GLhandleARB obj, GLenum pname, GLfloat *para
     khint_t k_program;
     {
         int ret;
-        khash_t(programlist) *programs = glstate->glsl.programs;
+        khash_t(programlist) *programs = glstate->glsl->programs;
         k_program = kh_get(programlist, programs, obj);
         if (k_program != kh_end(programs))
             glprogram = kh_value(programs, k_program);
@@ -780,7 +780,7 @@ GLvoid gl4es_glGetObjectParameteriv(GLhandleARB obj, GLenum pname, GLint *params
     khint_t k_program;
     {
         int ret;
-        khash_t(programlist) *programs = glstate->glsl.programs;
+        khash_t(programlist) *programs = glstate->glsl->programs;
         k_program = kh_get(programlist, programs, obj);
         if (k_program != kh_end(programs))
             glprogram = kh_value(programs, k_program);
@@ -802,7 +802,7 @@ GLvoid gl4es_glGetInfoLog(GLhandleARB obj, GLsizei maxLength, GLsizei *length, G
     khint_t k_program;
     {
         int ret;
-        khash_t(programlist) *programs = glstate->glsl.programs;
+        khash_t(programlist) *programs = glstate->glsl->programs;
         k_program = kh_get(programlist, programs, obj);
         if (k_program != kh_end(programs))
             glprogram = kh_value(programs, k_program);

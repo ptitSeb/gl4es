@@ -491,7 +491,7 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             break;
         // shader stuff
         case GL_CURRENT_PROGRAM:
-            *params=glstate->glsl.program;
+            *params=glstate->glsl->program;
             break;
         // GL4ES special hints
         case GL_SHRINK_HINT_GL4ES:

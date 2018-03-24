@@ -31,7 +31,7 @@ void gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolea
     v->stride = stride;
     v->pointer = pointer;
     v->buffer = glstate->vao->vertex;
-    memcpy(&glstate->gleshard.wanted[index], v, sizeof(vertexattrib_t));
+    memcpy(&glstate->glesva.wanted[index], v, sizeof(vertexattrib_t));
 }
 void gl4es_glEnableVertexAttribArray(GLuint index) {
     DBG(printf("glEnableVertexAttrib(%d)\n", index);)
@@ -42,7 +42,7 @@ void gl4es_glEnableVertexAttribArray(GLuint index) {
         return;
     }
     glstate->vao->vertexattrib[index].vaarray = 1;
-    glstate->gleshard.wanted[index].vaarray = 1;
+    glstate->glesva.wanted[index].vaarray = 1;
 }
 void gl4es_glDisableVertexAttribArray(GLuint index) {
     DBG(printf("glDisableVertexAttrib(%d)\n", index);)
@@ -53,7 +53,7 @@ void gl4es_glDisableVertexAttribArray(GLuint index) {
         return;
     }
     glstate->vao->vertexattrib[index].vaarray = 0;
-    glstate->gleshard.wanted[index].vaarray = 0;
+    glstate->glesva.wanted[index].vaarray = 0;
 }
 
 // TODO: move the sending of the data to the Hardware when drawing, to cache change of state
@@ -78,7 +78,7 @@ void gl4es_glVertexAttrib4fv(GLuint index, const GLfloat *v) {
         return;
     }
     memcpy(glstate->vao->vertexattrib[index].current, v, 4*sizeof(GLfloat));
-    memcpy(glstate->gleshard.wanted[index].current, v, 4*sizeof(GLfloat));
+    memcpy(glstate->glesva.wanted[index].current, v, 4*sizeof(GLfloat));
 }
 
 #define GetVertexAttrib(suffix, Type, factor) \

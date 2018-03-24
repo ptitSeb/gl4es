@@ -53,7 +53,7 @@ void redoShader(GLuint shader, shaderconv_need_t *need);
     khint_t k_##shader; \
     { \
         int ret; \
-        khash_t(shaderlist) *shaders = glstate->glsl.shaders; \
+        khash_t(shaderlist) *shaders = glstate->glsl->shaders; \
         k_##shader = kh_get(shaderlist, shaders, shader); \
         if (k_##shader != kh_end(shaders)) \
             glshader = kh_value(shaders, k_##shader); \

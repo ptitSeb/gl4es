@@ -409,7 +409,7 @@ DBG(printf("glBindVertexArray(%u)\n", array);)
     }
     // TODO: find a better way to do that, to many useless copying stuff
     if(glstate->fpe_state)
-        memcpy(glstate->gleshard.wanted, glstate->vao->vertexattrib, MAX_VATTRIB * sizeof(vertexattrib_t));
+        memcpy(glstate->glesva.wanted, glstate->vao->vertexattrib, MAX_VATTRIB * sizeof(vertexattrib_t));
 
     noerrorShim();
 }

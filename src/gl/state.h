@@ -218,11 +218,14 @@ typedef struct {
 } glsl_t;
 
 typedef struct {
-    vertexattrib_t  vertexattrib[MAX_VATTRIB];
-    vertexattrib_t  wanted[MAX_VATTRIB];
     GLuint          program;
     program_t       *glprogram;
-} gleshard_t;
+} gleshard_s_t;
+
+typedef struct {
+    vertexattrib_t  vertexattrib[MAX_VATTRIB];
+    vertexattrib_t  wanted[MAX_VATTRIB];
+} gleshard_ns_t;
 
 typedef struct {
     GLuint          vertexshader;

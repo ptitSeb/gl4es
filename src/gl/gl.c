@@ -26,6 +26,13 @@ void* NewGLState(void* shared_glstate, int es2only) {
         glstate->headlists = copy_state->headlists;
         glstate->actual_tex2d = copy_state->actual_tex2d;
         glstate->texture.list = copy_state->texture.list;
+        glstate->glsl = copy_state->glsl;
+        glstate->gleshard = copy_state->gleshard;
+        glstate->buffers = copy_state->buffers;
+        glstate->queries = copy_state->queries;
+        glstate->fpe_cache = copy_state->fpe_cache;
+
+        glstate->defaultvbo = copy_state->defaultvbo;
     }
 	GLfloat white[] = {1.0f, 1.0f, 1.0f, 1.0f};
 	memcpy(glstate->color, white, sizeof(GLfloat)*4);
@@ -34,6 +41,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->matrix_mode = GL_MODELVIEW;
     
     // add default VBO
+    if(!shared_glstate) // TODO: check if default VBO is shared?
     {
         khint_t k;
         int ret;
@@ -77,6 +85,14 @@ void* NewGLState(void* shared_glstate, int es2only) {
         glstate->actual_tex2d = (GLuint*)malloc(MAX_TEX*sizeof(GLuint));
         memset(glstate->actual_tex2d, 0, MAX_TEX*sizeof(GLuint));
     }
+    // glsl
+    if(!shared_glstate)
+    {
+        glstate->glsl = (glsl_t*)malloc(sizeof(glsl_t));
+        memset(glstate->glsl, 0, sizeof(glsl_t));
+        glstate->gleshard = (gleshard_s_t*)malloc(sizeof(gleshard_s_t));
+        memset(glstate->gleshard, 0, sizeof(gleshard_s_t));
+    }
     // Bind defaults...
     glstate->vao = glstate->defaultvao;
 
@@ -119,7 +135,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     if(hardext.esversion>1) {
         glstate->fpe_state = (fpe_state_t*)malloc(sizeof(fpe_state_t));
         memset(glstate->fpe_state, 0, sizeof(fpe_state_t));
-        glstate->glsl.es2 = es2only;
+        glstate->glsl->es2 = es2only;
         fpe_Init(glstate);
     }
 
@@ -248,8 +264,9 @@ void* NewGLState(void* shared_glstate, int es2only) {
     if(hardext.esversion>1) {
         glstate->fpe_state = (fpe_state_t*)malloc(sizeof(fpe_state_t));
         memset(glstate->fpe_state, 0, sizeof(fpe_state_t));
-        glstate->glsl.es2 = es2only;
-        fpe_Init(glstate);
+        glstate->glsl->es2 = es2only;
+        if(!shared_glstate)
+            fpe_Init(glstate);
         // some default are not 0...
         for (int i=0; i<hardext.maxtex; i++) {
             //TexEnv Combine that are not 0
@@ -263,13 +280,14 @@ void* NewGLState(void* shared_glstate, int es2only) {
     }
 
     // GLSL stuff
+    if(!shared_glstate)
     {
         khint_t k;
         int ret;
-        khash_t(shaderlist) *shaders = glstate->glsl.shaders = kh_init(shaderlist);
+        khash_t(shaderlist) *shaders = glstate->glsl->shaders = kh_init(shaderlist);
 		kh_put(shaderlist, shaders, 1, &ret);
 		kh_del(shaderlist, shaders, 1);
-        khash_t(programlist) *programs = glstate->glsl.programs = kh_init(programlist);
+        khash_t(programlist) *programs = glstate->glsl->programs = kh_init(programlist);
 		kh_put(programlist, programs, 1, &ret);
 		kh_del(programlist, programs, 1);
     }
@@ -320,7 +338,7 @@ void DeleteGLState(void* oldstate) {
 
     if(!state->shared_cnt)
         free(state->actual_tex2d);
-
+    
     #define free_hashmap(T, N, K, F)        \
     {                                       \
         T *m;                               \
@@ -330,9 +348,9 @@ void DeleteGLState(void* oldstate) {
         kh_destroy(K, state->N);            \
     }
     free_hashmap(glvao_t, vaos, glvao, free);
-    free_hashmap(glbuffer_t, buffers, buff, free);
-    free_hashmap(glquery_t, queries, queries, free);
     if(!state->shared_cnt) {
+        free_hashmap(glquery_t, queries, queries, free);
+        free_hashmap(glbuffer_t, buffers, buff, free);
         free_hashmap(gltexture_t, texture.list, tex, free);
         free_hashmap(renderlist_t, headlists, gllisthead, free_renderlist);
     }
@@ -394,10 +412,15 @@ void DeleteGLState(void* oldstate) {
         //TODO: check if should delete GL object too
         free(state->blit);
     }
-    //TODO: free sharderlist and programlist...
-    if(state->fpe_cache) {
-        fpe_Dispose(state);
+    if(!state->shared_cnt) {
+        free(state->glsl);
+        free(state->gleshard);
+        if(state->fpe_cache) {
+            fpe_Dispose(state);
+        }
     }
+    //TODO: free sharderlist and programlist...
+
     // probably missing some things to free here!
 
     // all done
@@ -1991,7 +2014,7 @@ void gl4es_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
             flush();
         else {
             // test if called between glBegin / glEnd but Texture is not active and not using a program. In that case, ignore the call
-            if(hardext.esversion==1 || glstate->glsl.program || (glstate->list.begin && (glstate->list.compiling || glstate->enable.texture[0])))
+            if(hardext.esversion==1 || glstate->glsl->program || (glstate->list.begin && (glstate->list.compiling || glstate->enable.texture[0])))
                 rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0, s, t, r, q);
         }
     }

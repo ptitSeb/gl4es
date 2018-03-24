@@ -288,7 +288,7 @@ void gl4es_blitTexture_gles2(GLuint texture,
             free(glstate->blit);
             glstate->blit = NULL;
         }
-        GLuint oldprog = glstate->gleshard.program;
+        GLuint oldprog = glstate->gleshard->program;
         gles_glUseProgram(glstate->blit->program);
         gles_glUniform1i( gles_glGetUniformLocation( glstate->blit->program, "uTex" ), 0 );
 

@@ -239,7 +239,7 @@ void fpe_program(int ispoint) {
         khint_t k_program;
         {
             int ret;
-            khash_t(programlist) *programs = glstate->glsl.programs;
+            khash_t(programlist) *programs = glstate->glsl->programs;
             k_program = kh_get(programlist, programs, glstate->fpe->prog);
             if (k_program != kh_end(programs))
                 glstate->fpe->glprogram = kh_value(programs, k_program);
@@ -356,14 +356,14 @@ void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 }
 
 void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
-    DBG(printf("fpe_glDrawArrays(%s, %d, %d), program=%d\n", PrintEnum(mode), first, count, glstate->glsl.program);)
+    DBG(printf("fpe_glDrawArrays(%s, %d, %d), program=%d\n", PrintEnum(mode), first, count, glstate->glsl->program);)
     realize_glenv(mode==GL_POINTS);
     LOAD_GLES(glDrawArrays);
     gles_glDrawArrays(mode, first, count);
 }
 
 void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
-    DBG(printf("fpe_glDrawElements(%s, %d, %s, %p), program=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, glstate->glsl.program);)
+    DBG(printf("fpe_glDrawElements(%s, %d, %s, %p), program=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, glstate->glsl->program);)
     realize_glenv(mode==GL_POINTS);
     LOAD_GLES(glDrawElements);
     gles_glDrawElements(mode, count, type, indices);
@@ -454,7 +454,7 @@ void realize_glenv(int ispoint) {
     if(hardext.esversion==1) return;
     LOAD_GLES2(glUseProgram);
     // update texture state for fpe only
-    if(glstate->fpe_bound_changed && !glstate->glsl.program) {
+    if(glstate->fpe_bound_changed && !glstate->glsl->program) {
         for(int i=0; i<glstate->fpe_bound_changed; i++) {
             glstate->fpe_state->texformat &= ~(7<<(i*3));
             glstate->fpe_state->texadjust &= ~(1<<i);
@@ -484,25 +484,25 @@ void realize_glenv(int ispoint) {
         glstate->fpe_bound_changed = 0;
     }
     // activate program if needed
-    if(glstate->glsl.program) {
-        if(glstate->gleshard.program != glstate->glsl.program)
+    if(glstate->glsl->program) {
+        if(glstate->gleshard->program != glstate->glsl->program)
         {
-            glstate->gleshard.program = glstate->glsl.program;
-            glstate->gleshard.glprogram = glstate->glsl.glprogram;
-            gles_glUseProgram(glstate->gleshard.program);
-            DBG(printf("Use GLSL program %d\n", glstate->gleshard.program);)
+            glstate->gleshard->program = glstate->glsl->program;
+            glstate->gleshard->glprogram = glstate->glsl->glprogram;
+            gles_glUseProgram(glstate->gleshard->program);
+            DBG(printf("Use GLSL program %d\n", glstate->gleshard->program);)
         }
     } else {
         fpe_program(ispoint);
-        if(glstate->gleshard.program != glstate->fpe->prog)
+        if(glstate->gleshard->program != glstate->fpe->prog)
         {
-            glstate->gleshard.program = glstate->fpe->prog;
-            glstate->gleshard.glprogram = glstate->fpe->glprogram;
-            gles_glUseProgram(glstate->gleshard.program);
-            DBG(printf("Use FPE program %d\n", glstate->gleshard.program);)
+            glstate->gleshard->program = glstate->fpe->prog;
+            glstate->gleshard->glprogram = glstate->fpe->glprogram;
+            gles_glUseProgram(glstate->gleshard->program);
+            DBG(printf("Use FPE program %d\n", glstate->gleshard->program);)
         }
     }
-    program_t *glprogram = glstate->gleshard.glprogram;
+    program_t *glprogram = glstate->gleshard->glprogram;
     // setup fixed pipeline builtin vertex attrib if needed
     if(glprogram->has_builtin_attrib)
     {
@@ -511,7 +511,7 @@ void realize_glenv(int ispoint) {
         // Vertex
         id = glprogram->builtin_attrib[ATT_VERTEX];
         if(id!=-1) {
-            vertexattrib_t *w = &glstate->gleshard.wanted[id];
+            vertexattrib_t *w = &glstate->glesva.wanted[id];
             pointer_state_t *p = &glstate->fpe_client.vert;
             w->vaarray = glstate->fpe_client.vertex_array;
             if(w->vaarray) {
@@ -528,7 +528,7 @@ void realize_glenv(int ispoint) {
         // Color
         id = glprogram->builtin_attrib[ATT_COLOR];
         if(id!=-1) {
-            vertexattrib_t *w = &glstate->gleshard.wanted[id];
+            vertexattrib_t *w = &glstate->glesva.wanted[id];
             pointer_state_t *p = &glstate->fpe_client.color;
             w->vaarray = glstate->fpe_client.color_array;
             if(w->vaarray) {
@@ -545,7 +545,7 @@ void realize_glenv(int ispoint) {
         // Secondary Color
         id = glprogram->builtin_attrib[ATT_SECONDARY];
         if(id!=-1) {
-            vertexattrib_t *w = &glstate->gleshard.wanted[id];
+            vertexattrib_t *w = &glstate->glesva.wanted[id];
             pointer_state_t *p = &glstate->fpe_client.secondary;
             w->vaarray = glstate->fpe_client.secondary_array;
             if(w->vaarray) {
@@ -562,7 +562,7 @@ void realize_glenv(int ispoint) {
         // Fog Coord
         id = glprogram->builtin_attrib[ATT_FOGCOORD];
         if(id!=-1) {
-            vertexattrib_t *w = &glstate->gleshard.wanted[id];
+            vertexattrib_t *w = &glstate->glesva.wanted[id];
             pointer_state_t *p = &glstate->fpe_client.fog;
             w->vaarray = glstate->fpe_client.fog_array;
             if(w->vaarray) {
@@ -581,7 +581,7 @@ void realize_glenv(int ispoint) {
         for(int tex=0; tex<hardext.maxtex; tex++) {
             id = glprogram->builtin_attrib[ATT_MULTITEXCOORD0+tex];
             if(id!=-1) {
-                vertexattrib_t *w = &glstate->gleshard.wanted[id];
+                vertexattrib_t *w = &glstate->glesva.wanted[id];
                 pointer_state_t *p = &glstate->fpe_client.tex[tex];
                 w->vaarray = glstate->fpe_client.tex_coord_array[tex];
                 if(w->vaarray) {
@@ -599,7 +599,7 @@ void realize_glenv(int ispoint) {
         // Normal
         id = glprogram->builtin_attrib[ATT_NORMAL];
         if(id!=-1) {
-            vertexattrib_t *w = &glstate->gleshard.wanted[id];
+            vertexattrib_t *w = &glstate->glesva.wanted[id];
             pointer_state_t *p = &glstate->fpe_client.normal;
             w->vaarray = glstate->fpe_client.normal_array;
             if(w->vaarray) {
@@ -853,8 +853,8 @@ void realize_glenv(int ispoint) {
     for(int i=0; i<hardext.maxvattrib; i++) 
     if(glprogram->va_size[i])   // only check used VA...
     {
-        vertexattrib_t *v = &glstate->gleshard.vertexattrib[i];
-        vertexattrib_t *w = &glstate->gleshard.wanted[i];
+        vertexattrib_t *v = &glstate->glesva.vertexattrib[i];
+        vertexattrib_t *w = &glstate->glesva.wanted[i];
         int dirty = 0;
         // enable / disable Array if needed
         if(v->vaarray != w->vaarray) {
@@ -895,7 +895,7 @@ void realize_glenv(int ispoint) {
         }
     } else {
         // disable VAArray, to be on the safe side
-        vertexattrib_t *v = &glstate->gleshard.vertexattrib[i];
+        vertexattrib_t *v = &glstate->glesva.vertexattrib[i];
         if(v->vaarray) {
             LOAD_GLES2(glDisableVertexAttribArray);
             v->vaarray = 0;
@@ -908,13 +908,13 @@ void realize_glenv(int ispoint) {
 void realize_blitenv(int alpha) {
     DBG(printf("realize_blitenv(%d)\n", alpha);)
     LOAD_GLES2(glUseProgram);
-    if(glstate->gleshard.program != ((alpha)?glstate->blit->program_alpha:glstate->blit->program)) {
-        glstate->gleshard.program = ((alpha)?glstate->blit->program_alpha:glstate->blit->program);
-        gles_glUseProgram(glstate->gleshard.program);
+    if(glstate->gleshard->program != ((alpha)?glstate->blit->program_alpha:glstate->blit->program)) {
+        glstate->gleshard->program = ((alpha)?glstate->blit->program_alpha:glstate->blit->program);
+        gles_glUseProgram(glstate->gleshard->program);
     }
     // set VertexAttrib if needed
     for(int i=0; i<hardext.maxvattrib; i++) {
-        vertexattrib_t *v = &glstate->gleshard.vertexattrib[i];
+        vertexattrib_t *v = &glstate->glesva.vertexattrib[i];
         // enable / disable Array if needed
         if(v->vaarray != ((i<2)?1:0)) {
             LOAD_GLES2(glEnableVertexAttribArray)

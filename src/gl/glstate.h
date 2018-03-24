@@ -35,7 +35,7 @@ typedef struct {
     int                 matrix_mode;
     selectbuf_t         selectbuf;
     khash_t(glvao)      *vaos;
-    khash_t(buff)       *buffers;
+    khash_t(buff)       *buffers;       //shared
     glvao_t             *vao;
     glbuffer_t          *defaultvbo; 
     glvao_t             *defaultvao;
@@ -43,7 +43,7 @@ typedef struct {
     GLenum              last_error;
     GLint               vp[4];
     GLboolean           clientstate[NB_VA];
-    khash_t(queries)    *queries;
+    khash_t(queries)    *queries;       // shared
     glstack_t           *stack;
     glclientstack_t     *clientStack;
     raster_state_t      raster;
@@ -71,12 +71,13 @@ typedef struct {
     GLenum              blendsfactoralpha;
     GLenum              blenddfactoralpha;
     GLenum              logicop;
-    glsl_t              glsl;
+    glsl_t              *glsl;              //shared
     fpe_state_t         *fpe_state;
     fpe_fpe_t           *fpe;
     fpestatus_t         fpe_client;
     fpe_cache_t         *fpe_cache;
-    gleshard_t          gleshard;
+    gleshard_s_t        *gleshard;          //shared
+    gleshard_ns_t       glesva;
     glesblit_t          *blit;
     fbo_t               fbo;
     // scratch array

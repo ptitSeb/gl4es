@@ -34,7 +34,7 @@ GLuint gl4es_glCreateShader(GLenum shaderType) {
     // store the new empty shader in the list for later use
    	khint_t k;
    	int ret;
-	khash_t(shaderlist) *shaders = glstate->glsl.shaders;
+	khash_t(shaderlist) *shaders = glstate->glsl->shaders;
     k = kh_get(shaderlist, shaders, shader);
     shader_t *glshader = NULL;
     if (k == kh_end(shaders)){
@@ -59,7 +59,7 @@ GLuint gl4es_glCreateShader(GLenum shaderType) {
 void actualy_deleteshader(GLuint shader) {
     khint_t k;
     int ret;
-    khash_t(shaderlist) *shaders = glstate->glsl.shaders;
+    khash_t(shaderlist) *shaders = glstate->glsl->shaders;
     k = kh_get(shaderlist, shaders, shader);
     if (k != kh_end(shaders)) {
         shader_t *glshader = kh_value(shaders, k);
@@ -77,7 +77,7 @@ void actualy_deleteshader(GLuint shader) {
 void actualy_detachshader(GLuint shader) {
     khint_t k;
     int ret;
-    khash_t(shaderlist) *shaders = glstate->glsl.shaders;
+    khash_t(shaderlist) *shaders = glstate->glsl->shaders;
     k = kh_get(shaderlist, shaders, shader);
     if (k != kh_end(shaders)) {
         shader_t *glshader = kh_value(shaders, k);
@@ -149,7 +149,7 @@ void gl4es_glShaderSource(GLuint shader, GLsizei count, const GLchar * const *st
     LOAD_GLES2(glShaderSource);
     if (gles_glShaderSource) {
         // adapt shader if needed (i.e. not an es2 context and shader is not #version 100)
-        if(!glstate->glsl.es2 && strncmp(glshader->source, "#version 100", 12))
+        if(!glstate->glsl->es2 && strncmp(glshader->source, "#version 100", 12))
             glshader->converted = ConvertShader(glshader->source, glshader->type==GL_VERTEX_SHADER?1:0, &glshader->need);
         // send source to GLES2 hardware if any
         gles_glShaderSource(shader, 1, (const GLchar * const*)((glshader->converted)?(&glshader->converted):(&glshader->source)), NULL);
@@ -237,7 +237,7 @@ GLboolean gl4es_glIsShader(GLuint shader) {
     khint_t k;
     {
         int ret;
-        khash_t(shaderlist) *shaders = glstate->glsl.shaders;
+        khash_t(shaderlist) *shaders = glstate->glsl->shaders;
         k = kh_get(shaderlist, shaders, shader);
         if (k != kh_end(shaders))
             glshader = kh_value(shaders, k);
