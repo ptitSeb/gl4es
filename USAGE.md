@@ -73,9 +73,9 @@ Texture shrinking control
  * 5 : only textures wich one size > 256 are resized to 256 (if possible, because only /2 and /4 exists), but empty texture are not shrinked
  * 6 : only textures wich one size > 128 are / 2, thoses >= 512 are resized to 256 (if possible, because only /2 and /4 exists), but empty texture are not shrinked
  * 7 : only textures wich one size > 512 are / 2, but empty texture are not shrinked
- * 8 : advertise a max texture size of 8192, but every texture wich one size > 2048 are shrinked to 2048
- * 9 : advertise a max texture size of 8192, but every texture wich one size > 4096 are / 4 and the one > 512 are / 2, but empty texture are not shrinked
- * 10: advertise a max texture size of 8192, but every texture wich one size > 2048 are / 4 and the one > 512 are / 2, but empty texture are not shrinked
+ * 8 : advertise a max texture size *4, but every texture wich one size > 2048 are shrinked to 2048
+ * 9 : advertise a max texture size *4, but every texture wich one size > 4096 are / 4 and the one > 512 are / 2, but empty texture are not shrinked
+ * 10: advertise a max texture size *4, but every texture wich one size > 2048 are / 4 and the one > 512 are / 2, but empty texture are not shrinked
  
 ##### LIBGL_TEXDUMP
 Texture dump

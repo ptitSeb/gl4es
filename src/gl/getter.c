@@ -411,6 +411,9 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_CURRENT_FOG_COORD:
             *params=glstate->fogcoord;
             break;
+        case GL_MAX_TEXTURE_SIZE:
+            *params=hardext.maxsize;
+            break;
         case GL_MAX_RECTANGLE_TEXTURE_SIZE_ARB:
             *params=hardext.maxsize;
             break;

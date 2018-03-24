@@ -635,7 +635,7 @@ static int get_shrinklevel(int width, int height, int level) {
                 }
             }
             break;
-        case 8: //advertise 8192 max texture size, but >2048 are shrinked to 2048
+        case 8: //advertise *4 max texture size, but >2048 are shrinked to 2048
             if ((mipwidth>4096) || (mipheight>4096)) {
                 shrink=2;
             } else
@@ -713,7 +713,6 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
 
     if (rtarget == GL_PROXY_TEXTURE_2D) {
         int max1=hardext.maxsize;
-        if (globals4es.texshrink>=8 && max1>8192) max1=8192;
         proxy_width = ((width<<level)>max1)?0:width;
         proxy_height = ((height<<level)>max1)?0:height;
         proxy_intformat = swizzle_internalformat(&internalformat, format, type);
@@ -1878,7 +1877,7 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
 			if (rtarget==GL_PROXY_TEXTURE_2D)
 				(*params) = nlevel(proxy_width,level);
 			else {
-				(*params) = nlevel((bound)?bound->width:2048,level);
+				(*params) = nlevel((bound)?bound->width:hardext.maxsize,level);
                 if(level && !(bound->mipmap_auto || bound->mipmap_need))
                     (*params) = 0;   // Mipmap level not loaded
             }
@@ -1887,7 +1886,7 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
 			if (rtarget==GL_PROXY_TEXTURE_2D)
 				(*params) = nlevel(proxy_height,level);
 			else {
-				(*params) = nlevel((bound)?bound->height:2048,level); 
+				(*params) = nlevel((bound)?bound->height:hardext.maxsize,level); 
                 if(level && !(bound->mipmap_auto || bound->mipmap_need))
                     (*params) = 0;   // Mipmap level not loaded
             }
@@ -2325,8 +2324,8 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
     const GLuint itarget = what_target(target);
     const GLuint rtarget = map_tex_target(target);
     if (target == GL_PROXY_TEXTURE_2D) {
-        proxy_width = (width>2048)?0:width;
-        proxy_height = (height>2048)?0:height;
+        proxy_width = (width>hardext.maxsize)?0:width;
+        proxy_height = (height>hardext.maxsize)?0:height;
         return;
     }
      if (glstate->list.pending) {
