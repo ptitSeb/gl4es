@@ -1003,7 +1003,6 @@ Bool gl4es_glXMakeCurrent(Display *display,
                 egl_eglQuerySurface(eglDisplay,eglSurf,EGL_WIDTH,&g_width);
                 egl_eglQuerySurface(eglDisplay,eglSurf,EGL_HEIGHT,&g_height);
                 // create the main_fbo...
-                LOGD("LIBGL: Create FBO of %ix%i 32bits\n", g_width, g_height);
                 createMainFBO(g_width, g_height);
             }
             if(globals4es.fbomakecurrent && gl4es_getCurrentFBO())

@@ -618,6 +618,7 @@ void createMainFBO(int width, int height) {
             return;
         deleteMainFBO();
     }
+    DBG(printf("LIBGL: Create FBO of %ix%i 32bits\n", g_width, g_height);)
     // switch to texture unit 0 if needed
     if (glstate->texture.active != 0)
         gles_glActiveTexture(GL_TEXTURE0);
