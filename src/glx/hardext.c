@@ -238,6 +238,9 @@ void GetHardwareExtensions(int notest)
         hardext.aniso = 0;
     if(hardext.aniso)
         SHUT(LOGD("LIBGL: Max Anisotropic filtering: %d\n", hardext.aniso));
+    // get GLES driver signatures...
+    const char* vendor = gles_glGetString(GL_VENDOR);
+    SHUT(LOGD("LIBGL: Hardware vendor is %s\n", vendor));
 
 #ifndef NOEGL
     if(strstr(egl_eglQueryString(eglDisplay, EGL_EXTENSIONS), "EGL_KHR_gl_colorspace")) {
