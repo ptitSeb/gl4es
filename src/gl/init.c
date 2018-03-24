@@ -82,7 +82,7 @@ void initialize_gl4es() {
 #ifndef NOX11
     if (env_fb && strcmp(env_fb, "3") == 0) {
             SHUT(LOGD("LIBGL: using pbuffer\n"));
-            globals4es.usefb = 1;
+            globals4es.usefb = 0;
             globals4es.usepbuffer = 1;
     }
 #endif
