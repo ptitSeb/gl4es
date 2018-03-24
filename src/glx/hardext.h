@@ -1,6 +1,9 @@
 #ifndef _GLX_HARDEXT_H_
 #define _GLX_HARDEXT_H_
 
+#define VEND_IMGTEC     0x0100
+#define VEND_ARM        0x0200
+
 typedef struct _hardext {
     int npot;           // 0 = no npot capability, 1 = limited npot, 2 = full npot
     int maxtex;         // maximum number of texture
@@ -38,6 +41,7 @@ typedef struct _hardext {
     int highp;          // GL_OES_fragment_precision_high
     int fragdepth;      // GL_EXT_frag_depth
     int derivatives;    // GL_OES_standard_derivatives
+    int vendor;         // which vendor (to apply workaround)
 } hardext_t;
 
 extern hardext_t hardext;

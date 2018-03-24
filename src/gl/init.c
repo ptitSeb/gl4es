@@ -360,6 +360,20 @@ void initialize_gl4es() {
         SHUT(LOGD("LIBGL: VBO used (in a few cases)\n"));
     }
 
+    globals4es.fbomakecurrent = 0;
+    if((hardext.vendor & VEND_ARM) || (globals4es.usefb))
+        globals4es.fbomakecurrent = 1;
+    char *env_fbomakecurrent = getenv("LIBGL_FBOMAKECURRENT");
+    if(globals4es.fbomakecurrent && env_fbomakecurrent && !strcmp(env_fbomakecurrent, "0")) {
+        globals4es.fbomakecurrent = 0;
+        SHUT(LOGD("LIBGL: glXMakeCurrent FBO workaround disabled\n"));
+    }
+    if(env_fbomakecurrent && !strcmp(env_fbomakecurrent, "1"))
+        globals4es.fbomakecurrent = 1;
+    if(globals4es.fbomakecurrent) {
+        SHUT(LOGD("LIBGL: glXMakeCurrent FBO workaround enabled\n"));
+    }
+
     env(LIBGL_COMMENTS, globals4es.comments, "Keep comments in converted Shaders");
     
     char cwd[1024];

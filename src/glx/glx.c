@@ -90,6 +90,7 @@ GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, int Width, int Height,
 static Display *g_display = NULL;
 static GLXContext glxContext = NULL;
 static GLXContext fbContext = NULL;
+static GLuint current_fb = 0;
 #endif //NOX11
 
 #ifndef NOEGL
@@ -916,6 +917,13 @@ Bool gl4es_glXMakeCurrent(Display *display,
         DBG(printf("Same context and drawable, doing nothing\n");)
         return true;
     }
+    if(globals4es.fbomakecurrent && glxContext && glxContext->glstate) {
+       current_fb = gl4es_getCurrentFBO();
+       if(current_fb) {
+           LOAD_GLES2_OR_OES(glBindFramebuffer);
+           gles_glBindFramebuffer(GL_FRAMEBUFFER, 0);
+       }
+    }
     if(context) {
         eglContext = context->eglContext;
         if(context->drawable==drawable && context->eglSurface) {
@@ -1044,8 +1052,10 @@ Bool gl4es_glXMakeCurrent(Display *display,
                 // create the main_fbo...
                 LOGD("LIBGL: Create FBO of %ix%i 32bits\n", g_width, g_height);
                 createMainFBO(g_width, g_height);
-            } else
-            // finished
+            }
+            if(globals4es.fbomakecurrent && gl4es_getCurrentFBO())
+                gl4es_setCurrentFBO();
+             // finished
             DBG(printf(" => True\n");)
             return true;
         }

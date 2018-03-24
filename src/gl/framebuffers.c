@@ -837,6 +837,15 @@ void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
 
 }
 
+GLuint gl4es_getCurrentFBO() {
+  return glstate->fbo.current_fb;
+}
+
+void gl4es_setCurrentFBO() {
+  LOAD_GLES2_OR_OES(glBindFramebuffer);
+  gles_glBindFramebuffer(GL_FRAMEBUFFER, (glstate->fbo.current_fb)?glstate->fbo.current_fb:glstate->fbo.mainfbo_fbo);
+}
+
 // direct wrapper
 
 void glGenFramebuffers(GLsizei n, GLuint *ids) AliasExport("gl4es_glGenFramebuffers");

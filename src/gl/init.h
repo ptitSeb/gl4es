@@ -50,6 +50,7 @@ typedef struct _globals4es {
  int usevbo;
  int comments;
  int forcenpot;
+ int fbomakecurrent;    // hack to bind/unbind FBO when doing glXMakeCurrent
  char version[50];
 } globals4es_t;
 

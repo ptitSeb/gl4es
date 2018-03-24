@@ -241,6 +241,10 @@ void GetHardwareExtensions(int notest)
     // get GLES driver signatures...
     const char* vendor = gles_glGetString(GL_VENDOR);
     SHUT(LOGD("LIBGL: Hardware vendor is %s\n", vendor));
+    if(strstr(vendor, "ARM"))
+        hardext.vendor = VEND_ARM;
+    else if(strstr(vendor, "Imagination Technologies"))
+        hardext.vendor = VEND_IMGTEC;
 
 #ifndef NOEGL
     if(strstr(egl_eglQueryString(eglDisplay, EGL_EXTENSIONS), "EGL_KHR_gl_colorspace")) {

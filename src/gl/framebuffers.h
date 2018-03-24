@@ -35,4 +35,8 @@ void unbindMainFBO();
 
 void readfboBegin();
 void readfboEnd();
+
+GLuint gl4es_getCurrentFBO();
+void gl4es_setCurrentFBO();
+
 #endif

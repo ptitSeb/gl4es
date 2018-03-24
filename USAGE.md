@@ -235,3 +235,8 @@ Usage of highp precision in fragment shader (ES2 backend only)
 Comments in shaders are kept (also for generated shaders by fpe_shaders)
  * 0 : Default, no comments in shaders sent to GLES Hardware
  * 1 : Comments are left in Shaders sent to GLES Hardware
+
+##### LIBGL_FBOMAKECURRENT
+Workaround for FBO and glXMakeCurrent (force unbind/bind FBO when changing context)
+* 0 : Disabled (Default on mast configuration)
+* 1 : Enabled (Default if Vendor is ARM or if using LIBGL_FB 1 and 2)
