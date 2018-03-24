@@ -257,7 +257,7 @@ static void init_display(Display *display) {
     if (! g_display) {
         g_display = display;//XOpenDisplay(NULL);
     }
-    if (globals4es.usefb) {
+    if (globals4es.usefb || globals4es.usepbuffer) {
         eglDisplay = egl_eglGetDisplay(EGL_DEFAULT_DISPLAY);
     } else {
 		eglDisplay = egl_eglGetDisplay(display);
@@ -1702,7 +1702,7 @@ int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface
     // Init what need to be done
     EGLBoolean result;
     if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
-        init_display((globals4es.usefb)?g_display:dpy);
+        init_display((globals4es.usefb || globals4es.usepbuffer)?g_display:dpy);
         if (eglDisplay == EGL_NO_DISPLAY) {
             CheckEGLErrors();
             LOGD("LIBGL: Unable to create EGL display.\n");
@@ -1863,7 +1863,7 @@ int createPixBuffer(Display * dpy, int bpp, const EGLint * egl_attribs, NativePi
     // Init what need to be done
     EGLBoolean result;
     if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
-        init_display((globals4es.usefb)?g_display:dpy);
+        init_display((globals4es.usefb | globals4es.usepbuffer)?g_display:dpy);
         if (eglDisplay == EGL_NO_DISPLAY) {
             CheckEGLErrors();
             LOGE("LIBGL: Unable to create EGL display.\n");
