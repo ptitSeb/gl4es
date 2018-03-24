@@ -33,7 +33,7 @@ Status of the GLES2 backend
  * An ES2 context should be usable (usefull for SDL2)
  * A few OpenGL 2.x games have been tested, like OpenRA or GZDoom.
  * glxgears works, but FlatShade is not implemented (and will probably never be), so it's slightly different then using GLES1.1 or actuel GL hardware
- * GL_TEXTURE_1D, GL_TEXTURE_3D and _GL_TEXTURE_RECTANGLE_ARB are not yet supported in shaders (they are supported in fixed pipeline functions)
+ * GL_TEXTURE_1D, GL_TEXTURE_3D and GL_TEXTURE_RECTANGLE_ARB are not yet supported in shaders (they are supported in fixed pipeline functions), and texture 3D are just 2D for now.
  * Program that link only a GL_FRAGMENT or GL_VERTEX shader are not supported yet.
 
 ----
