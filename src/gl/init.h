@@ -1,7 +1,7 @@
 #ifndef _GL4ES_INIT_H_
 #define _GL4ES_INIT_H_
 
-#if defined(PANDORA) || defined(ODROID)
+#if defined(PANDORA)
 #define USE_FBIO 1
 #endif
 
