@@ -28,7 +28,7 @@ void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
 
 // In case of LIBGL_FB=2, let's create an FBO for everything, that is than blitted just before the SwapBuffer
 void createMainFBO(int width, int height);
-void blitMainFBO();
+void blitMainFBO(int x, int y, int width, int height);
 void deleteMainFBO();
 void bindMainFBO();
 void unbindMainFBO();

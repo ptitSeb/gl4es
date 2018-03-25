@@ -1057,7 +1057,19 @@ void gl4es_glXSwapBuffers(Display *display,
 #endif
     if (globals4es.usefbo && PBuffer==0) {
         unbindMainFBO();
-        blitMainFBO();
+        int x = 0, y = 0;
+        unsigned int width = 0, height = 0;
+#ifndef NOX11
+        {
+            unsigned int border, depth;
+            Window root;
+            XWindowAttributes xwa;
+            XGetGeometry(display, drawable, &root, &x, &y, &width, &height, &border, &depth); // get geometry (relative to window)
+            XTranslateCoordinates( display, drawable, root, 0, 0, &x, &y, &root ); // translate to get x,y absolute to screen
+        }
+#endif
+        DBG(printf("blitMainFBO(%d, %d, %u, %u)\n", x, y, width, height);)
+        blitMainFBO(x, y, width, height);
         // blit the main_fbo before swap
     }
     // check emulated Pixmap

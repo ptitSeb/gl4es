@@ -618,7 +618,7 @@ void createMainFBO(int width, int height) {
             return;
         deleteMainFBO();
     }
-    DBG(printf("LIBGL: Create FBO of %ix%i 32bits\n", g_width, g_height);)
+    DBG(printf("LIBGL: Create FBO of %ix%i 32bits\n", width, height);)
     // switch to texture unit 0 if needed
     if (glstate->texture.active != 0)
         gles_glActiveTexture(GL_TEXTURE0);
@@ -685,18 +685,29 @@ void createMainFBO(int width, int height) {
     
 }
 
-void blitMainFBO() {
+void blitMainFBO(int x, int y, int width, int height) {
     if (glstate->fbo.mainfbo_fbo==0)
         return;
 
     // blit the texture
-    gl4es_glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    gl4es_glClear(GL_COLOR_BUFFER_BIT);
+    if(!width && !height) {
+        gl4es_glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        gl4es_glClear(GL_COLOR_BUFFER_BIT);
+    }
 
     GLint vp[4];
     memcpy(vp, &glstate->raster.viewport, sizeof(vp));
     gl4es_glViewport(0, 0, glstate->fbo.mainfbo_width, glstate->fbo.mainfbo_height);
-    gl4es_blitTexture(glstate->fbo.mainfbo_tex, 0.f, 0.f, glstate->fbo.mainfbo_width, glstate->fbo.mainfbo_height, glstate->fbo.mainfbo_nwidth, glstate->fbo.mainfbo_nheight, 1.0f, 1.0f, 0, 0, 0, 0, BLIT_OPAQUE);
+    if(!width && !height) {
+        width = glstate->fbo.mainfbo_width;
+        height = glstate->fbo.mainfbo_height;
+    } else {
+        y = glstate->fbo.mainfbo_height - (y+height);
+    }
+    gl4es_blitTexture(glstate->fbo.mainfbo_tex, 0.f, 0.f, width, height, 
+        glstate->fbo.mainfbo_nwidth, glstate->fbo.mainfbo_nheight, 
+        1.0f, 1.0f, 
+        0, 0, x, y, BLIT_OPAQUE);
     gl4es_glViewport(vp[0], vp[1], vp[2], vp[3]);
 }
 
