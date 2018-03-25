@@ -544,7 +544,6 @@ GLXContext gl4es_glXCreateContext(Display *display,
 #endif
     fake->samples = 0; fake->samplebuffers = 0;
     fake->shared = (shareList)?shareList->glstate:NULL;
-    //fake->glstate = NewGLState((shareList)?shareList->glstate:NULL, fake->es2only);
 
     DBG(printf(" => %p\n", fake);)
     return fake;
@@ -615,7 +614,6 @@ GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBCon
     fake->es2only = globales2;
     fake->shared = (shareList)?shareList->glstate:NULL;
     fake->eglConfigs[0] = pbufConfigs[0];
-    //fake->glstate = NewGLState((shareList)?shareList->glstate:NULL, fake->es2only);
 
 	fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, (hardext.esversion==1)?egl_context_attrib:egl_context_attrib_es2);
 
@@ -691,7 +689,6 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
 
         fake->shared = (share_context)?share_context->glstate:NULL;
 
-        //fake->glstate = NewGLState((share_context)?share_context->glstate:NULL, fake->es2only);
         // make an egl context here...
         EGLBoolean result;
         if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
@@ -938,20 +935,22 @@ Bool gl4es_glXMakeCurrent(Display *display,
                     created = isPBuffer(drawable); 
                 } else
 #endif
-                if(globals4es.usefb) {
-                    if(eglSurface) // cannot create multiple eglSurface for the same Framebuffer?
-                        eglSurf = context->eglSurface = eglSurface;
-                    else {
-                        eglSurface = eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], (EGLNativeWindowType)create_native_window(width,height), attrib_list);
-                        if(!eglSurf) {
-                            DBG(printf("LIBGL: Warning, EeglSurf is null\n");)
-                            CheckEGLErrors();
+                {
+                    if(globals4es.usefb) {
+                        if(eglSurface) // cannot create multiple eglSurface for the same Framebuffer?
+                            eglSurf = context->eglSurface = eglSurface;
+                        else {
+                            eglSurface = eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], (EGLNativeWindowType)create_native_window(width,height), attrib_list);
+                            if(!eglSurf) {
+                                DBG(printf("LIBGL: Warning, EeglSurf is null\n");)
+                                CheckEGLErrors();
+                            }
                         }
+                    } else {
+                        if(context->eglSurface)
+                            egl_eglDestroySurface(eglDisplay, context->eglSurface);
+                        eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, attrib_list);
                     }
-                } else {
-                    if(context->eglSurface)
-                        egl_eglDestroySurface(eglDisplay, context->eglSurface);
-                    eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, attrib_list);
                 }
             }
         }
@@ -982,6 +981,10 @@ Bool gl4es_glXMakeCurrent(Display *display,
     if (context) {
         if(!context->glstate) {
             context->glstate = NewGLState(context->shared, context->es2only);
+            if(created && pbuffersize[created-1].Type >= 3) {
+                ((glstate_t*)context->glstate)->emulatedPixmap = created;
+                ((glstate_t*)context->glstate)->emulatedWin = pbuffersize[created-1].Type==4?1:0;
+            }
         }
         context->drawable = drawable;
 
@@ -989,12 +992,6 @@ Bool gl4es_glXMakeCurrent(Display *display,
 #ifdef PANDORA
         if(!created) pandora_set_gamma();
 #endif
-        glstate->emulatedPixmap = 0;
-        glstate->emulatedWin = 0;
-        if(created && pbuffersize[created-1].Type >= 3) {
-            glstate->emulatedPixmap = created;
-            glstate->emulatedWin = pbuffersize[created-1].Type==4?1:0;
-        }
 
         CheckEGLErrors();
         if (result) {
@@ -1863,7 +1860,7 @@ int createPixBuffer(Display * dpy, int bpp, const EGLint * egl_attribs, NativePi
     // Init what need to be done
     EGLBoolean result;
     if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
-        init_display((globals4es.usefb | globals4es.usepbuffer)?g_display:dpy);
+        init_display((globals4es.usefb || globals4es.usepbuffer)?g_display:dpy);
         if (eglDisplay == EGL_NO_DISPLAY) {
             CheckEGLErrors();
             LOGE("LIBGL: Unable to create EGL display.\n");
@@ -2077,6 +2074,8 @@ void BlitEmulatedPixmap() {
                 EGL_NONE
             };
 
+            DBG(printf("LIBGL: Recreate PBuffer %dx%dx%d => %dx%dx%d\n", Width, Height, Depth, width, height, depth);)
+
             int configsFound;
             static EGLConfig pbufConfigs[1];
             egl_eglChooseConfig(eglDisplay, configAttribs, pbufConfigs, 1, &configsFound);
@@ -2090,7 +2089,8 @@ void BlitEmulatedPixmap() {
 
             egl_eglDestroySurface(eglDisplay, buff->Surface);
             CheckEGLErrors();
-            buff->Surface = Surface;
+            glxContext->eglSurface = buff->Surface = Surface;
+            glxContext->eglConfigs[0] = pbufConfigs[0];
             buff->Width = width;
             buff->Height = height;
             buff->Depth = depth;
