@@ -1434,7 +1434,7 @@ void draw_renderlist(renderlist_t *list) {
 
 // gl function wrappers
 
-inline void rlVertexCommon(renderlist_t *list, int idx) {
+static inline void rlVertexCommon(renderlist_t *list, int idx) {
     if(list->use_glstate) {
         resize_renderlist(list);
         if (!list->vert)    list->vert = glstate->merger_master;
@@ -1567,7 +1567,7 @@ void rlEnd(renderlist_t *list) {
         memcpy(glstate->normal, list->lastNormal, 3*sizeof(GLfloat));
 }
 
-inline void rlNormalCommon(renderlist_t *list) {
+static inline void rlNormalCommon(renderlist_t *list) {
     if (list->normal == NULL) {
         const int stride = (list->use_glstate)?(5*4):3;
         if(list->use_glstate) {
@@ -1594,7 +1594,7 @@ void FASTMATH rlNormal3fv(renderlist_t *list, GLfloat*v) {
     memcpy(list->lastNormal, v, 3*sizeof(GLfloat));
 }
 
-inline void rlColorCommon(renderlist_t *list) {
+static inline void rlColorCommon(renderlist_t *list) {
     if (list->color == NULL) {
         list->lastColorsSet = 1;
         const int stride = (list->use_glstate)?(5*4):4;
