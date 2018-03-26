@@ -61,6 +61,8 @@ bool ispurerender_renderlist(renderlist_t *list) {
         return false;
     if (list->mode_init == 0)
         return false;
+    if (list->ind_lines || list->final_colors)
+        return false;
     if (list->set_texture || list->set_tmu)
         return false;
     
@@ -681,6 +683,11 @@ void free_renderlist(renderlist_t *list) {
             free(list->bitmaps->shared);
             free(list->bitmaps);
         }
+        
+        if(list->ind_lines)
+            free(list->ind_lines);
+        if(list->final_colors)
+            free(list->final_colors);
 
         next = list->next;
         free(list);
@@ -901,7 +908,6 @@ void draw_renderlist(renderlist_t *list) {
     LOAD_GLES_FPE(glDisableClientState);
     gl4es_glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
 
-	GLfloat *final_colors;
 	int old_tex;
     GLushort *indices;
     static GLfloat *texgened[MAX_TEX] = {0};
@@ -1063,26 +1069,26 @@ void draw_renderlist(renderlist_t *list) {
     
         indices = list->indices;
 
-        final_colors = NULL;
-
         if(glstate->raster.bm_drawing)
             bitmap_flush();
         if (list->color) {
             gles_glEnableClientState(GL_COLOR_ARRAY);
             glstate->clientstate[ATT_COLOR] = 1;
             if (glstate->enable.color_sum && (list->secondary) && hardext.esversion==1 && !list->use_glstate) {
-                final_colors=(GLfloat*)malloc(list->len * 4 * sizeof(GLfloat));
-                if (indices) {
-                    for (int i=0; i<list->ilen; i++)
-                        for (int j=0; j<4; j++) {
-                            const int k=indices[i]*4+j;
-                            final_colors[k]=list->color[k] + list->secondary[k];
-                        }
-                } else {
-                    for (int i=0; i<list->len*4; i++)
-                        final_colors[i]=list->color[i] + list->secondary[i];
+                if(!list->final_colors) {
+                    list->final_colors=(GLfloat*)malloc(list->len * 4 * sizeof(GLfloat));
+                    if (indices) {
+                        for (int i=0; i<list->ilen; i++)
+                            for (int j=0; j<4; j++) {
+                                const int k=indices[i]*4+j;
+                                list->final_colors[k]=list->color[k] + list->secondary[k];
+                            }
+                    } else {
+                        for (int i=0; i<list->len*4; i++)
+                            list->final_colors[i]=list->color[i] + list->secondary[i];
+                    }
                 }
-                gles_glColorPointer(4, GL_FLOAT, 0, final_colors);
+                gles_glColorPointer(4, GL_FLOAT, 0, list->final_colors);
             } else {
 //printf("colors=%f, %f, %f, %f / %f, %f, %f, %f\n", list->color[0],list->color[1],list->color[2],list->color[3], list->color[4],list->color[5],list->color[6],list->color[7]);
                 gles_glColorPointer(4, GL_FLOAT, list->color_stride, list->color);
@@ -1322,83 +1328,87 @@ void draw_renderlist(renderlist_t *list) {
                 int len = list->len;
                 if ((glstate->polygon_mode == GL_LINE) && (list->mode_init>=GL_TRIANGLES)) {
                     int n, s;
-                    GLushort ind_line[len*4+2];
-                    int k=0;
-                    switch (list->mode_init) {
-                        case GL_TRIANGLES:
-                            // 1 triangle -> 3 lines
-                            if(len>2) {
-                                for (int i = 0; i<len-2; i+=3) {
-                                    ind_line[k++] = i+0; ind_line[k++] = i+1;
-                                    ind_line[k++] = i+1; ind_line[k++] = i+2;
-                                    ind_line[k++] = i+2; ind_line[k++] = i+0;
-                                }
-                            }
-                            break;
-                        case GL_TRIANGLE_STRIP:
-                            // first 3 points a triangle, then a 2 lines per new point
-                            if (len>2) {
-                                ind_line[k++] = 0; ind_line[k++] = 1;
-                                for (int i = 2; i<len; i++) {
-                                    ind_line[k++] = i-2; ind_line[k++] = i;
-                                    ind_line[k++] = i-1; ind_line[k++] = i;
-                                }
-                            }
-                            break;
-                        case GL_TRIANGLE_FAN:
-                            // first 3 points a triangle, then a 2 lines per new point too
-                            if (len>2) {
-                                ind_line[k++] = 0; ind_line[k++] = 1;
-                                for (int i = 2; i<len; i++) {
-                                    ind_line[k++] = 0; ind_line[k++] = i;
-                                    ind_line[k++] = i-1; ind_line[k++] = i;
-                                }
-                            }
-                            break;
-                        case GL_QUADS:
-                            if(len>3) {
-                                // 4 lines per quads, QUAD without indices means 1 single quad
-                                if (list->mode == GL_TRIANGLE_FAN) {
-                                    // just 1 Quad
-                                    for (int i=0; i<4; i++) {
-                                        ind_line[k++] = i+0; ind_line[k++] = (i+1)%4;
-                                    }
-                                } else {
-                                    // list of triangles, 2 per quads...
-                                    for (int i=0; i<len-5; i+=6) {
+                    
+                    if(!list->ind_lines) {
+                        GLushort *ind_line = list->ind_lines = (GLushort*)malloc(sizeof(GLushort)*len*4+2);
+                        int k=0;
+                        switch (list->mode_init) {
+                            case GL_TRIANGLES:
+                                // 1 triangle -> 3 lines
+                                if(len>2) {
+                                    for (int i = 0; i<len-2; i+=3) {
                                         ind_line[k++] = i+0; ind_line[k++] = i+1;
                                         ind_line[k++] = i+1; ind_line[k++] = i+2;
-                                        ind_line[k++] = i+2; ind_line[k++] = i+5;
-                                        ind_line[k++] = i+5; ind_line[k++] = i+0;
+                                        ind_line[k++] = i+2; ind_line[k++] = i+0;
                                     }
                                 }
-                            }
-                            break;
-                        case GL_QUAD_STRIP:
-                            if(len>3) {
-                                // first 4 points is a quad, then 2 points per new quad
+                                break;
+                            case GL_TRIANGLE_STRIP:
+                                // first 3 points a triangle, then a 2 lines per new point
                                 if (len>2) {
                                     ind_line[k++] = 0; ind_line[k++] = 1;
+                                    for (int i = 2; i<len; i++) {
+                                        ind_line[k++] = i-2; ind_line[k++] = i;
+                                        ind_line[k++] = i-1; ind_line[k++] = i;
+                                    }
                                 }
-                                for (int i = 2; i<len-1; i+=2) {
-                                    ind_line[k++] = i-1; ind_line[k++] = i;
-                                    ind_line[k++] = i-2; ind_line[k++] = i+1;
-                                    ind_line[k++] = i+0; ind_line[k++] = i+1;
+                                break;
+                            case GL_TRIANGLE_FAN:
+                                // first 3 points a triangle, then a 2 lines per new point too
+                                if (len>2) {
+                                    ind_line[k++] = 0; ind_line[k++] = 1;
+                                    for (int i = 2; i<len; i++) {
+                                        ind_line[k++] = 0; ind_line[k++] = i;
+                                        ind_line[k++] = i-1; ind_line[k++] = i;
+                                    }
                                 }
-                            }
-                            break;
-                        case GL_POLYGON:
-                            // if polygons have been merged, then info is lost...
-                            if (len) {
-                                ind_line[k++] = 0; ind_line[k++] = 1;
-                                for (int i = 1; i<len; i++) {
-                                    ind_line[k++] = i-1; ind_line[k++] = i;
+                                break;
+                            case GL_QUADS:
+                                if(len>3) {
+                                    // 4 lines per quads, QUAD without indices means 1 single quad
+                                    if (list->mode == GL_TRIANGLE_FAN) {
+                                        // just 1 Quad
+                                        for (int i=0; i<4; i++) {
+                                            ind_line[k++] = i+0; ind_line[k++] = (i+1)%4;
+                                        }
+                                    } else {
+                                        // list of triangles, 2 per quads...
+                                        for (int i=0; i<len-5; i+=6) {
+                                            ind_line[k++] = i+0; ind_line[k++] = i+1;
+                                            ind_line[k++] = i+1; ind_line[k++] = i+2;
+                                            ind_line[k++] = i+2; ind_line[k++] = i+5;
+                                            ind_line[k++] = i+5; ind_line[k++] = i+0;
+                                        }
+                                    }
                                 }
-                                ind_line[k++] = len-1; ind_line[k++] = 0;
-                            }
-                            break;
+                                break;
+                            case GL_QUAD_STRIP:
+                                if(len>3) {
+                                    // first 4 points is a quad, then 2 points per new quad
+                                    if (len>2) {
+                                        ind_line[k++] = 0; ind_line[k++] = 1;
+                                    }
+                                    for (int i = 2; i<len-1; i+=2) {
+                                        ind_line[k++] = i-1; ind_line[k++] = i;
+                                        ind_line[k++] = i-2; ind_line[k++] = i+1;
+                                        ind_line[k++] = i+0; ind_line[k++] = i+1;
+                                    }
+                                }
+                                break;
+                            case GL_POLYGON:
+                                // if polygons have been merged, then info is lost...
+                                if (len) {
+                                    ind_line[k++] = 0; ind_line[k++] = 1;
+                                    for (int i = 1; i<len; i++) {
+                                        ind_line[k++] = i-1; ind_line[k++] = i;
+                                    }
+                                    ind_line[k++] = len-1; ind_line[k++] = 0;
+                                }
+                                break;
+                        }
+                        list->ind_line = k;
                     }
-					gles_glDrawElements(mode, k, GL_UNSIGNED_SHORT, ind_line);
+					gles_glDrawElements(mode, list->ind_line, GL_UNSIGNED_SHORT, list->ind_lines);
                 } else {
                     gles_glDrawArrays(mode, 0, len);
                 }
@@ -1421,8 +1431,6 @@ void draw_renderlist(renderlist_t *list) {
             TEXTURE(old_tex);
         #undef TEXTURE
 
-        if (final_colors)
-            free(final_colors);
         if (stipple) {
             gl4es_glPopAttrib();
         }

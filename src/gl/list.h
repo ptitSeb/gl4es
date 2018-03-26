@@ -197,6 +197,10 @@ typedef struct _renderlist_t {
     GLfloat post_colors[4];
     int     post_normal;
     GLfloat post_normals[3];
+
+    GLushort    *ind_lines;
+    int         ind_line;
+    GLfloat      *final_colors;
     
     khash_t(material) *material;
     GLenum  colormat_face;
