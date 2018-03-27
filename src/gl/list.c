@@ -293,12 +293,26 @@ int renderlist_getindicesize(renderlist_t *a) {
     int ilen_a = indices_getindicesize(a->mode, ((a->indices)? a->ilen:a->len));
     return ilen_a;
 }
+int mode_needindices(GLenum m) {
+    switch(m) {
+        case GL_LINE_LOOP:
+        case GL_LINE_STRIP:
+        case GL_TRIANGLE_FAN:
+        case GL_TRIANGLE_STRIP:
+        case GL_QUAD_STRIP:
+        case GL_POLYGON:
+        //case GL_QUADS:  // not needed, but will appens anyway
+            return 1;
+        default:
+            return 0;
+    }
+}
 void append_renderlist(renderlist_t *a, renderlist_t *b) {
     // append all draw elements of b in a
     
     // check the final indice size of a and b
-    int ilen_a = renderlist_getindicesize(a);
-    int ilen_b = renderlist_getindicesize(b);
+    int ilen_a = a->ilen;
+    int ilen_b = b->ilen;
     // lets append all the arrays
     unsigned long cap = a->cap;
     if (a->len + b->len >= cap) cap += b->cap + DEFAULT_RENDER_LIST_CAPACITY;
@@ -370,10 +384,10 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     for (int i=0; i<a->maxtex; i++)
         if (a->tex[i]) memcpy(a->tex[i]+a->len*4, b->tex[i], b->len*4*sizeof(GLfloat));
     // indices
-    if (ilen_a + ilen_b)
+    if (ilen_a || ilen_b || mode_needindices(a->mode) || mode_needindices(b->mode))
     {
         // alloc or realloc a->indices first...
-        int capindices = ((ilen_a)?ilen_a:a->len) + ((ilen_b)?ilen_b:b->len);
+        int capindices = renderlist_getindicesize(a)+renderlist_getindicesize(b);
         if (capindices > 48) capindices = (capindices+512)&~511;
         #define alloc_a_indices                                      \
         newind=(GLushort*)malloc(capindices*sizeof(GLushort))
@@ -382,6 +396,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
         a->indices = newind;                                         \
         a->indice_cap = capindices
         // check if "a" needs to be converted
+        ilen_a = renderlist_getindicesize(a);
         GLushort *newind=NULL;
         switch (a->mode) {
             case GL_LINE_LOOP:
@@ -417,11 +432,10 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
                 copy_a_indices;
                 break;
             default:
-                if (!ilen_a) {
+                if (!a->indices) {
                     // no a->indices, must alloc and fill one
                     alloc_a_indices;
                     renderlist_createindices(a, newind, 0);
-                    ilen_a = a->len;
                     copy_a_indices;
                 } else {
                     // a->indices already exist, just check if need to adjust its size
@@ -437,6 +451,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
 
         a->ilen = ilen_a;
         // then append b
+        ilen_b = renderlist_getindicesize(b);
         switch (b->mode) {
             case GL_LINE_LOOP:
                 renderlist_lineloop_lines(b, a->indices + ilen_a, a->len);
@@ -460,7 +475,6 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
                 if (!b->ilen) {
                     // append a newly created indice list
                     renderlist_createindices(b, a->indices + ilen_a, a->len);
-                    ilen_b = b->len;
                 } else {
                     // append existing one
                     newind = a->indices+ilen_a;
@@ -469,10 +483,10 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
                 }
                 break;
         }
+        a->ilen += ilen_b;
     }
     // lenghts
     a->len += b->len;
-    a->ilen += ilen_b;
     // copy the lastColors if needed
     if(b->lastColorsSet) {
         a->lastColorsSet = 1;
