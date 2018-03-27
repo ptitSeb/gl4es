@@ -234,12 +234,27 @@ renderlist_t* NewDrawStage(renderlist_t* l, GLenum m);
 
 renderlist_t* GetFirst(renderlist_t* list);
 
+#define alloc_sublist(n, cap) \
+    (GLfloat *)malloc(n * sizeof(GLfloat) * cap)
+
+#define realloc_sublist(ref, n, cap) \
+    if (ref)                         \
+        ref = (GLfloat *)realloc(ref, n * sizeof(GLfloat) * cap)
+
+#define realloc_merger_sublist(ref, n, cap) \
+        ref = (GLfloat *)realloc(ref, n * sizeof(GLfloat) * cap)
+
 renderlist_t *alloc_renderlist();
 renderlist_t *extend_renderlist(renderlist_t *list);
 void free_renderlist(renderlist_t *list);
 void draw_renderlist(renderlist_t *list);
 renderlist_t* end_renderlist(renderlist_t *list);
 bool isempty_renderlist(renderlist_t *list);
+void resize_renderlist(renderlist_t *list);
+renderlist_t *alloc_renderlist();
+void resize_indices_renderlist(renderlist_t *list, int n);
+void resize_merger_indices(int cap);
+int indices_getindicesize(GLenum mode, int len);
 
 void rlActiveTexture(renderlist_t *list, GLenum texture );
 void rlBindTexture(renderlist_t *list, GLenum target, GLuint texture);

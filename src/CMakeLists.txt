@@ -9,6 +9,7 @@ SET(GL_SRC
     gl/debug.c
     gl/decompress.c
     gl/directstate.c
+    gl/drawing.c
     gl/eval.c
     gl/fog.c
     gl/fpe.c
@@ -16,11 +17,14 @@ SET(GL_SRC
     gl/framebuffers.c
     gl/getter.c
     gl/gl.c
+    gl/glstate.c
     gl/hint.c
     gl/init.c
     gl/light.c
     gl/line.c
     gl/list.c
+    gl/listdraw.c
+    gl/listrl.c
     gl/loader.c
     gl/matrix.c
     gl/matvec.c

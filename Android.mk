@@ -22,6 +22,7 @@ LOCAL_SRC_FILES := \
 	src/gl/debug.c \
 	src/gl/decompress.c \
 	src/gl/directstate.c \
+	src/gl/drawing.c \
 	src/gl/eval.c \
 	src/gl/fog.c \
 	src/gl/fpe.c \
@@ -29,11 +30,14 @@ LOCAL_SRC_FILES := \
 	src/gl/framebuffers.c \
 	src/gl/getter.c \
 	src/gl/gl.c \
+	src/gl/glstate.c \
 	src/gl/hint.c \
 	src/gl/init.c \
 	src/gl/light.c \
 	src/gl/line.c \
 	src/gl/list.c \
+	src/gl/listdraw.c \
+	src/gl/listrl.c \
 	src/gl/loader.c \
 	src/gl/matrix.c \
 	src/gl/matvec.c \
