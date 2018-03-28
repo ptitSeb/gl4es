@@ -76,7 +76,7 @@ DBG(printf("glGenBuffers(%i, %p)\n", n, buffers);)
 
 void gl4es_glBindBuffer(GLenum target, GLuint buffer) {
 DBG(printf("glBindBuffer(%s, %u)\n", PrintEnum(target), buffer);)
-    if (glstate->list.pending)
+    if (glstate->list.pending)  // this is probably not needed as long as real VBO are not used
          flush();
 
    	khint_t k;

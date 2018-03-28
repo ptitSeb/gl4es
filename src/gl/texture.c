@@ -1569,8 +1569,7 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
 void gl4es_glBindTexture(GLenum target, GLuint texture) {
 	noerrorShim();
     DBG(printf("glBindTexture(%s, %u), active=%i, client=%i, list.active=%p (compiling=%d, pending=%d)\n", PrintEnum(target), texture, glstate->texture.active, glstate->texture.client, glstate->list.active, glstate->list.compiling, glstate->list.pending);)
-    if(glstate->list.pending) flush();
-    if ((target!=GL_PROXY_TEXTURE_2D) && glstate->list.compiling && glstate->list.active) {
+    if ((target!=GL_PROXY_TEXTURE_2D) && glstate->list.compiling && glstate->list.active && !glstate->list.pending) {
         // check if already a texture binded, if yes, create a new list
         NewStage(glstate->list.active, STAGE_BINDTEX);
         rlBindTexture(glstate->list.active, target, texture);
@@ -1581,6 +1580,7 @@ void gl4es_glBindTexture(GLenum target, GLuint texture) {
 
         tex = gl4es_getTexture(target, texture);
         if (glstate->texture.bound[glstate->texture.active][itarget] != tex) {
+            if(glstate->list.pending) flush();
             tex_changed = glstate->texture.active+1;
             glstate->texture.bound[glstate->texture.active][itarget] = tex;
         }

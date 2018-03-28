@@ -90,13 +90,13 @@ void change_vao_texcoord(int tmu, bool enable)
 
 static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     #define proxy_GO(constant, name) \
-        case constant: if(glstate->enable.name != enable) {glstate->enable.name = enable; next(cap);} break
+        case constant: if(glstate->enable.name != enable) {if(glstate->list.pending) flush(); glstate->enable.name = enable; next(cap);} break
     #define proxy_GOFPE(constant, name, fct) \
-        case constant: if(glstate->enable.name != enable) {glstate->enable.name = enable; if(glstate->fpe_state) { fct; } else next(cap);} break
+        case constant: if(glstate->enable.name != enable) {if(glstate->list.pending) flush(); glstate->enable.name = enable; if(glstate->fpe_state) { fct; } else next(cap);} break
     #define GO(constant, name) \
-        case constant: glstate->enable.name = enable; break;
+        case constant: if(glstate->list.pending && glstate->enable.name!=enable) flush(); glstate->enable.name = enable; break;
     #define GOFPE(constant, name, fct) \
-        case constant: glstate->enable.name = enable; if(glstate->fpe_state) { fct; } break;
+        case constant: if(glstate->list.pending && glstate->enable.name!=enable) flush(); glstate->enable.name = enable; if(glstate->fpe_state) { fct; } break;
     #define proxy_clientGO(constant, name) \
         case constant: if (glstate->vao->name != enable) {glstate->vao->name = enable; next(cap);} break
     #define clientGO(constant, name) \
@@ -111,6 +111,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 	noerrorShim();
 #ifdef TEXSTREAM
     if (cap==GL_TEXTURE_STREAM_IMG) {
+        if(glstate->list.pending) flush();
         if(enable)
             glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX2D);
         else
@@ -132,6 +133,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         proxy_GO(GL_CULL_FACE, cull_face);
         proxy_GO(GL_DEPTH_TEST, depth_test);
         case GL_TEXTURE_2D:
+            if(glstate->list.pending && ((glstate->enable.texture[glstate->texture.active]>>ENABLED_TEX2D)&1)!=enable) flush();
             if(enable)
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX2D);
             else
@@ -220,6 +222,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         
         // Texture 1D and 3D
         case GL_TEXTURE_1D:
+            if(glstate->list.pending) flush(); 
             if(enable)
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX1D);
             else
@@ -229,6 +232,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
                 fpe_changetex(glstate->texture.active);
             break;
         case GL_TEXTURE_3D:
+            if(glstate->list.pending) flush(); 
             if(enable)
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX3D);
             else
@@ -238,6 +242,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
                 fpe_changetex(glstate->texture.active);
             break;
         case GL_TEXTURE_RECTANGLE_ARB:
+            if(glstate->list.pending) flush(); 
             if(enable)
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEXTURE_RECTANGLE);
             else
@@ -247,6 +252,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
                 fpe_changetex(glstate->texture.active);
             break;
         case GL_TEXTURE_CUBE_MAP:
+            if(glstate->list.pending) flush(); 
             if(enable)
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_CUBE_MAP);
             else
@@ -259,7 +265,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             break;
 
         
-        default: errorGL(); next(cap); break;
+        default: errorGL(); if(glstate->list.pending) flush(); next(cap); break;
     }
     #undef proxy_GO
     #undef GO
@@ -268,7 +274,9 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 }
 
 void gl4es_glEnable(GLenum cap) {
-	PUSH_IF_COMPILING(glEnable)
+    if(!glstate->list.pending) {
+	    PUSH_IF_COMPILING(glEnable)
+    }
 #ifdef TEXSTREAM00
 	if (globals4es.texstream && (cap==GL_TEXTURE_2D)) {
         if (glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]->streamed)
@@ -285,7 +293,9 @@ void gl4es_glEnable(GLenum cap) {
 void glEnable(GLenum cap) AliasExport("gl4es_glEnable");
 
 void gl4es_glDisable(GLenum cap) {
-	PUSH_IF_COMPILING(glDisable)
+    if(!glstate->list.pending) {
+	    PUSH_IF_COMPILING(glDisable)
+    }
         
 #ifdef TEXSTREAM00
 	if (globals4es.texstream && (cap==GL_TEXTURE_2D)) {
@@ -305,8 +315,8 @@ void glDisable(GLenum cap) AliasExport("gl4es_glDisable");
 void gl4es_glEnableClientState(GLenum cap) {
     ERROR_IN_BEGIN
     // should flush for now... to be optimized later!
-    if (glstate->list.active && !glstate->list.compiling)
-        flush();
+    /*if (glstate->list.active && !glstate->list.compiling && !glstate->list.pending)
+        flush();*/
     LOAD_GLES_FPE(glEnableClientState);
     proxy_glEnable(cap, true, gles_glEnableClientState);
 }
@@ -315,8 +325,8 @@ void glEnableClientState(GLenum cap) AliasExport("gl4es_glEnableClientState");
 void gl4es_glDisableClientState(GLenum cap) {
     ERROR_IN_BEGIN
     // should flush for now... to be optimized later!
-    if (glstate->list.active && !glstate->list.compiling)
-        flush();
+    /*if (glstate->list.active && !glstate->list.compiling && !glstate->list.pending)
+        flush();*/
     LOAD_GLES_FPE(glDisableClientState);
     proxy_glEnable(cap, false, gles_glDisableClientState);
 }

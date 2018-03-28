@@ -163,7 +163,7 @@ static inline bool should_intercept_render(GLenum mode) {
     return (
         (glstate->vao->pointers[ATT_VERTEX].enabled && ! valid_vertex_type(glstate->vao->pointers[ATT_VERTEX].type)) ||
         (mode == GL_LINES && glstate->enable.line_stipple) ||
-        /*(mode == GL_QUADS) ||*/ (glstate->list.active)
+        /*(mode == GL_QUADS) ||*/ (glstate->list.active && !glstate->list.pending)
     );
 }
 
@@ -355,8 +355,11 @@ static void glDrawElementsCommon(GLenum mode, GLint first, GLsizei count, GLuint
     }
 }
 
+#define MIN_BATCH 10
+#define MAX_BATCH 1000
+
 void gl4es_glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) {
-//printf("glDrawRangeElements(%s, %i, %i, %i, %s, @%p), inlist=%i\n", PrintEnum(mode), start, end, count, PrintEnum(type), indices, (glstate->list.active)?1:0);
+    //printf("glDrawRangeElements(%s, %i, %i, %i, %s, @%p), inlist=%i, pending=%d\n", PrintEnum(mode), start, end, count, PrintEnum(type), indices, (glstate->list.active)?1:0, glstate->list.pending);
     count = adjust_vertices(mode, count);
     
     if (count<0) {
@@ -370,6 +373,19 @@ void gl4es_glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count
 
     bool compiling = (glstate->list.active);
     bool intercept = should_intercept_render(mode);
+
+    //BATCH Mode
+    if(!compiling) {
+        if(!intercept && glstate->list.pending && count>(MAX_BATCH*globals4es.batch))    // too large and will not intercept, stop the BATCH
+            flush();
+        else if((!intercept && !glstate->list.pending && count<(MIN_BATCH*globals4es.batch)) 
+            || (intercept && globals4es.batch)) {
+            compiling = true;
+            glstate->list.pending = 1;
+            glstate->list.active = alloc_renderlist();
+        }
+    }
+
 	noerrorShim();
     GLushort *sindices = NULL;
     GLuint *iindices = NULL;
@@ -406,7 +422,11 @@ void gl4es_glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count
         list->indice_cap = count;
         //end_renderlist(list);
         
-        glstate->list.active = extend_renderlist(list);
+        if(glstate->list.pending) {
+            NewStage(glstate->list.active, STAGE_POSTDRAW);
+        } else {
+            glstate->list.active = extend_renderlist(list);
+        }
         return;
     }
 
@@ -440,7 +460,7 @@ void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GL
 
 
 void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
-    //printf("glDrawElements(%s, %d, %s, %p), vtx=%p map=%p\n", PrintEnum(mode), count, PrintEnum(type), indices, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL);
+    //printf("glDrawElements(%s, %d, %s, %p), vtx=%p map=%p, pending=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL, glstate->list.pending);
     // TODO: split for count > 65535?
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
     count = adjust_vertices(mode, count);
@@ -456,6 +476,19 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 
     bool compiling = (glstate->list.active);
     bool intercept = should_intercept_render(mode);
+
+    //BATCH Mode
+    if(!compiling) {
+        if(!intercept && glstate->list.pending && count>(MAX_BATCH*globals4es.batch))    // too large and will not intercept, stop the BATCH
+            flush();
+        else if((!intercept && !glstate->list.pending && count<(MIN_BATCH*globals4es.batch)) 
+            || (intercept && globals4es.batch)) {
+            compiling = true;
+            glstate->list.pending = 1;
+            glstate->list.active = alloc_renderlist();
+        }
+    }
+
 	noerrorShim();
     GLushort *sindices = NULL;
     GLuint *iindices = NULL;
@@ -493,7 +526,11 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
         list->indice_cap = count;
         //end_renderlist(list);
         
-        glstate->list.active = extend_renderlist(list);
+        if(glstate->list.pending) {
+            NewStage(glstate->list.active, STAGE_POSTDRAW);
+        } else {
+            glstate->list.active = extend_renderlist(list);
+        }
         return;
     }
 
@@ -525,6 +562,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) AliasExport("gl4es_glDrawElements");
 
 void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
+    //printf("glDrawArrays(%s, %d, %d), list=%p pending=%d\n", PrintEnum(mode), first, count, glstate->list.active, glstate->list.pending);
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
     count = adjust_vertices(mode, count);
 
@@ -552,10 +590,26 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     }
 	noerrorShim();
 
+    bool intercept = should_intercept_render(mode);
+    //BATCH Mode
+    if (!glstate->list.compiling) {
+        if(!intercept && glstate->list.pending && count>(MAX_BATCH*globals4es.batch))    // too large and will not intercept, stop the BATCH
+            flush();
+        else if((!intercept && !glstate->list.pending && count<(MIN_BATCH*globals4es.batch)) 
+            || (intercept && globals4es.batch)) {
+            glstate->list.pending = 1;
+            glstate->list.active = alloc_renderlist();
+        }
+    }
+
     if (glstate->list.active) {
         NewStage(glstate->list.active, STAGE_DRAW);
         glstate->list.active = arrays_to_renderlist(glstate->list.active, mode, first, count+first);
-        glstate->list.active = extend_renderlist(glstate->list.active);
+        if(glstate->list.pending) {
+            NewStage(glstate->list.active, STAGE_POSTDRAW);
+        } else {
+            glstate->list.active = extend_renderlist(glstate->list.active);
+        }
         return;
     }
 
@@ -564,7 +618,7 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     if (glstate->polygon_mode == GL_POINT && mode>=GL_TRIANGLES)
 		mode = GL_POINTS;
 
-    if (should_intercept_render(mode)) {
+    if (intercept) {
         renderlist_t *list;
         list = arrays_to_renderlist(NULL, mode, first, count+first);
         list = end_renderlist(list);

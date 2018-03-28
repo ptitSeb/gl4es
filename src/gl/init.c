@@ -347,6 +347,20 @@ void initialize_gl4es() {
             SHUT(LOGD("LIBGL: WARNING, No Limited or Full NPOT support in hardware, Forcing NPOT have no effect!\n"));
         }
     }
+    globals4es.batch = 0;
+    char *env_batch = getenv("LIBGL_BATCH");
+    if(env_batch &&strcmp(env_batch, "0")==0) {
+        globals4es.batch = 0;
+        SHUT(LOGD("LIBGL: Not trying to batch small subsequent glDrawXXXX\n"));
+    }
+    if(env_batch &&strcmp(env_batch, "1")==0) {
+        globals4es.batch = 1;
+        SHUT(LOGD("LIBGL: Trying to batch small subsequent glDrawXXXX\n"));
+    }
+    if(env_batch &&strcmp(env_batch, "2")==0) {
+        globals4es.batch = 4;
+        SHUT(LOGD("LIBGL: Trying to batch medium subsequent glDrawXXXX\n"));
+    }
 
     globals4es.usevbo = 0;
     char *env_usevbo = getenv("LIBGL_USEVBO");

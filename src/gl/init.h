@@ -45,6 +45,7 @@ typedef struct _globals4es {
  int avoid16bits;
  int avoid24bits;
  int nohighp;
+ int batch;
  int es;
  int gl;
  int usevbo;
