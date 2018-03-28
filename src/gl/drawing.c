@@ -355,8 +355,8 @@ static void glDrawElementsCommon(GLenum mode, GLint first, GLsizei count, GLuint
     }
 }
 
-#define MIN_BATCH 10
-#define MAX_BATCH 1000
+#define MIN_BATCH   (10*globals4es.batch)
+#define MAX_BATCH   (10*10*globals4es.batch)
 
 void gl4es_glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) {
     //printf("glDrawRangeElements(%s, %i, %i, %i, %s, @%p), inlist=%i, pending=%d\n", PrintEnum(mode), start, end, count, PrintEnum(type), indices, (glstate->list.active)?1:0, glstate->list.pending);
@@ -376,9 +376,9 @@ void gl4es_glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count
 
     //BATCH Mode
     if(!compiling) {
-        if(!intercept && glstate->list.pending && count>(MAX_BATCH*globals4es.batch))    // too large and will not intercept, stop the BATCH
+        if(!intercept && glstate->list.pending && count>MAX_BATCH)    // too large and will not intercept, stop the BATCH
             flush();
-        else if((!intercept && !glstate->list.pending && count<(MIN_BATCH*globals4es.batch)) 
+        else if((!intercept && !glstate->list.pending && count<MIN_BATCH) 
             || (intercept && globals4es.batch)) {
             compiling = true;
             glstate->list.pending = 1;
@@ -479,9 +479,9 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 
     //BATCH Mode
     if(!compiling) {
-        if(!intercept && glstate->list.pending && count>(MAX_BATCH*globals4es.batch))    // too large and will not intercept, stop the BATCH
+        if(!intercept && glstate->list.pending && count>MAX_BATCH)    // too large and will not intercept, stop the BATCH
             flush();
-        else if((!intercept && !glstate->list.pending && count<(MIN_BATCH*globals4es.batch)) 
+        else if((!intercept && !glstate->list.pending && count<MIN_BATCH) 
             || (intercept && globals4es.batch)) {
             compiling = true;
             glstate->list.pending = 1;
@@ -593,9 +593,9 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     bool intercept = should_intercept_render(mode);
     //BATCH Mode
     if (!glstate->list.compiling) {
-        if(!intercept && glstate->list.pending && count>(MAX_BATCH*globals4es.batch))    // too large and will not intercept, stop the BATCH
+        if(!intercept && glstate->list.pending && count>MAX_BATCH)    // too large and will not intercept, stop the BATCH
             flush();
-        else if((!intercept && !glstate->list.pending && count<(MIN_BATCH*globals4es.batch)) 
+        else if((!intercept && !glstate->list.pending && count<MIN_BATCH) 
             || (intercept && globals4es.batch)) {
             glstate->list.pending = 1;
             glstate->list.active = alloc_renderlist();

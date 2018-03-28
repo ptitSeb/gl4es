@@ -127,9 +127,11 @@ Hack: Export a (faked) glBlendColor
 Hack: Control the glGetString version. Overide version string (should be in the form of "1.x")
 
 ##### LIBGL_BATCH
-This has been removed with v1.0.5. `LIBGL_BEGINEND` is a better alternative. 
-Also use `LIBGL_BEGINEND=0` to acheive the same result as `LIBGL_BATCH=2` (i.e. no merging of renderlist at all).
-The Hint are still i place, but will always return 0 if queried, and do nothing if set.
+This has been changed with v1.0.5.
+Now BATCH simply try to merge subsequents glDrawXXXXX (glDrawArrays, glDrawElements...). It only try to merge if arrays is less the 10*N vertices
+The Batching stop when there is a change of GL State, but also if an Array of more then 100*N is encountered.
+ * 0 : Default: don't try to merge glDrawXXXXX
+ * N : Any number: try to merger arrays, 1st must be less than 10*N, max is 100*N vertices
 
 ##### LIBGL_NOERROR
 Hack: glGetError() always return GL_NOERROR

@@ -349,17 +349,14 @@ void initialize_gl4es() {
     }
     globals4es.batch = 0;
     char *env_batch = getenv("LIBGL_BATCH");
-    if(env_batch &&strcmp(env_batch, "0")==0) {
-        globals4es.batch = 0;
-        SHUT(LOGD("LIBGL: Not trying to batch small subsequent glDrawXXXX\n"));
-    }
-    if(env_batch &&strcmp(env_batch, "1")==0) {
-        globals4es.batch = 1;
-        SHUT(LOGD("LIBGL: Trying to batch small subsequent glDrawXXXX\n"));
-    }
-    if(env_batch &&strcmp(env_batch, "2")==0) {
-        globals4es.batch = 4;
-        SHUT(LOGD("LIBGL: Trying to batch medium subsequent glDrawXXXX\n"));
+    int tmp = 0;
+    if(env_batch && sscanf(env_batch, "%d", &tmp)==1) {
+        globals4es.batch = tmp;
+        if(tmp==0) {
+            SHUT(LOGD("LIBGL: Not trying to batch small subsequent glDrawXXXX\n"));
+        } else {
+            SHUT(LOGD("LIBGL: Trying to batch subsequent glDrawXXXX of size < %d vertices\n", tmp*10));
+        }
     }
 
     globals4es.usevbo = 0;
