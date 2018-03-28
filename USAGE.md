@@ -34,6 +34,11 @@ Automatic Backtrace log
  * 0 : Default, nothing special
  * 1 : stacktrace will be printed on crash
 
+##### LIBGL_FPS
+Print current FPS to the console
+ * 0 : Defaut, don't mesure or printf FPS
+ * 1 : Print FPS (on stdout) every second
+
 ##### LIBGL_VSYNC
 VSync control
  * 0 : Default, nothing special

@@ -1081,7 +1081,11 @@ void gl4es_glXSwapBuffers(Display *display,
         egl_eglSwapBuffers(eglDisplay, surface);
     //CheckEGLErrors();     // not sure it's a good thing to call a eglGetError() after all eglSwapBuffers, performance wize (plus result is discarded anyway)
 #ifdef PANDORA
-    if (globals4es.showfps || (sock>-1)) {
+    if (globals4es.showfps || (sock>-1))
+#else
+    if (globals4es.showfps) 
+#endif
+    {
         // framerate counter
         static float avg, fps = 0;
         static int frame1, last_frame, frame, now, current_frames;
@@ -1106,16 +1110,17 @@ void gl4es_glXSwapBuffers(Display *display,
 
                 avg = frame / (float)(now - frame1);
                 if (globals4es.showfps) LOGD("LIBGL: fps: %.2f, avg: %.2f\n", fps, avg);
+#ifdef PANDORA
                 if (sock>-1) {
                     char tmp[60];
                     snprintf(tmp, 60, "gl:  %2.2f", fps);
                     sendto(sock, tmp, strlen(tmp), 0,(struct sockaddr *)&sun, sizeof(sun));                    
                 }
+#endif
             }
         }
         last_frame = now;
     }
-#endif
     if (globals4es.usefbo && PBuffer==0) {
         bindMainFBO();
     }
