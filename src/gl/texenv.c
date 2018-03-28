@@ -68,7 +68,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                         }
                     t->combine_rgb = param;
                     if(glstate->fpe_state) {
-                        int state = GL_REPLACE;
+                        int state = FPE_CR_REPLACE;
                         switch(t->combine_rgb) {
                             case GL_MODULATE: state=FPE_CR_MODULATE; break;
                             case GL_ADD: state=FPE_CR_ADD; break;
@@ -92,7 +92,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                         }
                     t->combine_alpha = param;
                     if(glstate->fpe_state) {
-                        int state = GL_REPLACE;
+                        int state = FPE_CR_REPLACE;
                         switch(t->combine_alpha) {
                             case GL_MODULATE: state=FPE_CR_MODULATE; break;
                             case GL_ADD: state=FPE_CR_ADD; break;
