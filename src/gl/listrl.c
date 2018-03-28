@@ -353,7 +353,7 @@ void FASTMATH rlFogCoordf(renderlist_t *list, GLfloat coord) {
     if (list->fogcoord == NULL) {
         const int stride = (list->use_glstate)?(5*4):1;
         if(list->use_glstate) {
-            list->color = glstate->merger_master+4+4+2*4+3;
+            list->fogcoord = glstate->merger_master+4+4+2*4+3;
         } else {
             list->fogcoord = alloc_sublist(1, list->cap);
         }
