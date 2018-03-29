@@ -466,6 +466,10 @@ void gl4es_glSecondaryColorPointer(GLint size, GLenum type,
     noerrorShim();
 }
 void gl4es_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
+    if(type==1 && stride==GL_FLOAT) {
+        type = GL_FLOAT;
+        stride = 0; // mistake found in some version of openglide...
+    }
     clone_gl_pointer(glstate->vao->pointers[ATT_FOGCOORD], 1);
     noerrorShim();
 }

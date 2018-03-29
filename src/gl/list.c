@@ -299,7 +299,6 @@ int mode_needindices(GLenum m) {
 }
 void append_renderlist(renderlist_t *a, renderlist_t *b) {
     // append all draw elements of b in a
-    
     // check the final indice size of a and b
     int ilen_a = a->ilen;
     int ilen_b = b->ilen;
@@ -370,7 +369,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     if (a->normal) memcpy(a->normal+a->len*3, b->normal, b->len*3*sizeof(GLfloat));
     if (a->color) memcpy(a->color+a->len*4, b->color, b->len*4*sizeof(GLfloat));
     if (a->secondary) memcpy(a->secondary+a->len*4, b->secondary, b->len*4*sizeof(GLfloat));
-    if (a->fogcoord) memcpy(a->fogcoord+a->len*4, b->fogcoord, b->len*1*sizeof(GLfloat));
+    if (a->fogcoord) memcpy(a->fogcoord+a->len*1, b->fogcoord, b->len*1*sizeof(GLfloat));
     for (int i=0; i<a->maxtex; i++)
         if (a->tex[i]) memcpy(a->tex[i]+a->len*4, b->tex[i], b->len*4*sizeof(GLfloat));
     // indices
