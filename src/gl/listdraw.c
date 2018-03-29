@@ -82,7 +82,6 @@ void draw_renderlist(renderlist_t *list) {
             gl4es_glBindTexture(list->target_texture, list->texture);
         }
         // raster
-        old_tex = glstate->texture.active;
         if (list->raster_op) {
             if (list->raster_op==1) {
                 gl4es_glRasterPos3f(list->raster_xyz[0], list->raster_xyz[1], list->raster_xyz[2]);

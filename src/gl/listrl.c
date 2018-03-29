@@ -2,7 +2,7 @@
 #include "init.h"
 #include "../glx/hardext.h"
 
-static inline void rlVertexCommon(renderlist_t *list, int idx) {
+static inline void rlVertexCommon(renderlist_t *list, int idx, int l) {
     if(list->use_glstate) {
         resize_renderlist(list);
         if (!list->vert)    list->vert = glstate->merger_master;
@@ -11,21 +11,21 @@ static inline void rlVertexCommon(renderlist_t *list, int idx) {
     } else {
         if (!list->vert)    list->vert = alloc_sublist(4, list->cap); 
         else                resize_renderlist(list);
-        if (list->normal)   memcpy(list->normal + (list->len * 3), list->lastNormal, sizeof(GLfloat) * 3);
-        if (list->fogcoord) memcpy(list->fogcoord + (list->len * 1), &glstate->fogcoord, sizeof(GLfloat) * 1);
+        if (list->normal)   memcpy(list->normal + (l * 3), list->lastNormal, sizeof(GLfloat) * 3);
+        if (list->fogcoord) memcpy(list->fogcoord + (l * 1), &glstate->fogcoord, sizeof(GLfloat) * 1);
     }
     // common part
     if (list->color)    memcpy(list->color + idx, list->lastColors, sizeof(GLfloat) * 4);
-    if (list->secondary)    memcpy(list->secondary + idx, glstate->secondary, sizeof(GLfloat) * 4);
+    if (list->secondary)    memcpy(list->secondary + (l * 4), glstate->secondary, sizeof(GLfloat) * 4);
     if (list->tex[0])   memcpy(list->tex[0] + idx, glstate->texcoord[0], sizeof(GLfloat) * 4);
     if (list->tex[1])   memcpy(list->tex[1] + idx, glstate->texcoord[1], sizeof(GLfloat) * 4);
     for (int a=2; a<list->maxtex; a++)
-        if (list->tex[a])   memcpy(list->tex[a] + idx, glstate->texcoord[a], sizeof(GLfloat) * 4);
+        if (list->tex[a])   memcpy(list->tex[a] + (l * 4), glstate->texcoord[a], sizeof(GLfloat) * 4);
 }
 
 void FASTMATH rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     const int idx = (list->use_glstate)?(list->len * 5*4):(list->len * 4);
-    rlVertexCommon(list, idx);
+    rlVertexCommon(list, idx, list->len);
 
     GLfloat * const vert = list->vert + idx;
     ++list->len;
@@ -33,7 +33,7 @@ void FASTMATH rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GL
 }
 void FASTMATH rlVertex3fv(renderlist_t *list, GLfloat* v) {
     const int idx = (list->use_glstate)?(list->len * 5*4):(list->len * 4);
-    rlVertexCommon(list, idx);
+    rlVertexCommon(list, idx, list->len);
 
     GLfloat * const vert = list->vert + idx;
     ++list->len;
@@ -42,7 +42,7 @@ void FASTMATH rlVertex3fv(renderlist_t *list, GLfloat* v) {
 }
 void FASTMATH rlVertex4fv(renderlist_t *list, GLfloat* v) {
     const int idx = (list->use_glstate)?(list->len * 5*4):(list->len * 4);
-    rlVertexCommon(list, idx);
+    rlVertexCommon(list, idx, list->len);
 
     GLfloat * const vert = list->vert + idx;
     ++list->len;
@@ -200,9 +200,10 @@ void FASTMATH rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b)
             list->secondary = alloc_sublist(4, list->cap);
         }
         // catch up
+        GLfloat *secondary = list->secondary;
         for (int i = 0; i < list->len; i++) {
-            GLfloat *secondary = (list->secondary + (i * 4));
             memcpy(secondary, list->lastSecondaryColors, sizeof(GLfloat) * 4);
+            secondary += 4;
         }
     }
 
