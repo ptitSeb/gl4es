@@ -477,8 +477,8 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                     ShadAppend(buff);
                 }
                 sprintf(texcoord, "tmp_tcoor");
+                ShadAppend("tmp_tcoor=vec4(0., 0., 0., 1.);\n");
                 if(mat) {
-                    ShadAppend("tmp_tcoor=vec4(0., 0., 0., 1.);\n");
                     ntc = 4;
                 }
                 for (int j=0; j<ntc; j++) {
@@ -525,7 +525,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 // it would be better to use texture2Dproj in fragment shader, but that will complicate the varying definition...
                 //sprintf(buff, "_gl4es_TexCoord_%d = (_gl4es_TextureMatrix_%d * %s).%s;\n", i, i, texcoord, texxyzsize[t-1]);
             } else
-                sprintf(buff, "_gl4es_TexCoord_%d = %s.%s;\n", i, texcoord, texxyzsize[t-1]);
+                sprintf(buff, "_gl4es_TexCoord_%d = %s.%s / %s.q;\n", i, texcoord, texxyzsize[t-1], texcoord);
             ShadAppend(buff);
             if(adjust) {
                 need_adjust[i] = 1;
