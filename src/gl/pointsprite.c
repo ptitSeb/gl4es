@@ -22,6 +22,7 @@ void gl4es_glPointParameterf(GLenum pname, GLfloat param) {
     gl4es_glPointParameterfv(pname, &param);
 }
 void glPointParameterf(GLenum pname, GLfloat param) AliasExport("gl4es_glPointParameterf");
+void glPointParameterfARB(GLenum pname, GLfloat param) AliasExport("gl4es_glPointParameterf");
 
 void gl4es_glPointParameterfv(GLenum pname, const GLfloat * params)
 {
@@ -106,6 +107,7 @@ void gl4es_glPointParameterfv(GLenum pname, const GLfloat * params)
     gles_glPointParameterfv(pname, params);
 }
 void glPointParameterfv(GLenum pname, const GLfloat * params) AliasExport("gl4es_glPointParameterfv");
+void glPointParameterfvARB(GLenum pname, const GLfloat * params) AliasExport("gl4es_glPointParameterfv");
 
 void gl4es_glPointSize(GLfloat size) {
     if(size<=0.0f) {

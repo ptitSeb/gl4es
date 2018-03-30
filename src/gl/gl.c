@@ -988,6 +988,7 @@ void gl4es_glArrayElement(GLint i) {
     }
 }
 void glArrayElement(GLint i) AliasExport("gl4es_glArrayElement");
+void glArrayElementEXT(GLint i) AliasExport("gl4es_glArrayElement");
 
 // TODO: between a lock and unlock, I can assume the array pointers are unchanged
 // so I can build a renderlist_t on the first call and hold onto it
