@@ -40,6 +40,7 @@ SET(GL_SRC
     gl/shaderconv.c
     gl/stack.c
     gl/string_utils.c
+    gl/stubs.c
     gl/texenv.c
     gl/texgen.c
     gl/texture.c

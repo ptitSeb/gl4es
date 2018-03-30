@@ -538,6 +538,7 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     gles_glDrawArrays(mode, first, count);
 }
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) __attribute__((alias("gl4es_glDrawArrays"))) __attribute__((visibility("default")));
+void glDrawArraysEXT(GLenum mode, GLint first, GLsizei count) __attribute__((alias("gl4es_glDrawArrays"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glDrawElements
 void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices) {
@@ -1738,6 +1739,7 @@ void gl4es_glSampleCoverage(GLclampf value, GLboolean invert) {
     gles_glSampleCoverage(value, invert);
 }
 void glSampleCoverage(GLclampf value, GLboolean invert) __attribute__((alias("gl4es_glSampleCoverage"))) __attribute__((visibility("default")));
+void glSampleCoverageARB(GLclampf value, GLboolean invert) __attribute__((alias("gl4es_glSampleCoverage"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glSampleCoveragex
 void gl4es_glSampleCoveragex(GLclampx value, GLboolean invert) {

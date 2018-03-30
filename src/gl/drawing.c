@@ -658,6 +658,7 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     }
 }
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) AliasExport("gl4es_glDrawArrays");
+void glDrawArraysEXT(GLenum mode, GLint first, GLsizei count) AliasExport("gl4es_glDrawArrays");
 
 //#define ACTIVE_MULTIDRAW
 void gl4es_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount)
