@@ -439,6 +439,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
         default_glxfbconfig.alphaBits = (visual==0)?0:(visual->depth!=32)?0:8;
         default_glxfbconfig.depthBits = 16;
         default_glxfbconfig.stencilBits = 8;
+        default_glxfbconfig.doubleBufferMode = 1;
     }
     int depthBits = glxfbconfig->depthBits;
 #ifdef PANDORA
@@ -450,6 +451,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
         depthBits = 24;
 #endif    
 
+    DBG(printf("Creating R:%d G:%d B:%d A:%d Depth:%d Stencil:%d Multisample:%d/%d\n", glxfbconfig->redBits, glxfbconfig->greenBits, glxfbconfig->blueBits, glxfbconfig->alphaBits, depthBits, glxfbconfig->stencilBits, glxfbconfig->nMultiSampleBuffers, glxfbconfig->multiSampleSize);)
     EGLint configAttribs[] = {
 #ifdef PANDORA
         EGL_RED_SIZE, 5,
@@ -541,6 +543,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
     fake->direct = true;
     fake->xid = 1;  //TODO: Proper handling of that id...
     fake->contextType = 0;  //Window
+    fake->doublebuff = glxfbconfig->doubleBufferMode;
 #ifdef PANDORA
     fake->rbits = 5; fake->gbits=6; fake->bbits=5; fake->abits=0;
 #else
