@@ -2,6 +2,10 @@
 #include <gl4eshint.h>
 #include "init.h"
 
+#ifdef PANDORA
+void pandora_set_gamma();
+#endif
+
 void gl4es_glHint(GLenum pname, GLenum mode) {
     
     if (glstate->list.pending)
@@ -107,6 +111,11 @@ void gl4es_glHint(GLenum pname, GLenum mode) {
             else
                 errorShim(GL_INVALID_ENUM); 
             break;
+        case GL_GAMMA_HINT_GL4ES:
+            globals4es.gamma = ((float)mode)/10.f;
+#ifdef PANDORA
+            pandora_set_gamma();
+#endif
         default:
             errorGL();
             gles_glHint(pname, mode);

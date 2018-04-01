@@ -36,9 +36,7 @@ typedef struct _globals4es {
  int vabgra;
  int nobgra;
  int potframebuffer;
-#ifdef PANDORA
  float gamma;
-#endif
  int texmat;
  int novaocache;
  int beginend;

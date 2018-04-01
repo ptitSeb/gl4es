@@ -282,10 +282,13 @@ static void pandora_reset_gamma() {
     if(globals4es.gamma>0.0f)
         system("sudo /usr/pandora/scripts/op_gamma.sh 0");
 }
-static void pandora_set_gamma() {
-    if(globals4es.gamma>0.0f) {
+void pandora_set_gamma() {
+     {
         char buf[50];
-        sprintf(buf, "sudo /usr/pandora/scripts/op_gamma.sh %.2f", globals4es.gamma);
+        if(globals4es.gamma>0.0f)
+            sprintf(buf, "sudo /usr/pandora/scripts/op_gamma.sh %.2f", globals4es.gamma);
+        else
+            sprintf(buf, "sudo /usr/pandora/scripts/op_gamma.sh 0");
         int dummy = system(buf);
     }
 }
@@ -370,7 +373,11 @@ void glx_init() {
         }
     }
 #endif
-    if (globals4es.xrefresh || globals4es.stacktrace || g_bcmhost) {
+#ifndef PANDORA
+    // Pandora will always install handler, in case gamma was changed
+    if (globals4es.xrefresh || globals4es.stacktrace || g_bcmhost) 
+#endif
+    {
         // TODO: a bit gross. Maybe look at this: http://stackoverflow.com/a/13290134/293352
         signal(SIGBUS, signal_handler);
         signal(SIGFPE, signal_handler);

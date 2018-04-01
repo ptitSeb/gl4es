@@ -31,5 +31,6 @@
 #define GL_BEGINEND_HINT_GL4ES	        0xA10D
 // same as using LIBGL_AVOID16BITS=x
 #define GL_AVOID16BITS_HINT_GL4ES	    0xA10E
-
+// same as using LIBGL_GAMMA=xx (PANDORA only)
+#define GL_GAMMA_HINT_GL4ES             0xA10F
 #endif

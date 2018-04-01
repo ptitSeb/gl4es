@@ -527,6 +527,9 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_AVOID16BITS_HINT_GL4ES:
             *params=globals4es.avoid16bits;
             break;
+        case GL_GAMMA_HINT_GL4ES:
+            *params=globals4es.gamma*10.f;
+            break;
         default:
             return 0;
     }
