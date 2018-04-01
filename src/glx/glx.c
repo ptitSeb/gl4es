@@ -1280,9 +1280,13 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                     configs[0]->multiSampleSize = attrib_list[i++];
                     DBG(printf("FBConfig multiSampleSize=%d\n", configs[0]->multiSampleSize);)
                     break;
-                case GLX_DOUBLEBUFFER:
-                    configs[0]->doubleBufferMode = attrib_list[i++];
+                case GLX_DOUBLEBUFFER: // single value
+                    configs[0]->doubleBufferMode = 1;//attrib_list[i++];
                     DBG(printf("FBConfig doubleBufferMode=%d\n", configs[0]->doubleBufferMode);)
+                    break;
+                case GLX_RGBA: // single value
+                    configs[0]->rgbMode = 1;
+                    DBG(printf("FBConfig rgba=%d\n", configs[0]->rgbMode);)
                     break;
                 default:
                     ++i;
