@@ -384,6 +384,12 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             else
                 errorShim(GL_INVALID_ENUM);
             break;
+        case GL_MAX_COLOR_ATTACHMENTS:
+            if(hardext.fbo)
+                *params=1;
+            else
+                *params=0;
+            break;
         case GL_MATRIX_MODE:
             *params=glstate->matrix_mode;
             break;
