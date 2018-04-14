@@ -932,7 +932,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         GLsizei nwidth = (hardext.npot==2)?width:npot(width);
         bound->npot = (nheight!=height || nwidth!=width);    // hardware that fully support NPOT doesn't care anyway
         if(bound->npot)
-            if( (target==GL_TEXTURE_RECTANGLE_ARB) 
+            if( (target==GL_TEXTURE_RECTANGLE_ARB && hardext.npot) 
             || (hardext.npot==1 && 
                 ((bound->base_level<=0 && bound->max_level==0) || (globals4es.automipmap==3) || (globals4es.forcenpot==1)))
             || (hardext.esversion>1 && hardext.npot==1 
