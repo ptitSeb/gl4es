@@ -3,7 +3,7 @@
 #include <stdlib.h> 
 #include <stdio.h>
 #include <string.h>
-#include <stdarg.h>
+//#include <stdarg.h>
 #undef __USE_INLINE__
 #include <proto/exec.h>
 #include <interfaces/ogles2.h>
@@ -68,7 +68,7 @@ void agl_context_remove(void* ctx) {
     }
     agl_context[idx].context = 0;
     // shrink if possible
-    while(agl_context_len && !agl_context[agl_context_len].context) --agl_context_len;
+    while(agl_context_len && !agl_context[agl_context_len-1].context) --agl_context_len;
     if(!agl_context_len) {
         agl_context_cap = 0;
         free(agl_context);
@@ -84,13 +84,18 @@ void* aglCreateContext(ULONG * errcode, struct TagItem * tags) {
     return NULL;
 }
 
-void* aglCreateContextTags(ULONG * errcode, ...) {
+void* VARARGS68K aglCreateContextTags(ULONG * errcode, ...) {
     void* ret = NULL;
     if(IOGLES2) {
+        struct TagItem tags[100];
         va_list args;
-        va_start(args,errcode);
-        ret = IOGLES2->aglCreateContextTags(errcode, args);
+        int i = 0;
+        do {
+            struct Tagitem tag = va_arg(args, struct TagItem);
+            tags[i++] = tag;
+        } while (tag!=TAG_DONE);
         va_end(args);
+        ret = IOGLES2->aglCreateContext(errcode, tags);
     }
     return ret;
 }
