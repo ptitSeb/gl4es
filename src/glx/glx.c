@@ -872,6 +872,8 @@ Bool gl4es_glXMakeCurrent(Display *display,
     if(globals4es.fbomakecurrent && glxContext && glxContext->glstate) {
        current_fb = gl4es_getCurrentFBO();
        if(current_fb) {
+	   if(hardext.vendor&VEND_ARM)
+	       gl4es_glFinish(); //MALI seems to need a flush commandbefore unbinding the Framebuffer here
            LOAD_GLES2_OR_OES(glBindFramebuffer);
            gles_glBindFramebuffer(GL_FRAMEBUFFER, 0);
        }
