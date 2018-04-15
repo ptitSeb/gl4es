@@ -1058,7 +1058,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                                         DBG(CheckGLError(1);)
                 }
 #ifdef NO_1x1
-                if(level==0 && (width==1 || height==1 && pixels)) {
+                if(level==0 && (width==1 && height==1 && pixels)) {
                     // complete the texture, juste in case it use GL_REPEAT
                     // also, don't keep the fact we have resized, the non-adjusted coordinates will work (as the texture is enlarged)
                     if(width==1) {gles_glTexSubImage2D(rtarget, level, 1, 0, width, height, format, type, pixels); nwidth=1;}

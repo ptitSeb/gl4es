@@ -3,7 +3,7 @@
 #include "../glx/hardext.h"
 #include "matrix.h"
 
-void draw_renderlist(renderlist_t *list) {
+void __attribute__((optimize(0))) draw_renderlist(renderlist_t *list) {
     if (!list) return;
     // go to 1st...
     while (list->prev) list = list->prev;
@@ -241,15 +241,15 @@ void draw_renderlist(renderlist_t *list) {
                 gl4es_glEnable(GL_TEXTURE_2D);
                 gl4es_glBlendFunc(GL_SRC_ALPHA, GL_ONE);
                 bind_stipple_tex();
-                list->tex[0] = gen_stipple_tex_coords(list->vert, list->len);
+                list->tex[0] = gen_stipple_tex_coords(list->vert, list->vert_stride, list->len, (list->use_glstate)?(list->vert+8):NULL);
             } 
         }
         #define RS(A, len) if(texgenedsz[A]<len) {free(texgened[A]); texgened[A]=malloc(4*sizeof(GLfloat)*len); texgenedsz[A]=len; } use_texgen[A]=1
         // cannot use list->maxtex because some TMU can be using TexGen or point sprites...
         if(hardext.esversion==1) {
             for (int a=0; a<hardext.maxtex; a++) {
-                if(glstate->enable.texture[a]) {
-                    const GLint itarget = get_target(glstate->enable.texture[a]);
+                if(glstate->enable.texture[a] || (stipple && a==0)) {
+                    const GLint itarget = (stipple && a==0)?ENABLED_TEX2D:get_target(glstate->enable.texture[a]);
                     needclean[a]=0;
                     use_texgen[a]=0;
                     if ((glstate->enable.texgen_s[a] || glstate->enable.texgen_t[a] || glstate->enable.texgen_r[a]  || glstate->enable.texgen_q[a])) {

@@ -1,6 +1,16 @@
 #include "line.h"
+#include "matrix.h"
+#include "matvec.h"
+
+//#define DEBUG
+#ifdef DEBUG
+#define DBG(a) a
+#else
+#define DBG(a)
+#endif
 
 void gl4es_glLineStipple(GLuint factor, GLushort pattern) {
+    DBG(printf("glLineStipple(%d, 0x%04X)\n", factor, pattern);)
     if(glstate->list.active) {
         if (glstate->list.compiling) {
             NewStage(glstate->list.active, STAGE_LINESTIPPLE);
@@ -14,7 +24,7 @@ void gl4es_glLineStipple(GLuint factor, GLushort pattern) {
         glstate->linestipple.factor = factor;
         glstate->linestipple.pattern = pattern;
         for (int i = 0; i < 16; i++) {
-            glstate->linestipple.data[i] = (pattern >> i) & 1 ? 255 : 0;
+            glstate->linestipple.data[i] = ((pattern >> i) & 1) ? 255 : 0;
         }
 
         gl4es_glPushAttrib(GL_TEXTURE_BIT);
@@ -23,6 +33,8 @@ void gl4es_glLineStipple(GLuint factor, GLushort pattern) {
 
         gl4es_glBindTexture(GL_TEXTURE_2D, glstate->linestipple.texture);
         gl4es_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+        gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -38,34 +50,40 @@ void bind_stipple_tex() {
     gl4es_glBindTexture(GL_TEXTURE_2D, glstate->linestipple.texture);
 }
 
-GLfloat *gen_stipple_tex_coords(GLfloat *vert, int length) {
+GLfloat *gen_stipple_tex_coords(GLfloat *vert, int stride, int length, GLfloat* noalloctex) {
+    DBG(printf("Generate stripple tex (stride=%d, noalloctex=%p):", stride, noalloctex);)
     // generate our texture coords
-    GLfloat *tex = (GLfloat *)malloc(length * 4 * sizeof(GLfloat));
+    GLfloat *tex = noalloctex?noalloctex:(GLfloat *)malloc(length * 4 * sizeof(GLfloat));
     GLfloat *texPos = tex;
     GLfloat *vertPos = vert;
 
     GLfloat x1, x2, y1, y2;
-    GLfloat len;
+    GLfloat oldlen, len;
+    oldlen = len = 0.f;
+    GLfloat* mvp = getMVPMat();
+    GLfloat v1[4], v2[4];
+    GLfloat w = (GLfloat)glstate->raster.viewport.width;
+    GLfloat h = (GLfloat)glstate->raster.viewport.height;
+    if(stride==0) stride = 4; else stride/=sizeof(GLfloat);
+    int texstride = noalloctex?stride:4;
+    // projected coordinates here, and transform to screen pixel using viewport
     for (int i = 0; i < length / 2; i++) {
-        x1 = *vertPos++;
-        y1 = *vertPos++;
-        vertPos++; // z
-        vertPos++; // w
-        x2 = *vertPos++;
-        y2 = *vertPos++;
-        vertPos++;
-        vertPos++;
-
-        len = sqrtf(powf(x2-x1, 2) + powf(y2-y1, 2)) / glstate->linestipple.factor * 16;
-
-        *texPos++ = 0;
-        *texPos++ = 0;
-        *texPos++ = 0;
-        *texPos++ = 1;
-        *texPos++ = len;
-        *texPos++ = 0;
-        *texPos++ = 0;
-        *texPos++ = 1;
+        vector_matrix(vertPos, mvp, v1);
+        vertPos+=stride;
+        vector_matrix(vertPos, mvp, v2);
+        vertPos+=stride;
+        x1=v1[0]*w; y1=v1[1]*h;
+        x2=v2[0]*w; y2=v2[1]*h;
+        oldlen = len;
+        len = sqrtf((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)) / (glstate->linestipple.factor * 16.f);
+        DBG(printf("%f->%f\t", oldlen, len);)
+        memset(texPos, 0, 4*sizeof(GLfloat));
+        texPos[0] = oldlen; texPos[3] = 1.0f;
+        texPos+=texstride;
+        memset(texPos, 0, 4*sizeof(GLfloat));
+        texPos[0] = len; texPos[3] = 1.0f;
+        texPos+=texstride;
     }
+    DBG(printf("\n");)
     return tex;
 }
