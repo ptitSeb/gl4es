@@ -1,5 +1,6 @@
 #include "render.h"
 #include "init.h"
+#include "matrix.h"
 
 void push_hit() {
     // push current hit to hit list, and re-init current hit
@@ -145,26 +146,11 @@ void gl4es_glSelectBuffer(GLsizei size, GLuint *buffer) {
 	glstate->selectbuf.size = size;
 }
 
-GLfloat projection[16], modelview[16];
-void init_select() {
-	/*
-	 Initialize matrix and array vector for a select_Draw*
-	*/
-	 GLfloat tmp[16];
-	 gl4es_glGetFloatv(GL_PROJECTION_MATRIX, tmp);
-	 matrix_transpose(tmp, projection);
-	 gl4es_glGetFloatv(GL_MODELVIEW_MATRIX, tmp);
-	 matrix_transpose(tmp, modelview);
-}
-
 void select_transform(GLfloat *a) {
 	/*
-	 Transform a[3] using projection and modelview matrix (init with init_select)
+	 Transform a[3] using projection and modelview matrix
 	*/
-	GLfloat tmp[4];
-	matrix_vector(modelview, a, tmp);
-	matrix_vector(projection, tmp, a);
-    //matrix_vector(model_proj, a, a);
+	vector_matrix(a, getMVPMat(), a);
 }
 
 GLboolean select_point_in_viewscreen(const GLfloat *a) {
@@ -260,7 +246,6 @@ void select_glDrawArrays(const pointer_state_t* vtx, GLenum mode, GLuint first, 
 			vtx->size, vtx->stride,
 			GL_FLOAT, 4, 0, count+first);
 	GLfloat zmin=1e10f, zmax=-1e10f;
-	init_select();
 	int found = 0;
 
 	#define FOUND()	{ 				\
@@ -360,7 +345,6 @@ void select_glDrawElements(const pointer_state_t* vtx, GLenum mode, GLuint count
 	GLfloat *vert = copy_gl_array(vtx->pointer, vtx->type, 
 			vtx->size, vtx->stride,
 			GL_FLOAT, 4, 0, max);
-	init_select();
 	GLfloat zmin=1e10f, zmax=-10e6f;
 	int found = 0;
 	for (int i=min; i<max; i++) {
