@@ -3,7 +3,7 @@
 #include "../glx/hardext.h"
 #include "matrix.h"
 
-void __attribute__((optimize(0))) draw_renderlist(renderlist_t *list) {
+void draw_renderlist(renderlist_t *list) {
     if (!list) return;
     // go to 1st...
     while (list->prev) list = list->prev;
