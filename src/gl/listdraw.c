@@ -322,7 +322,7 @@ void draw_renderlist(renderlist_t *list) {
                 gl4es_glEnable(GL_TEXTURE_2D);
                 gl4es_glBlendFunc(GL_SRC_ALPHA, GL_ONE);
                 bind_stipple_tex();
-                list->tex[0] = gen_stipple_tex_coords(list->vert, list->vert_stride, list->len, (list->use_glstate)?(list->vert+8):NULL);
+                list->tex[0] = gen_stipple_tex_coords(list->vert, list->mode, list->vert_stride, list->len, (list->use_glstate)?(list->vert+8):NULL);
             } 
         }
         #define RS(A, len) if(texgenedsz[A]<len) {free(texgened[A]); texgened[A]=malloc(4*sizeof(GLfloat)*len); texgenedsz[A]=len; } use_texgen[A]=1
@@ -479,7 +479,7 @@ void draw_renderlist(renderlist_t *list) {
         #undef TEXTURE
 
         if (stipple) {
-            if(list->use_glstate)   //TODO: avoid that malloc/free...
+            if(!list->use_glstate)   //TODO: avoid that malloc/free...
                 free(list->tex[0]);
             list->tex[0]=NULL;
             gl4es_glPopAttrib();
