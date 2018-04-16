@@ -151,6 +151,10 @@ void select_transform(GLfloat *a) {
 	 Transform a[3] using projection and modelview matrix
 	*/
 	vector_matrix(a, getMVPMat(), a);
+	// take "w" into account...
+	a[0]/=a[3];
+	a[1]/=a[3];
+	a[2]/=a[3];
 }
 
 GLboolean select_point_in_viewscreen(const GLfloat *a) {
