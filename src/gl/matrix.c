@@ -207,9 +207,9 @@ DBG(printf("glLoadMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 		glstate->normal_matrix_dirty = glstate->inv_mv_matrix_dirty = 1;
 	if(glstate->matrix_mode==GL_MODELVIEW || glstate->matrix_mode==GL_PROJECTION)
 		glstate->mvp_matrix_dirty = 1;
-	const int id = update_current_identity(0);
-	if(glstate->fpe_state && glstate->matrix_mode==GL_TEXTURE)
+	else if(glstate->fpe_state)
 		set_fpe_textureidentity();
+	const int id = update_current_identity(0);
     if(send_to_hardware()) {
 		LOAD_GLES(glLoadMatrixf);
 		LOAD_GLES(glLoadIdentity);
