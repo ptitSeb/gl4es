@@ -20,6 +20,8 @@ void gl4es_glLineStipple(GLuint factor, GLushort pattern) {
             return;
         } else if(glstate->list.pending) flush();
     }
+    if(factor<1) factor = 1;
+    if(factor>256) factor = 256;
     if(pattern!=glstate->linestipple.pattern || factor!=glstate->linestipple.factor || !glstate->linestipple.texture) {
         glstate->linestipple.factor = factor;
         glstate->linestipple.pattern = pattern;
@@ -27,20 +29,32 @@ void gl4es_glLineStipple(GLuint factor, GLushort pattern) {
             glstate->linestipple.data[i] = ((pattern >> i) & 1) ? 255 : 0;
         }
 
-        gl4es_glPushAttrib(GL_TEXTURE_BIT);
-        if (! glstate->linestipple.texture)
+        // "Push" current Texture0 binding
+        GLuint old_act = glstate->texture.active;
+        if(old_act)
+            gl4es_glActiveTexture(GL_TEXTURE0);
+        GLuint old_tex = glstate->texture.bound[0][ENABLED_TEX2D]->texture;
+        // create / update stipple texture
+        if (! glstate->linestipple.texture) {
             gl4es_glGenTextures(1, &glstate->linestipple.texture);
-
-        gl4es_glBindTexture(GL_TEXTURE_2D, glstate->linestipple.texture);
-        gl4es_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-        gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-        gl4es_glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA,
-            16, 1, 0, GL_ALPHA, GL_UNSIGNED_BYTE, glstate->linestipple.data);
-        gl4es_glPopAttrib();
+            gl4es_glBindTexture(GL_TEXTURE_2D, glstate->linestipple.texture);
+            gl4es_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+            gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            gl4es_glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA,
+                16, 1, 0, GL_ALPHA, GL_UNSIGNED_BYTE, glstate->linestipple.data);
+        } else {
+            gl4es_glBindTexture(GL_TEXTURE_2D, glstate->linestipple.texture);
+            gl4es_glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 16, 1, 
+                GL_ALPHA, GL_UNSIGNED_BYTE, glstate->linestipple.data);
+        }
+        // "Pop" texture 0 binding
+        gl4es_glBindTexture(GL_TEXTURE_2D, old_tex);
+        if(old_act)
+            gl4es_glActiveTexture(GL_TEXTURE0+old_act);
+        // all done
         noerrorShim();
     }
 }
@@ -75,7 +89,7 @@ GLfloat *gen_stipple_tex_coords(GLfloat *vert, int stride, int length, GLfloat* 
         x1=v1[0]*w; y1=v1[1]*h;
         x2=v2[0]*w; y2=v2[1]*h;
         oldlen = len;
-        len = sqrtf((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)) / (glstate->linestipple.factor * 16.f);
+        len += sqrtf((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)) / (glstate->linestipple.factor * 16.f);
         DBG(printf("%f->%f\t", oldlen, len);)
         memset(texPos, 0, 4*sizeof(GLfloat));
         texPos[0] = oldlen; texPos[3] = 1.0f;
