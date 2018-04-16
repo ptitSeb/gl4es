@@ -313,7 +313,8 @@ void draw_renderlist(renderlist_t *list) {
         stipple = false;
         if (! list->tex[0]) {
             // TODO: do we need to support GL_LINE_STRIP?
-            if (list->mode == GL_LINES && glstate->enable.line_stipple) {
+            if ((list->mode == GL_LINES || list->mode == GL_LINE_STRIP || list->mode == GL_LINE_LOOP)
+                 && glstate->enable.line_stipple) {
                 stipple = true;
                 gl4es_glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT | GL_TEXTURE_BIT);
                 TEXTURE(0);
@@ -478,6 +479,9 @@ void draw_renderlist(renderlist_t *list) {
         #undef TEXTURE
 
         if (stipple) {
+            if(list->use_glstate)   //TODO: avoid that malloc/free...
+                free(list->tex[0]);
+            list->tex[0]=NULL;
             gl4es_glPopAttrib();
         }
         if(list->post_color) gl4es_glColor4fv(list->post_colors);
