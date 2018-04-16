@@ -81,6 +81,8 @@ GLfloat *gen_stipple_tex_coords(GLfloat *vert, int stride, int length, GLfloat* 
     if(stride==0) stride = 4; else stride/=sizeof(GLfloat);
     int texstride = noalloctex?stride:4;
     // projected coordinates here, and transform to screen pixel using viewport
+    // because projected coordinates are from -1. to +1., w and h are to be divided by 2...
+    w*=0.5f; h*=0.5f;
     for (int i = 0; i < length / 2; i++) {
         vector_matrix(vertPos, mvp, v1);
         vertPos+=stride;
