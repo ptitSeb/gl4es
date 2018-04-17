@@ -4,7 +4,9 @@
 
 void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
     LOAD_GLES2(glTexEnvf);
-    PUSH_IF_COMPILING(glTexEnvf);
+    if (!glstate->list.pending) {
+        PUSH_IF_COMPILING(glTexEnvf);
+    }
     // Handling GL_EXT_DOT3, wrapping to standard dot3 (???)
     if(param==GL_DOT3_RGB_EXT) param=GL_DOT3_RGB;
     if(param==GL_DOT3_RGBA_EXT) param=GL_DOT3_RGBA;
@@ -15,6 +17,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                 int p = (param!=0.0f)?1:0;
                 if (glstate->texture.pscoordreplace[glstate->texture.active] == p)
                     return;
+                if (glstate->list.pending) flush();
                 glstate->texture.pscoordreplace[glstate->texture.active] = p;
                 if (glstate->fpe_state)
                     glstate->fpe_state->pointsprite_coord = p;
@@ -27,6 +30,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
             if(pname==GL_TEXTURE_LOD_BIAS) {
                 if(glstate->texenv[glstate->texture.active].filter.lod_bias == param)
                     return;
+                if (glstate->list.pending) flush();
                 glstate->texenv[glstate->texture.active].filter.lod_bias = param;
             } else {
                 errorShim(GL_INVALID_ENUM);
@@ -44,6 +48,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                         errorShim(GL_INVALID_ENUM);
                         return;
                     }
+                    if (glstate->list.pending) flush();
                     t->mode = param;
                     if(glstate->fpe_state) {
                         int state = FPE_MODULATE;
@@ -66,6 +71,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             errorShim(GL_INVALID_ENUM);
                             return;
                         }
+                    if (glstate->list.pending) flush();
                     t->combine_rgb = param;
                     if(glstate->fpe_state) {
                         int state = FPE_CR_REPLACE;
@@ -90,6 +96,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             errorShim(GL_INVALID_ENUM);
                             return;
                         }
+                    if (glstate->list.pending) flush();
                     t->combine_alpha = param;
                     if(glstate->fpe_state) {
                         int state = FPE_CR_REPLACE;
@@ -112,6 +119,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             errorShim(GL_INVALID_ENUM);
                             return;
                         }
+                    if (glstate->list.pending) flush();
                     t->src0_rgb = param;
                     if(glstate->fpe_state) {
                         int state = FPE_SRC_TEXTURE;
@@ -135,6 +143,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             errorShim(GL_INVALID_ENUM);
                             return;
                         }
+                    if (glstate->list.pending) flush();
                     t->src1_rgb = param;
                     if(glstate->fpe_state) {
                         int state = FPE_SRC_TEXTURE;
@@ -158,6 +167,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             errorShim(GL_INVALID_ENUM);
                             return;
                         }
+                    if (glstate->list.pending) flush();
                     t->src2_rgb = param;
                     if(glstate->fpe_state) {
                         int state = FPE_SRC_TEXTURE;
@@ -181,6 +191,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             errorShim(GL_INVALID_ENUM);
                             return;
                         }
+                    if (glstate->list.pending) flush();
                     t->src0_alpha = param;
                     if(glstate->fpe_state) {
                         int state = FPE_SRC_TEXTURE;
@@ -204,6 +215,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             errorShim(GL_INVALID_ENUM);
                             return;
                         }
+                    if (glstate->list.pending) flush();
                     t->src1_alpha = param;
                     if(glstate->fpe_state) {
                         int state = FPE_SRC_TEXTURE;
@@ -227,6 +239,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             errorShim(GL_INVALID_ENUM);
                             return;
                         }
+                    if (glstate->list.pending) flush();
                     t->src2_alpha = param;
                     if(glstate->fpe_state) {
                         int state = FPE_SRC_TEXTURE;
@@ -250,6 +263,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             errorShim(GL_INVALID_ENUM);
                             return;
                         }
+                    if (glstate->list.pending) flush();
                     t->op0_rgb = param;
                     if(glstate->fpe_state) {
                         int state = FPE_OP_ALPHA;
@@ -270,6 +284,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             errorShim(GL_INVALID_ENUM);
                             return;
                         }
+                    if (glstate->list.pending) flush();
                     t->op1_rgb = param;
                     if(glstate->fpe_state) {
                         int state = FPE_OP_ALPHA;
@@ -290,6 +305,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             errorShim(GL_INVALID_ENUM);
                             return;
                         }
+                    if (glstate->list.pending) flush();
                     t->op2_rgb = param;
                     if(glstate->fpe_state) {
                         int state = FPE_OP_ALPHA;
@@ -309,6 +325,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             errorShim(GL_INVALID_ENUM);
                             return;
                         }
+                    if (glstate->list.pending) flush();
                     t->op0_alpha = param;
                     if(glstate->fpe_state) {
                         int state = FPE_OP_ALPHA;
@@ -325,6 +342,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             errorShim(GL_INVALID_ENUM);
                             return;
                         }
+                    if (glstate->list.pending) flush();
                     t->op1_alpha = param;
                     if(glstate->fpe_state) {
                         int state = FPE_OP_ALPHA;
@@ -341,6 +359,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             errorShim(GL_INVALID_ENUM);
                             return;
                         }
+                    if (glstate->list.pending) flush();
                     t->op2_alpha = param;
                     if(glstate->fpe_state) {
                         int state = FPE_OP_ALPHA;
@@ -357,6 +376,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                         errorShim(GL_INVALID_VALUE);
                         return;
                     }
+                    if (glstate->list.pending) flush();
                     t->rgb_scale = param;
                     if(glstate->fpe_state) {
                         if(param==1.0f)
@@ -372,6 +392,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                         errorShim(GL_INVALID_VALUE);
                         return;
                     }
+                    if (glstate->list.pending) flush();
                     t->alpha_scale = param;
                     if(glstate->fpe_state) {
                         if(param==1.0f)
@@ -412,6 +433,7 @@ void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
             noerrorShim();
             return;
         }
+        if (glstate->list.pending) flush();
         memcpy(t->color, param, 4*sizeof(GLfloat));
         errorGL();
         LOAD_GLES2(glTexEnvfv);
@@ -421,7 +443,6 @@ void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
         gl4es_glTexEnvf(target, pname, *param);
 }
 void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param) {
-    if (glstate->list.pending) flush();
     if ((glstate->list.compiling) && glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_TEXENV);
 		rlTexEnviv(glstate->list.active, target, pname, param);
@@ -436,7 +457,7 @@ void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param) {
         gl4es_glTexEnvf(target, pname, *param);
 }
 void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
-    if (glstate->list.pending) flush();
+    //if (glstate->list.pending) flush();
     noerrorShim();
     switch(target) {
         case GL_POINT_SPRITE:
@@ -517,7 +538,7 @@ void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
 }
 void gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
  //   LOAD_GLES(glGetTexEnviv);
-    if (glstate->list.pending) flush();
+    //if (glstate->list.pending) flush();
     noerrorShim();
     switch(target) {
         case GL_POINT_SPRITE:
