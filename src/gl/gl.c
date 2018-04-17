@@ -198,7 +198,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         clientGO(GL_VERTEX_ARRAY, pointers[ATT_VERTEX].enabled);
         clientGO(GL_NORMAL_ARRAY, pointers[ATT_NORMAL].enabled);
         clientGO(GL_COLOR_ARRAY, pointers[ATT_COLOR].enabled);
-        case GL_TEXTURE_COORD_ARRAY: change_vao_texcoord(glstate->texture.client, enable);
+        case GL_TEXTURE_COORD_ARRAY: change_vao_texcoord(glstate->texture.client, enable); break;
 
         // map eval
         GO(GL_MAP1_COLOR_4 , map1_color4);
