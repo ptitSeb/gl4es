@@ -358,7 +358,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
         if (a->indices) {
             GLushort* tmpi = a->indices;
             a->indice_cap = ((ilen_a)?ilen_a:a->len) + ((ilen_b)?ilen_b:b->len);
-            if (a->indice_cap > 48) a->indice_cap = (a->indice_cap+512)&~511;
+            if (a->indice_cap > 48) a->indice_cap = ((a->indice_cap+512)>>9)<<9;
             a->indices = (GLushort*)malloc(a->indice_cap*sizeof(GLushort));
             memcpy(a->indices, tmpi, a->ilen*sizeof(GLushort));
         }
@@ -377,7 +377,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     {
         // alloc or realloc a->indices first...
         int capindices = renderlist_getindicesize(a)+renderlist_getindicesize(b);
-        if (capindices > 48) capindices = (capindices+512)&~511;
+        if (capindices > 48) capindices = ((capindices+512)>>9)<<9;
         #define alloc_a_indices                                      \
         newind=(GLushort*)malloc(capindices*sizeof(GLushort))
         #define copy_a_indices                                       \
@@ -732,7 +732,7 @@ void resize_renderlist(renderlist_t *list) {
 void resize_merger_indices(int cap) {
     if(cap<glstate->merger_indice_cap)
         return;
-    glstate->merger_indice_cap = (cap+512)&~511;
+    glstate->merger_indice_cap = ((cap+512)>>9)<<9;
     glstate->merger_indices = (GLushort*)realloc(glstate->merger_indices, glstate->merger_indice_cap*sizeof(GLushort));
 }
 
@@ -742,13 +742,13 @@ void resize_indices_renderlist(renderlist_t *list, int n) {
     if (list->use_glstate) {
         if(list->ilen+n<glstate->merger_indice_cap)
             return;
-        glstate->merger_indice_cap = (glstate->merger_indice_cap+n+511)&~511;
+        glstate->merger_indice_cap = ((glstate->merger_indice_cap+n+511)>>9)<<9;
         glstate->merger_indices = (GLushort*)realloc(glstate->merger_indices, glstate->merger_indice_cap*sizeof(GLushort));
         list->indices = glstate->merger_indices;
     } else {
         if(list->ilen+n<list->indice_cap)
             return;
-        list->indice_cap = (list->indice_cap+512)&~511;
+        list->indice_cap = ((list->indice_cap+n+511)>>9)<<9;
         list->indices = (GLushort*)realloc(list->indices, list->indice_cap*sizeof(GLushort));
     }
 }
