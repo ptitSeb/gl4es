@@ -2,6 +2,7 @@
 #include "matrix.h"
 #include "matvec.h"
 #include "debug.h"
+#include "list.h"
 
 //#define DEBUG
 #ifdef DEBUG
@@ -65,18 +66,15 @@ void bind_stipple_tex() {
     gl4es_glBindTexture(GL_TEXTURE_2D, glstate->linestipple.texture);
 }
 
-GLfloat *gen_stipple_tex_coords(GLfloat *vert, GLenum mode, int stride, int length, GLfloat* noalloctex) {
-    DBG(printf("Generate stripple tex (mode=%s, stride=%d, noalloctex=%p):", PrintEnum(mode), stride, noalloctex);)
+GLfloat *gen_stipple_tex_coords(GLfloat *vert, modeinit_t *modes, int stride, int length, GLfloat* noalloctex) {
+    DBG(printf("Generate stripple tex (stride=%d, noalloctex=%p) length=%d:", stride, noalloctex, length);)
     // generate our texture coords
-    GLfloat *tex = noalloctex?noalloctex:(GLfloat *)malloc(length * 4 * sizeof(GLfloat));
+    GLfloat *tex = noalloctex?noalloctex:(GLfloat *)malloc(modes[length-1].ilen * 4 * sizeof(GLfloat));
     GLfloat *texPos = tex;
     GLfloat *vertPos = vert;
-    if(length<2)
-        return tex;
 
     GLfloat x1, x2, y1, y2;
     GLfloat oldlen, len;
-    oldlen = len = 0.f;
     const GLfloat* mvp = getMVPMat();
     GLfloat v[4];
     GLfloat w = (GLfloat)glstate->raster.viewport.width;
@@ -86,44 +84,53 @@ GLfloat *gen_stipple_tex_coords(GLfloat *vert, GLenum mode, int stride, int leng
     // projected coordinates here, and transform to screen pixel using viewport
     // because projected coordinates are from -1. to +1., w and h are to be divided by 2...
     w*=0.5f; h*=0.5f;
-    if(mode==GL_LINES)
-        for (int i = 0; i < length / 2; i++) {
+    int i=0;
+    for (int k=0; k<length; k++) {
+        GLenum mode = modes[k].mode_init;
+        DBG(printf("[%s->%d] ", PrintEnum(mode), modes[k].ilen);)
+        oldlen = len = 0.f;
+        if(modes[k].ilen<2)
+            continue;
+        if(mode==GL_LINES)
+            for (; i < modes[k].ilen / 2; i++) {
+                vector_matrix(vertPos, mvp, v);
+                vertPos+=stride;
+                // need to take "w" componant into acount...
+                x1=(v[0]/v[3])*w; y1=(v[1]/v[3])*h;
+                vector_matrix(vertPos, mvp, v);
+                vertPos+=stride;
+                x2=(v[0]/v[3])*w; y2=(v[1]/v[3])*h;
+                oldlen = len;
+                len += sqrtf((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)) / (glstate->linestipple.factor * 16.f);
+                DBG(printf("%f->%f (%f,%f -> %f,%f)\t", oldlen, len, x1, y1, x2, y2);)
+                memset(texPos, 0, 4*sizeof(GLfloat));
+                texPos[0] = oldlen; texPos[3] = 1.0f;
+                texPos+=texstride;
+                memset(texPos, 0, 4*sizeof(GLfloat));
+                texPos[0] = len; texPos[3] = 1.0f;
+                texPos+=texstride;
+            }
+        else { // GL_LINE_STRIP and GL_LINE_LOOPS works the same here 
+                // (well, last segment, the "loop" one, will look strange, but I will not add a vertex for that)
             vector_matrix(vertPos, mvp, v);
-            vertPos+=stride;
-            // need to take "w" componant into acount...
-            x1=(v[0]/v[3])*w; y1=(v[1]/v[3])*h;
-            vector_matrix(vertPos, mvp, v);
-            vertPos+=stride;
             x2=(v[0]/v[3])*w; y2=(v[1]/v[3])*h;
-            oldlen = len;
-            len += sqrtf((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)) / (glstate->linestipple.factor * 16.f);
-            DBG(printf("%f->%f (%f,%f -> %f,%f)\t", oldlen, len, x1, y1, x2, y2);)
-            memset(texPos, 0, 4*sizeof(GLfloat));
-            texPos[0] = oldlen; texPos[3] = 1.0f;
-            texPos+=texstride;
+            vertPos+=stride;
+            DBG(printf("%f\t", len);)
             memset(texPos, 0, 4*sizeof(GLfloat));
             texPos[0] = len; texPos[3] = 1.0f;
             texPos+=texstride;
-        }
-    else { // GL_LINE_STRIP and GL_LINE_LOOPS works the same here 
-            // (well, last segment, the "loop" one, will look strange, but I will not add a vertex for that)
-        vector_matrix(vertPos, mvp, v);
-        x2=(v[0]/v[3])*w; y2=(v[1]/v[3])*h;
-        vertPos+=stride;
-        DBG(printf("%f\t", len);)
-        memset(texPos, 0, 4*sizeof(GLfloat));
-        texPos[0] = len; texPos[3] = 1.0f;
-        texPos+=texstride;
-        for (int i = 1; i < length; i++) {
-            x1 = x2; y1 = y2;
-            vector_matrix(vertPos, mvp, v);
-            vertPos+=stride;
-            x2=(v[0]/v[3])*w; y2=(v[1]/v[3])*h;
-            len += sqrtf((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)) / (glstate->linestipple.factor * 16.f);
-            DBG(printf("->%f\t", len);)
-            memset(texPos, 0, 4*sizeof(GLfloat));
-            texPos[0] = len; texPos[3] = 1.0f;
-            texPos+=texstride;
+            ++i;
+            for (; i < modes[k].ilen; i++) {
+                x1 = x2; y1 = y2;
+                vector_matrix(vertPos, mvp, v);
+                vertPos+=stride;
+                x2=(v[0]/v[3])*w; y2=(v[1]/v[3])*h;
+                len += sqrtf((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)) / (glstate->linestipple.factor * 16.f);
+                DBG(printf("->%f\t", len);)
+                memset(texPos, 0, 4*sizeof(GLfloat));
+                texPos[0] = len; texPos[3] = 1.0f;
+                texPos+=texstride;
+            }
         }
     }
     DBG(printf("\n");)

@@ -78,9 +78,9 @@ int rendermode_dimensions(GLenum mode) {
             return 3;
         case GL_QUADS:
         case GL_QUAD_STRIP:
-            return 3;   // It's 4, but we use only triangle...
+            return 3;   // It's 4, but we use only triangles...
         case GL_POLYGON:
-            return 5;
+            return 3;   // It's 5, but we use only triangles too.
     }
     return 0;
 }
@@ -93,8 +93,6 @@ bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
     if (a->mode_init != b->mode_init) {
         int a_mode = a->mode_dimension;
         int b_mode = b->mode_dimension;
-        if ((a_mode == 5) || (b_mode == 5))
-            return false;       // Let's not merge polygons
         if ((a_mode == 0) || (b_mode == 0))
             return false;       // undetermined is not good
         if (a_mode == 4) a_mode = 3; // quads are handled as triangles
@@ -161,15 +159,16 @@ void renderlist_lineloop_lines(renderlist_t *a, GLushort *indices, int count) {
     int ilen = len*2;  // new size is 2* + return
 
     if(len>1) {
-        indices[0] = vind(0);
-        indices[1] = vind(1);
+        int k=0;
+        indices[k++] = vind(0);
+        indices[k++] = vind(1);
         for (int i = 2; i<len; i++) {
-            indices[(i-1)*2+0] = vind(i-1);
-            indices[(i-1)*2+1] = vind(i);
+            indices[k++] = vind(i-1);
+            indices[k++] = vind(i);
     }
     // go back to initial point
-        indices[(len-1)*2+0] = indices[(len-1)*2-1];
-        indices[(len-1)*2+1] = indices[0];
+        indices[k++] = indices[(len-1)*2-1];
+        indices[k++] = indices[0];
     }
 }
 
@@ -179,11 +178,12 @@ void renderlist_linestrip_lines(renderlist_t *a, GLushort *indices, int count) {
     int ilen = len*2-2;  // new size is 2*
     if (ilen<1) ilen=0;
     if(len>1) {
-        indices[0] = vind(0);
-        indices[1] = vind(1);
+        int k=0;
+        indices[k++] = vind(0);
+        indices[k++] = vind(1);
         for (int i = 2; i<len; i++) {
-            indices[(i-1)*2+0] = vind(i-1);
-            indices[(i-1)*2+1] = vind(i);
+            indices[k++] = vind(i-1);
+            indices[k++] = vind(i);
         }
     }
 }
@@ -297,6 +297,16 @@ int mode_needindices(GLenum m) {
             return 0;
     }
 }
+
+void list_add_modeinit(renderlist_t* list, GLenum mode) {
+    if (list->mode_init_len+1 >= list->mode_init_cap) {
+        list->mode_init_cap+=128;
+        list->mode_inits = (modeinit_t*)realloc(list->mode_inits, list->mode_init_cap*sizeof(modeinit_t));
+    }
+    list->mode_inits[list->mode_init_len].mode_init = mode;
+    list->mode_inits[list->mode_init_len++].ilen = list->indices?list->ilen:(list->cur_istart?list->cur_istart:list->len);
+}
+
 void append_renderlist(renderlist_t *a, renderlist_t *b) {
     // append all draw elements of b in a
     // check the final indice size of a and b
@@ -373,6 +383,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     for (int i=0; i<a->maxtex; i++)
         if (a->tex[i]) memcpy(a->tex[i]+a->len*4, b->tex[i], b->len*4*sizeof(GLfloat));
     // indices
+    if(!a->mode_inits) list_add_modeinit(a, a->mode_init);
     if (ilen_a || ilen_b || mode_needindices(a->mode) || mode_needindices(b->mode))
     {
         // alloc or realloc a->indices first...
@@ -452,8 +463,8 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
             case GL_TRIANGLE_STRIP:
                 renderlist_trianglestrip_triangles(b, a->indices + ilen_a, a->len);
                 break;
-            case GL_TRIANGLE_FAN:
             case GL_POLYGON:
+            case GL_TRIANGLE_FAN:
                 renderlist_trianglefan_triangles(b, a->indices + ilen_a, a->len);
                 break;
             case GL_QUADS:
@@ -476,6 +487,7 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     }
     // lenghts
     a->len += b->len;
+    if(a->mode_inits) list_add_modeinit(a, b->mode);
     // copy the lastColors if needed
     if(b->lastColorsSet) {
         a->lastColorsSet = 1;
@@ -613,6 +625,8 @@ void free_renderlist(renderlist_t *list) {
 
     renderlist_t *next;
     do {
+        if(list->mode_inits)
+            free(list->mode_inits);
         if ((list->calls.len > 0) && (!list->shared_calls || ((*list->shared_calls)--)==0)) {
             if(list->shared_calls) free(list->shared_calls);
             for (int i = 0; i < list->calls.len; i++) {
@@ -806,12 +820,19 @@ renderlist_t* end_renderlist(renderlist_t *list) {
 }
 
 renderlist_t* recycle_renderlist(renderlist_t *list, GLenum mode) {
-    if(isempty_renderlist(list)) {
-        renderlist_t* old=list;
-        list = list->prev;
-        old->prev = NULL;
-        list->next = NULL;
-        free_renderlist(old);
+    if(isempty_renderlist(list) || (ispurerender_renderlist(list) && list->len==0)) {
+        list->mode_init = mode;
+        list->mode = mode;
+        list->stage=STAGE_DRAW;
+        if (list->post_color) {
+            list->post_color = 0;
+            rlColor4f(list, list->post_colors[0], list->post_colors[1], list->post_colors[2], list->post_colors[3]);
+        }
+        if (list->post_normal) {
+            list->post_normal = 0;
+            rlNormal3f(list, list->post_normals[0], list->post_normals[1], list->post_normals[2]);
+        }
+        return list;    // recycling...
     }
     // check if pending color...
     if (list->post_color) {
@@ -863,6 +884,7 @@ renderlist_t* recycle_renderlist(renderlist_t *list, GLenum mode) {
                 post_expand;
             }
             break;
+        case GL_POLYGON:
         case GL_TRIANGLE_FAN:
             pre_expand;
             renderlist_trianglefan_triangles(list, indices, 0);
@@ -885,7 +907,6 @@ renderlist_t* recycle_renderlist(renderlist_t *list, GLenum mode) {
     }
 #undef pre_expand
 #undef post_expand
-    list->cur_ivert = 0;
     list->cur_istart = list->len;
     // All done
     list->stage=STAGE_DRAW;

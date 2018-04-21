@@ -53,12 +53,13 @@ void rlEnd(renderlist_t *list) {
     // adjust number of vertex, to remove extra vertex
     int adj = list->len - list->cur_istart;
     adj -= adjust_vertices(list->merger_mode?list->merger_mode:list->mode_init, adj);
+    //printf("rlEnd(%d), indices=%p, mode_init_len=%d, len(adj)/ilen=%d(%d)/%d, mode/mode_init=%s/%s, merger_mode=%s\n", list, list->indices, list->mode_init_len, list->len, adj, list->ilen, PrintEnum(list->mode), PrintEnum(list->mode_init), list->merger_mode?PrintEnum(list->merger_mode):"none");
     list->len -= adj;
-
-    if(list->indices && list->merger_mode) {
+    if(!list->mode_inits && list->cur_istart) list_add_modeinit(list, list->mode_init);
+    if(list->indices && list->merger_mode && list->len-list->cur_istart) {
         // also feed the indices...
         int istart = list->cur_istart;
-        int ivert = list->cur_ivert;
+        int ivert = 0;
         int len = list->len-istart;
         resize_indices_renderlist(list, indices_getindicesize(list->merger_mode, len));
         switch (list->merger_mode) {
@@ -129,6 +130,8 @@ void rlEnd(renderlist_t *list) {
                 break;
         }
     }
+    list->cur_istart = 0;
+    if(list->mode_inits) list_add_modeinit(list, list->merger_mode?list->merger_mode:list->mode_init);
     if(list->color)
         memcpy(glstate->color, list->lastColors, 4*sizeof(GLfloat));
     if(list->normal)
@@ -482,9 +485,8 @@ void rlTexEnviv(renderlist_t *list, GLenum target, GLenum pname, const GLint * p
 renderlist_t* NewDrawStage(renderlist_t* l, GLenum m) {
     if(globals4es.mergelist
         && ((isempty_renderlist(l) && l->prev && l->prev->open && l->prev->mode==m && l->prev->mode_init==m)
-            || (l->stage==STAGE_POSTDRAW && l->open /*&& l->use_glstate*/))
-        && ((l->mode==m && l->mode_init==m && (m==GL_POINTS || m==GL_LINES || m==GL_TRIANGLES || m==GL_QUADS))
-            || ((l->mode_dimension==rendermode_dimensions(m) && l->mode_dimension>1 && l->mode_dimension<4)))) 
+            || (l->stage==STAGE_POSTDRAW && l->open))
+        && ((l->mode_dimension==rendermode_dimensions(m) && l->mode_dimension>0)))
     {
         return recycle_renderlist(l, m);
     } else {

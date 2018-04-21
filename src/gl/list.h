@@ -127,12 +127,20 @@ typedef struct {
     int     *shared;
 } bitmaps_t;
 
+typedef struct {
+    GLenum mode_init;
+    int    ilen;
+} modeinit_t;
+
 typedef struct _renderlist_t {
     unsigned long len;
     unsigned long ilen;
     unsigned long cap;
     GLenum mode;
     GLenum mode_init;		// initial requested mode
+    modeinit_t* mode_inits;   // array of requested/len, for the merger
+    int     mode_init_cap;
+    int     mode_init_len;
     int    mode_dimension;
     GLfloat lastNormal[3];
     GLfloat lastColors[4];
@@ -163,8 +171,7 @@ typedef struct _renderlist_t {
     unsigned int indice_cap;
     int maxtex;
     GLenum  merger_mode;
-    int     cur_ivert;          // used by glBegin/glEnd merger.
-    int     cur_istart;
+    int     cur_istart;     // used by glBegin/glEnd merger.
 	
 	rasterlist_t *raster;
 
@@ -255,6 +262,7 @@ renderlist_t *alloc_renderlist();
 void resize_indices_renderlist(renderlist_t *list, int n);
 void resize_merger_indices(int cap);
 int indices_getindicesize(GLenum mode, int len);
+void list_add_modeinit(renderlist_t* list, GLenum mode);
 
 void rlActiveTexture(renderlist_t *list, GLenum texture );
 void rlBindTexture(renderlist_t *list, GLenum target, GLuint texture);
