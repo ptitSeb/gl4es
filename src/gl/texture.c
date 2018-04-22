@@ -714,6 +714,19 @@ GLenum minmag_forcenpot(GLenum filt) {
     }
 }
 
+GLenum minmag_float(GLenum filt) {
+    switch(filt) {
+        case GL_LINEAR:
+            return GL_NEAREST;
+        case GL_LINEAR_MIPMAP_NEAREST:
+        case GL_LINEAR_MIPMAP_LINEAR:
+        case GL_NEAREST_MIPMAP_LINEAR:
+            return GL_NEAREST_MIPMAP_NEAREST;
+        default:
+            return filt;
+    }
+}
+
 void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
@@ -1017,8 +1030,22 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 }
             }
         }
-        // check min/mag settings for GL_FLOAT type textures and for NPOT with limited support
-        if(type==GL_FLOAT || limitednpot) {
+        // check min/mag settings for GL_FLOAT type textures (only GL_NEAREST  and GL_NEAREST_MIPMAP_NEAREST is supported)
+        if(type==GL_FLOAT) {
+            GLenum m = minmag_float(bound->min_filter);
+            if(bound->min_filter != m ) {
+                bound->min_filter = m;
+                gles_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, m);
+            }
+            m = minmag_float(bound->mag_filter);
+            if(bound->mag_filter != m ) {
+                bound->mag_filter = m;
+                gles_glTexParameteri(rtarget, GL_TEXTURE_MAG_FILTER, m);
+            }
+            bound->mipmap_auto = 0; // no need to automipmap here
+        }
+        // check min/mag for NPOT with limited support
+        if(limitednpot) {
             GLenum m = minmag_forcenpot(bound->min_filter);
             if (m!=bound->min_filter)
                 gles_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, m);
@@ -1659,8 +1686,13 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
 				    break;
 			}
         }
-        if(texture->valid && (texture->type==GL_FLOAT) || (texture->npot && globals4es.forcenpot)) { // FLOAT textures have limited mipmap support in GLES2
-            param=minmag_forcenpot(param);
+        if(texture->valid && (texture->type==GL_FLOAT)) {
+            // FLOAT textures have limited mipmap support in GLES2
+            param = minmag_float(param);
+        }
+        if(texture->valid && (texture->npot && globals4es.forcenpot)) {
+            // need to remove MIPMAP for npot if not supported in hardware
+            param = minmag_forcenpot(param);
         }
         if (pname==GL_TEXTURE_MIN_FILTER) texture->min_filter = param;
         if (pname==GL_TEXTURE_MAG_FILTER) texture->mag_filter = param;
