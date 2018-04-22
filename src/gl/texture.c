@@ -171,16 +171,19 @@ void internal2format_type(GLenum internalformat, GLenum *format, GLenum *type)
                 *type = GL_UNSIGNED_BYTE;
             }
             break;
+        case GL_COMPRESSED_ALPHA:
         case GL_ALPHA:
             *format = GL_ALPHA;
             *type = GL_UNSIGNED_BYTE;
             break;
         case 1:
+        case GL_COMPRESSED_LUMINANCE:
         case GL_LUMINANCE:
             *format = GL_LUMINANCE;
             *type = GL_UNSIGNED_BYTE;
             break;
         case 2:
+        case GL_COMPRESSED_LUMINANCE_ALPHA:
         case GL_LUMINANCE8_ALPHA8:
         case GL_LUMINANCE_ALPHA:
             if(globals4es.nolumalpha) {
@@ -244,6 +247,8 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
     if (is_fake_compressed_rgba(intermediaryformat)) intermediaryformat=GL_RGBA;
     if (is_fake_compressed_rgb(internalformat)) internalformat=GL_RGB;
     if (is_fake_compressed_rgba(internalformat)) internalformat=GL_RGBA;
+    if (intermediaryformat==GL_COMPRESSED_LUMINANCE) intermediaryformat=GL_LUMINANCE;
+    if (internalformat==GL_COMPRESSED_LUMINANCE) internalformat=GL_LUMINANCE;
 
     if(*format != intermediaryformat || intermediaryformat!=internalformat) {
         internal2format_type(intermediaryformat, &dest_format, &dest_type);
@@ -265,17 +270,22 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 } else
                     dest_format = GL_RG;
                 break;
+            case GL_COMPRESSED_LUMINANCE:
+                *format = GL_LUMINANCE;
             case GL_LUMINANCE:
                 dest_format = GL_LUMINANCE;
                 break;
             case GL_RGB:
                 dest_format = GL_RGB;
                 break;
+            case GL_COMPRESSED_ALPHA:
+                *format = GL_ALPHA;
             case GL_ALPHA:
                 dest_format = GL_ALPHA;
             case GL_RGBA:
                 break;
             case GL_LUMINANCE8_ALPHA8:
+            case GL_COMPRESSED_LUMINANCE_ALPHA:
                 if(globals4es.nolumalpha)
                     convert = true;
                 else {
@@ -519,19 +529,21 @@ GLenum swizzle_internalformat(GLenum *internalformat, GLenum format, GLenum type
             break;
         // compressed format...
         case GL_COMPRESSED_ALPHA:
-            ret = GL_COMPRESSED_RGBA;
+            ret = GL_ALPHA;//GL_COMPRESSED_RGBA;
             sret = GL_ALPHA;
             break;
         case GL_COMPRESSED_LUMINANCE:
-            ret = GL_COMPRESSED_RGB;
+            ret = GL_LUMINANCE;//GL_COMPRESSED_RGB;
             sret = GL_LUMINANCE;
             break;
         case GL_COMPRESSED_LUMINANCE_ALPHA:
-            ret = GL_COMPRESSED_RGBA;
-            if (globals4es.nolumalpha)
+            if (globals4es.nolumalpha) {
+                ret = GL_COMPRESSED_RGBA;
                 sret = GL_RGBA;
-            else
+            } else {
+                ret = GL_LUMINANCE_ALPHA;
                 sret = GL_LUMINANCE_ALPHA;
+            }
             break;
         case GL_COMPRESSED_RGB:
             sret = GL_RGB;
@@ -733,6 +745,10 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     if(type==GL_UNSIGNED_INT_8_8_8_8_REV)
 #endif
         type = GL_UNSIGNED_BYTE;
+
+    /*if(format==GL_COMPRESSED_LUMINANCE)
+        format = GL_RGB;*/    // Danger from the Deep does that. 
+        //That's odd, probably a bug (line 453 of src/texture.cpp, it should be interformat instead of format)
     
     GLvoid *datab = (GLvoid*)data;
     
@@ -748,6 +764,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     // fpe internal format tracking
     if(glstate->fpe_state) {
         switch (internalformat) {
+            case GL_COMPRESSED_ALPHA:
             case GL_ALPHA4:
             case GL_ALPHA8:
             case GL_ALPHA16:
@@ -755,6 +772,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 bound->fpe_format = FPE_TEX_ALPHA;
                 break;
             case 1:
+            case GL_COMPRESSED_LUMINANCE:
             case GL_LUMINANCE4:
             case GL_LUMINANCE8:
             case GL_LUMINANCE16:
@@ -762,12 +780,14 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 bound->fpe_format = FPE_TEX_LUM;
                 break;
             case 2:
+            case GL_COMPRESSED_LUMINANCE_ALPHA:
             case GL_LUMINANCE4_ALPHA4:
             case GL_LUMINANCE8_ALPHA8:
             case GL_LUMINANCE16_ALPHA16:
             case GL_LUMINANCE_ALPHA:
                 bound->fpe_format = FPE_TEX_LUM_ALPHA;
                 break;
+            case GL_COMPRESSED_INTENSITY:
             case GL_INTENSITY8:
             case GL_INTENSITY16:
             case GL_INTENSITY:
