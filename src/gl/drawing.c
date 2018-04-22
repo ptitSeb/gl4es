@@ -144,6 +144,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 
 static inline bool should_intercept_render(GLenum mode) {
     // check bounded tex that will be used if one need some transformations
+    if (hardext.esversion==1)   // but only for ES1.1
     for (int aa=0; aa<hardext.maxtex; aa++) {
         if (glstate->enable.texture[aa]) {
             if ((hardext.esversion==1) && ((glstate->enable.texgen_s[aa] || glstate->enable.texgen_t[aa] || glstate->enable.texgen_r[aa] || glstate->enable.texgen_q[aa])))
