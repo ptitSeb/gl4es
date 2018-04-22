@@ -1,10 +1,10 @@
 Version history
 ----
-##### Current version
+##### v1.0.6
 * Factorised "Blit" function, and implemented `glBlitFramebuffer`
 * Optimized `glBitmap`
 * Added (limited) direct support to `GL_UNSIGNED_INT` for `glDrawElements` for hardware that support it
-* Improved `glBegin`/`glEnd` merger
+* Improved (a lot) `glBegin`/`glEnd` merger
 * Added Anisotropic filterring support, for hardware that support it.
 * Removed `LIBGL_BATCH` support. Use `LIBGL_BEGINEND` instead (but subsequent `glDrawArrays` or `glDrawElements` will not be merged)
 * Changed (simplified) the way texture "0" is handled
@@ -15,6 +15,9 @@ Version history
 * Improve the way multi glX Context are handled
 * Added basic pre-proc (only handle comments for now)
 * Small optimisation on when using `glDrawArrays` with GL_QUADS
+* Improvement to GL_RENDER
+* Improvement to line stipple
+* Improvement to glPolygonMode(GL_LINE)
  
 ##### v1.0.4
  * FPE is now usable. Most function are implemented
