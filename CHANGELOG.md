@@ -6,7 +6,7 @@ Version history
 * Added (limited) direct support to `GL_UNSIGNED_INT` for `glDrawElements` for hardware that support it
 * Improved (a lot) `glBegin`/`glEnd` merger
 * Added Anisotropic filterring support, for hardware that support it.
-* Removed `LIBGL_BATCH` support. Use `LIBGL_BEGINEND` instead (but subsequent `glDrawArrays` or `glDrawElements` will not be merged)
+* Changed `LIBGL_BATCH`. It will now try to merge small (parametrable) subsequent `glDrawXXXX`
 * Changed (simplified) the way texture "0" is handled
 * Improvement to `glDrawArrays` and `glDrawElement`, with less copy of datas
 * WIP AmigaOS4 support (and BigEndian architecture)
