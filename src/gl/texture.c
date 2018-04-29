@@ -2026,13 +2026,13 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
                 (*params) = bound->max_level;
             break;
         case GL_TEXTURE_WRAP_S:
-            if(!bound->valid || bound->max_level==-1)
+            if(!bound->valid)
                 (*params) = GL_REPEAT;
             else
                 (*params) = bound->wrap_s?bound->wrap_s:GL_REPEAT;
             break;
         case GL_TEXTURE_WRAP_T:
-            if(!bound->valid || bound->max_level==-1)
+            if(!bound->valid)
                 (*params) = GL_REPEAT;
             else
                 (*params) = bound->wrap_t?bound->wrap_t:GL_REPEAT;
