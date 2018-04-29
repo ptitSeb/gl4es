@@ -85,6 +85,7 @@ void rlEnd(renderlist_t *list) {
                     list->indices[list->ilen++]=istart;
                 }
                 break;
+            case GL_POLYGON:
             case GL_TRIANGLE_FAN:
                 if(len>2) {
                     list->indices[list->ilen++]=istart+(ivert++);
