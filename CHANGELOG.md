@@ -1,5 +1,9 @@
 Version history
 ----
+##### Current version
+* Fixes and improvments to avoid unnecessary GLES state changes
+* Fixes some memory issues with glBitmap
+
 ##### v1.0.6
 * Factorised "Blit" function, and implemented `glBlitFramebuffer`
 * Optimized `glBitmap`
