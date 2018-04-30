@@ -486,6 +486,9 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_POINT_SIZE_MAX:
             *params=glstate->pointsprite.sizeMax;
             break;
+        case GL_POINT_SIZE:
+            *params=glstate->pointsprite.size;
+            break;
         case GL_POINT_FADE_THRESHOLD_SIZE:
             *params=glstate->pointsprite.fadeThresholdSize;
             break;
@@ -498,6 +501,23 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         // shader stuff
         case GL_CURRENT_PROGRAM:
             *params=glstate->glsl->program;
+            break;
+        // global hints
+        case GL_PERSPECTIVE_CORRECTION_HINT:
+            if(hardext.esversion==1) return 0; // fall back to actual glGet
+            *params=GL_DONT_CARE;
+            break;
+        case GL_POINT_SMOOTH_HINT:
+            if(hardext.esversion==1) return 0; // fall back to actual glGet
+            *params=GL_DONT_CARE;
+            break;
+        case GL_LINE_SMOOTH_HINT:
+            if(hardext.esversion==1) return 0; // fall back to actual glGet
+            *params=GL_DONT_CARE;
+            break;
+        case GL_FOG_HINT:
+            if(hardext.esversion==1) return 0; // fall back to actual glGet
+            *params=GL_DONT_CARE;
             break;
         // GL4ES special hints
         case GL_SHRINK_HINT_GL4ES:
