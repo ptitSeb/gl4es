@@ -4,6 +4,7 @@
 
 void gl4es_glPushAttrib(GLbitfield mask) {
     //printf("glPushAttrib(0x%04X)\n", mask);
+    realize_textures();
     noerrorShim();
     if (glstate->list.active)
         if (glstate->list.compiling) {
@@ -424,10 +425,11 @@ void gl4es_glPopAttrib() {
         int old_tex = glstate->texture.active;
         for (a=0; a<hardext.maxtex; a++) {
             if(glstate->enable.texture[a] != cur->tex_enabled[a]) {
-                gl4es_glActiveTexture(GL_TEXTURE0+a);
                 for (int j=0; j<ENABLED_TEXTURE_LAST; j++) {
                     const GLuint t = cur->tex_enabled[a] & (1<<j);
                     if ((glstate->enable.texture[a] & (1<<j)) != t) {
+                        if(glstate->texture.active!=a)
+                            gl4es_glActiveTexture(GL_TEXTURE0+a);
                         enable_disable(to_target(j), t); 
                     }
                 }
@@ -436,8 +438,8 @@ void gl4es_glPopAttrib() {
             glstate->enable.texgen_s[a] = cur->texgen_s[a];
             glstate->enable.texgen_t[a] = cur->texgen_t[a];
             glstate->enable.texgen_q[a] = cur->texgen_q[a];
-         }
-         if (glstate->texture.active != old_tex) gl4es_glActiveTexture(GL_TEXTURE0+old_tex);
+        }
+        if (glstate->texture.active != old_tex) gl4es_glActiveTexture(GL_TEXTURE0+old_tex);
     }
 
     if (cur->mask & GL_FOG_BIT) {
@@ -527,14 +529,16 @@ void gl4es_glPopAttrib() {
         gl4es_glPointSize(cur->point_size);
         if(hardext.pointsprite) {
             enable_disable(GL_POINT_SPRITE, cur->pointsprite);
+            int old_tex = glstate->texture.active;
             int a;
             for (a=0; a<hardext.maxtex; a++) {
                 if(glstate->texture.pscoordreplace[a]!=cur->pscoordreplace[a]) {
-                    gl4es_glActiveTexture(GL_TEXTURE0+a);
+                    if(glstate->texture.active!=a)
+                        gl4es_glActiveTexture(GL_TEXTURE0+a);
                     gl4es_glTexEnvi(GL_POINT_SPRITE, GL_COORD_REPLACE, cur->pscoordreplace[a]);
                 }
             }
-            if (glstate->texture.active!= cur->active) gl4es_glActiveTexture(GL_TEXTURE0+cur->active);
+            if (glstate->texture.active!= old_tex) gl4es_glActiveTexture(GL_TEXTURE0+old_tex);
         }
     }
 
@@ -553,6 +557,7 @@ void gl4es_glPopAttrib() {
     }
 
     if (cur->mask & GL_TEXTURE_BIT) {
+        int old_tex = glstate->texture.active;
         int a;
         //TODO: Enable bit for the 4 texture coordinates
         for (a=0; a<hardext.maxtex; a++) {
@@ -563,11 +568,12 @@ void gl4es_glPopAttrib() {
             glstate->texgen[a] = cur->texgen[a];   // all mode and planes per texture in 1 line
             for (int j=0; j<ENABLED_TEXTURE_LAST; j++)
                 if (cur->texture[a][j] != glstate->texture.bound[a][j]->texture) {
-                    gl4es_glActiveTexture(GL_TEXTURE0+a);
+                    if(glstate->texture.active!=a)
+                        gl4es_glActiveTexture(GL_TEXTURE0+a);
                     gl4es_glBindTexture(to_target(j), cur->texture[a][j]);
                 }
         }
-        if (glstate->texture.active!= cur->active) gl4es_glActiveTexture(GL_TEXTURE0+cur->active);
+        if (glstate->texture.active!= old_tex) gl4es_glActiveTexture(GL_TEXTURE0+old_tex);
     }
     
 	if (cur->mask & GL_PIXEL_MODE_BIT) {
