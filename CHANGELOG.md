@@ -3,6 +3,7 @@ Version history
 ##### Current version
 * Fixes and improvments to avoid unnecessary GLES state changes
 * Fixes some memory issues with glBitmap
+* Fixes to FPE (when using multitexture and GL_COMBINE)
 
 ##### v1.0.6
 * Factorised "Blit" function, and implemented `glBlitFramebuffer`

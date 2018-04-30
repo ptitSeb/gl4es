@@ -10,7 +10,7 @@
 #endif
 
 void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
-    DBG(printf("glTexEnvf(%s, %s, 0x%04X(%s)), pending=%d, compiling=%d\n", PrintEnum(target), PrintEnum(pname), (GLenum)param, PrintEnum((GLenum)param), glstate->list.pending, glstate->list.compiling);)
+    DBG(printf("glTexEnvf(%s, %s, 0x%04X(%s)), tmu=%d, pending=%d, compiling=%d\n", PrintEnum(target), PrintEnum(pname), (GLenum)param, PrintEnum((GLenum)param), glstate->texture.active, glstate->list.pending, glstate->list.compiling);)
     LOAD_GLES2(glTexEnvf);
     if (!glstate->list.pending) {
         PUSH_IF_COMPILING(glTexEnvf);
@@ -18,15 +18,16 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
     // Handling GL_EXT_DOT3, wrapping to standard dot3 (???)
     if(param==GL_DOT3_RGB_EXT) param=GL_DOT3_RGB;
     if(param==GL_DOT3_RGBA_EXT) param=GL_DOT3_RGBA;
+    const int tmu = glstate->texture.active;
     noerrorShim();
     switch(target) {
         case GL_POINT_SPRITE:
             if(pname==GL_COORD_REPLACE) {
                 int p = (param!=0.0f)?1:0;
-                if (glstate->texture.pscoordreplace[glstate->texture.active] == p)
+                if (glstate->texture.pscoordreplace[tmu] == p)
                     return;
                 if (glstate->list.pending) flush();
-                glstate->texture.pscoordreplace[glstate->texture.active] = p;
+                glstate->texture.pscoordreplace[tmu] = p;
                 if (glstate->fpe_state)
                     glstate->fpe_state->pointsprite_coord = p;
             } else {
@@ -36,10 +37,10 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
             break;
         case GL_TEXTURE_FILTER_CONTROL:
             if(pname==GL_TEXTURE_LOD_BIAS) {
-                if(glstate->texenv[glstate->texture.active].filter.lod_bias == param)
+                if(glstate->texenv[tmu].filter.lod_bias == param)
                     return;
                 if (glstate->list.pending) flush();
-                glstate->texenv[glstate->texture.active].filter.lod_bias = param;
+                glstate->texenv[tmu].filter.lod_bias = param;
             } else {
                 errorShim(GL_INVALID_ENUM);
                 return;
@@ -47,7 +48,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
             break;
         case GL_TEXTURE_ENV:
             {
-            texenv_t *t = &glstate->texenv[glstate->texture.active].env;
+            texenv_t *t = &glstate->texenv[tmu].env;
             switch(pname) {
                 case GL_TEXTURE_ENV_MODE:
                     if(t->mode == param)
@@ -67,8 +68,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             case GL_REPLACE: state=FPE_REPLACE; break;
                             case GL_COMBINE: state=FPE_COMBINE; break;
                         }
-                        glstate->fpe_state->texenv &= ~ (7<<(glstate->texture.active*3));
-                        glstate->fpe_state->texenv |= state<<(glstate->texture.active*3);
+                        glstate->fpe_state->texenv &= ~ (7<<(tmu*3));
+                        glstate->fpe_state->texenv |= state<<(tmu*3);
                     }
                     break;
                 case GL_COMBINE_RGB:
@@ -92,8 +93,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             case GL_DOT3_RGB: state=FPE_CR_DOT3_RGB; break;
                             case GL_DOT3_RGBA: state=FPE_CR_DOT3_RGBA; break;
                         }
-                        glstate->fpe_state->texcombine[glstate->texture.active] &= ~ 0xf;
-                        glstate->fpe_state->texcombine[glstate->texture.active] |= state;
+                        glstate->fpe_state->texcombine[tmu] &= 0xf0;
+                        glstate->fpe_state->texcombine[tmu] |= state;
                     }
                     break;
                 case GL_COMBINE_ALPHA:
@@ -115,8 +116,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             case GL_INTERPOLATE: state=FPE_CR_INTERPOLATE; break;
                             case GL_SUBTRACT: state=FPE_CR_SUBTRACT; break;
                         }
-                        glstate->fpe_state->texcombine[glstate->texture.active] &= ~ 0xf0;
-                        glstate->fpe_state->texcombine[glstate->texture.active] |= state<<4;
+                        glstate->fpe_state->texcombine[tmu] &= 0x0f;
+                        glstate->fpe_state->texcombine[tmu] |= (state<<4);
                     }
                     break;
                 case GL_SRC0_RGB:
@@ -139,8 +140,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                                 case GL_PRIMARY_COLOR: state=FPE_SRC_PRIMARY_COLOR; break;
                                 case GL_PREVIOUS: state=FPE_SRC_PREVIOUS; break;
                             }
-                        glstate->fpe_state->texsrcrgb[0] &= ~ (0xf<<(glstate->texture.active*4));
-                        glstate->fpe_state->texsrcrgb[0] |= state<<(glstate->texture.active*4);
+                        glstate->fpe_state->texsrcrgb[0] &= ~ (0xf<<(tmu*4));
+                        glstate->fpe_state->texsrcrgb[0] |= state<<(tmu*4);
                     }
                     break;
                 case GL_SRC1_RGB:
@@ -163,8 +164,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                                 case GL_PRIMARY_COLOR: state=FPE_SRC_PRIMARY_COLOR; break;
                                 case GL_PREVIOUS: state=FPE_SRC_PREVIOUS; break;
                             }
-                        glstate->fpe_state->texsrcrgb[1] &= ~ (0xf<<(glstate->texture.active*4));
-                        glstate->fpe_state->texsrcrgb[1] |= state<<(glstate->texture.active*4);
+                        glstate->fpe_state->texsrcrgb[1] &= ~ (0xf<<(tmu*4));
+                        glstate->fpe_state->texsrcrgb[1] |= state<<(tmu*4);
                     }
                     break;
                 case GL_SRC2_RGB:
@@ -187,8 +188,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                                 case GL_PRIMARY_COLOR: state=FPE_SRC_PRIMARY_COLOR; break;
                                 case GL_PREVIOUS: state=FPE_SRC_PREVIOUS; break;
                             }
-                        glstate->fpe_state->texsrcrgb[2] &= ~ (0xf<<(glstate->texture.active*4));
-                        glstate->fpe_state->texsrcrgb[2] |= state<<(glstate->texture.active*4);
+                        glstate->fpe_state->texsrcrgb[2] &= ~ (0xf<<(tmu*4));
+                        glstate->fpe_state->texsrcrgb[2] |= state<<(tmu*4);
                     }
                     break;
                 case GL_SRC0_ALPHA:
@@ -211,8 +212,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                                 case GL_PRIMARY_COLOR: state=FPE_SRC_PRIMARY_COLOR; break;
                                 case GL_PREVIOUS: state=FPE_SRC_PREVIOUS; break;
                             }
-                        glstate->fpe_state->texsrcalpha[0] &= ~ (0xf<<(glstate->texture.active*4));
-                        glstate->fpe_state->texsrcalpha[0] |= state<<(glstate->texture.active*4);
+                        glstate->fpe_state->texsrcalpha[0] &= ~ (0xf<<(tmu*4));
+                        glstate->fpe_state->texsrcalpha[0] |= state<<(tmu*4);
                     }
                     break;
                 case GL_SRC1_ALPHA:
@@ -235,8 +236,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                                 case GL_PRIMARY_COLOR: state=FPE_SRC_PRIMARY_COLOR; break;
                                 case GL_PREVIOUS: state=FPE_SRC_PREVIOUS; break;
                             }
-                        glstate->fpe_state->texsrcalpha[1] &= ~ (0xf<<(glstate->texture.active*4));
-                        glstate->fpe_state->texsrcalpha[1] |= state<<(glstate->texture.active*4);
+                        glstate->fpe_state->texsrcalpha[1] &= ~ (0xf<<(tmu*4));
+                        glstate->fpe_state->texsrcalpha[1] |= state<<(tmu*4);
                     }
                     break;
                 case GL_SRC2_ALPHA:
@@ -259,8 +260,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                                 case GL_PRIMARY_COLOR: state=FPE_SRC_PRIMARY_COLOR; break;
                                 case GL_PREVIOUS: state=FPE_SRC_PREVIOUS; break;
                             }
-                        glstate->fpe_state->texsrcalpha[2] &= ~ (0xf<<(glstate->texture.active*4));
-                        glstate->fpe_state->texsrcalpha[2] |= state<<(glstate->texture.active*4);
+                        glstate->fpe_state->texsrcalpha[2] &= ~ (0xf<<(tmu*4));
+                        glstate->fpe_state->texsrcalpha[2] |= state<<(tmu*4);
                     }
                     break;
                 case GL_OPERAND0_RGB:
@@ -280,8 +281,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             case GL_ONE_MINUS_SRC_COLOR: state=FPE_OP_MINUSCOLOR; break;
                             case GL_ONE_MINUS_SRC_ALPHA: state=FPE_OP_MINUSALPHA; break;
                         }
-                        glstate->fpe_state->texoprgb[0] &= ~ (0x3<<(glstate->texture.active*2));
-                        glstate->fpe_state->texoprgb[0] |= state<<(glstate->texture.active*2);
+                        glstate->fpe_state->texoprgb[0] &= ~ (0x3<<(tmu*2));
+                        glstate->fpe_state->texoprgb[0] |= state<<(tmu*2);
                     }
                     break;
                 case GL_OPERAND1_RGB:
@@ -301,8 +302,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             case GL_ONE_MINUS_SRC_COLOR: state=FPE_OP_MINUSCOLOR; break;
                             case GL_ONE_MINUS_SRC_ALPHA: state=FPE_OP_MINUSALPHA; break;
                         }
-                        glstate->fpe_state->texoprgb[1] &= ~ (0x3<<(glstate->texture.active*2));
-                        glstate->fpe_state->texoprgb[1] |= state<<(glstate->texture.active*2);
+                        glstate->fpe_state->texoprgb[1] &= ~ (0x3<<(tmu*2));
+                        glstate->fpe_state->texoprgb[1] |= state<<(tmu*2);
                     }
                     break;
                 case GL_OPERAND2_RGB:
@@ -322,8 +323,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             case GL_ONE_MINUS_SRC_COLOR: state=FPE_OP_MINUSCOLOR; break;
                             case GL_ONE_MINUS_SRC_ALPHA: state=FPE_OP_MINUSALPHA; break;
                         }
-                        glstate->fpe_state->texoprgb[2] &= ~ (0x3<<(glstate->texture.active*2));
-                        glstate->fpe_state->texoprgb[2] |= state<<(glstate->texture.active*2);
+                        glstate->fpe_state->texoprgb[2] &= ~ (0x3<<(tmu*2));
+                        glstate->fpe_state->texoprgb[2] |= state<<(tmu*2);
                     }
                     break;
                 case GL_OPERAND0_ALPHA:
@@ -339,8 +340,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                         int state = FPE_OP_ALPHA;
                         if(t->op0_alpha==GL_ONE_MINUS_SRC_ALPHA) state=FPE_OP_MINUSALPHA;
 
-                        glstate->fpe_state->texopalpha[0] &= ~ (0x1<<glstate->texture.active);
-                        glstate->fpe_state->texopalpha[0] |= state<<glstate->texture.active;
+                        glstate->fpe_state->texopalpha[0] &= ~ (0x1<<tmu);
+                        glstate->fpe_state->texopalpha[0] |= state<<tmu;
                     }
                     break;
                 case GL_OPERAND1_ALPHA:
@@ -356,8 +357,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                         int state = FPE_OP_ALPHA;
                         if(t->op1_alpha==GL_ONE_MINUS_SRC_ALPHA) state=FPE_OP_MINUSALPHA;
 
-                        glstate->fpe_state->texopalpha[1] &= ~ (0x1<<glstate->texture.active);
-                        glstate->fpe_state->texopalpha[1] |= state<<glstate->texture.active;
+                        glstate->fpe_state->texopalpha[1] &= ~ (0x1<<tmu);
+                        glstate->fpe_state->texopalpha[1] |= state<<tmu;
                     }
                     break;
                 case GL_OPERAND2_ALPHA:
@@ -373,8 +374,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                         int state = FPE_OP_ALPHA;
                         if(t->op2_alpha==GL_ONE_MINUS_SRC_ALPHA) state=FPE_OP_MINUSALPHA;
 
-                        glstate->fpe_state->texopalpha[2] &= ~ (0x1<<glstate->texture.active);
-                        glstate->fpe_state->texopalpha[2] |= state<<glstate->texture.active;
+                        glstate->fpe_state->texopalpha[2] &= ~ (0x1<<tmu);
+                        glstate->fpe_state->texopalpha[2] |= state<<tmu;
                     }
                     break;
                 case GL_RGB_SCALE:
@@ -388,9 +389,9 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                     t->rgb_scale = param;
                     if(glstate->fpe_state) {
                         if(param==1.0f)
-                            glstate->fpe_state->texrgbscale &= ~(1<<glstate->texture.active);
+                            glstate->fpe_state->texrgbscale &= ~(1<<tmu);
                         else
-                        glstate->fpe_state->texrgbscale |= 1<<glstate->texture.active;
+                        glstate->fpe_state->texrgbscale |= 1<<tmu;
                     }
                     break;
                 case GL_ALPHA_SCALE:
@@ -404,9 +405,9 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                     t->alpha_scale = param;
                     if(glstate->fpe_state) {
                         if(param==1.0f)
-                            glstate->fpe_state->texalphascale &= ~(1<<glstate->texture.active);
+                            glstate->fpe_state->texalphascale &= ~(1<<tmu);
                         else
-                        glstate->fpe_state->texalphascale |= 1<<glstate->texture.active;
+                        glstate->fpe_state->texalphascale |= 1<<tmu;
                     }
                     break;
                 default:

@@ -84,7 +84,7 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
     } else {
         // indiviual lights
         for (int i=0; i<8; i++) {
-            if((dest->light>>i)&1==0) {
+            if(((dest->light>>i)&1)==0) {
                 dest->light_cutoff180 &= ~(1<<i);
                 dest->light_direction &= ~(1<<i);
             }            
@@ -112,7 +112,7 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
     } else {
         // individual textures
         for (int i=0; i<8; i++) {
-            if((dest->textype>>(i*3))&7==0) { // texture is off
+            if(((dest->textype>>(i*3))&7)==0) { // texture is off
                 dest->textmat &= ~(1<<i);
                 dest->texformat &= ~(7<<(i*3));
                 dest->texadjust &= ~(1<<i);
@@ -125,16 +125,16 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
                 dest->texgen_q &= ~(1<<i);
                 dest->texgen_q_mode &= ~(7<<(i*3));
             } else {    // texture is on
-                if (dest->texgen_s&(1<<i)==0)
+                if ((dest->texgen_s&(1<<i))==0)
                     dest->texgen_s_mode &= ~(7<<(i*3));
-                if (dest->texgen_t&(1<<i)==0)
+                if ((dest->texgen_t&(1<<i))==0)
                     dest->texgen_t_mode &= ~(7<<(i*3));
-                if (dest->texgen_r&(1<<i)==0)
+                if ((dest->texgen_r&(1<<i))==0)
                     dest->texgen_r_mode &= ~(7<<(i*3));
-                if (dest->texgen_q&(1<<i)==0)
+                if ((dest->texgen_q&(1<<i))==0)
                     dest->texgen_q_mode &= ~(7<<(i*3));
             }
-            if(dest->texenv>>(i*3)&7 != FPE_COMBINE || dest->textype>>(i*3)&7==0) {
+            if((((dest->texenv>>(i*3))&7) != FPE_COMBINE) || ((dest->textype>>(i*3)&7)==0)) {
                 dest->texcombine[i] = 0;
                 for (int j=0; j<3; j++) {
                     dest->texsrcrgb[j] &= ~(0xf<<(i*4));
