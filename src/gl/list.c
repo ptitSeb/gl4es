@@ -685,14 +685,14 @@ void free_renderlist(renderlist_t *list) {
         if (list->lightmodel)
 			free(list->lightmodel);
 			
-        if (list->raster && !(*(list->raster->shared)--)) {
+        if (list->raster && !((*list->raster->shared)--)) {
 			if (list->raster->texture)
 				gl4es_glDeleteTextures(1, &list->raster->texture);
             free(list->raster->shared);
 			free(list->raster);
 		}
 
-        if(list->bitmaps && !(*(list->bitmaps->shared)--)) {
+        if(list->bitmaps && !((*list->bitmaps->shared)--)) {
             for(int i=0; i<list->bitmaps->count; i++)
                 if(list->bitmaps->list[i].bitmap)
                     free(list->bitmaps->list[i].bitmap);

@@ -325,7 +325,7 @@ void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
 		l->yorig = yorig;
 		l->xmove = xmove;
 		l->ymove = ymove;
-		int sz = ((height+7)/8)*width;
+		int sz = ((width+7)/8)*height;
 		l->bitmap = (GLubyte*)malloc(sz);
 		memcpy(l->bitmap, bitmap, sz);
 		return;
