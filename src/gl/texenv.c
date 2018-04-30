@@ -2,7 +2,15 @@
 #include "debug.h"
 #include "../glx/hardext.h"
 
+//#define DEBUG
+#ifdef DEBUG
+#define DBG(a) a
+#else
+#define DBG(a)
+#endif
+
 void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
+    DBG(printf("glTexEnvf(%s, %s, 0x%04X(%s)), pending=%d, compiling=%d\n", PrintEnum(target), PrintEnum(pname), (GLenum)param, PrintEnum((GLenum)param), glstate->list.pending, glstate->list.compiling);)
     LOAD_GLES2(glTexEnvf);
     if (!glstate->list.pending) {
         PUSH_IF_COMPILING(glTexEnvf);
@@ -417,11 +425,14 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
 }
 
 void gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param) {
+    DBG(printf("glTexEnvi(...)->");)
     gl4es_glTexEnvf(target, pname, param);
 }
 
 void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
+    DBG(printf("glTexEnvfv(%s, %s, %p)->", PrintEnum(target), PrintEnum(pname), param);)
     if ((glstate->list.compiling) && glstate->list.active) {
+        DBG(printf("rlTexEnvfv(...)\n");)
 		NewStage(glstate->list.active, STAGE_TEXENV);
 		rlTexEnvfv(glstate->list.active, target, pname, param);
         noerrorShim();
@@ -429,6 +440,7 @@ void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
 	}
     if(target==GL_TEXTURE_ENV && pname==GL_TEXTURE_ENV_COLOR) {
         texenv_t *t = &glstate->texenv[glstate->texture.active].env;
+        DBG(printf("Color=%f/%f/%f/%f\n", param[0], param[1], param[2], param[3]);)
         if(memcmp(t->color, param, 4*sizeof(GLfloat))==0) {
             noerrorShim();
             return;
@@ -443,7 +455,9 @@ void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
         gl4es_glTexEnvf(target, pname, *param);
 }
 void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param) {
+    DBG(printf("glTexEnviv(%s, %s, %p)->", PrintEnum(target), PrintEnum(pname), param);)
     if ((glstate->list.compiling) && glstate->list.active) {
+        DBG(printf("rlTexEnviv(...)\n");)
 		NewStage(glstate->list.active, STAGE_TEXENV);
 		rlTexEnviv(glstate->list.active, target, pname, param);
         noerrorShim();
@@ -452,12 +466,14 @@ void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param) {
     if(target==GL_TEXTURE_ENV && pname==GL_TEXTURE_ENV_COLOR) {
         GLfloat p[4];
         p[0] = param[0]; p[1] = param[1]; p[2] = param[2]; p[3] = param[3];
+        DBG(printf("Color=%d/%d/%d/%d\n", param[0], param[1], param[2], param[3]);)
         gl4es_glTexEnvfv(target, pname, p);
     } else
         gl4es_glTexEnvf(target, pname, *param);
 }
 void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
     //if (glstate->list.pending) flush();
+    DBG(printf("glGetTexEnvfv(%s, %s, %p)\n", PrintEnum(target), PrintEnum(pname), params);)
     noerrorShim();
     switch(target) {
         case GL_POINT_SPRITE:

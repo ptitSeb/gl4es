@@ -248,6 +248,45 @@ const char* PrintEnum(GLenum what) {
         p(GL_TEXTURE_COORD_ARRAY);
         p(GL_SECONDARY_COLOR_ARRAY);
         p(GL_FOG_COORD_ARRAY);
+        // TexEnv
+        p(GL_POINT_SPRITE);
+        p(GL_COORD_REPLACE);
+        p(GL_TEXTURE_FILTER_CONTROL);
+        p(GL_TEXTURE_LOD_BIAS);
+        p(GL_TEXTURE_ENV);
+        p(GL_TEXTURE_ENV_MODE);
+        p(GL_MODULATE);
+        p(GL_ADD);
+        p(GL_DECAL);
+        p(GL_REPLACE);
+        p(GL_COMBINE);
+        p(GL_COMBINE_RGB);
+        p(GL_ADD_SIGNED);
+        p(GL_INTERPOLATE);
+        p(GL_SUBTRACT);
+        p(GL_DOT3_RGB);
+        p(GL_DOT3_RGBA);
+        p(GL_COMBINE_ALPHA);
+        p(GL_SRC0_RGB);
+        p(GL_SRC1_RGB);
+        p(GL_SRC2_RGB);
+        p(GL_CONSTANT);
+        p(GL_PRIMARY_COLOR);
+        p(GL_PREVIOUS);
+        p(GL_SRC0_ALPHA);
+        p(GL_SRC1_ALPHA);
+        p(GL_SRC2_ALPHA);
+        p(GL_OPERAND0_RGB);
+        p(GL_OPERAND1_RGB);
+        p(GL_OPERAND2_RGB);
+        p(GL_SRC_COLOR);
+        p(GL_ONE_MINUS_SRC_COLOR);
+        p(GL_OPERAND0_ALPHA);
+        p(GL_OPERAND1_ALPHA);
+        p(GL_OPERAND2_ALPHA);
+        p(GL_RGB_SCALE);
+        p(GL_ALPHA_SCALE);
+        p(GL_TEXTURE_ENV_COLOR);
         // misc
         p(GL_NUM_EXTENSIONS);
         default:
