@@ -134,7 +134,7 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
                 if ((dest->texgen_q&(1<<i))==0)
                     dest->texgen_q_mode &= ~(7<<(i*3));
             }
-            if((((dest->texenv>>(i*3))&7) != FPE_COMBINE) || ((dest->textype>>(i*3)&7)==0)) {
+            if((((dest->texenv>>(i*3))&7) < FPE_COMBINE) || ((dest->textype>>(i*3)&7)==0)) {
                 dest->texcombine[i] = 0;
                 for (int j=0; j<3; j++) {
                     dest->texsrcrgb[j] &= ~(0xf<<(i*4));
@@ -142,6 +142,11 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
                     dest->texoprgb[j] &= ~(0x3<<(i*2));
                     dest->texopalpha[j] &= ~(0x1<<i);
                 }
+            } else if(((dest->texenv>>(i*3))&7) != FPE_COMBINE4) {
+                dest->texsrcrgb[3] &= ~(0xf<<(i*4));
+                dest->texsrcalpha[3] &= ~(0xf<<(i*4));
+                dest->texoprgb[3] &= ~(0x3<<(i*2));
+                dest->texopalpha[3] &= ~(0x1<<i);
             }
         }
     }

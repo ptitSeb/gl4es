@@ -154,6 +154,7 @@ void BuildExtensionsList() {
                 "GL_ARB_shading_language_100 "
                 "GL_ATI_texture_env_combine3 "
                 "GL_ATIX_texture_env_route "
+                "GL_NV_texture_env_combine4 "
                 );
         }
         char* p = extensions;

@@ -47,6 +47,7 @@
 #define FPE_BLEND             3
 #define FPE_REPLACE           4
 #define FPE_COMBINE           5
+#define FPE_COMBINE4          6
 
 #define FPE_CR_REPLACE        0
 #define FPE_CR_MODULATE       1
@@ -96,11 +97,11 @@
 #define FPE_TG_NONE            5  // dummy, to help fpe
 
 typedef struct {
-    uint32_t texsrcrgb[3];               // 8 texenv src rgb n (SRC_n_RGB is 4 bits)
-    uint32_t texsrcalpha[3];             // 8 texenv src alpha n (SRC_n_ALPHA is 4 bits)
+    uint32_t texsrcrgb[4];               // 8 texenv src rgb n (SRC_n_RGB is 4 bits)
+    uint32_t texsrcalpha[4];             // 8 texenv src alpha n (SRC_n_ALPHA is 4 bits)
     uint8_t texcombine[8];               // 8 texture combined (RGB as lower 4 bits, A as higher 4 bits)
-    uint16_t texoprgb[3];                // 8 texenv src op (OPERATION_n_RGB is 2 bits)
-    uint8_t texopalpha[3];               // 8 texenv src op (OPERATION_n_ALPHA is 1 bits)
+    uint16_t texoprgb[4];                // 8 texenv src op (OPERATION_n_RGB is 2 bits)
+    uint8_t texopalpha[4];               // 8 texenv src op (OPERATION_n_ALPHA is 1 bits)
     uint8_t texrgbscale;                 // 8 flags if RGB_SCALE for texture is != 1.0
     uint8_t texalphascale;               // 8 flags if ALPHA_SCALE for texture is != 1.0
     uint8_t light;                       // 8 lights packed

@@ -726,4 +726,11 @@
 #define GL_TEXTURE_OUTPUT_RGB_ATIX              0x8748
 #define GL_TEXTURE_OUTPUT_ALPHA_ATIX            0x8749
 
+//GL_NV_texture_env_combine4
+#define GL_COMBINE4                             0x8503
+#define GL_SRC3_RGB                             0x8583
+#define GL_SRC3_ALPHA                           0x858B
+#define GL_OPERAND3_RGB                         0x8593
+#define GL_OPERAND3_ALPHA                       0x859B
+
 #endif
