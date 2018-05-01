@@ -434,7 +434,7 @@ void gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param) {
 
 void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
     DBG(printf("glTexEnvfv(%s, %s, %p)->", PrintEnum(target), PrintEnum(pname), param);)
-    if ((glstate->list.compiling) && glstate->list.active) {
+    if (glstate->list.compiling && glstate->list.active && !glstate->list.pending) {
         DBG(printf("rlTexEnvfv(...)\n");)
 		NewStage(glstate->list.active, STAGE_TEXENV);
 		rlTexEnvfv(glstate->list.active, target, pname, param);
@@ -461,7 +461,7 @@ void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
 }
 void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param) {
     DBG(printf("glTexEnviv(%s, %s, %p)->", PrintEnum(target), PrintEnum(pname), param);)
-    if ((glstate->list.compiling) && glstate->list.active) {
+    if (glstate->list.compiling && glstate->list.active && !glstate->list.pending) {
         DBG(printf("rlTexEnviv(...)\n");)
 		NewStage(glstate->list.active, STAGE_TEXENV);
 		rlTexEnviv(glstate->list.active, target, pname, param);
