@@ -21,8 +21,10 @@ LOCAL_SRC_FILES := \
 	src/gl/buffers.c \
 	src/gl/debug.c \
 	src/gl/decompress.c \
+	src/gl/depth.c \
 	src/gl/directstate.c \
 	src/gl/drawing.c \
+	src/gl/enable.c \
 	src/gl/eval.c \
 	src/gl/fog.c \
 	src/gl/fpe.c \

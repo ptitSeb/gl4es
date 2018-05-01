@@ -306,5 +306,12 @@ typedef struct {
     GLenum fb_status;
 } fbo_t;
 
+typedef struct {
+    GLenum      func;
+    GLboolean   mask;
+    GLfloat     near, far;
+    GLfloat     clear;
+} depth_state_t;
+
 
 #endif

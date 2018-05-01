@@ -80,6 +80,7 @@ typedef struct {
     gleshard_ns_t       glesva;
     glesblit_t          *blit;
     fbo_t               fbo;
+    depth_state_t       depth;
     // scratch array
     int                 scratch_alloc;
     void*               scratch;

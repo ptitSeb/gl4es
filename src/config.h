@@ -52,6 +52,12 @@
 #define skip_glColorMask
 #define skip_glClear
 
+// depth.c
+#define skip_glDepthFunc
+#define skip_glDepthMask
+#define skip_glDepthRangef
+#define skip_glClearDepthf
+
 // fog.c
 #define skip_glFogfv
 #define skip_glFogf

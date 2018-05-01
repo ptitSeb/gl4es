@@ -218,6 +218,11 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->blenddfactorrgb = GL_ZERO;
     glstate->blendsfactoralpha = GL_ONE;
     glstate->blenddfactoralpha = GL_ZERO;
+    // Depth
+    glstate->depth.func = GL_LESS;
+    glstate->depth.mask = GL_TRUE;
+    glstate->depth.far  = 1.0f;
+    glstate->depth.clear= 1.0f;
     // Point Sprite
     glstate->pointsprite.size = 1.0f;
     glstate->pointsprite.sizeMax = 32.0f;   // spec indicate 1., but it seems it's set to hardware limit, so puting 32...

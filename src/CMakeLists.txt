@@ -8,8 +8,10 @@ SET(GL_SRC
     gl/buffers.c
     gl/debug.c
     gl/decompress.c
+    gl/depth.c
     gl/directstate.c
     gl/drawing.c
+    gl/enable.c
     gl/eval.c
     gl/fog.c
     gl/fpe.c
@@ -62,6 +64,7 @@ SET(GL_H
     gl/debug.h
     gl/decompress.h
     gl/defines.h
+    gl/depth.h
     gl/directstate.h
     gl/eval.h
     gl/fog.h
