@@ -216,5 +216,6 @@ void tex_setup_texcoord(GLuint len, int changes, GLuint texture, pointer_state_t
 
 void realize_bound(int TMU, GLenum target);
 void realize_textures();
+void realize_active();
 
 #endif

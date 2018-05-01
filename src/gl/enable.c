@@ -106,6 +106,8 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         proxy_GO(GL_DEPTH_TEST, depth_test);
         case GL_TEXTURE_2D:
             if(glstate->list.pending && ((glstate->enable.texture[glstate->texture.active]>>ENABLED_TEX2D)&1)!=enable) flush();
+            if(enable == ((glstate->enable.texture[glstate->texture.active]>>ENABLED_TEX2D)&1))
+                return; // no change
             if(enable)
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX2D);
             else
@@ -113,8 +115,10 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             gl_changetex(glstate->texture.active);
             if(glstate->fpe_state)
                 fpe_changetex(glstate->texture.active);
-            else
+            else {
+                realize_active();
                 next(cap);
+            }
             break;
 
         // texgen
@@ -239,7 +243,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             break;
 
         
-        default: errorGL(); if(glstate->list.pending) flush(); next(cap); break;
+        default: errorGL(); if(glstate->list.pending) flush(); realize_active(); next(cap); break;
     }
     #undef proxy_GO
     #undef GO
@@ -315,8 +319,8 @@ void glDisableClientState(GLenum cap) AliasExport("gl4es_glDisableClientState");
 GLboolean gl4es_glIsEnabled(GLenum cap) {
     if(glstate->list.begin) {errorShim(GL_INVALID_OPERATION); return GL_FALSE;}
     if(glstate->list.compiling) {errorShim(GL_INVALID_OPERATION); return GL_FALSE;}
-    // should flush for now... to be optimized later!
-    if (glstate->list.active)
+    // should flush for now... but no need if it's just a pending list...
+    if (glstate->list.active && !glstate->list.pending)
         flush();
     LOAD_GLES(glIsEnabled);
     noerrorShim();

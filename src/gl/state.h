@@ -221,6 +221,7 @@ typedef struct {
 typedef struct {
     GLuint          program;
     program_t       *glprogram;
+    GLuint          active; // active texture (is it shared?)
 } gleshard_s_t;
 
 typedef struct {

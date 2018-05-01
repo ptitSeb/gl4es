@@ -347,6 +347,11 @@ void draw_renderlist(renderlist_t *list) {
                  && glstate->enable.line_stipple) {
                 stipple = true;
                 gl4es_glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT | GL_TEXTURE_BIT);
+                if(glstate->gleshard->active) {
+                    LOAD_GLES(glActiveTexture);
+                    glstate->gleshard->active = 0;
+                    gles_glActiveTexture(GL_TEXTURE0);
+                }
                 TEXTURE(0);
                 gl4es_glEnable(GL_BLEND);
                 gl4es_glEnable(GL_TEXTURE_2D);
@@ -414,6 +419,8 @@ void draw_renderlist(renderlist_t *list) {
                 }
                 if (!IS_TEX2D(glstate->enable.texture[a]) && (IS_ANYTEX(glstate->enable.texture[a]))) {
                     TEXTURE(a);
+                    gl4es_glActiveTexture(GL_TEXTURE0+a);
+                    realize_active();
                     gles_glEnable(GL_TEXTURE_2D);
                 }
             }

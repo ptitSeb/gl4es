@@ -458,6 +458,12 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_LIGHTING:
             *params=glstate->enable.lighting;
             break;
+        case GL_DEPTH_WRITEMASK:
+            *params=glstate->depth.mask;
+            break;
+        case GL_DEPTH_FUNC:
+            *params=glstate->depth.func;
+            break;
 #define GO(n)        case GL_CLIP_PLANE##n: \
             *params=glstate->enable.plane[n]; \
             break
@@ -649,6 +655,10 @@ void gl4es_glGetIntegerv(GLenum pname, GLint *params) {
             for (dummy=0; dummy<3; dummy++)
                 params[dummy]=glstate->pointsprite.distance[dummy];
             break;
+        case GL_DEPTH_RANGE:
+            params[0] = glstate->depth.near*2147483647l;
+            params[1] = glstate->depth.far*2147483647l;
+            break;
         default:
             errorGL();
             gles_glGetIntegerv(pname, params);
@@ -710,6 +720,10 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
             break;
         case GL_POINT_DISTANCE_ATTENUATION :
             memcpy(params, glstate->pointsprite.distance, 3*sizeof(GLfloat));
+            break;
+        case GL_DEPTH_RANGE:
+            params[0] = glstate->depth.near;
+            params[1] = glstate->depth.far;
             break;
         default:
             errorGL();
@@ -787,6 +801,10 @@ void gl4es_glGetDoublev(GLenum pname, GLdouble *params) {
         case GL_POINT_DISTANCE_ATTENUATION :
             memcpy(tmp, glstate->pointsprite.distance, 3*sizeof(GLfloat));
             for(int i=0; i<3; i++) params[i] = tmp[i];
+            break;
+        case GL_DEPTH_RANGE:
+            params[0] = glstate->depth.near;
+            params[1] = glstate->depth.far;
             break;
         default:
             errorGL();

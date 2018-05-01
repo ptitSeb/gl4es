@@ -366,11 +366,12 @@ void gl4es_blitTexture(GLuint texture,
 #endif
     gl4es_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
 
-    GLuint old_tex = glstate->texture.active;
-    if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0);
+    if(glstate->gleshard->active) {
+        glstate->gleshard->active = 0;
+        gles_glActiveTexture(GL_TEXTURE0);
+    }
 
-    GLint depthwrite;
-    gl4es_glGetIntegerv(GL_DEPTH_WRITEMASK, &depthwrite);
+    GLint depthwrite = glstate->depth.mask;
 
     gl4es_glDisable(GL_DEPTH_TEST);
     gl4es_glDisable(GL_CULL_FACE);
@@ -410,8 +411,6 @@ void gl4es_blitTexture(GLuint texture,
 #endif
     if (glstate->actual_tex2d[0] != texture) 
         gles_glBindTexture(GL_TEXTURE_2D, glstate->actual_tex2d[0]);
-
-    if (old_tex!=0) gles_glActiveTexture(GL_TEXTURE0+old_tex);
 
     if(depthwrite)
         gl4es_glDepthMask(GL_TRUE);

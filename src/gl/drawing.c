@@ -311,7 +311,8 @@ static void glDrawElementsCommon(GLenum mode, GLint first, GLsizei count, GLuint
             const GLint itarget = get_target(glstate->enable.texture[aa]);
             if (itarget>=0) {
                 if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
-                    TEXTURE(aa);
+                    gl4es_glActiveTexture(GL_TEXTURE0+aa);
+                    realize_active();
                     gles_glEnable(GL_TEXTURE_2D);
                 }
                 if (p->enabled) {
@@ -346,7 +347,8 @@ static void glDrawElementsCommon(GLenum mode, GLint first, GLsizei count, GLuint
 
         for (int aa=0; aa<hardext.maxtex; aa++) {
             if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
-                TEXTURE(aa);
+                gl4es_glActiveTexture(GL_TEXTURE0+aa);
+                realize_active();
                 gles_glDisable(GL_TEXTURE_2D);
             }
         }
@@ -716,7 +718,8 @@ void gl4es_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *cou
             const GLint itarget = get_target(glstate->enable.texture[aa]);
             if(itarget>=0) {
                 if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
-                    TEXTURE(aa);
+                    gl4es_glActiveTexture(GL_TEXTURE0+aa);
+                    realize_active();
                     gles_glEnable(GL_TEXTURE_2D);
                 }
                 if (glstate->vao->tex_coord_array[aa]) {
@@ -740,7 +743,8 @@ void gl4es_glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *cou
         for (int aa=0; aa<hardext.maxtex; aa++) {
             const GLint itarget = get_target(glstate->enable.texture[aa]);
             if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
-                TEXTURE(aa);
+                gl4es_glActiveTexture(GL_TEXTURE0+aa);
+                realize_active();
                 gles_glDisable(GL_TEXTURE_2D);
             }
         }
@@ -807,7 +811,8 @@ void gl4es_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const 
             const GLint itarget = get_target(glstate->enable.texture[aa]);
             if(itarget>=0) {
                 if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
-                    TEXTURE(aa);
+                    gl4es_glActiveTexture(GL_TEXTURE0+aa);
+                    realize_active();
                     gles_glEnable(GL_TEXTURE_2D);
                 }
                 if (glstate->vao->tex_coord_array[aa]) {
@@ -831,7 +836,8 @@ void gl4es_glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const 
         for (int aa=0; aa<hardext.maxtex; aa++) {
             const GLint itarget = get_target(glstate->enable.texture[aa]);
             if (itarget==ENABLED_TEX1D || itarget==ENABLED_TEX3D || itarget==ENABLED_TEXTURE_RECTANGLE) {
-                TEXTURE(aa);
+                gl4es_glActiveTexture(GL_TEXTURE0+aa);
+                realize_active();
                 gles_glDisable(GL_TEXTURE_2D);
             }
         }

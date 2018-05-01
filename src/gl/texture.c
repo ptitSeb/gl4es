@@ -2140,18 +2140,18 @@ void gl4es_glActiveTexture( GLenum texture ) {
     DBG(printf("glActiveTexture(%s)\n", PrintEnum(texture));)
     int tmu = texture - GL_TEXTURE0;
     if (glstate->list.pending) {
-        if(glstate->texture.active == tmu) {
+ /*       if(glstate->texture.active == tmu) {
             noerrorShim();
             return;
         }
-        flush();
+        flush();*/
     } else if (glstate->list.active) {
         NewStage(glstate->list.active, STAGE_ACTIVETEX);
         rlActiveTexture(glstate->list.active, texture);
         return;
     }
  
-    if ((tmu<0) || (tmu>hardext.maxtex)) {
+    if ((tmu<0) || (tmu>=hardext.maxtex)) {
         errorShim(GL_INVALID_ENUM);
         return;
     }
@@ -2160,9 +2160,7 @@ void gl4es_glActiveTexture( GLenum texture ) {
         return;
     }
     glstate->texture.active = tmu;
-    LOAD_GLES(glActiveTexture);
-    gles_glActiveTexture(texture);
-    errorGL();
+    noerrorShim();
 }
 
 void gl4es_glClientActiveTexture( GLenum texture ) {
@@ -2657,6 +2655,7 @@ void realize_bound(int TMU, GLenum target) {
         case GL_TEXTURE_3D:
         case GL_TEXTURE_RECTANGLE_ARB:
             if(glstate->actual_tex2d[TMU] != t) {
+                realize_active();
                 gles_glBindTexture(GL_TEXTURE_2D, t);
                 glstate->actual_tex2d[TMU] = t;
                 if (glstate->bound_changed < TMU+1)
@@ -2668,16 +2667,24 @@ void realize_bound(int TMU, GLenum target) {
     glstate->fpe_bound_changed = TMU+1;
 }
 
+void realize_active() {
+    LOAD_GLES(glActiveTexture);
+    if(glstate->gleshard->active == glstate->texture.active)
+        return;
+    glstate->gleshard->active = glstate->texture.active;
+    gles_glActiveTexture(GL_TEXTURE0 + glstate->gleshard->active);
+}
+
 void realize_textures() {
     LOAD_GLES(glEnable);
     LOAD_GLES(glDisable);
     LOAD_GLES(glBindTexture);
+    LOAD_GLES(glActiveTexture);
 #ifdef TEXSTREAM
     DBG(printf("realize_textures(), glstate->bound_changed=%d, glsate->actual_tex2d[0]=%u / glstate->bound_stream[0]=%u\n", glstate->bound_changed, glstate->actual_tex2d[0], glstate->bound_stream[0]);)
 #else
     DBG(printf("realize_textures(), glstate->bound_changed=%d, glsate->actual_tex2d[0]=%u\n", glstate->bound_changed, glstate->actual_tex2d[0]);)
 #endif
-    int old = glstate->texture.active;
     for (int i=0; i<glstate->bound_changed; i++) {
         // get highest priority texture unit
         int tmp = glstate->enable.texture[glstate->texture.active];
@@ -2693,6 +2700,10 @@ void realize_textures() {
         else if(IS_CUBE_MAP(tmp)) {
 #ifdef TEXSTREAM
             if(glstate->bound_stream[i]) {
+                if(glstate->gleshard->active!=i) {
+                    glstate->gleshard->active = i;
+                    gles_glActiveTexture(GL_TEXTURE0+i);
+                }
                 gles_glDisable(GL_TEXTURE_STREAM_IMG);
                 DeactivateStreaming();
                 glstate->bound_stream[i] = 0;
@@ -2708,8 +2719,10 @@ void realize_textures() {
             || (glstate->bound_stream[i] != tex->streamed)
 #endif
         ) {
-            if(glstate->texture.active!=i)
-                gl4es_glActiveTexture(GL_TEXTURE0+i);
+            if(glstate->gleshard->active!=i) {
+                glstate->gleshard->active = i;
+                gles_glActiveTexture(GL_TEXTURE0+i);
+            }
 #ifdef TEXSTREAM
             int streamed = tex->streamed;
             int streamingID = tex->streamingID;
@@ -2737,8 +2750,6 @@ void realize_textures() {
         }
     }
     glstate->bound_changed = 0;
-    if(glstate->texture.active!=old)
-        gl4es_glActiveTexture(GL_TEXTURE0+old);
 }
 
 

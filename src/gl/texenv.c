@@ -421,8 +421,10 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
             return;
     }
     errorGL();
-    if(hardext.esversion==1)
+    if(hardext.esversion==1) {
+        realize_active();
         gles_glTexEnvf(target, pname, param);
+    }
 }
 
 void gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param) {
@@ -450,8 +452,10 @@ void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
         memcpy(t->color, param, 4*sizeof(GLfloat));
         errorGL();
         LOAD_GLES2(glTexEnvfv);
-        if(gles_glTexEnvfv)
+        if(gles_glTexEnvfv) {
+            realize_active();
             gles_glTexEnvfv(target, pname, param);
+        }
     } else
         gl4es_glTexEnvf(target, pname, *param);
 }
