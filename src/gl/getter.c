@@ -464,6 +464,12 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_DEPTH_FUNC:
             *params=glstate->depth.func;
             break;
+        case GL_CULL_FACE_MODE:
+            *params=glstate->face.cull;
+            break;
+        case GL_FRONT_FACE:
+            *params=glstate->face.front;
+            break;
 #define GO(n)        case GL_CLIP_PLANE##n: \
             *params=glstate->enable.plane[n]; \
             break

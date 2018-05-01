@@ -26,6 +26,7 @@ LOCAL_SRC_FILES := \
 	src/gl/drawing.c \
 	src/gl/enable.c \
 	src/gl/eval.c \
+	src/gl/face.c \
 	src/gl/fog.c \
 	src/gl/fpe.c \
 	src/gl/fpe_shader.c \

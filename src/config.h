@@ -58,6 +58,10 @@
 #define skip_glDepthRangef
 #define skip_glClearDepthf
 
+// face.c
+#define skip_glCullFace
+#define skip_glFrontFace
+
 // fog.c
 #define skip_glFogfv
 #define skip_glFogf

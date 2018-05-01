@@ -314,5 +314,10 @@ typedef struct {
     GLfloat     clear;
 } depth_state_t;
 
+typedef struct {
+    GLenum      cull;
+    GLenum      front;
+} face_state_t;
+
 
 #endif

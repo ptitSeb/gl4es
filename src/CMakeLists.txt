@@ -13,6 +13,7 @@ SET(GL_SRC
     gl/drawing.c
     gl/enable.c
     gl/eval.c
+    gl/face.c
     gl/fog.c
     gl/fpe.c
     gl/fpe_shader.c
@@ -67,6 +68,7 @@ SET(GL_H
     gl/depth.h
     gl/directstate.h
     gl/eval.h
+    gl/face.h
     gl/fog.h
     gl/fpe.h
     gl/fpe_shader.h

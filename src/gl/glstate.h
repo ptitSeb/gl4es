@@ -81,6 +81,7 @@ typedef struct {
     glesblit_t          *blit;
     fbo_t               fbo;
     depth_state_t       depth;
+    face_state_t        face;
     // scratch array
     int                 scratch_alloc;
     void*               scratch;
