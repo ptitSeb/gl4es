@@ -64,7 +64,8 @@ void glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) AliasExport("gl4es_gl
 void glBlendEquationSeparateEXT(GLenum modeRGB, GLenum modeA) AliasExport("gl4es_glBlendEquationSeparate");
 
 void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
-    PUSH_IF_COMPILING(glBlendFunc)
+    if(!glstate->list.pending) 
+        PUSH_IF_COMPILING(glBlendFunc)
 
     if(sfactor==glstate->blendsfactorrgb && dfactor==glstate->blenddfactorrgb 
         && sfactor==glstate->blendsfactoralpha && dfactor==glstate->blenddfactoralpha)
