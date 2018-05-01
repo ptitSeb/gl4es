@@ -716,4 +716,14 @@
 #define GL_TEXTURE_MAX_ANISOTROPY         0x84FE
 #define GL_MAX_TEXTURE_MAX_ANISOTROPY     0x84FF
 
+// ATI_texture_env_combine3
+#define GL_MODULATE_ADD_ATI                     0x8744
+#define GL_MODULATE_SIGNED_ADD_ATI              0x8745
+#define GL_MODULATE_SUBTRACT_ATI                0x8746
+
+// ATIX_texture_env_route
+#define GL_SECONDARY_COLOR_ATIX                 0x8747
+#define GL_TEXTURE_OUTPUT_RGB_ATIX              0x8748
+#define GL_TEXTURE_OUTPUT_ALPHA_ATIX            0x8749
+
 #endif

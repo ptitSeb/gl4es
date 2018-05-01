@@ -57,8 +57,48 @@ const char* fpe_texenvSrc(int src, int tmu, int twosided) {
         case FPE_SRC_PREVIOUS:
             sprintf(buff, "fColor");
             break;
+        case FPE_SRC_ONE:
+            sprintf(buff, "vec4(1.0)");
+            break;
+        case FPE_SRC_ZERO:
+            sprintf(buff, "vec4(0.0)");
+            break;
+        case FPE_SRC_SECONDARY_COLOR:
+            sprintf(buff, "%s", twosided?"((gl_FrontFacing)?SecColor:BackSecColor)":"SecColor");
+            break;
     }
     return buff;
+}
+
+int fpe_texenvSecondary(fpe_state_t* state) {
+    // check if one of the texenv need secondary color...
+    for (int i=0; i<hardext.maxtex; i++) {
+        int t = (state->textype>>(i*3))&0x7;
+        if(t) {
+            int texenv = (state->texenv>>(i*3))&0x07;
+            if(texenv==FPE_COMBINE) {
+                int combine_rgb = state->texcombine[i]&0xf;
+                int src_r[3];
+                for (int j=0; j<3; j++) {
+                    src_r[j] = (state->texsrcrgb[j]>>(i*4))&0xf;
+                }
+                if(combine_rgb==FPE_CR_DOT3_RGBA) {
+                        src_r[2] = -1;
+                } else {
+                    if(combine_rgb==FPE_CR_REPLACE) {
+                        src_r[1] = src_r[2] = -1;
+                    } else if (combine_rgb>=FPE_CR_MOD_ADD) {
+                        // need all 3
+                    } else if (combine_rgb!=FPE_CR_INTERPOLATE) {
+                        src_r[2] = -1;
+                    }
+                }
+                if(src_r[0]==FPE_SRC_SECONDARY_COLOR || src_r[1]==FPE_SRC_SECONDARY_COLOR || src_r[2]==FPE_SRC_SECONDARY_COLOR)
+                    return 1;
+            }
+        }
+    }
+    return 0;   
 }
 
 char* fpe_packed(int x, int s, int k) {
@@ -90,7 +130,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     int lighting = state->lighting;
     int twosided = state->twosided && lighting;
     int light_separate = state->light_separate && lighting;
-    int secondary = state->colorsum && !(lighting && light_separate);
+    int secondary = (state->colorsum && !(lighting && light_separate)) || fpe_texenvSecondary(state);
     int fog = state->fog;
     int fogsource = state->fogsource;
     int color_material = state->color_material && lighting;
@@ -609,7 +649,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     int lighting = state->lighting;
     int twosided = state->twosided && lighting;
     int light_separate = state->light_separate && lighting;
-    int secondary = state->colorsum && !(lighting && light_separate);
+    int secondary = (state->colorsum && !(lighting && light_separate)) || fpe_texenvSecondary(state);
     int alpha_test = state->alphatest;
     int alpha_func = state->alphafunc;
     int fog = state->fog;
@@ -836,12 +876,16 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                                 if(combine_alpha==FPE_CR_REPLACE) {
                                     src_a[1] = src_a[2] = -1;
                                     op_a[1] = op_a[2] = -1;
+                                } else if (combine_alpha>=FPE_CR_MOD_ADD) {
+                                    // need all 3
                                 } else if (combine_alpha!=FPE_CR_INTERPOLATE) {
                                     src_a[2] = op_a[2] = -1;
                                 }
                                 if(combine_rgb==FPE_CR_REPLACE) {
                                     src_r[1] = src_r[2] = -1;
                                     op_r[1] = op_r[2] = -1;
+                                } else if (combine_rgb>=FPE_CR_MOD_ADD) {
+                                    // need all 3
                                 } else if (combine_rgb!=FPE_CR_INTERPOLATE) {
                                     src_r[2] = op_r[2] = -1;
                                 }
@@ -922,6 +966,15 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                                 case FPE_CR_DOT3_RGBA:
                                     ShadAppend("fColor = vec4(4.*((Arg0.r-0.5)*(Arg1.r-0.5)+(Arg0.g-0.5)*(Arg1.g-0.5)+(Arg0.b-0.5)*(Arg1.b-0.5)));\n");
                                     break;
+                                case FPE_CR_MOD_ADD:
+                                    ShadAppend("fColor.rgb = Arg0.rgb*Arg2.rgb + Arg1.rgb;\n");
+                                    break;
+                                case FPE_CR_MOD_ADD_SIGNED:
+                                    ShadAppend("fColor.rgb = Arg0.rgb*Arg2.rgb + Arg1.rgb - vec3(0.5);\n");
+                                    break;
+                                case FPE_CR_MOD_SUB:
+                                    ShadAppend("fColor.rgb = Arg0.rgb*Arg2.rgb - Arg1.rgb;\n");
+                                    break;
                             }
                             if(combine_rgb!=FPE_CR_DOT3_RGBA) 
                             switch(combine_alpha) {
@@ -942,6 +995,15 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                                     break;
                                 case FPE_CR_SUBTRACT:
                                     ShadAppend("fColor.a = Arg0.a - Arg1.a;\n");
+                                    break;
+                                case FPE_CR_MOD_ADD:
+                                    ShadAppend("fColor.a = Arg0.a*Arg2.a + Arg1.a;\n");
+                                    break;
+                                case FPE_CR_MOD_ADD_SIGNED:
+                                    ShadAppend("fColor.a = Arg0.a*Arg2.a + Arg1.a - 0.5;\n");
+                                    break;
+                                case FPE_CR_MOD_SUB:
+                                    ShadAppend("fColor.a = Arg0.a*Arg2.a - Arg1.a;\n");
                                     break;
                             }
                             if((state->texrgbscale>>i)&1) {

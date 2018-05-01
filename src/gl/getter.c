@@ -151,7 +151,10 @@ void BuildExtensionsList() {
                 "GL_ARB_fragment_shader "
                 "GL_ARB_vertex_shader "
                 "GL_ARB_shader_objects "
-                "GL_ARB_shading_language_100 ");
+                "GL_ARB_shading_language_100 "
+                "GL_ATI_texture_env_combine3 "
+                "GL_ATIX_texture_env_route "
+                );
         }
         char* p = extensions;
         num_extensions = 0;

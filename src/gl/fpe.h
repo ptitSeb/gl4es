@@ -56,6 +56,9 @@
 #define FPE_CR_SUBTRACT       5
 #define FPE_CR_DOT3_RGB       6
 #define FPE_CR_DOT3_RGBA      7
+#define FPE_CR_MOD_ADD        8
+#define FPE_CR_MOD_ADD_SIGNED 9
+#define FPE_CR_MOD_SUB        10
 
 #define FPE_SRC_TEXTURE        0
 #define FPE_SRC_TEXTURE0       1
@@ -69,6 +72,9 @@
 #define FPE_SRC_CONSTANT       9
 #define FPE_SRC_PRIMARY_COLOR  10
 #define FPE_SRC_PREVIOUS       11
+#define FPE_SRC_ZERO           12
+#define FPE_SRC_ONE            13
+#define FPE_SRC_SECONDARY_COLOR 14
 
 #define FPE_OP_ALPHA           0
 #define FPE_OP_MINUSALPHA      1
