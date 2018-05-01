@@ -57,6 +57,7 @@ typedef struct {
               color_logic_op,
               line_smooth,
               point_smooth,
+              polyfill_offset,
               multisample,
               sample_coverage,
               sample_alpha_to_one,
