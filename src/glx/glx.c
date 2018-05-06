@@ -373,10 +373,7 @@ void glx_init() {
         }
     }
 #endif
-#ifndef PANDORA
-    // Pandora will always install handler, in case gamma was changed
     if (globals4es.xrefresh || globals4es.stacktrace || g_bcmhost) 
-#endif
     {
         // TODO: a bit gross. Maybe look at this: http://stackoverflow.com/a/13290134/293352
         signal(SIGBUS, signal_handler);
@@ -396,21 +393,19 @@ void glx_init() {
 #endif
 #endif //!ANDROID && !AMIGAOS4
     }
-#ifdef AMIGAOS4
+#ifdef PANDORA
+    atexit(pandora_reset_gamma);
+#elif defined(AMIGAOS4)
     atexit(os4CloseLib);
 #endif
     //V-Sync
-    if (globals4es.vsync) {
+    if (globals4es.vsync)
         init_vsync();
-    }
 #ifdef PANDORA
 
     init_liveinfo();
     if (sock>-1) {
         SHUT(LOGD("LIBGL: LiveInfo detected, fps will be shown\n"));
-    }
-    if (globals4es.gamma != 0) {
-        atexit(pandora_reset_gamma);
     }
 #endif
 }

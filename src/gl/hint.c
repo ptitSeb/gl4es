@@ -121,6 +121,7 @@ void gl4es_glHint(GLenum pname, GLenum mode) {
 #ifdef PANDORA
             pandora_set_gamma();
 #endif
+            break;
         default:
             errorGL();
             gles_glHint(pname, mode);
