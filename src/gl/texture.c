@@ -1720,7 +1720,10 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
 	    break;
 	case GL_TEXTURE_WRAP_R:
         // ignore it on GLES...
-        break;
+        return;
+    case GL_TEXTURE_COMPARE_MODE:
+        texture->compare = param;   // TODO, better traking...
+        return;
 	case GL_TEXTURE_MAX_LEVEL:
 	    if (texture)
 		    texture->max_level = param;
@@ -1768,6 +1771,7 @@ void gl4es_glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params)
 	case GL_TEXTURE_WRAP_S:
 	case GL_TEXTURE_WRAP_T:
 	case GL_TEXTURE_WRAP_R:
+    case GL_TEXTURE_COMPARE_MODE:
 	case GL_TEXTURE_MAX_LEVEL:
     case GL_TEXTURE_BASE_LEVEL:
 	case GL_TEXTURE_MIN_LOD:
@@ -1799,6 +1803,7 @@ void gl4es_glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
 	case GL_TEXTURE_WRAP_S:
 	case GL_TEXTURE_WRAP_T:
 	case GL_TEXTURE_WRAP_R:
+    case GL_TEXTURE_COMPARE_MODE:
 	case GL_TEXTURE_MAX_LEVEL:
     case GL_TEXTURE_BASE_LEVEL:
 	case GL_TEXTURE_MIN_LOD:
@@ -2036,6 +2041,9 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
                 (*params) = GL_REPEAT;
             else
                 (*params) = bound->wrap_t?bound->wrap_t:GL_REPEAT;
+            break;
+        case GL_TEXTURE_COMPARE_MODE:
+                (*params) = bound->compare;  // GL_NONE is 0x0
             break;
 		default:
 			errorShim(GL_INVALID_ENUM);	//Wrong here...

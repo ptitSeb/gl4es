@@ -68,6 +68,8 @@
 #define GL_TEXTURE_GEN_STR          0x8D60
 #define GL_CLAMP_TO_BORDER          0x812D
 
+#define GL_TEXTURE_COMPARE_MODE     0x884C
+
 // GL_ARB_point_sprite
 #define GL_POINT_SPRITE             0x8861
 #define GL_COORD_REPLACE            0x8862

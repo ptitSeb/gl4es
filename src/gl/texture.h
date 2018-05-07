@@ -115,6 +115,7 @@ typedef struct {
 	GLenum mag_filter;
     GLenum wrap_s;
     GLenum wrap_t;
+    GLenum compare;
     GLboolean alpha;
     GLboolean compressed;
     GLboolean streamed;
