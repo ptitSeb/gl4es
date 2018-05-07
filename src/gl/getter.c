@@ -423,9 +423,29 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             break;
         case GL_MAX_TEXTURE_SIZE:
             *params=hardext.maxsize;
+            switch(globals4es.texshrink) {
+                case 8:
+                case 9:
+                case 10:
+                    *params*=4;
+                    break;
+                case 11:
+                    *params*=2;
+                    break;
+            }
             break;
         case GL_MAX_RECTANGLE_TEXTURE_SIZE_ARB:
             *params=hardext.maxsize;
+            switch(globals4es.texshrink) {
+                case 8:
+                case 9:
+                case 10:
+                    *params*=4;
+                    break;
+                case 11:
+                    *params*=2;
+                    break;
+            }
             break;
         case GL_SHADE_MODEL:
             *params=glstate->shademodel;

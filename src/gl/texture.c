@@ -648,30 +648,35 @@ static int get_shrinklevel(int width, int height, int level) {
             }
             break;
         case 8: //advertise *4 max texture size, but >2048 are shrinked to 2048
-            if ((mipwidth>4096) || (mipheight>4096)) {
+            if ((mipwidth>hardext.maxsize*2) || (mipheight>hardext.maxsize*2)) {
                 shrink=2;
             } else
-            if ((mipwidth>2048) || (mipheight>2048)) {
+            if ((mipwidth>hardext.maxsize) || (mipheight>hardext.maxsize)) {
                 shrink=1;
             }
             break;
         case 9: //advertise 8192 max texture size, but >4096 are quadshrinked and >512 are shrinked, but not for empty texture
-            if ((mipwidth>4096) || (mipheight>4096)) {
+            if ((mipwidth>hardext.maxsize*2) || (mipheight>hardext.maxsize*2)) {
                 shrink=2;
             } else
-            if ((mipwidth>512) || (mipheight>512)) {
+            if (mipwidth>(hardext.maxsize>>2) || mipheight>(hardext.maxsize>>2)) {
                 shrink=1;
             }
             break;
         case 10://advertise 8192 max texture size, but >2048 are quadshrinked and >512 are shrinked, but not for empty texture
-            if ((mipwidth>2048) || (mipheight>2048)) {
+            if ((mipwidth>hardext.maxsize) || (mipheight>hardext.maxsize)) {
                 shrink=2;
             } else
-            if ((mipwidth>512) || (mipheight>512)) {
+            if ((mipwidth>(hardext.maxsize>>2)) || (mipheight>(hardext.maxsize>>2))) {
                 shrink=1;
             }
             break;
+        case 11:// scale down to maxres any dimension > maxres
+            if(mipwidth>hardext.maxsize || mipheight>hardext.maxsize)
+                shrink=1;
+            break;
         }
+        
     return shrink;
 } 
 
@@ -874,21 +879,34 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             case 0: // nothing ???
                 break;
             case 1: //everything / 2
+            case 11:
                 if ((mipwidth > 1) && (mipheight > 1)) {
                     GLvoid *out = pixels;
-                    GLfloat ratio = 0.5;
-                    if(bound->useratio) {
-                        bound->ratiox *= ratio;
-                        bound->ratioy *= ratio;
-                    } else
-                        bound->ratiox = bound->ratioy = ratio;
+                    GLfloat ratiox, ratioy;
+                    if(globals4es.texshrink==11) {
+                        if (mipwidth>hardext.maxsize)
+                            ratiox = hardext.maxsize/((float)mipwidth);
+                        else
+                            ratiox = 1.0f;
+                        if (mipheight>hardext.maxsize)
+                            ratioy = hardext.maxsize/((float)mipheight);
+                        else
+                            ratioy = 1.0f;
+                    } else 
+                        ratiox = ratioy = 0.5;
+                    bound->ratiox = ratiox;
+                    bound->ratioy = ratioy;
                     bound->useratio = 1;
-                    pixel_scale(pixels, &out, width, height, width*bound->ratiox, height*bound->ratioy, format, type);
+                    int newwidth = width*bound->ratiox;
+                    int newheight = height*bound->ratioy;
+                    if(globals4es.texshrink==11 && newwidth>hardext.maxsize) newwidth=hardext.maxsize; // in case of some rounding error
+                    if(globals4es.texshrink==11 && newheight>hardext.maxsize) newheight=hardext.maxsize; // in case of some rounding error
+                    pixel_scale(pixels, &out, width, height, newwidth, newheight, format, type);
                     if (out != pixels && pixels!=datab)
                         free(pixels);
                     pixels = out;
-                    width *= ratio;
-                    height *= ratio;
+                    width = newwidth;
+                    height = newheight;
                     bound->shrink = 1;
                 }
                 break;
@@ -942,8 +960,50 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
 #endif
         if (!bound->streamed)
             swizzle_texture(width, height, &format, &type, internalformat, new_format, NULL, bound);	// convert format even if data is NULL
-        width = nlevel(width, bound->shrink);
-        height = nlevel(height, bound->shrink);
+        if (bound->shrink!=0) {
+            switch(globals4es.texshrink) {
+            case 1: //everything / 2
+            case 11:
+                if ((mipwidth > 1) && (mipheight > 1)) {
+                    GLfloat ratiox, ratioy;
+                    if(globals4es.texshrink==11) {
+                        if (mipwidth>hardext.maxsize)
+                            ratiox = hardext.maxsize/((float)mipwidth);
+                        else
+                            ratiox = 1.0f;
+                        if (mipheight>hardext.maxsize)
+                            ratioy = hardext.maxsize/((float)mipheight);
+                        else
+                            ratioy = 1.0f;
+                    } else 
+                        ratiox = ratioy = 0.5;
+                    bound->ratiox = ratiox;
+                    bound->ratioy = ratioy;
+                    bound->useratio = 1;
+                    int newwidth = width*bound->ratiox;
+                    int newheight = height*bound->ratioy;
+                    if(globals4es.texshrink==11 && newwidth>hardext.maxsize) newwidth=hardext.maxsize; // in case of some rounding error
+                    if(globals4es.texshrink==11 && newheight>hardext.maxsize) newheight=hardext.maxsize; // in case of some rounding error
+                    width = newwidth;
+                    height = newheight;
+                    bound->shrink = 1;
+                }
+                break;
+            default:
+                bound->ratiox = bound->ratioy = 1.0f;
+                while(shrink) {
+                    int toshrink = (shrink>1)?2:1;
+                    if(toshrink==1) {
+                        bound->ratiox *= 0.5f; bound->ratioy *= 0.5f;
+                    } else {
+                        bound->ratiox *= 0.25f; bound->ratioy *= 0.25f;
+                    }
+                    width = nlevel(width, toshrink);
+                    height = nlevel(height, toshrink);
+                    shrink-=toshrink;
+                }
+            }
+        }
 	}
     
     /* TODO:
@@ -1016,15 +1076,12 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 limitednpot = 0;
 
                 if(level==0) {
-                    if(bound->useratio) {
-                        bound->ratiox *= ratiox;
-                        bound->ratioy *= ratioy;
-                    } else {
+                    if(!bound->useratio) {
                         bound->useratio = 1;
                         if(bound->ratiox==0.f) bound->ratiox = bound->ratioy = 1.0f;
-                        bound->ratiox *= ratiox;
-                        bound->ratioy *= ratioy;
                     }
+                    bound->ratiox *= ratiox;
+                    bound->ratioy *= ratioy;
                     bound->npot = 0;
                     bound->shrink = 1;
                 }

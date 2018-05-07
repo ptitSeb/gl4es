@@ -81,6 +81,7 @@ Texture shrinking control
  * 8 : advertise a max texture size *4, but every texture wich one size > 2048 are shrinked to 2048
  * 9 : advertise a max texture size *4, but every texture wich one size > 4096 are / 4 and the one > 512 are / 2, but empty texture are not shrinked
  * 10: advertise a max texture size *4, but every texture wich one size > 2048 are / 4 and the one > 512 are / 2, but empty texture are not shrinked
+ * 11: advertise a max texture size *2, but every texture with one dimension > max texture size will get shrinked to max texture size
  
 ##### LIBGL_TEXDUMP
 Texture dump

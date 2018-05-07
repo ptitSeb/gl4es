@@ -37,7 +37,7 @@ void gl4es_glHint(GLenum pname, GLenum mode) {
             break;
         // specifics GL4ES Hints
         case GL_SHRINK_HINT_GL4ES:
-            if (mode<=10)
+            if (mode<=11)
                 globals4es.texshrink = mode;
             else
                 errorShim(GL_INVALID_ENUM); 
