@@ -1,7 +1,7 @@
 Usage
 ----
 
-There are many environnement variable to control gl4es behavour. All are numeric, except LIBGL_VERSION that take a string.
+There are many environnement variable to control gl4es behavour. All are numeric, except LIBGL_VERSION that take a string, and LIBGL_FBO taht takes a 2d size (WxH).
 You can also change many of this variable at runtime using the `glHint(...)` function. See [gl4eshint.h](include/gl4eshint.h) for the list of #define to use in this function.
 
 ##### LIBGL_FB
@@ -248,3 +248,7 @@ Comments in shaders are kept (also for generated shaders by fpe_shaders)
 Workaround for FBO and glXMakeCurrent (force unbind/bind FBO when changing context)
 * 0 : Disabled (Default on mast configuration)
 * 1 : Enabled (Default if Vendor is ARM or if using LIBGL_FB 1 and 2)
+
+##### LIBGL_FBO
+PANDORA and CHIP only: define custom dimension for FBO (only used with LIBGL_FBO=2)
+* WxH : Define FBO of WxH size (ex: LIBGL_FBO=1280x720)

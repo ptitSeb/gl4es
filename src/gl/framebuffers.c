@@ -698,15 +698,21 @@ void blitMainFBO(int x, int y, int width, int height) {
     GLint vp[4];
     memcpy(vp, &glstate->raster.viewport, sizeof(vp));
     gl4es_glViewport(0, 0, glstate->fbo.mainfbo_width, glstate->fbo.mainfbo_height);
+    float rx, ry;
     if(!width && !height) {
         width = glstate->fbo.mainfbo_width;
         height = glstate->fbo.mainfbo_height;
+        rx = ry = 1.0f;
     } else {
-        y = glstate->fbo.mainfbo_height - (y+height);
+        //y = glstate->fbo.mainfbo_height - (y+height);
+        y = -y;
+        rx = (float)width/glstate->fbo.mainfbo_width;
+        ry = (float)height/glstate->fbo.mainfbo_height;
     }
-    gl4es_blitTexture(glstate->fbo.mainfbo_tex, 0.f, 0.f, width, height, 
+    gl4es_blitTexture(glstate->fbo.mainfbo_tex, 0.f, 0.f,
+        glstate->fbo.mainfbo_width, glstate->fbo.mainfbo_height, 
         glstate->fbo.mainfbo_nwidth, glstate->fbo.mainfbo_nheight, 
-        1.0f, 1.0f, 
+        rx, ry,
         0, 0, x, y, BLIT_OPAQUE);
     gl4es_glViewport(vp[0], vp[1], vp[2], vp[3]);
 }

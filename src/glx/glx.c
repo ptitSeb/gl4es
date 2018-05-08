@@ -1006,6 +1006,16 @@ Bool gl4es_glXMakeCurrent(Display *display,
                 // get size of the surface...
                 egl_eglQuerySurface(eglDisplay,eglSurf,EGL_WIDTH,&g_width);
                 egl_eglQuerySurface(eglDisplay,eglSurf,EGL_HEIGHT,&g_height);
+#if defined(PANDORA) || defined(CHIP)
+                if(getenv("LIBGL_FBO")) {
+                    int fbo_width, fbo_height;
+                    if(sscanf(getenv("LIBGL_FBO"), "%dx%d", &fbo_width, &fbo_height)==2) {
+                        SHUT(printf("LIBGL: Forcing FBO size %dx%d (%dx%d)\n", fbo_width, fbo_height, g_width, g_height);)
+                        g_width = fbo_width; 
+                        g_height = fbo_height;
+                    }
+                }
+#endif
                 // create the main_fbo...
                 createMainFBO(g_width, g_height);
             }
