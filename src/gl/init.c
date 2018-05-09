@@ -334,6 +334,9 @@ void initialize_gl4es() {
             SHUT(LOGD("LIBGL: Avoid 24bits textures\n"));
         } 
     }
+
+    env(LIBGL_FORCE16BITS, globals4es.force16bits, "Force 16bits textures");
+
     env(LIBGL_POTFRAMEBUFFER, globals4es.potframebuffer, "Force framebuffers to be on POT size");
 
     char *env_forcenpot = getenv("LIBGL_FORCENPOT");

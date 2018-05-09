@@ -209,7 +209,12 @@ Try to avoid 16bits textures
 ##### LIBGL_AVOID24BITS
 Try to avoid 24bits textures (i.e. GL_RGB)
  * 0 : Default, use 24bits texture when it's possible
- * 1 : Force 32bits textures when GL_RGB is asked (as internal or not). Not recommanded, as it may brake some blend functions (especialy on GLES 1.1 backend). Does not impact GL_UNSIGNED_SHORT_5_6_5 and friends.
+ * 1 : Force 32bits textures when GL_RGB is asked (as internal or not). Not recommanded, as it may break some blend functions (especialy on GLES 1.1 backend). Does not impact 16bits formats.
+
+##### LIBGL_FORCE16BITS
+Try to use 16bits textures
+ * 0 : Default, don't force 16bits texture
+ * 1 : Use 16bits texture instead of 32bits (i.e. use RGBA4 instead of RGBA8 and RGB5 instead of RGB8)
 
 ##### LIBGL_POTFRAMEBUFFER
 Use only Power Of Two dimension for Framebuffer

@@ -42,6 +42,7 @@ typedef struct _globals4es {
  int beginend;
  int avoid16bits;
  int avoid24bits;
+ int force16bits;
  int nohighp;
  int batch;
  int es;

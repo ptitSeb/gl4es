@@ -741,6 +741,13 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     const GLuint itarget = what_target(target);
     const GLuint rtarget = map_tex_target(target);
 
+    if(globals4es.force16bits) {
+        if(internalformat==GL_RGBA || internalformat==4 || internalformat==GL_RGBA8)
+            internalformat = GL_RGBA4;
+        else if(internalformat==GL_RGB || internalformat==3 || internalformat==GL_RGB8)
+            internalformat = GL_RGB5;
+    }
+
     if (rtarget == GL_PROXY_TEXTURE_2D) {
         int max1=hardext.maxsize;
         proxy_width = ((width<<level)>max1)?0:width;
