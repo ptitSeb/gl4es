@@ -883,24 +883,24 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 if ((mipwidth > 1) && (mipheight > 1)) {
                     GLvoid *out = pixels;
                     GLfloat ratiox, ratioy;
+                    int newwidth = mipwidth;
+                    int newheight = mipheight;
                     if(globals4es.texshrink==11) {
                         if (mipwidth>hardext.maxsize)
-                            ratiox = hardext.maxsize/((float)mipwidth);
-                        else
-                            ratiox = 1.0f;
+                            newwidth = hardext.maxsize;
                         if (mipheight>hardext.maxsize)
-                            ratioy = hardext.maxsize/((float)mipheight);
-                        else
-                            ratioy = 1.0f;
-                    } else 
-                        ratiox = ratioy = 0.5;
+                            newheight = hardext.maxsize;
+                    } else {
+                        newwidth = mipwidth / 2;
+                        newheight = mipheight / 2;
+                        if(!newwidth) newwidth=1;
+                        if(!newheight) newheight=1;
+                    }
+                    ratiox = newwidth/((float)mipwidth);
+                    ratioy = newheight/((float)mipheight);
                     bound->ratiox = ratiox;
                     bound->ratioy = ratioy;
                     bound->useratio = 1;
-                    int newwidth = width*bound->ratiox;
-                    int newheight = height*bound->ratioy;
-                    if(globals4es.texshrink==11 && newwidth>hardext.maxsize) newwidth=hardext.maxsize; // in case of some rounding error
-                    if(globals4es.texshrink==11 && newheight>hardext.maxsize) newheight=hardext.maxsize; // in case of some rounding error
                     pixel_scale(pixels, &out, width, height, newwidth, newheight, format, type);
                     if (out != pixels && pixels!=datab)
                         free(pixels);
