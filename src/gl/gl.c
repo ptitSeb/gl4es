@@ -1082,7 +1082,7 @@ void amiga_pre_swap() {
 
     if (globals4es.usefbo) {
         unbindMainFBO();
-        blitMainFBO();
+        blitMainFBO(0, 0, 0, 0);
         // blit the main_fbo before swap
     }
 }
