@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <stdio.h>
 #include "init.h"
 #include "gl.h"
 #include "debug.h"
