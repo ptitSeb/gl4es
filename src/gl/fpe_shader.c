@@ -64,7 +64,7 @@ const char* fpe_texenvSrc(int src, int tmu, int twosided) {
             sprintf(buff, "vec4(0.0)");
             break;
         case FPE_SRC_SECONDARY_COLOR:
-            sprintf(buff, "%s", twosided?"((gl_FrontFacing)?SecColor:BackSecColor)":"SecColor");
+            sprintf(buff, "%s", twosided?"((gl_FrontFacing)?SecColor:SecBackColor)":"SecColor");
             break;
     }
     return buff;
@@ -1081,7 +1081,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             sprintf(buff, "// Add Secondary color (%s %s)\n", light_separate?"light":"", secondary?"secondary":"");
             ShadAppend(buff);
         }
-        sprintf(buff, "fColor.rgb += (%s).rgb;\n", twosided?"(gl_FrontFacing)?SecColor:BackSecColor":"SecColor");
+        sprintf(buff, "fColor.rgb += (%s).rgb;\n", twosided?"(gl_FrontFacing)?SecColor:SecBackColor":"SecColor");
         ShadAppend(buff);
         ShadAppend("fColor.rgb = clamp(fColor.rgb, 0., 1.);\n");
     }
