@@ -874,7 +874,7 @@ THUNK(ui, GLuint)
 THUNK(us, GLushort)
 #undef THUNK
 
-void glMultiTexCoord1fARB(GLenum target, GLfloat s, GLfloat t) AliasExport("gl4es_glMultiTexCoord1f");
+void glMultiTexCoord1fARB(GLenum target, GLfloat s) AliasExport("gl4es_glMultiTexCoord1f");
 void glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t) AliasExport("gl4es_glMultiTexCoord2f");
 void glMultiTexCoord3fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r) AliasExport("gl4es_glMultiTexCoord3f");
 void glMultiTexCoord1fvARB(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord1fv");

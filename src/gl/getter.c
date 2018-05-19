@@ -887,7 +887,7 @@ void gl4es_glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
     }
     noerrorShim();
 }
-void glGetLightfv(GLenum pname, GLfloat *params) AliasExport("gl4es_glGetLightfv");
+void glGetLightfv(GLenum light, GLenum pname, GLfloat * params) AliasExport("gl4es_glGetLightfv");
 
 void gl4es_glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
     if(face!=GL_FRONT && face!=GL_BACK) {

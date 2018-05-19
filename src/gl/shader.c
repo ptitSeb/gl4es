@@ -337,7 +337,7 @@ void gl4es_glReleaseShaderCompiler(void) {
 
 // ========== GL_ARB_shader_objects ==============
 
-void glCreateShader(GLenum shaderType) AliasExport("gl4es_glCreateShader");
+GLuint glCreateShader(GLenum shaderType) AliasExport("gl4es_glCreateShader");
 void glDeleteShader(GLuint shader) AliasExport("gl4es_glDeleteShader");
 void glCompileShader(GLuint shader) AliasExport("gl4es_glCompileShader");
 void glShaderSource(GLuint shader, GLsizei count, const GLchar * const *string, const GLint *length) AliasExport("gl4es_glShaderSource");
