@@ -395,6 +395,23 @@ void initialize_gl4es() {
     env(LIBGL_FBOFORCETEX, globals4es.fboforcetex, "Force texture for Attachment color0 on FBO");
 
     env(LIBGL_COMMENTS, globals4es.comments, "Keep comments in converted Shaders");
+
+    if(hardext.npot==2)
+        globals4es.defaultwrap=0; 
+    else
+        globals4es.defaultwrap=1; 
+    char *env_defaultwrap = getenv("LIBGL_DEFAULTWRAP");
+    if(env_defaultwrap && !strcmp(env_defaultwrap, "0")) {
+        globals4es.defaultwrap = 0;
+        SHUT(LOGD("LIBGL: Default wrap mode is GL_REPEAT\n"));
+    } else if(env_defaultwrap && !strcmp(env_defaultwrap, "1")) {
+        globals4es.defaultwrap = 1;
+        SHUT(LOGD("LIBGL: Default wrap mode is GL_CLAMP_TO_EDGE\n"));
+    } else if(env_defaultwrap && !strcmp(env_defaultwrap, "2")) {
+        globals4es.defaultwrap = 2;
+        SHUT(LOGD("LIBGL: Default wrap mode is GL_CLAMP_TO_EDGE, enforced\n"));
+    }
+
     
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)

@@ -1081,9 +1081,9 @@ bool pixel_scale(const GLvoid *old, GLvoid **new,
     src = (uintptr_t)old;
     pos = (uintptr_t)dst;
     for (int y = 0; y < new_height; y++) {
+        int oldy = y*ratioy; if(oldy>=height) oldy=height-1;
         for (int x = 0; x < new_width; x++) {
             int oldx = x*ratiox; if(oldx>=width) oldx=width-1;
-            int oldy = y*ratioy; if(oldy>=height) oldy=height-1;
             pixel = src + (oldx +
                           oldy * width) * pixel_size;
             memcpy((GLvoid *)pos, (GLvoid *)pixel, pixel_size);

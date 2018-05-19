@@ -29,6 +29,7 @@ typedef struct _globals4es {
  int blendcolor;
  int noerror;
  int npot;
+ int defaultwrap;
  int queries;
  int silentstub;
  int glx_surface_srgb;

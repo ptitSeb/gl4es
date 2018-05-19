@@ -17,6 +17,7 @@
 //extern void* eglGetProcAddress(const char* name);
 
 int npot(int n);
+int wrap_npot(GLenum wrap);
 
 void readfboBegin() {
 	if (glstate->fbo.fbo_read == glstate->fbo.fbo_draw)
@@ -274,9 +275,9 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
             tex = kh_value(list, k);
             texture = tex->glname;
             // check if texture is shrinked...
-            if (tex->shrink || (tex->adjust && hardext.npot==1 && !globals4es.potframebuffer)) {
-                LOGD("LIBGL: %s texture for FBO\n",(tex->shrink)?"unshrinking shrinked":"going back to npot size pot'ed");
-                if(tex->shrink) {
+            if (tex->shrink || tex->useratio || (tex->adjust && hardext.npot==1 && !globals4es.potframebuffer)) {
+                LOGD("LIBGL: %s texture for FBO\n",(tex->useratio)?"going back to npot size pot'ed":"unshrinking shrinked");
+                if(tex->shrink || tex->useratio) {
                     if(tex->useratio) {
                         tex->width = tex->nwidth/tex->ratiox;
                         tex->height = tex->nheight/tex->ratioy;
@@ -285,15 +286,15 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                         tex->height *= 1<<tex->shrink;
                     }
                 }
-                tex->nwidth = hardext.npot>0?tex->width:npot(tex->width);
-                tex->nheight = hardext.npot>0?tex->height:npot(tex->height);
+                tex->nwidth = (hardext.npot>0 || hardext.esversion>1)?tex->width:npot(tex->width);
+                tex->nheight = (hardext.npot>0 || hardext.esversion>1)?tex->height:npot(tex->height);
                 tex->adjustxy[0] = (float)tex->width / tex->nwidth;
                 tex->adjustxy[1] = (float)tex->height / tex->nheight;
                 tex->adjust=(tex->width!=tex->nwidth || tex->height!=tex->nheight);
                 tex->shrink = 0; tex->useratio = 0;
                 gltexture_t *bound = glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D];
                 GLuint oldtex = bound->glname;
-                if(hardext.npot==1 && tex->adjust) {
+                if(hardext.npot==1 && !(wrap_npot(tex->wrap_s) && wrap_npot(tex->wrap_t))) {
                     LOAD_GLES(glTexParameteri);
                     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);

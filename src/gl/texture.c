@@ -735,7 +735,6 @@ GLenum minmag_float(GLenum filt) {
 void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
-
     DBG(printf("glTexImage2D on target=%s with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%s(%s), type=%s, data=%p, level=%i (mipmap_need=%i, mipmap_auto=%i, base_level=%i, max_level=%i) => texture=%u (streamed=%i), glstate->list.compiling=%d\n", PrintEnum(target), glstate->texture.unpack_row_length, width, height, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), (internalformat==3)?"3":(internalformat==4?"4":PrintEnum(internalformat)), PrintEnum(type), data, level, glstate->texture.bound[glstate->texture.active][what_target(target)]->mipmap_need, glstate->texture.bound[glstate->texture.active][what_target(target)]->mipmap_auto, glstate->texture.bound[glstate->texture.active][what_target(target)]->base_level, glstate->texture.bound[glstate->texture.active][what_target(target)]->max_level, glstate->texture.bound[glstate->texture.active][what_target(target)]->texture, glstate->texture.bound[glstate->texture.active][what_target(target)]->streamed, glstate->list.compiling);)
     // proxy case
     const GLuint itarget = what_target(target);
@@ -1361,7 +1360,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
     if (old != pixels && old != datab)
         free(old);
 
-    if (bound->shrink) {
+    if (bound->shrink || bound->useratio) {
         // special case for width/height == 1
         if (width==1)
             width+=(xoffset%2);
@@ -1378,9 +1377,11 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
         if(bound->useratio) {
             xoffset *= bound->ratiox;
             yoffset *= bound->ratioy;
-            pixel_scale(pixels, &old, width, height, width*bound->ratiox, height*bound->ratioy, format, type);
-            width *= bound->ratiox;
-            height *= bound->ratioy;
+            int newwidth = width * bound->ratiox;
+            int newheight = height * bound->ratioy;
+            pixel_scale(pixels, &old, width, height, newwidth, newheight, format, type);
+            width = newwidth;
+            height = newheight;
             if (old != pixels && pixels!=data)
                 free(pixels);
             pixels = old;
@@ -1667,6 +1668,7 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
         tex->alpha = true;
         tex->min_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
         tex->mag_filter = GL_LINEAR;
+        tex->wrap_s = tex->wrap_t = (globals4es.defaultwrap?0:GL_REPEAT);
         tex->fpe_format = FPE_TEX_RGBA;
         tex->format = GL_RGBA;
         tex->type = GL_UNSIGNED_BYTE;
@@ -1770,7 +1772,9 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
 		    break;
         case GL_REPEAT:
         case GL_MIRRORED_REPEAT_OES:
-            if(hardext.esversion>1 && hardext.npot<2 && texture->valid 
+            if(globals4es.defaultwrap==2 && hardext.npot<2 && !texture->valid)
+                param = GL_CLAMP_TO_EDGE;
+            else if(hardext.esversion>1 && hardext.npot<2 && texture->valid 
             && texture->npot) {
                 // should "upgrade" the texture to POT size...
         //printf("Warning, REPEAT / MIRRORED_REPEAT on NPOT texture\n");
@@ -1964,7 +1968,7 @@ void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
             tex->max_level = -1;
             tex->alpha = true;
             tex->min_filter = tex->mag_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
-            tex->wrap_s = tex->wrap_t = 0;  //should be GL_REPEAT;
+            tex->wrap_s = tex->wrap_t = (globals4es.defaultwrap?0:GL_REPEAT);
             tex->fpe_format = FPE_TEX_RGBA;
             tex->format = GL_RGBA;
             tex->type = GL_UNSIGNED_BYTE;
