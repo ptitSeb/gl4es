@@ -254,6 +254,11 @@ Workaround for FBO and glXMakeCurrent (force unbind/bind FBO when changing conte
 * 0 : Disabled (Default on mast configuration)
 * 1 : Enabled (Default if Vendor is ARM or if using LIBGL_FB 1 and 2)
 
+##### LIBGL_FBOFORCETEX
+For the Color Attachment 0 to be a Texture2D (even if program attachs a Renderbuffer) => may speedup glBlitFramebuffer if used
+* 0 : Default, don't force
+* 1 : For Color Attachment 0 of FBO to be a texture
+
 ##### LIBGL_FBO
 PANDORA and CHIP only: define custom dimension for FBO (only used with LIBGL_FBO=2)
 * WxH : Define FBO of WxH size (ex: LIBGL_FBO=1280x720)

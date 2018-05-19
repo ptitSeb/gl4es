@@ -51,6 +51,7 @@ typedef struct _globals4es {
  int comments;
  int forcenpot;
  int fbomakecurrent;    // hack to bind/unbind FBO when doing glXMakeCurrent
+ int fboforcetex;       // force texture attachment for Color0
  char version[50];
 } globals4es_t;
 

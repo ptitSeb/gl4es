@@ -392,6 +392,8 @@ void initialize_gl4es() {
         SHUT(LOGD("LIBGL: glXMakeCurrent FBO workaround enabled\n"));
     }
 
+    env(LIBGL_FBOFORCETEX, globals4es.fboforcetex, "Force texture for Attachment color0 on FBO");
+
     env(LIBGL_COMMENTS, globals4es.comments, "Keep comments in converted Shaders");
     
     char cwd[1024];

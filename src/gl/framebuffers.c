@@ -402,6 +402,40 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
     LOAD_GLES2_OR_OES(glGetFramebufferAttachmentParameteriv);
     LOAD_GLES(glGetError);
 
+    if (attachment == GL_COLOR_ATTACHMENT0 && globals4es.fboforcetex) {
+        // drop the renderbuffer attachement and create a texture instead...
+        int oldactive = glstate->texture.active;
+        if(oldactive) gl4es_glActiveTexture(GL_TEXTURE0);
+        gltexture_t *bound = glstate->texture.bound[0][ENABLED_TEX2D];
+        GLuint oldtex = bound->glname;
+        // get size of renderbuffer
+        LOAD_GLES2_OR_OES(glGetRenderbufferParameteriv);
+        GLint width, height;
+        GLenum format;
+        GLuint oldrender = glstate->fbo.current_rb;
+        if(oldrender != renderbuffer) gl4es_glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
+        // TODO: keep track of Renderbuffer parameter, to avoid querying geometry
+        gles_glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &width);
+        gles_glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &height);
+        gles_glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_INTERNAL_FORMAT, &format);
+        if(oldrender != renderbuffer) gl4es_glBindRenderbuffer(GL_RENDERBUFFER, oldrender);
+        // TODO: keep track of that texture, for delete when the Renderbuffer is deleted
+        // create a texture
+        GLuint newtex;
+        gl4es_glGenTextures(1, &newtex);
+        gl4es_glBindTexture(GL_TEXTURE_2D, newtex);
+        gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        gl4es_glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+        gl4es_glBindTexture(GL_TEXTURE_2D, oldtex);
+        gl4es_glFramebufferTexture2D(target, attachment, GL_TEXTURE_2D, newtex, 0);
+        // end of cleanup
+        if(oldactive) gl4es_glActiveTexture(GL_TEXTURE0+oldactive);
+        return;
+    }
+
     if (attachment == GL_DEPTH_STENCIL_ATTACHMENT) {
         // doesn't seems to be supported "as-is" on GLES
         gl4es_glFramebufferRenderbuffer(target, GL_DEPTH_ATTACHMENT, renderbuffertarget, renderbuffer);
