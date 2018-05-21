@@ -23,11 +23,16 @@ void glBlendColorARB(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha
 
 void gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha)
 {
-    PUSH_IF_COMPILING(glBlendFuncSeparate);
+    if(!glstate->list.pending) 
+        PUSH_IF_COMPILING(glBlendFuncSeparate)
+
     LOAD_GLES2_OR_OES(glBlendFuncSeparate);
     if(sfactorRGB==glstate->blendsfactorrgb && dfactorRGB==glstate->blenddfactorrgb 
         && sfactorAlpha==glstate->blendsfactoralpha && dfactorAlpha==glstate->blenddfactoralpha)
         return; // no change...
+
+    if(glstate->list.pending)
+        flush();
 
 #ifndef PANDORA
     if(gles_glBlendFuncSeparate==NULL) {
