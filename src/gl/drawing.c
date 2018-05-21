@@ -196,9 +196,10 @@ static void glDrawElementsCommon(GLenum mode, GLint first, GLsizei count, GLuint
     LOAD_GLES_FPE(glDisableClientState);
     LOAD_GLES_FPE(glMultiTexCoord4f);
 #define client_state(A, B, C) \
-        if(glstate->vao->pointers[A].enabled != glstate->clientstate[A]) {           \
-            C                                              \
-            if((glstate->clientstate[A] = glstate->vao->pointers[A].enabled)==true)  \
+        if(glstate->vao->pointers[A].enabled != glstate->clientstate[A]) {   \
+            C                                               \
+            glstate->clientstate[A] = glstate->vao->pointers[A].enabled;     \
+            if(glstate->clientstate[A])                     \
                 gles_glEnableClientState(B);                \
             else                                            \
                 gles_glDisableClientState(B);               \

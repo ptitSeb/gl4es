@@ -272,21 +272,29 @@ void draw_renderlist(renderlist_t *list) {
             continue;
 
         if (list->vert) {
-            gles_glEnableClientState(GL_VERTEX_ARRAY);
+            if(!glstate->clientstate[ATT_VERTEX]) {
+                gles_glEnableClientState(GL_VERTEX_ARRAY);
+                glstate->clientstate[ATT_VERTEX] = 1;
+            }
             gles_glVertexPointer(4, GL_FLOAT, list->vert_stride, list->vert);
-            glstate->clientstate[ATT_VERTEX] = 1;
         } else {
-            gles_glDisableClientState(GL_VERTEX_ARRAY);
-            glstate->clientstate[ATT_VERTEX] = false;
+            if(glstate->clientstate[ATT_VERTEX]) {
+                gles_glDisableClientState(GL_VERTEX_ARRAY);
+                glstate->clientstate[ATT_VERTEX] = false;
+            }
         }
 
         if (list->normal) {
-            gles_glEnableClientState(GL_NORMAL_ARRAY);
+            if(!glstate->clientstate[ATT_NORMAL]) {
+                gles_glEnableClientState(GL_NORMAL_ARRAY);
+                glstate->clientstate[ATT_NORMAL] = 1;
+            }
             gles_glNormalPointer(GL_FLOAT, list->normal_stride, list->normal);
-            glstate->clientstate[ATT_NORMAL] = 1;
         } else {
-            gles_glDisableClientState(GL_NORMAL_ARRAY);
-            glstate->clientstate[ATT_NORMAL] = 0;
+            if(glstate->clientstate[ATT_NORMAL]) {
+                gles_glDisableClientState(GL_NORMAL_ARRAY);
+                glstate->clientstate[ATT_NORMAL] = 0;
+            }
         }
     
         indices = list->indices;
@@ -294,8 +302,10 @@ void draw_renderlist(renderlist_t *list) {
         if(glstate->raster.bm_drawing)
             bitmap_flush();
         if (list->color) {
-            gles_glEnableClientState(GL_COLOR_ARRAY);
-            glstate->clientstate[ATT_COLOR] = 1;
+            if(!glstate->clientstate[ATT_COLOR]) {
+                gles_glEnableClientState(GL_COLOR_ARRAY);
+                glstate->clientstate[ATT_COLOR] = 1;
+            }
             if (glstate->enable.color_sum && (list->secondary) && hardext.esversion==1 && !list->use_glstate) {
                 if(!list->final_colors) {
                     list->final_colors=(GLfloat*)malloc(list->len * 4 * sizeof(GLfloat));
@@ -316,27 +326,37 @@ void draw_renderlist(renderlist_t *list) {
                 gles_glColorPointer(4, GL_FLOAT, list->color_stride, list->color);
             }
         } else {
-            gles_glDisableClientState(GL_COLOR_ARRAY);
-            glstate->clientstate[ATT_COLOR] = 0;
+            if(glstate->clientstate[ATT_COLOR]) {
+                gles_glDisableClientState(GL_COLOR_ARRAY);
+                glstate->clientstate[ATT_COLOR] = 0;
+            }
         }
         if(hardext.esversion > 1) {
             // secondary color only on ES2+
             if (glstate->enable.color_sum && (list->secondary)) {
-                gles_glEnableClientState(GL_SECONDARY_COLOR_ARRAY);
+                if(!glstate->clientstate[ATT_SECONDARY]) {
+                    gles_glEnableClientState(GL_SECONDARY_COLOR_ARRAY);
+                    glstate->clientstate[ATT_SECONDARY] = 1;
+                }
                 fpe_glSecondaryColorPointer(4, GL_FLOAT, list->secondary_stride, list->secondary);
-                glstate->clientstate[ATT_SECONDARY] = 1;
             } else {
-                fpe_glDisableClientState(GL_SECONDARY_COLOR_ARRAY);
-                glstate->clientstate[ATT_SECONDARY] = 0;
+                if(glstate->clientstate[ATT_SECONDARY]) {
+                    fpe_glDisableClientState(GL_SECONDARY_COLOR_ARRAY);
+                    glstate->clientstate[ATT_SECONDARY] = 0;
+                }
             }
             // fog coord only on ES2+
             if ((glstate->fog.coord_src==GL_FOG_COORD) && (list->fogcoord)) {
-                gles_glEnableClientState(GL_FOG_COORD_ARRAY);
+                if(!glstate->clientstate[ATT_FOGCOORD]) {
+                    gles_glEnableClientState(GL_FOG_COORD_ARRAY);
+                    glstate->clientstate[ATT_FOGCOORD] = 1;
+                }
                 fpe_glFogCoordPointer(GL_FLOAT, list->fogcoord_stride, list->fogcoord);
-                glstate->clientstate[ATT_FOGCOORD] = 1;
             } else {
-                fpe_glDisableClientState(GL_FOG_COORD_ARRAY);
-                glstate->clientstate[ATT_FOGCOORD] = 0;
+                if(glstate->clientstate[ATT_FOGCOORD]) {
+                    fpe_glDisableClientState(GL_FOG_COORD_ARRAY);
+                    glstate->clientstate[ATT_FOGCOORD] = 0;
+                }
             }
         }
         #define TEXTURE(A) if (cur_tex!=A) {gl4es_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
