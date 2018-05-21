@@ -71,6 +71,9 @@ void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
         && sfactor==glstate->blendsfactoralpha && dfactor==glstate->blenddfactoralpha)
         return; // already set
 
+    if(glstate->list.pending)
+        flush();
+
     LOAD_GLES(glBlendFunc);
     LOAD_GLES2_OR_OES(glBlendFuncSeparate);
     errorGL();
