@@ -1047,7 +1047,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
 #endif
 #ifdef NO_1x1
         #define MIN_SIZE 2
-        if(level==0) {
+        if(level==0 && hardext.esversion==1) {
             if(nwidth < MIN_SIZE) nwidth=MIN_SIZE;
             if(nheight < MIN_SIZE) nheight=MIN_SIZE;
         }
