@@ -141,6 +141,14 @@ void draw_renderlist(renderlist_t *list) {
     GLint needclean[MAX_TEX] = {0};
     GLuint texture;
     bool stipple;
+    int stipple_tmu;
+    GLenum stipple_env;
+    GLenum stipple_afunc;
+    GLfloat stipple_aref;
+    int stipple_tex2d;
+    int stipple_alpha;
+    int stipple_old;
+    int stipple_texgen[4];
     
     do {
         // close if needed!
@@ -361,32 +369,51 @@ void draw_renderlist(renderlist_t *list) {
         }
         #define TEXTURE(A) if (cur_tex!=A) {gl4es_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
         stipple = false;
-        if (! list->tex[0]) {
-            // TODO: do we need to support GL_LINE_STRIP?
-            if ((list->mode == GL_LINES || list->mode == GL_LINE_STRIP || list->mode == GL_LINE_LOOP)
-                 && glstate->enable.line_stipple) {
-                stipple = true;
-                gl4es_glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT | GL_TEXTURE_BIT);
-                if(glstate->gleshard->active) {
-                    LOAD_GLES(glActiveTexture);
-                    glstate->gleshard->active = 0;
-                    gles_glActiveTexture(GL_TEXTURE0);
-                }
-                TEXTURE(0);
-                gl4es_glEnable(GL_BLEND);
-                gl4es_glEnable(GL_TEXTURE_2D);
-                gl4es_glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-                bind_stipple_tex();
-                modeinit_t tmp; tmp.mode_init = list->mode_init; tmp.ilen=list->ilen?list->ilen:list->len;
-                list->tex[0] = gen_stipple_tex_coords(list->vert, list->mode_inits?list->mode_inits:&tmp, list->vert_stride, list->mode_inits?list->mode_init_len:1, (list->use_glstate)?(list->vert+8):NULL);
-            } 
+        if ((list->mode == GL_LINES || list->mode == GL_LINE_STRIP || list->mode == GL_LINE_LOOP)
+                && glstate->enable.line_stipple) {
+            stipple = true;
+            if(get_target(glstate->enable.texture[0])!=-1)
+                stipple_tmu = 1;
+            else
+                stipple_tmu = 0;
+        }
+        if (stipple) {
+            stipple_old = glstate->gleshard->active;
+            if(glstate->gleshard->active!=stipple_tmu) {
+                LOAD_GLES(glActiveTexture);
+                gl4es_glActiveTexture(GL_TEXTURE0+stipple_tmu);
+            }
+            TEXTURE(stipple_tmu);
+            GLenum matmode;
+            gl4es_glGetIntegerv(GL_MATRIX_MODE, &matmode);
+            gl4es_glMatrixMode(GL_TEXTURE);
+            gl4es_glPushMatrix();
+            gl4es_glLoadIdentity();
+            gl4es_glMatrixMode(matmode);
+            stipple_env = glstate->texenv[stipple_tmu].env.mode;
+            gl4es_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+            stipple_tex2d = gl4es_glIsEnabled(GL_TEXTURE_2D);
+            stipple_alpha = gl4es_glIsEnabled(GL_ALPHA_TEST);
+            gl4es_glEnable(GL_TEXTURE_2D);
+            gl4es_glEnable(GL_ALPHA_TEST);
+            for (int k=0; k<4; k++) {
+                stipple_texgen[k] = gl4es_glIsEnabled(GL_TEXTURE_GEN_S+k);
+                if(stipple_texgen[k])
+                    gl4es_glDisable(GL_TEXTURE_GEN_S+k);
+            }
+            stipple_afunc = glstate->alphafunc;
+            stipple_aref = glstate->alpharef;
+            gl4es_glAlphaFunc(GL_GREATER, 0.0f);
+            bind_stipple_tex();
+            modeinit_t tmp; tmp.mode_init = list->mode_init; tmp.ilen=list->ilen?list->ilen:list->len;
+            list->tex[stipple_tmu] = gen_stipple_tex_coords(list->vert, list->mode_inits?list->mode_inits:&tmp, list->vert_stride, list->mode_inits?list->mode_init_len:1, (list->use_glstate)?(list->vert+8+stipple_tmu*4):NULL);
         }
         #define RS(A, len) if(texgenedsz[A]<len) {free(texgened[A]); texgened[A]=malloc(4*sizeof(GLfloat)*len); texgenedsz[A]=len; } use_texgen[A]=1
         // cannot use list->maxtex because some TMU can be using TexGen or point sprites...
         if(hardext.esversion==1) {
             for (int a=0; a<hardext.maxtex; a++) {
-                if(glstate->enable.texture[a] || (stipple && a==0)) {
-                    const GLint itarget = (stipple && a==0)?ENABLED_TEX2D:get_target(glstate->enable.texture[a]);
+                if(glstate->enable.texture[a] || (stipple && a==stipple_tmu)) {
+                    const GLint itarget = (stipple && a==stipple_tmu)?ENABLED_TEX2D:get_target(glstate->enable.texture[a]);
                     needclean[a]=0;
                     use_texgen[a]=0;
                     if ((glstate->enable.texgen_s[a] || glstate->enable.texgen_t[a] || glstate->enable.texgen_r[a]  || glstate->enable.texgen_q[a])) {
@@ -540,9 +567,32 @@ void draw_renderlist(renderlist_t *list) {
 
         if (stipple) {
             if(!list->use_glstate)   //TODO: avoid that malloc/free...
-                free(list->tex[0]);
-            list->tex[0]=NULL;
-            gl4es_glPopAttrib();
+                free(list->tex[stipple_tmu]);
+            list->tex[stipple_tmu]=NULL;
+            LOAD_GLES(glActiveTexture);
+            if(glstate->gleshard->active!=stipple_tmu)
+                gl4es_glActiveTexture(GL_TEXTURE0+stipple_tmu);
+            GLenum matmode;
+            gl4es_glGetIntegerv(GL_MATRIX_MODE, &matmode);
+            gl4es_glMatrixMode(GL_TEXTURE);
+            gl4es_glPopMatrix();
+            gl4es_glMatrixMode(matmode);
+            gl4es_glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, stipple_env);
+            gl4es_glAlphaFunc(stipple_afunc, stipple_aref);
+            if(stipple_tex2d)
+                gl4es_glEnable(GL_TEXTURE_2D);
+            else
+                gl4es_glDisable(GL_TEXTURE_2D);
+            if(stipple_alpha)
+                gl4es_glEnable(GL_ALPHA_TEST);
+            else
+                gl4es_glDisable(GL_ALPHA_TEST);
+            for (int k=0; k<4; k++) {
+                if(stipple_texgen[k])
+                    gl4es_glEnable(GL_TEXTURE_GEN_S+k);
+            }
+            if(glstate->gleshard->active!=stipple_old)
+                gl4es_glActiveTexture(GL_TEXTURE0+stipple_old);
         }
         if(list->post_color) gl4es_glColor4fv(list->post_colors);
         if(list->post_normal) gl4es_glNormal3fv(list->post_normals);
