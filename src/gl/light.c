@@ -242,9 +242,9 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
     errorGL();
 }
 
-void gl4es_glLightf(GLenum light, GLenum pname, const GLfloat params) {
+void gl4es_glLightf(GLenum light, GLenum pname, GLfloat param) {
 	GLfloat dummy[4];
-	dummy[0]=params;
+	dummy[0]=param;
 	gl4es_glLightfv(light, pname, dummy);
 }
 
@@ -306,6 +306,10 @@ void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
             }
             break;
         case GL_SHININESS:
+            if(*params<0.0f || *params>128.0f) {
+                errorShim(GL_INVALID_VALUE);
+                return;
+            }
             if(face==GL_FRONT_AND_BACK || face==GL_FRONT) {
                 glstate->material.front.shininess = *params;
                 if(glstate->fpe_state)
@@ -340,7 +344,7 @@ void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
     errorGL();
 }
 
-void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
+void gl4es_glMaterialf(GLenum face, GLenum pname, GLfloat param) {
     ERROR_IN_BEGIN
     if(glstate->list.active)
         if (glstate->list.compiling) {
@@ -359,6 +363,10 @@ void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
     }
     if(pname!=GL_SHININESS) {
         errorShim(GL_INVALID_ENUM);
+        return;
+    }
+    if(param<0.0f || param>128.0f) {
+        errorShim(GL_INVALID_VALUE);
         return;
     }
     if(face==GL_FRONT_AND_BACK || face==GL_FRONT) {
@@ -426,7 +434,7 @@ void gl4es_glColorMaterial(GLenum face, GLenum mode) {
 void glLightModelf(GLenum pname, GLfloat param) AliasExport("gl4es_glLightModelf");
 void glLightModelfv(GLenum pname, const GLfloat* params) AliasExport("gl4es_glLightModelfv");
 void glLightfv(GLenum light, GLenum pname, const GLfloat* params) AliasExport("gl4es_glLightfv");
-void glLightf(GLenum light, GLenum pname, const GLfloat params) AliasExport("gl4es_glLightf");
+void glLightf(GLenum light, GLenum pname, GLfloat param) AliasExport("gl4es_glLightf");
 void glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) AliasExport("gl4es_glMaterialfv");
-void glMaterialf(GLenum face, GLenum pname, const GLfloat param) AliasExport("gl4es_glMaterialf");
+void glMaterialf(GLenum face, GLenum pname, GLfloat param) AliasExport("gl4es_glMaterialf");
 void glColorMaterial(GLenum face, GLenum mode) AliasExport("gl4es_glColorMaterial");
