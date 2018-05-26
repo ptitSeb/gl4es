@@ -224,9 +224,9 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   DBG(comments=1-comments;)   // When DBG is activated, the effect of LIBGL_COMMENTS is reversed
   
   char* pBuffer = (char*)pEntry;
-  
+
   if(!fpeShader)
-    pBuffer = preproc(pEntry, comments);
+    pBuffer = preproc(pBuffer, comments);
   
   static shaderconv_need_t dummy_need;
   if(!need) {
