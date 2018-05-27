@@ -35,7 +35,11 @@ void gl4es_glFogfv(GLenum pname, const GLfloat* params) {
             GO(&, index, sizeof(GLfloat))
             return; // unsupported for now
         case GL_FOG_COLOR:
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstringop-overflow"
+            // GCC 8.1 warn about reading 16 bytes from a 4 bytes value, but params is not (in that case) a 4 bytes value
             GO(, color, 4*sizeof(GLfloat))
+#pragma GCC diagnostic pop
             break;
         case GL_FOG_COORD_SRC:
             GO(&, coord_src, sizeof(GLfloat))
