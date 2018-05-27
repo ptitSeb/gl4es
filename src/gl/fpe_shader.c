@@ -25,8 +25,8 @@ static int comments = 1;
 const char* texvecsize[] = {"vec2", "vec2", "vec2", "vec3", "vec2"};
 const char* texxyzsize[] = {"xy", "xy", "xy", "xyz", "xy"};
 //                          2D          Rectangle    3D             CubeMap      Stream
-const char* texname[] = {"texture2D", "texture2D", "texture2D", "textureCube", "textureStream"};    // textureRectange and 3D are emulated with 2D
-const char* texsampler[] = {"sampler2D", "sampler2D", "sampler2D", "samplerCube", "samplerStream"};
+const char* texname[] = {"texture2D", "texture2D", "texture2D", "textureCube", "textureStreamIMG"};    // textureRectange and 3D are emulated with 2D
+const char* texsampler[] = {"sampler2D", "sampler2D", "sampler2D", "samplerCube", "samplerStreamIMG"};
 int texnsize[] = {2, 2, 3, 3, 2};
 const char texcoordname[] = {'s', 't', 'r', 'q'};
 const char texcoordNAME[] = {'S', 'T', 'R', 'Q'};
@@ -675,6 +675,18 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     char buff[1024];
 
     strcpy(shad, fpeshader_signature);
+
+    // check texture streaming
+    {
+        int need_stream = 0;
+        for (int i=0; i<hardext.maxtex; i++) {
+            const int t = (state->textype>>(i*3))&0x7;
+            if(t==FPE_TEX_STRM)
+                need_stream = 1;
+        }
+        if(need_stream)
+            ShadAppend("#extension GL_IMG_texture_stream2 : enable\n");
+    }
     
     if(comments) {
         sprintf(buff, "// ** Fragment Shader **\n// lighting=%d, alpha=%d, secondary=%d, planes=%s, textype=%s, texformat=%s point=%d\n", lighting, alpha_test, secondary, fpe_binary(planes, 6), fpe_packed(state->textype, 24, 3), fpe_packed(state->texformat, 24, 3), point);

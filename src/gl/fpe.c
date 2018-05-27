@@ -482,7 +482,7 @@ void realize_glenv(int ispoint) {
                 }
                 glstate->fpe_state->texformat |= tex->fpe_format<<(i*3);
                 glstate->fpe_state->texadjust |= tex->adjust<<i;
-                if(fmt==FPE_TEX_RECT) glstate->fpe_state->texadjust |= 1<<i;
+                if(texunit==ENABLED_TEXTURE_RECTANGLE) glstate->fpe_state->texadjust |= 1<<i;
                 glstate->fpe_state->textype |= fmt<<(i*3);
             }
         }
