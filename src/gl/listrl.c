@@ -26,9 +26,9 @@ static inline void rlVertexCommon(renderlist_t *list, int idx, int l) {
 void FASTMATH rlVertex4f(renderlist_t *list, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     const int idx = (list->use_glstate)?(list->len * 5*4):(list->len * 4);
     rlVertexCommon(list, idx, list->len);
+    ++list->len;
 
     GLfloat * const vert = list->vert + idx;
-    ++list->len;
     vert[0] = x; vert[1] = y; vert[2] = z; vert[3] = w;
 }
 void FASTMATH rlVertex3fv(renderlist_t *list, GLfloat* v) {
@@ -53,7 +53,7 @@ void rlEnd(renderlist_t *list) {
     // adjust number of vertex, to remove extra vertex
     int adj = list->len - list->cur_istart;
     adj -= adjust_vertices(list->merger_mode?list->merger_mode:list->mode_init, adj);
-    //printf("rlEnd(%d), indices=%p, mode_init_len=%d, len(adj)/ilen=%d(%d)/%d, mode/mode_init=%s/%s, merger_mode=%s\n", list, list->indices, list->mode_init_len, list->len, adj, list->ilen, PrintEnum(list->mode), PrintEnum(list->mode_init), list->merger_mode?PrintEnum(list->merger_mode):"none");
+    //printf("rlEnd(%d), indices=%p, mode_init_len=%d, len/cur_istart(adj)/ilen=%d/%d(%d)/%d, mode/mode_init=%s/%s, merger_mode=%s\n", list, list->indices, list->mode_init_len, list->len, list->cur_istart, adj, list->ilen, PrintEnum(list->mode), PrintEnum(list->mode_init), list->merger_mode?PrintEnum(list->merger_mode):"none");
     list->len -= adj;
     if(!list->mode_inits && list->cur_istart) list_add_modeinit(list, list->mode_init);
     if(list->indices && list->merger_mode && list->len-list->cur_istart) {
@@ -65,11 +65,11 @@ void rlEnd(renderlist_t *list) {
         switch (list->merger_mode) {
             case GL_LINE_STRIP:
                 if(len>1) {
-                    list->indices[list->ilen++]=istart+(ivert++);
-                    list->indices[list->ilen++]=istart+(ivert++);
-                    for (int i=istart+2; i<list->len; i++) {
-                        list->indices[list->ilen++]=istart+(ivert-1);
-                        list->indices[list->ilen++]=istart+(ivert++);
+                    list->indices[list->ilen++]=istart+(ivert);
+                    list->indices[list->ilen++]=istart+(++ivert);
+                    for (int i=2; i<len; i++) {
+                        list->indices[list->ilen++]=istart+(ivert);
+                        list->indices[list->ilen++]=istart+(++ivert);
                     }
                 }
                 break;

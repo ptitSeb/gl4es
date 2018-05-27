@@ -406,7 +406,7 @@ void draw_renderlist(renderlist_t *list) {
             gl4es_glAlphaFunc(GL_GREATER, 0.0f);
             bind_stipple_tex();
             modeinit_t tmp; tmp.mode_init = list->mode_init; tmp.ilen=list->ilen?list->ilen:list->len;
-            list->tex[stipple_tmu] = gen_stipple_tex_coords(list->vert, list->mode_inits?list->mode_inits:&tmp, list->vert_stride, list->mode_inits?list->mode_init_len:1, (list->use_glstate)?(list->vert+8+stipple_tmu*4):NULL);
+            list->tex[stipple_tmu] = gen_stipple_tex_coords(list->vert, list->indices, list->mode_inits?list->mode_inits:&tmp, list->vert_stride, list->mode_inits?list->mode_init_len:1, (list->use_glstate)?(list->vert+8+stipple_tmu*4):NULL);
         }
         #define RS(A, len) if(texgenedsz[A]<len) {free(texgened[A]); texgened[A]=malloc(4*sizeof(GLfloat)*len); texgenedsz[A]=len; } use_texgen[A]=1
         // cannot use list->maxtex because some TMU can be using TexGen or point sprites...

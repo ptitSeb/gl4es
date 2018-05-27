@@ -66,7 +66,7 @@ void bind_stipple_tex() {
     gl4es_glBindTexture(GL_TEXTURE_2D, glstate->linestipple.texture);
 }
 
-GLfloat *gen_stipple_tex_coords(GLfloat *vert, modeinit_t *modes, int stride, int length, GLfloat* noalloctex) {
+GLfloat *gen_stipple_tex_coords(GLfloat *vert, GLushort *sindices, modeinit_t *modes, int stride, int length, GLfloat* noalloctex) {
     DBG(printf("Generate stripple tex (stride=%d, noalloctex=%p) length=%d:", stride, noalloctex, length);)
     // generate our texture coords
     GLfloat *tex = noalloctex?noalloctex:(GLfloat *)malloc(modes[length-1].ilen * 4 * sizeof(GLfloat));
@@ -91,27 +91,47 @@ GLfloat *gen_stipple_tex_coords(GLfloat *vert, modeinit_t *modes, int stride, in
         oldlen = len = 0.f;
         if(modes[k].ilen<2)
             continue;
-        if(mode==GL_LINES)
-            for (; i < modes[k].ilen / 2; i++) {
+        if(mode==GL_LINES || length>1)  // always line when multiple lines were merged
+            for (; i < modes[k].ilen; i+=2) {
+                if(sindices)
+                    vertPos = vert+stride*sindices[i];
                 vector_matrix(vertPos, mvp, v);
-                vertPos+=stride;
+                if(sindices)
+                    vertPos = vert+stride*sindices[i+1];
+                else
+                    vertPos+=stride;
                 // need to take "w" componant into acount...
-                x1=(v[0]/v[3])*w; y1=(v[1]/v[3])*h;
+                if(v[3]==0.0f) {
+                    x1=v[0]*w; y1=v[1]*h;
+                } else {
+                    x1=(v[0]/v[3])*w; y1=(v[1]/v[3])*h;
+                }
                 vector_matrix(vertPos, mvp, v);
                 vertPos+=stride;
-                x2=(v[0]/v[3])*w; y2=(v[1]/v[3])*h;
+                if(v[3]==0.0f) {
+                    x2=v[0]*w; y2=v[1]*h;
+                } else {
+                    x2=(v[0]/v[3])*w; y2=(v[1]/v[3])*h;
+                }
                 oldlen = len;
                 len += sqrtf((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)) / (glstate->linestipple.factor * 16.f);
                 DBG(printf("%f->%f (%f,%f -> %f,%f)\t", oldlen, len, x1, y1, x2, y2);)
+                if(sindices)
+                    texPos = tex+texstride*sindices[i+0];   // it get writen 2*, but that should be ok, it's the same value
                 memset(texPos, 0, 4*sizeof(GLfloat));
                 texPos[0] = oldlen; texPos[3] = 1.0f;
-                texPos+=texstride;
+                if(sindices)
+                    texPos = tex+texstride*sindices[i+1];
+                else
+                    texPos+=texstride;
                 memset(texPos, 0, 4*sizeof(GLfloat));
                 texPos[0] = len; texPos[3] = 1.0f;
                 texPos+=texstride;
             }
         else { // GL_LINE_STRIP and GL_LINE_LOOPS works the same here 
                 // (well, last segment, the "loop" one, will look strange, but I will not add a vertex for that)
+            if(sindices)
+                vertPos = vert+stride*sindices[i];
             vector_matrix(vertPos, mvp, v);
             x2=(v[0]/v[3])*w; y2=(v[1]/v[3])*h;
             vertPos+=stride;
@@ -122,11 +142,15 @@ GLfloat *gen_stipple_tex_coords(GLfloat *vert, modeinit_t *modes, int stride, in
             ++i;
             for (; i < modes[k].ilen; i++) {
                 x1 = x2; y1 = y2;
+                if(sindices)
+                    vertPos = vert+stride*sindices[i];
                 vector_matrix(vertPos, mvp, v);
                 vertPos+=stride;
                 x2=(v[0]/v[3])*w; y2=(v[1]/v[3])*h;
                 len += sqrtf((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)) / (glstate->linestipple.factor * 16.f);
                 DBG(printf("->%f\t", len);)
+                if(sindices)
+                    texPos = tex+texstride*sindices[i];
                 memset(texPos, 0, 4*sizeof(GLfloat));
                 texPos[0] = len; texPos[3] = 1.0f;
                 texPos+=texstride;
