@@ -1,11 +1,13 @@
 Version history
 ----
-##### Current version
+##### v1.0.8
 * Fixes and improvments to avoid unnecessary GLES state changes
 * Fixes some memory issues with glBitmap
 * Fixes to FPE (when using multitexture and GL_COMBINE)
 * Added some TexEnv extension for GLES2 backend
 * Fixes to Batch / Merger on GL_POLYGON primitives
+* Fixes to LineStipple
+* Pandora only: Fixed use of Texture Streaming on GLES2 backend
 
 ##### v1.0.6
 * Factorised "Blit" function, and implemented `glBlitFramebuffer`
