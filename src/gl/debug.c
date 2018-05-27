@@ -16,6 +16,7 @@ const char* PrintEnum(GLenum what) {
         p(GL_TEXTURE_1D);
         p(GL_TEXTURE_2D);
         p(GL_TEXTURE_3D);
+        p(GL_TEXTURE_RECTANGLE_ARB);
         p(GL_FRAMEBUFFER);
         p(GL_RENDERBUFFER);
         p(GL_PROXY_TEXTURE_1D);
