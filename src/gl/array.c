@@ -20,6 +20,11 @@ GLvoid *copy_gl_array(const GLvoid *src,
         return NULL;*/
         width = to_width;
     }
+    // quick path if just copying same to same and no specific stride involved
+    if(stride == (to_width*gl_sizeof(to)) && width==to_width && from==to) {
+        memcpy(dst, (char*)src + stride*skip, (count-skip) * to_width * gl_sizeof(to));
+        return dst;
+    }
 						  
     // if stride is weird, we need to be able to arbitrarily shift src
     // so we leave it in a uintptr_t and cast after incrementing
