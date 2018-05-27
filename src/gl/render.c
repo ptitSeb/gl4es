@@ -86,6 +86,8 @@ void gl4es_glInitNames() {
 }
 
 void gl4es_glPopName() {
+	if(glstate->list.pending)
+		flush();
 	if(glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_RENDER);
 		glstate->list.active->render_op = 2;
@@ -102,6 +104,8 @@ void gl4es_glPopName() {
 }
 
 void gl4es_glPushName(GLuint name) {
+	if(glstate->list.pending)
+		flush();
 	if(glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_RENDER);
 		glstate->list.active->render_op = 3;
@@ -120,6 +124,8 @@ void gl4es_glPushName(GLuint name) {
 }
 
 void gl4es_glLoadName(GLuint name) {
+	if(glstate->list.pending)
+		flush();
 	if(glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_RENDER);
 		glstate->list.active->render_op = 4;
