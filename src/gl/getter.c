@@ -108,6 +108,8 @@ void BuildExtensionsList() {
                 "GL_EXT_polygon_offset "
                 "GL_GL4ES_hint "
                 "GL_ARB_texture_rectangle "
+                "GL_ARB_draw_elements_base_vertex "
+                "GL_EXT_draw_elements_base_vertex "
 //                "GL_EXT_blend_logic_op "
 				);
         if(globals4es.vabgra)
