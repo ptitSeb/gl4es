@@ -249,6 +249,12 @@ Comments in shaders are kept (also for generated shaders by fpe_shaders)
  * 0 : Default, no comments in shaders sent to GLES Hardware
  * 1 : Comments are left in Shaders sent to GLES Hardware
 
+##### LIBGL_DEFAULTWRAP
+Hack to define default WRAP mode for texture
+* 0 : Default wrap mode is GL_REPEAT (normal OpenGL behavour): default on NPOT hardware
+* 1 : Default wrap mode is GL_CLAMP_TO_EDGE: default on limited NPOT or non-NPOT hardware
+* 2 : Default wrap mode is GL_CLAMP_TO_EDGE, enforced (not advised)
+
 ##### LIBGL_FBOMAKECURRENT
 Workaround for FBO and glXMakeCurrent (force unbind/bind FBO when changing context)
 * 0 : Disabled (Default on mast configuration)
