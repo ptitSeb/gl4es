@@ -230,7 +230,7 @@ Ignore BGRA Texture hardware extension
 Choose GLES hardware backend. WIP, don't use for now
  * 0 : Default, auto choose (GLES 1.1 for now on all platforms)
  * 1 : Use GLES 1.1 backend (so no shaders)
- * 2 : Use GLES 2.0 backend (shaders, but Fixed Pipeline function not implemented for now)
+ * 2 : Use GLES 2.0 backend (shaders)
 
 ##### LIBGL_GL
 Choose OpenGL version target for emulation
