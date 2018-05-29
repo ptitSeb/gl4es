@@ -365,10 +365,6 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         if(twosided)
             ShadAppend("highp vec3 back_aa,back_dd,back_ss;\n");
         need_normal = 1;
-        #ifdef AMIGAOS4
-        if(color_material && (state->cm_front_mode==FPE_CM_DIFFUSE || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE))
-            ShadAppend("Color = gl_Color;\n");
-        #endif
         for(int i=0; i<hardext.maxlights; i++) {
             if(state->light&(1<<i)) {
                 if(comments) {
@@ -470,13 +466,8 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 }
             }
         }
-        #ifdef AMIGAOS4
-        if(!(color_material && (state->cm_front_mode==FPE_CM_DIFFUSE || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE)))
-            ShadAppend("Color.a = _gl4es_FrontMaterial_alpha;\n");
-        #else
         sprintf(buff, "Color.a = %s;\n", (color_material && (state->cm_front_mode==FPE_CM_DIFFUSE || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color.a":"_gl4es_FrontMaterial_alpha");
         ShadAppend(buff);
-        #endif
         ShadAppend("Color.rgb = clamp(Color.rgb, 0., 1.);\n");
         if(twosided) {
             sprintf(buff, "BackColor.a = %s;\n", (color_material && (state->cm_back_mode==FPE_CM_DIFFUSE || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color.a":"_gl4es_BackMaterial_alpha");
