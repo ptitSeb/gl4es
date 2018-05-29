@@ -268,3 +268,8 @@ For the Color Attachment 0 to be a Texture2D (even if program attachs a Renderbu
 ##### LIBGL_FBO
 PANDORA and CHIP only: define custom dimension for FBO (only used with LIBGL_FBO=2)
 * WxH : Define FBO of WxH size (ex: LIBGL_FBO=1280x720)
+
+##### LIBGL_NOTEXARRAY
+Hack to force using discrete Texture instead of Array in all shader
+* 0 : Default: Array of texture is used in shaders (not in FPE generated ones)
+* 1 : Individual texture are forced in shaders (shaders may fail to compile if array are accessed by indice)

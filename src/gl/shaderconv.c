@@ -201,6 +201,9 @@ const char* gl4es_backSecondaryColorSource =
 const char* gl4es_texcoordSource =
 "varying mediump vec4 _gl4es_TexCoord[%d];\n";
 
+const char* gl4es_texcoordSourceAlt =
+"varying mediump vec4 _gl4es_TexCoord_%d;\n";
+
 const char* gl4es_fogcoordSource =
 "varying mediump float _gl4es_FogFragCoord;\n";
 
@@ -633,11 +636,26 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     if (ntex+nvarying>hardext.maxvarying) ntex = hardext.maxvarying - nvarying;
     need->need_texcoord = ntex;
     char d[100];
-    sprintf(d, gl4es_texcoordSource, ntex+1);
-    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(d));
-    InplaceInsert(GetLine(Tmp, headline), d);
-    headline+=CountLine(d);
-    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_TexCoord", "_gl4es_TexCoord");
+    if(globals4es.notexarray) {
+      for (int k=0; k<ntex+1; k++) {
+        char d2[100];
+        sprintf(d2, "gl_TexCoord[%d]", k);
+        if(strstr(Tmp, d2)) {
+          sprintf(d, gl4es_texcoordSourceAlt, k);
+          Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(d));
+          InplaceInsert(GetLine(Tmp, headline), d);
+          headline+=CountLine(d);
+          sprintf(d, "_gl4es_TexCoord_%d", k);
+          Tmp = InplaceReplace(Tmp, &tmpsize, d2, d);
+        }
+      }
+    } else {
+      sprintf(d, gl4es_texcoordSource, ntex+1);
+      Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(d));
+      InplaceInsert(GetLine(Tmp, headline), d);
+      headline+=CountLine(d);
+      Tmp = InplaceReplace(Tmp, &tmpsize, "gl_TexCoord", "_gl4es_TexCoord");
+    }
   }
   if(strstr(Tmp, "gl_MaxTextureUnits")) {
     Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_MaxTextureUnitsSource));

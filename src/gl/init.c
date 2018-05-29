@@ -412,7 +412,16 @@ void initialize_gl4es() {
         SHUT(LOGD("LIBGL: Default wrap mode is GL_CLAMP_TO_EDGE, enforced\n"));
     }
 
-    
+    globals4es.notexarray = 0;
+    char *env_notexarray = getenv("LIBGL_NOTEXARRAY");
+    if(env_notexarray && !strcmp(env_notexarray, "0"))
+        globals4es.notexarray = 0;
+    else if(env_notexarray && !strcmp(env_notexarray, "1"))
+        globals4es.notexarray = 1;
+    if(globals4es.notexarray) {
+        SHUT(LOGD("LIBGL: No Texture Array in Shaders\n"));
+    }
+
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)
         SHUT(LOGD("LIBGL: Current folder is:%s\n", cwd));
