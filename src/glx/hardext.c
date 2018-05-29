@@ -22,7 +22,9 @@ void GetHardwareExtensions(int notest)
     hardext.esversion = globals4es.es;
     if(notest) 
     {
+#ifndef AMIGAOS4
         SHUT(LOGD("LIBGL: Hardware test disabled, nothing activated...\n"));
+#endif
         if(hardext.esversion==2) {
             hardext.maxteximage = 4;
             hardext.maxvarying = 8;
