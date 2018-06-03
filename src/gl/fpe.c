@@ -836,7 +836,8 @@ void realize_glenv(int ispoint) {
     // fpe
     if(glprogram->fpe_alpharef!=-1)
     {
-        GoUniformfv(glprogram, glprogram->fpe_alpharef, 1, 1, &glstate->alpharef);
+        float alpharef = floorf(glstate->alpharef*255.f);
+        GoUniformfv(glprogram, glprogram->fpe_alpharef, 1, 1, &alpharef);
     }
     if(glprogram->has_builtin_texsampler)
     {

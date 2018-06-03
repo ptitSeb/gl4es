@@ -1082,7 +1082,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             // FPE_LESS FPE_EQUAL FPE_LEQUAL FPE_GREATER FPE_NOTEQUAL FPE_GEQUAL
             // but need to negate the operator
             const char* alpha_test_op[] = {">=","!=",">","<=","==","<"}; 
-            sprintf(buff, "if (int(fColor.a*255.) %s int(_gl4es_AlphaRef*255.)) discard;\n", alpha_test_op[alpha_func-FPE_LESS]);
+            sprintf(buff, "if (floor(fColor.a*255.) %s _gl4es_AlphaRef) discard;\n", alpha_test_op[alpha_func-FPE_LESS]);
             ShadAppend(buff);
         }
     }
