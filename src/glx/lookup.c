@@ -835,6 +835,9 @@ void *gl4es_glXGetProcAddress(const char *name) {
     _EX(glDrawRangeElementsBaseVertex);
     _EXT(glDrawRangeElementsBaseVertex);
     _ARB(glDrawRangeElementsBaseVertex);
+    _EX(glMultiDrawElementsBaseVertex);
+    _EXT(glMultiDrawElementsBaseVertex);
+    _ARB(glMultiDrawElementsBaseVertex);
 
     // stub non-squared matrix access
     STUB(glUniformMatrix2x3fv);
