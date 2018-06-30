@@ -23,6 +23,8 @@ renderlist_t *alloc_renderlist() {
     memcpy(list->lastColors, glstate->color, 4*sizeof(GLfloat));
     memcpy(&list->lastFogCoord, &glstate->fogcoord, 1*sizeof(GLfloat));
 
+    list->instanceCount = 1;
+
     list->open = true;
     return list;
 }
@@ -46,6 +48,8 @@ bool ispurerender_renderlist(renderlist_t *list) {
     if (list->material || list->colormat_face || list->light || list->lightmodel || list->texgen || list->texenv)
         return false;
     if (list->fog_op)
+        return false;
+    if (list->instanceCount!=1)
         return false;
     if (list->pointparam_op)
         return false;
@@ -133,6 +137,9 @@ bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
         return false;
     // same for post_normal
     if(a->post_normal && b->normal==NULL)
+        return false;
+    // check instanceCount (maybe it would be better to just check if both are == 1)
+    if(a->instanceCount != b->instanceCount)
         return false;
         
     // Check the size of a list, if it"s too big, don't merge...

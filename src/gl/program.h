@@ -180,6 +180,7 @@ typedef struct {
     GLint                           builtin_obj[4][MAX_TEX];
     int                             has_builtin_texgen;
     builtin_fog_t                   builtin_fog;
+    GLint                           builtin_instanceID;
     // fpe uniform
     GLint                           fpe_alpharef;
     int                             has_fpe;

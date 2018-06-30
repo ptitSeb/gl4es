@@ -839,6 +839,22 @@ void *gl4es_glXGetProcAddress(const char *name) {
     _EXT(glMultiDrawElementsBaseVertex);
     _ARB(glMultiDrawElementsBaseVertex);
 
+    //GL_ARB_draw_instanced
+    _EX(glDrawArraysInstanced);
+    _EXT(glDrawArraysInstanced); // not sure _EXT is needed...
+    _ARB(glDrawArraysInstanced);
+    _EX(glDrawElementsInstanced);
+    _EXT(glDrawElementsInstanced);
+    _ARB(glDrawElementsInstanced);
+    _EX(glDrawElementsInstancedBaseVertex);
+    _EXT(glDrawElementsInstancedBaseVertex);
+    _ARB(glDrawElementsInstancedBaseVertex);
+
+    //GL_ARB_instanced_arrays
+    _EX(glVertexAttribDivisor);
+    _EXT(glVertexAttribDivisor);
+    _ARB(glVertexAttribDivisor);
+
     // stub non-squared matrix access
     STUB(glUniformMatrix2x3fv);
     STUB(glUniformMatrix3x2fv);

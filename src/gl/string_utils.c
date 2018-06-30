@@ -90,3 +90,45 @@ char* Append(char* pBuffer, int* size, const char* S) {
     strcat(p, S);
     return p;
 }
+
+int isBlank(char c)  {
+    switch(c) {
+        case ' ':
+        case '\t':
+        case '\n':
+        case '\r':
+        case ':':
+        case ',':
+        case ';':
+        case '/':
+            return 1;
+        default:
+            return 0;
+    }
+}
+char* StrNext(char *pBuffer, const char* S) {
+    if(!pBuffer) return NULL;
+    char *p = strstr(pBuffer, S);
+    return (p)?p:(p+strlen(S));
+}
+
+char* NextStr(char* pBuffer) {
+    if(!pBuffer) return NULL;
+    while(isBlank(*pBuffer))
+        ++pBuffer;
+    return pBuffer;
+}
+
+char* NextBlank(char* pBuffer) {
+    if(!pBuffer) return NULL;
+    while(!isBlank(*pBuffer))
+        ++pBuffer;
+    return pBuffer;
+}
+
+char* NextLine(char* pBuffer) {
+    if(!pBuffer) return NULL;
+    while(*pBuffer && *pBuffer!='\n')
+        ++pBuffer;
+    return pBuffer;
+}

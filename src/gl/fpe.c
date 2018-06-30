@@ -361,14 +361,14 @@ void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 }
 
 void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
-    DBG(printf("fpe_glDrawArrays(%s, %d, %d), program=%d\n", PrintEnum(mode), first, count, glstate->glsl->program);)
+    DBG(printf("fpe_glDrawArrays(%s, %d, %d), program=%d, instanceID=%u\n", PrintEnum(mode), first, count, glstate->glsl->program, glstate->instanceID);)
     realize_glenv(mode==GL_POINTS);
     LOAD_GLES(glDrawArrays);
     gles_glDrawArrays(mode, first, count);
 }
 
 void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
-    DBG(printf("fpe_glDrawElements(%s, %d, %s, %p), program=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, glstate->glsl->program);)
+    DBG(printf("fpe_glDrawElements(%s, %d, %s, %p), program=%d, instanceID=%u\n", PrintEnum(mode), count, PrintEnum(type), indices, glstate->glsl->program, glstate->instanceID);)
     realize_glenv(mode==GL_POINTS);
     LOAD_GLES(glDrawElements);
     gles_glDrawElements(mode, count, type, indices);
@@ -779,6 +779,11 @@ void realize_glenv(int ispoint) {
             GoUniformfv(glprogram, glprogram->builtin_lightmodelprod[1].sceneColor, 4, 1, tmp);
         }
     }
+    // Instance ID
+    if(glprogram->builtin_instanceID!=-1)
+    {
+        GoUniformiv(glprogram, glprogram->builtin_instanceID, 1, 1, &glstate->instanceID);
+    }
     // fog parameters
     if(glprogram->builtin_fog.has)
     {
@@ -863,12 +868,12 @@ void realize_glenv(int ispoint) {
         vertexattrib_t *w = &glstate->glesva.wanted[i];
         int dirty = 0;
         // enable / disable Array if needed
-        if(v->vaarray != w->vaarray) {
+        if(v->vaarray != w->vaarray || (v->vaarray && w->divisor)) {
             dirty = 1;
             LOAD_GLES2(glEnableVertexAttribArray)
             LOAD_GLES2(glDisableVertexAttribArray);
-            v->vaarray = w->vaarray;
-            DBG(printf("VertexAttribArray[%d]:%s\n", i, (v->vaarray)?"Enable":"Disable");)
+            v->vaarray = (w->divisor)?0:w->vaarray;
+            DBG(printf("VertexAttribArray[%d]:%s, divisor=%d\n", i, (w->vaarray)?"Enable":"Disable", w->divisor);)
             if(v->vaarray)
                 gles_glEnableVertexAttribArray(i);
             else
@@ -892,8 +897,37 @@ void realize_glenv(int ispoint) {
             }
         } else {
             // single value case
-            if(dirty || memcmp(v->current, w->current, 4*sizeof(GLfloat))) {
-                memcpy(v->current, w->current, 4*sizeof(GLfloat));
+            char* current = (char*)w->current;
+            GLfloat tmp[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+            if(w->divisor && w->vaarray) {
+                current = (char*)((uintptr_t)w->pointer + ((w->buffer)?(uintptr_t)w->buffer->data:0));
+                int stride=w->stride;
+                if(!stride) stride=gl_sizeof(w->type)*w->size;
+                current += (glstate->instanceID/w->divisor) * stride;
+                if(w->type==GL_FLOAT) {
+                    if(w->size!=4) {
+                        memcpy(tmp, current, sizeof(GLfloat)*w->size);
+                        current = (char*)tmp;
+                    }
+                } else {
+                    if(w->type == GL_DOUBLE || !w->normalized) {
+                        for(int k=0; k<w->size; ++k) {
+                            GL_TYPE_SWITCH(input, current, w->type,
+                                tmp[k] = input[k];
+                            ,)
+                        }
+                    } else {
+                        for(int k=0; k<w->size; ++k) {
+                            GL_TYPE_SWITCH_MAX(input, current, w->type,
+                                tmp[k] = (float)input[k]/(float)maxv;
+                            ,)
+                        }
+                    }
+                    current = (char*)tmp;
+                }
+            }
+            if(dirty || memcmp(v->current, current, 4*sizeof(GLfloat))) {
+                memcpy(v->current, current, 4*sizeof(GLfloat));
                 LOAD_GLES2(glVertexAttrib4fv);
                 gles_glVertexAttrib4fv(i, v->current);
                 DBG(printf("glVertexAttrib4fv(%d, %p) => (%f, %f, %f, %f)\n", i, v->current, v->current[0], v->current[1], v->current[2], v->current[3]);)
@@ -988,6 +1022,7 @@ void builtin_Init(program_t *glprogram) {
         }
     }
     glprogram->builtin_normalrescale = -1;
+    glprogram->builtin_instanceID = -1;
     for (int i=0; i<MAX_CLIP_PLANES; i++)
         glprogram->builtin_clipplanes[i] = -1;
     glprogram->builtin_pointsprite.size = -1;
@@ -1035,6 +1070,7 @@ const char* backlightprod_code = "_gl4es_BackLightProduct[";
 const char* frontlightprod_fpe_code = "_gl4es_FrontLightProduct_";
 const char* backlightprod_fpe_code = "_gl4es_BackLightProduct_";
 const char* normalrescale_code = "_gl4es_NormalScale";
+const char* instanceID_code = "_gl4es_InstanceID";
 const char* clipplanes_code = "_gl4es_ClipPlane[";
 const char* clipplanes_fpe_code = "_gl4es_ClipPlane_";
 const char* point_code = "_gl4es_Point";
@@ -1142,6 +1178,11 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     {
         glprogram->builtin_normalrescale = id;
         glprogram->has_builtin_matrix = 1;  // this is in the matrix block
+        return 1;
+    }
+    if(strncmp(name, instanceID_code, strlen(instanceID_code))==0)
+    {
+        glprogram->builtin_instanceID = id;
         return 1;
     }
     if(strncmp(name, clipplanes_code, strlen(clipplanes_code))==0) {

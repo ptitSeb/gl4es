@@ -186,6 +186,10 @@ const char* gl4es_clipplanesSource =
 const char* gl4es_normalscaleSource =
 "uniform float gl_NormalScale;\n";
 
+const char* gl4es_instanceID =
+"#define GL_ARB_draw_instanced 1\n"
+"uniform int _gl4es_InstanceID;\n";
+
 const char* gl4es_frontColorSource =
 "varying lowp vec4 _gl4es_FrontColor;\n";
 
@@ -402,6 +406,26 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
         ++p;
     }
   }*/
+  // checking "#extension" keyword, and clean up some...
+  {
+    char* p = strstr(Tmp, "#extension");  // should test this is #first character in the line
+    while(p) {
+      char *p2 = NextStr(StrNext(Tmp, "#extension"));
+      char *p3 = NextBlank(p2);
+      char keyw[50];
+      if(p3-p2<50) {
+        strncpy(keyw, p2, p3-p2);
+        // now, checking the keywords...
+        if(strcmp(keyw, "GL_ARB_draw_instanced")==0) {
+          // ok, this one is safe to ignore... Not even checking what state is asked
+          p3 = NextLine(p);
+          while (p!=p3) *(p++)=' '; // blank the line....
+        }
+      }
+      // all done
+      p = strstr(p+1, "#extension");
+    }
+  }
   if(isVertex) {
       // check for builtin OpenGL attributes...
       int n = sizeof(builtin_attrib)/sizeof(builtin_attrib_t);
@@ -484,6 +508,13 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     InplaceInsert(GetLine(Tmp, headline), gl4es_normalscaleSource);
     headline+=CountLine(gl4es_normalscaleSource);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_NormalScale", "_gl4es_NormalScale");
+  }
+  if(strstr(Tmp, "gl_InstanceID") || strstr(Tmp, "gl_InstanceIDARB")) {
+    Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_instanceID));
+    InplaceInsert(GetLine(Tmp, headline), gl4es_instanceID);
+    headline+=CountLine(gl4es_instanceID);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_InstanceIDARB", "_gl4es_InstanceID");
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_InstanceID", "_gl4es_InstanceID");
   }
   if(strstr(Tmp, "gl_ClipPlane")) {
     Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(gl4es_clipplanesSource));

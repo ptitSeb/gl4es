@@ -735,4 +735,7 @@
 #define GL_OPERAND3_RGB                         0x8593
 #define GL_OPERAND3_ALPHA                       0x859B
 
+//GL_ARB_instanced_arrays
+#define GL_VERTEX_ATTRIB_ARRAY_DIVISOR          0x88FE
+
 #endif

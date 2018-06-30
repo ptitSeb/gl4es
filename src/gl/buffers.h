@@ -98,6 +98,7 @@ typedef struct {
     glbuffer_t      *buffer;    // reference buffer
     GLfloat         current[4];
     GLboolean       vaarray;
+    GLint           divisor;
 } vertexattrib_t;
 
 // VAO ****************

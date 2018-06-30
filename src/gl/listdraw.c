@@ -274,7 +274,8 @@ void draw_renderlist(renderlist_t *list) {
         }
         
         if (list->polygon_mode) {
-            gl4es_glPolygonMode(GL_FRONT_AND_BACK, list->polygon_mode);}
+            gl4es_glPolygonMode(GL_FRONT_AND_BACK, list->polygon_mode);
+        }
 
         if (! list->len)
             continue;
@@ -522,7 +523,13 @@ void draw_renderlist(renderlist_t *list) {
                     }
                     gles_glDrawElements(mode, list->ind_line, GL_UNSIGNED_SHORT, list->ind_lines);
                 } else {
-                    gles_glDrawElements(mode, list->ilen, GL_UNSIGNED_SHORT, indices);
+                    if(list->instanceCount==1)
+                        gles_glDrawElements(mode, list->ilen, GL_UNSIGNED_SHORT, indices);
+                    else {
+                        for (glstate->instanceID=0; glstate->instanceID<list->instanceCount; ++glstate->instanceID)
+                            gles_glDrawElements(mode, list->ilen, GL_UNSIGNED_SHORT, indices);
+                        glstate->instanceID = 0;
+                    }
                 }
             }
         } else {
@@ -544,7 +551,13 @@ void draw_renderlist(renderlist_t *list) {
                     }
 					gles_glDrawElements(mode, list->ind_line, GL_UNSIGNED_SHORT, list->ind_lines);
                 } else {
-                    gles_glDrawArrays(mode, 0, len);
+                    if(list->instanceCount==1)
+                        gles_glDrawArrays(mode, 0, len);
+                    else {
+                        for (glstate->instanceID=0; glstate->instanceID<list->instanceCount; ++glstate->instanceID)
+                            gles_glDrawArrays(mode, 0, len);
+                        glstate->instanceID = 0;
+                    }
                 }
             }
         }

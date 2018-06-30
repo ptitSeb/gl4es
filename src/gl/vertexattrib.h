@@ -19,4 +19,7 @@ void gl4es_glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat *params);
 void gl4es_glGetVertexAttribiv(GLuint index, GLenum pname, GLint *params);
 void gl4es_glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid **pointer);
 
+// GL_ARB_instanced_arrays
+void gl4es_glVertexAttribDivisor(GLuint index, GLuint divisor);
+
 #endif

@@ -112,6 +112,9 @@ void gl4es_glGetVertexAttrib##suffix##v(GLuint index, GLenum pname, Type *params
             for (int i=0; i<4; i++) \
                 *params=glstate->vao->vertexattrib[index].current[i]*factor; \
             return; \
+        case GL_VERTEX_ATTRIB_ARRAY_DIVISOR: \
+            *params=glstate->vao->vertexattrib[index].divisor; \
+            return; \
     } \
     errorShim(GL_INVALID_ENUM); \
 }
@@ -134,6 +137,17 @@ void gl4es_glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid **pointe
     }
     *pointer = (GLvoid*)glstate->vao->vertexattrib[index].pointer;
     noerrorShim();
+}
+
+void gl4es_glVertexAttribDivisor(GLuint index, GLuint divisor) {
+    FLUSH_BEGINEND;
+    // sanity test
+    if(index<0 || index>=hardext.maxvattrib) {
+        errorShim(GL_INVALID_VALUE);
+        return;
+    }
+    glstate->vao->vertexattrib[index].divisor = divisor;
+    glstate->glesva.wanted[index].divisor = divisor;
 }
 
 void glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer) AliasExport("gl4es_glVertexAttribPointer");
@@ -159,3 +173,6 @@ GLvoid glGetVertexAttribdvARB(GLuint index, GLenum pname, GLdouble *params) Alia
 GLvoid glGetVertexAttribfvARB(GLuint index, GLenum pname, GLfloat *params) AliasExport("gl4es_glGetVertexAttribfv");
 GLvoid glGetVertexAttribivARB(GLuint index, GLenum pname, GLint *params) AliasExport("gl4es_glGetVertexAttribiv");
 GLvoid glGetVertexAttribPointervARB(GLuint index, GLenum pname, GLvoid **pointer) AliasExport("gl4es_glGetVertexAttribPointerv");
+
+// ============== GL_ARB_instanced_arrays =================
+void glVertexAttribDivisor(GLuint index, GLuint divisor) AliasExport("gl4es_glVertexAttribDivisor");

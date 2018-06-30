@@ -82,6 +82,7 @@ typedef struct {
     fbo_t               fbo;
     depth_state_t       depth;
     face_state_t        face;
+    GLint               instanceID;
     // scratch array
     int                 scratch_alloc;
     void*               scratch;

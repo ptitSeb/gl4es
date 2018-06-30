@@ -208,6 +208,8 @@ typedef struct _renderlist_t {
     GLushort    *ind_lines;
     int         ind_line;
     GLfloat      *final_colors;
+
+    int         instanceCount;
     
     khash_t(material) *material;
     GLenum  colormat_face;

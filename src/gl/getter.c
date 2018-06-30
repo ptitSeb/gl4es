@@ -157,6 +157,8 @@ void BuildExtensionsList() {
                 "GL_ATI_texture_env_combine3 "
                 "GL_ATIX_texture_env_route "
                 "GL_NV_texture_env_combine4 "
+                "GL_ARB_draw_instanced "
+                "GL_ARB_instanced_arrays "
                 );
         }
         char* p = extensions;
