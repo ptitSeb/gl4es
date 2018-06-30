@@ -204,7 +204,12 @@ static void glDrawElementsCommon(GLenum mode, GLint first, GLsizei count, GLuint
             else                                            \
                 gles_glDisableClientState(B);               \
         }
-
+#if 0
+// FEZ draw the stars (intro menu and the ones visible by night)
+// by drawing a huge list of 500k+ triangles!
+// it's a bit too much for mobile hardware, so it can be simply disabled here
+if(count>500000) return;
+#endif
     GLenum mode_init = mode;
     /*if (glstate->polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
         mode = GL_LINE_LOOP;*/
