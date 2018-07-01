@@ -5,7 +5,7 @@ gl4es
 
 This is a library providing OpenGL 1.x functionality for OpenGL ES 1.1 accelerated hardware.
 A new GLES2.0 backend also provide some OpenGL 2.x support (and also support OpenGL 1.5 function, sometimes better then when using GLES 1.1 backend)
-GL4ES is known to work on many platform: OpenPandora, ODroid, RaspberryPI (2 and 3 at least), PocketCHIP, (otherfruit)PI, Android, x86 and x86_64 Linux (using mesa-egl). There is also some WIP support for AmigaOS4, using experimental GLES2 driver for Warp3D.
+GL4ES is known to work on many platform: OpenPandora, ODroid, RaspberryPI (2 and 3 at least), PocketCHIP, "otherfruit"PI (like the OrangePI), Android, x86 and x86_64 Linux (using mesa-egl). There is also some WIP support for AmigaOS4, using experimental GLES2 driver for Warp3D.
 
 This library is based on glshim (https://github.com/lunixbochs/glshim) but as now evolved far from it, with different feature set and objectives. Go check this lib if you need things like RemoteGL or TinyGLES (for 100% software rendering).
 

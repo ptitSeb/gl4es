@@ -12,6 +12,9 @@ Compiling
 
     cmake . -DODROID=1; make GL
 
+*or for the OrangePI*
+    use ODROID profile.
+
 *or for CHIP machines*
 
     cmake . -DCHIP=1; make GL
@@ -44,16 +47,19 @@ Per-platform
 
 This is the main developpement platform for now. GL4ES works on all 3 models (CC, Rebirth and Gigahertz), and with all driver version.
 For the SGX Driver version that doesn't support X11 Windowed mode (i.e. there is no `/usr/lib/libpvrPVR2D_X11WSEGL.so` library in the firmware), you need to use one of the framebuffer output: `LIBGL_FB=1` is the fastest, but you may need `LIBGL_FB=2` if you need 32bits framebuffer, or `LIBGL_FB=3` if you need GL in a Window (but it will be slow, as each frame as to be blitted back in the X11 windows).
-On the Pandora, the special `LIBGL_GAMMA`can be used also, to boost gamma at load, using firmware command to change LCD gamma.
+On the Pandora, the special `LIBGL_GAMMA` can be used also, to boost gamma at load, using firmware command to change LCD gamma.
 
 ##### ODroid
 
 GL4ES works well on ODroid. I can test on XU4 model, but it has been reported to work on all model, including 64bits version.
 On ODroid, the EGL context can be created with SRGB attribute, by using `LIBGL_SRGB=1`, for a nice boost in the gamma (supported on most ODroid).
 
+##### OrangePI
+GL4ES works on OrangePI using ODROID profile. GLES Hardware is MALI and is similar to ODroid in many way. I don't own any OrangePI but I have seen many success in compiling and using the lib.
+
 ##### C.H.I.P.
 
-GL4ES should work on CHIP ad PocketCHIP. Framebuffers mode will probably ot work, expect `LIBGL_FB=3` mode that seems to work fine, and with adequate performances (there is probably no slow blit, as the driver handle directly the GL->X11 blit).
+GL4ES should work on CHIP and PocketCHIP. Framebuffers mode will probably not work, with only `LIBGL_FB=3` mode that seems to work fine, and with adequate performances (there is probably no slow blit, as the driver handle directly the GL->X11 blit).
 Also, on the CHIP, you will probably need to do `sudo apt-get install chip-mali-userspace` to be sure the GLES driver of the CHIP is present.
 
 ##### RaspberryPI
