@@ -1,7 +1,13 @@
 language: c
 sudo: false
 dist: trusty
-
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:adrozdoff/cmake' # cmake 3 for trusty
+    packages:
+      - cmake
+      
 compiler:
     - gcc
 
