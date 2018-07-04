@@ -65,6 +65,11 @@ if(NOEGL)
     add_definitions(-DNOX11)
 endif()
 
+#DEFAULT_ES=2
+if(${DEFAULT_ES} STREQUAL 2)
+    add_definitions(-DDEFAULT_ES=2)
+endif()
+
 link_directories(${CMAKE_BINARY_DIR}/lib)
 add_definitions(-g -std=gnu99 -funwind-tables -O3 -fvisibility=hidden)
 
