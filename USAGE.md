@@ -12,7 +12,7 @@ Controls the Framebuffer output
  * 3 : Use PBuffer, allowing x11 (and windowed) rendering even if driver doesn't support it 
 
 ##### LIBGL_ES
-Controls tje version of GLES to use
+Controls the version of GLES to use
  * 0 : Default, using GLES 1.1 backend (unless built with DEFAULT_ES 2)
  * 1 : Use GLES 1.1 backend
  * 2 : Use GLES 2.0 backend
@@ -225,19 +225,6 @@ Use only Power Of Two dimension for Framebuffer
 Ignore BGRA Texture hardware extension
  * 0 : Default, use BGRA extension if possible
  * 1 : Ignore BGRA extension, even if supported by GLES hardware
-
-##### LIBGL_ES
-Choose GLES hardware backend. WIP, don't use for now
- * 0 : Default, auto choose (GLES 1.1 for now on all platforms)
- * 1 : Use GLES 1.1 backend (so no shaders)
- * 2 : Use GLES 2.0 backend (shaders)
-
-##### LIBGL_GL
-Choose OpenGL version target for emulation
- * 0 : Default, auto choose (1.5 for now)
- * 15: Target OpenGL 1.5
- * 20: Target OpenGL 2.0 (with GLSL 1.10)
- * 21: Target OpenGL 2.1 (with GLSL 1.20)
 
 ##### LIBGL_NOHIGHP
 Usage of highp precision in fragment shader (ES2 backend only)
