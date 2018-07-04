@@ -66,7 +66,7 @@ if(NOEGL)
 endif()
 
 #DEFAULT_ES=2
-if(${DEFAULT_ES} STREQUAL 2)
+if(${DEFAULT_ES} STREQUAL "2")
     add_definitions(-DDEFAULT_ES=2)
 endif()
 
