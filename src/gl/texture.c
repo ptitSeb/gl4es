@@ -1666,7 +1666,7 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
         tex->base_level = -1;
         tex->max_level = -1;
         tex->alpha = true;
-        tex->min_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
+        tex->min_filter = GL_NEAREST_MIPMAP_LINEAR; //(globals4es.automipmap==1)?GL_NEAREST_MIPMAP_LINEAR:GL_LINEAR;
         tex->mag_filter = GL_LINEAR;
         tex->wrap_s = tex->wrap_t = (globals4es.defaultwrap?0:GL_REPEAT);
         tex->fpe_format = FPE_TEX_RGBA;
@@ -1967,7 +1967,8 @@ void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
             tex->base_level = -1;
             tex->max_level = -1;
             tex->alpha = true;
-            tex->min_filter = tex->mag_filter = (globals4es.automipmap==1)?GL_LINEAR_MIPMAP_LINEAR:GL_LINEAR;
+            tex->min_filter = GL_NEAREST_MIPMAP_LINEAR; //(globals4es.automipmap==1)?GL_NEAREST_MIPMAP_LINEAR:GL_LINEAR;
+            tex->mag_filter = GL_LINEAR;
             tex->wrap_s = tex->wrap_t = (globals4es.defaultwrap?0:GL_REPEAT);
             tex->fpe_format = FPE_TEX_RGBA;
             tex->format = GL_RGBA;

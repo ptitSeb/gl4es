@@ -331,8 +331,9 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
             }*/
-            attach_fbotexture(glstate->fbo.current_fb, tex->texture, tex->width, tex->height);    // track the attached texture for glBlitFramebuffer
-            DBG(printf("found texture, glname=%u, size=%ix%i(%ix%i), format/type=0x%04X/0x%04X\n", texture, tex->width, tex->height, tex->nwidth, tex->nheight, tex->format, tex->type);)
+            if (attachment == GL_COLOR_ATTACHMENT0)
+                attach_fbotexture(glstate->fbo.current_fb, tex->texture, tex->width, tex->height);    // track the attached texture for glBlitFramebuffer
+            DBG(printf("found texture, glname=%u, size=%ix%i(%ix%i), format/type=%s/%s\n", texture, tex->width, tex->height, tex->nwidth, tex->nheight, PrintEnum(tex->format), PrintEnum(tex->type));)
         }
     }
     
