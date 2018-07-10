@@ -353,6 +353,39 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
         ReadDraw_Pop(target);
         return;
     }
+    if(attachment==GL_DEPTH_STENCIL_ATTACHMENT /*&& hardext.depthtex==0*/) {
+        noerrorShim();
+        if (level!=0) return;
+        // let's create a renderbuffer and attach it instead of the (presumably) depth texture
+        if(hardext.depthstencil) {
+            GLuint render_depthstencil;    // memory leak here...
+            gl4es_glGenRenderbuffers(1, &render_depthstencil);
+            gl4es_glBindRenderbuffer(GL_RENDERBUFFER, render_depthstencil);
+            gl4es_glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, twidth, theight);
+            gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
+            errorGL();
+            gl4es_glFramebufferRenderbuffer(ntarget, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, render_depthstencil);
+            gl4es_glFramebufferRenderbuffer(ntarget, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, render_depthstencil);
+        } else {
+            GLuint render_depth;    // memory leak here...
+            gl4es_glGenRenderbuffers(1, &render_depth);
+            gl4es_glBindRenderbuffer(GL_RENDERBUFFER, render_depth);
+            gl4es_glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, twidth, theight);
+            gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
+            errorGL();
+            gl4es_glFramebufferRenderbuffer(ntarget, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, render_depth);
+            GLuint render_stencil;    // memory leak here...
+            gl4es_glGenRenderbuffers(1, &render_stencil);
+            gl4es_glBindRenderbuffer(GL_RENDERBUFFER, render_stencil);
+            gl4es_glRenderbufferStorage(GL_RENDERBUFFER, GL_STENCIL_INDEX8, twidth, theight);
+            gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
+            errorGL();
+            gl4es_glFramebufferRenderbuffer(ntarget, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, render_stencil);
+
+        }
+        ReadDraw_Pop(target);
+        return;
+    }
 
     twidth = twidth >> level; if(twidth<1) twidth=1;
     theight = theight >> level; if(theight<1) theight=1;
