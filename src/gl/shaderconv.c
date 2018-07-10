@@ -709,7 +709,14 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     ++ncv;
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ClipVertex", CV);
   }
-
+  if(strstr(Tmp, "mat2x2")) {
+    // better to use #define ?
+    Tmp = InplaceReplace(Tmp, &tmpsize, "mat2x2", "mat2");
+  }
+  if(strstr(Tmp, "mat3x3")) {
+    // better to use #define ?
+    Tmp = InplaceReplace(Tmp, &tmpsize, "mat3x3", "mat3");
+  }
   
   // finish
   DBG(printf("New Shader source:\n%s\n", Tmp);)
