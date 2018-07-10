@@ -422,7 +422,7 @@ void initialize_gl4es() {
         SHUT(LOGD("LIBGL: No Texture Array in Shaders\n"));
     }
 
-    env(LIBGL_LOGSHADERERROR, globals4es.logshader, "Log to the console Error compiling shaders\n");
+    env(LIBGL_LOGSHADERERROR, globals4es.logshader, "Log to the console Error compiling shaders");
 
 
     char cwd[1024];
