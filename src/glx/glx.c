@@ -92,7 +92,18 @@ static Display *g_display = NULL;
 static GLXContext glxContext = NULL;
 static GLXContext fbContext = NULL;
 static GLuint current_fb = 0;
+
 #endif //NOX11
+void gl4es_getMainFBSize(GLint* width, GLint* height) {
+#ifndef NOEGL
+    // noegl, no updating of framebuffer size
+    DBG(printf("gl4es_getMainFBSize() %dx%d -> ", *width, *height);)
+    LOAD_EGL(eglQuerySurface);
+    egl_eglQuerySurface(eglDisplay, glxContext->eglSurface, EGL_WIDTH, width);
+    egl_eglQuerySurface(eglDisplay, glxContext->eglSurface, EGL_HEIGHT, height);
+    DBG(printf("%dx%d (%s)\n", *width, *height, PrintEGLError(0));)
+#endif
+}
 
 #ifndef NOEGL
 // hmm...

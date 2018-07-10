@@ -804,6 +804,8 @@ void gl4es_glFramebufferTextureLayer(	GLenum target, GLenum attachment, GLuint t
     gl4es_glFramebufferTexture2D(target, attachment, GL_TEXTURE_2D, texture,	level); // Force Texture2D, ignore layer...
 }
 
+void gl4es_getMainFBSize(GLint* width, GLint* height);
+
 void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) {
     // mask will be ignored
     // filter will be taken only for ReadFBO has no Texture attached (so readpixel is used)
@@ -864,6 +866,9 @@ void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
     if(glstate->fbo.fbo_draw==glstate->fbo.mainfbo_fbo) {
         fbowidth = glstate->fbo.mainfbo_width;
         fboheight = glstate->fbo.mainfbo_height;
+        if(glstate->fbo.mainfbo_width!=dstX1 || glstate->fbo.mainfbo_height!=dstY1) {
+            gl4es_getMainFBSize(&glstate->fbo.mainfbo_width, &glstate->fbo.mainfbo_height);
+        }
     } else {
         if (!find_fbotexture(glstate->fbo.fbo_draw, NULL, &fbowidth, &fboheight)) {
             // not found, get width/height from Hardware
