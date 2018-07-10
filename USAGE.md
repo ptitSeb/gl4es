@@ -260,3 +260,9 @@ PANDORA and CHIP only: define custom dimension for FBO (only used with LIBGL_FBO
 Hack to force using discrete Texture instead of Array in all shader
 * 0 : Default: Array of texture is used in shaders (not in FPE generated ones)
 * 1 : Individual texture are forced in shaders (shaders may fail to compile if array are accessed by indice)
+
+##### LIBGL_LOGSHADERERROR
+Log to the console Shader Compile error, with initial and ShaderConv'd source of the shader
+* 0 : Default, don't log
+* 1 : Log Shader Compilation Errors
+
