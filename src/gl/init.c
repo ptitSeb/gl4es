@@ -126,6 +126,8 @@ void initialize_gl4es() {
 
     SHUT(LOGD("LIBGL: Using GLES %s backend\n", (globals4es.es==1)?"1.1":"2.0"));
 
+    env(LIBGL_NODEPTHTEX, globals4es.nodepthtex, "Disable usage of Depth Textures");
+
     load_libs();
     glx_init();
 

@@ -185,7 +185,9 @@ void GetHardwareExtensions(int notest)
     if(!globals4es.nobgra) {
         S("GL_EXT_texture_format_BGRA8888", bgra8888, 1);
     }
-    S("GL_OES_depth_texture", depthtex, 1);
+    if(!globals4es.nodepthtex) {
+        S("GL_OES_depth_texture", depthtex, 1);
+    }
     S("GL_OES_draw_texture", drawtex, 1);
     S("GL_EXT_texture_rg", rgtex, 1);
     S("GL_OES_texture_float", floattex, 1);

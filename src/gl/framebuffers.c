@@ -247,7 +247,9 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
     LOAD_GLES2_OR_OES(glFramebufferTexture2D);
     LOAD_GLES(glTexImage2D);
     LOAD_GLES(glBindTexture);
-		
+    LOAD_GLES(glActiveTexture);
+    LOAD_GLES(glTexParameteri);
+
     // Ignore Color attachment 1 .. 9
     if ((attachment>=GL_COLOR_ATTACHMENT0+1) && (attachment<=GL_COLOR_ATTACHMENT0+9)) {
         errorShim(GL_INVALID_ENUM);
@@ -256,8 +258,8 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
     
     int twidth = 0, theight = 0;
     // find texture and get it's real name
+    gltexture_t *tex = NULL;
     if (texture) {
-        gltexture_t *tex = NULL;
         int ret;
         khint_t k;
         khash_t(tex) *list = glstate->texture.list;
@@ -292,10 +294,11 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 tex->adjustxy[1] = (float)tex->height / tex->nheight;
                 tex->adjust=(tex->width!=tex->nwidth || tex->height!=tex->nheight);
                 tex->shrink = 0; tex->useratio = 0;
-                gltexture_t *bound = glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D];
+                int oldactive = glstate->texture.active;
+                if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
+                gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];
                 GLuint oldtex = bound->glname;
                 if(hardext.npot==1 && !(wrap_npot(tex->wrap_s) && wrap_npot(tex->wrap_t))) {
-                    LOAD_GLES(glTexParameteri);
                     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                     tex->adjust = 0;
@@ -303,6 +306,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
                 gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
+                if(oldactive) gles_glActiveTexture(GL_TEXTURE0+oldactive);
             }
             if(globals4es.potframebuffer && (npot(twidth)!=twidth || npot(theight!=theight))) {
                 // check if POT size is asked
@@ -312,11 +316,14 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 tex->adjustxy[0] = (float)tex->width / tex->nwidth;
                 tex->adjustxy[1] = (float)tex->height / tex->nheight;
                 tex->adjust=(tex->width!=tex->nwidth || tex->height!=tex->nheight);
-                gltexture_t *bound = glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D];
+                int oldactive = glstate->texture.active;
+                if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
+                gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];
                 GLuint oldtex = bound->glname;
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
                 gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
+                if(oldactive) gles_glActiveTexture(GL_TEXTURE0+oldactive);
             }
             twidth = tex->nwidth;
             theight = tex->nheight;
@@ -339,17 +346,43 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
     
     GLenum ntarget = ReadDraw_Push(target);
 
+    if(tex) {
+        tex->binded_fbo = glstate->fbo.current_fb;
+        tex->binded_attachment = attachment;
+    }
+
     if(attachment==GL_DEPTH_ATTACHMENT /*&& hardext.depthtex==0*/) {
         noerrorShim();
         if (level!=0) return;
-        // let's create a renderbuffer and attach it instead of the (presumably) depth texture
-        GLuint render_depth;    // memory leak here...
-        gl4es_glGenRenderbuffers(1, &render_depth);
-        gl4es_glBindRenderbuffer(GL_RENDERBUFFER, render_depth);
-        gl4es_glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, twidth, theight);
-        gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        if(hardext.depthtex && tex) {
+            // depth texture supported!
+            //check if texture needs to be re-created ad true depth texture
+            if(tex->format!=GL_DEPTH_COMPONENT) {
+                tex->format = GL_DEPTH_COMPONENT;
+                if(tex->type!=GL_UNSIGNED_INT && tex->type!=GL_UNSIGNED_SHORT && tex->type!=GL_FLOAT) tex->type = GL_UNSIGNED_SHORT;
+                tex->fpe_format = FPE_TEX_DEPTH;
+                int oldactive = glstate->texture.active;
+                if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
+                gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];
+                GLuint oldtex = bound->glname;
+                if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+                gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
+                if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
+                if(oldactive) gles_glActiveTexture(GL_TEXTURE0+oldactive);
+            }
+            // bind the depth texture...
+            gles_glFramebufferTexture2D(ntarget, attachment, GL_TEXTURE_2D, texture, 0);
+        } else {
+            // let's create a renderbuffer and attach it instead of the (presumably) depth texture
+            gl4es_glGenRenderbuffers(1, &tex->renderdepth);
+            gl4es_glBindRenderbuffer(GL_RENDERBUFFER, tex->renderdepth);
+            gl4es_glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, twidth, theight);
+            gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
+            gl4es_glFramebufferRenderbuffer(ntarget, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, tex->renderdepth);
+        }
         errorGL();
-        gl4es_glFramebufferRenderbuffer(ntarget, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, render_depth);
         ReadDraw_Pop(target);
         return;
     }
@@ -357,30 +390,49 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
         noerrorShim();
         if (level!=0) return;
         // let's create a renderbuffer and attach it instead of the (presumably) depth texture
-        if(hardext.depthstencil) {
-            GLuint render_depthstencil;    // memory leak here...
-            gl4es_glGenRenderbuffers(1, &render_depthstencil);
-            gl4es_glBindRenderbuffer(GL_RENDERBUFFER, render_depthstencil);
+        if(hardext.depthstencil && !(hardext.depthtex && tex)) {
+            gl4es_glGenRenderbuffers(1, &tex->renderdepth);
+            gl4es_glBindRenderbuffer(GL_RENDERBUFFER, tex->renderdepth);
             gl4es_glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, twidth, theight);
             gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
             errorGL();
-            gl4es_glFramebufferRenderbuffer(ntarget, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, render_depthstencil);
-            gl4es_glFramebufferRenderbuffer(ntarget, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, render_depthstencil);
+            gl4es_glFramebufferRenderbuffer(ntarget, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, tex->renderdepth);
+            gl4es_glFramebufferRenderbuffer(ntarget, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, tex->renderdepth);
         } else {
-            GLuint render_depth;    // memory leak here...
-            gl4es_glGenRenderbuffers(1, &render_depth);
-            gl4es_glBindRenderbuffer(GL_RENDERBUFFER, render_depth);
-            gl4es_glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, twidth, theight);
-            gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
-            errorGL();
-            gl4es_glFramebufferRenderbuffer(ntarget, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, render_depth);
-            GLuint render_stencil;    // memory leak here...
-            gl4es_glGenRenderbuffers(1, &render_stencil);
-            gl4es_glBindRenderbuffer(GL_RENDERBUFFER, render_stencil);
+            if(hardext.depthtex && tex) {
+                // depth texture supported!
+                //check if texture needs to be re-created ad true depth texture
+                if(tex->format!=GL_DEPTH_COMPONENT) {
+                    tex->format = GL_DEPTH_COMPONENT;
+                    if(tex->type!=GL_UNSIGNED_INT && tex->type!=GL_UNSIGNED_SHORT && tex->type!=GL_FLOAT) tex->type = GL_UNSIGNED_SHORT;
+                    tex->fpe_format = FPE_TEX_DEPTH;
+                    int oldactive = glstate->texture.active;
+                    if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
+                    gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];
+                    GLuint oldtex = bound->glname;
+                    if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
+                    if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
+                    if(oldactive) gles_glActiveTexture(GL_TEXTURE0+oldactive);
+                }
+                // bind the depth texture...
+                gles_glFramebufferTexture2D(ntarget, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
+            } else {
+                GLuint render_depth;    // memory leak here...
+                gl4es_glGenRenderbuffers(1, &render_depth);
+                gl4es_glBindRenderbuffer(GL_RENDERBUFFER, render_depth);
+                gl4es_glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, twidth, theight);
+                gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
+                gl4es_glFramebufferRenderbuffer(ntarget, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, render_depth);
+            }
+            gl4es_glGenRenderbuffers(1, &tex->renderstencil);
+            gl4es_glBindRenderbuffer(GL_RENDERBUFFER, tex->renderstencil);
             gl4es_glRenderbufferStorage(GL_RENDERBUFFER, GL_STENCIL_INDEX8, twidth, theight);
             gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
             errorGL();
-            gl4es_glFramebufferRenderbuffer(ntarget, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, render_stencil);
+            gl4es_glFramebufferRenderbuffer(ntarget, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, tex->renderstencil);
 
         }
         ReadDraw_Pop(target);
@@ -498,12 +550,15 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
 
     if ((glstate->fbo.current_fb!=0) && (renderbuffer!=0) && ((attachment==GL_DEPTH_ATTACHMENT) || (attachment==GL_STENCIL_ATTACHMENT))) {
         GLuint tmp;
-        gles_glGetFramebufferAttachmentParameteriv(ntarget, attachment, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &tmp);
-        GLenum err = gles_glGetError();
-        if (tmp==renderbuffer && err!=GL_NO_ERROR) {
-            noerrorShim();
-            ReadDraw_Pop(target);
-            return;
+        gles_glGetFramebufferAttachmentParameteriv(ntarget, attachment, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &tmp);
+        if(tmp==GL_RENDERBUFFER) {
+            gles_glGetFramebufferAttachmentParameteriv(ntarget, attachment, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &tmp);
+            GLenum err = gles_glGetError();
+            if (tmp==renderbuffer && err!=GL_NO_ERROR) {
+                noerrorShim();
+                ReadDraw_Pop(target);
+                return;
+            }
         }
     }
 

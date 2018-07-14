@@ -130,6 +130,10 @@ typedef struct {
     float adjustxy[2];  // adjust factor
     int useratio;
     float ratiox, ratioy;
+    int   binded_fbo;   // non zero if binded to an fbo
+    GLenum binded_attachment; // What binding (texture, depth, stencil, depth_stencil)
+    GLuint renderdepth; // incase renderbuffer where used instead...
+    GLuint renderstencil;
     GLvoid *data;	// in case we want to keep a copy of it (it that case, always RGBA/GL_UNSIGNED_BYTE
 } gltexture_t;
 

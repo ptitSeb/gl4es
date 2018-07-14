@@ -88,6 +88,7 @@
 #define FPE_TEX_LUM_ALPHA      3
 #define FPE_TEX_LUM            4
 #define FPE_TEX_ALPHA          5
+#define FPE_TEX_DEPTH          6
 
 #define FPE_TG_EYELINEAR       0
 #define FPE_TG_OBJLINEAR       1

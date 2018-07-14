@@ -739,6 +739,9 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     // proxy case
     const GLuint itarget = what_target(target);
     const GLuint rtarget = map_tex_target(target);
+    LOAD_GLES(glTexImage2D);
+    LOAD_GLES(glTexSubImage2D);
+    LOAD_GLES(glTexParameteri);
 
     if(globals4es.force16bits) {
         if(internalformat==GL_RGBA || internalformat==4 || internalformat==GL_RGBA8)
@@ -773,7 +776,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     /*if(format==GL_COMPRESSED_LUMINANCE)
         format = GL_RGB;*/    // Danger from the Deep does that. 
         //That's odd, probably a bug (line 453 of src/texture.cpp, it should be interformat instead of format)
-    
+
     GLvoid *datab = (GLvoid*)data;
     
 	if (glstate->vao->unpack)
@@ -784,6 +787,44 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     noerrorShim();
 
     gltexture_t *bound = glstate->texture.bound[glstate->texture.active][itarget];
+
+    //Special case when resizing an attached to FBO texture, taht is attached to depth and/or stencil => resizing is specific then
+    if(bound->binded_fbo && (bound->binded_attachment==GL_DEPTH_ATTACHMENT || bound->binded_attachment==GL_STENCIL_ATTACHMENT || bound->binded_attachment==GL_DEPTH_STENCIL_ATTACHMENT))
+    {
+        // non null data should be handled, but need to convert then...
+        if(data!=NULL) 
+            printf("LIBGL: Warning, Depth/stencil texture resized and with data\n");
+        // get new size...
+        GLsizei nheight = (hardext.npot)?height:npot(height);
+        GLsizei nwidth = (hardext.npot)?width:npot(width);
+        bound->npot = (nheight!=height || nwidth!=width);
+        bound->nwidth = nwidth;
+        bound->nheight = nheight;
+        bound->width = width;
+        bound->height = height;
+        //resize depth texture of renderbuffer?
+        if(bound->binded_attachment==GL_DEPTH_ATTACHMENT || bound->binded_attachment==GL_DEPTH_STENCIL_ATTACHMENT)
+        {
+            if(bound->renderdepth) {
+                gl4es_glBindRenderbuffer(GL_RENDERBUFFER, bound->renderdepth);
+                gl4es_glRenderbufferStorage(GL_RENDERBUFFER, (bound->binded_attachment==GL_DEPTH_ATTACHMENT)?GL_DEPTH_COMPONENT16:GL_DEPTH24_STENCIL8, nwidth, nheight);
+                gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
+            } else {
+                gles_glTexImage2D(GL_TEXTURE_2D, 0, bound->format, bound->nwidth, bound->nheight, 0, bound->format, bound->type, NULL);
+            }
+        }
+        if((bound->binded_attachment==GL_STENCIL_ATTACHMENT || bound->binded_attachment==GL_DEPTH_STENCIL_ATTACHMENT) && bound->renderstencil)
+        {
+            gl4es_glBindRenderbuffer(GL_RENDERBUFFER, bound->renderstencil);
+            gl4es_glRenderbufferStorage(GL_RENDERBUFFER, GL_STENCIL_INDEX8, nwidth, nheight);
+            gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
+        }
+        // all done, exit
+        errorGL();
+        return;
+    }
+
+
     bound->alpha = pixel_hasalpha(format);
     // fpe internal format tracking
     if(glstate->fpe_state) {
@@ -828,6 +869,12 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             case GL_COMPRESSED_RGB:
                 bound->fpe_format = FPE_TEX_RGB;
                 break;
+            /*case GL_DEPTH_COMPONENT:
+            case GL_DEPTH_COMPONENT16:
+            case GL_DEPTH_COMPONENT24:
+            case GL_DEPTH_COMPONENT32:
+            case GL_DEPTH_STENCIL:
+                bound->fpe_format = FPE_TEX_COMPONENT;*/
             default:
                 bound->fpe_format = FPE_TEX_RGBA;
         }
@@ -1022,9 +1069,6 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     and format is not GL_RGBA.
     */
 
-    LOAD_GLES(glTexImage2D);
-    LOAD_GLES(glTexSubImage2D);
-    LOAD_GLES(glTexParameteri);
     int limitednpot = 0;
     {
         GLsizei nheight = (hardext.npot==2)?height:npot(height);
@@ -1152,8 +1196,8 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 && (bound->mipmap_need || globals4es.automipmap==3)) {
                     // remove the need for mipmap...
                     bound->mipmap_need = 0;
-                    gles_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, bound->min_filter);
-                    gles_glTexParameteri(rtarget, GL_TEXTURE_MAG_FILTER, bound->mag_filter);
+                    /*gles_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, bound->min_filter);
+                    gles_glTexParameteri(rtarget, GL_TEXTURE_MAG_FILTER, bound->mag_filter);*/ // why forcing ?
                 }
             }
             
@@ -1291,7 +1335,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
     LOAD_GLES(glTexSubImage2D);
     LOAD_GLES(glTexParameteri);
     noerrorShim();
-    DBG(printf("glTexSubImage2D on target=%s with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, format=%s, type=%s, level=%i(base=%i, max=%i), mipmap={need=%d, auto=%d}, texture=%u\n", PrintEnum(target), glstate->texture.unpack_row_length, width, height, xoffset, yoffset, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), PrintEnum(type), level, glstate->texture.bound[glstate->texture.active][itarget]->base_level, glstate->texture.bound[glstate->texture.active][itarget]->max_level, glstate->texture.bound[glstate->texture.active][itarget]->mipmap_need, glstate->texture.bound[glstate->texture.active][itarget]->mipmap_auto, glstate->texture.bound[glstate->texture.active][itarget]->texture);)
+    DBG(printf("glTexSubImage2D on target=%s with unpack_row_length(%d), size(%d,%d), pos(%d,%d) and skip={%d,%d}, format=%s, type=%s, level=%d(base=%d, max=%d), mipmap={need=%d, auto=%d}, texture=%u\n", PrintEnum(target), glstate->texture.unpack_row_length, width, height, xoffset, yoffset, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), PrintEnum(type), level, glstate->texture.bound[glstate->texture.active][itarget]->base_level, glstate->texture.bound[glstate->texture.active][itarget]->max_level, glstate->texture.bound[glstate->texture.active][itarget]->mipmap_need, glstate->texture.bound[glstate->texture.active][itarget]->mipmap_auto, glstate->texture.bound[glstate->texture.active][itarget]->texture);)
     if (width==0 || height==0) {
         return;
     }
@@ -1916,6 +1960,13 @@ void gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
                             glstate->texture.bound[a][j] = glstate->texture.zero; // Don't unbind
                 }
 				gles_glDeleteTextures(1, &tex->glname);
+                // check if renderbuffer where associeted
+                if(tex->binded_fbo) {
+                    if(tex->renderdepth)
+                        gl4es_glDeleteRenderbuffers(1, &tex->renderdepth);
+                    if(tex->renderstencil)
+                        gl4es_glDeleteRenderbuffers(1, &tex->renderstencil);
+                }
 				errorGL();
 #ifdef TEXSTREAM
 				if (globals4es.texstream && tex->streamed)

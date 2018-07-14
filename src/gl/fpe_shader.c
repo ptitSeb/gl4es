@@ -824,7 +824,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                             sprintf(buff, "fColor.rgb += texColor%d.rgb;\n", i);
                             ShadAppend(buff);
                         }
-                        if(texformat==FPE_TEX_INTENSITY)
+                        if(texformat==FPE_TEX_INTENSITY || texformat==FPE_TEX_DEPTH)
                             sprintf(buff, "fColor.a += texColor%d.a;\n", i);
                         else
                             sprintf(buff, "fColor.a *= texColor%d.a;\n", i);
@@ -852,6 +852,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                                 // no change in alpha channel
                                 break;
                             case FPE_TEX_INTENSITY:
+                            case FPE_TEX_DEPTH:
                                 sprintf(buff, "fColor.a = mix(fColor.a, _gl4es_TextureEnvColor_%d.a, texColor%d.a);\n", i, i);
                                 ShadAppend(buff);
                                 break;

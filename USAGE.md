@@ -162,7 +162,7 @@ Debug: Hide or Show the Sub / Not found message
 ##### LIBGL_NOBANNER
 Show/Hide initial text
  * 0 : Default, print starting message
- * 1 : Silent: no LIBGL message at start (combile with LIBGL_SILENTSTUB for more silence)
+ * 1 : Silent: no LIBGL message at start (combine with LIBGL_SILENTSTUB for more silence)
 
 ##### LIBGL_NPOT
 Expose NPOT (Non Power of Two) Support
@@ -265,4 +265,9 @@ Hack to force using discrete Texture instead of Array in all shader
 Log to the console Shader Compile error, with initial and ShaderConv'd source of the shader
 * 0 : Default, don't log
 * 1 : Log Shader Compilation Errors
+
+##### LIBGL_NODEPTHTEX
+Disable the use of Depth texture
+* 0 : Default, Use Depth Texture if supported by Hardware
+* 1 : Disable the use of Depth Texture (renderbuffer will be used in FBO)
 
