@@ -354,10 +354,10 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
     if(attachment==GL_DEPTH_ATTACHMENT /*&& hardext.depthtex==0*/) {
         noerrorShim();
         if (level!=0) return;
-        if(hardext.depthtex && tex) {
+        if(hardext.depthtex && (tex || !texture)) {
             // depth texture supported!
             //check if texture needs to be re-created ad true depth texture
-            if(tex->format!=GL_DEPTH_COMPONENT) {
+            if(tex && tex->format!=GL_DEPTH_COMPONENT) {
                 tex->format = GL_DEPTH_COMPONENT;
                 if(tex->type!=GL_UNSIGNED_INT && tex->type!=GL_UNSIGNED_SHORT && tex->type!=GL_FLOAT) tex->type = (hardext.depth24)?GL_UNSIGNED_INT:GL_UNSIGNED_SHORT;
                 tex->fpe_format = FPE_TEX_DEPTH;
@@ -376,13 +376,13 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
             gles_glFramebufferTexture2D(ntarget, attachment, GL_TEXTURE_2D, texture, 0);
         } else {
             // let's create a renderbuffer and attach it instead of the (presumably) depth texture
-            if(!tex->renderdepth) {
+            if(tex && !tex->renderdepth) {
                 gl4es_glGenRenderbuffers(1, &tex->renderdepth);
                 gl4es_glBindRenderbuffer(GL_RENDERBUFFER, tex->renderdepth);
                 gl4es_glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, twidth, theight);
                 gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
             }
-            gl4es_glFramebufferRenderbuffer(ntarget, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, tex->renderdepth);
+            gl4es_glFramebufferRenderbuffer(ntarget, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, tex?tex->renderdepth:0);
         }
         errorGL();
         ReadDraw_Pop(target);
@@ -393,8 +393,8 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
         if (level!=0) return;
         // let's create a renderbuffer and attach it instead of the (presumably) depth texture
         if(hardext.depthstencil /*&& !(hardext.depthtex && tex)*/) {
-            if(hardext.depthtex && tex) {
-                if(tex->format!=GL_DEPTH_STENCIL) {
+            if(hardext.depthtex && (tex || !texture)) {
+                if(tex && tex->format!=GL_DEPTH_STENCIL) {
                     tex->format = GL_DEPTH_STENCIL;
                     tex->type = GL_UNSIGNED_INT_24_8;
                     tex->fpe_format = FPE_TEX_DEPTH; // add depth_stencil?
@@ -412,21 +412,21 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 gles_glFramebufferTexture2D(ntarget, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
                 gles_glFramebufferTexture2D(ntarget, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
             } else {
-                if(!tex->renderdepth) {
+                if(tex && !tex->renderdepth) {
                     gl4es_glGenRenderbuffers(1, &tex->renderdepth);
                     gl4es_glBindRenderbuffer(GL_RENDERBUFFER, tex->renderdepth);
                     gl4es_glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, twidth, theight);
                     gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
                 }
                 errorGL();
-                gl4es_glFramebufferRenderbuffer(ntarget, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, tex->renderdepth);
-                gl4es_glFramebufferRenderbuffer(ntarget, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, tex->renderdepth);
+                gl4es_glFramebufferRenderbuffer(ntarget, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, tex?tex->renderdepth:0);
+                gl4es_glFramebufferRenderbuffer(ntarget, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, tex?tex->renderdepth:0);
             }
         } else {
-            if(hardext.depthtex && tex) {
+            if(hardext.depthtex && (tex || !texture)) {
                 // depth texture supported!
                 //check if texture needs to be re-created ad true depth texture
-                if(tex->format!=GL_DEPTH_COMPONENT) {
+                if(tex && tex->format!=GL_DEPTH_COMPONENT) {
                     tex->format = GL_DEPTH_COMPONENT;
                     if(tex->type!=GL_UNSIGNED_INT && tex->type!=GL_UNSIGNED_SHORT && tex->type!=GL_FLOAT) tex->type = (hardext.depth24)?GL_UNSIGNED_INT:GL_UNSIGNED_SHORT;
                     tex->fpe_format = FPE_TEX_DEPTH;
@@ -444,22 +444,22 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 // bind the depth texture...
                 gles_glFramebufferTexture2D(ntarget, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture, 0);
             } else {
-                if(!tex->renderdepth) {
+                if(tex && !tex->renderdepth) {
                     gl4es_glGenRenderbuffers(1, &tex->renderdepth);
                     gl4es_glBindRenderbuffer(GL_RENDERBUFFER, tex->renderdepth);
                     gl4es_glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, twidth, theight);
                     gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
                 }
-                gl4es_glFramebufferRenderbuffer(ntarget, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, tex->renderdepth);
+                gl4es_glFramebufferRenderbuffer(ntarget, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, tex?tex->renderdepth:0);
             }
-            if(!tex->renderstencil) {
+            if(tex && !tex->renderstencil) {
                 gl4es_glGenRenderbuffers(1, &tex->renderstencil);
                 gl4es_glBindRenderbuffer(GL_RENDERBUFFER, tex->renderstencil);
                 gl4es_glRenderbufferStorage(GL_RENDERBUFFER, GL_STENCIL_INDEX8, twidth, theight);
                 gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
             }
             errorGL();
-            gl4es_glFramebufferRenderbuffer(ntarget, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, tex->renderstencil);
+            gl4es_glFramebufferRenderbuffer(ntarget, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, tex?tex->renderstencil:0);
 
         }
         ReadDraw_Pop(target);
