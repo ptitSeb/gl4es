@@ -539,12 +539,12 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
 		}
     }
 
-    if ((glstate->fbo.current_fb!=0) && (renderbuffer==0)) {
+    /*if ((glstate->fbo.current_fb!=0) && (renderbuffer==0)) {
         //Hack, avoid unbind a renderbuffer on a framebuffer...
         // TODO, avoid binding an already binded RB
         noerrorShim();
         return;
-    }
+    }*/ // Let it do it now
     
     GLenum ntarget = ReadDraw_Push(target);
 
