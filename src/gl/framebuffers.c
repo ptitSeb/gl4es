@@ -359,7 +359,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
             //check if texture needs to be re-created ad true depth texture
             if(tex->format!=GL_DEPTH_COMPONENT) {
                 tex->format = GL_DEPTH_COMPONENT;
-                if(tex->type!=GL_UNSIGNED_INT && tex->type!=GL_UNSIGNED_SHORT && tex->type!=GL_FLOAT) tex->type = GL_UNSIGNED_SHORT;
+                if(tex->type!=GL_UNSIGNED_INT && tex->type!=GL_UNSIGNED_SHORT && tex->type!=GL_FLOAT) tex->type = (hardext.depth24)?GL_UNSIGNED_INT:GL_UNSIGNED_SHORT;
                 tex->fpe_format = FPE_TEX_DEPTH;
                 int oldactive = glstate->texture.active;
                 if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
@@ -404,7 +404,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 //check if texture needs to be re-created ad true depth texture
                 if(tex->format!=GL_DEPTH_COMPONENT) {
                     tex->format = GL_DEPTH_COMPONENT;
-                    if(tex->type!=GL_UNSIGNED_INT && tex->type!=GL_UNSIGNED_SHORT && tex->type!=GL_FLOAT) tex->type = GL_UNSIGNED_SHORT;
+                    if(tex->type!=GL_UNSIGNED_INT && tex->type!=GL_UNSIGNED_SHORT && tex->type!=GL_FLOAT) tex->type = (hardext.depth24)?GL_UNSIGNED_INT:GL_UNSIGNED_SHORT;
                     tex->fpe_format = FPE_TEX_DEPTH;
                     int oldactive = glstate->texture.active;
                     if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
