@@ -350,9 +350,12 @@ if(count>500000) return;
             if(!iindices && !sindices)
                 for (glstate->instanceID=0; glstate->instanceID<instancecount; ++glstate->instanceID)
                     gles_glDrawArrays(mode, first, count);
-            else
+            else {
+                void* tmp=buffered?NULL:(sindices?((void*)sindices):((void*)iindices));
+                GLenum t = (sindices)?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT;
                 for (glstate->instanceID=0; glstate->instanceID<instancecount; ++glstate->instanceID)
-                    gles_glDrawElements(mode, count, (sindices)?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, buffered?0:(sindices?((void*)sindices):((void*)iindices)));
+                    gles_glDrawElements(mode, count, t, tmp);
+            }
             glstate->instanceID = 0;
         }
 
@@ -1323,7 +1326,7 @@ void gl4es_glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, cons
         (!compiling && !intercept && type==GL_UNSIGNED_INT && hardext.elementuint)
         );
     if(need_free) {
-        sindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
+        sindices = copy_gl_array((glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):indices,
             type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count);
     } else {
         if(type==GL_UNSIGNED_INT)
