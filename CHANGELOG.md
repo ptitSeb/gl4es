@@ -1,5 +1,14 @@
 Version history
 ----
+##### Current version
+* Fixed some issue when resized textures attached to an FBO
+* Added LIBGL_NODEPTHTEX to avoid using Depth Texture when available (using renderbuffer can be faster)
+* Added support for Depth Texture when attached to an FBO (if supported by Hardware)
+* Fixes some isue with blitting of FBO when size of Main Framebuffer changed
+* Added option LIBGL_LOGSHADERERROR to get Shader compiler log and error
+* Added support for (emulated) Hardware Instancing
+* Added support for GL_ARB_draw_elements_base_vertex
+
 ##### v1.0.8
 * Fixes and improvments to avoid unnecessary GLES state changes
 * Fixes some memory issues with glBitmap
