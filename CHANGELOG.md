@@ -1,6 +1,7 @@
 Version history
 ----
 ##### Current version
+* Added support for Depth Stencil texture when attached to an FBO
 * Fixed some issue when resized textures attached to an FBO
 * Added LIBGL_NODEPTHTEX to avoid using Depth Texture when available (using renderbuffer can be faster)
 * Added support for Depth Texture when attached to an FBO (if supported by Hardware)
