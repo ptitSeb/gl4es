@@ -164,6 +164,19 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
         dest->pointsprite_upper = 0;
         dest->pointsprite_coord = 0;
     }
+    if(!fixed) {
+        dest->textmat = 0;
+        dest->texadjust = 0;
+        dest->plane = 0;   // Should handled this?
+        dest->colorsum = 0;
+        dest->normalize = 0;
+        dest->rescaling = 0;
+
+        dest->lighting = 0;
+        dest->textype = 0;
+        dest->fog = 0;
+        dest->point = 0;
+    }
 }
 
 fpe_fpe_t *fpe_GetCache(fpe_cache_t *cur, fpe_state_t *state, int fixed) {
@@ -276,7 +289,7 @@ program_t* fpe_CustomShader(program_t* glprogram, fpe_state_t* state)
 {
     // state is not empty and glprogram already has some cache (it may be empty, but khthingy is initialized)
     // TODO: what if program is composed of more then 1 vertex or fragment shader?
-    fpe_fpe_t *fpe = fpe_GetCache(glstate->fpe_cache, state, 0);
+    fpe_fpe_t *fpe = fpe_GetCache((fpe_cache_t*)glprogram->fpe_cache, state, 0);
     if(fpe->glprogram==NULL) {
         GLint status;
         fpe->vert = gl4es_glCreateShader(GL_VERTEX_SHADER);
@@ -320,7 +333,7 @@ program_t* fpe_CustomShader(program_t* glprogram, fpe_state_t* state)
                 fpe->glprogram = kh_value(programs, k_program);
         }
         // all done
-        DBG(printf("creating FPE shader : %d(%p)\n", fpe->prog, fpe->glprogram);)
+        DBG(printf("creating FPE Custom Program : %d(%p)\n", fpe->prog, fpe->glprogram);)
     }
 
     return fpe->glprogram;
@@ -570,10 +583,12 @@ void realize_glenv(int ispoint) {
         if(!fpe_IsEmpty(&state))
         {
             // need to create a new program for that...
+            DBG(printf("GLSL program %d need customization => ", program);)
             if(!glprogram->fpe_cache)
                 glprogram->fpe_cache = fpe_NewCache();
             glprogram = fpe_CustomShader(glprogram, &state);
             program = glprogram->id;
+            DBG(printf("%d\n", program);)
         }
         if(glstate->gleshard->program != program)
         {
