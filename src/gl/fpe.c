@@ -371,6 +371,7 @@ void fpe_SyncUniforms(uniformcache_t *cache, khash_t(uniformlist) *uniforms, pro
     //TODO: Optimize this...
     uniform_t *m;
     khint_t k;
+    // don't use m->size, as each element has it's own uniform...
     kh_foreach(uniforms, k, m,
         if(m->parent_size) {
             switch(m->type) {
@@ -378,7 +379,7 @@ void fpe_SyncUniforms(uniformcache_t *cache, khash_t(uniformlist) *uniforms, pro
                 case GL_FLOAT_VEC2:
                 case GL_FLOAT_VEC3:
                 case GL_FLOAT_VEC4:
-                    GoUniformfv(glprogram, m->id, n_uniform(m->type), m->size, (GLfloat*)((uintptr_t)cache->cache+m->parent_offs));
+                    GoUniformfv(glprogram, m->id, n_uniform(m->type), 1, (GLfloat*)((uintptr_t)cache->cache+m->parent_offs));
                     break;
                 case GL_INT:
                 case GL_INT_VEC2:
@@ -388,16 +389,16 @@ void fpe_SyncUniforms(uniformcache_t *cache, khash_t(uniformlist) *uniforms, pro
                 case GL_BOOL_VEC2:
                 case GL_BOOL_VEC3:
                 case GL_BOOL_VEC4:
-                    GoUniformiv(glprogram, m->id, n_uniform(m->type), m->size, (GLint*)((uintptr_t)cache->cache+m->parent_offs));
+                    GoUniformiv(glprogram, m->id, n_uniform(m->type), 1, (GLint*)((uintptr_t)cache->cache+m->parent_offs));
                     break;
                 case GL_FLOAT_MAT2:
-                    GoUniformMatrix2fv(glprogram, m->id, m->size, false, (GLfloat*)((uintptr_t)cache->cache+m->parent_offs));
+                    GoUniformMatrix2fv(glprogram, m->id, 1, false, (GLfloat*)((uintptr_t)cache->cache+m->parent_offs));
                     break;
                 case GL_FLOAT_MAT3:
-                    GoUniformMatrix3fv(glprogram, m->id, m->size, false, (GLfloat*)((uintptr_t)cache->cache+m->parent_offs));
+                    GoUniformMatrix3fv(glprogram, m->id, 1, false, (GLfloat*)((uintptr_t)cache->cache+m->parent_offs));
                     break;
                 case GL_FLOAT_MAT4:
-                    GoUniformMatrix4fv(glprogram, m->id, m->size, false, (GLfloat*)((uintptr_t)cache->cache+m->parent_offs));
+                    GoUniformMatrix4fv(glprogram, m->id, 1, false, (GLfloat*)((uintptr_t)cache->cache+m->parent_offs));
                     break;
             }
         }
