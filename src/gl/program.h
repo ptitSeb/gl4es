@@ -154,6 +154,8 @@ typedef struct {
     int             attach_cap;
     int             attach_size;
     GLuint          *attach;
+    shader_t        *last_vert;
+    shader_t        *last_frag;
     int             va_size[MAX_VATTRIB];
     khash_t(attribloclist)     *attribloc;
     khash_t(uniformlist) *uniform;
@@ -190,6 +192,7 @@ typedef struct {
     GLint                           builtin_texenvalphascale[MAX_TEX];
     GLint                           builtin_texadjust[MAX_TEX];
     int                             has_builtin_texadjust;
+    void*                           fpe_cache;  // that will be an fpe_cache_t*
 } program_t;
 
 KHASH_MAP_INIT_INT(programlist, program_t *)

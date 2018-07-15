@@ -26,6 +26,11 @@ void gl4es_glAttachShader(GLuint program, GLuint shader) {
     }
     glprogram->attach[glprogram->attach_size++] = glshader->id;
     ++glshader->attached;
+    // save last vertex or fragment attached
+    if(glshader->type==GL_VERTEX_SHADER)
+        glprogram->last_vert = glshader;
+    else if(glshader->type==GL_FRAGMENT_SHADER)
+        glprogram->last_frag = glshader;
     // send to hadware
     LOAD_GLES2(glAttachShader);
     if(gles_glAttachShader) {
@@ -146,6 +151,9 @@ void deleteProgram(program_t *glprogram, khint_t k_program) {
     // clean cache
     if(glprogram->cache.cache)
         free(glprogram->cache.cache);
+    // clean fpe cache if it exist
+    if(glprogram->fpe_cache)
+        fpe_disposeCache((fpe_cache_t*)glprogram->fpe_cache, 1);
     // delete program
     kh_del(programlist, glstate->glsl->programs, k_program);
     free(glprogram);

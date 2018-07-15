@@ -37,16 +37,20 @@ void fpe_Init(glstate_t *glstate) {
     glstate->fpe_cache = fpe_NewCache();
 }
 
-void fpe_disposeCache(fpe_cache_t* cache) {
+void fpe_disposeCache(fpe_cache_t* cache, int freeprog) {
     if(!cache) return;
     if(cache->fpe) {
+        if(freeprog) {
+            if(cache->fpe->glprogram)
+                gl4es_glDeleteProgram(cache->fpe->glprogram->id);
+        }
         free(cache->fpe);
         cache->fpe = NULL;
     }
     if(cache->cache) {
         fpe_cache_t *m;
         kh_foreach_value((khash_t(fpecachelist)*)cache->cache, m,
-            fpe_disposeCache(m); free(m);
+            fpe_disposeCache(m, freeprog); free(m);
         )
         kh_destroy(fpecachelist, cache->cache);
         free(cache->cache);
@@ -55,12 +59,12 @@ void fpe_disposeCache(fpe_cache_t* cache) {
 }
 
 void fpe_Dispose(glstate_t *glstate) {
-    fpe_disposeCache(glstate->fpe_cache);
+    fpe_disposeCache(glstate->fpe_cache, 0);
     free(glstate->fpe_cache);
     glstate->fpe_cache = NULL;
 }
 
-void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
+void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
 {
     // filter out some non relevent state (like texture stuff if texture is disabled)
     memcpy(dest, src, sizeof(fpe_state_t));
@@ -69,7 +73,7 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
         dest->alphafunc = FPE_ALWAYS;
     }
     // lighting
-    if(!dest->lighting) {
+    if(!fixed || !dest->lighting) {
         dest->light = 0;
         dest->light_cutoff180 = 0;
         dest->light_direction = 0;
@@ -91,7 +95,7 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
         }
     }
     // texturing
-    if(!dest->textype) {
+    if(!fixed || !dest->textype) {
         dest->textmat = 0;
         dest->texenv = 0;
         memset(dest->texcombine, 0, sizeof(dest->texcombine));
@@ -150,32 +154,29 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src)
             }
         }
     }
-    if(!dest->fog) {
+    if(!fixed || !dest->fog) {
         dest->fogmode = 0;
         dest->fogsource = 0;
     }
-    if(!dest->point)
+    if(!fixed || !dest->point)
         dest->pointsprite = 0;
-    if(!dest->pointsprite) {
+    if(!fixed || !dest->pointsprite) {
         dest->pointsprite_upper = 0;
         dest->pointsprite_coord = 0;
     }
 }
 
-fpe_fpe_t *fpe_GetCache() {
-    fpe_cache_t *cur = glstate->fpe_cache;
+fpe_fpe_t *fpe_GetCache(fpe_cache_t *cur, fpe_state_t *state, int fixed) {
     // multi stage hash search    
     uint32_t t;
     intptr_t s,p;
     s=0;
-    fpe_state_t state;
-    fpe_ReleventState(&state, glstate->fpe_state);
     while(s<sizeof(fpe_state_t)) {
         p = sizeof(t);
         t=0;
         if(s+p>sizeof(fpe_state_t))
             p = sizeof(fpe_state_t) - s;
-        memcpy(&t, ((void*)&state)+s, p);
+        memcpy(&t, ((void*)state)+s, p);
         s+=p;
         fpe_cache_t *next = NULL;
         khint_t k_next;
@@ -192,17 +193,34 @@ fpe_fpe_t *fpe_GetCache() {
         }
     }
     // save current state
-    memcpy(&cur->fpe->state, glstate->fpe_state, sizeof(fpe_state_t));
+    memcpy(&cur->fpe->state, state, sizeof(fpe_state_t));
     return cur->fpe;
 }
 
+int fpe_IsEmpty(fpe_state_t *state) {
+    uint32_t t;
+    intptr_t s,p;
+    s=0;
+    while(s<sizeof(fpe_state_t)) {
+        p = sizeof(t);
+        t=0;
+        if(s+p>sizeof(fpe_state_t))
+            p = sizeof(fpe_state_t) - s;
+        memcpy(&t, ((void*)state)+s, p);
+        s+=p;
+        if(t) return 0;
+    }
+    return 1;
+}
 
 // ********* Shader stuffs handling *********
 void fpe_program(int ispoint) {
     glstate->fpe_state->point = ispoint;
-    if(glstate->fpe==NULL || memcmp(&glstate->fpe->state, glstate->fpe_state, sizeof(fpe_state_t))) {
+    fpe_state_t state;
+    fpe_ReleventState(&state, glstate->fpe_state, 1);
+    if(glstate->fpe==NULL || memcmp(&glstate->fpe->state, &state, sizeof(fpe_state_t))) {
         // get cached fpe (or new one)
-        glstate->fpe = fpe_GetCache();
+        glstate->fpe = fpe_GetCache(glstate->fpe_cache, &state, 1);
     }   
     if(glstate->fpe->glprogram==NULL) {
         GLint status;
@@ -252,6 +270,60 @@ void fpe_program(int ispoint) {
         // all done
         DBG(printf("creating FPE shader : %d(%p)\n", glstate->fpe->prog, glstate->fpe->glprogram);)
     }
+}
+
+program_t* fpe_CustomShader(program_t* glprogram, fpe_state_t* state)
+{
+    // state is not empty and glprogram already has some cache (it may be empty, but khthingy is initialized)
+    // TODO: what if program is composed of more then 1 vertex or fragment shader?
+    fpe_fpe_t *fpe = fpe_GetCache(glstate->fpe_cache, state, 0);
+    if(fpe->glprogram==NULL) {
+        GLint status;
+        fpe->vert = gl4es_glCreateShader(GL_VERTEX_SHADER);
+        gl4es_glShaderSource(fpe->vert, 1, fpe_CustomVertexShader(glprogram->last_vert->converted, state), NULL);
+        gl4es_glCompileShader(fpe->vert);
+        gl4es_glGetShaderiv(fpe->vert, GL_COMPILE_STATUS, &status);
+        if(status!=GL_TRUE) {
+            char buff[1000];
+            gl4es_glGetShaderInfoLog(fpe->vert, 1000, NULL, buff);
+            printf("LIBGL: FPE Custom Vertex shader compile failed: %s\n", buff);
+            return glprogram;   // fallback to non-customized custom program..
+        }
+        fpe->frag = gl4es_glCreateShader(GL_FRAGMENT_SHADER);
+        gl4es_glShaderSource(fpe->frag, 1, fpe_CustomFragmentShader(glprogram->last_frag->converted, state), NULL);
+        gl4es_glCompileShader(fpe->frag);
+        gl4es_glGetShaderiv(fpe->frag, GL_COMPILE_STATUS, &status);
+        if(status!=GL_TRUE) {
+            char buff[1000];
+            gl4es_glGetShaderInfoLog(fpe->frag, 1000, NULL, buff);
+            printf("LIBGL: FPE Custom Fragment shader compile failed: %s\n", buff);
+            return glprogram;   // fallback to non-customized custom program..
+        }
+        fpe->prog = gl4es_glCreateProgram();
+        gl4es_glAttachShader(fpe->prog, fpe->vert);
+        gl4es_glAttachShader(fpe->prog, fpe->frag);
+        gl4es_glLinkProgram(fpe->prog);
+        gl4es_glGetProgramiv(fpe->prog, GL_LINK_STATUS, &status);
+        if(status!=GL_TRUE) {
+            char buff[1000];
+            gl4es_glGetProgramInfoLog(fpe->prog, 1000, NULL, buff);
+            printf("LIBGL: FPE Custom Program link failed: %s\n", buff);
+            return glprogram;   // fallback to non-customized custom program..
+        }
+        // now find the program
+        khint_t k_program;
+        {
+            int ret;
+            khash_t(programlist) *programs = glstate->glsl->programs;
+            k_program = kh_get(programlist, programs, fpe->prog);
+            if (k_program != kh_end(programs))
+                fpe->glprogram = kh_value(programs, k_program);
+        }
+        // all done
+        DBG(printf("creating FPE shader : %d(%p)\n", fpe->prog, fpe->glprogram);)
+    }
+
+    return fpe->glprogram;
 }
 
 // ********* Fixed Pipeling function wrapper *********
@@ -490,10 +562,23 @@ void realize_glenv(int ispoint) {
     }
     // activate program if needed
     if(glstate->glsl->program) {
-        if(glstate->gleshard->program != glstate->glsl->program)
+        // but first, check if some fixedpipeline state (like GL_ALPHA_TEST) need to alter the original program
+        fpe_state_t state;
+        fpe_ReleventState(&state, glstate->fpe_state, 0);
+        GLuint program = glstate->glsl->program;
+        program_t *glprogram = glstate->glsl->glprogram;
+        if(!fpe_IsEmpty(&state))
         {
-            glstate->gleshard->program = glstate->glsl->program;
-            glstate->gleshard->glprogram = glstate->glsl->glprogram;
+            // need to create a new program for that...
+            if(!glprogram->fpe_cache)
+                glprogram->fpe_cache = fpe_NewCache();
+            glprogram = fpe_CustomShader(glprogram, &state);
+            program = glprogram->id;
+        }
+        if(glstate->gleshard->program != program)
+        {
+            glstate->gleshard->program = program;
+            glstate->gleshard->glprogram = glprogram;
             gles_glUseProgram(glstate->gleshard->program);
             DBG(printf("Use GLSL program %d\n", glstate->gleshard->program);)
         }

@@ -32,6 +32,8 @@ const char texcoordname[] = {'s', 't', 'r', 'q'};
 const char texcoordNAME[] = {'S', 'T', 'R', 'Q'};
 const char texcoordxy[] = {'x', 'y', 'z', 'w'};
 
+const char* gl4es_alphaRefSource = "uniform float _gl4es_AlphaRef;\n";
+
 const char* fpe_texenvSrc(int src, int tmu, int twosided) {
     static char buff[200];
     switch(src) {
@@ -745,7 +747,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         }
     }
     if(alpha_test && alpha_func>FPE_NEVER) {
-        ShadAppend("uniform float _gl4es_AlphaRef;\n");
+        ShadAppend(gl4es_alphaRefSource);
         headers++;
     } 
 
@@ -1130,3 +1132,65 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     return (const char* const*)&shad;
 }
 
+const char* const* fpe_CustomVertexShader(const char* initial, fpe_state_t* state)
+{
+    if(!shad_cap) shad_cap = 1024;
+    if(!shad) shad = (char*)malloc(shad_cap);
+    // nothing here yet...
+
+    strcpy(shad, "");
+    ShadAppend(initial);
+
+    return (const char* const*)&shad;
+}
+const char* const* fpe_CustomFragmentShader(const char* initial, fpe_state_t* state)
+{
+    if(!shad_cap) shad_cap = 1024;
+    if(!shad) shad = (char*)malloc(shad_cap);
+
+    int alpha_test = state->alphatest;
+    int alpha_func = state->alphafunc;
+    char buff[1024];
+    int headline = 3; // version and 2 precision lines
+
+    strcpy(shad, "");
+    ShadAppend(initial);
+
+    // only alpha_test trigger a custom custom shader for now
+    if(alpha_test) {
+        // wrap real main...
+        shad = InplaceReplace(shad, &shad_cap, "main", "_gl4es_main");
+    }
+    if(strstr(shad, "_gl4es_main")) {
+        ShadAppend("void main() {\n");
+        ShadAppend(" _gl4es_main();\n");
+
+        //*** Alpha Test
+        if(alpha_test) {
+            if(alpha_test && alpha_func>FPE_NEVER) {
+                shad = ResizeIfNeeded(shad, &shad_cap, strlen(gl4es_alphaRefSource));
+                InplaceInsert(GetLine(shad, headline), gl4es_alphaRefSource);
+                headline+=CountLine(gl4es_alphaRefSource);
+            } 
+            if(comments) {
+                sprintf(buff, "// Alpha Test, fct=%X\n", alpha_func);
+                ShadAppend(buff);
+            }
+            if(alpha_func==FPE_ALWAYS) {
+                // nothing here...
+            } else if (alpha_func==FPE_NEVER) {
+                ShadAppend("discard;\n"); // Never pass...
+            } else {
+                // FPE_LESS FPE_EQUAL FPE_LEQUAL FPE_GREATER FPE_NOTEQUAL FPE_GEQUAL
+                // but need to negate the operator
+                const char* alpha_test_op[] = {">=","!=",">","<=","==","<"}; 
+                sprintf(buff, "if (floor(gl_FragColor.a*255.) %s _gl4es_AlphaRef) discard;\n", alpha_test_op[alpha_func-FPE_LESS]);
+                ShadAppend(buff);
+            }
+        }
+
+        ShadAppend("}");
+    }
+
+    return (const char* const*)&shad;
+}

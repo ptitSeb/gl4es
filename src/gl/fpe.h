@@ -160,6 +160,7 @@ typedef struct {
 KHASH_MAP_INIT_INT(fpecachelist, fpe_cache_t *);
 
 fpe_fpe_t *fpe_GetCache();
+void fpe_disposeCache(fpe_cache_t* cache, int freeprog);
 
 void fpe_glEnableClientState(GLenum cap);
 void fpe_glDisableClientState(GLenum cap);

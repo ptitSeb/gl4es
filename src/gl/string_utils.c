@@ -18,7 +18,7 @@ char* InplaceReplace(char* pBuffer, int* size, const char* S, const char* D)
     {
         // found an occurence of S
         // check if good to replace, strchr also found '\0' :)
-        if(strchr(AllSeparators, p[lS])!=NULL) {
+        if(strchr(AllSeparators, p[lS])!=NULL && (p==pBuffer || strchr(AllSeparators, p[-1])!=NULL)) {
             // move out rest of string
             memmove(p+lD, p+lS, strlen(p)-lS+1);
             // replace
@@ -66,7 +66,7 @@ int CountString(char* pBuffer, const char* S)
     {
         // found an occurence of S
         // check if good to count, strchr also found '\0' :)
-        if(strchr(AllSeparators, p[lS])!=NULL)
+        if(strchr(AllSeparators, p[lS])!=NULL && (p==pBuffer || strchr(AllSeparators, p[-1])!=NULL))
             n++;
         p+=lS;
     }
