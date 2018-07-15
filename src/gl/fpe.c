@@ -226,6 +226,18 @@ int fpe_IsEmpty(fpe_state_t *state) {
     return 1;
 }
 
+uniform_t* findUniform(khash_t(uniformlist) *uniforms, const char* name)
+{
+    uniform_t *m;
+    khint_t k;
+    kh_foreach(uniforms, k, m,
+        if(!strcmp(m->name, name))
+            return m;
+    )
+    return NULL;
+
+}
+
 // ********* Shader stuffs handling *********
 void fpe_program(int ispoint) {
     glstate->fpe_state->point = ispoint;
@@ -332,6 +344,22 @@ program_t* fpe_CustomShader(program_t* glprogram, fpe_state_t* state)
             if (k_program != kh_end(programs))
                 fpe->glprogram = kh_value(programs, k_program);
         }
+        // adjust the uniforms to point to father cache...
+        {
+            khash_t(uniformlist) *father_uniforms = glprogram->uniform;
+            khash_t(uniformlist) *uniforms = fpe->glprogram->uniform;
+            uniform_t *m, *n;
+            khint_t k;
+            kh_foreach(uniforms, k, m,
+                if(!m->builtin) {
+                    n = findUniform(father_uniforms, m->name);
+                    if(n) {
+                        m->parent_offs = n->cache_offs;
+                        m->parent_size = n->cache_size;
+                    }
+                }
+            )
+        }
         // all done
         DBG(printf("creating FPE Custom Program : %d(%p)\n", fpe->prog, fpe->glprogram);)
     }
@@ -339,6 +367,42 @@ program_t* fpe_CustomShader(program_t* glprogram, fpe_state_t* state)
     return fpe->glprogram;
 }
 
+void fpe_SyncUniforms(uniformcache_t *cache, khash_t(uniformlist) *uniforms, program_t* glprogram) {
+    //TODO: Optimize this...
+    uniform_t *m;
+    khint_t k;
+    kh_foreach(uniforms, k, m,
+        if(m->parent_size) {
+            switch(m->type) {
+                case GL_FLOAT:
+                case GL_FLOAT_VEC2:
+                case GL_FLOAT_VEC3:
+                case GL_FLOAT_VEC4:
+                    GoUniformfv(glprogram, m->id, n_uniform(m->type), m->size, (GLfloat*)((uintptr_t)cache->cache+m->parent_offs));
+                    break;
+                case GL_INT:
+                case GL_INT_VEC2:
+                case GL_INT_VEC3:
+                case GL_INT_VEC4:
+                case GL_BOOL:
+                case GL_BOOL_VEC2:
+                case GL_BOOL_VEC3:
+                case GL_BOOL_VEC4:
+                    GoUniformiv(glprogram, m->id, n_uniform(m->type), m->size, (GLint*)((uintptr_t)cache->cache+m->parent_offs));
+                    break;
+                case GL_FLOAT_MAT2:
+                    GoUniformMatrix2fv(glprogram, m->id, m->size, false, (GLfloat*)((uintptr_t)cache->cache+m->parent_offs));
+                    break;
+                case GL_FLOAT_MAT3:
+                    GoUniformMatrix3fv(glprogram, m->id, m->size, false, (GLfloat*)((uintptr_t)cache->cache+m->parent_offs));
+                    break;
+                case GL_FLOAT_MAT4:
+                    GoUniformMatrix4fv(glprogram, m->id, m->size, false, (GLfloat*)((uintptr_t)cache->cache+m->parent_offs));
+                    break;
+            }
+        }
+    );
+}
 // ********* Fixed Pipeling function wrapper *********
 
 void fpe_glClientActiveTexture(GLenum texture) {
@@ -589,6 +653,9 @@ void realize_glenv(int ispoint) {
             glprogram = fpe_CustomShader(glprogram, &state);
             program = glprogram->id;
             DBG(printf("%d\n", program);)
+            // synchronize uniforms with parent!
+            if(glprogram != glstate->glsl->glprogram)
+                fpe_SyncUniforms(&glstate->glsl->glprogram->cache, glprogram->uniform, glprogram);
         }
         if(glstate->gleshard->program != program)
         {

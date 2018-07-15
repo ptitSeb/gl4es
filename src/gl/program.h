@@ -70,8 +70,11 @@ typedef struct {
     GLenum          type;   // type of the uniform (GL_VERTEX or GL_FRAGMENT)
     GLint           size;
     char*           name; // original source of the uniform
+    int             builtin;
     uintptr_t       cache_offs;
     int             cache_size; // this is GLsizeof(type)*size
+    uintptr_t       parent_offs;    // in case the uniform is from a fpe custom program
+    int             parent_size;    // 0 means not found in parent... like for builtin
 } uniform_t;
 
 KHASH_MAP_INIT_INT(uniformlist, uniform_t *)
