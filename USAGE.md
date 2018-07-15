@@ -56,6 +56,7 @@ Handling of Manual and Automatic MIPMAP
  * 2 : guess AutoMipMap (based on manual mipmaping on textures)
  * 3 : ignore MipMap (mipmap creation / use entirely disabled)
  * 4 : ignore AutoMipMap on non-squared textures
+ * 5 : calculate all sub-mipmap one time when uploading level 1
 
 ##### LIBGL_FORCENPOT
 Forcing NPOT (Non-Power of Two) Texture size.

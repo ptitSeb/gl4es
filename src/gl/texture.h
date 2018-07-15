@@ -111,6 +111,7 @@ typedef struct {
     int shrink;
     GLboolean mipmap_auto;
     GLboolean mipmap_need;
+    GLboolean mipmap_done;
 	GLenum min_filter;
 	GLenum mag_filter;
     GLenum wrap_s;

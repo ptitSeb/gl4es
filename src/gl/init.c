@@ -164,6 +164,10 @@ void initialize_gl4es() {
         globals4es.automipmap = 4;
         SHUT(LOGD("LIBGL: ignore AutoMipMap on non-squared textures\n"));
     }
+    if (env_mipmap && strcmp(env_mipmap, "5") == 0) {
+        globals4es.automipmap = 5;
+        SHUT(LOGD("LIBGL: Calculate sub-mipmap incase some are missing\n"));
+    }
     char *env_texcopy = getenv("LIBGL_TEXCOPY");
     if (env_texcopy && strcmp(env_texcopy, "1") == 0) {
         globals4es.texcopydata = 1;

@@ -884,7 +884,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             if ((globals4es.automipmap==1) || (globals4es.automipmap==3) || bound->mipmap_need) {
                 return;			// has been handled by auto_mipmap
             }
-            else
+            else if(globals4es.automipmap==2)
                 bound->mipmap_need = 1;
      }
      if(level>0 && (bound->npot && globals4es.forcenpot))
@@ -1077,7 +1077,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         if(bound->npot)
             if( (target==GL_TEXTURE_RECTANGLE_ARB && hardext.npot) 
             || (hardext.npot==1 && 
-                ((bound->base_level<=0 && bound->max_level==0) || (globals4es.automipmap==3) || (globals4es.forcenpot==1)))
+                ((bound->base_level<=0 && bound->max_level==0) || (globals4es.automipmap==3) || (globals4es.automipmap==4 && width!=height) || (globals4es.forcenpot==1)))
             || (hardext.esversion>1 && hardext.npot==1 
                 && ((!bound->mipmap_auto && (!wrap_npot(bound->wrap_s) || !wrap_npot(bound->wrap_t)))
                     || !minmag_npot(bound->min_filter) || !minmag_npot(bound->mag_filter)) ))
@@ -1255,8 +1255,12 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 if (ndata!=pixels)
                     free(ndata);
             }
+            if(globals4es.automipmap==5 && !level)
+                bound->mipmap_done = 0;
             // check if max_level is set... and calculate higher level mipmap
-            if(((bound->max_level == level && (level || bound->mipmap_need)) || (callgeneratemipmap && level==0)) && !(bound->max_level==bound->base_level && bound->max_level==0)) {
+            if(((bound->max_level == level && (level || bound->mipmap_need)) || (callgeneratemipmap && level==0) || (globals4es.automipmap==5 && level && !bound->mipmap_done)) && !(bound->max_level==bound->base_level && bound->max_level==0)) {
+                if(globals4es.automipmap==5 && level==1)
+                    bound->mipmap_done = 1;
                 int leveln = level, nw = nwidth, nh = nheight, nww=width, nhh=height;
                 int pot = (nh==nhh && nw==nww);
                 void *ndata = pixels;
