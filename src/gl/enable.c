@@ -104,23 +104,6 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         proxy_GO(GL_BLEND, blend);
         proxy_GO(GL_CULL_FACE, cull_face);
         proxy_GO(GL_DEPTH_TEST, depth_test);
-        case GL_TEXTURE_2D:
-            if(glstate->list.pending && ((glstate->enable.texture[glstate->texture.active]>>ENABLED_TEX2D)&1)!=enable) flush();
-            if(enable == ((glstate->enable.texture[glstate->texture.active]>>ENABLED_TEX2D)&1))
-                return; // no change
-            if(enable)
-                glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX2D);
-            else
-                glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX2D);
-            gl_changetex(glstate->texture.active);
-            if(glstate->fpe_state)
-                fpe_changetex(glstate->texture.active);
-            else {
-                realize_active();
-                next(cap);
-            }
-            break;
-
         // texgen
         GOFPE(GL_TEXTURE_GEN_S, texgen_s[glstate->texture.active], fpe_changetexgen_s(glstate->texture.active, enable)); //TODO: FPE stuffs
         GOFPE(GL_TEXTURE_GEN_T, texgen_t[glstate->texture.active], fpe_changetexgen_t(glstate->texture.active, enable));
@@ -209,6 +192,22 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             if(glstate->fpe_state)
                 fpe_changetex(glstate->texture.active);
             break;
+        case GL_TEXTURE_2D:
+            if(glstate->list.pending && ((glstate->enable.texture[glstate->texture.active]>>ENABLED_TEX2D)&1)!=enable) flush();
+            if(enable == ((glstate->enable.texture[glstate->texture.active]>>ENABLED_TEX2D)&1))
+                return; // no change
+            if(enable)
+                glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX2D);
+            else
+                glstate->enable.texture[glstate->texture.active] &= ~(1<<ENABLED_TEX2D);
+            gl_changetex(glstate->texture.active);
+            if(glstate->fpe_state)
+                fpe_changetex(glstate->texture.active);
+            else {
+                realize_active();
+                next(cap);
+            }
+            break;
         case GL_TEXTURE_3D:
             if(glstate->list.pending) flush(); 
             if(enable)
@@ -238,8 +237,10 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             gl_changetex(glstate->texture.active);
             if(glstate->fpe_state)
                 fpe_changetex(glstate->texture.active);
-            else
+            else {
+                realize_active();
                 next(cap);
+            }
             break;
 
         
