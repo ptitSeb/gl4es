@@ -1,7 +1,7 @@
 Usage
 ----
 
-There are many environnement variable to control gl4es behavour. All are numeric, except LIBGL_VERSION that take a string, and LIBGL_FBO taht takes a 2d size (WxH).
+There are many environnement variable to control gl4es behavour. All are numeric, except LIBGL_VERSION that take a string, LIBGL_FBO that takes a 2d size (WxH), and both LIBGL_EGL and LIBGL_GLES that take path/filename.
 You can also change many of this variable at runtime using the `glHint(...)` function. See [gl4eshint.h](include/gl4eshint.h) for the list of #define to use in this function.
 
 ##### LIBGL_FB
@@ -272,3 +272,14 @@ Disable the use of Depth texture
 * 0 : Default, Use Depth Texture if supported by Hardware
 * 1 : Disable the use of Depth Texture (renderbuffer will be used in FBO)
 
+##### LIBGL_EGL
+Define EGL lib to use. Default folder are the standard one for dynamic librarie loading (LD_LIBRARY_PATH and friend) plus "/opt/vc/lib/", /usr/local/lib/" and "/usr/lib/".
+* by default try to use libbrcmEGL and libEGL
+* filename: try to load from the defaults folder (don't forget to use complete filename, with ".so" extension). If not found/loaded, default one will be tried.
+* /path/to/filename: try to use exact path/filename. If not found/loaded, default one will be tried.
+
+##### LIBGL_GLES
+Define GLES(2) lib to use. Default folder are the standard one for dynamic librarie loading (LD_LIBRARY_PATH and friend) plus "/opt/vc/lib/", /usr/local/lib/" and "/usr/lib/". Be sure to point to correct GLES library depanding on wich GLES backend you are using.
+* by default try to use libGLESv1_CM, libGLES_CM or libbrcmGLESv1_CM for GLES1.1 and libGLESv2_CM, libGLESv2 or libbrcmGLESv2 for GLES2 backend
+* filename: try to load from the defaults folder (don't forget to use complete filename, with ".so" extension). If not found/loaded, default one will be tried.
+* /path/to/filename: try to use exact path/filename. If not found/loaded, default one will be tried.
