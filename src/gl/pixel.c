@@ -736,14 +736,12 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     }
     // BGRA1555 -> RGBA5551
     if ((src_format == GL_BGRA) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_SHORT_5_5_5_1) && (src_type == GL_UNSIGNED_SHORT_1_5_5_5_REV)) {
-      GLuint tmp;
-      unsigned short *wtexmemp = NULL, wtexmem;
+      GLushort tmp;
       for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
           // invert 1555/BGRA to 5551/RGBA (0x1f / 0x3e0 / 7c00)
-          wtexmemp=(unsigned short*)src_pos-1;
-          wtexmem=*(wtexmemp);
-          *(GLushort*)dst_pos = ((wtexmem&0x8000)>>15) | ((wtexmem&0x7fff)<<1);
+          tmp=*(GLushort*)src_pos;
+          *(GLushort*)dst_pos = ((tmp&0x8000)>>15) | ((tmp&0x7fff)<<1);
           src_pos += src_stride;
           dst_pos += dst_stride;
         }
