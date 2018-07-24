@@ -154,14 +154,14 @@ void init_raster(int width, int height) {
 GLubyte raster_transform(GLubyte pix, GLubyte number) {
 	GLfloat a = (GLfloat)pix*(1.0f/255.0f);
 	a=a*glstate->raster.raster_scale[number]+glstate->raster.raster_bias[number];
-	if (a<0.0) a=0.0;
-	if (a>1.0) a=1.0;
+	if (a<0.0f) return 0;
+	if (a>1.0f) return 255;
 	return (GLubyte)(a*255.0f);
 }
 GLfloat FASTMATH raster_transformf(GLfloat pix, GLubyte number) {
 	pix=pix*glstate->raster.raster_scale[number]+glstate->raster.raster_bias[number];
-	if (pix<0.0) pix=0.0;
-	if (pix>1.0) pix=1.0;
+	if (pix<0.0f) return 0.0f;
+	if (pix>1.0f) return 1.0f;
 	return pix;
 }
 
@@ -500,7 +500,7 @@ void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
     rasterlist_t *r;
 	if (glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_RASTER);
-		rasterlist_t *r = glstate->list.active->raster = (rasterlist_t*)malloc(sizeof(rasterlist_t));
+		r = glstate->list.active->raster = (rasterlist_t*)malloc(sizeof(rasterlist_t));
 		memset(r, 0, sizeof(rasterlist_t));
         r->shared = (int*)malloc(sizeof(int));
         *r->shared = 0;
