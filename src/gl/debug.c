@@ -105,6 +105,7 @@ const char* PrintEnum(GLenum what) {
         p(GL_DEPTH_ATTACHMENT);
         p(GL_STENCIL_ATTACHMENT);
         p(GL_DEPTH_COMPONENT);
+        p(GL_MAX_DRAW_BUFFERS_ARB);
         // VBO
         p(GL_STATIC_DRAW);
         p(GL_READ_WRITE);
