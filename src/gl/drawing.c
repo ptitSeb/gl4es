@@ -380,7 +380,7 @@ if(count>500000) return;
 #define MIN_BATCH   (10*globals4es.batch)
 #define MAX_BATCH   (10*10*globals4es.batch)
 
-void gl4es_glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) {
+void gl4es_glDrawRangeElements(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const void *indices) {
     //printf("glDrawRangeElements(%s, %i, %i, %i, %s, @%p), inlist=%i, pending=%d\n", PrintEnum(mode), start, end, count, PrintEnum(type), indices, (glstate->list.active)?1:0, glstate->list.pending);
     count = adjust_vertices(mode, count);
     
