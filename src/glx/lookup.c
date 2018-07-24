@@ -487,7 +487,7 @@ void *gl4es_glXGetProcAddress(const char *name) {
     _EX(glColorMaterial);
     _EX(glCopyTexSubImage3D);   // It's a stub, calling the 2D one
     STUB(glFeedbackBuffer);
-    STUB(glGetClipPlane);
+    _EX(glGetClipPlane);
     _EX(glGetLightiv);
     _EX(glGetMaterialiv);
     _EX(glGetPixelMapfv);
