@@ -232,9 +232,16 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   
   char* pBuffer = (char*)pEntry;
 
-  if(!fpeShader)
+  if(!fpeShader) {
+    // preproc first
     pBuffer = preproc(pBuffer, comments);
-  
+    // now comment all line starting with precision...
+    if(strstr(pBuffer, "\nprecision")) {
+      int sz = strlen(pBuffer);
+      pBuffer = InplaceReplace(pBuffer, &sz, "\nprecision", "\n//precision");
+    }
+  }
+
   static shaderconv_need_t dummy_need;
   if(!need) {
     need = &dummy_need;
