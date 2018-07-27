@@ -392,7 +392,7 @@ void gl4es_glGetProgramiv(GLuint program, GLenum pname, GLint *params) {
                 *params = 0;
             break;
         case GL_ACTIVE_UNIFORMS:
-            *params = (glprogram->uniform)?(kh_size(glprogram->uniform)):0;
+            *params = (glprogram->uniform)?glprogram->num_uniform:0;
             break;
         case GL_ACTIVE_UNIFORM_MAX_LENGTH:
             {
@@ -502,6 +502,7 @@ void gl4es_glLinkProgram(GLuint program) {
         kh_del(attribloclist, attribloc, 1);
     }
     // clear all Uniform cache
+    glprogram->num_uniform = 0;
     if(glprogram->uniform) {
         uniform_t *m;
         khint_t k;
@@ -589,6 +590,7 @@ void gl4es_glLinkProgram(GLuint program) {
                             gluniform->cache_size = uniformsize(type)*(size-j);
                             gluniform->builtin = builtin_CheckUniform(glprogram, name, id, size-j);
                             DBG(printf(" uniform #%d : \"%s\"%s type=%s size=%d\n", id, gluniform->name, gluniform->builtin?" (builtin) ":"", PrintEnum(gluniform->type), gluniform->size);)
+                            if(gluniform->size==1) ++glprogram->num_uniform;
                             id++;
                         }
                         uniform_cache += uniformsize(type)*size;

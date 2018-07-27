@@ -162,6 +162,7 @@ typedef struct {
     int             va_size[MAX_VATTRIB];
     khash_t(attribloclist)     *attribloc;
     khash_t(uniformlist) *uniform;
+    int             num_uniform;
     uniformcache_t  cache;
     // builtin attrib
     int                             has_builtin_attrib;
