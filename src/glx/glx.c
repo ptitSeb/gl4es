@@ -968,6 +968,10 @@ Bool gl4es_glXMakeCurrent(Display *display,
                         if(context->eglSurface)
                             egl_eglDestroySurface(eglDisplay, context->eglSurface);
                         eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, attrib_list);
+                        if(!eglSurf) {
+                            DBG(printf("LIBGL: Warning, EeglSurf is null\n");)
+                            CheckEGLErrors();
+                        }
                     }
                 }
             }
