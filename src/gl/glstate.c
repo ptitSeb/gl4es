@@ -307,6 +307,17 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->fbo.mainfbo_height = glstate->raster.viewport.height;
     glstate->fbo.mainfbo_nwidth = (hardext.npot)?glstate->fbo.mainfbo_width:npot(glstate->fbo.mainfbo_width);
     glstate->fbo.mainfbo_nheight = (hardext.npot)?glstate->fbo.mainfbo_height:npot(glstate->fbo.mainfbo_height);
+    // add default RB
+    if(!shared_glstate) // TODO: check if default VBO is shared?
+    {
+        khint_t k;
+        int ret;
+        khash_t(renderbufferlist_t) *list = glstate->fbo.renderbufferlist = kh_init(renderbufferlist_t);
+        k = kh_put(renderbufferlist_t, list, 0, &ret);
+        glrenderbuffer_t *rend = kh_value(list, k) = malloc(sizeof(glrenderbuffer_t));
+        memset(rend, 0, sizeof(glrenderbuffer_t));
+        glstate->fbo.default_rb = rend;
+    }
     // Get the per/context hardware values
     glstate->readf = GL_RGBA;
     glstate->readt = GL_UNSIGNED_BYTE;
@@ -357,6 +368,7 @@ void DeleteGLState(void* oldstate) {
         free_hashmap(glbuffer_t, buffers, buff, free);
         free_hashmap(gltexture_t, texture.list, tex, free);
         free_hashmap(renderlist_t, headlists, gllisthead, free_renderlist);
+        free_hashmap(glrenderbuffer_t, fbo.renderbufferlist, renderbufferlist_t, free);
     }
     #undef free_hashmap
     // free texture zero as it's not in the list anymore

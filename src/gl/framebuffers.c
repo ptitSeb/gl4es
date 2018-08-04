@@ -105,6 +105,20 @@ int find_fbotexture(GLuint fbo, GLuint *texture, int *width, int *height) {
     return (idx==-1)?0:1;
 }
 
+glrenderbuffer_t* find_renderbuffer(GLuint renderbuffer) {
+    // Get a renderbuffer based on ID
+    if (renderbuffer == 0) return NULL; // texture 0 is a texture mostly like any other... it is not "unbind" texture in fact, but it's not shared
+    int ret;
+    khint_t k;
+    khash_t(renderbufferlist_t) *list = glstate->fbo.renderbufferlist;
+    k = kh_get(renderbufferlist_t, list, renderbuffer);
+    
+    if (k != kh_end(list)){
+        return kh_value(list, k);
+    }
+    return NULL;
+}
+
 void gl4es_glGenFramebuffers(GLsizei n, GLuint *ids) {
     DBG(printf("glGenFramebuffers(%i, %p)\n", n, ids);)
     LOAD_GLES2_OR_OES(glGenFramebuffers);
@@ -505,9 +519,18 @@ void gl4es_glFramebufferTexture3D(GLenum target, GLenum attachment, GLenum texta
 void gl4es_glGenRenderbuffers(GLsizei n, GLuint *renderbuffers) {
     DBG(printf("glGenRenderbuffers(%i, %p)\n", n, renderbuffers);)
     LOAD_GLES2_OR_OES(glGenRenderbuffers);
-    
     errorGL();
     gles_glGenRenderbuffers(n, renderbuffers);
+    // track the renderbuffers...
+    int ret;
+    khint_t k;
+    khash_t(renderbufferlist_t) *list = glstate->fbo.renderbufferlist;
+    for(int i=0; i<n; ++i) {
+        k = kh_put(renderbufferlist_t, list, renderbuffers[i], &ret);
+        glrenderbuffer_t *rend = kh_value(list, k) = malloc(sizeof(glrenderbuffer_t));
+        memset(rend, 0, sizeof(glrenderbuffer_t));
+        rend->renderbuffer = renderbuffers[i];
+    }
 }
 
 void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
@@ -515,38 +538,52 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
     LOAD_GLES2_OR_OES(glFramebufferRenderbuffer);
     LOAD_GLES2_OR_OES(glGetFramebufferAttachmentParameteriv);
     LOAD_GLES(glGetError);
+    // get renderbuffer
+    glrenderbuffer_t *rend = find_renderbuffer(renderbuffer);
+    if(renderbuffer && !rend) {
+        errorShim(GL_INVALID_OPERATION);
+        return;
+    }
 
     if (attachment == GL_COLOR_ATTACHMENT0 && globals4es.fboforcetex) {
-        // drop the renderbuffer attachement and create a texture instead...
-        int oldactive = glstate->texture.active;
-        if(oldactive) gl4es_glActiveTexture(GL_TEXTURE0);
-        gltexture_t *bound = glstate->texture.bound[0][ENABLED_TEX2D];
-        GLuint oldtex = bound->glname;
-        // get size of renderbuffer
-        LOAD_GLES2_OR_OES(glGetRenderbufferParameteriv);
-        GLint width, height;
-        GLenum format;
-        GLuint oldrender = glstate->fbo.current_rb;
-        if(oldrender != renderbuffer) gl4es_glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
-        // TODO: keep track of Renderbuffer parameter, to avoid querying geometry
-        gles_glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &width);
-        gles_glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &height);
-        gles_glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_INTERNAL_FORMAT, &format);
-        if(oldrender != renderbuffer) gl4es_glBindRenderbuffer(GL_RENDERBUFFER, oldrender);
-        // TODO: keep track of that texture, for delete when the Renderbuffer is deleted
-        // create a texture
-        GLuint newtex;
-        gl4es_glGenTextures(1, &newtex);
-        gl4es_glBindTexture(GL_TEXTURE_2D, newtex);
-        gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        gl4es_glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-        gl4es_glBindTexture(GL_TEXTURE_2D, oldtex);
-        gl4es_glFramebufferTexture2D(target, attachment, GL_TEXTURE_2D, newtex, 0);
-        // end of cleanup
-        if(oldactive) gl4es_glActiveTexture(GL_TEXTURE0+oldactive);
+        if(rend) {
+            // drop the renderbuffer attachement and create a texture instead...
+            int oldactive = glstate->texture.active;
+            if(oldactive) gl4es_glActiveTexture(GL_TEXTURE0);
+            gltexture_t *bound = glstate->texture.bound[0][ENABLED_TEX2D];
+            GLuint oldtex = bound->glname;
+            // get size of renderbuffer
+            LOAD_GLES2_OR_OES(glGetRenderbufferParameteriv);
+            GLint width, height;
+            GLenum format;
+            glrenderbuffer_t *oldrenderbuffer = glstate->fbo.current_rb;
+            GLuint oldrender = oldrenderbuffer?oldrenderbuffer->renderbuffer:0;
+            if(oldrender != renderbuffer) gl4es_glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
+            // TODO: keep track of Renderbuffer parameter, to avoid querying geometry
+            gles_glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &width);
+            gles_glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &height);
+            gles_glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_INTERNAL_FORMAT, &format);
+            if(oldrender != renderbuffer) gl4es_glBindRenderbuffer(GL_RENDERBUFFER, oldrender);
+            // create a texture if needed
+            if(!rend->secondarytexture) {
+                GLuint newtex;
+                gl4es_glGenTextures(1, &newtex);
+                gl4es_glBindTexture(GL_TEXTURE_2D, newtex);
+                gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                gl4es_glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+                gl4es_glBindTexture(GL_TEXTURE_2D, oldtex);
+                rend->secondarytexture = newtex;
+            }
+            gl4es_glFramebufferTexture2D(target, attachment, GL_TEXTURE_2D, rend->secondarytexture, 0);
+            // end of cleanup
+            if(oldactive) gl4es_glActiveTexture(GL_TEXTURE0+oldactive);
+        } else {
+            // renderbuffer is 0, unbind the texture attachement...
+            gl4es_glFramebufferTexture2D(target, attachment, GL_TEXTURE_2D, 0, 0);
+        }
         return;
     }
 
@@ -558,12 +595,9 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
     }
     
     //TODO: handle target=READBUFFER or DRAWBUFFER...
-    if (glstate->fbo.depthstencil && (attachment==GL_STENCIL_ATTACHMENT)) {
-		khint_t k = kh_get(dsr, glstate->fbo.depthstencil, renderbuffer);
-		if (k != kh_end(glstate->fbo.depthstencil)) {
-			gldepthstencil_t *dsr = kh_value(glstate->fbo.depthstencil, k);
-            renderbuffer = dsr->stencil;
-		}
+    if (attachment==GL_STENCIL_ATTACHMENT) {
+        if(rend && rend->secondarybuffer)
+            renderbuffer = rend->secondarybuffer;
     }
 
     /*if ((glstate->fbo.current_fb!=0) && (renderbuffer==0)) {
@@ -575,6 +609,7 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
     
     GLenum ntarget = ReadDraw_Push(target);
 
+    // TODO: remove this when tracking of FBO is done...
     if ((glstate->fbo.current_fb!=0) && (renderbuffer!=0) && ((attachment==GL_DEPTH_ATTACHMENT) || (attachment==GL_STENCIL_ATTACHMENT))) {
         GLuint tmp;
         gles_glGetFramebufferAttachmentParameteriv(ntarget, attachment, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &tmp);
@@ -605,18 +640,23 @@ void gl4es_glDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers) {
     
     // check if we delete a depthstencil
     khint_t k;
-    if (glstate->fbo.depthstencil)
+    if (glstate->fbo.renderbufferlist)
         for (int i=0; i<n; i++) {
             khint_t k;
-            gldepthstencil_t *dsr;
+            glrenderbuffer_t *rend;
             for (int i = 0; i < n; i++) {
                 GLuint t = renderbuffers[i];
-                k = kh_get(dsr, glstate->fbo.depthstencil, t);
-                if (k != kh_end(glstate->fbo.depthstencil)) {
-                    dsr = kh_value(glstate->fbo.depthstencil, k);
-                    gles_glDeleteRenderbuffers(1, &dsr->stencil);
-                    kh_del(dsr, glstate->fbo.depthstencil, k);
-                    free(dsr);
+                if(t) {
+                    k = kh_get(renderbufferlist_t, glstate->fbo.renderbufferlist, t);
+                    if (k != kh_end(glstate->fbo.renderbufferlist)) {
+                        rend = kh_value(glstate->fbo.renderbufferlist, k);
+                        if(rend->secondarybuffer)
+                            gles_glDeleteRenderbuffers(1, &rend->secondarybuffer);
+                        if(rend->secondarytexture)
+                            gl4es_glDeleteTextures(1, &rend->secondarytexture);
+                        kh_del(renderbufferlist_t, glstate->fbo.renderbufferlist, k);
+                        free(rend);
+                    }
                 }
             }
         }
@@ -630,10 +670,18 @@ void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei w
     LOAD_GLES2_OR_OES(glRenderbufferStorage);
     LOAD_GLES2_OR_OES(glGenRenderbuffers);
     LOAD_GLES2_OR_OES(glBindRenderbuffer);
+
+    glrenderbuffer_t *rend = glstate->fbo.current_rb;
+    if(!rend) {
+        errorShim(GL_INVALID_OPERATION);
+        return;
+    }
     
     errorGL();
     width = (hardext.npot>0 && !globals4es.potframebuffer)?width:npot(width);
     height = (hardext.npot>0 && !globals4es.potframebuffer)?height:npot(height);
+    int use_secondarybuffer = 0;
+    int use_secondarytexture = 0;
     // check if internal format is GL_DEPTH_STENCIL_EXT
     if (internalformat == GL_DEPTH_STENCIL)
         internalformat = GL_DEPTH24_STENCIL8;
@@ -642,30 +690,11 @@ void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei w
         khint_t k;
         int ret;
         internalformat = (hardext.depth24)?GL_DEPTH_COMPONENT24:GL_DEPTH_COMPONENT16;
-        GLuint old_rb = glstate->fbo.current_rb;
-        GLuint stencil;
-        if (!glstate->fbo.depthstencil) {
-            glstate->fbo.depthstencil = kh_init(dsr);
-            // segfaults if we don't do a single put
-            kh_put(dsr, glstate->fbo.depthstencil, 1, &ret);
-            kh_del(dsr, glstate->fbo.depthstencil, 1);
+        // create a stencil buffer if needed
+        if(!rend->secondarybuffer) {
+            gles_glGenRenderbuffers(1, &rend->secondarybuffer);
         }
-        // search for an existing buffer (should not exist!)
-        k = kh_get(dsr, glstate->fbo.depthstencil, glstate->fbo.current_rb);
-        gldepthstencil_t *dsr = NULL;
-        if (k == kh_end(glstate->fbo.depthstencil)){
-            k = kh_put(dsr, glstate->fbo.depthstencil, glstate->fbo.current_rb, &ret);
-            dsr = kh_value(glstate->fbo.depthstencil, k) = malloc(sizeof(gldepthstencil_t));
-            dsr->renderbuffer = glstate->fbo.current_rb;
-        } else {
-            dsr = kh_value(glstate->fbo.depthstencil, k);
-        }
-        // create a stencil buffer
-        gles_glGenRenderbuffers(1, &stencil);
-        dsr->stencil = stencil;
-        gles_glBindRenderbuffer(GL_RENDERBUFFER, stencil);
-        gles_glRenderbufferStorage(target, GL_STENCIL_INDEX8, width, height);
-        gles_glBindRenderbuffer(GL_RENDERBUFFER, glstate->fbo.current_rb);
+        use_secondarybuffer = 1;
     }
     else if (internalformat == GL_DEPTH_COMPONENT || internalformat == GL_DEPTH_COMPONENT32)    // Not much is supported on GLES...
         internalformat = GL_DEPTH_COMPONENT16;
@@ -673,6 +702,37 @@ void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei w
         internalformat = GL_RGB565_OES;
     else if (internalformat == GL_RGBA8 && hardext.rgba8==0)
         internalformat = GL_RGBA4_OES;
+
+    if(rend->secondarybuffer) {
+        if(use_secondarybuffer) {
+            GLuint current_rb = glstate->fbo.current_rb?glstate->fbo.current_rb->renderbuffer:0;
+            gles_glBindRenderbuffer(GL_RENDERBUFFER, rend->secondarybuffer);
+            gles_glRenderbufferStorage(target, GL_STENCIL_INDEX8, width, height);
+            gles_glBindRenderbuffer(GL_RENDERBUFFER, current_rb);
+        } else {
+            LOAD_GLES2_OR_OES(glDeleteRenderbuffers);
+            gles_glDeleteRenderbuffers(1, &rend->secondarybuffer);
+            rend->secondarybuffer = 0;
+        }
+    }
+
+    if(rend->secondarytexture) {
+        // should check if texture is still needed?
+        gltexture_t *tex = gl4es_getTexture(GL_TEXTURE_2D, rend->secondarytexture);
+        LOAD_GLES(glActiveTexture);
+        LOAD_GLES(glBindTexture);
+        LOAD_GLES(glTexImage2D);
+        int oldactive = glstate->texture.active;
+        if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
+        gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];
+        GLuint oldtex = bound->glname;
+        if (oldtex!=rend->secondarytexture) gles_glBindTexture(GL_TEXTURE_2D, rend->secondarytexture);
+        tex->nwidth = tex->width = width;
+        tex->nheight = tex->height = height;
+        gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
+        if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
+        if(oldactive) gles_glActiveTexture(GL_TEXTURE0+oldactive);
+    }
 
     gles_glRenderbufferStorage(target, internalformat, width, height);
     DBG(CheckGLError(1);)
@@ -686,7 +746,17 @@ void gl4es_glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
     DBG(printf("glBindRenderbuffer(%s, %u), binded Fbo=%u\n", PrintEnum(target), renderbuffer, glstate->fbo.current_fb);)
     LOAD_GLES2_OR_OES(glBindRenderbuffer);
     
-    glstate->fbo.current_rb = renderbuffer;
+    GLuint current = (glstate->fbo.current_rb)?glstate->fbo.current_rb->renderbuffer:0;
+    if(current==renderbuffer) {
+        noerrorShim();
+        return;
+    }
+     glrenderbuffer_t * rend = find_renderbuffer(renderbuffer);
+    if(renderbuffer && !rend) {
+        errorShim(GL_INVALID_OPERATION);
+        return;
+    }
+    glstate->fbo.current_rb = rend;
     
     errorGL();
     gles_glBindRenderbuffer(target, renderbuffer);
@@ -694,10 +764,11 @@ void gl4es_glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
 
 GLboolean gl4es_glIsRenderbuffer(GLuint renderbuffer) {
     DBG(printf("glIsRenderbuffer(%u)\n", renderbuffer);)
-    LOAD_GLES2_OR_OES(glIsRenderbuffer);
-    
-    errorGL();
-    return gles_glIsRenderbuffer(renderbuffer);
+    if(!renderbuffer)
+        return GL_TRUE;
+
+    noerrorShim();
+    return((find_renderbuffer(renderbuffer)!=NULL)?GL_TRUE:GL_FALSE);
 }
 
 void gl4es_glGenerateMipmap(GLenum target) {
@@ -814,15 +885,16 @@ void createMainFBO(int width, int height) {
 	gles_glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     // Final check, and bind the fbo for future use
+    GLuint current_rb = glstate->fbo.current_rb?glstate->fbo.current_rb->renderbuffer:0;
     if (status != GL_FRAMEBUFFER_COMPLETE) {
         printf("LIBGL: Error while creating main fbo (0x%04X)\n", status);
         deleteMainFBO();
         gles_glBindFramebuffer(GL_FRAMEBUFFER, glstate->fbo.current_fb);
-        gles_glBindFramebuffer(GL_RENDERBUFFER, glstate->fbo.current_rb);
+        gles_glBindFramebuffer(GL_RENDERBUFFER, current_rb);
     } else {
         gles_glBindFramebuffer(GL_FRAMEBUFFER, (glstate->fbo.current_fb)?glstate->fbo.current_fb:glstate->fbo.mainfbo_fbo);
-        if (glstate->fbo.current_rb)
-            gles_glBindRenderbuffer(GL_RENDERBUFFER, glstate->fbo.current_rb);
+        if (current_rb)
+            gles_glBindRenderbuffer(GL_RENDERBUFFER, current_rb);
         // clear color, depth and stencil...
         if (glstate->fbo.current_fb==0)
             gles_glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -989,7 +1061,7 @@ void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
             // not found, get width/height from Hardware
             GLuint renderbuff;
             gl4es_glGetFramebufferAttachmentParameteriv(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &renderbuff);
-            GLuint old = glstate->fbo.current_rb;
+            GLuint old = glstate->fbo.current_rb?glstate->fbo.current_rb->renderbuffer:0;
             gl4es_glBindRenderbuffer(GL_RENDERBUFFER, renderbuff);
             gl4es_glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &fbowidth);
             gl4es_glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &fboheight);

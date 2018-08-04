@@ -268,13 +268,14 @@ typedef struct {
 } linestipple_t;
 
 // FBO structures
-// Need  to keep track of Renderbuffer that are created as DEPTH_STENCIL, to create 2 seperate buffers...
 typedef struct {
-    GLuint      renderbuffer;   // This is the Depth buffer...
-    GLuint      stencil;        // this will be the secondary Stencil buffer
-} gldepthstencil_t;
+    GLuint      renderbuffer;
+    GLenum      attachment;         // can be color0 or depth_stencil for example
+    GLuint      secondarybuffer;    // secondary renderbuffer, if depth_stencil is not possible for example
+    GLuint      secondarytexture;   // the texture, in case of a color0 attachement...
+} glrenderbuffer_t;
 
-KHASH_MAP_INIT_INT(dsr, gldepthstencil_t *)
+KHASH_MAP_INIT_INT(renderbufferlist_t, glrenderbuffer_t *)
 
 typedef struct {
     GLuint      framebuffer;
@@ -284,8 +285,9 @@ typedef struct {
 } gltexframebuffer_t;
 
 typedef struct {
-    khash_t(dsr) *depthstencil;
-    GLuint current_rb;
+    khash_t(renderbufferlist_t) *renderbufferlist;
+    glrenderbuffer_t *default_rb;
+    glrenderbuffer_t *current_rb;
     GLuint current_fb;
     
     GLuint mainfbo_fbo; // The MainFBO

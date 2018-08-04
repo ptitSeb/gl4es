@@ -26,7 +26,7 @@ void gl4es_glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLen
 void gl4es_glFramebufferTextureLayer(	GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer);    // naive Wrap
 void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter);
 
-// In case of LIBGL_FB=2, let's create an FBO for everything, that is than blitted just before the SwapBuffer
+// In case of LIBGL_FB=2, let's create an FBO for everything, that is then blitted just before the SwapBuffer
 void createMainFBO(int width, int height);
 void blitMainFBO(int x, int y, int width, int height);
 void deleteMainFBO();
