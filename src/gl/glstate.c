@@ -8,6 +8,19 @@ glstate_t *default_glstate = NULL;
 
 void init_matrix(glstate_t* glstate);
 
+static void free_renderbuffer(glrenderbuffer_t *rend)
+{
+    LOAD_GLES2_OR_OES(glDeleteRenderbuffers);
+    if(!rend)
+        return;
+    if(rend->secondarybuffer)
+        gles_glDeleteRenderbuffers(1, &rend->secondarybuffer);
+    if(rend->renderbuffer)
+        gles_glDeleteRenderbuffers(1, &rend->renderbuffer);
+    // the texture will be free by the free of the texture list, as it's referenced there...
+    free(rend);
+}
+
 void* NewGLState(void* shared_glstate, int es2only) {
     glstate_t *glstate = (glstate_t*)malloc(sizeof(glstate_t));
 	memset(glstate, 0, sizeof(glstate_t));
@@ -307,8 +320,8 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->fbo.mainfbo_height = glstate->raster.viewport.height;
     glstate->fbo.mainfbo_nwidth = (hardext.npot)?glstate->fbo.mainfbo_width:npot(glstate->fbo.mainfbo_width);
     glstate->fbo.mainfbo_nheight = (hardext.npot)?glstate->fbo.mainfbo_height:npot(glstate->fbo.mainfbo_height);
-    // add default RB
-    if(!shared_glstate) // TODO: check if default VBO is shared?
+    // add default Renderbuffer
+    if(!shared_glstate)
     {
         khint_t k;
         int ret;
@@ -368,7 +381,7 @@ void DeleteGLState(void* oldstate) {
         free_hashmap(glbuffer_t, buffers, buff, free);
         free_hashmap(gltexture_t, texture.list, tex, free);
         free_hashmap(renderlist_t, headlists, gllisthead, free_renderlist);
-        free_hashmap(glrenderbuffer_t, fbo.renderbufferlist, renderbufferlist_t, free);
+        free_hashmap(glrenderbuffer_t, fbo.renderbufferlist, renderbufferlist_t, free_renderbuffer);
     }
     #undef free_hashmap
     // free texture zero as it's not in the list anymore
