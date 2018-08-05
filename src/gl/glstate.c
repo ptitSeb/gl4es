@@ -53,6 +53,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
         glstate->buffers = copy_state->buffers;
         glstate->queries = copy_state->queries;
         glstate->fpe_cache = copy_state->fpe_cache;
+        glstate->fbo.renderbufferlist = glstate->fbo.renderbufferlist;
 
         glstate->defaultvbo = copy_state->defaultvbo;
     }
