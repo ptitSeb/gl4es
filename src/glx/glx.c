@@ -389,7 +389,7 @@ void glx_init() {
         // TODO: a bit gross. Maybe look at this: http://stackoverflow.com/a/13290134/293352
         signal(SIGBUS, signal_handler);
         signal(SIGFPE, signal_handler);
-        signal(SIGILL, signal_handler);
+        //signal(SIGILL, signal_handler);
         signal(SIGSEGV, signal_handler);
         if (globals4es.xrefresh || g_bcmhost) {
             signal(SIGINT, signal_handler);
