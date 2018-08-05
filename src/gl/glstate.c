@@ -21,6 +21,19 @@ static void free_renderbuffer(glrenderbuffer_t *rend)
     free(rend);
 }
 
+static void free_texture(gltexture_t *tex)
+{
+    LOAD_GLES(glDeleteTextures);
+    if(!tex)
+        return;
+    if(tex->glname)
+        gles_glDeleteTextures(1, &tex->glname);
+    if(tex->data)
+        free(tex->data);
+    // renderbuffer linked to this texture will be freed by the free_renderbuffer function.
+    free(tex);
+}
+
 void* NewGLState(void* shared_glstate, int es2only) {
     glstate_t *glstate = (glstate_t*)malloc(sizeof(glstate_t));
 	memset(glstate, 0, sizeof(glstate_t));
@@ -379,7 +392,7 @@ void DeleteGLState(void* oldstate) {
     if(!state->shared_cnt) {
         free_hashmap(glquery_t, queries, queries, free);
         free_hashmap(glbuffer_t, buffers, buff, free);
-        free_hashmap(gltexture_t, texture.list, tex, free);
+        free_hashmap(gltexture_t, texture.list, tex, free_texture);
         free_hashmap(renderlist_t, headlists, gllisthead, free_renderlist);
         free_hashmap(glrenderbuffer_t, fbo.renderbufferlist, renderbufferlist_t, free_renderbuffer);
     }
