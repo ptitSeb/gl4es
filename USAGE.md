@@ -157,8 +157,8 @@ Hack: Activate some Fast Math in processor/coprocessor
 
 ##### LIBGL_SILENTSTUB
 Debug: Hide or Show the Sub / Not found message
- * 0 : Default, the messages are shown
- * 1 : Silent, don't print the STUB or glXGetProcAddress glXXXXX not found message
+ * 0 : The messages for Stub or absend function are printed
+ * 1 : Default, don't print the STUB or glXGetProcAddress glXXXXX not found message
 
 ##### LIBGL_NOBANNER
 Show/Hide initial text

@@ -258,7 +258,12 @@ void initialize_gl4es() {
     env(LIBGL_BLENDHACK, globals4es.blendhack, "Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE");
     env(LIBGL_BLENDCOLOR, globals4es.blendcolor, "Export a (faked) glBlendColor");
     env(LIBGL_NOERROR, globals4es.noerror, "glGetError() always return GL_NOERROR");
-    env(LIBGL_SILENTSTUB, globals4es.silentstub, "Stub/non present functions are not printed");
+    globals4es.silentstub = 1;
+    char *env_silentstub = getenv("LIBGL_SILENTSTUB");
+    if (env_silentstub && strcmp(env_silentstub, "0") == 0) {
+        globals4es.silentstub = 0;
+        SHUT(LOGD("LIBGL: Stub/non present functions are printed"));
+    }
     env(LIBGL_VABGRA, globals4es.vabgra, "Export GL_ARB_vertex_array_bgra extension");
 
     char *env_version = getenv("LIBGL_VERSION");
