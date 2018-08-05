@@ -384,14 +384,14 @@ void glx_init() {
         }
     }
 #endif
-    if (globals4es.xrefresh || globals4es.stacktrace || g_bcmhost) 
+    if (globals4es.xrefresh || globals4es.stacktrace) 
     {
         // TODO: a bit gross. Maybe look at this: http://stackoverflow.com/a/13290134/293352
         signal(SIGBUS, signal_handler);
         signal(SIGFPE, signal_handler);
         //signal(SIGILL, signal_handler);
         signal(SIGSEGV, signal_handler);
-        if (globals4es.xrefresh || g_bcmhost) {
+        if (globals4es.xrefresh) {
             signal(SIGINT, signal_handler);
             signal(SIGQUIT, signal_handler);
             signal(SIGTERM, signal_handler);
@@ -399,11 +399,11 @@ void glx_init() {
         if (globals4es.xrefresh)
             atexit(xrefresh);
 #if !defined(ANDROID) && !defined(AMIGAOS4)
-#ifdef BCMHOST
-            atexit(bcm_host_deinit);
-#endif
 #endif //!ANDROID && !AMIGAOS4
     }
+#ifdef BCMHOST
+    atexit(bcm_host_deinit);
+#endif
 #ifdef PANDORA
     atexit(pandora_reset_gamma);
 #elif defined(AMIGAOS4)
