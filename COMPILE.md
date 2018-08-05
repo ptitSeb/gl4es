@@ -65,7 +65,7 @@ Also, on the CHIP, you will probably need to do `sudo apt-get install chip-mali-
 ##### RaspberryPI
 
 GL4ES works on RaspberryPI. I don't own any RPi model, so I cannot fine tune it for this plateform.
-Framebuffer mode should work on this plateform. `LIBGL_FB=1` try to use `DispManX` for more speed. Be aware that if you use X-less config, that many SDL version dedicated to DispManX do not handle GL context creation. So trying to create a GL context with this version of SDL will fail, but GL4ES is never called, so I cannot "fix" that (the fix would be inside SDL/DispManX driver).
+Framebuffer mode should work on this plateform. It seems `LIBGL_FB=3` gives good result and should be used in most cases. `LIBGL_FB=1` try to use `DispManX` for more speed. Be aware that if you use X-less config, many SDL version dedicated to DispManX do not handle GL context creation. So trying to create a GL context with this version of SDL will fail, but GL4ES is never called, so I cannot "fix" that (the fix would be inside SDL/DispManX driver). Also, GLES 1.1 seems to be deprecated in latest version of the OS, so you may need to use ES2.0 backend.
 
 ##### Android
 On Android build of GL4ES, no X11 function are called. So most `glX` function are not defined. That means that the GL context (in fact a GLES1.1 context) has to be created by other apps (mainly SDL or SDL2).
