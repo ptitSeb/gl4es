@@ -401,11 +401,10 @@ void glx_init() {
 #if !defined(ANDROID) && !defined(AMIGAOS4)
 #endif //!ANDROID && !AMIGAOS4
     }
-#ifdef BCMHOST
-    atexit(bcm_host_deinit);
-#endif
 #ifdef PANDORA
     atexit(pandora_reset_gamma);
+#elif defined(BCMHOST)
+    atexit(bcm_host_deinit);
 #elif defined(AMIGAOS4)
     atexit(os4CloseLib);
 #endif
