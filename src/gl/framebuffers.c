@@ -68,7 +68,7 @@ void attach_fbotexture(GLuint fbo, GLuint texture, int width, int height) {
     }
 }
 
-void detach_fbotexture(GLuint fbo) {
+void detach_fbotexture(glstate_t* glstate, GLuint fbo) {
     DBG(printf("detach_fbotexture(%d)\n", fbo);)
     int idx = -1;
     if(glstate->fbo.mainfbo_fbo && !fbo)
@@ -137,7 +137,7 @@ void gl4es_glGenFramebuffers(GLsizei n, GLuint *ids) {
 void gl4es_glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
     DBG(printf("glDeleteFramebuffers(%i, %p), framebuffers[0]=%u\n", n, framebuffers, framebuffers[0]);)
     for (int i=0; i<n; i++)
-        detach_fbotexture(framebuffers[i]);
+        detach_fbotexture(glstate, framebuffers[i]);
 
     if (globals4es.recyclefbo) {
         DBG(printf("Recycling %i FBOs\n", n);)
@@ -625,7 +625,7 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
     }
 
     if(attachment == GL_COLOR_ATTACHMENT0) {
-        detach_fbotexture(glstate->fbo.current_fb); // remove texture attachement if there was one
+        detach_fbotexture(glstate, glstate->fbo.current_fb); // remove texture attachement if there was one
     }
 
     errorGL();
@@ -838,7 +838,7 @@ void createMainFBO(int width, int height) {
     if (glstate->fbo.mainfbo_fbo) {
         if (width==glstate->fbo.mainfbo_width && height==glstate->fbo.mainfbo_height)
             return;
-        deleteMainFBO();
+        deleteMainFBO(glstate);
     }
     DBG(printf("LIBGL: Create FBO of %ix%i 32bits\n", width, height);)
     // switch to texture unit 0 if needed
@@ -884,27 +884,26 @@ void createMainFBO(int width, int height) {
 
 	gles_glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-    // Final check, and bind the fbo for future use
-    GLuint current_rb = glstate->fbo.current_rb?glstate->fbo.current_rb->renderbuffer:0;
-    if (status != GL_FRAMEBUFFER_COMPLETE) {
-        printf("LIBGL: Error while creating main fbo (0x%04X)\n", status);
-        deleteMainFBO();
-        gles_glBindFramebuffer(GL_FRAMEBUFFER, glstate->fbo.current_fb);
-        gles_glBindFramebuffer(GL_RENDERBUFFER, current_rb);
-    } else {
-        gles_glBindFramebuffer(GL_FRAMEBUFFER, (glstate->fbo.current_fb)?glstate->fbo.current_fb:glstate->fbo.mainfbo_fbo);
-        if (current_rb)
-            gles_glBindRenderbuffer(GL_RENDERBUFFER, current_rb);
-        // clear color, depth and stencil...
-        if (glstate->fbo.current_fb==0)
-            gles_glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    }
-    // Put everything back, and active the MainFBO
+    // Put everything back
     gles_glBindTexture(GL_TEXTURE_2D, glstate->texture.bound[0][ENABLED_TEX2D]->glname);
     if (glstate->texture.active != 0)
         gles_glActiveTexture(GL_TEXTURE0 + glstate->texture.active);
     if (glstate->texture.client != 0 && gles_glClientActiveTexture)
         gles_glClientActiveTexture(GL_TEXTURE0 + glstate->texture.client);
+    GLuint current_rb = glstate->fbo.current_rb?glstate->fbo.current_rb->renderbuffer:0;
+    gles_glBindRenderbuffer(GL_RENDERBUFFER, current_rb);
+    // Final check, and bind the fbo for future use
+    if (status != GL_FRAMEBUFFER_COMPLETE) {
+        printf("LIBGL: Error while creating main fbo (0x%04X)\n", status);
+        deleteMainFBO(glstate);
+        gles_glBindFramebuffer(GL_FRAMEBUFFER, glstate->fbo.current_fb);
+        
+    } else {
+        gles_glBindFramebuffer(GL_FRAMEBUFFER, (glstate->fbo.current_fb)?glstate->fbo.current_fb:glstate->fbo.mainfbo_fbo);
+        // clear color, depth and stencil...
+        if (glstate->fbo.current_fb==0)
+            gles_glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    }
     
 }
 
@@ -961,12 +960,14 @@ void unbindMainFBO() {
     }
 }
 
-void deleteMainFBO() {
+void deleteMainFBO(void *state) {
     LOAD_GLES2_OR_OES(glDeleteFramebuffers);
     LOAD_GLES2_OR_OES(glDeleteRenderbuffers);
     LOAD_GLES(glDeleteTextures);
 
-    detach_fbotexture(glstate->fbo.mainfbo_fbo);
+    glstate_t *glstate = (glstate_t*)state;
+
+    detach_fbotexture(glstate, glstate->fbo.mainfbo_fbo);
     if (glstate->fbo.mainfbo_dep) {
         gles_glDeleteRenderbuffers(1, &glstate->fbo.mainfbo_dep);
         glstate->fbo.mainfbo_dep = 0;
@@ -1084,7 +1085,7 @@ void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
 }
 
 GLuint gl4es_getCurrentFBO() {
-  return glstate->fbo.current_fb;
+  return (glstate->fbo.current_fb)?glstate->fbo.current_fb:glstate->fbo.mainfbo_fbo;
 }
 
 void gl4es_setCurrentFBO() {

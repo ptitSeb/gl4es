@@ -769,7 +769,7 @@ void gl4es_glXDestroyContext(Display *display, GLXContext ctx) {
         --fbcontext_count;
     if (ctx->eglContext) {
         if (globals4es.usefbo && ctx->contextType==0) {
-            deleteMainFBO();
+            deleteMainFBO(ctx->glstate);
         }
 
         DeleteGLState(ctx->glstate);
@@ -848,7 +848,7 @@ not set to EGL_NO_CONTEXT.
 Bool gl4es_glXMakeCurrent(Display *display,
                     GLXDrawable drawable,
                     GLXContext context) {
-    DBG(printf("glXMakeCurrent(%p, %p, %p), isPBuffer(drawable)=%d, context->drawable=%p, context->eglSurface=%p(%p), context->doublebuff=%d\n", display, drawable, context, isPBuffer(drawable), context?context->drawable:0, context?context->eglSurface:0, eglSurface, context?context->doublebuff:0);)                        
+    DBG(printf("glXMakeCurrent(%p, %p, %p), isPBuffer(drawable)=%d, context->drawable=%p, context->eglSurface=%p(%p), context->doublebuff=%d\n", display, drawable, context, isPBuffer(drawable), context?context->drawable:0, context?context->eglSurface:0, eglSurface, context?context->doublebuff:0);)
     LOAD_EGL(eglMakeCurrent);
     LOAD_EGL(eglDestroySurface);
     LOAD_EGL(eglCreateWindowSurface);
@@ -877,10 +877,10 @@ Bool gl4es_glXMakeCurrent(Display *display,
     if(globals4es.fbomakecurrent && glxContext && glxContext->glstate) {
        current_fb = gl4es_getCurrentFBO();
        if(current_fb) {
-	   if(hardext.vendor&VEND_ARM)
-	       gl4es_glFinish(); //MALI seems to need a flush commandbefore unbinding the Framebuffer here
-           LOAD_GLES2_OR_OES(glBindFramebuffer);
-           gles_glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            if(hardext.vendor&VEND_ARM)
+                gl4es_glFinish(); //MALI seems to need a flush commandbefore unbinding the Framebuffer here
+            LOAD_GLES2_OR_OES(glBindFramebuffer);
+            gles_glBindFramebuffer(GL_FRAMEBUFFER, 0);
        }
     }
     if(context) {
@@ -953,7 +953,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
                 } else
 #endif
                 {
-                    if(globals4es.usefb) {
+                    if(globals4es.usefb || globals4es.usefbo) {
                         if(eglSurface) // cannot create multiple eglSurface for the same Framebuffer?
                             eglSurf = context->eglSurface = eglSurface;
                         else {
@@ -968,7 +968,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
                             egl_eglDestroySurface(eglDisplay, context->eglSurface);
                         eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, attrib_list);
                         if(!eglSurf) {
-                            DBG(printf("LIBGL: Warning, EeglSurf is null\n");)
+                            DBG(printf("LIBGL: Warning, eglSurf is null\n");)
                             CheckEGLErrors();
                         }
                     }
@@ -978,12 +978,17 @@ Bool gl4es_glXMakeCurrent(Display *display,
         eglSurf = context->eglSurface;
         eglContext = context->eglContext;
     }
-    glxContext = context;
     EGLBoolean result = egl_eglMakeCurrent(eglDisplay, eglSurf, eglSurf, eglContext);
     DBG(printf("LIBGL: eglMakeCurrent(%p, %p, %p, %p)\n", eglDisplay, eglSurf, eglSurf, eglContext);)
     CheckEGLErrors();
+    glxContext = context;
+    if(!result) {
+        // error switching context, don't change glstate and abort...
+        DBG(printf(" => False\n");)
+        return false;
+    }
+    // update MapDrawable
     {
-        // update MapDrawable
         int ret;
         khint_t k = kh_get(mapdrawable, MapDrawable, drawable);
         map_drawable_t* map = NULL;

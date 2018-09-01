@@ -450,6 +450,11 @@ void DeleteGLState(void* oldstate) {
     for(int a=0; a<MAX_TEX-2; ++a)
         if(state->merger_tex[a])
             free(state->merger_tex[a]);
+    // mainfbo
+    if(!state->shared_cnt) {
+        if(state->fbo.mainfbo_fbo)
+            deleteMainFBO(state);
+    }
     // free blit GLES2 stuff
     if(state->blit) {
         //TODO: check if should delete GL object too
