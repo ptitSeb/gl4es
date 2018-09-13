@@ -108,6 +108,17 @@ void GetHardwareExtensions(int notest)
     }
 
     egl_eglChooseConfig(eglDisplay, configAttribs, pbufConfigs, 1, &configsFound);
+#ifndef PANDORA
+    if(!configsFound) {
+        // try without alpha channel
+        configAttribs[4*2-1] = 0;
+        egl_eglChooseConfig(eglDisplay, configAttribs, pbufConfigs, 1, &configsFound);
+        if(configsFound) {
+            SHUT(LOGD("LIBGL: No alpha channel in PBuffer context, disabling EGL Alpha channel...\n"));
+            hardext.eglnoalpha = 1;
+        }
+    }
+#endif
     if(!configsFound) {
         SHUT(LOGE("LIBGL: Error while gathering supported extension (eglChooseConfig: %s), default to none\n", PrintEGLError(0)));
         return;
