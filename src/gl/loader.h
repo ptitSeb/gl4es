@@ -20,7 +20,7 @@ void *open_lib(const char **names, const char *override);
 
 #define WARN_NULL(name) if (name == NULL) LOGD("LIBGL: warning, " #name " is NULL\n");
 
-#define DEFINE_RAW(lib, name) static name##_PTR lib##_##name
+#define DEFINE_RAW(lib, name) static name##_PTR lib##_##name = NULL
 #define LOAD_RAW(lib, name, ...) \
     { \
         static bool first = true; \
