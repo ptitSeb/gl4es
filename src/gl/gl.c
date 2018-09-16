@@ -1093,5 +1093,10 @@ void amiga_post_swap() {
         bindMainFBO();
     }
 
+    if(state->deferedTex_size) {
+        LOAD_GLES(glDeleteTextures);
+        gles_glDeleteTextures(state->deferedTex_size, state->deferedTex);
+        state->deferedTex_size = 0;
+    }
 }
 #endif

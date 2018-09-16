@@ -374,6 +374,14 @@ void DeleteGLState(void* oldstate) {
             state->shared_cnt = 0;
         }
     }
+#ifdef AMIGAOS4
+    if(state->deferedTex_size) {
+        LOAD_GLES(glDeleteTextures);
+        gles_glDeleteTextures(state->deferedTex_size, state->deferedTex);
+        state->deferedTex_size = 0;
+        free(state->deferedTex);
+    }
+#endif
 
     if(glstate == state)
         glstate = NULL;
