@@ -86,7 +86,7 @@ void* aglCreateContext(ULONG * errcode, struct TagItem * tags) {
 void* aglCreateContext2(ULONG * errcode, struct TagItem * tags) {
     return aglCreateContext(errcode, tags);
 }
-
+/*
 void* VARARGS68K aglCreateContextTags(ULONG * errcode, ...) {
     void* ret = NULL;
     if(IOGLES2) {
@@ -103,7 +103,7 @@ void* VARARGS68K aglCreateContextTags(ULONG * errcode, ...) {
     }
     return ret;
 }
-
+*/
 void aglDestroyContext(void* context) {
     if(IOGLES2) {
         IOGLES2->aglDestroyContext(context);
