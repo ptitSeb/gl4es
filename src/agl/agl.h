@@ -22,6 +22,7 @@
 #endif
 
 void* aglCreateContext(ULONG * errcode, struct TagItem * tags);
+void* aglCreateContext2(ULONG * errcode, struct TagItem * tags);
 void* aglCreateContextTags(ULONG * errcode, ...);
 void aglDestroyContext(void* context);
 void aglMakeCurrent(void* context);

@@ -80,22 +80,26 @@ void agl_context_remove(void* ctx) {
 
 void* aglCreateContext(ULONG * errcode, struct TagItem * tags) {
     if(IOGLES2)
-        return IOGLES2->aglCreateContext(errcode, tags);
+        return IOGLES2->aglCreateContext2(errcode, tags);
     return NULL;
+}
+void* aglCreateContext2(ULONG * errcode, struct TagItem * tags) {
+    return aglCreateContext(errcode, tags);
 }
 
 void* VARARGS68K aglCreateContextTags(ULONG * errcode, ...) {
     void* ret = NULL;
     if(IOGLES2) {
         struct TagItem tags[100];
-        va_list args;
+        VA_LIST args;
+        VA_START(args, errcode);
         int i = 0;
         do {
-            struct Tagitem tag = va_arg(args, struct TagItem);
+            struct Tagitem tag = VA_ARG(args, struct TagItem);
             tags[i++] = tag;
         } while (tag!=TAG_DONE);
-        va_end(args);
-        ret = IOGLES2->aglCreateContext(errcode, tags);
+        VA_END(args);
+        ret = IOGLES2->aglCreateContext2(errcode, tags);
     }
     return ret;
 }
