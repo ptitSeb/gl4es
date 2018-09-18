@@ -644,6 +644,12 @@ void gl4es_glLinkProgram(GLuint program) {
                 DBG(else printf("LIBGL: Warning, getting Attrib #%d info failed with %s\n", i, PrintEnum(e2));)
             }
             free(name);
+        } else {
+            // should DBG the linker error?
+            DBG(printf(" Link failled!\n");)
+            glprogram->linked = 0;
+            errorGL();
+            return;
         }
         // all done
         errorShim(err);
