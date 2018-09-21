@@ -95,7 +95,7 @@ static GLuint current_fb = 0;
 
 #endif //NOX11
 void gl4es_getMainFBSize(GLint* width, GLint* height) {
-#ifndef NOEGL
+#if !defined(NOEGL) && !defined(ANDROID)
     // noegl, no updating of framebuffer size
     DBG(printf("gl4es_getMainFBSize() %dx%d -> ", *width, *height);)
     LOAD_EGL(eglQuerySurface);
