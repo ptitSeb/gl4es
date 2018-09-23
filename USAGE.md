@@ -254,7 +254,7 @@ For the Color Attachment 0 to be a Texture2D (even if program attachs a Renderbu
 * 1 : For Color Attachment 0 of FBO to be a texture
 
 ##### LIBGL_FBO
-PANDORA and CHIP only: define custom dimension for FBO (only used with LIBGL_FBO=2)
+Hack: define custom dimension for FBO (only used with LIBGL_FBO=2)
 * WxH : Define FBO of WxH size (ex: LIBGL_FBO=1280x720)
 
 ##### LIBGL_NOTEXARRAY
