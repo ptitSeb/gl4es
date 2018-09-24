@@ -11,6 +11,9 @@
 extern void* bcm_host;
 extern void* vcos;
 
+extern void (*bcm_host_init)();
+extern void (*bcm_host_deinit)();
+
 typedef uint32_t DISPMANX_DISPLAY_HANDLE_T;
 typedef uint32_t DISPMANX_UPDATE_HANDLE_T;
 typedef uint32_t DISPMANX_ELEMENT_HANDLE_T;
@@ -42,14 +45,35 @@ static DISPMANX_DISPLAY_HANDLE_T dispman_display;
 static VC_RECT_T dst_rect;
 static VC_RECT_T src_rect;
 
+static int rpi_inited = 0;
 void rpi_init() {
-        #define GO(A) A=dlsym(bcm_host, #A); if(A==NULL) A=dlsym(vcos, #A); if(A==NULL) printf("LIBGL: Warning, " #A " is null")
-        GO(graphics_get_display_size);
-        GO(vc_dispmanx_display_open);
-        GO(vc_dispmanx_update_start);
-        GO(vc_dispmanx_element_add);
-        GO(vc_dispmanx_update_submit_sync);
-        #undef GO
+    if(!bcm_host || rpi_inited)
+        return;
+    rpi_inited++;
+    bcm_host_init = dlsym(bcm_host, "bcm_host_init");
+    bcm_host_deinit = dlsym(bcm_host, "bcm_host_deinit");
+    if(!bcm_host_init || !bcm_host_deinit) {
+        printf("LIBGL: Warning, bcm_host function missing (init=%p, deinit=%p)\n", bcm_host_init, bcm_host_deinit);
+        return;
+    }
+    bcm_host_init();
+
+    #define GO(A) A=dlsym(bcm_host, #A); if(A==NULL) A=dlsym(vcos, #A); if(A==NULL) printf("LIBGL: Warning, " #A " is null")
+    GO(graphics_get_display_size);
+    GO(vc_dispmanx_display_open);
+    GO(vc_dispmanx_update_start);
+    GO(vc_dispmanx_element_add);
+    GO(vc_dispmanx_update_submit_sync);
+    #undef GO
+}
+
+void rpi_fini() {
+    if(!bcm_host || !rpi_inited)
+        return;
+    --rpi_inited;
+    if(!bcm_host_init || !bcm_host_deinit)
+        return;
+    bcm_host_deinit();
 }
 
 void* create_rpi_window(int w, int h) {

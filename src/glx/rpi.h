@@ -4,6 +4,7 @@
 // Code specific to RPI
 
 void rpi_init();
+void rpi_fini();
 void* create_rpi_window(int w, int h);
 
 

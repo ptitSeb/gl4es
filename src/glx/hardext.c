@@ -2,6 +2,9 @@
 #include "hardext.h"
 #include "../gl/init.h"
 #include "../gl/debug.h"
+#ifndef ANDROID
+#include "rpi.h"
+#endif
 
 static int tested = 0;
 
@@ -38,6 +41,9 @@ void GetHardwareExtensions(int notest)
         }
         return;
     }
+#ifdef BCMHOST
+    rpi_init();
+#endif
 #ifdef NOEGL
     SHUT(LOGD("LIBGL: Hardware test on current Context...\n"));
 #else

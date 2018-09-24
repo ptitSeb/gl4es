@@ -124,8 +124,6 @@ static int swapinterval = 1;    // default value. Also, should be tracked by dra
 static int minswap=0;
 static int maxswap=1;
 // **** RPI stuffs ****
-static bool g_bcmhost = false;
-static bool g_bcm_active = false;
 void (*bcm_host_init)();
 void (*bcm_host_deinit)();
 #ifndef ANDROID
@@ -314,10 +312,7 @@ static void signal_handler(int sig) {
 #endif
 
 #ifdef BCMHOST
-    if (g_bcm_active) {
-        g_bcm_active = false;
-        bcm_host_deinit();
-    }
+    rpi_fini();
 #endif
 #if !defined(ANDROID) && !defined(AMIGAOS4)
     if (globals4es.stacktrace) {
@@ -372,13 +367,13 @@ void glx_init() {
     MapDrawable = kh_init(mapdrawable);
     kh_put(mapdrawable, MapDrawable, 1, &ret);
     kh_del(mapdrawable, MapDrawable, 1);
-#ifndef AMIGAOS4
-    // if ok, grab the init/deinit functions
+#ifdef BCMHOST
+    rpi_init();
+
     if (bcm_host) {
         bcm_host_init = dlsym(bcm_host, "bcm_host_init");
         bcm_host_deinit = dlsym(bcm_host, "bcm_host_deinit");
         if (bcm_host_init && bcm_host_deinit) {
-            g_bcmhost = true;
 #ifndef ANDROID
             rpi_init();
 #endif
@@ -482,13 +477,6 @@ GLXContext gl4es_glXCreateContext(Display *display,
     };
     if (globals4es.usefb)
         ++fbcontext_count;
-
-#ifdef BCMHOST
-    if (! g_bcm_active) {
-        g_bcm_active = true;
-        bcm_host_init();
-    }
-#endif
 
     LOAD_EGL(eglMakeCurrent);
     LOAD_EGL(eglDestroyContext);
@@ -682,12 +670,6 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
         };
         if (globals4es.usefb)
             ++fbcontext_count;
-#ifdef BCMHOST
-        if (! g_bcm_active) {
-            g_bcm_active = true;
-            bcm_host_init();
-        }
-#endif
 
         LOAD_EGL(eglMakeCurrent);
         LOAD_EGL(eglDestroyContext);
