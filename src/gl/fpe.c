@@ -258,7 +258,7 @@ void fpe_program(int ispoint) {
         if(status!=GL_TRUE) {
             char buff[1000];
             gles_glGetShaderInfoLog(glstate->fpe->vert, 1000, NULL, buff);
-            if(globals4es.comments)
+            if(globals4es.logshader)
                 printf("LIBGL: FPE Vertex shader compile failed: source is\n%s\n\nError is: %s\n", fpe_VertexShader(glstate->fpe_state)[0], buff);
             else
                 printf("LIBGL: FPE Vertex shader compile failed: %s\n", buff);
@@ -270,7 +270,7 @@ void fpe_program(int ispoint) {
         if(status!=GL_TRUE) {
             char buff[1000];
             gles_glGetShaderInfoLog(glstate->fpe->frag, 1000, NULL, buff);
-            if(globals4es.comments)
+            if(globals4es.logshader)
                 printf("LIBGL: FPE Fragment shader compile failed: source is\n%s\n\nError is: %s\n", fpe_FragmentShader(glstate->fpe_state)[0], buff);
             else
                 printf("LIBGL: FPE Fragment shader compile failed: %s\n", buff);
@@ -283,9 +283,10 @@ void fpe_program(int ispoint) {
         if(status!=GL_TRUE) {
             char buff[1000];
             gles_glGetProgramInfoLog(glstate->fpe->prog, 1000, NULL, buff);
-            if(globals4es.comments)
-                printf("LIBGL: FPE Program link failed: source of vertex shader is\n%s\n\nsource of fragment shader is \n%s\n\nError is: %s\n", fpe_FragmentShader(glstate->fpe_state)[0], fpe_VertexShader(glstate->fpe_state)[0], buff);
-            else
+            if(globals4es.logshader) {
+                printf("LIBGL: FPE Program link failed: source of vertex shader is\n%s\n\n", fpe_FragmentShader(glstate->fpe_state)[0]);
+                printf("source of fragment shader is \n%s\n\nError is: %s\n", fpe_VertexShader(glstate->fpe_state)[0], buff);
+            } else
                 printf("LIBGL: FPE Program link failed: %s\n", buff);
         }
         // now find the program
