@@ -15,6 +15,7 @@ GLuint gl4es_glCreateShader(GLenum shaderType) {
     DBG(printf("glCreateShader(%s)\n", PrintEnum(shaderType));)
     // sanity check
     if (shaderType!=GL_VERTEX_SHADER && shaderType!=GL_FRAGMENT_SHADER) {
+        DBG(printf("Invalid shader type\n");)
         errorShim(GL_INVALID_ENUM);
         return 0;
     }
@@ -25,6 +26,7 @@ GLuint gl4es_glCreateShader(GLenum shaderType) {
     if(gles_glCreateShader) {
         shader = gles_glCreateShader(shaderType);
         if(!shader) {
+            DBG(printf("Failed to create shader\n");)
             errorGL();
             return 0;
         }
@@ -97,15 +99,17 @@ void gl4es_glDeleteShader(GLuint shader) {
         return;
     }
     glshader->deleted = 1;
-    actualy_deleteshader(shader);
+    noerrorShim();
+    if(!glshader->attached) {
+        actualy_deleteshader(shader);
 
-    // delete the shader in GLES2 hardware (if any)
-    LOAD_GLES2(glDeleteShader);
-    if(gles_glDeleteShader) {
-        errorGL();
-        gles_glDeleteShader(shader);
-    } else 
-        noerrorShim();
+        // delete the shader in GLES2 hardware (if any)
+        LOAD_GLES2(glDeleteShader);
+        if(gles_glDeleteShader) {
+            errorGL();
+            gles_glDeleteShader(shader);
+        }   
+    }
 }
 
 void gl4es_glCompileShader(GLuint shader) {

@@ -232,6 +232,7 @@ const char* PrintEnum(GLenum what) {
         p(GL_SHADER_TYPE);
         p(GL_DELETE_STATUS);
         p(GL_LINK_STATUS);
+        p(GL_COMPILE_STATUS);
         p(GL_VALIDATE_STATUS);
         p(GL_ATTACHED_SHADERS);
         p(GL_ACTIVE_UNIFORMS);
@@ -243,6 +244,7 @@ const char* PrintEnum(GLenum what) {
         p(GL_PROGRAM_BINARY_LENGTH);
         p(GL_NUM_PROGRAM_BINARY_FORMATS);
         p(GL_PROGRAM_BINARY_FORMATS);
+        p(GL_INFO_LOG_LENGTH);
         // Client State
         p(GL_VERTEX_ARRAY);
         p(GL_COLOR_ARRAY);

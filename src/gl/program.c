@@ -173,8 +173,7 @@ void gl4es_glDeleteProgram(GLuint program) {
     // TODO: check GL ERROR to not clean in case of error?
     // clean attached shaders
     for (int i=0; i<glprogram->attach_size; i++) {
-        actualy_detachshader(glprogram->attach[i]);
-        actualy_deleteshader(glprogram->attach[i]);
+        actualy_detachshader(glprogram->attach[i]); // auto delete if marqued as delete!
     }
     deleteProgram(glprogram, k_program);
 }
