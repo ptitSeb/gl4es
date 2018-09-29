@@ -56,6 +56,7 @@ typedef struct _globals4es {
  int notexarray;
  int nodepthtex;
  int logshader;
+ int shadernogles;
  char version[50];
 } globals4es_t;
 

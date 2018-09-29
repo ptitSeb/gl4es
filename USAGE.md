@@ -267,6 +267,11 @@ Log to the console Shader Compile error, with initial and ShaderConv'd source of
 * 0 : Default, don't log
 * 1 : Log Shader Compilation Errors
 
+##### LIBGL_SHADERNOGLES
+Don't use GL_ES part in shaders
+* 0 : Default, let GL_ES part in shader
+* 1 : Remove the GL_ES part in shader (usefull for Löve for example)
+
 ##### LIBGL_NODEPTHTEX
 Disable the use of Depth texture
 * 0 : Default, Use Depth Texture if supported by Hardware

@@ -234,7 +234,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 
   if(!fpeShader) {
     // preproc first
-    pBuffer = preproc(pBuffer, comments);
+    pBuffer = preproc(pBuffer, comments, globals4es.shadernogles);
     // now comment all line starting with precision...
     if(strstr(pBuffer, "\nprecision")) {
       int sz = strlen(pBuffer);

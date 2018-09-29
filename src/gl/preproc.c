@@ -9,6 +9,7 @@
 //#define DEBUG
 #ifdef DEBUG
 #define DBG(a) a
+#pragma GCC optimize 0
 #else
 #define DBG(a)
 #endif
@@ -296,11 +297,12 @@ eTokenType GetToken(char **p, uToken *tok, int incomment) {
     return ret;
 }
 
-char* preproc(const char* code, int keepcomments) {
+char* preproc(const char* code, int keepcomments, int gl_es) {
     DBG(printf("Preproc on: =========\n%s\n=================\n", code);)
 
     uToken tok;
     char* p = (char*)code;
+    char* oldp = NULL;
     int cap=1000;
     char* ncode = (char*)malloc(1000);
     ncode[0]=0;
@@ -310,6 +312,9 @@ char* preproc(const char* code, int keepcomments) {
     int incomment=0;
     int newline=0;
     int gettok=0;
+    int ifdef_gl_es = 0;
+    int nowrite_gl_es = 0;
+    int notok = 0;
     GetToken(&p, &tok, incomment);
     while(tok.type!=TK_NULL) {
         // pre get token switch
@@ -322,7 +327,7 @@ char* preproc(const char* code, int keepcomments) {
                     strcpy(tok.str, "\n");
                 }
                 write = 1;
-                status = 0;
+                status = (status==210)?1:0;
                 incomment=0;
                 newline=0;
             break;
@@ -334,6 +339,7 @@ char* preproc(const char* code, int keepcomments) {
         if(tok.type!=TK_NULL) {
             switch(status) {
                 case 0: // regular...
+                case 1:
                     if(tok.type==TK_DOUBLESLASH) {
                         status = 100; // line comment
                         incomment = 1;
@@ -343,7 +349,13 @@ char* preproc(const char* code, int keepcomments) {
                         status = 200; // multi-line comment
                         incomment = 1;
                         if(!keepcomments) write=0;
-                    }
+                    } else if(tok.type==TK_SHARP && gl_es && !incomment && status==0) {
+                        oldp = p-1; // lets buffer the line
+                        status = 300;
+                    } else if(tok.type==TK_NEWLINE)
+                        status = 0;
+                    else if(tok.type!=TK_SPACE)
+                        status = 1; // everything else but space set status to 1...
                     break;
 
                 // line comment...
@@ -366,16 +378,108 @@ char* preproc(const char* code, int keepcomments) {
                         status=210;
                     }
                     break;
+                
+                // # (of ifdef)
+                case 300:
+                    if(tok.type!=TK_SPACE)
+                    if(tok.type==TK_TEXT) {
+                        if(!strcmp(tok.str, "ifdef"))
+                            status=310;
+                        else if(!strcmp(tok.str, "ifndef"))
+                            status=320;
+                        else if(!strcmp(tok.str, "if")) {
+                            // #if defined(GL_ES) not supported for now
+                            if(ifdef_gl_es)
+                                ifdef_gl_es++;
+                            status = 399;
+                        }
+                        else if(!strcmp(tok.str, "else")) {
+                            status = 399;
+                            if(ifdef_gl_es==1) {
+                                nowrite_gl_es = 1 - nowrite_gl_es;
+                                notok = 1;
+                                status = 1;
+                            }
+                        } else if(!strcmp(tok.str, "endif")) {
+                            status = 399;
+                            if(ifdef_gl_es) {
+                                --ifdef_gl_es;
+                                if(!ifdef_gl_es) {
+                                    nowrite_gl_es = 0;
+                                    notok = 1;
+                                    status = 1;
+                                    oldp = NULL;
+                                }
+                            }
+                        } else status=399;
+                    } else status = 399;  // meh?
+                    break;
+
+                // ifdef
+                case 310:
+                    if(tok.type==TK_SPACE)
+                        status = 310;
+                    else if(tok.type==TK_TEXT) {
+                        if(!ifdef_gl_es && !strcmp(tok.str, "GL_ES")) {
+                            ifdef_gl_es++;
+                            nowrite_gl_es = 1;   // multiple level of #if(n)def GL_ES will fail!
+                            status = 398;
+                        } else {
+                            if(ifdef_gl_es)
+                                ifdef_gl_es++;
+                            status = 399;
+                        }
+                    } else status = 399;
+                    break;
+                
+                // ifndef
+                case 320:
+                    if(tok.type==TK_SPACE)
+                        status = 320;
+                    else if(tok.type==TK_TEXT) {
+                        if(!ifdef_gl_es && !strcmp(tok.str, "GL_ES")) {
+                            ifdef_gl_es++;
+                            nowrite_gl_es = 0;
+                            status = 398;
+                        } else {
+                            if(ifdef_gl_es)
+                                ifdef_gl_es++;
+                            status = 399;
+                        }
+                    } else status = 399;
+                    break;
+
+                // end of #ifdef GL_ES and variant..
+                case 398:
+                    if(tok.type==TK_NEWLINE) {
+                        oldp = NULL;
+                        status = 0;
+                    }
+                    break;
+
+                // fallback for #ifdef GL_ES, write the line back...
+                case 399:
+                    {
+                        int l = p - oldp;
+                        memcpy(tok.str, oldp, l);
+                        tok.str[l]='\0';
+                        oldp = 0;
+                    }
+                    status = 1;
+                    break;
             }
-            if(write) {
-                int l = strlen(tok.str);
-                if(sz+l>=cap) {
-                    cap+=2000;
-                    ncode = (char*)realloc(ncode, cap);
+            if(notok)
+                notok=0;
+            else
+                if(write && !oldp && !nowrite_gl_es) {
+                    int l = strlen(tok.str);
+                    if(sz+l>=cap) {
+                        cap+=2000;
+                        ncode = (char*)realloc(ncode, cap);
+                    }
+                    strcat(ncode, tok.str);
+                    sz+=l;
                 }
-                strcat(ncode, tok.str);
-                sz+=l;
-            }
         }
     }
 
