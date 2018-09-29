@@ -443,6 +443,8 @@ GLXContext gl4es_glXCreateContext(Display *display,
         default_glxfbconfig.doubleBufferMode = 1;
     }
     int depthBits = glxfbconfig->depthBits;
+    if(glxfbconfig->stencilBits>8)
+        glxfbconfig->stencilBits = 8;
 #ifdef PANDORA
     if(depthBits==32)
         depthBits = (glxfbconfig->stencilBits==8 && hardext.esversion==2)?24:16;
