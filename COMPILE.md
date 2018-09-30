@@ -33,7 +33,7 @@ Alternatively, you can use the curses-bases ccmake (or any other gui frontend fo
 You can avoid the use of X11 with `NOX11=1` and EGL with `NOEGL=1`, but then, you will need to create the EGL Context yourself (or using SDL for example). Be sure to synchronize the context you create with the Backend you use. By default GLES 1.1 backend is used. To used GLES2 by default, use `DEFAULT_ES=2`
 You can use cmake and mix command line argument to custom build your version of GL4ES. For example, for a generic ARM with NEON platform, not using X11 or EGL, defaulting to GLES2 backend, and enabling RPi, you would do:
 
- `cmake . -DBCMHOST=1 -DNOEGL=1 -DNOX11=1 -DDEFAULT_ES=2 -DCMAKE_C_FLAGS="-mcpu=cortex-a9 -mfpu=neon -mfloat-abi=hard" ; make`
+ `cmake . -DBCMHOST=1 -DNOEGL=1 -DNOX11=1 -DDEFAULT_ES=2 -DCMAKE_C_FLAGS="-marm -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=hard" ; make`
 
 ----
 
