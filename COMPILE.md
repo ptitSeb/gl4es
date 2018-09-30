@@ -2,22 +2,23 @@ Compiling
 ----
 *for Pandora*
 
-    cmake . -DPANDORA=1; make GL
+ `cmake . -DPANDORA=1; make`
     
 *or for the Raspberry Pi*
 
-    cmake . -DBCMHOST=1; make GL
+ `cmake . -DBCMHOST=1; make`
 
 *or for the ODroid*
 
-    cmake . -DODROID=1; make GL
+ `cmake . -DODROID=1; make`
 
 *or for the OrangePI*
+
     use ODROID profile.
 
 *or for CHIP machines*
 
-    cmake . -DCHIP=1; make GL
+ `cmake . -DCHIP=1; make`
 
 *or for Android*
 
@@ -26,6 +27,13 @@ Compiling
 *or use ccmake*
 
 Alternatively, you can use the curses-bases ccmake (or any other gui frontend for cmake) to select wich platform to use interactively.
+
+*for other board*
+
+You can avoid the use of X11 with `NOX11=1` and EGL with `NOEGL=1`, but then, you will need to create the EGL Context yourself (or using SDL for example). Be sure to synchronize the context you create with the Backend you use. By default GLES 1.1 backend is used. To used GLES2 by default, use `DEFAULT_ES=2`
+You can use cmake and mix command line argument to custom build your version of GL4ES. For example, for a generic ARM with NEON platform, not using X11 or EGL, defaulting to GLES2 backend, and enabling RPi, you would do:
+
+ `cmake . -DBCMHOST=1 -DNOEGL=1 -DNOX11=1 -DDEFAULT_ES=2 -DCMAKE_C_FLAGS="-mcpu=cortex-a9 -mfpu=neon -mfloat-abi=hard" ; make`
 
 ----
 
