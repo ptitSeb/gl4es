@@ -430,7 +430,7 @@ DBG(printf("glDeleteVertexArrays(%i, %p)\n", n, arrays);)
                     glvao = kh_value(list, k);
                     VaoSharedClear(glvao);
                     kh_del(glvao, list, k);
-                    free(glvao);
+                    //free(glvao);  //let the use delete those
                 }
             }
         }
