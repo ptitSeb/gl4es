@@ -144,6 +144,9 @@ void BuildExtensionsList() {
             strcat(extensions, "GL_ARB_texture_cube_map ");
             strcat(extensions, "GL_EXT_texture_cube_map ");
         }
+        if(hardext.rgtex) {
+            strcat(extensions, "GL_EXT_texture_rg ");
+        }
         if(hardext.esversion>1) {
             strcat(extensions, "GL_EXT_fog_coord ");
             strcat(extensions, "GL_EXT_separate_specular_color ");
