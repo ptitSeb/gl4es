@@ -1292,8 +1292,12 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                     configs[0]->multiSampleSize = attrib_list[i++];
                     DBG(printf("FBConfig multiSampleSize=%d\n", configs[0]->multiSampleSize);)
                     break;
-                case GLX_DOUBLEBUFFER: // not a single value
-                    configs[0]->doubleBufferMode = attrib_list[i++];
+                case GLX_DOUBLEBUFFER: // a lot of software are buggy
+                    // some consider it not a single value, some does !
+                    if(attrib_list[i]==0 || attrib_list[i]==1)
+                        configs[0]->doubleBufferMode = attrib_list[i++];
+                    else
+                        configs[0]->doubleBufferMode = 1;
                     DBG(printf("FBConfig doubleBufferMode=%d\n", configs[0]->doubleBufferMode);)
                     break;
                 case GLX_RGBA: // single value
