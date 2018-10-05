@@ -322,14 +322,21 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
                 if(oldactive) gles_glActiveTexture(GL_TEXTURE0+oldactive);
             }
-            if(globals4es.potframebuffer && (npot(twidth)!=twidth || npot(theight!=theight))) {
+            int need_change = (globals4es.potframebuffer && (npot(twidth)!=twidth || npot(theight!=theight)))?1:0;
+            if((tex->type==GL_FLOAT && !hardext.floatfbo) || (tex->type==GL_HALF_FLOAT_OES && !hardext.halffloatfbo)) {
+                need_change += 2;
+                tex->type = GL_UNSIGNED_BYTE;
+            }
+            if(need_change) {
                 // check if POT size is asked
-                LOGD("LIBGL: Resize to POT dimension texture for FBO\n");
-                twidth = tex->nwidth = npot(tex->nwidth);
-                theight = tex->nheight = npot(tex->nheight);
-                tex->adjustxy[0] = (float)tex->width / tex->nwidth;
-                tex->adjustxy[1] = (float)tex->height / tex->nheight;
-                tex->adjust=(tex->width!=tex->nwidth || tex->height!=tex->nheight);
+                LOGD("LIBGL: Recreate a texture for a FBO (%s%s%s)\n", (need_change&1)?"POT":"", (need_change==3)?" & ":"", (need_change&2)?"Float":"");
+                if(need_change&1) {
+                    twidth = tex->nwidth = npot(tex->nwidth);
+                    theight = tex->nheight = npot(tex->nheight);
+                    tex->adjustxy[0] = (float)tex->width / tex->nwidth;
+                    tex->adjustxy[1] = (float)tex->height / tex->nheight;
+                    tex->adjust=(tex->width!=tex->nwidth || tex->height!=tex->nheight);
+                }
                 int oldactive = glstate->texture.active;
                 if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
                 gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];
@@ -616,7 +623,7 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
         if(tmp==GL_RENDERBUFFER) {
             gles_glGetFramebufferAttachmentParameteriv(ntarget, attachment, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &tmp);
             GLenum err = gles_glGetError();
-            if (tmp==renderbuffer && err!=GL_NO_ERROR) {
+            if (tmp==renderbuffer && err==GL_NO_ERROR) {
                 noerrorShim();
                 ReadDraw_Pop(target);
                 return;

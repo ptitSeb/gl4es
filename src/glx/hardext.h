@@ -29,6 +29,9 @@ typedef struct _hardext {
     int drawtex;        // GL_OES_draw_texture
     int rgtex;          // GL_EXT_texture_rg
     int floattex;       // GL_OES_texture_float
+    int halffloattex;   // GL_OES_texture_half_float
+    int floatfbo;       // GL_EXT_color_buffer_float
+    int halffloatfbo;   // GL_EXT_color_buffer_half_float
     int mirrored;       // GL_OES_texture_mirrored_repeat
     int aniso;          // Max ANISOTROPIC filter available (0 if not)
     int srgb;           // EGL_KHR_gl_colorspace

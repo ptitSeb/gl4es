@@ -227,6 +227,23 @@ void internal2format_type(GLenum internalformat, GLenum *format, GLenum *type)
         case GL_DEPTH_COMPONENT:
             *format = GL_DEPTH_COMPONENT;
             *type = GL_UNSIGNED_SHORT;
+            break;
+        case GL_RGBA16F:
+            *format = GL_RGBA;
+            *type = (hardext.halffloattex)?GL_HALF_FLOAT_OES:GL_UNSIGNED_BYTE;
+            break;
+        case GL_RGBA32F:
+            *format = GL_RGBA;
+            *type = (hardext.floattex)?GL_FLOAT:GL_UNSIGNED_BYTE;
+            break;
+        case GL_RGB16F:
+            *format = GL_RGB;
+            *type = (hardext.halffloattex)?GL_HALF_FLOAT_OES:GL_UNSIGNED_BYTE;
+            break;
+        case GL_RGB32F:
+            *format = GL_RGB;
+            *type = (hardext.floattex)?GL_FLOAT:GL_UNSIGNED_BYTE;
+            break;
         default:
             printf("LIBGL: Warning, unknown Internalformat (%s)\n", PrintEnum(internalformat));
             *format = GL_RGBA;
@@ -254,6 +271,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
         internal2format_type(intermediaryformat, &dest_format, &dest_type);
         convert = true;
     } else {
+        if((*type)==GL_HALF_FLOAT) (*type) = GL_HALF_FLOAT_OES;    //the define is different between GL and GLES...
         switch (*format) {
             case GL_R:
             case GL_RED:
@@ -275,6 +293,16 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
             case GL_LUMINANCE:
                 dest_format = GL_LUMINANCE;
                 break;
+            case GL_LUMINANCE16F:
+                dest_format = GL_LUMINANCE;
+                if(hardext.halffloattex)
+                    dest_type = GL_HALF_FLOAT_OES;
+                break;
+            case GL_LUMINANCE32F:
+                dest_format = GL_LUMINANCE;
+                if(hardext.floattex)
+                    dest_type = GL_FLOAT;
+                break;
             case GL_RGB:
                 dest_format = GL_RGB;
                 break;
@@ -282,6 +310,17 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 *format = GL_ALPHA;
             case GL_ALPHA:
                 dest_format = GL_ALPHA;
+                break;
+            case GL_ALPHA16F:
+                dest_format = GL_ALPHA;
+                if(hardext.halffloattex)
+                    dest_type = GL_HALF_FLOAT_OES;
+                break;
+            case GL_ALPHA32F:
+                dest_format = GL_ALPHA;
+                if(hardext.floattex)
+                    dest_type = GL_FLOAT;
+                break;
             case GL_RGBA:
                 break;
             case GL_LUMINANCE8_ALPHA8:
@@ -298,6 +337,22 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                     convert = true;
                 else
                     dest_format = GL_LUMINANCE_ALPHA;
+                break;
+            case GL_LUMINANCE_ALPHA16F:
+                if(globals4es.nolumalpha)
+                    convert = true;
+                else
+                    dest_format = GL_LUMINANCE_ALPHA;
+                if(hardext.halffloattex)
+                    dest_type = GL_HALF_FLOAT_OES;
+                break;
+            case GL_LUMINANCE_ALPHA32F:
+                if(globals4es.nolumalpha)
+                    convert = true;
+                else
+                    dest_format = GL_LUMINANCE_ALPHA;
+                if(hardext.floattex)
+                    dest_type = GL_FLOAT;
                 break;
             // vvvvv all this are internal formats, so it should not happens
             case GL_RGB5:
@@ -319,7 +374,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 *format = GL_RGBA;
                 break;
             case GL_BGRA:
-                if(hardext.bgra8888 && ((*type)==GL_UNSIGNED_BYTE || (*type)==GL_FLOAT)) {
+                if(hardext.bgra8888 && ((*type)==GL_UNSIGNED_BYTE || (*type)==GL_FLOAT || (*type)==GL_HALF_FLOAT)) {
                     dest_format = GL_BGRA;
                     *format = GL_BGRA;
                 } else convert = true;
@@ -374,6 +429,13 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
             case GL_FLOAT:
                 if(hardext.floattex)
                     dest_type = GL_FLOAT;
+                else
+                    convert = true;
+                break;
+            case GL_HALF_FLOAT:
+            case GL_HALF_FLOAT_OES:
+                if(hardext.halffloattex)
+                    dest_type = GL_HALF_FLOAT_OES;
                 else
                     convert = true;
                 break;
@@ -506,11 +568,15 @@ GLenum swizzle_internalformat(GLenum *internalformat, GLenum format, GLenum type
                 ret = GL_RGBA; sret = GL_RGBA; 
             }
             break;
+        case GL_ALPHA32F:
+        case GL_ALPHA16F:
         case GL_ALPHA8:
         case GL_ALPHA:
             ret = GL_ALPHA; sret = GL_ALPHA;
             break;
         case 1:
+        case GL_LUMINANCE32F:
+        case GL_LUMINANCE16F:
         case GL_LUMINANCE8:
         case GL_LUMINANCE16:
         case GL_LUMINANCE:
@@ -520,6 +586,8 @@ GLenum swizzle_internalformat(GLenum *internalformat, GLenum format, GLenum type
         case GL_LUMINANCE4_ALPHA4:
         case GL_LUMINANCE8_ALPHA8:
         case GL_LUMINANCE16_ALPHA16:
+        case GL_LUMINANCE_ALPHA32F:
+        case GL_LUMINANCE_ALPHA16F:
         case GL_LUMINANCE_ALPHA:
             ret = GL_LUMINANCE_ALPHA;
             if (globals4es.nolumalpha)
@@ -773,6 +841,9 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
 #endif
         type = GL_UNSIGNED_BYTE;
 
+    if(type==GL_HALF_FLOAT)
+        type = GL_HALF_FLOAT_OES;
+
     /*if(format==GL_COMPRESSED_LUMINANCE)
         format = GL_RGB;*/    // Danger from the Deep does that. 
         //That's odd, probably a bug (line 453 of src/texture.cpp, it should be interformat instead of format)
@@ -833,6 +904,8 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             case GL_ALPHA4:
             case GL_ALPHA8:
             case GL_ALPHA16:
+            case GL_ALPHA16F:
+            case GL_ALPHA32F:
             case GL_ALPHA:
                 bound->fpe_format = FPE_TEX_ALPHA;
                 break;
@@ -841,6 +914,8 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             case GL_LUMINANCE4:
             case GL_LUMINANCE8:
             case GL_LUMINANCE16:
+            case GL_LUMINANCE16F:
+            case GL_LUMINANCE32F:
             case GL_LUMINANCE:
                 bound->fpe_format = FPE_TEX_LUM;
                 break;
@@ -849,12 +924,16 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             case GL_LUMINANCE4_ALPHA4:
             case GL_LUMINANCE8_ALPHA8:
             case GL_LUMINANCE16_ALPHA16:
+            case GL_LUMINANCE_ALPHA16F:
+            case GL_LUMINANCE_ALPHA32F:
             case GL_LUMINANCE_ALPHA:
                 bound->fpe_format = FPE_TEX_LUM_ALPHA;
                 break;
             case GL_COMPRESSED_INTENSITY:
             case GL_INTENSITY8:
             case GL_INTENSITY16:
+            case GL_INTENSITY16F:
+            case GL_INTENSITY32F:
             case GL_INTENSITY:
                 bound->fpe_format = FPE_TEX_INTENSITY;
                 break;
@@ -865,6 +944,8 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             case GL_RGB5:
             case GL_RGB8:
             case GL_RGB16:
+            case GL_RGB16F:
+            case GL_RGB32F:
             case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
             case GL_COMPRESSED_RGB:
                 bound->fpe_format = FPE_TEX_RGB;
@@ -1138,7 +1219,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             }
         }
         // check min/mag settings for GL_FLOAT type textures (only GL_NEAREST  and GL_NEAREST_MIPMAP_NEAREST is supported)
-        if(type==GL_FLOAT) {
+        if(type==GL_FLOAT || type==GL_HALF_FLOAT_OES) {
             GLenum m = minmag_float(bound->min_filter);
             if(bound->min_filter != m ) {
                 bound->min_filter = m;
@@ -1800,7 +1881,7 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
                     break;
             }
         }
-        if(texture->valid && (texture->type==GL_FLOAT)) {
+        if(texture->valid && (texture->type==GL_FLOAT || texture->type==GL_HALF_FLOAT_OES)) {
             // FLOAT textures have limited mipmap support in GLES2
             param = minmag_float(param);
         }
@@ -2338,7 +2419,7 @@ void gl4es_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum 
     readfboBegin();
     if ((format == GL_RGBA && type == GL_UNSIGNED_BYTE)     // should not use default GL_RGBA on Pandora as it's very slow...
        || (format == glstate->readf && type == glstate->readt)    // use the IMPLEMENTATION_READ too...
-       || (format == GL_DEPTH_COMPONENT && type == GL_FLOAT))   // this one will probably fail, as DEPTH is not readable on most GLES hardware 
+       || (format == GL_DEPTH_COMPONENT && (type == GL_FLOAT || type==GL_HALF_FLOAT)))   // this one will probably fail, as DEPTH is not readable on most GLES hardware 
     {
         // easy passthru
         gles_glReadPixels(x, y, width, height, format, type, dst);

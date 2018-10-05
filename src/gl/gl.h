@@ -229,6 +229,8 @@ static const GLsizei gl_sizeof(GLenum type) {
             return 3;
         case GL_LUMINANCE_ALPHA:
         case GL_SHORT:
+        case GL_HALF_FLOAT:
+        case GL_HALF_FLOAT_OES:
         case GL_UNSIGNED_SHORT:
         case GL_UNSIGNED_SHORT_1_5_5_5_REV:
         case GL_UNSIGNED_SHORT_4_4_4_4:
@@ -259,6 +261,8 @@ static const GLuint gl_max_value(GLenum type) {
         // be careful about using this
         case GL_DOUBLE:
         case GL_FLOAT:
+        case GL_HALF_FLOAT:
+        case GL_HALF_FLOAT_OES:
             return 1;
         case GL_BYTE:           return 127;
         case GL_UNSIGNED_BYTE:  return 255;

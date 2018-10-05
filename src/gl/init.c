@@ -142,6 +142,17 @@ void initialize_gl4es() {
 #endif
     env(LIBGL_NOHIGHP, globals4es.nohighp, "Do not use HIGHP in fragment shader even if detected");
 
+    globals4es.floattex = 1;
+    char *env_float = getenv("LIBGL_FLOAT");
+    if (env_float && strcmp(env_float, "0") == 0) {
+        globals4es.floattex = 0;
+        SHUT(LOGD("LIBGL: Float and Half-Float texture support disabled\n"));
+    }
+    if (env_float && strcmp(env_float, "2") == 0) {
+        globals4es.floattex = 2;
+        SHUT(LOGD("LIBGL: Float and Half-float texture support forced\n"));
+    }
+
     GetHardwareExtensions(gl4es_notest);
     gl_init();
 

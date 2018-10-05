@@ -277,6 +277,12 @@ Disable the use of Depth texture
 * 0 : Default, Use Depth Texture if supported by Hardware
 * 1 : Disable the use of Depth Texture (renderbuffer will be used in FBO)
 
+##### LIBGL_FLOAT
+Expose support for FLOAT and HALF_FLOAT Texture support (and has attachement to FBO)
+* 0 : Don't exposed, even if supported in hardware
+* 1 : Default, exposed what is supported by hardware
+* 2 : Force exposed, even if no supported (will be emulated has GL_UNSIGNED_BYTE if not supported)
+
 ##### LIBGL_EGL
 Define EGL lib to use. Default folder are the standard one for dynamic librarie loading (LD_LIBRARY_PATH and friend) plus "/opt/vc/lib/", /usr/local/lib/" and "/usr/lib/".
 * by default try to use libbrcmEGL and libEGL

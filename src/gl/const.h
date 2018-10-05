@@ -161,21 +161,29 @@
 #define GL_ALPHA8				       0x803C
 #define GL_ALPHA12				       0x803D
 #define GL_ALPHA16				       0x803E
+#define GL_ALPHA16F                    0x881C
+#define GL_ALPHA32F                    0x8816
 #define GL_LUMINANCE4				   0x803F
 #define GL_LUMINANCE8				   0x8040
 #define GL_LUMINANCE12				   0x8041
 #define GL_LUMINANCE16				   0x8042
+#define GL_LUMINANCE16F                0x881E
+#define GL_LUMINANCE32F                0x8818
 #define GL_LUMINANCE4_ALPHA4		   0x8043
 #define GL_LUMINANCE6_ALPHA2		   0x8044
 #define GL_LUMINANCE8_ALPHA8		   0x8045
 #define GL_LUMINANCE12_ALPHA4		   0x8046
 #define GL_LUMINANCE12_ALPHA12		   0x8047
 #define GL_LUMINANCE16_ALPHA16		   0x8048
+#define GL_LUMINANCE_ALPHA16F          0x881F
+#define GL_LUMINANCE_ALPHA32F          0x8819
 #define GL_INTENSITY				   0x8049
 #define GL_INTENSITY4				   0x804A
 #define GL_INTENSITY8				   0x804B
 #define GL_INTENSITY12				   0x804C
 #define GL_INTENSITY16				   0x804D
+#define GL_INTENSITY16F                0x881D
+#define GL_INTENSITY32F                0x8817
 #define GL_RGB10_A2                    0x8059
 #define GL_RGBA16F                     0x881A
 #define GL_RGB16F                      0x881B
@@ -192,6 +200,7 @@
 #define GL_COMPRESSED_RGB			   0x84ED
 #define GL_COMPRESSED_RGBA			   0x84EE
 #define GL_COMPRESSED_TEXTURE_FORMATS  0x86A3
+#define GL_HALF_FLOAT_OES              0x8D61
 
 // types
 #define GL_BYTE                 0x1400
@@ -205,6 +214,7 @@
 #define GL_3_BYTES              0x1408
 #define GL_4_BYTES              0x1409
 #define GL_DOUBLE               0x140A
+#define GL_HALF_FLOAT           0x140B
 #define GL_BITMAP               0x1A00
 
 #define GL_COMPILE              0x1300

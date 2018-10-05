@@ -147,8 +147,17 @@ void BuildExtensionsList() {
         if(hardext.rgtex) {
             strcat(extensions, "GL_EXT_texture_rg ");
         }
-        if(hardext.floattex) {
+        if(hardext.floattex || (globals4es.floattex==2)) {
             strcat(extensions, "GL_EXT_texture_float ");
+        }
+        if(hardext.halffloattex || (globals4es.floattex==2)) {
+            strcat(extensions, "GL_EXT_texture_half_float ");
+        }
+        if(hardext.floatfbo || (globals4es.floattex==2)) {
+            strcat(extensions, "GL_EXT_color_buffer_float ");
+        }
+        if(hardext.halffloatfbo || (globals4es.floattex==2)) {
+            strcat(extensions, "GL_EXT_color_buffer_half_float ");
         }
         if(hardext.depthtex) {
             strcat(extensions, "GL_EXT_depth_texture ");
