@@ -360,10 +360,11 @@ void gl4es_blitTexture(GLuint texture,
 //printf("blitTexture(%d, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %d) customvp=%d, vp=%d/%d/%d/%d\n", texture, sx, sy, width, height, nwidth, nheight, zoomx, zoomy, vpwidth, vpheight, x, y, mode, (vpwidth>0.0), glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);
     LOAD_GLES(glBindTexture);
     LOAD_GLES(glActiveTexture);
-#ifdef TEXSTREAM
     LOAD_GLES(glEnable);
     LOAD_GLES(glDisable);
-#endif
+
+    realize_textures();
+
     gl4es_glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT | GL_COLOR_BUFFER_BIT | GL_CURRENT_BIT);
 
     if(glstate->gleshard->active) {
@@ -386,7 +387,12 @@ void gl4es_blitTexture(GLuint texture,
         DeactivateStreaming();
     }
 #endif
-    gl4es_glEnable(GL_TEXTURE_2D);
+    int tmp = glstate->enable.texture[0];
+    if(!IS_TEX2D(tmp))
+        gles_glEnable(GL_TEXTURE_2D);
+    if(IS_CUBE_MAP(tmp))
+        gles_glDisable(GL_TEXTURE_CUBE_MAP);
+
     if(glstate->actual_tex2d[0] != texture);
         gles_glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -411,6 +417,11 @@ void gl4es_blitTexture(GLuint texture,
 #endif
     if (glstate->actual_tex2d[0] != texture) 
         gles_glBindTexture(GL_TEXTURE_2D, glstate->actual_tex2d[0]);
+
+    if(!IS_TEX2D(tmp))
+        gles_glDisable(GL_TEXTURE_2D);
+    if(IS_CUBE_MAP(tmp))
+        gles_glEnable(GL_TEXTURE_CUBE_MAP);
 
     if(depthwrite)
         gl4es_glDepthMask(GL_TRUE);
