@@ -637,7 +637,14 @@ void *gl4es_glXGetProcAddress(const char *name) {
         _EX(glGetQueryObjectiv);
         _EX(glGetQueryObjectuiv);
         
+        _ARB(glGenQueries);
+        _ARB(glIsQuery);
+        _ARB(glDeleteQueries);
+        _ARB(glBeginQuery);
+        _ARB(glEndQuery);
+        _ARB(glGetQueryiv);
         _ARB(glGetQueryObjectiv);
+        _ARB(glGetQueryObjectuiv);
     }
 
     // GL_ARB_multisample
