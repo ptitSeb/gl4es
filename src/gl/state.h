@@ -273,22 +273,40 @@ typedef struct {
     GLenum      attachment;         // can be color0 or depth_stencil for example
     GLuint      secondarybuffer;    // secondary renderbuffer, if depth_stencil is not possible for example
     GLuint      secondarytexture;   // the texture, in case of a color0 attachement...
+    int         width;
+    int         height;
 } glrenderbuffer_t;
 
 KHASH_MAP_INIT_INT(renderbufferlist_t, glrenderbuffer_t *)
 
 typedef struct {
-    GLuint      framebuffer;
-    GLuint      texture;
-    int         width;
-    int         height;
-} gltexframebuffer_t;
+    GLuint id;
+    GLenum target;
+    GLuint color[10];   // attachement_color0..9
+    GLuint depth;
+    GLuint stencil;
+    GLuint t_color[10]; // type for attachement_0 (GL_NONE, GL_TEXTUREXX, GL_RENDERBUFFER)
+    GLuint t_depth;
+    GLuint t_stencil;
+    int    l_color[10]; // level of attachment
+    int    l_depth;
+    int    l_stencil;
+    int    width;
+    int    height;
+} glframebuffer_t;
+
+typedef struct {
+    GLuint *fbos;
+    int     nbr;
+    int     cap;
+} oldfbos_t;
+
+KHASH_MAP_INIT_INT(framebufferlist_t, glframebuffer_t *)
 
 typedef struct {
     khash_t(renderbufferlist_t) *renderbufferlist;
     glrenderbuffer_t *default_rb;
     glrenderbuffer_t *current_rb;
-    GLuint current_fb;
     
     GLuint mainfbo_fbo; // The MainFBO
     GLuint mainfbo_tex; // Texture Attachment
@@ -298,15 +316,17 @@ typedef struct {
     int mainfbo_height;
     int mainfbo_nwidth;
     int mainfbo_nheight;
-    GLuint fbo_read;    // if not 0, that's the READ only Framebuffer attached
-    GLuint fbo_draw;     // if not 0, that's the DRAW only Framebuffer attached
-    GLuint *old_fbos;
-    int nbr_fbos;
-    int cap_fbos;
-    gltexframebuffer_t *tex_fbo;   // (1st) texture attached to fbos
-    int nbr_fbot;
-    int cap_fbot;
+    
+    khash_t(framebufferlist_t) *framebufferlist;
+    glframebuffer_t *fbo_0;
+    glframebuffer_t *fbo_read;
+    glframebuffer_t *fbo_draw;
+    glframebuffer_t *current_fb;
+
     GLenum fb_status;
+    int    internal;
+
+    oldfbos_t   *old;
 } fbo_t;
 
 typedef struct {

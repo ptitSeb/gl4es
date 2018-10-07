@@ -80,6 +80,7 @@ typedef struct {
     gleshard_ns_t       glesva;
     glesblit_t          *blit;
     fbo_t               fbo;
+    int                 fbowidth, fboheight;    // initial size (usefull only on LIBGL_FB=1 or 2)
     depth_state_t       depth;
     face_state_t        face;
     GLint               instanceID;

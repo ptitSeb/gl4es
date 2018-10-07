@@ -1090,6 +1090,10 @@ void gl4es_glXSwapBuffers(Display *display,
         DBG(printf("blitMainFBO(%d, %d, %u, %u)\n", x, y, width, height);)
         blitMainFBO(x, y, width, height);
         // blit the main_fbo before swap
+        //adjust FBO size if needed
+        if((width && height && (width!=glstate->fbo.mainfbo_width || height!=glstate->fbo.mainfbo_height))) {
+            createMainFBO(width, height);
+        }
     }
     // check emulated Pixmap
     if(PBuffer && glstate->emulatedPixmap) {

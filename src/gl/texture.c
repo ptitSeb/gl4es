@@ -1251,7 +1251,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             bound->nwidth = nwidth;
             bound->nheight = nheight;
             if(target==GL_TEXTURE_RECTANGLE_ARB && hardext.esversion==2) {
-                bound->adjust = 0;  // because this thest is used in a lot of places
+                bound->adjust = 0;  // because this test is used in a lot of places
                 bound->adjustxy[0] = 1.0f/width;
                 bound->adjustxy[1] = 1.0f/height;
             } else {
@@ -2321,7 +2321,7 @@ void gl4es_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type,
     } else {
         // Setup an FBO the same size of the texture
         GLuint oldBind = bound->glname;
-        GLuint old_fbo = glstate->fbo.current_fb;
+        GLuint old_fbo = glstate->fbo.current_fb->id;
         GLuint fbo;
     
         // if the texture is not RGBA or RGB or ALPHA, the "just attach texture to the fbo" trick will not work, and a full Blit has to be done

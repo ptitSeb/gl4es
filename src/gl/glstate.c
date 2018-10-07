@@ -21,6 +21,17 @@ static void free_renderbuffer(glrenderbuffer_t *rend)
     free(rend);
 }
 
+static void free_framebuffer(glframebuffer_t *fb)
+{
+    LOAD_GLES2_OR_OES(glDeleteFramebuffers);
+    if(!fb)
+        return;
+    if(fb->id)
+        gles_glDeleteFramebuffers(1, &fb->id);
+    // the texture will be free by the free of the texture list, as it's referenced there...
+    free(fb);
+}
+
 static void free_texture(gltexture_t *tex)
 {
     LOAD_GLES(glDeleteTextures);
@@ -35,8 +46,7 @@ static void free_texture(gltexture_t *tex)
 }
 
 void* NewGLState(void* shared_glstate, int es2only) {
-    glstate_t *glstate = (glstate_t*)malloc(sizeof(glstate_t));
-	memset(glstate, 0, sizeof(glstate_t));
+    glstate_t *glstate = (glstate_t*)calloc(1, sizeof(glstate_t));
     if(shared_glstate) {
         glstate_t* copy_state = (glstate_t*)shared_glstate;
         if(!copy_state->shared_cnt) {
@@ -53,7 +63,11 @@ void* NewGLState(void* shared_glstate, int es2only) {
         glstate->buffers = copy_state->buffers;
         glstate->queries = copy_state->queries;
         glstate->fpe_cache = copy_state->fpe_cache;
-        glstate->fbo.renderbufferlist = glstate->fbo.renderbufferlist;
+        glstate->fbo.renderbufferlist = copy_state->fbo.renderbufferlist;
+        glstate->fbo.default_rb = copy_state->fbo.default_rb;
+        glstate->fbo.framebufferlist = copy_state->fbo.framebufferlist;
+        glstate->fbo.fbo_0 = copy_state->fbo.fbo_0;
+        glstate->fbo.old = copy_state->fbo.old;
 
         glstate->defaultvbo = copy_state->defaultvbo;
     }
@@ -70,14 +84,14 @@ void* NewGLState(void* shared_glstate, int es2only) {
         int ret;
         khash_t(buff) *list = glstate->buffers = kh_init(buff);
         k = kh_put(buff, list, 0, &ret);
-        glbuffer_t *buff = kh_value(list, k) = malloc(sizeof(glbuffer_t));
-        buff->buffer = 0;
+        glbuffer_t *buff = kh_value(list, k) = calloc(1, sizeof(glbuffer_t));
+        /*buff->buffer = 0;
         buff->type = 0;
-        buff->data = NULL;
+        buff->data = NULL;*/
         buff->usage = GL_STATIC_DRAW;
-        buff->size = 0;
+        //buff->size = 0;
         buff->access = GL_READ_WRITE;
-        buff->mapped = 0;
+        //buff->mapped = 0;
         glstate->defaultvbo = buff;
     }
     // add default VAO
@@ -99,22 +113,20 @@ void* NewGLState(void* shared_glstate, int es2only) {
         khint_t k;
         int ret;
         khash_t(gllisthead) *list = glstate->headlists = kh_init(gllisthead);
-		kh_put(gllisthead, list, 1, &ret);
-		kh_del(gllisthead, list, 1);
+		k = kh_put(gllisthead, list, 1, &ret);
+		kh_del(gllisthead, list, k);
     }
     // actual_tex2d
     if(!shared_glstate)
     {
-        glstate->actual_tex2d = (GLuint*)malloc(MAX_TEX*sizeof(GLuint));
-        memset(glstate->actual_tex2d, 0, MAX_TEX*sizeof(GLuint));
+        glstate->actual_tex2d = (GLuint*)calloc(MAX_TEX, sizeof(GLuint));
     }
     // glsl
     if(!shared_glstate)
     {
         glstate->glsl = (glsl_t*)malloc(sizeof(glsl_t));
         memset(glstate->glsl, 0, sizeof(glsl_t));
-        glstate->gleshard = (gleshard_s_t*)malloc(sizeof(gleshard_s_t));
-        memset(glstate->gleshard, 0, sizeof(gleshard_s_t));
+        glstate->gleshard = (gleshard_s_t*)calloc(1, sizeof(gleshard_s_t));
     }
     // Bind defaults...
     glstate->vao = glstate->defaultvao;
@@ -156,8 +168,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     
     // fpe
     if(hardext.esversion>1) {
-        glstate->fpe_state = (fpe_state_t*)malloc(sizeof(fpe_state_t));
-        memset(glstate->fpe_state, 0, sizeof(fpe_state_t));
+        glstate->fpe_state = (fpe_state_t*)calloc(1, sizeof(fpe_state_t));
         glstate->glsl->es2 = es2only;
         fpe_Init(glstate);
     }
@@ -174,14 +185,13 @@ void* NewGLState(void* shared_glstate, int es2only) {
             khash_t(tex) *list = glstate->texture.list;
             list = glstate->texture.list = kh_init(tex);
             // segfaults if we don't do a single put
-            kh_put(tex, list, 1, &ret);
-            kh_del(tex, list, 1);
+            k = kh_put(tex, list, 1, &ret);
+            kh_del(tex, list, k);
         }
         // now add default "0" texture => no, because tex 0 is not shared....
         /*k = kh_put(tex, list, 0, &ret);
         glstate->texture.zero = tex = kh_value(list, k) = malloc(sizeof(gltexture_t));*/
-        glstate->texture.zero = tex = malloc(sizeof(gltexture_t));
-        memset(tex, 0, sizeof(gltexture_t));
+        glstate->texture.zero = tex = calloc(1, sizeof(gltexture_t));
         tex->adjustxy[0] = tex->adjustxy[1] = 1.f;
         tex->mipmap_auto = (globals4es.automipmap==1);
         tex->mipmap_need = (globals4es.automipmap==1)?1:0;
@@ -293,8 +303,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
 
     // fpe
     if(hardext.esversion>1) {
-        glstate->fpe_state = (fpe_state_t*)malloc(sizeof(fpe_state_t));
-        memset(glstate->fpe_state, 0, sizeof(fpe_state_t));
+        glstate->fpe_state = (fpe_state_t*)calloc(1, sizeof(fpe_state_t));
         glstate->glsl->es2 = es2only;
         if(!shared_glstate)
             fpe_Init(glstate);
@@ -316,11 +325,11 @@ void* NewGLState(void* shared_glstate, int es2only) {
         khint_t k;
         int ret;
         khash_t(shaderlist) *shaders = glstate->glsl->shaders = kh_init(shaderlist);
-		kh_put(shaderlist, shaders, 1, &ret);
-		kh_del(shaderlist, shaders, 1);
+		k = kh_put(shaderlist, shaders, 1, &ret);
+		kh_del(shaderlist, shaders, k);
         khash_t(programlist) *programs = glstate->glsl->programs = kh_init(programlist);
-		kh_put(programlist, programs, 1, &ret);
-		kh_del(programlist, programs, 1);
+		k = kh_put(programlist, programs, 1, &ret);
+		kh_del(programlist, programs, k);
     }
 
     // Grab ViewPort
@@ -330,8 +339,8 @@ void* NewGLState(void* shared_glstate, int es2only) {
 #endif
     gles_glGetIntegerv(GL_VIEWPORT, (GLint*)&glstate->raster.viewport);
     // FBO
-    glstate->fbo.mainfbo_width = glstate->raster.viewport.width;    //main_fbo get the initial dimension of the framebuffer
-    glstate->fbo.mainfbo_height = glstate->raster.viewport.height;
+    glstate->fbowidth  = glstate->fbo.mainfbo_width  = glstate->raster.viewport.width;
+    glstate->fboheight = glstate->fbo.mainfbo_height = glstate->raster.viewport.height;
     glstate->fbo.mainfbo_nwidth = (hardext.npot)?glstate->fbo.mainfbo_width:npot(glstate->fbo.mainfbo_width);
     glstate->fbo.mainfbo_nheight = (hardext.npot)?glstate->fbo.mainfbo_height:npot(glstate->fbo.mainfbo_height);
     // add default Renderbuffer
@@ -341,10 +350,28 @@ void* NewGLState(void* shared_glstate, int es2only) {
         int ret;
         khash_t(renderbufferlist_t) *list = glstate->fbo.renderbufferlist = kh_init(renderbufferlist_t);
         k = kh_put(renderbufferlist_t, list, 0, &ret);
-        glrenderbuffer_t *rend = kh_value(list, k) = malloc(sizeof(glrenderbuffer_t));
-        memset(rend, 0, sizeof(glrenderbuffer_t));
+        glrenderbuffer_t *rend = kh_value(list, k) = calloc(1, sizeof(glrenderbuffer_t));
         glstate->fbo.default_rb = rend;
     }
+    // add default Framebuffer
+    if(!shared_glstate)
+    {
+        khint_t k;
+        int ret;
+        khash_t(framebufferlist_t) *list = glstate->fbo.framebufferlist = kh_init(framebufferlist_t);
+        k = kh_put(framebufferlist_t, list, 0, &ret);
+        glframebuffer_t *fb = kh_value(list, k) = calloc(1, sizeof(glframebuffer_t));
+        fb->width = glstate->fbo.mainfbo_width;
+        fb->height = glstate->fbo.mainfbo_height;
+        glstate->fbo.fbo_0 = fb;
+        glstate->fbo.fbo_read = fb;
+        glstate->fbo.fbo_draw = fb;
+        if(globals4es.recyclefbo) {
+            glstate->fbo.old = (oldfbos_t*)calloc(1, sizeof(oldfbos_t));
+        }
+    }
+    glstate->fbo.current_fb = glstate->fbo.fbo_0;
+    glstate->fbo.current_rb = glstate->fbo.default_rb;
     // Get the per/context hardware values
     glstate->readf = GL_RGBA;
     glstate->readt = GL_UNSIGNED_BYTE;
@@ -404,6 +431,7 @@ void DeleteGLState(void* oldstate) {
         free_hashmap(gltexture_t, texture.list, tex, free_texture);
         free_hashmap(renderlist_t, headlists, gllisthead, free_renderlist);
         free_hashmap(glrenderbuffer_t, fbo.renderbufferlist, renderbufferlist_t, free_renderbuffer);
+        free_hashmap(glframebuffer_t, fbo.framebufferlist, framebufferlist_t, free_framebuffer);
     }
     #undef free_hashmap
     // free texture zero as it's not in the list anymore
@@ -438,9 +466,6 @@ void DeleteGLState(void* oldstate) {
     // linestipple
     if(state->linestipple.data)
         free(state->linestipple.data);
-    // fbo
-    if(state->fbo.tex_fbo)
-        free(state->fbo.tex_fbo);
     // raster / bitmap
     if(state->raster.data)
         free(state->raster.data);
@@ -462,6 +487,13 @@ void DeleteGLState(void* oldstate) {
     if(!state->shared_cnt) {
         if(state->fbo.mainfbo_fbo)
             deleteMainFBO(state);
+    }
+    // oldfbos
+    if(!state->shared_cnt && state->fbo.old) {
+        LOAD_GLES2_OR_OES(glDeleteFramebuffers);
+        gles_glDeleteFramebuffers(state->fbo.old->nbr, state->fbo.old->fbos);
+        free(state->fbo.old->fbos);
+        free(state->fbo.old);
     }
     // free blit GLES2 stuff
     if(state->blit) {

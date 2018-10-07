@@ -115,12 +115,12 @@ GLuint gl4es_glCreateProgram(void) {
     glprogram->id = program;
     // initialize attribloc hashmap
     khash_t(attribloclist) *attribloc = glprogram->attribloc = kh_init(attribloclist);
-    kh_put(attribloclist, attribloc, 1, &ret);
-    kh_del(attribloclist, attribloc, 1);
+    k = kh_put(attribloclist, attribloc, 1, &ret);
+    kh_del(attribloclist, attribloc, k);
     // initialize uniform hashmap
     khash_t(uniformlist) *uniform = glprogram->uniform = kh_init(uniformlist);
-    kh_put(uniformlist, uniform, 1, &ret);
-    kh_del(uniformlist, uniform, 1);
+    k = kh_put(uniformlist, uniform, 1, &ret);
+    kh_del(uniformlist, uniform, k);
     // all done
     return program;
 }
