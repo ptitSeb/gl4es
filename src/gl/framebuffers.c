@@ -147,7 +147,7 @@ void gl4es_glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
                             }
                         }
                         free(fb);
-                        kh_del(framebufferlist_t, glstate->fbo.framebufferlist, t);                        
+                        kh_del(framebufferlist_t, glstate->fbo.framebufferlist, k);                        
                     }
                 }
             }
@@ -785,9 +785,8 @@ void gl4es_glDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers) {
                             gles_glDeleteRenderbuffers(1, &rend->secondarybuffer);
                         if(rend->secondarytexture)
                             gl4es_glDeleteTextures(1, &rend->secondarytexture);
-                        kh_del(renderbufferlist_t, glstate->fbo.renderbufferlist, k);
                         free(rend);
-                        kh_del(renderbufferlist_t, glstate->fbo.renderbufferlist, t);
+                        kh_del(renderbufferlist_t, glstate->fbo.renderbufferlist, k);
                     }
                 }
             }
