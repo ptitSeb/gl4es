@@ -816,10 +816,10 @@ XVisualInfo *gl4es_glXChooseVisual(Display *display,
     int attr[50];
     int idx = 0;
     int cur = 0;
+    int ask_depth = 0;
     if(attributes) {
 
         int ask_rgba = 0;
-        int ask_depth = 0;
         while (attributes[cur]) {
             switch(attributes[cur]) {
                 case GLX_RGBA:
