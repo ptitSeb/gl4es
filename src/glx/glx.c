@@ -231,7 +231,8 @@ static int get_config_default(Display *display, int attribute, int *value) {
             *value = GLX_RGBA_TYPE;
             break;
         case GLX_VISUAL_ID:
-            *value = gl4es_glXChooseVisual(display, 0, NULL)->visualid;
+            *value = gl4es_glXGetVisualFromFBConfig(display, NULL)->visualid;
+            //gl4es_glXChooseVisual(display, 0, NULL)->visualid;
             //*value = 1;
             break;
         case GLX_FBCONFIG_ID:
@@ -815,49 +816,48 @@ XVisualInfo *gl4es_glXChooseVisual(Display *display,
     int attr[50];
     int idx = 0;
     int cur = 0;
-    if(!attributes)
-        return NULL;
+    if(attributes) {
 
-    int ask_rgba = 0;
-    int ask_depth = 0;
-    while (attributes[cur]) {
-        switch(attributes[cur]) {
-            case GLX_RGBA:
-                ask_rgba = 1;   // only rgba will be supported?
-                break;
-            case GLX_USE_GL:    // yeah, I know
-                break;
-            case GLX_BUFFER_SIZE:
-            case GLX_STEREO:
-            case GLX_ACCUM_RED_SIZE:
-            case GLX_ACCUM_GREEN_SIZE:
-            case GLX_ACCUM_BLUE_SIZE:
-            case GLX_ACCUM_ALPHA_SIZE:
-                ++cur;  // ignored
-                break;
-            case GLX_DOUBLEBUFFER:
-                attr[idx++] = GLX_DOUBLEBUFFER;
-                attr[idx++] = 1;
-                break;
-            case GLX_RED_SIZE:
-            case GLX_GREEN_SIZE:
-            case GLX_BLUE_SIZE:
-            case GLX_ALPHA_SIZE:
-                ask_depth += attributes[cur+1];
-            case GLX_DEPTH_SIZE:
-            case GLX_STENCIL_SIZE:
-            case GLX_LEVEL:
-                attr[idx++] = attributes[cur++];
-                attr[idx++] = attributes[cur];
-                break;
+        int ask_rgba = 0;
+        int ask_depth = 0;
+        while (attributes[cur]) {
+            switch(attributes[cur]) {
+                case GLX_RGBA:
+                    ask_rgba = 1;   // only rgba will be supported?
+                    break;
+                case GLX_USE_GL:    // yeah, I know
+                    break;
+                case GLX_BUFFER_SIZE:
+                case GLX_STEREO:
+                case GLX_ACCUM_RED_SIZE:
+                case GLX_ACCUM_GREEN_SIZE:
+                case GLX_ACCUM_BLUE_SIZE:
+                case GLX_ACCUM_ALPHA_SIZE:
+                    ++cur;  // ignored
+                    break;
+                case GLX_DOUBLEBUFFER:
+                    attr[idx++] = GLX_DOUBLEBUFFER;
+                    attr[idx++] = 1;
+                    break;
+                case GLX_RED_SIZE:
+                case GLX_GREEN_SIZE:
+                case GLX_BLUE_SIZE:
+                case GLX_ALPHA_SIZE:
+                    ask_depth += attributes[cur+1];
+                case GLX_DEPTH_SIZE:
+                case GLX_STENCIL_SIZE:
+                case GLX_LEVEL:
+                    attr[idx++] = attributes[cur++];
+                    attr[idx++] = attributes[cur];
+                    break;
+            }
+            ++cur;
         }
-        ++cur;
+        attr[idx++] = 0;    // end list
+
+        if(!ask_rgba)
+            return NULL;    // only TrueColor profile...
     }
-    attr[idx++] = 0;    // end list
-
-    if(!ask_rgba)
-        return NULL;    // only TrueColor profile...
-
     glx_default_depth = XDefaultDepth(display, screen);
     if (glx_default_depth != 16 && glx_default_depth != 24  && glx_default_depth != 32)
         LOGD("LIBGL: unusual desktop color depth %d\n", glx_default_depth);
@@ -880,7 +880,10 @@ XVisualInfo *gl4es_glXChooseVisual(Display *display,
     int count = 1;
     if(latest_glxfbconfig)
         free(latest_glxfbconfig);
-    latest_glxfbconfig = gl4es_glXChooseFBConfig(display, screen, attr, &count);
+    if(cur)
+        latest_glxfbconfig = gl4es_glXChooseFBConfig(display, screen, attr, &count);
+    else
+        latest_glxfbconfig = gl4es_glXGetFBConfigs(display, screen, &count);
 
     return visual;
 }
@@ -1348,9 +1351,13 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
     // first build a table of EGL attributes
     int attr[50];
     int cur = 0;
+    int cr = 0, cg = 0, cb = 0, ca = 0;
     int tmp;
     int drawable_set = 0;
     int doublebuffer = 2;
+    attr[cur++] = EGL_SURFACE_TYPE;
+    attr[cur++] = 0;
+
     if(attrib_list) {
 		int i = 0;
 		while(attrib_list[i]!=0) {
@@ -1358,24 +1365,28 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
 				case GLX_RED_SIZE:
 					tmp = attrib_list[i++];
                     attr[cur++] = EGL_RED_SIZE;
+                    cr = cur;
                     attr[cur++] = tmp;
                     DBG(printf("FBConfig redBits=%d\n", tmp);)
 					break;
 				case GLX_GREEN_SIZE:
 					tmp = attrib_list[i++];
                     attr[cur++] = EGL_GREEN_SIZE;
+                    cg = cur;
                     attr[cur++] = tmp;
                     DBG(printf("FBConfig greenBits=%d\n", tmp);)
 					break;
 				case GLX_BLUE_SIZE:
 					tmp = attrib_list[i++];
                     attr[cur++] = EGL_BLUE_SIZE;
+                    cb = cur;
                     attr[cur++] = tmp;
                     DBG(printf("FBConfig blueBits=%d\n", tmp);)
 					break;
 				case GLX_ALPHA_SIZE:
 					tmp = attrib_list[i++];
                     attr[cur++] = EGL_ALPHA_SIZE;
+                    ca = cur;
                     attr[cur++] = tmp;
                     DBG(printf("FBConfig alphaBits=%d\n", tmp);)
 					break;
@@ -1393,15 +1404,14 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
 					break;
                 case GLX_DRAWABLE_TYPE:
                     tmp = attrib_list[i++];
-                    attr[cur++] = EGL_SURFACE_TYPE;
-                    attr[cur] = 0;
-                    if(tmp&GLX_WINDOW_BIT)
-                        attr[cur] |= EGL_WINDOW_BIT;
+                    //attr[0] = EGL_SURFACE_TYPE;
+                    //attr[1] = 0;
+                    /*if(tmp&GLX_WINDOW_BIT)
+                        attr[1] |= EGL_WINDOW_BIT;*/  // safe to ignore
                     if(tmp&GLX_PIXMAP_BIT)
-                        attr[cur] |= EGL_PIXMAP_BIT;
+                        attr[1] |= EGL_PIXMAP_BIT;
                     if(tmp&GLX_PBUFFER_BIT)
-                        attr[cur] |= EGL_PIXMAP_BIT;
-                    ++cur;
+                        attr[1] |= EGL_PIXMAP_BIT;
                     drawable_set = 1;
                     DBG(printf("FBConfig drawableType=0x%X\n", tmp);)
                     break;
@@ -1440,10 +1450,8 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
 			}
 		}
     }
-    if(!drawable_set) {
-        attr[cur++] = EGL_SURFACE_TYPE;
-        attr[cur++] = (globals4es.usepbuffer)?(EGL_PBUFFER_BIT|EGL_PIXMAP_BIT):EGL_WINDOW_BIT;
-    }
+    attr[1] |= (globals4es.usepbuffer)?(/*EGL_PBUFFER_BIT|*/EGL_PIXMAP_BIT):EGL_WINDOW_BIT;
+
     attr[cur++] = EGL_RENDERABLE_TYPE;
     attr[cur++] = (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT;
 
@@ -1460,8 +1468,26 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
     }
     LOAD_EGL(eglChooseConfig);
     egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
-    if(*count==0)   // NO Config found....
+    if((*count==0) && (globals4es.usepbuffer)) {
+            DBG(printf("glXChooseFBConfig found 0 config with PixMap, trying again with PBuffer\n");)
+            // try again, but with PBuffer
+            attr[1] = EGL_PBUFFER_BIT;
+            egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
+            // On Pandora and GLES2, only 565 PBuffer are available!
+            if(cr || cg || cb || ca) {
+                --cur;
+                if(cr) attr[cr] = 5; else { attr[cur] = EGL_RED_SIZE; attr[cur++] = 5; }
+                if(cg) attr[cg] = 6; else { attr[cur] = EGL_GREEN_SIZE; attr[cur++] = 6; }
+                if(cb) attr[cb] = 5; else { attr[cur] = EGL_BLUE_SIZE; attr[cur++] = 5; }
+                if(ca) attr[ca] = 0; else { attr[cur] = EGL_ALPHA_SIZE; attr[cur++] = 0; }
+                attr[cur++] = EGL_NONE; // just in case
+                egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
+            }
+    }
+    if(*count==0) {  // NO Config found....
+        DBG(printf("glXChooseFBConfig found 0 config\n");)
         return NULL;
+    }
     EGLConfig *eglConfigs = (EGLConfig*)calloc((*count), sizeof(EGLConfig));
     egl_eglChooseConfig(eglDisplay, attr, eglConfigs, *count, count);
     // and now, build a config list!
@@ -1562,7 +1588,7 @@ int gl4es_glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribu
             *value = GLX_RGBA_BIT;
             break;
         case GLX_VISUAL_ID:
-            *value = gl4es_glXChooseVisual(display, 0, NULL)->visualid; //config->associatedVisualId;
+            //*value = gl4es_glXChooseVisual(display, 0, NULL)->visualid; //config->associatedVisualId;
             //*value = 1;
             break;
         case GLX_FBCONFIG_ID:
