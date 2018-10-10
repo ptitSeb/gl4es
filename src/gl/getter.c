@@ -182,17 +182,18 @@ void BuildExtensionsList() {
         char* p = extensions;
         num_extensions = 0;
         // quickly count extensions. Each one is separated by space...
-        while ((p=strchr(p, ' '))) { p++; num_extensions++; }
+        while ((p=strchr(p, ' '))) { while(*(p)==' ') ++p; num_extensions++; }
         // and now split in array of individual extensions
         // TODO: is all this better be moved in glstate?
-        extensions_list = (GLubyte**)malloc(num_extensions * sizeof(GLubyte*));
+        extensions_list = (GLubyte**)calloc(num_extensions, sizeof(GLubyte*));
         p = extensions;
         for (int i=0; i<num_extensions; i++) {
             char* p2 = strchr(p, ' ');
             int sz = p2 - p;
-            extensions_list[i] = (GLubyte*)malloc((sz+1)*sizeof(GLubyte));
+            extensions_list[i] = (GLubyte*)calloc(sz+1, sizeof(GLubyte));
             strncpy(extensions_list[i], p, sz);
-            p = ++p2;
+            while(*p2==' ') ++p2;
+            p = p2;
         }
     }
 }
