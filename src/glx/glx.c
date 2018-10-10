@@ -1588,6 +1588,7 @@ int gl4es_glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribu
             *value = GLX_RGBA_BIT;
             break;
         case GLX_VISUAL_ID:
+            *value = gl4es_glXGetVisualFromFBConfig(display, NULL)->visualid;
             //*value = gl4es_glXChooseVisual(display, 0, NULL)->visualid; //config->associatedVisualId;
             //*value = 1;
             break;
