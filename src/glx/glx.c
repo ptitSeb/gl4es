@@ -1319,6 +1319,7 @@ GLXFBConfig * fillGLXFBConfig(EGLConfig *eglConfigs, int count, int withDB) {
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_MAX_PBUFFER_WIDTH, &configs[j]->maxPbufferWidth);
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_MAX_PBUFFER_HEIGHT, &configs[j]->maxPbufferHeight);
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_MAX_PBUFFER_PIXELS, &configs[j]->maxPbufferPixels);
+        egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_NATIVE_VISUAL_ID, &configs[j]->associatedVisualId);
         configs[j]->doubleBufferMode = (withDB==2)?(j%2):withDB;
     }
 
@@ -1443,7 +1444,11 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                     attr[cur++] = EGL_LEVEL;
                     attr[cur++] = tmp;
                     DBG(printf("FBConfig level=%d\n", tmp);)
-
+                case GLX_VISUAL_ID:
+                    tmp = attrib_list[i++];
+                    attr[cur++] = EGL_NATIVE_VISUAL_ID;
+                    attr[cur++] = tmp;
+                    DBG(printf("FBConfig visual id=%d\n", tmp);)
                 default:
                     ++i;
 				// discard other stuffs
@@ -1588,8 +1593,9 @@ int gl4es_glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribu
             *value = GLX_RGBA_BIT;
             break;
         case GLX_VISUAL_ID:
-            *value = gl4es_glXGetVisualFromFBConfig(display, NULL)->visualid;
-            //*value = gl4es_glXChooseVisual(display, 0, NULL)->visualid; //config->associatedVisualId;
+            //*value = gl4es_glXGetVisualFromFBConfig(display, NULL)->visualid;
+            //*value = gl4es_glXChooseVisual(display, 0, NULL)->visualid;
+            *value = config->associatedVisualId;
             //*value = 1;
             break;
         case GLX_FBCONFIG_ID:
@@ -1630,6 +1636,7 @@ XVisualInfo *gl4es_glXGetVisualFromFBConfig(Display *display, GLXFBConfig config
         glx_default_depth = XDefaultDepth(display, 0);
     XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
     XMatchVisualInfo(display, 0, glx_default_depth, TrueColor, visual);
+    // maybe should use XGetVisualInfo(...) with config->associatedVisualId ?
     return visual;
 }
 
