@@ -283,6 +283,11 @@ Expose support for FLOAT and HALF_FLOAT Texture support (and has attachement to 
 * 1 : Default, exposed what is supported by hardware
 * 2 : Force exposed, even if no supported (will be emulated has GL_UNSIGNED_BYTE if not supported)
 
+##### LIBGL_GLXRECYCLE
+Recycle EGLSurface per Drawable, instead of destroying them
+* 0 : Default, don't recycle
+* 1 : Don't destroy EGLSurface, per reused them per drawable (can fix EGL_BAD_ALLOC error). EGLSurface are never destroyed in this mode for now.
+
 ##### LIBGL_EGL
 Define EGL lib to use. Default folder are the standard one for dynamic librarie loading (LD_LIBRARY_PATH and friend) plus "/opt/vc/lib/", /usr/local/lib/" and "/usr/lib/".
 * by default try to use libbrcmEGL and libEGL

@@ -294,6 +294,7 @@ void initialize_gl4es() {
         globals4es.glx_surface_srgb = 2;
         SHUT(LOGD("LIBGL: enabling sRGB support\n"));
     }
+    env(LIBGL_GLXRECYCLE, globals4es.glxrecycle, "GLX Will try to recycle EGL Surface");
     char *env_fastmath = getenv("LIBGL_FASTMATH");
     if (env_fastmath && strcmp(env_fastmath, "1") == 0) {
 #if defined(PANDORA) || defined(CHIP)

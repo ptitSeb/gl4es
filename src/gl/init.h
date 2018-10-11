@@ -58,6 +58,7 @@ typedef struct _globals4es {
  int logshader;
  int shadernogles;
  int floattex;
+ int glxrecycle;
  char version[50];
 } globals4es_t;
 
