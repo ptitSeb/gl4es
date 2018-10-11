@@ -1236,7 +1236,7 @@ void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
     float zoomy = ((float)(dstY1-dstY0))/srcH;
     // get the width / height of write FBO
     int fbowidth, fboheight;
-    if(glstate->fbo.fbo_draw->id==0 && glstate->fbo.mainfbo_fbo) {
+    if(glstate->fbo.fbo_draw->id==0/* && glstate->fbo.mainfbo_fbo*/) {
         fbowidth = glstate->fbo.mainfbo_width;
         fboheight = glstate->fbo.mainfbo_height;
         if(glstate->fbo.mainfbo_width!=dstX1 || glstate->fbo.mainfbo_height!=dstY1) {
