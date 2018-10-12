@@ -979,10 +979,12 @@ Bool gl4es_glXMakeCurrent(Display *display,
        }
     }
     if(context) {
-        eglContext = context->eglContext;
         if(context->drawable==drawable && context->eglSurface) {
             // same-same, recycling...
-            eglSurf = context->eglSurface;
+            //eglSurf = context->eglSurface;    // no need, it's done after the ifs...
+        } else if (glxContext && glxContext->drawable==drawable && glxContext->eglSurface && !context->eglSurface) {
+            // TODO: use shared counter to track eglSurface shared among context...
+            context->eglSurface = glxContext->eglSurface;   // lets hope eglContexts are compatible
         } else {
             // new one
             if(created) {
