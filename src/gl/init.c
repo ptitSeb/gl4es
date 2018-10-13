@@ -294,7 +294,6 @@ void initialize_gl4es() {
         globals4es.glx_surface_srgb = 2;
         SHUT(LOGD("LIBGL: enabling sRGB support\n"));
     }
-    env(LIBGL_GLXRECYCLE, globals4es.glxrecycle, "GLX Will try to recycle EGL Surface");
     char *env_fastmath = getenv("LIBGL_FASTMATH");
     if (env_fastmath && strcmp(env_fastmath, "1") == 0) {
 #if defined(PANDORA) || defined(CHIP)
@@ -448,6 +447,20 @@ void initialize_gl4es() {
     env(LIBGL_LOGSHADERERROR, globals4es.logshader, "Log to the console Error compiling shaders");
     env(LIBGL_SHADERNOGLES, globals4es.shadernogles, "Remove GLES part in shader");
 
+
+    globals4es.glxrecycle = 1;
+    if((globals4es.usepbuffer) || (globals4es.usefb))
+        globals4es.glxrecycle = 0;
+    char *env_glxrecycle = getenv("LIBGL_GLXRECYCLE");
+    if(globals4es.glxrecycle && env_glxrecycle && !strcmp(env_glxrecycle, "0") && !((globals4es.usepbuffer) || (globals4es.usefb))) {
+        globals4es.glxrecycle = 0;
+        SHUT(LOGD("LIBGL: glX Will NOT try to recycle EGL Surface\n"));
+    }
+    if(env_glxrecycle && !strcmp(env_glxrecycle, "1"))
+        globals4es.glxrecycle = 1;
+    if(globals4es.glxrecycle) {
+        SHUT(LOGD("LIBGL: glX Will try to recycle EGL Surface\n"));
+    }
 
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)
