@@ -822,12 +822,16 @@ void gl4es_glXDestroyContext(Display *display, GLXContext ctx) {
             if(globals4es.usefb!=1 /*|| !fbcontext_count*/) { // this ressource leak is left on purpose (Pandora driver doesn't seems to like to many Creation of the surface)
                 if(globals4es.glxrecycle)
                     RecycleAddSurface(ctx->drawable, ctx->eglSurface);
-                else
-                    egl_eglDestroySurface(eglDisplay, ctx->eglSurface);
+                else {
+                    if(!ctx->shared_eglsurface || !(--(*ctx->shared_eglsurface)))
+                        egl_eglDestroySurface(eglDisplay, ctx->eglSurface);
+                }
                 eglSurface = 0;
             }
 			ctx->eglSurface = 0;
         }
+        if(ctx->shared_eglsurface && (*ctx->shared_eglsurface)<=0)
+            free(ctx->shared_eglsurface);
 
         if (result != EGL_TRUE) {
             CheckEGLErrors();
@@ -985,6 +989,10 @@ Bool gl4es_glXMakeCurrent(Display *display,
         } else if (glxContext && glxContext->drawable==drawable && glxContext->eglSurface && !context->eglSurface) {
             // TODO: use shared counter to track eglSurface shared among context...
             context->eglSurface = glxContext->eglSurface;   // lets hope eglContexts are compatible
+            if(!glxContext->shared_eglsurface)
+                glxContext->shared_eglsurface = (int*)calloc(1, sizeof(int));
+            context->shared_eglsurface = glxContext->shared_eglsurface;
+            (*glxContext->shared_eglsurface)++;
         } else {
             // new one
             if(created) {
@@ -1070,8 +1078,10 @@ Bool gl4es_glXMakeCurrent(Display *display,
                         if(context->eglSurface) {
                             if(globals4es.glxrecycle)
                                 RecycleAddSurface(context->drawable, context->eglSurface);
-                            else
-                                egl_eglDestroySurface(eglDisplay, context->eglSurface);
+                            else {
+                                if(!context->shared_eglsurface || !(--(*context->shared_eglsurface)))
+                                    egl_eglDestroySurface(eglDisplay, context->eglSurface);
+                            }
                         }
                         eglSurf = RecycleGetSurface(drawable);
                         if(eglSurf == EGL_NO_SURFACE) {

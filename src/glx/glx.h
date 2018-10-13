@@ -163,6 +163,7 @@ struct __GLXContextRec {
     int doublebuff;
     void* glstate;
     void* shared;
+    int* shared_eglsurface;
     int contextType;    // 0 = Window, 1 = PBuffer, 2 = PixmapBuffer, 3 = Emulated PixmapBuffer (with PBuffer)
 };
 typedef struct __GLXContextRec *GLXContext;
