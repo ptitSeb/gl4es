@@ -13,7 +13,7 @@ Controls the Framebuffer output
 
 ##### LIBGL_ES
 Controls the version of GLES to use
- * 0 : Default, using GLES 1.1 backend (unless built with DEFAULT_ES 2)
+ * 0 : Default, using GLES 2.0 backend (unless built with DEFAULT_ES 1) (not on Pandora, still GLES 1.1 backend by default)
  * 1 : Use GLES 1.1 backend
  * 2 : Use GLES 2.0 backend
 

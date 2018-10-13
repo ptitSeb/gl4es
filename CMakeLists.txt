@@ -17,18 +17,26 @@ option(NOX11 "Set to ON to not use X11 (creation of context has to be done outsi
 option(NOEGL "Set to ON to not use EGL (all functions are taken in GLES library)" ${NOEGL})
 option(STATICLIB "Set to ON to build a static version of gl4es" ${STATICLIB})
 
-# Raspberry PI
-if(BCMHOST)
-    include_directories(/opt/vc/include /opt/vc/include/interface/vcos/pthreads /opt/vc/include/interface/vmcs_host/linux)
-    link_directories(/opt/vc/lib)
-    add_definitions(-DBCMHOST)
-endif()
-
 # Pandora
 if(PANDORA)
     add_definitions(-DPANDORA)
     add_definitions(-DTEXSTREAM)
     add_definitions(-mcpu=cortex-a8 -mfpu=neon -mfloat-abi=softfp -ftree-vectorize -fsingle-precision-constant -ffast-math)
+endif()
+
+if(!DEFAULT_ES)
+    if(PANDORA)
+        set(DEFAULT_ES 1)
+    else()
+        set(DEFAULT_ES 2)
+    endif()
+endif()
+
+# Raspberry PI
+if(BCMHOST)
+    include_directories(/opt/vc/include /opt/vc/include/interface/vcos/pthreads /opt/vc/include/interface/vmcs_host/linux)
+    link_directories(/opt/vc/lib)
+    add_definitions(-DBCMHOST)
 endif()
 
 # ODROID
@@ -68,6 +76,9 @@ endif()
 #DEFAULT_ES=2
 if("${DEFAULT_ES}" STREQUAL "2")
     add_definitions(-DDEFAULT_ES=2)
+endif()
+if("${DEFAULT_ES}" STREQUAL "1")
+    add_definitions(-DDEFAULT_ES=1)
 endif()
 
 link_directories(${CMAKE_BINARY_DIR}/lib)
