@@ -170,7 +170,7 @@ static void RecycleAddSurface(GLXDrawable drawable, SharedEGLSurface_t* surf) {
     SharedEGLSurface_t *newsurf = malloc(sizeof(SharedEGLSurface_t));
     memcpy(newsurf, surf, sizeof(SharedEGLSurface_t));
     kh_value(eglsurfaces, k) = newsurf;
-    DBG(printf("LIBGL: EGLSurface for drawable %d Added\n", drawable);)
+    DBG(printf("LIBGL: EGLSurface for drawable %p Added\n", drawable);)
 }
 
 static SharedEGLSurface_t* RecycleGetSurface(GLXDrawable drawable) {
@@ -180,7 +180,7 @@ static SharedEGLSurface_t* RecycleGetSurface(GLXDrawable drawable) {
     khint_t k;
     k = kh_get(eglsurfacelist_t, eglsurfaces, drawable);
     if (k != kh_end(eglsurfaces)){
-        DBG(printf("LIBGL: EGLSurface for drawable %d found\n", drawable);)
+        DBG(printf("LIBGL: EGLSurface for drawable %p found\n", drawable);)
         return kh_value(eglsurfaces, k);
     }
     return NULL;
@@ -197,7 +197,7 @@ static void RecycleDelSurface(GLXDrawable drawable) {
         egl_eglDestroySurface(eglDisplay, kh_value(eglsurfaces, k));*/
         free(kh_value(eglsurfaces, k));
         kh_del(eglsurfacelist_t, eglsurfaces, k);
-        DBG(printf("LIBGL: EGLSurface for drawable %d removed\n", drawable);)    
+        DBG(printf("LIBGL: EGLSurface for drawable %p removed\n", drawable);)    
     }
     return;
 }
@@ -827,17 +827,21 @@ void gl4es_glXDestroyContext(Display *display, GLXContext ctx) {
         ctx->eglContext = 0;
         if (ctx->eglSurface != 0) {
             if(globals4es.usefb!=1 /*|| !fbcontext_count*/) { // this ressource leak is left on purpose (Pandora driver doesn't seems to like to many Creation of the surface)
-                if(!ctx->shared_eglsurface || !(--(*ctx->shared_eglsurface))) {
-                    egl_eglDestroySurface(eglDisplay, ctx->eglSurface);
-                    if(!globals4es.glxrecycle) {
-                        RecycleDelSurface(ctx->drawable);
-                    }
+				int destroySurf = 1;
+                if(ctx->shared_eglsurface && (--(*ctx->shared_eglsurface))>0)
+					destroySurf = 0;
+                if(destroySurf) {
+					if(!globals4es.glxrecycle) {
+						DBG(printf("  egDestroySurface(%p, %p), drawable=%p\n", eglDisplay, ctx->eglSurface, ctx->drawable);)
+						egl_eglDestroySurface(eglDisplay, ctx->eglSurface);
+						RecycleDelSurface(ctx->drawable);
+					}
                 }
                 eglSurface = 0;
             }
 			ctx->eglSurface = 0;
         }
-        if(ctx->shared_eglsurface && (*ctx->shared_eglsurface)<=0)
+        if(ctx->shared_eglsurface && (*ctx->shared_eglsurface)<=0  && !globals4es.glxrecycle)
             free(ctx->shared_eglsurface);
 
         if (result != EGL_TRUE) {
@@ -994,7 +998,6 @@ Bool gl4es_glXMakeCurrent(Display *display,
             // same-same, recycling...
             //eglSurf = context->eglSurface;    // no need, it's done after the ifs...
         } else if (glxContext && glxContext->drawable==drawable && glxContext->eglSurface && !context->eglSurface) {
-            // TODO: use shared counter to track eglSurface shared among context...
             context->eglSurface = glxContext->eglSurface;   // lets hope eglContexts are compatible
             if(!glxContext->shared_eglsurface)
                 glxContext->shared_eglsurface = (int*)calloc(1, sizeof(int));
@@ -1088,9 +1091,12 @@ Bool gl4es_glXMakeCurrent(Display *display,
                         }
                     } else {
                         if(context->eglSurface) {
-                            if(!context->shared_eglsurface || !(--(*context->shared_eglsurface))) {
-                                egl_eglDestroySurface(eglDisplay, context->eglSurface);
+							int destroySurf = 1;
+                            if(context->shared_eglsurface && (--(*context->shared_eglsurface))>0)
+								destroySurf = 0;
+                            if(destroySurf) {
                                 if(!globals4es.glxrecycle) {
+									egl_eglDestroySurface(eglDisplay, context->eglSurface);
                                     RecycleDelSurface(context->drawable);
                                 }
                             }
@@ -1105,6 +1111,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
                             eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, attrib_list);
                         } else {
                             DBG(printf("LIBGL: eglSurf Recycled\n");)
+                            context->eglSurface = eglSurf;
                         }
                         if(!eglSurf) {
                             DBG(printf("LIBGL: Warning, eglSurf is null\n");)
@@ -1147,12 +1154,12 @@ Bool gl4es_glXMakeCurrent(Display *display,
         // add tracking, so add shared_counter now
         if(!glxContext->shared_eglsurface) {
             glxContext->shared_eglsurface = (int*)calloc(1, sizeof(int));
-            (*glxContext->shared_eglsurface)++;
         }
+		(*glxContext->shared_eglsurface)++;
         SharedEGLSurface_t surf;
         surf.surf = glxContext->eglSurface;
         surf.cnt = glxContext->shared_eglsurface;
-        RecycleAddSurface(glxContext->drawable, &surf);
+        RecycleAddSurface(drawable, &surf);
     }
     
     if (context) {
@@ -1209,7 +1216,7 @@ Bool gl4es_glXMakeContextCurrent(Display *display, int drawable,
 void gl4es_glXSwapBuffers(Display *display,
                     int drawable) {
     static int frames = 0;
-    DBG(printf("glXSwapBuffers(%p, 0x%X)\n", display, drawable);)
+    DBG(printf("\rglXSwapBuffers(%p, 0x%X) ", display, drawable);)
     LOAD_EGL(eglSwapBuffers);
     // TODO: what if active context is not on the drawable?
     realize_textures();
