@@ -1149,20 +1149,20 @@ Bool gl4es_glXMakeCurrent(Display *display,
         map->PBuffer = created;
 
     }
-    // update Recycle
-    if(!RecycleGetSurface(drawable)) {
-        // add tracking, so add shared_counter now
-        if(!glxContext->shared_eglsurface) {
-            glxContext->shared_eglsurface = (int*)calloc(1, sizeof(int));
-        }
-		(*glxContext->shared_eglsurface)++;
-        SharedEGLSurface_t surf;
-        surf.surf = glxContext->eglSurface;
-        surf.cnt = glxContext->shared_eglsurface;
-        RecycleAddSurface(drawable, &surf);
-    }
-    
     if (context) {
+        // update Recycle
+        if(!RecycleGetSurface(drawable)) {
+            // add tracking, so add shared_counter now
+            if(!glxContext->shared_eglsurface) {
+                glxContext->shared_eglsurface = (int*)calloc(1, sizeof(int));
+            }
+            (*glxContext->shared_eglsurface)++;
+            SharedEGLSurface_t surf;
+            surf.surf = glxContext->eglSurface;
+            surf.cnt = glxContext->shared_eglsurface;
+            RecycleAddSurface(drawable, &surf);
+        }
+        
         if(!context->glstate) {
             context->glstate = NewGLState(context->shared, context->es2only);
             if(created && pbuffersize[created-1].Type >= 3) {
