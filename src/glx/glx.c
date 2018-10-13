@@ -732,7 +732,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
             EGL_SAMPLES, config->multiSampleSize,
             EGL_SAMPLE_BUFFERS, config->nMultiSampleBuffers,
             EGL_RENDERABLE_TYPE, (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT,
-            EGL_SURFACE_TYPE, (config->drawableType)==GLX_PIXMAP_BIT?EGL_PIXMAP_BIT:(EGL_WINDOW_BIT | EGL_PBUFFER_BIT),
+            EGL_SURFACE_TYPE, (config->drawableType==GLX_PIXMAP_BIT)?EGL_PIXMAP_BIT:EGL_WINDOW_BIT,
             EGL_NONE
         };
         if (globals4es.usefb)
@@ -1395,15 +1395,22 @@ GLXContext gl4es_glXGetCurrentContext() {
 }
 
 #ifndef NO_EGL
-GLXFBConfig * fillGLXFBConfig(EGLConfig *eglConfigs, int count, int withDB) {
+GLXFBConfig * fillGLXFBConfig(EGLConfig *eglConfigs, int count, int withDB, Display *display) {
+    #define MAX_CONFIG 100
+    static struct __GLXFBConfigRec ActualConfigs[MAX_CONFIG] = {0};
+    static int ActualConfigIdx = 0;
     LOAD_EGL(eglGetConfigAttrib);
     EGLint tmp;
     if(withDB==2) count*=2;
-    GLXFBConfig *configs = (GLXFBConfig *)calloc(count, sizeof(GLXFBConfig) + sizeof(struct __GLXFBConfigRec));// still not correct...
-    GLXFBConfig starts = (GLXFBConfig)(((char*)configs)+count*sizeof(GLXFBConfig));
+    // still not correct, the ActualConfigs array should be build before hand, and the config choosen inside it instead
+    GLXFBConfig *configs = (GLXFBConfig *)calloc(count, sizeof(GLXFBConfig));
     for (int j=0; j<count; ++j) {
+        configs[j] = &ActualConfigs[ActualConfigIdx++];
+        if(ActualConfigIdx==MAX_CONFIG) {
+            LOGD("LIBGL: Warning, GLXFBConfig static array looped\n");
+            ActualConfigIdx=0;  // better then overwrite...
+        }
         int i = (withDB!=2)?j:(j/2);
-        configs[j] = starts+j;
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_RED_SIZE, &configs[j]->redBits);
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_GREEN_SIZE, &configs[j]->greenBits);
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_BLUE_SIZE, &configs[j]->blueBits);
@@ -1421,6 +1428,13 @@ GLXFBConfig * fillGLXFBConfig(EGLConfig *eglConfigs, int count, int withDB) {
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_MAX_PBUFFER_HEIGHT, &configs[j]->maxPbufferHeight);
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_MAX_PBUFFER_PIXELS, &configs[j]->maxPbufferPixels);
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_NATIVE_VISUAL_ID, &configs[j]->associatedVisualId);
+        if(!configs[j]->associatedVisualId) {
+            // why???
+            glx_default_depth = XDefaultDepth(display, 0);
+            XVisualInfo visual;// = (XVisualInfo *)malloc(sizeof(XVisualInfo));
+            XMatchVisualInfo(display, 0, glx_default_depth, TrueColor, &visual);
+            configs[j]->associatedVisualId = visual.visualid;
+        }
         configs[j]->doubleBufferMode = (withDB==2)?(j%2):withDB;
     }
 
@@ -1590,6 +1604,11 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                 egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
             }
     }
+    if((*count==0) && (!globals4es.usepbuffer) && ca && attr[ca+1]) {
+            DBG(printf("glXChooseFBConfig found 0 config with an Alpha channel, trying without\n");)
+            attr[ca] = 0;
+            egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
+    }
     if(*count==0) {  // NO Config found....
         DBG(printf("glXChooseFBConfig found 0 config\n");)
         return NULL;
@@ -1597,7 +1616,7 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
     EGLConfig *eglConfigs = (EGLConfig*)calloc((*count), sizeof(EGLConfig));
     egl_eglChooseConfig(eglDisplay, attr, eglConfigs, *count, count);
     // and now, build a config list!
-    GLXFBConfig *configs = fillGLXFBConfig(eglConfigs, *count, doublebuffer);
+    GLXFBConfig *configs = fillGLXFBConfig(eglConfigs, *count, doublebuffer, display);
     if(doublebuffer==2) *count *= 2;
     free(eglConfigs);
     DBG(printf("glXChooseFBConfig found %d config\n", *count);)
@@ -1646,7 +1665,7 @@ GLXFBConfig *gl4es_glXGetFBConfigs(Display *display, int screen, int *count) {
     EGLConfig *eglConfigs = (EGLConfig*)calloc((*count), sizeof(EGLConfig));
     egl_eglChooseConfig(eglDisplay, attr, eglConfigs, *count, count);
     // and now, build a config list!
-    GLXFBConfig *configs = fillGLXFBConfig(eglConfigs, *count, 2);
+    GLXFBConfig *configs = fillGLXFBConfig(eglConfigs, *count, 2, display);
     *count *= 2;
     free(eglConfigs);
     DBG(printf("glXGetFBConfig found %d config\n", *count);)
@@ -1763,8 +1782,13 @@ void gl4es_glXSwapInterval(int interval) {
     LOAD_EGL(eglSwapInterval);
     egl_eglSwapInterval(eglDisplay, swapinterval);
 #elif defined(USE_FBIO)
-    if (! globals4es.vsync)
-        LOGD("LIBGL: Enable LIBGL_VSYNC=1 if you want to use vsync.\n");
+    if (! globals4es.vsync) {
+        static int warned = 0;
+        if(!warned) {
+            LOGD("LIBGL: Enable LIBGL_VSYNC=1 if you want to use vsync.\n");
+            warned++;
+        }
+    }
     swapinterval = interval;
 #else
     if(glxContext) {
