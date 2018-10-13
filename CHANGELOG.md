@@ -1,7 +1,17 @@
 Version history
 ----
-##### Current version
+##### v1.1.0
+* Default backend is now GLES2 (but not on Pandora, still GLES1.1 for compatibility reasons)
+* Added LIBGL_SHADERNOGLES to remove the GLES part of shaders (if any).
+* Various RPi improvments, mainly in the context creation.
+* Various AmigaOS4 improvement and workaround (but still in a beta state)
+* Various improvement in GLX function, with a more accurate way to emulate GLXFBConfig
+* Improved the way eglSurface are created in glx.c, to avoid try to create 2 on the same window (EGL doesn't allow that)
+* Added LIBGL_GLXRECYCLE to not delete eglSurface and recycle them
+* Added tracking of Framebuffers Object and Renderbuffers Objects
+* Added (real) support for Float and Half-float Texture (including has attachement to FBO, emulating it if not supported in Hardware)
 * Added support for Depth Stencil texture when attached to an FBO
+* Added LIBGL_FBO=WxH for all plateform
 * Fixed some issue when resized textures attached to an FBO
 * Added LIBGL_NODEPTHTEX to avoid using Depth Texture when available (using renderbuffer can be faster)
 * Added support for Depth Texture when attached to an FBO (if supported by Hardware)
