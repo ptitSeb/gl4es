@@ -161,6 +161,7 @@ void BuildExtensionsList() {
         }
         if(hardext.depthtex) {
             strcat(extensions, "GL_EXT_depth_texture ");
+            strcat(extensions, "GL_ARB_depth_texture ");
         }
         if(hardext.esversion>1) {
             strcat(extensions, "GL_EXT_fog_coord ");
