@@ -1985,25 +1985,52 @@ void gl4es_glXReleaseBuffersMESA() {}
 int gl4es_glXQueryDrawable(Display *dpy, GLXDrawable draw, int attribute, unsigned int *value) {
     DBG(printf("glXQueryDrawable(%p, %p", dpy, draw);)
     int pbuf=isPBuffer(draw);
+    if(pbuf) {
+        if(pbuffersize[pbuf-1].Type!=1)
+            pbuf = 0;   // the drawable can be used
+    }
     *value = 0;
     int width = 800;
     int height = 480;
-#ifndef NOX11
-    if(!pbuf && (attribute==GLX_WIDTH || attribute==GLX_HEIGHT)) {
+    if((attribute==GLX_WIDTH || attribute==GLX_HEIGHT)) {
         // Get Window size and all...
-        unsigned int border, depth;
-        Window root;
-        int x, y;
-        XGetGeometry(dpy, draw, &root, &x, &y, &width, &height, &border, &depth);
+        EGLSurface surf= EGL_NO_SURFACE;
+        if(pbuf) { // PBuffer are not linked to the drawable...
+            surf = pbuffersize[pbuf-1].Surface;
+        }
+#ifdef NO_EGL
+        else {
+            SharedEGLSurface_t* sharedsurf = RecycleGetSurface(draw);
+            if(sharedsurf)
+                surf=sharedsurf->surf;
+        }
+#endif
+        if(surf!=EGL_NO_SURFACE) {
+            LOAD_EGL(eglQuerySurface);
+            EGLint tmp;
+            if(attribute==GLX_WIDTH)
+                if(egl_eglQuerySurface(eglDisplay, surf, EGL_WIDTH, &tmp)==EGL_TRUE)
+                    width = tmp;
+            if(attribute==GLX_HEIGHT)
+                if(egl_eglQuerySurface(eglDisplay, surf, EGL_HEIGHT, &tmp)==EGL_TRUE)
+                    height = tmp;
+        } 
+#ifndef NO_EGL
+        else {
+            unsigned int border, depth;
+            Window root;
+            int x, y;
+            XGetGeometry(dpy, draw, &root, &x, &y, &width, &height, &border, &depth);
+        }
+#endif
     }
-#endif                
     switch(attribute) {
         case GLX_WIDTH:
-            *value = (pbuf)?pbuffersize[pbuf-1].Width:width;
+            *value = width;
             DBG(printf("(%d), GLX_WIDTH, %p = %d)\n", pbuf, value, *value);)
             return 1;
         case GLX_HEIGHT:
-            *value = (pbuf)?pbuffersize[pbuf-1].Height:height;
+            *value = height;
             DBG(printf("(%d), GLX_HEIGHT, %p = %d)\n", pbuf, value, *value);)
             return 1;
         case GLX_PRESERVED_CONTENTS:
