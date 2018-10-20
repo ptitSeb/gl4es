@@ -223,11 +223,10 @@ khash_t(mapdrawable) *MapDrawable = NULL;
 
 int8_t CheckEGLErrors() {
 #ifndef NOEGL
-    EGLenum error;
     const char *errortext = PrintEGLError(1);
     
     if (errortext) {
-        LOGE("LIBGL: ERROR: EGL Error detected: %s (0x%X)\n", errortext, error);
+        LOGE("LIBGL: ERROR: EGL Error detected: %s\n", errortext);
         return 1;
     }
 #endif
@@ -1265,13 +1264,13 @@ void gl4es_glXSwapBuffers(Display *display,
         // blit the main_fbo before swap
         //adjust FBO size if needed
         if((width && height && (width!=glstate->fbo.mainfbo_width || height!=glstate->fbo.mainfbo_height))) {
-            createMainFBO(width, height);
+            createMainFBO(width, height);   // adjust mainFBO
         }
     }
     // check emulated Pixmap
     if(PBuffer && glstate->emulatedPixmap) {
-        LOAD_GLES(glFlush);
-        gles_glFlush();
+        LOAD_GLES(glFinish);
+        gles_glFinish();
         BlitEmulatedPixmap();
     } else
         egl_eglSwapBuffers(eglDisplay, surface);
@@ -2463,11 +2462,10 @@ void BlitEmulatedPixmap() {
         Window root;
         int x, y;
         XGetGeometry(dpy, drawable, &root, &x, &y, &width, &height, &border, &depth);
-        if(width!=Width || height!=Height || depth!=Depth) {
-            LOAD_EGL(eglCreatePbufferSurface);
+        if(width!=Width || height!=Height /*|| depth!=Depth*/) {
             LOAD_EGL(eglDestroySurface);
             LOAD_EGL(eglMakeCurrent);
-            LOAD_EGL(eglChooseConfig);
+            LOAD_EGL(eglCreatePbufferSurface);
             // destroy old stuff
             XSync(dpy, False);  // synch seems needed before the DestroyImage...
             if(frame) XDestroyImage(frame);
@@ -2483,38 +2481,23 @@ void BlitEmulatedPixmap() {
             egl_attribs[i++] = height;
             egl_attribs[i++] = EGL_NONE;
 
-            EGLint configAttribs[] = {
-                EGL_RED_SIZE, (depth>16)?8:5,
-                EGL_GREEN_SIZE, (depth==15)?5:((depth>16)?8:6),
-                EGL_BLUE_SIZE, (depth>16)?8:5,
-                EGL_ALPHA_SIZE, (depth==32)?8:0,
-                EGL_DEPTH_SIZE, 1,
-                EGL_STENCIL_SIZE, 1,
-                EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
-                EGL_RENDERABLE_TYPE, (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT,
-                EGL_NONE
-            };
-
             DBG(printf("LIBGL: Recreate PBuffer %dx%dx%d => %dx%dx%d\n", Width, Height, Depth, width, height, depth);)
 
-            int configsFound;
-            static EGLConfig pbufConfigs[1];
-            egl_eglChooseConfig(eglDisplay, configAttribs, pbufConfigs, 1, &configsFound);
-            CheckEGLErrors();
-
-            EGLSurface Surface = egl_eglCreatePbufferSurface(eglDisplay, pbufConfigs[0], egl_attribs);
-            CheckEGLErrors();
-
-            egl_eglMakeCurrent(eglDisplay, Surface, Surface, buff->Context);
-            CheckEGLErrors();
-
+            egl_eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
             egl_eglDestroySurface(eglDisplay, buff->Surface);
             CheckEGLErrors();
+
+            EGLSurface Surface = NULL;
+            Surface = egl_eglCreatePbufferSurface(eglDisplay, buff->Config, egl_attribs);
+            if(Surface==EGL_NO_SURFACE)
+                LOGE("LIBGL: Warning, Recration of pbuffer failed (from %dx%dx%d => %dx%dx%d)\n", buff->Width, buff->Height, buff->Depth, width, height, depth);
+            CheckEGLErrors();
+            egl_eglMakeCurrent(eglDisplay, Surface, Surface, buff->Context);
+            CheckEGLErrors();
             glxContext->eglSurface = buff->Surface = Surface;
-            glxContext->eglConfigs[0] = pbufConfigs[0];
             buff->Width = width;
             buff->Height = height;
-            buff->Depth = depth;
+            //buff->Depth = depth;
             return;
         }
     }
