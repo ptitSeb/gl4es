@@ -1,5 +1,8 @@
 Version history
 ----
+##### current version
+* 
+
 ##### v1.1.0
 * Default backend is now GLES2 (but not on Pandora, still GLES1.1 for compatibility reasons)
 * Added LIBGL_SHADERNOGLES to remove the GLES part of shaders (if any).
