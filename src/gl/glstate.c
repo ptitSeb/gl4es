@@ -364,14 +364,14 @@ void* NewGLState(void* shared_glstate, int es2only) {
         fb->width = glstate->fbo.mainfbo_width;
         fb->height = glstate->fbo.mainfbo_height;
         glstate->fbo.fbo_0 = fb;
-        glstate->fbo.fbo_read = fb;
-        glstate->fbo.fbo_draw = fb;
         if(globals4es.recyclefbo) {
             glstate->fbo.old = (oldfbos_t*)calloc(1, sizeof(oldfbos_t));
         }
     }
     glstate->fbo.current_fb = glstate->fbo.fbo_0;
     glstate->fbo.current_rb = glstate->fbo.default_rb;
+    glstate->fbo.fbo_read = glstate->fbo.fbo_0;
+    glstate->fbo.fbo_draw = glstate->fbo.fbo_0;
     // Get the per/context hardware values
     glstate->readf = GL_RGBA;
     glstate->readt = GL_UNSIGNED_BYTE;
