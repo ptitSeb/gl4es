@@ -454,7 +454,8 @@ GLint gl4es_glGetUniformLocation(GLuint program, const GLchar *name) {
                 res = m->id;
                 if(index>m->size) {
                     res = -1;   // too big !
-                }
+                } else
+                    res += index;
                 break;
             }
         )
