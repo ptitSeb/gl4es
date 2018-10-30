@@ -2044,15 +2044,7 @@ void gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
                         if (tex == glstate->texture.bound[a][j])
                             glstate->texture.bound[a][j] = glstate->texture.zero; // Don't unbind
                 }
-#ifdef AMIGAOS4
-                if(glstate->deferedTex_size >= glstate->deferedTex_cap) {
-                    glstate->deferedTex_cap+=8;
-                    glstate->deferedTex = (GLuint*)realloc(glstate->deferedTex, sizeof(GLuint)*glstate->deferedTex_cap);
-                }
-                glstate->deferedTex[glstate->deferedTex_size++] = tex->glname;
-#else
                 gles_glDeleteTextures(1, &tex->glname);
-#endif
                 // check if renderbuffer where associeted
                 if(tex->binded_fbo) {
                     if(tex->renderdepth)

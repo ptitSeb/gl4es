@@ -103,13 +103,6 @@ typedef struct {
     // Implementation read
     GLenum              readf; // implementation Read Format
     GLenum              readt; // implementation Read Type
-    // Hack for AmigaOS: defered delete textures
-#ifdef AMIGAOS4
-    GLuint              *deferedTex;
-    int                 deferedTex_size;
-    int                 deferedTex_cap;
-#endif
-
 } glstate_t;
 
 

@@ -1092,11 +1092,5 @@ void amiga_post_swap() {
     if (globals4es.usefbo) {
         bindMainFBO();
     }
-
-    if(glstate->deferedTex_size) {
-        LOAD_GLES(glDeleteTextures);
-        gles_glDeleteTextures(glstate->deferedTex_size, glstate->deferedTex);
-        glstate->deferedTex_size = 0;
-    }
 }
 #endif
