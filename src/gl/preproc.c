@@ -358,7 +358,7 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
                         status = 200; // multi-line comment
                         incomment = 1;
                         if(!keepcomments) write=0;
-                    } else if(tok.type==TK_SHARP && gl_es && !incomment && status==0) {
+                    } else if(tok.type==TK_SHARP && !incomment && status==0) {
                         oldp = p-1; // lets buffer the line
                         status = 300;
                     } else if(tok.type==TK_NEWLINE)
@@ -393,9 +393,9 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
                     if(tok.type!=TK_SPACE)
                     if(tok.type==TK_TEXT) {
                         if(!strcmp(tok.str, "ifdef"))
-                            status=310;
+                            status=gl_es?310:399;
                         else if(!strcmp(tok.str, "ifndef"))
-                            status=320;
+                            status=gl_es?320:399;
                         else if(!strcmp(tok.str, "if")) {
                             // #if defined(GL_ES) not supported for now
                             if(ifdef_gl_es)
@@ -488,6 +488,7 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
                     } else {
                         status = 399; // fallback, syntax error...
                     }
+                    break;
                 // after the name and before the ':' of #extension
                 case 420:
                     if(tok.type==TK_SPACE) {
@@ -526,6 +527,7 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
                     } else {
                         status = 399; // fallback, syntax error...
                     }
+                    break;
             }
             if(notok)
                 notok=0;
