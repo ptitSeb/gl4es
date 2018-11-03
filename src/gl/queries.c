@@ -134,8 +134,8 @@ void gl4es_glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params) {
 	if (! list) {
 		list = glstate->queries = kh_init(queries);
 		// segfaults if we don't do a single put
-		kh_put(queries, list, 1, &ret);
-		kh_del(queries, list, 1);
+		k = kh_put(queries, list, 1, &ret);
+		kh_del(queries, list, k);
 	}
     k = kh_get(queries, list, id);
     if (k != kh_end(list)) {
@@ -148,7 +148,7 @@ void gl4es_glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params) {
     noerrorShim();
     switch (pname) {
     	case GL_QUERY_RESULT_AVAILABLE:
-    		*params = GL_TRUE;
+    		*params = GL_FALSE;
     		break;
     	case GL_QUERY_RESULT:
     		*params = query->num;
@@ -184,7 +184,7 @@ void gl4es_glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint* params) {
     noerrorShim();
     switch (pname) {
     	case GL_QUERY_RESULT_AVAILABLE:
-    		*params = GL_TRUE;
+    		*params = GL_FALSE;
     		break;
     	case GL_QUERY_RESULT:
     		*params = query->num;

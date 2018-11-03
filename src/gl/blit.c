@@ -376,6 +376,7 @@ void gl4es_blitTexture(GLuint texture,
 
     gl4es_glDisable(GL_DEPTH_TEST);
     gl4es_glDisable(GL_CULL_FACE);
+    gl4es_glDisable(GL_STENCIL_TEST);
 
     if(depthwrite)
         gl4es_glDepthMask(GL_FALSE);

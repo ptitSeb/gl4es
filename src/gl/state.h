@@ -29,6 +29,7 @@ typedef struct {
               cull_face,
               color_sum,
               depth_test,
+              stencil_test,
               pointsprite,
               texgen_s[MAX_TEX],
               texgen_t[MAX_TEX],

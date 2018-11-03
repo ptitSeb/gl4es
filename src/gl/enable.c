@@ -104,6 +104,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         proxy_GO(GL_BLEND, blend);
         proxy_GO(GL_CULL_FACE, cull_face);
         proxy_GO(GL_DEPTH_TEST, depth_test);
+        proxy_GO(GL_STENCIL_TEST, stencil_test);
         // texgen
         GOFPE(GL_TEXTURE_GEN_S, texgen_s[glstate->texture.active], fpe_changetexgen_s(glstate->texture.active, enable)); //TODO: FPE stuffs
         GOFPE(GL_TEXTURE_GEN_T, texgen_t[glstate->texture.active], fpe_changetexgen_t(glstate->texture.active, enable));
@@ -332,6 +333,7 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
         isenabled(GL_BLEND, blend);
         isenabled(GL_CULL_FACE, cull_face);
         isenabled(GL_DEPTH_TEST, depth_test);
+        isenabled(GL_STENCIL_TEST, stencil_test);
         isenabled(GL_LINE_STIPPLE, line_stipple);
         isenabled(GL_TEXTURE_GEN_S, texgen_s[glstate->texture.active]);
         isenabled(GL_TEXTURE_GEN_T, texgen_t[glstate->texture.active]);
