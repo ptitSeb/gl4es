@@ -2040,9 +2040,18 @@ void gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
                 tex = kh_value(list, k);
                 int a;
                 for (a=0; a<MAX_TEX; a++) {
+                    int found=0;
                     for (int j=0; j<ENABLED_TEXTURE_LAST; j++)
-                        if (tex == glstate->texture.bound[a][j])
-                            glstate->texture.bound[a][j] = glstate->texture.zero; // Don't unbind
+                        if (tex == glstate->texture.bound[a][j]) {
+                            glstate->texture.bound[a][j] = glstate->texture.zero;
+                            found = 1;
+                        }
+                    if(glstate->actual_tex2d[a]==tex->glname) {
+                        glstate->actual_tex2d[a] = 0;
+                        found = 1;
+                    }
+                    if(found)
+                        glstate->bound_changed = a+1;
                 }
                 gles_glDeleteTextures(1, &tex->glname);
                 // check if renderbuffer where associeted
