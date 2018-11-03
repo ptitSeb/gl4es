@@ -233,13 +233,19 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   char* pBuffer = (char*)pEntry;
 
   if(!fpeShader) {
+    extensions_t exts;  // dummy...
+    exts.cap = exts.size = 0;
+    exts.ext = NULL;
     // preproc first
-    pBuffer = preproc(pBuffer, comments, globals4es.shadernogles);
+    pBuffer = preproc(pBuffer, comments, globals4es.shadernogles, &exts);
     // now comment all line starting with precision...
     if(strstr(pBuffer, "\nprecision")) {
       int sz = strlen(pBuffer);
       pBuffer = InplaceReplace(pBuffer, &sz, "\nprecision", "\n//precision");
     }
+    // should do something with the extension list...
+    if(exts.ext)
+      free(exts.ext);
   }
 
   static shaderconv_need_t dummy_need;

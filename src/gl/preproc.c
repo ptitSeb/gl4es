@@ -36,6 +36,10 @@ typedef enum _eTokenType {
     TK_CLOSEBRAKET,
     TK_OPENCOMMENT,
     TK_CLOSECOMMENT,
+    TK_COLUMN,
+    TK_SEMICOLUMN,
+    TK_COMMA,
+    TK_DOT,
     TK_AMP,
     TK_POW,
     TK_PIPE,
@@ -272,6 +276,10 @@ eTokenType NextToken(char **p, uToken *tok) {
         case '>': tok->type=TK_GREATER; break;
         case '+': tok->type=TK_PLUS; break;
         case '-': tok->type=TK_MINUS; break;
+        case ':': tok->type=TK_COLUMN; break;
+        case ';': tok->type=TK_SEMICOLUMN; break;
+        case ',': tok->type=TK_COMMA; break;
+        case '.': tok->type=TK_DOT; break;
         // todo: char and string?
         default:
             // all other are plain Ids...
@@ -297,7 +305,7 @@ eTokenType GetToken(char **p, uToken *tok, int incomment) {
     return ret;
 }
 
-char* preproc(const char* code, int keepcomments, int gl_es) {
+char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts) {
     DBG(printf("Preproc on: =========\n%s\n=================\n", code);)
 
     uToken tok;
@@ -315,6 +323,7 @@ char* preproc(const char* code, int keepcomments, int gl_es) {
     int ifdef_gl_es = 0;
     int nowrite_gl_es = 0;
     int notok = 0;
+    char extname[50];
     GetToken(&p, &tok, incomment);
     while(tok.type!=TK_NULL) {
         // pre get token switch
@@ -379,7 +388,7 @@ char* preproc(const char* code, int keepcomments, int gl_es) {
                     }
                     break;
                 
-                // # (of ifdef)
+                // # (of ifdef or extension)
                 case 300:
                     if(tok.type!=TK_SPACE)
                     if(tok.type==TK_TEXT) {
@@ -411,6 +420,8 @@ char* preproc(const char* code, int keepcomments, int gl_es) {
                                     oldp = NULL;
                                 }
                             }
+                        } else if(!strcmp(tok.str, "extension")) {
+                            status = 410;
                         } else status=399;
                     } else status = 399;  // meh?
                     break;
@@ -467,6 +478,54 @@ char* preproc(const char* code, int keepcomments, int gl_es) {
                     }
                     status = 1;
                     break;
+                // #extension
+                case 410:
+                    if(tok.type==TK_SPACE) {
+                        // nothing...
+                    } else if(tok.type==TK_TEXT && strlen(tok.str)<50) {
+                        strcpy(extname, tok.str);
+                        status = 420;
+                    } else {
+                        status = 399; // fallback, syntax error...
+                    }
+                // after the name and before the ':' of #extension
+                case 420:
+                    if(tok.type==TK_SPACE) {
+                        // nothing...
+                    } else if (tok.type==TK_COLUMN) {
+                        status=430;
+                    } else {
+                        status = 399; // fallback, syntax error...
+                    }
+                    break;
+                // after the ':' of #extension
+                case 430:
+                    if(tok.type==TK_SPACE) {
+                        // nothing...
+                    } else if(tok.type==TK_TEXT) {
+                        int state = -1;
+                        if(!strcmp(tok.str, "disable"))
+                            state = 0;
+                        else if(!strcmp(tok.str, "warn"))
+                            state = 1;
+                        else if(!strcmp(tok.str, "enable"))
+                            state = 1;
+                        else if(!strcmp(tok.str, "require"))
+                            state = 1;
+                        if(state!=-1) {
+                            if(exts->size==exts->cap) {
+                                exts->cap += 4;
+                                exts->ext = (extension_t*)realloc(exts->ext, sizeof(exts)*exts->cap);
+                            }
+                            strcpy(exts->ext[exts->size].name, extname);
+                            exts->ext[exts->size].state = state;
+                            ++exts->size;
+                            status = 398;   // all done
+                        } else
+                            status = 399; // error, unknown keyword
+                    } else {
+                        status = 399; // fallback, syntax error...
+                    }
             }
             if(notok)
                 notok=0;
