@@ -243,7 +243,17 @@ void renderlist_quads2triangles(renderlist_t *a) {
     // len must be a multiple of 4 !
     len &= ~3;  // discard extra vertex...
     int ilen = len*3/2;
-    a->indices = (GLushort*)malloc(ilen*sizeof(GLushort));
+    if(a->use_glstate) {
+        if(ind) {//need to copy first...
+            ind = (GLushort*)malloc(len*sizeof(GLushort));
+            memcpy(ind, glstate->merger_indices, len*sizeof(GLushort));
+            a->shared_indices = NULL;   // should not be needed
+        }
+        resize_merger_indices(ilen);
+        a->indices = glstate->merger_indices;
+    } else
+        a->indices = (GLushort*)malloc(ilen*sizeof(GLushort));
+
     for (int i=0, j=0; i+3<len; i+=4, j+=6) {
         a->indices[j+0] = vind(i+0);
         a->indices[j+1] = vind(i+1);
@@ -254,7 +264,13 @@ void renderlist_quads2triangles(renderlist_t *a) {
         a->indices[j+5] = vind(i+3);
     }
     a->ilen = ilen;
-    if ((ind) && (!a->shared_indices || ((*a->shared_indices)--)==0))  {free(ind); free(a->shared_indices);}
+    if (ind) {
+        if (!a->shared_indices || ((*a->shared_indices)--)==0)  {
+            free(ind); 
+            free(a->shared_indices);
+        }
+        a->shared_indices = NULL; // unshared list
+    }
     a->mode = GL_TRIANGLES;
 }
 #undef vind
@@ -753,7 +769,7 @@ void resize_renderlist(renderlist_t *list) {
 void resize_merger_indices(int cap) {
     if(cap<glstate->merger_indice_cap)
         return;
-    glstate->merger_indice_cap = ((cap+512)>>9)<<9;
+    glstate->merger_indice_cap = ((glstate->merger_indice_cap+cap+512)>>9)<<9;
     glstate->merger_indices = (GLushort*)realloc(glstate->merger_indices, glstate->merger_indice_cap*sizeof(GLushort));
 }
 
@@ -761,10 +777,7 @@ void resize_indices_renderlist(renderlist_t *list, int n) {
     if (!list->indices || list->shared_indices)
         return;
     if (list->use_glstate) {
-        if(list->ilen+n<glstate->merger_indice_cap)
-            return;
-        glstate->merger_indice_cap = ((glstate->merger_indice_cap+n+511)>>9)<<9;
-        glstate->merger_indices = (GLushort*)realloc(glstate->merger_indices, glstate->merger_indice_cap*sizeof(GLushort));
+        resize_merger_indices(list->ilen+n);
         list->indices = glstate->merger_indices;
     } else {
         if(list->ilen+n<list->indice_cap)
