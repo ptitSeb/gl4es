@@ -2497,6 +2497,9 @@ void gl4es_glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,
          flush();
      }
 
+    // actualy bound if targetting shared TEX2D
+    realize_bound(glstate->texture.active, target);
+
      errorGL();
 
      // "Unmap" if buffer mapped...
@@ -2606,6 +2609,9 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
      if (glstate->list.pending) {
          flush();
      }
+
+    // actualy bound if targetting shared TEX2D
+    realize_bound(glstate->texture.active, target);
 
     gltexture_t* bound = glstate->texture.bound[glstate->texture.active][itarget]; 
     DBG(printf("glCompressedTexImage2D on target=%s with size(%i,%i), internalformat=%s, imagesize=%i, upackbuffer=%p data=%p\n", PrintEnum(target), width, height, PrintEnum(internalformat), imageSize, glstate->vao->unpack?glstate->vao->unpack->data:0, data);)
@@ -2724,6 +2730,10 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
     if (glstate->list.pending) {
         flush();
     }
+
+    // actualy bound if targetting shared TEX2D
+    realize_bound(glstate->texture.active, target);
+
     gltexture_t *bound = glstate->texture.bound[glstate->texture.active][itarget];
     if (level != 0) {
         noerrorShim();
