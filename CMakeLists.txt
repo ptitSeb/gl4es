@@ -24,7 +24,7 @@ if(PANDORA)
     add_definitions(-mcpu=cortex-a8 -mfpu=neon -mfloat-abi=softfp -ftree-vectorize -fsingle-precision-constant -ffast-math)
 endif()
 
-if(!DEFAULT_ES)
+if(NOT DEFAULT_ES)
     if(PANDORA)
         set(DEFAULT_ES 1)
     else()
@@ -74,10 +74,10 @@ if(NOEGL)
 endif()
 
 #DEFAULT_ES=2
-if("${DEFAULT_ES}" STREQUAL "2")
+if(DEFAULT_ES EQUAL 2)
     add_definitions(-DDEFAULT_ES=2)
 endif()
-if("${DEFAULT_ES}" STREQUAL "1")
+if(DEFAULT_ES EQUAL 1)
     add_definitions(-DDEFAULT_ES=1)
 endif()
 
