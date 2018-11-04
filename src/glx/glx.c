@@ -27,12 +27,11 @@
 #ifdef AMIGAOS4
 #include "../agl/amigaos.h"
 #endif
+#include "glx_gbm.h"
 
 #ifndef AliasExport
 #define AliasExport(name)   __attribute__((alias(name))) __attribute__((visibility("default")))
 #endif
-
-
 
 //#define DEBUG
 #ifdef DEBUG
@@ -136,8 +135,18 @@ static void* create_native_window(int w, int h) {
 #if !defined(ANDROID) && !defined(AMIGAOS4)
     if(bcm_host) return create_rpi_window(w, h);
 #endif
-
+#ifndef NO_GBM
+    if(globals4es.usegbm) return CreateGBMWindow(w, h);
+#endif
     return NULL;
+}
+static void delete_native_window(void* win) {
+#if !defined(ANDROID) && !defined(AMIGAOS4)
+    if(bcm_host) return delete_rpi_window(win);
+#endif
+#ifndef NO_GBM
+    if(globals4es.usegbm) return DeleteGBMWindow(win);
+#endif
 }
 
 #define SHUT(a) if(!globals4es.nobanner) a
@@ -313,14 +322,19 @@ static int get_config_default(Display *display, int attribute, int *value) {
 
 static void init_display(Display *display) {
     LOAD_EGL(eglGetDisplay);
-    
+
     if (! g_display) {
         g_display = display;//XOpenDisplay(NULL);
     }
-    if (globals4es.usefb || globals4es.usepbuffer) {
-        eglDisplay = egl_eglGetDisplay(EGL_DEFAULT_DISPLAY);
-    } else {
-		eglDisplay = egl_eglGetDisplay(display);
+    if(globals4es.usegbm) {
+        eglDisplay = OpenGBMDisplay(display);
+    }
+    if(!eglDisplay) {
+        if (globals4es.usefb || globals4es.usepbuffer) {
+            eglDisplay = egl_eglGetDisplay(EGL_DEFAULT_DISPLAY);
+        } else {
+            eglDisplay = egl_eglGetDisplay(display);
+        }
     }
 }
 
@@ -453,6 +467,8 @@ void glx_init() {
         }
     }
 #endif
+    if(globals4es.usegbm)
+        atexit(CloseGBMFunctions);
     if (globals4es.xrefresh || globals4es.stacktrace) 
     {
         // TODO: a bit gross. Maybe look at this: http://stackoverflow.com/a/13290134/293352
@@ -588,7 +604,9 @@ GLXContext gl4es_glXCreateContext(Display *display,
     }
 
     int configsFound;
-	result = egl_eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 1, &configsFound);
+	result = egl_eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 30, &configsFound);
+    if(configsFound && globals4es.usegbm)
+        fake->eglconfigIdx = FindGBMConfig(fake->eglConfigs, configsFound);
 
     CheckEGLErrors();
     if (result != EGL_TRUE || configsFound == 0) {
@@ -598,7 +616,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
         return 0;
     }
     EGLContext shared = (shareList)?shareList->eglContext:EGL_NO_CONTEXT;
-	fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, (hardext.esversion==1)?egl_context_attrib:egl_context_attrib_es2);
+	fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[fake->eglconfigIdx], shared, (hardext.esversion==1)?egl_context_attrib:egl_context_attrib_es2);
 
     CheckEGLErrors();
 
@@ -772,7 +790,9 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
         }
 
         int configsFound;
-        result = egl_eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 1, &configsFound);
+        result = egl_eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 30, &configsFound);
+        if(configsFound && globals4es.usegbm)
+            fake->eglconfigIdx = FindGBMConfig(fake->eglConfigs, configsFound);
 
         CheckEGLErrors();
         if (result != EGL_TRUE || configsFound == 0) {
@@ -780,7 +800,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
             return fake;
         }
         EGLContext shared = (share_context)?share_context->eglContext:EGL_NO_CONTEXT;
-        fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, (hardext.esversion==1)?egl_context_attrib:egl_context_attrib_es2);
+        fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[fake->eglconfigIdx], shared, (hardext.esversion==1)?egl_context_attrib:egl_context_attrib_es2);
 
         CheckEGLErrors();
 
@@ -791,16 +811,16 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
         fake->contextType = (config->drawableType)==GLX_PIXMAP_BIT?2:0;  //Pixmap:Window
         fake->doublebuff = config->doubleBufferMode;
 
-        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_RED_SIZE, &fake->rbits);
-        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_GREEN_SIZE, &fake->gbits);
-        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_BLUE_SIZE, &fake->bbits);
-        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_ALPHA_SIZE, &fake->abits);
-        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_DEPTH_SIZE, &fake->depth);
-        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_STENCIL_SIZE, &fake->stencil);
-        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_SAMPLES, &fake->samples);
-        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_SAMPLE_BUFFERS, &fake->samplebuffers);
-        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_MIN_SWAP_INTERVAL, &minswap);
-        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[0], EGL_MAX_SWAP_INTERVAL, &maxswap);
+        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[fake->eglconfigIdx], EGL_RED_SIZE, &fake->rbits);
+        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[fake->eglconfigIdx], EGL_GREEN_SIZE, &fake->gbits);
+        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[fake->eglconfigIdx], EGL_BLUE_SIZE, &fake->bbits);
+        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[fake->eglconfigIdx], EGL_ALPHA_SIZE, &fake->abits);
+        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[fake->eglconfigIdx], EGL_DEPTH_SIZE, &fake->depth);
+        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[fake->eglconfigIdx], EGL_STENCIL_SIZE, &fake->stencil);
+        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[fake->eglconfigIdx], EGL_SAMPLES, &fake->samples);
+        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[fake->eglconfigIdx], EGL_SAMPLE_BUFFERS, &fake->samplebuffers);
+        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[fake->eglconfigIdx], EGL_MIN_SWAP_INTERVAL, &minswap);
+        egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[fake->eglconfigIdx], EGL_MAX_SWAP_INTERVAL, &maxswap);
         DBG(printf(" => return %p (context->shared=%p)\n", fake, fake->shared);)
         return fake;
     }
@@ -1008,7 +1028,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
 #ifndef NOX11
                 eglSurf = context->eglSurface = pbuffersize[created-1].Surface; //(EGLSurface)drawable;
                 eglContext = context->eglContext = pbuffersize[created-1].Context;    // this context is ok for the PBuffer
-                eglConfig = context->eglConfigs[0] = pbuffersize[created-1].Config;
+                eglConfig = context->eglConfigs[context->eglconfigIdx] = pbuffersize[created-1].Config;
                 /*if (context->contextType != pbuffersize[created-1].Type) {    // Context / buffer not aligned, create a new glstate tracker
                     if(context->glstate)
                         DeleteGLState(context->glstate);
@@ -1067,7 +1087,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
                 } else
 #endif
                 {
-                    if(globals4es.usefb || globals4es.usefbo) {
+                    if(globals4es.usefb || globals4es.usefbo || globals4es.usegbm) {
                         if(eglSurface) // cannot create multiple eglSurface for the same Framebuffer?
                             eglSurf = context->eglSurface = eglSurface;
                         else {
@@ -1078,7 +1098,14 @@ Bool gl4es_glXMakeCurrent(Display *display,
                                     context->shared_eglsurface = oldsurf->cnt;
                             }
                             if(eglSurf == EGL_NO_CONTEXT) {
-                                eglSurf = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], (EGLNativeWindowType)create_native_window(width,height), attrib_list);
+                                context->nativewin = create_native_window(width,height);
+#ifndef NO_GBM
+                                if(globals4es.usegbm) {
+                                    LOAD_EGL(eglCreatePlatformWindowSurface);
+                                    eglSurf = egl_eglCreatePlatformWindowSurface(eglDisplay, context->eglConfigs[context->eglconfigIdx], context->nativewin, attrib_list);
+                                } else
+#endif
+                                eglSurf = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[context->eglconfigIdx], (EGLNativeWindowType)context->nativewin, attrib_list);
                             } else {
                                 DBG(printf("LIBGL: EglSurf Recycled\n");)
                             }

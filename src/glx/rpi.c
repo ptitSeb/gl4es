@@ -40,6 +40,7 @@ DISPMANX_ELEMENT_HANDLE_T (*vc_dispmanx_element_add)(
     /*VC_DISPMANX_ALPHA_T*/void*, /*DISPMANX_CLAMP_T*/void*, 
     /*DISPMANX_TRANSFORM_T*/ int32_t);
 int (*vc_dispmanx_update_submit_sync)(DISPMANX_RESOURCE_HANDLE_T);
+int (*vc_dispmanx_element_remove)(DISPMANX_UPDATE_HANDLE_T update, DISPMANX_ELEMENT_HANDLE_T element);
 static DISPMANX_UPDATE_HANDLE_T dispman_update;
 static DISPMANX_DISPLAY_HANDLE_T dispman_display;
 static VC_RECT_T dst_rect;
@@ -64,6 +65,7 @@ void rpi_init() {
     GO(vc_dispmanx_update_start);
     GO(vc_dispmanx_element_add);
     GO(vc_dispmanx_update_submit_sync);
+    GO(vc_dispmanx_element_remove);
     #undef GO
 }
 
@@ -77,7 +79,7 @@ void rpi_fini() {
 }
 
 void* create_rpi_window(int w, int h) {
-    static EGL_DISPMANX_WINDOW_T nativewindow;
+    EGL_DISPMANX_WINDOW_T *nativewindow = (EGL_DISPMANX_WINDOW_T*)calloc(1, sizeof(EGL_DISPMANX_WINDOW_T));
     if(!bcm_host) return NULL;
     // create a simple RPI nativewindow of size w*h, on output 0 (i.e. LCD)...
     // code heavily inspired from Allegro 5.2
@@ -99,10 +101,19 @@ void* create_rpi_window(int w, int h) {
         dispman_update,dispman_display, 0, &dst_rect,
         0, &src_rect, /*DISPMANX_PROTECTION_NONE*/ 0, 0, 0, 
         /*DISPMAN_NO_ROTATE*/ 0);
-    nativewindow.element = dispman_element;
-    nativewindow.width = w;
-    nativewindow.height = h;
+    nativewindow->element = dispman_element;
+    nativewindow->width = w;
+    nativewindow->height = h;
     vc_dispmanx_update_submit_sync(dispman_update);
 
-    return &nativewindow;
+    return nativewindow;
+}
+
+void delete_rpi_window(void* win) {
+    EGL_DISPMANX_WINDOW_T* nativewindow = (EGL_DISPMANX_WINDOW_T*)win;
+
+    vc_dispmanx_element_remove(dispman_update, nativewindow->element);
+    vc_dispmanx_update_submit_sync(dispman_update);
+    
+    free(win);
 }

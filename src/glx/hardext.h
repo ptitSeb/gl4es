@@ -44,6 +44,7 @@ typedef struct _hardext {
     int highp;          // GL_OES_fragment_precision_high
     int fragdepth;      // GL_EXT_frag_depth
     int derivatives;    // GL_OES_standard_derivatives
+    int gbm;            // EGL_KHR_platform_gbm
     int vendor;         // which vendor (to apply workaround)
     int eglnoalpha;     // EGL surface doesn't seems to have any alpha channel (auto detect)
 } hardext_t;

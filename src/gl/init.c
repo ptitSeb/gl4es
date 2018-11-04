@@ -6,6 +6,7 @@
 #include "../glx/hardext.h"
 #include "../../version.h"
 #include "../glx/streaming.h"
+#include "../glx/glx_gbm.h"
 #if !defined(ANDROID) && !defined(AMIGAOS4)
 #include <execinfo.h>
 #endif
@@ -87,6 +88,16 @@ void initialize_gl4es() {
             globals4es.usepbuffer = 1;
     }
 #endif
+    if (env_fb && strcmp(env_fb, "4") == 0) {
+#ifdef NO_GBM
+        SHUT(LOGD("LIBGL: GBM Support not builded, cannot use it\n"));
+#else
+        SHUT(LOGD("LIBGL: using GBM\n"));
+        globals4es.usefb = 0;
+        globals4es.usegbm = 1;
+#endif
+    }
+
     env(LIBGL_FPS, globals4es.showfps, "fps counter enabled");
 #ifdef USE_FBIO
     env(LIBGL_VSYNC, globals4es.vsync, "vsync enabled");
@@ -127,8 +138,25 @@ void initialize_gl4es() {
     SHUT(LOGD("LIBGL: Using GLES %s backend\n", (globals4es.es==1)?"1.1":"2.0"));
 
     env(LIBGL_NODEPTHTEX, globals4es.nodepthtex, "Disable usage of Depth Textures");
+    char* env_drmcard = getenv("LIBGL_DRMCARD");
+    if(env_drmcard) {
+#ifdef NO_GBM
+        SHUT(LOGD("LIBGL: Warning, GBM not compiled in, cannot use LIBGL_DRMCARD\n"));
+#else
+        strncpy(globals4es.drmcard, env_drmcard, 50);
+    } else {
+        strcpy(globals4es.drmcard, "/dev/dri/card0");
+#endif
+    }
 
     load_libs();
+    if(globals4es.usegbm)
+        LoadGBMFunctions();
+    if(globals4es.usegbm && !gbm) {
+        SHUT(LOGD("LIBGL: cannot use GBM, disabling\n"));
+        globals4es.usegbm = 0;  // should do some smarter fallback?
+    }
+
     glx_init();
 
 #ifdef NOEGL

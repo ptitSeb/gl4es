@@ -5,6 +5,11 @@
 #ifndef ANDROID
 #include "rpi.h"
 #endif
+#include "glx_gbm.h"
+
+#ifndef EGL_PLATFORM_GBM_KHR
+#define EGL_PLATFORM_GBM_KHR                     0x31D7
+#endif
 
 static int tested = 0;
 
@@ -104,7 +109,13 @@ void GetHardwareExtensions(int notest)
 
     int configsFound;
     static EGLConfig pbufConfigs[1];
-    
+
+#ifndef NO_GBM
+    if(strstr(egl_eglQueryString(EGL_NO_DISPLAY, EGL_EXTENSIONS), "EGL_KHR_platform_gbm")) {
+        SHUT(LOGD("LIBGL: GBM Surfaces supported%s\n", globals4es.usegbm?" and used":""));
+        hardext.gbm = 1;
+    }
+#endif
     eglDisplay = egl_eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
     egl_eglBindAPI(EGL_OPENGL_ES_API);
@@ -277,6 +288,7 @@ void GetHardwareExtensions(int notest)
         SHUT(LOGD("LIBGL: sRGB surface supported\n"));
         hardext.srgb = 1;
     }
+
     // End, cleanup
     egl_eglMakeCurrent(eglDisplay, 0, 0, EGL_NO_CONTEXT);
     egl_eglDestroySurface(eglDisplay, eglSurface);

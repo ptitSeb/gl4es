@@ -62,6 +62,7 @@ typedef EGLContext (*eglCreateContext_PTR)(EGLDisplay dpy, EGLConfig config, EGL
 typedef EGLSurface (*eglCreatePbufferFromClientBuffer_PTR)(EGLDisplay dpy, EGLenum buftype, EGLClientBuffer buffer, EGLConfig config, const EGLint * attrib_list);
 typedef EGLSurface (*eglCreatePbufferSurface_PTR)(EGLDisplay dpy, EGLConfig config, const EGLint * attrib_list);
 typedef EGLSurface (*eglCreatePixmapSurface_PTR)(EGLDisplay dpy, EGLConfig config, EGLNativePixmapType pixmap, const EGLint * attrib_list);
+typedef EGLSurface (*eglCreatePlatformWindowSurface_PTR)(EGLDisplay display, EGLConfig config, void * native_window, const EGLint * attrib_list);
 typedef EGLSurface (*eglCreateWindowSurface_PTR)(EGLDisplay dpy, EGLConfig config, EGLNativeWindowType win, const EGLint * attrib_list);
 typedef EGLBoolean (*eglDestroyContext_PTR)(EGLDisplay dpy, EGLContext ctx);
 typedef EGLBoolean (*eglDestroySurface_PTR)(EGLDisplay dpy, EGLSurface surface);
@@ -71,6 +72,7 @@ typedef EGLContext (*eglGetCurrentContext_PTR)();
 typedef EGLDisplay (*eglGetCurrentDisplay_PTR)();
 typedef EGLSurface (*eglGetCurrentSurface_PTR)(EGLint readdraw);
 typedef EGLDisplay (*eglGetDisplay_PTR)(EGLNativeDisplayType display_id);
+typedef EGLDisplay (*eglGetPlatformDisplay_PTR)(EGLenum platform, void * native_display, const EGLint * attrib_list);
 typedef EGLint (*eglGetError_PTR)();
 typedef __eglMustCastToProperFunctionPointerType (*eglGetProcAddress_PTR)(const char * procname);
 typedef EGLBoolean (*eglInitialize_PTR)(EGLDisplay dpy, EGLint * major, EGLint * minor);

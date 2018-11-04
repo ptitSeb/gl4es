@@ -11,6 +11,7 @@ typedef struct _globals4es {
  int xrefresh;
  int stacktrace;
  int usefb;
+ int usegbm;
  int usefbo;
  int recyclefbo;
  int usepbuffer;
@@ -59,6 +60,9 @@ typedef struct _globals4es {
  int shadernogles;
  int floattex;
  int glxrecycle;
+ #ifndef NO_GBM
+ char drmcard[50];
+ #endif
  char version[50];
 } globals4es_t;
 

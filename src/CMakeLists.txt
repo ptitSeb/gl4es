@@ -115,7 +115,8 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 #    aux_source_directory(glx GLX_SOURCES)
 #    list(APPEND GL_SOURCES ${GLX_SOURCES})
     list(APPEND GL_SRC
-	    glx/hardext.c
+        glx/hardext.c
+        glx/gbm.c
 	    glx/glx.c
 	    glx/lookup.c
         glx/rpi.c
@@ -123,6 +124,9 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         glx/utils.c
     )
     list(APPEND GL_H
+        glx/glx_gbm.h
+        glx/gbmfunc.h
+        glx/drmfunc.h
         glx/glx.h
         glx/hardext.h
         glx/rpi.h

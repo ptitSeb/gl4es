@@ -13,7 +13,7 @@
 #include "../glx/hardext.h"
 
 // will become references to dlopen'd gles and egl
-extern void *gles, *egl, *bcm_host, *vcos;
+extern void *gles, *egl, *bcm_host, *vcos, *gbm;
 #ifndef AMIGAOS4
 void *open_lib(const char **names, const char *override);
 #endif
@@ -95,6 +95,8 @@ void *open_lib(const char **names, const char *override);
 #endif
 
 #define LOAD_EGL(name) LOAD_LIB(egl, name)
+
+#define LOAD_GBM(name) LOAD_LIB(gbm, name)
 
 #ifdef AMIGAOS4
 #define LOAD_GLES_OES(name) \

@@ -152,7 +152,8 @@ struct __GLXContextRec {
     int currentReadable;
     XID xid;
 	EGLSurface eglSurface;
-	EGLConfig eglConfigs[1];
+	EGLConfig eglConfigs[30];
+    int eglconfigIdx;
 	EGLContext eglContext;
     int samples;
     int samplebuffers;
@@ -164,6 +165,7 @@ struct __GLXContextRec {
     void* glstate;
     void* shared;
     int* shared_eglsurface;
+    void* nativewin;
     int contextType;    // 0 = Window, 1 = PBuffer, 2 = PixmapBuffer, 3 = Emulated PixmapBuffer (with PBuffer)
 };
 typedef struct __GLXContextRec *GLXContext;

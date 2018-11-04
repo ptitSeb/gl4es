@@ -8,7 +8,13 @@
 #include <linux/limits.h>
 #endif
 
-void *gles = NULL, *egl = NULL, *bcm_host = NULL, *vcos = NULL;
+void *gles = NULL, *egl = NULL, *bcm_host = NULL, *vcos = NULL, *gbm = NULL;
+#ifndef NO_GBM
+static const char *gbm_lib[] = {
+    "libgbm",
+    NULL
+};
+#endif
 #ifndef AMIGAOS4
 static const char *path_prefix[] = {
     "",
@@ -19,6 +25,9 @@ static const char *path_prefix[] = {
 };
 
 static const char *lib_ext[] = {
+#ifndef NO_GBM
+    "so.19",
+#endif
     "so",
     "so.1",
     "so.2",
@@ -69,7 +78,7 @@ void *open_lib(const char **names, const char *override) {
             for (int e = 0; lib_ext[e]; e++) {
                 snprintf(path_name, PATH_MAX, "%s%s.%s", path_prefix[p], names[i], lib_ext[e]);
                 if ((lib = dlopen(path_name, flags))) {
-                    if(!globals4es.nobanner) LOGD("LIBGL:loaded: %s\n", path_name);
+                    if(!globals4es.nobanner) LOGD("LIBGL: loaded: %s\n", path_name);
                     return lib;
                 }
             }
@@ -100,6 +109,11 @@ void load_libs() {
     egl = open_lib(egl_lib, egl_override);
 #endif
     WARN_NULL(egl);
+
+#ifndef NO_GBM
+    char *gbm_override = getenv("LIBGL_GBM");
+    gbm = open_lib(gbm_lib, gbm_override);
+#endif
 }
 #else
 void load_libs() {

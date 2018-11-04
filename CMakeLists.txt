@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
 project(glshim)
 
@@ -16,13 +16,22 @@ option(AMIGAOS4 "Set to ON if targeting an AmigaOS4/Warp3D platform (activate NO
 option(NOX11 "Set to ON to not use X11 (creation of context has to be done outside gl4es)" ${NOX11})
 option(NOEGL "Set to ON to not use EGL (all functions are taken in GLES library)" ${NOEGL})
 option(STATICLIB "Set to ON to build a static version of gl4es" ${STATICLIB})
+option(GBM "Set to ON to not build GBM interface" ${GBM})
 
 # Pandora
 if(PANDORA)
     add_definitions(-DPANDORA)
     add_definitions(-DTEXSTREAM)
     add_definitions(-mcpu=cortex-a8 -mfpu=neon -mfloat-abi=softfp -ftree-vectorize -fsingle-precision-constant -ffast-math)
+    set(NO_GBM ON)
 endif()
+
+if((NOT GBM) OR PANDORA)
+    set(NO_GBM ON)
+else()
+    set(NO_GBM OFF)
+endif()
+
 
 if(NOT DEFAULT_ES)
     if(PANDORA)
@@ -60,6 +69,7 @@ if(AMIGAOS4)
     add_definitions(-DAMIGAOS4)
     set(NOX11 ON)
     set(NOEGL ON)
+    set(NO_GBM ON)
 endif()
 
 #NOX11
@@ -73,6 +83,16 @@ if(NOEGL)
     add_definitions(-DNOX11)
 endif()
 
+if(NOT NO_GBM)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(KMSDRM REQUIRED libdrm gbm egl)
+    link_directories(${KMSDRM_LIBRARY_DIRS})
+    include_directories(${KMSDRM_INCLUDE_DIRS})
+endif()
+
+if(NO_GBM)
+    add_definitions(-DNO_GBM)
+endif()
 #DEFAULT_ES=2
 if(DEFAULT_ES EQUAL 2)
     add_definitions(-DDEFAULT_ES=2)
