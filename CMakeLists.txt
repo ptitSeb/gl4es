@@ -17,6 +17,7 @@ option(NOX11 "Set to ON to not use X11 (creation of context has to be done outsi
 option(NOEGL "Set to ON to not use EGL (all functions are taken in GLES library)" ${NOEGL})
 option(STATICLIB "Set to ON to build a static version of gl4es" ${STATICLIB})
 option(GBM "Set to ON to not build GBM interface" ${GBM})
+option(USE_CCACHE "Set to ON to use ccache if present in the system" ${USE_CCACHE})
 
 # Pandora
 if(PANDORA)
@@ -93,12 +94,21 @@ endif()
 if(NO_GBM)
     add_definitions(-DNO_GBM)
 endif()
+
 #DEFAULT_ES=2
 if(DEFAULT_ES EQUAL 2)
     add_definitions(-DDEFAULT_ES=2)
 endif()
 if(DEFAULT_ES EQUAL 1)
     add_definitions(-DDEFAULT_ES=1)
+endif()
+
+if(USE_CCACHE)
+    find_program(CCACHE_FOUND ccache)
+    if(CCACHE_FOUND)
+        set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
+        set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
+    endif()
 endif()
 
 link_directories(${CMAKE_BINARY_DIR}/lib)
