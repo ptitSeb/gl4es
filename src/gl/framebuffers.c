@@ -817,7 +817,7 @@ void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei w
     if (internalformat == GL_DEPTH_STENCIL)
         internalformat = GL_DEPTH24_STENCIL8;
     // in that case, create first a STENCIL one then a DEPTH one....
-    if ((internalformat == GL_DEPTH24_STENCIL8) && (hardext.depthstencil==0)) {
+    if ((internalformat == GL_DEPTH24_STENCIL8)/* && (hardext.depthstencil==0)*/) {
         khint_t k;
         int ret;
         internalformat = (hardext.depth24)?GL_DEPTH_COMPONENT24:GL_DEPTH_COMPONENT16;
