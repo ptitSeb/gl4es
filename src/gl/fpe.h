@@ -157,7 +157,7 @@ typedef struct {
   fpe_fpe_t *fpe;
 } fpe_cache_t;
 
-KHASH_MAP_INIT_INT(fpecachelist, fpe_cache_t *);
+KHASH_MAP_DECLARE_INT(fpecachelist, fpe_cache_t *);
 
 fpe_fpe_t *fpe_GetCache();
 void fpe_disposeCache(fpe_cache_t* cache, int freeprog);

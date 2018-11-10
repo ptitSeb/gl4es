@@ -1,5 +1,8 @@
 #include "queries.h"
 
+
+KHASH_MAP_IMPL_INT(queries, glquery_t *);
+
 static GLuint lastquery = 0;
 static glquery_t *active_samples_passed = 0;
 

@@ -14,7 +14,7 @@ typedef struct {
     GLvoid     *data;
 } glbuffer_t;
 
-KHASH_MAP_INIT_INT(buff, glbuffer_t *)
+KHASH_MAP_DECLARE_INT(buff, glbuffer_t *);
 
 void gl4es_glGenBuffers(GLsizei n, GLuint * buffers);
 void gl4es_glBindBuffer(GLenum target, GLuint buffer);
@@ -136,7 +136,7 @@ typedef struct {
 void VaoSharedClear(glvao_t *vao);
 void VaoInit(glvao_t *vao);
 
-KHASH_MAP_INIT_INT(glvao, glvao_t*)
+KHASH_MAP_DECLARE_INT(glvao, glvao_t*);
 
 void gl4es_glGenVertexArrays(GLsizei n, GLuint *arrays);
 void gl4es_glBindVertexArray(GLuint array);

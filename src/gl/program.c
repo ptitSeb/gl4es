@@ -12,6 +12,12 @@
 #define DBG(a)
 #endif
 
+//KH Map implementations
+KHASH_MAP_IMPL_INT(attribloclist, attribloc_t *);
+KHASH_MAP_IMPL_INT(uniformlist, uniform_t *);
+KHASH_MAP_IMPL_INT(programlist, program_t *);
+
+
 void gl4es_glAttachShader(GLuint program, GLuint shader) {
     DBG(printf("glAttachShader(%d, %d)\n", program, shader);)
     FLUSH_BEGINEND;

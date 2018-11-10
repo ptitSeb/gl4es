@@ -25,7 +25,7 @@ typedef struct {
     shaderconv_need_t  need;    // the varying need / provide of the shader
 } shader_t;
 
-KHASH_MAP_INIT_INT(shaderlist, shader_t *)
+KHASH_MAP_DECLARE_INT(shaderlist, shader_t *);
 
 
 GLuint gl4es_glCreateShader(GLenum shaderType);

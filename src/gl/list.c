@@ -6,6 +6,13 @@
 #include "matrix.h"
 #include "fpe.h"
 
+// KH Map implementation
+KHASH_MAP_IMPL_INT(material, rendermaterial_t *);
+KHASH_MAP_IMPL_INT(light, renderlight_t *);
+KHASH_MAP_IMPL_INT(texgen, rendertexgen_t *);
+KHASH_MAP_IMPL_INT(texenv, rendertexenv_t *);
+KHASH_MAP_IMPL_INT(gllisthead, renderlist_t*);
+
 renderlist_t *alloc_renderlist() {
     int a;
 

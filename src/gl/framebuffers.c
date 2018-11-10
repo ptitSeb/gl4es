@@ -14,6 +14,9 @@
 #define DBG(a)
 #endif
 
+KHASH_MAP_IMPL_INT(renderbufferlist_t, glrenderbuffer_t *);
+KHASH_MAP_IMPL_INT(framebufferlist_t, glframebuffer_t *);
+
 //extern void* eglGetProcAddress(const char* name);
 
 int npot(int n);

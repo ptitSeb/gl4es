@@ -18,6 +18,6 @@ typedef struct {
     int num;
 } glquery_t;
 
-KHASH_MAP_INIT_INT(queries, glquery_t *)
+KHASH_MAP_DECLARE_INT(queries, glquery_t *)
 
 #endif

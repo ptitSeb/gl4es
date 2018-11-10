@@ -9,6 +9,10 @@
 #define DBG(a)
 #endif
 
+
+KHASH_MAP_IMPL_INT(buff, glbuffer_t *);
+KHASH_MAP_IMPL_INT(glvao, glvao_t*);
+
 static GLuint lastbuffer = 1;
 
 // Utility function to bind / unbind a particular buffer

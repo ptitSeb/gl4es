@@ -13,7 +13,7 @@ typedef struct {
     int         size;
     char*       name;
 } attribloc_t;
-KHASH_MAP_INIT_INT(attribloclist, attribloc_t *)
+KHASH_MAP_DECLARE_INT(attribloclist, attribloc_t *);
 
 typedef enum {
     MAT_MV = 0,
@@ -77,7 +77,7 @@ typedef struct {
     int             parent_size;    // 0 means not found in parent... like for builtin
 } uniform_t;
 
-KHASH_MAP_INIT_INT(uniformlist, uniform_t *)
+KHASH_MAP_DECLARE_INT(uniformlist, uniform_t *);
 
 typedef struct {
     void*           cache;  // buffer of the uniform size
@@ -199,7 +199,8 @@ typedef struct {
     void*                           fpe_cache;  // that will be an fpe_cache_t*
 } program_t;
 
-KHASH_MAP_INIT_INT(programlist, program_t *)
+KHASH_MAP_DECLARE_INT(programlist, program_t *);
+
 void deleteProgram(program_t *glprogram, khint_t k_program);
 
 void gl4es_glAttachShader(GLuint program, GLuint shader);

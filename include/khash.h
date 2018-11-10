@@ -574,6 +574,12 @@ static kh_inline khint_t __ac_Wang_hash(khint_t key)
 #define KHASH_SET_INIT_INT(name)										\
 	KHASH_INIT(name, khint32_t, char, 0, kh_int_hash_func, kh_int_hash_equal)
 
+#define KHASH_SET_DECLARE_INT(name)										\
+	KHASH_DECLARE(name, khint32_t, char)
+
+#define KHASH_SET_IMPL_INT(name)										\
+	__KHASH_IMPL(name, , khkey_t, khval_t, kh_is_map, __hash_func, __hash_equal)
+
 /*! @function
   @abstract     Instantiate a hash map containing integer keys
   @param  name  Name of the hash table [symbol]
@@ -582,12 +588,24 @@ static kh_inline khint_t __ac_Wang_hash(khint_t key)
 #define KHASH_MAP_INIT_INT(name, khval_t)								\
 	KHASH_INIT(name, khint32_t, khval_t, 1, kh_int_hash_func, kh_int_hash_equal)
 
+#define KHASH_MAP_DECLARE_INT(name, khval_t)								\
+	KHASH_DECLARE(name, khint32_t, khval_t)
+
+#define KHASH_MAP_IMPL_INT(name, khval_t)								\
+	__KHASH_IMPL(name, , khint32_t, khval_t, 1, kh_int_hash_func, kh_int_hash_equal)
+
 /*! @function
   @abstract     Instantiate a hash map containing 64-bit integer keys
   @param  name  Name of the hash table [symbol]
  */
 #define KHASH_SET_INIT_INT64(name)										\
 	KHASH_INIT(name, khint64_t, char, 0, kh_int64_hash_func, kh_int64_hash_equal)
+
+#define KHASH_SET_DECLARE_INT64(name)										\
+	KHASH_DECLARE(name, khint64_t, char)
+
+#define KHASH_SET_IMPL_INT64(name)										\
+	__KHASH_IMPL(name, , khint64_t, char, 0, kh_int64_hash_func, kh_int64_hash_equal)
 
 /*! @function
   @abstract     Instantiate a hash map containing 64-bit integer keys
@@ -597,6 +615,12 @@ static kh_inline khint_t __ac_Wang_hash(khint_t key)
 #define KHASH_MAP_INIT_INT64(name, khval_t)								\
 	KHASH_INIT(name, khint64_t, khval_t, 1, kh_int64_hash_func, kh_int64_hash_equal)
 
+#define KHASH_MAP_DECLARE_INT64(name, khval_t)								\
+	KHASH_DECLARE(name, khint64_t, khval_t)
+
+#define KHASH_MAP_IMPL_INT64(name, khval_t)								\
+	__KHASH_IMPL(name, , khint64_t, khval_t, 1, kh_int64_hash_func, kh_int64_hash_equal)
+
 typedef const char *kh_cstr_t;
 /*! @function
   @abstract     Instantiate a hash map containing const char* keys
@@ -605,6 +629,12 @@ typedef const char *kh_cstr_t;
 #define KHASH_SET_INIT_STR(name)										\
 	KHASH_INIT(name, kh_cstr_t, char, 0, kh_str_hash_func, kh_str_hash_equal)
 
+#define KHASH_SET_DECLARE_STR(name)										\
+	KHASH_DECLARE(name, kh_cstr_t, char)
+
+#define KHASH_SET_IMPL_STR(name)										\
+	__KHASH_IMPL(name, , kh_cstr_t, char, 0, kh_str_hash_func, kh_str_hash_equal)
+
 /*! @function
   @abstract     Instantiate a hash map containing const char* keys
   @param  name  Name of the hash table [symbol]
@@ -612,5 +642,11 @@ typedef const char *kh_cstr_t;
  */
 #define KHASH_MAP_INIT_STR(name, khval_t)								\
 	KHASH_INIT(name, kh_cstr_t, khval_t, 1, kh_str_hash_func, kh_str_hash_equal)
+
+#define KHASH_MAP_DECLARE_STR(name, khval_t)								\
+	KHASH_DECLARE(name, kh_cstr_t, khval_t)
+
+#define KHASH_MAP_IMPL_STR(name, khval_t)								\
+	__KHASH_IMPL(name, , kh_cstr_t, khval_t, 1, kh_str_hash_func, kh_str_hash_equal)
 
 #endif /* __AC_KHASH_H */

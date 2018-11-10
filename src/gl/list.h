@@ -99,10 +99,10 @@ typedef struct {
     int     *shared;
 } rasterlist_t;
 
-KHASH_MAP_INIT_INT(material, rendermaterial_t *)
-KHASH_MAP_INIT_INT(light, renderlight_t *)
-KHASH_MAP_INIT_INT(texgen, rendertexgen_t *)
-KHASH_MAP_INIT_INT(texenv, rendertexenv_t *)
+KHASH_MAP_DECLARE_INT(material, rendermaterial_t *);
+KHASH_MAP_DECLARE_INT(light, renderlight_t *);
+KHASH_MAP_DECLARE_INT(texgen, rendertexgen_t *);
+KHASH_MAP_DECLARE_INT(texenv, rendertexenv_t *);
 
 typedef struct _call_list_t {
     unsigned long len;
@@ -230,7 +230,7 @@ typedef struct _renderlist_t {
     GLboolean open;
 } renderlist_t;
 
-KHASH_MAP_INIT_INT(gllisthead, renderlist_t*)
+KHASH_MAP_DECLARE_INT(gllisthead, renderlist_t*);
 
 #define DEFAULT_CALL_LIST_CAPACITY 20
 #define DEFAULT_RENDER_LIST_CAPACITY 64

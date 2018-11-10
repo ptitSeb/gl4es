@@ -11,6 +11,8 @@
 #define DBG(a)
 #endif
 
+KHASH_MAP_IMPL_INT(shaderlist, shader_t *);
+
 GLuint gl4es_glCreateShader(GLenum shaderType) {
     DBG(printf("glCreateShader(%s)\n", PrintEnum(shaderType));)
     // sanity check

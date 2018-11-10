@@ -138,7 +138,7 @@ typedef struct {
     GLvoid *data;	// in case we want to keep a copy of it (it that case, always RGBA/GL_UNSIGNED_BYTE
 } gltexture_t;
 
-KHASH_MAP_INIT_INT(tex, gltexture_t *)
+KHASH_MAP_DECLARE_INT(tex, gltexture_t *);
 
 static inline GLenum map_tex_target(GLenum target) {
     switch (target) {

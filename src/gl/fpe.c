@@ -18,6 +18,9 @@
 #define DBG(a)
 #endif
 
+KHASH_MAP_IMPL_INT(fpecachelist, fpe_cache_t *);
+
+
 // ********* Cache handling *********
 
 fpe_cache_t* fpe_NewCache() {

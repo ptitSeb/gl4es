@@ -278,7 +278,7 @@ typedef struct {
     int         height;
 } glrenderbuffer_t;
 
-KHASH_MAP_INIT_INT(renderbufferlist_t, glrenderbuffer_t *)
+KHASH_MAP_DECLARE_INT(renderbufferlist_t, glrenderbuffer_t *);
 
 typedef struct {
     GLuint id;
@@ -302,7 +302,7 @@ typedef struct {
     int     cap;
 } oldfbos_t;
 
-KHASH_MAP_INIT_INT(framebufferlist_t, glframebuffer_t *)
+KHASH_MAP_DECLARE_INT(framebufferlist_t, glframebuffer_t *);
 
 typedef struct {
     khash_t(renderbufferlist_t) *renderbufferlist;

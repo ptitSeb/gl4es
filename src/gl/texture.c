@@ -10,6 +10,8 @@
 #include "matrix.h"
 #include "blit.h"
 
+KHASH_MAP_IMPL_INT(tex, gltexture_t *);
+
 //#define DEBUG
 #ifdef DEBUG
 #define DBG(a) a
