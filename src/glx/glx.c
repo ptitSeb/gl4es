@@ -1642,6 +1642,11 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
             attr[ca] = 0;
             egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
     }
+    if((*count==0) && (!globals4es.usepbuffer) && ca && attr[ca+1] && (attr[cr]>5 || attr[cg]>5 || attr[cb]>5)) {
+            DBG(printf("glXChooseFBConfig found 0 config without an Alpha channel, but 8bits rgb, trying lowering bitness\n");)
+            attr[cr] = attr[cg] = attr[cb] = 5;
+            egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
+    }
     if(*count==0) {  // NO Config found....
         DBG(printf("glXChooseFBConfig found 0 config\n");)
         return NULL;
