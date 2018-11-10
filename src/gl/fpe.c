@@ -373,13 +373,16 @@ program_t* fpe_CustomShader(program_t* glprogram, fpe_state_t* state)
     return fpe->glprogram;
 }
 
-void fpe_SyncUniforms(uniformcache_t *cache, khash_t(uniformlist) *uniforms, program_t* glprogram) {
+void fpe_SyncUniforms(uniformcache_t *cache, program_t* glprogram) {
     //TODO: Optimize this...
+    khash_t(uniformlist) *uniforms = glprogram->uniform;
     uniform_t *m;
     khint_t k;
+    DBG(int cnt = 0;)
     // don't use m->size, as each element has it's own uniform...
     kh_foreach(uniforms, k, m,
         if(m->parent_size) {
+            DBG(++cnt;)
             switch(m->type) {
                 case GL_FLOAT:
                 case GL_FLOAT_VEC2:
@@ -387,6 +390,8 @@ void fpe_SyncUniforms(uniformcache_t *cache, khash_t(uniformlist) *uniforms, pro
                 case GL_FLOAT_VEC4:
                     GoUniformfv(glprogram, m->id, n_uniform(m->type), 1, (GLfloat*)((uintptr_t)cache->cache+m->parent_offs));
                     break;
+                case GL_SAMPLER_2D:
+                case GL_SAMPLER_CUBE:
                 case GL_INT:
                 case GL_INT_VEC2:
                 case GL_INT_VEC3:
@@ -406,9 +411,12 @@ void fpe_SyncUniforms(uniformcache_t *cache, khash_t(uniformlist) *uniforms, pro
                 case GL_FLOAT_MAT4:
                     GoUniformMatrix4fv(glprogram, m->id, 1, false, (GLfloat*)((uintptr_t)cache->cache+m->parent_offs));
                     break;
+                default:
+                    printf("LIBGL: Warning, sync uniform on father/son program with unknown uniform type %s\n", PrintEnum(m->type));
             }
         }
     );
+    DBG(printf("Uniform sync'd with %d and father (%d uniforms)\n", glprogram->id, cnt);)
 }
 // ********* Fixed Pipeling function wrapper *********
 
@@ -657,12 +665,9 @@ void realize_glenv(int ispoint) {
             DBG(printf("GLSL program %d need customization => ", program);)
             if(!glprogram->fpe_cache)
                 glprogram->fpe_cache = fpe_NewCache();
-            glprogram = fpe_CustomShader(glprogram, &state);
+            glprogram = fpe_CustomShader(glprogram, &state);    // fetch from cache if exist or create it
             program = glprogram->id;
             DBG(printf("%d\n", program);)
-            // synchronize uniforms with parent!
-            if(glprogram != glstate->glsl->glprogram)
-                fpe_SyncUniforms(&glstate->glsl->glprogram->cache, glprogram->uniform, glprogram);
         }
         if(glstate->gleshard->program != program)
         {
@@ -671,6 +676,9 @@ void realize_glenv(int ispoint) {
             gles_glUseProgram(glstate->gleshard->program);
             DBG(printf("Use GLSL program %d\n", glstate->gleshard->program);)
         }
+        // synchronize uniforms with parent!
+        if(glprogram != glstate->glsl->glprogram)
+            fpe_SyncUniforms(&glstate->glsl->glprogram->cache, glprogram);
     } else {
         fpe_program(ispoint);
         if(glstate->gleshard->program != glstate->fpe->prog)
