@@ -11,7 +11,6 @@
 
 void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
     DBG(printf("glTexEnvf(%s, %s, 0x%04X(%s)), tmu=%d, pending=%d, compiling=%d\n", PrintEnum(target), PrintEnum(pname), (GLenum)param, PrintEnum((GLenum)param), glstate->texture.active, glstate->list.pending, glstate->list.compiling);)
-    LOAD_GLES2(glTexEnvf);
     if (!glstate->list.pending) {
         PUSH_IF_COMPILING(glTexEnvf);
     }
@@ -600,6 +599,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
     }
     errorGL();
     if(hardext.esversion==1) {
+        LOAD_GLES2(glTexEnvf);
         realize_active();
         gles_glTexEnvf(target, pname, param);
     }
@@ -629,8 +629,8 @@ void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
         if (glstate->list.pending) flush();
         memcpy(t->color, param, 4*sizeof(GLfloat));
         errorGL();
-        LOAD_GLES2(glTexEnvfv);
-        if(gles_glTexEnvfv) {
+        if(hardext.esversion==1) {
+            LOAD_GLES2(glTexEnvfv);
             realize_active();
             gles_glTexEnvfv(target, pname, param);
         }
