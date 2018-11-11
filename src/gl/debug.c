@@ -104,6 +104,8 @@ const char* PrintEnum(GLenum what) {
         p(GL_TEXTURE_COMPRESSED);
         p(GL_TEXTURE_BORDER);
         p(GL_TEXTURE_INTERNAL_FORMAT);
+        p(GL_MAX_TEXTURE_SIZE);
+        p(GL_MAX_TEXTURE_COORDS);
         // texture pack/unpack
         p(GL_UNPACK_ALIGNMENT);
         p(GL_PACK_ALIGNMENT);

@@ -67,6 +67,7 @@
 #define GL_TEXTURE_CUBE_MAP         0x8513
 #define GL_TEXTURE_GEN_STR          0x8D60
 #define GL_CLAMP_TO_BORDER          0x812D
+#define GL_MAX_TEXTURE_COORDS       0x8871
 
 #define GL_TEXTURE_COMPARE_MODE     0x884C
 
