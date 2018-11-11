@@ -132,3 +132,18 @@ char* NextLine(char* pBuffer) {
         ++pBuffer;
     return pBuffer;
 }
+
+const char* GetNextStr(char* pBuffer) {
+    static char buff[100] = {0};
+    buff[0] = '\0';
+    if(!pBuffer) return NULL;
+    char* p1 = NextStr(pBuffer);
+    if(!p1) return buff;
+    char* p2 = NextBlank(p1);
+    if(!p2) return buff;
+    int i=0;
+    while(p1!=p2 && i<99)
+        buff[i++] = *(p1++);
+    buff[i] = '\0';
+    return buff;
+}

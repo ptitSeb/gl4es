@@ -420,7 +420,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     }
   }*/
   // checking "#extension" keyword, and clean up some...
-  {
+  /*{
     char* p = strstr(Tmp, "#extension");  // should test this is #first character in the line
     while(p) {
       char *p2 = NextStr(StrNext(Tmp, "#extension"));
@@ -438,7 +438,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
       // all done
       p = strstr(p+1, "#extension");
     }
-  }
+  }*/ // done in preproc now
   if(isVertex) {
       // check for builtin OpenGL attributes...
       int n = sizeof(builtin_attrib)/sizeof(builtin_attrib_t);
@@ -454,6 +454,21 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
               InplaceInsert(GetLine(Tmp, headline++), def);
           }
       }
+  }
+  // cleaning up the "centroid" keyword...
+  if(strstr(Tmp, "centroid"))
+  {
+    char *p = Tmp;
+    while((p=strstr(p, "centroid"))!=NULL)
+    {
+      if(p[8]==' ' || p[8]=='\t') { // what next...
+        const char* p2 = GetNextStr(p+8);
+        if(strcmp(p2, "uniform")==0 || strcmp(p2, "varying")==0) {
+          memset(p, ' ', 8);  // erase the keyword...
+        }
+      } 
+      p+=8;
+    }
   }
   
   // check for builtin OpenGL gl_LightSource & friends
