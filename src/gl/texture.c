@@ -1154,21 +1154,32 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
 
     int limitednpot = 0;
     {
-        GLsizei nheight = (hardext.npot==2)?height:npot(height);
-        GLsizei nwidth = (hardext.npot==2)?width:npot(width);
+        GLsizei nheight = (hardext.npot==3)?height:npot(height);
+        GLsizei nwidth = (hardext.npot==3)?width:npot(width);
         bound->npot = (nheight!=height || nwidth!=width);    // hardware that fully support NPOT doesn't care anyway
-        if(bound->npot)
-            if( (target==GL_TEXTURE_RECTANGLE_ARB && hardext.npot) 
-            || (hardext.npot==1 && 
-                ((bound->base_level<=0 && bound->max_level==0) || (globals4es.automipmap==3) || (globals4es.automipmap==4 && width!=height) || (globals4es.forcenpot==1)))
-            || (hardext.esversion>1 && hardext.npot==1 
-                && ((!bound->mipmap_auto && (!wrap_npot(bound->wrap_s) || !wrap_npot(bound->wrap_t)))
-                    || !minmag_npot(bound->min_filter) || !minmag_npot(bound->mag_filter)) ))
-            {
-                nheight = height;
+        if(bound->npot) {
+            if(target==GL_TEXTURE_RECTANGLE_ARB && hardext.npot)
+                limitednpot=1;
+            else if(hardext.npot==1 && (
+                    (bound->base_level<=0 && bound->max_level==0) 
+                 || (globals4es.automipmap==3) 
+                 || (globals4es.automipmap==4 && width!=height) 
+                 || (globals4es.forcenpot==1) ) 
+                 && (wrap_npot(bound->wrap_s) && wrap_npot(bound->wrap_t)) )
+                 limitednpot=1;
+            else if(hardext.esversion>1 && hardext.npot==1 
+                && (!bound->mipmap_auto || !minmag_npot(bound->min_filter) || !minmag_npot(bound->mag_filter)) 
+                && (wrap_npot(bound->wrap_s) && wrap_npot(bound->wrap_t)) )
+                limitednpot=1;
+            else if(hardext.esversion>1 && hardext.npot==2
+                && (wrap_npot(bound->wrap_s) && wrap_npot(bound->wrap_t)) )
+                limitednpot=1;
+
+            if(limitednpot) {
                 nwidth = width;
-                limitednpot = 1;
+                nheight = height;
             }
+        }
 #ifdef PANDORA
 #define NO_1x1
 #endif
@@ -1185,12 +1196,12 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             nheight = height;
         }
 
-        if(limitednpot && rtarget==GL_TEXTURE_2D) {
-            if(target==GL_TEXTURE_RECTANGLE_ARB || (wrap_npot(bound->wrap_s) && wrap_npot(bound->wrap_t))) {
+        if(bound->npot) {
+            if(limitednpot && rtarget==GL_TEXTURE_2D) {
                 gles_glTexParameteri(rtarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                 gles_glTexParameteri(rtarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                 bound->wrap_t = bound->wrap_s = GL_CLAMP_TO_EDGE;
-            } else {
+            } else if (!wrap_npot(bound->wrap_s) || !wrap_npot(bound->wrap_t)) {
                 // resize to npot boundaries (not ideal if the wrap value is change after upload of the texture)
                 nwidth =  npot(width);
                 nheight = npot(height);
@@ -1235,7 +1246,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             bound->mipmap_auto = 0; // no need to automipmap here
         }
         // check min/mag for NPOT with limited support
-        if(limitednpot) {
+        if(limitednpot && hardext.npot<2) {
             GLenum m = minmag_forcenpot(bound->min_filter);
             if (m!=bound->min_filter)
                 gles_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, m);
@@ -1268,7 +1279,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
 
         int callgeneratemipmap = 0;
         if (!(globals4es.texstream && bound->streamed)) {
-            if ((target!=GL_TEXTURE_RECTANGLE_ARB) && (globals4es.automipmap!=3) && (bound->mipmap_need || bound->mipmap_auto) && !bound->npot) {
+            if ((target!=GL_TEXTURE_RECTANGLE_ARB) && (globals4es.automipmap!=3) && (bound->mipmap_need || bound->mipmap_auto) && !(bound->npot && hardext.npot<2)) {
                 if(hardext.esversion<2)
                     gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
                 else
@@ -1903,9 +1914,9 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
             break;
         case GL_REPEAT:
         case GL_MIRRORED_REPEAT_OES:
-            if(globals4es.defaultwrap==2 && hardext.npot<2 && !texture->valid)
+            if(globals4es.defaultwrap==2 && hardext.npot<3 && !texture->valid)
                 param = GL_CLAMP_TO_EDGE;
-            else if(hardext.esversion>1 && hardext.npot<2 && texture->valid 
+            else if(hardext.esversion>1 && hardext.npot<3 && texture->valid 
             && texture->npot) {
                 // should "upgrade" the texture to POT size...
         //printf("Warning, REPEAT / MIRRORED_REPEAT on NPOT texture\n");

@@ -395,7 +395,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
         } else {
             texture = tex->glname;
             // check if texture is shrinked...
-            if (tex->shrink || tex->useratio || (tex->adjust && hardext.npot==1 && !globals4es.potframebuffer)) {
+            if (tex->shrink || tex->useratio || (tex->adjust && (hardext.npot==1 || hardext.npot==2) && !globals4es.potframebuffer)) {
                 LOGD("LIBGL: %s texture for FBO\n",(tex->useratio)?"going back to npot size pot'ed":"unshrinking shrinked");
                 if(tex->shrink || tex->useratio) {
                     if(tex->useratio) {
@@ -416,10 +416,16 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
                 gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];
                 GLuint oldtex = bound->glname;
-                if(hardext.npot==1 && !(wrap_npot(tex->wrap_s) && wrap_npot(tex->wrap_t))) {
+                if((hardext.npot==1 || hardext.npot==2) && !(wrap_npot(tex->wrap_s) && wrap_npot(tex->wrap_t))) {
                     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                     tex->adjust = 0;
+                }
+                if((hardext.npot==1 ) && minmag_npot(tex->min_filter) && !(wrap_npot(tex->wrap_s) && wrap_npot(tex->wrap_t))) {
+                    tex->min_filter = minmag_forcenpot(tex->min_filter);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, tex->min_filter);
+                    tex->adjust = 0;
+                    tex->mipmap_need = 0;
                 }
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
                 gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);

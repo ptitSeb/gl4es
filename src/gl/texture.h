@@ -220,6 +220,11 @@ GLboolean gl4es_glIsTexture( GLuint texture );
 int  tex_setup_needchange(GLuint itarget);
 void tex_setup_texcoord(GLuint len, int changes, GLuint texture, pointer_state_t* ptr);
 
+int wrap_npot(GLenum wrap);
+int minmag_npot(GLenum mag);
+GLenum minmag_forcenpot(GLenum filt);
+GLenum minmag_float(GLenum filt);
+
 void realize_bound(int TMU, GLenum target);
 void realize_textures();
 void realize_active();

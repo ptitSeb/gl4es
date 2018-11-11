@@ -162,10 +162,11 @@ void GetHardwareExtensions(int notest)
     // Parse them!
     #define S(A, B, C) if(strstr(Exts, A)) { hardext.B = 1; SHUT(LOGD("LIBGL: Extension %s detected%s",A, C?" and used\n":"\n")); } 
     if(hardext.esversion>1) hardext.npot = 1;
-    if(strstr(Exts, "GL_APPLE_texture_2D_limited_npot") || strstr(Exts, "GL_IMG_texture_npot")) hardext.npot = 1;
-    if(strstr(Exts, "GL_ARB_texture_non_power_of_two ")) hardext.npot = 2;
+    if(strstr(Exts, "GL_APPLE_texture_2D_limited_npot")) hardext.npot = 1;
+    if(strstr(Exts, "GL_IMG_texture_npot")) hardext.npot = 1; // it should enable mipmap (so hardext.npot=2), but mipmap (so level > 0) needs to be POT-sized?!!
+    if(strstr(Exts, "GL_ARB_texture_non_power_of_two") || strstr(Exts, "GL_OES_texture_npot")) hardext.npot = 3;
     if(hardext.npot>0) {
-        SHUT(LOGD("LIBGL: Hardware %s NPOT detected and used\n", hardext.npot==2?"Full":"Limited"));
+        SHUT(LOGD("LIBGL: Hardware %s NPOT detected and used\n", hardext.npot==3?"Full":(hardext.npot==2?"Limited+Mipmap":"Limited")));
     }
     S("GL_EXT_blend_minmax", blendminmax, 1);
     /*if(hardext.blendcolor==0) {

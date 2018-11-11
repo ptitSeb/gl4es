@@ -332,12 +332,17 @@ void initialize_gl4es() {
 #endif
     }
     char *env_npot = getenv("LIBGL_NPOT");
-    globals4es.npot = hardext.npot;
+    switch(hardext.npot) {
+        case 0: globals4es.npot = 0; break;
+        case 1:
+        case 2: globals4es.npot = 1; break;
+        case 3: globals4es.npot = 2; break;
+    }
     if (env_npot && strcmp(env_npot, "1") == 0 && globals4es.npot<1) {
 		globals4es.npot = 1;
 		SHUT(LOGD("LIBGL: Expose limited NPOT extension\n"));
 	}
-    if (env_npot && strcmp(env_npot, "2") == 0 && globals4es.npot<2) {
+    if (env_npot && strcmp(env_npot, "2") == 0 && globals4es.npot<3) {
 		globals4es.npot = 2;
 		SHUT(LOGD("LIBGL: Expose GL_ARB_texture_non_power_of_two extension\n"));
 	}
@@ -391,11 +396,11 @@ void initialize_gl4es() {
     env(LIBGL_POTFRAMEBUFFER, globals4es.potframebuffer, "Force framebuffers to be on POT size");
 
     char *env_forcenpot = getenv("LIBGL_FORCENPOT");
-    if ((env_forcenpot && strcmp(env_forcenpot,"0") == 0) && (hardext.esversion==2 && hardext.npot==1)) {
+    if ((env_forcenpot && strcmp(env_forcenpot,"0") == 0) && (hardext.esversion==2 && (hardext.npot==1 || hardext.npot==2))) {
         SHUT(LOGD("LIBGL: Not forcing NPOT support\n"));
     } else
-    if ((env_forcenpot && strcmp(env_forcenpot,"1") == 0) || (hardext.esversion==2 && hardext.npot==1)) {
-        if(hardext.npot==2) {
+    if ((env_forcenpot && strcmp(env_forcenpot,"1") == 0) || (hardext.esversion==2 && (hardext.npot==1 || hardext.npot==2))) {
+        if(hardext.npot==3) {
             SHUT(LOGD("LIBGL: NPOT texture handled in hardware\n"));
         } else if(hardext.npot==1) {
             globals4es.forcenpot = 1;
@@ -446,7 +451,7 @@ void initialize_gl4es() {
 
     env(LIBGL_COMMENTS, globals4es.comments, "Keep comments in converted Shaders");
 
-    if(hardext.npot==2)
+    if(hardext.npot==3)
         globals4es.defaultwrap=0; 
     else
         globals4es.defaultwrap=1; 
