@@ -1026,10 +1026,12 @@ void createMainFBO(int width, int height) {
     LOAD_GLES(glClear);
 
     // If there is already a Framebuffer created, let's delete it.... unless it's already the right size!
+    int createIt = 1;
     if (glstate->fbo.mainfbo_fbo) {
         if (width==glstate->fbo.mainfbo_width && height==glstate->fbo.mainfbo_height)
             return;
-        deleteMainFBO(glstate);
+        //lets adjust the FBO instead of adjusting it
+        createIt = 0;
     }
     DBG(printf("LIBGL: Create FBO of %ix%i 32bits\n", width, height);)
     // switch to texture unit 0 if needed
@@ -1044,27 +1046,34 @@ void createMainFBO(int width, int height) {
     glstate->fbo.mainfbo_nheight = height = hardext.npot>0?height:npot(height);
 
     // create the texture
-	gles_glGenTextures(1, &glstate->fbo.mainfbo_tex);
+    if(createIt)
+	    gles_glGenTextures(1, &glstate->fbo.mainfbo_tex);
     gles_glBindTexture(GL_TEXTURE_2D, glstate->fbo.mainfbo_tex);
-    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    if(createIt) {
+        gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    }
     gles_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
 					0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	gles_glBindTexture(GL_TEXTURE_2D, 0);
     // create the render buffers
-	gles_glGenRenderbuffers(1, &glstate->fbo.mainfbo_dep);
-	gles_glGenRenderbuffers(1, &glstate->fbo.mainfbo_ste);
+    if(createIt) {
+        gles_glGenRenderbuffers(1, &glstate->fbo.mainfbo_dep);
+        gles_glGenRenderbuffers(1, &glstate->fbo.mainfbo_ste);
+    }
     gles_glBindRenderbuffer(GL_RENDERBUFFER, glstate->fbo.mainfbo_ste);
     gles_glRenderbufferStorage(GL_RENDERBUFFER, GL_STENCIL_INDEX8, width, height);
     gles_glBindRenderbuffer(GL_RENDERBUFFER, glstate->fbo.mainfbo_dep);
     gles_glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);
     gles_glBindRenderbuffer(GL_RENDERBUFFER, 0);
     // create a fbo
-    gles_glGenFramebuffers(1, &glstate->fbo.mainfbo_fbo);
+    if(createIt)
+        gles_glGenFramebuffers(1, &glstate->fbo.mainfbo_fbo);
     gles_glBindFramebuffer(GL_FRAMEBUFFER, glstate->fbo.mainfbo_fbo);
     
+    // re-attach, even if not creating the fbo...
     gles_glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, glstate->fbo.mainfbo_ste);
     gles_glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, glstate->fbo.mainfbo_dep);
     
