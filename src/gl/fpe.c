@@ -425,7 +425,6 @@ void fpe_SyncUniforms(uniformcache_t *cache, program_t* glprogram) {
 
 void fpe_glClientActiveTexture(GLenum texture) {
     DBG(printf("fpe_glClientActiveTexture(%s)\n", PrintEnum(texture));)
-    glstate->fpe_client.client = texture - GL_TEXTURE0;
 }
 
 void fpe_EnableDisableClientState(GLenum cap, GLboolean val) {
@@ -440,7 +439,7 @@ void fpe_EnableDisableClientState(GLenum cap, GLboolean val) {
             glstate->fpe_client.normal_array = val;
             break;
         case GL_TEXTURE_COORD_ARRAY:
-            glstate->fpe_client.tex_coord_array[glstate->fpe_client.client] = val;
+            glstate->fpe_client.tex_coord_array[glstate->texture.client] = val;
             break;
         case GL_SECONDARY_COLOR_ARRAY:
             glstate->fpe_client.secondary_array = val;
@@ -497,11 +496,11 @@ void fpe_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
 }
 
 void fpe_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
-    DBG(printf("fpe_glTexCoordPointer(%d, %s, %d, %p) on tmu=%d\n", size, PrintEnum(type), stride, pointer, glstate->fpe_client.client);)
-    glstate->fpe_client.tex[glstate->fpe_client.client].size = size;
-    glstate->fpe_client.tex[glstate->fpe_client.client].type = type;
-    glstate->fpe_client.tex[glstate->fpe_client.client].stride = stride;
-    glstate->fpe_client.tex[glstate->fpe_client.client].pointer = pointer;
+    DBG(printf("fpe_glTexCoordPointer(%d, %s, %d, %p) on tmu=%d\n", size, PrintEnum(type), stride, pointer, glstate->texture.client);)
+    glstate->fpe_client.tex[glstate->texture.client].size = size;
+    glstate->fpe_client.tex[glstate->texture.client].type = type;
+    glstate->fpe_client.tex[glstate->texture.client].stride = stride;
+    glstate->fpe_client.tex[glstate->texture.client].pointer = pointer;
 }
 
 void fpe_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {

@@ -248,8 +248,6 @@ typedef struct {
     fog_array,
     tex_coord_array[MAX_TEX];
 
-    GLuint          client; //active client texture
-
     pointer_state_t vert;
     pointer_state_t normal;
     pointer_state_t color;

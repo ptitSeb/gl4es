@@ -755,13 +755,12 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 }
 
 int isBuiltinAttrib(const char* name) {
-    int ret = -1;
     int n = sizeof(builtin_attrib)/sizeof(builtin_attrib_t);
-    for (int i=0; i<n && ret==-1; i++) {
+    for (int i=0; i<n; i++) {
         if (strcmp(builtin_attrib[i].name, name)==0)
-            ret=builtin_attrib[i].attrib;
+            return builtin_attrib[i].attrib;
     }
-    return ret;
+    return -1;
 }
 
 int isBuiltinMatrix(const char* name) {

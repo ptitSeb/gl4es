@@ -561,10 +561,10 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 sprintf(texcoord, "gl_MultiTexCoord%d", i);
             }
             if(mat) {
+                // it would be better to use texture2Dproj in fragment shader, but that will complicate the varying definition...
                 sprintf(buff, "tmp_tex = (_gl4es_TextureMatrix_%d * %s);\n", i, texcoord);
                 ShadAppend(buff);
                 sprintf(buff, "_gl4es_TexCoord_%d = tmp_tex.%s / tmp_tex.q;\n", i, texxyzsize[t-1]);
-                // it would be better to use texture2Dproj in fragment shader, but that will complicate the varying definition...
                 //sprintf(buff, "_gl4es_TexCoord_%d = (_gl4es_TextureMatrix_%d * %s).%s;\n", i, i, texcoord, texxyzsize[t-1]);
             } else
                 sprintf(buff, "_gl4es_TexCoord_%d = %s.%s / %s.q;\n", i, texcoord, texxyzsize[t-1], texcoord);
