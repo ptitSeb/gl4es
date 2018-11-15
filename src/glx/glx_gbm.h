@@ -10,7 +10,7 @@ void* CreateGBMWindow(int w, int h);
 void DeleteGBMWindow(void* win);
 
 #if !defined(NOEGL) && !defined(ANDROID)
-int gl(EGLConfig *configs, int numFounds);
+int FindGBMConfig(EGLConfig *configs, int numFounds);
 #endif
 
 #endif //__GLX_GBM_H_
