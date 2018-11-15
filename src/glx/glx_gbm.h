@@ -9,6 +9,8 @@ void* OpenGBMDisplay(void* display);
 void* CreateGBMWindow(int w, int h);
 void DeleteGBMWindow(void* win);
 
-int FindGBMConfig(EGLConfig *configs, int numFounds);
+#if !defined(NOEGL)
+int gl(EGLConfig *configs, int numFounds);
+#endif
 
 #endif //__GLX_GBM_H_
