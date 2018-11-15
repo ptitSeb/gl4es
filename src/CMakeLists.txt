@@ -140,10 +140,12 @@ endif()
 if(AMIGAOS4)
     include_directories(agl)
     list(APPEND GL_SRC
+        glx/hardext.c
         agl/amigaos.c
         agl/agl.c
     )
     list(APPEND GL_H
+        glx/hardext.h
         agl/amigaos.h
         agl/agl.h
     )
