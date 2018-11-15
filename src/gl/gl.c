@@ -1088,6 +1088,37 @@ void amiga_pre_swap() {
 }
 
 void amiga_post_swap() {
+    if (globals4es.showfps) 
+    {
+        // framerate counter
+        static float avg, fps = 0;
+        static int frame1, last_frame, frame, now, current_frames;
+        struct timeval out;
+        gettimeofday(&out, NULL);
+        now = out.tv_sec;
+        frame++;
+        current_frames++;
+
+        if (frame == 1) {
+            frame1 = now;
+        } else if (frame1 < now) {
+            if (last_frame < now) {
+                float change = current_frames / (float)(now - last_frame);
+                float weight = 0.7;
+                if (! fps) {
+                    fps = change;
+                } else {
+                    fps = (1 - weight) * fps + weight * change;
+                }
+                current_frames = 0;
+
+                avg = frame / (float)(now - frame1);
+                printf("LIBGL: fps: %.2f, avg: %.2f\n", fps, avg);
+            }
+        }
+        last_frame = now;
+    }
+
     // If drawing in fbo, rebind it...
     if (globals4es.usefbo) {
         bindMainFBO();
