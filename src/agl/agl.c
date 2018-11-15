@@ -139,4 +139,9 @@ void aglSetBitmap(struct BitMap *bitmap) {
     }
 }
 
+void gl4es_getMainFBSize(GLint* width, GLint* height) {
+    // should fill-in current width and height of screen
+    // there is probably a function for that...
+}
+
 //void* aglGetProcAddress(const char* name); //-> declared in glx/lookup.c
