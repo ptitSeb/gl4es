@@ -110,7 +110,7 @@ SET(GL_H
     gl/wrap/stub.h
 )
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux" OR AMIGAOS4)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     include_directories(glx)
 #    aux_source_directory(glx GLX_SOURCES)
 #    list(APPEND GL_SOURCES ${GLX_SOURCES})
@@ -140,11 +140,16 @@ endif()
 if(AMIGAOS4)
     include_directories(agl)
     list(APPEND GL_SRC
+        glx/hardext.c
+        glx/gbm.c
+        glx/glx.c
+        glx/lookup.c
         agl/amigaos.c
         agl/agl.c
     )
     list(APPEND GL_H
         glx/hardext.h
+        glx/glx.h
         agl/amigaos.h
         agl/agl.h
     )
