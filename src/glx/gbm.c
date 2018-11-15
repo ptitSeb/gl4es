@@ -166,9 +166,11 @@ void DeleteGBMWindow(void* win)
 {
 }
 
+#ifndef AMIGAOS4
 int FindGBMConfig(EGLConfig *configs, int numFounds)
 {
     return 0;
 }
+#endif
 
 #endif // NO_GBM
