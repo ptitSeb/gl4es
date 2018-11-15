@@ -69,12 +69,14 @@ LOCAL_SRC_FILES := \
 	src/glx/hardext.c \
 	src/glx/glx.c \
 	src/glx/lookup.c \
+	src/glx/gbm.c \
 	src/glx/streaming.c \
 
 LOCAL_CFLAGS += -g -std=c99 -funwind-tables -O3 -DBCMHOST -fvisibility=hidden -include include/android_debug.h
 LOCAL_CFLAGS += -DNOX11
+LOCAL_CFLAGS += -DNO_GBM
 #LOCAL_CFLAGS += -DNO_INIT_CONSTRUCTOR
-#LOCAL_CFLAGS += -DDEFAULT_ES=2
+LOCAL_CFLAGS += -DDEFAULT_ES=2
 
 LOCAL_LDLIBS := -ldl -llog
 

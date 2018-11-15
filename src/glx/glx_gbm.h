@@ -9,7 +9,7 @@ void* OpenGBMDisplay(void* display);
 void* CreateGBMWindow(int w, int h);
 void DeleteGBMWindow(void* win);
 
-#if !defined(NOEGL)
+#if !defined(NOEGL) && !defined(ANDROID)
 int gl(EGLConfig *configs, int numFounds);
 #endif
 
