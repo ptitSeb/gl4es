@@ -482,7 +482,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
     if(tex) {
         tex->binded_fbo = fb->id;
         tex->binded_attachment = attachment;
-    }
+    } //TODO: Handle unbind
 
     if ((GetAttachmentType(fb, attachment) == textarget) && (GetAttachment(fb, attachment)==(tex?tex->texture:texture)))
     {
@@ -502,6 +502,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 tex->format = GL_DEPTH_COMPONENT;
                 if(tex->type!=GL_UNSIGNED_INT && tex->type!=GL_UNSIGNED_SHORT && tex->type!=GL_FLOAT) tex->type = (hardext.depth24)?GL_UNSIGNED_INT:GL_UNSIGNED_SHORT;
                 tex->fpe_format = FPE_TEX_DEPTH;
+                realize_textures();
                 int oldactive = glstate->texture.active;
                 if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
                 gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];
@@ -688,13 +689,13 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
     
     // get renderbuffer
     glrenderbuffer_t *rend = find_renderbuffer(renderbuffer);
-    if(!rend || !rend->renderbuffer) {
+    if(!rend /*|| !rend->renderbuffer*/) {
         errorShim(GL_INVALID_OPERATION);
         return;
     }
 
     if (attachment == GL_COLOR_ATTACHMENT0 && globals4es.fboforcetex) {
-        if(rend) {
+        if(rend->renderbuffer) {
             // drop the renderbuffer attachement and create a texture instead...
             int oldactive = glstate->texture.active;
             if(oldactive) gl4es_glActiveTexture(GL_TEXTURE0);
@@ -735,12 +736,13 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
         return;
     }
 
-    if (attachment == GL_DEPTH_STENCIL_ATTACHMENT) {
-        // doesn't seems to be supported "as-is" on GLES
+    if (attachment==GL_DEPTH_STENCIL_ATTACHMENT) {
+        // doesn't seems to be supported "as-is" on GLES on PVR
         gl4es_glFramebufferRenderbuffer(target, GL_DEPTH_ATTACHMENT, renderbuffertarget, renderbuffer);
         gl4es_glFramebufferRenderbuffer(target, GL_STENCIL_ATTACHMENT, renderbuffertarget, renderbuffer);
         return;
     }
+
     
     //TODO: handle target=READBUFFER or DRAWBUFFER...
     if (attachment==GL_STENCIL_ATTACHMENT) {
@@ -826,7 +828,7 @@ void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei w
     if (internalformat == GL_DEPTH_STENCIL)
         internalformat = GL_DEPTH24_STENCIL8;
     // in that case, create first a STENCIL one then a DEPTH one....
-    if ((internalformat == GL_DEPTH24_STENCIL8)/* && (hardext.depthstencil==0)*/) {
+    if ((internalformat == GL_DEPTH24_STENCIL8 && (hardext.depthstencil==0 || (hardext.vendor&VEND_IMGTEC==VEND_IMGTEC)))) {
         khint_t k;
         int ret;
         internalformat = (hardext.depth24)?GL_DEPTH_COMPONENT24:GL_DEPTH_COMPONENT16;
