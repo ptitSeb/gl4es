@@ -416,17 +416,6 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
                 gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];
                 GLuint oldtex = bound->glname;
-                if((hardext.npot==1 || hardext.npot==2) && !(wrap_npot(tex->wrap_s) && wrap_npot(tex->wrap_t))) {
-                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                    tex->adjust = 0;
-                }
-                if((hardext.npot==1 ) && minmag_npot(tex->min_filter) && !(wrap_npot(tex->wrap_s) && wrap_npot(tex->wrap_t))) {
-                    tex->min_filter = minmag_forcenpot(tex->min_filter);
-                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, tex->min_filter);
-                    tex->adjust = 0;
-                    tex->mipmap_need = 0;
-                }
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
                 gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
@@ -492,6 +481,39 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
     }
     SetAttachment(fb, attachment, textarget, tex?tex->texture:texture, level);
 
+    if(attachment==GL_COLOR_ATTACHMENT0 && tex) {
+        int oldactive = glstate->texture.active;
+        gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];
+        GLuint oldtex = bound->glname;
+        int changed = 0;
+        if((hardext.npot==1 || hardext.npot==2) && (!tex->wrap_s || !tex->wrap_t || !wrap_npot(tex->wrap_s) || !wrap_npot(tex->wrap_t))) {
+            changed = 1;
+            if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
+            if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+            gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            tex->wrap_s = tex->wrap_t = GL_CLAMP_TO_EDGE;
+            tex->adjust = 0;
+        }
+        //npot==2 and 3 should support that, but let's ignore that for now and force no mipmap for texture attached to fbo...
+        if(!tex->min_filter || !minmag_npot(tex->min_filter)) {
+            if(!changed) {
+                if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
+                if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+                changed = 1;
+            }
+            tex->min_filter = minmag_forcenpot(tex->min_filter);
+            gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, tex->min_filter);
+            tex->adjust = 0;
+            tex->mipmap_need = 0;
+            tex->mipmap_auto = 0;
+        }
+        if(changed) {
+            if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
+            if(oldactive) gles_glActiveTexture(GL_TEXTURE0+oldactive);
+        }
+    }
+
     if(attachment==GL_DEPTH_ATTACHMENT /*&& hardext.depthtex==0*/) {
         noerrorShim();
         if (level!=0) return;
@@ -510,6 +532,8 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
                 gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
                 gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                 gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
                 if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
                 if(oldactive) gles_glActiveTexture(GL_TEXTURE0+oldactive);
@@ -547,6 +571,8 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                     if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
                     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
                     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                     gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
                     if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
                     if(oldactive) gles_glActiveTexture(GL_TEXTURE0+oldactive);
@@ -579,6 +605,8 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                     if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
                     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
                     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                     gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
                     if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
                     if(oldactive) gles_glActiveTexture(GL_TEXTURE0+oldactive);
