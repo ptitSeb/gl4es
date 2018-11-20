@@ -482,6 +482,7 @@ void initialize_gl4es() {
 
 
     globals4es.glxrecycle = 1;
+#ifndef NOEGL
     if((globals4es.usepbuffer) || (globals4es.usefb))
         globals4es.glxrecycle = 0;
     char *env_glxrecycle = getenv("LIBGL_GLXRECYCLE");
@@ -494,7 +495,7 @@ void initialize_gl4es() {
     if(globals4es.glxrecycle) {
         SHUT(LOGD("LIBGL: glX Will try to recycle EGL Surface\n"));
     }
-
+#endif
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)
         SHUT(LOGD("LIBGL: Current folder is:%s\n", cwd));
