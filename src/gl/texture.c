@@ -197,6 +197,7 @@ void internal2format_type(GLenum internalformat, GLenum *format, GLenum *type)
             }
             break;
         case GL_RGB5:
+        case GL_RGB565:
             *format = GL_RGB;
             *type = GL_UNSIGNED_SHORT_5_6_5;
             break;
@@ -358,6 +359,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 break;
             // vvvvv all this are internal formats, so it should not happens
             case GL_RGB5:
+            case GL_RGB565:
                 dest_format = GL_RGB;
                 dest_type = GL_UNSIGNED_SHORT_5_6_5;
                 convert = true;
@@ -527,6 +529,8 @@ GLenum swizzle_internalformat(GLenum *internalformat, GLenum format, GLenum type
             } else
                 sret = GL_RG;
             break;
+        case GL_RGB565:
+            ret=GL_RGB5;
         case GL_RGB5:
             sret = GL_RGB5;
             break;
@@ -944,6 +948,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             case GL_RG:
             case GL_RGB:
             case GL_RGB5:
+            case GL_RGB565:
             case GL_RGB8:
             case GL_RGB16:
             case GL_RGB16F:
@@ -1074,7 +1079,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     } else {
 #ifdef TEXSTREAM
         if (globals4es.texstream && (target==GL_TEXTURE_2D || target==GL_TEXTURE_RECTANGLE_ARB) && (width>=256 && height>=224) && 
-        ((internalformat==GL_RGB) || (internalformat==3) || (internalformat==GL_RGB8) || (internalformat==GL_BGR) || (internalformat==GL_RGB5)) || (globals4es.texstream==2) ) {
+        ((internalformat==GL_RGB) || (internalformat==3) || (internalformat==GL_RGB8) || (internalformat==GL_BGR) || (internalformat==GL_RGB5) || (internalformat==GL_RGB565)) || (globals4es.texstream==2) ) {
             bound->streamingID = AddStreamed(width, height, bound->texture);
             if (bound->streamingID>-1) {	// success
                 bound->shrink = 0;  // no shrink on Stream texture
@@ -2566,6 +2571,7 @@ GLboolean isNotCompressed(GLenum format) {
         case GL_RGBA8:
         case GL_RGB8:
         case GL_RGB5:
+        case GL_RGB565:
             return true;
     }
     return false;
