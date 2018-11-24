@@ -422,6 +422,8 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
                             }
                         } else if(!strcmp(tok.str, "extension")) {
                             status = 410;
+                        } else if(!strcmp(tok.str, "pragma")) {
+                            status = 510;
                         } else status=399;
                     } else status = 399;  // meh?
                     break;
@@ -524,6 +526,21 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
                             status = 398;   // all done
                         } else
                             status = 399; // error, unknown keyword
+                    } else {
+                        status = 399; // fallback, syntax error...
+                    }
+                    break;
+                // #pragma
+                case 510:
+                    if(tok.type==TK_SPACE) {
+                        // nothing...
+                    } else if(tok.type==TK_TEXT && strlen(tok.str)<50) {
+                        if(strcmp(tok.str, "message")==0)
+                            status = 398; //pragma message are removed
+                        else if(strcmp(tok.str, "parameter")==0)
+                            status = 398; //pragma message are removed
+                        else
+                            status = 399;   // other pragma as left as-is
                     } else {
                         status = 399; // fallback, syntax error...
                     }
