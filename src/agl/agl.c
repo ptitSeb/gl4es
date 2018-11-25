@@ -23,6 +23,7 @@ typedef struct _agl_ctx_glstate {
 static agl_ctx_glstate *agl_context = NULL;
 static int agl_context_len = 0;
 static int agl_context_cap = 0;
+static void* agl_current_ctx = NULL;
 
 // find (or add if not found) a context in the list, and activate glstate...
 void agl_context_find(void* ctx) {
@@ -106,13 +107,21 @@ void* VARARGS68K aglCreateContextTags(ULONG * errcode, ...) {
 */
 void aglDestroyContext(void* context) {
     if(IOGLES2) {
-        IOGLES2->aglDestroyContext(context);
+        //bind the context before deleting stuffs.
+        if(context!=agl_current_ctx)
+            IOGLES2->aglMakeCurrent(context);
 
         agl_context_remove(context); // remove the associated glstate
+
+        if(context!=agl_current_ctx)    // rebind old context if needed
+            IOGLES2->aglMakeCurrent(agl_current_ctx);
+        IOGLES2->aglDestroyContext(context);
+
     }
 }
 
 void aglMakeCurrent(void* context) {
+    agl_current_ctx = context;
     if(IOGLES2) {
         IOGLES2->aglMakeCurrent(context);
 
