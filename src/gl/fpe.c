@@ -822,6 +822,7 @@ void realize_glenv(int ispoint) {
             gltexture_t * tex = gl4es_getTexture(to_target(glprogram->texunits[tu_idx].type - 1), glprogram->texunits[tu_idx].req_tu);
             if(tex && tex->binded_fbo==glstate->fbo.current_fb->id)
                 need = 1;
+            ++tu_idx;
         }
         if(need) {
             DBG(printf("LIBGL: Need to Bind/Unbind FBO!");)
