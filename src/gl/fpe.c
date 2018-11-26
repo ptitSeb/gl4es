@@ -805,6 +805,31 @@ void realize_glenv(int ispoint) {
         }
         //TODO: Secondary colors
     }
+    // Texture Unit managements
+    int need_hackfbo = 0;
+    int tu_idx = 0;
+    while(tu_idx<MAX_TEX && glprogram->texunits[tu_idx].type) {
+        // grab the uniform value
+        glprogram->texunits[tu_idx].req_tu = GetUniformi(glprogram, glprogram->texunits[tu_idx].id);
+        glprogram->texunits[tu_idx].act_tu = glprogram->texunits[tu_idx].req_tu;
+        ++tu_idx;
+    }
+    if(globals4es.fbounbind && glstate->fbo.current_fb->id) {
+        // check if need to unbind/bind fbo because texture is both attached and used
+        tu_idx = 0;
+        int need = 0;
+        while(tu_idx<MAX_TEX && glprogram->texunits[tu_idx].type && !need) {
+            gltexture_t * tex = gl4es_getTexture(to_target(glprogram->texunits[tu_idx].type - 1), glprogram->texunits[tu_idx].req_tu);
+            if(tex && tex->binded_fbo==glstate->fbo.current_fb->id)
+                need = 1;
+        }
+        if(need) {
+            DBG(printf("LIBGL: Need to Bind/Unbind FBO!");)
+            LOAD_GLES2_OR_OES(glBindFramebuffer);
+            gles_glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            gles_glBindFramebuffer(GL_FRAMEBUFFER, glstate->fbo.current_fb->id);
+        }
+    }
     // setup fixed pipeline builtin matrix uniform if needed
     if(glprogram->has_builtin_matrix)
     {

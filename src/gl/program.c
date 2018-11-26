@@ -570,6 +570,7 @@ void gl4es_glLinkProgram(GLuint program) {
             GLint size = 0;
             GLenum type = 0;
             GLchar *name = (char*)malloc(maxsize);
+            int tu_idx = 0;
             for (int i=0; i<n; i++) {
                 gles_glGetActiveUniform(glprogram->id, i, maxsize, NULL, &size, &type, name);
                 DBG(e2=gles_glGetError();)
@@ -595,6 +596,18 @@ void gl4es_glLinkProgram(GLuint program) {
                             gluniform->cache_offs = uniform_cache+j*uniformsize(type);
                             gluniform->cache_size = uniformsize(type)*(size-j);
                             gluniform->builtin = builtin_CheckUniform(glprogram, name, id, size-j);
+                            // TextureUnit grabbing...
+                            if(type==GL_SAMPLER_CUBE) {
+                                glprogram->texunits[tu_idx].id = id;
+                                glprogram->texunits[tu_idx].type=TU_CUBE;
+                                glprogram->texunits[tu_idx].req_tu = glprogram->texunits[tu_idx].act_tu = 0;
+                                ++tu_idx;
+                            } else if (type==GL_SAMPLER_2D) {
+                                glprogram->texunits[tu_idx].id = id;
+                                glprogram->texunits[tu_idx].type=TU_TEX2D;
+                                glprogram->texunits[tu_idx].req_tu = glprogram->texunits[tu_idx].act_tu = 0;
+                                ++tu_idx;
+                            }
                             DBG(printf(" uniform #%d : \"%s\"%s type=%s size=%d\n", id, gluniform->name, gluniform->builtin?" (builtin) ":"", PrintEnum(gluniform->type), gluniform->size);)
                             if(gluniform->size==1) ++glprogram->num_uniform;
                             id++;

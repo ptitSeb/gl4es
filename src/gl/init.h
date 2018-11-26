@@ -53,6 +53,7 @@ typedef struct _globals4es {
  int comments;
  int forcenpot;
  int fbomakecurrent;    // hack to bind/unbind FBO when doing glXMakeCurrent
+ int fbounbind;         // hack to bind/unbind fbo if a bind texture is used for drawing
  int fboforcetex;       // force texture attachment for Color0
  int notexarray;
  int nodepthtex;

@@ -447,6 +447,20 @@ void initialize_gl4es() {
         SHUT(LOGD("LIBGL: glXMakeCurrent FBO workaround enabled\n"));
     }
 
+    globals4es.fbounbind = 0;
+    if((hardext.vendor & VEND_ARM) || (hardext.vendor & VEND_IMGTEC))
+        globals4es.fbounbind = 1;
+    char *env_fbounbind = getenv("LIBGL_FBOUNBIND");
+    if(globals4es.fbounbind && env_fbounbind && !strcmp(env_fbounbind, "0")) {
+        globals4es.fbounbind = 0;
+        SHUT(LOGD("LIBGL: FBO workaround for using binded texture disabled\n"));
+    }
+    if(env_fbounbind && !strcmp(env_fbounbind, "1"))
+        globals4es.fbounbind = 1;
+    if(globals4es.fbounbind) {
+        SHUT(LOGD("LIBGL: FBO workaround for using binded texture enabled\n"));
+    }
+
     env(LIBGL_FBOFORCETEX, globals4es.fboforcetex, "Force texture for Attachment color0 on FBO");
 
     env(LIBGL_COMMENTS, globals4es.comments, "Keep comments in converted Shaders");

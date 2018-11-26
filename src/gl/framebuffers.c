@@ -468,17 +468,28 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
     
     GLenum ntarget = ReadDraw_Push(target);
 
+    GLuint old_attachment = GetAttachment(fb, attachment);
+    GLuint old_attachment_type = GetAttachmentType(fb, attachment);
+    if(old_attachment) {
+        gltexture_t* old = gl4es_getTexture(old_attachment_type, old_attachment);
+        if(old) {
+            tex->binded_fbo = 0;
+            tex->binded_attachment = 0;
+        }
+    }
+
     if(tex) {
         tex->binded_fbo = fb->id;
         tex->binded_attachment = attachment;
-    } //TODO: Handle unbind
+    }
 
-    if ((GetAttachmentType(fb, attachment) == textarget) && (GetAttachment(fb, attachment)==(tex?tex->texture:texture)))
+    if ((old_attachment_type == textarget) && (old_attachment == (tex?tex->texture:texture)))
     {
         // no need to reattach
         noerrorShim();
         return;
     }
+
     SetAttachment(fb, attachment, textarget, tex?tex->texture:texture, level);
 
     if(attachment==GL_COLOR_ATTACHMENT0 && tex) {

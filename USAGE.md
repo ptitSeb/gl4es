@@ -245,8 +245,13 @@ Hack to define default WRAP mode for texture
 
 ##### LIBGL_FBOMAKECURRENT
 Workaround for FBO and glXMakeCurrent (force unbind/bind FBO when changing context)
-* 0 : Disabled (Default on mast configuration)
+* 0 : Disabled (Default on most configuration)
 * 1 : Enabled (Default if Vendor is ARM or if using LIBGL_FB 1 and 2)
+
+##### LIBL_FBOUNBIND
+Workaround on FBO where a binded texture is used for drawing
+* 0 : Disabled (Default for all other configuration)
+* 1 : Enabled (Default on ARM and PowerVR hardware)
 
 ##### LIBGL_FBOFORCETEX
 For the Color Attachment 0 to be a Texture2D (even if program attachs a Renderbuffer) => may speedup glBlitFramebuffer if used

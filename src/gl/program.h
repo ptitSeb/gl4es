@@ -149,6 +149,23 @@ typedef struct {
     GLint       scale;
 } builtin_fog_t;
 
+// this need to be as texture_enabled_t, but with 0 as nothing
+typedef enum {
+    TU_NONE = 0,
+    TU_TEX1D,
+    TU_TEX2D,
+    TU_TEX3D,
+    TU_RECTANGLE,
+    TU_CUBE
+} texunit_type;
+
+typedef struct {
+    GLint           id;
+    texunit_type    type;
+    int             req_tu; //requested TU
+    int             act_tu; // actual (can be different from req)
+} texunit_t;
+
 typedef struct {
     GLuint          id;     // internal id of the shader
     int             linked;
@@ -196,6 +213,7 @@ typedef struct {
     GLint                           builtin_texenvalphascale[MAX_TEX];
     GLint                           builtin_texadjust[MAX_TEX];
     int                             has_builtin_texadjust;
+    texunit_t                       texunits[MAX_TEX];
     void*                           fpe_cache;  // that will be an fpe_cache_t*
 } program_t;
 
@@ -254,6 +272,7 @@ void GoUniformiv(program_t *glprogram, GLint location, int size, int count, cons
 void GoUniformMatrix2fv(program_t *glprogram, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
 void GoUniformMatrix3fv(program_t *glprogram, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
 void GoUniformMatrix4fv(program_t *glprogram, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+int GetUniformi(program_t *glprogram, GLint location);
 
 #endif
 

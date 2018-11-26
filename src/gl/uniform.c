@@ -556,6 +556,27 @@ void GoUniformMatrix4fv(program_t *glprogram, GLint location, GLsizei count, GLb
     }
 }
 
+int GetUniformi(program_t *glprogram, GLint location)
+{
+    if(location==-1) {
+        noerrorShim();
+        return 0;
+    }
+
+    khint_t k;
+    uniform_t *m;
+    k = kh_get(uniformlist, glprogram->uniform, location);
+    if (k==kh_end(glprogram->uniform)) {
+        return 0;
+    }
+    m = kh_value(glprogram->uniform, k);
+
+    // ok, grab the value in the cache
+    GLint ret;
+    memcpy(&ret, glprogram->cache.cache + m->cache_offs, sizeof(GLint));
+    return ret;
+}
+
 void glGetUniformfv(GLuint program, GLint location, GLfloat *params) AliasExport("gl4es_glGetUniformfv");
 void glGetUniformiv(GLuint program, GLint location, GLint *params) AliasExport("gl4es_glGetUniformiv");
 void glUniform1f(GLint location, GLfloat v0) AliasExport("gl4es_glUniform1f");
