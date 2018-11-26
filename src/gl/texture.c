@@ -2651,8 +2651,6 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
         noerrorShim();
         return; // nothing to do...
     }
-    LOAD_GLES(glCompressedTexImage2D);
-    errorGL();
     
     glbuffer_t *unpack = glstate->vao->unpack;
     glstate->vao->unpack = NULL;
@@ -2665,8 +2663,24 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
         
     if (isDXTc(internalformat)) {
         GLvoid *pixels, *half;
-        int fact = 0;
         pixels = half = NULL;
+        bound->alpha = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
+        if(globals4es.nodownsampling==1) {  // will be removed soon, avoid16bits is better
+            format = GL_RGBA;
+            type = GL_UNSIGNED_BYTE;
+        } else {
+            if(globals4es.avoid16bits) {
+                format = GL_RGBA;
+                type = GL_UNSIGNED_BYTE;
+            } else {
+                format = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_RGB:GL_RGBA;
+#ifdef PANDORA
+                type = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_6_5:(internalformat==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_5_5_1:GL_UNSIGNED_SHORT_4_4_4_4;
+#else
+                type = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_SHORT_4_4_4_4;
+#endif
+            }
+        }
         if (datab) {
             if (width<4 || height<4) {	// can happens :(
                 GLvoid *tmp;
@@ -2691,44 +2705,25 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
             }
             // automaticaly reduce the pixel size
             half=pixels;
-            bound->alpha = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
-            if(globals4es.nodownsampling==1) {  // will be removed soon, avoid16bits is better
-                format = GL_RGBA;
-                type = GL_UNSIGNED_BYTE;
-            } else {
-                if(globals4es.avoid16bits) {
+            if(!globals4es.nodownsampling && !globals4es.avoid16bits) {
+                if (!pixel_convert(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0, glstate->texture.unpack_align)) {
                     format = GL_RGBA;
                     type = GL_UNSIGNED_BYTE;
-                } else {
-                    format = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_RGB:GL_RGBA;
-#ifdef PANDORA
-                    type = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_6_5:(internalformat==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_5_5_1:GL_UNSIGNED_SHORT_4_4_4_4;
-#else
-                    type = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_SHORT_4_4_4_4;
-#endif
-                    if (pixel_convert(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0, glstate->texture.unpack_align))
-                        fact = 0;
-                    else {
-                        format = GL_RGBA;
-                        type = GL_UNSIGNED_BYTE;
-                    }
                 }
             }
-            bound->format = format; //internalformat;
-            bound->type = type;
-            bound->compressed = true;
-            bound->internalformat = internalformat;
-        } else {
-            fact = 0;
         }
         int oldalign;
         gl4es_glGetIntegerv(GL_UNPACK_ALIGNMENT, &oldalign);
         if (oldalign!=1) 
             gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        gl4es_glTexImage2D(rtarget, level, format==GL_RGBA?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB, nlevel(width,fact), nlevel(height,fact), border, format, type, half);
+        gl4es_glTexImage2D(rtarget, level, format==GL_RGBA?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB, width, height, border, format, type, half);
         // re-update bounded texture info
+        bound->alpha = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
+        bound->format = format; //internalformat;
+        bound->type = type;
         bound->compressed = true;
         bound->internalformat = internalformat;
+        bound->valid = 1;
         if (oldalign!=1) 
             gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, oldalign);
         if (half!=pixels)
@@ -2736,6 +2731,7 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
         if (pixels!=datab)
             free(pixels);
     } else {
+        LOAD_GLES(glCompressedTexImage2D);
         bound->alpha = true;
         bound->format = internalformat;
         bound->type = GL_UNSIGNED_BYTE;
@@ -2746,6 +2742,7 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
         if (glstate->fpe_state && glstate->fpe_bound_changed < glstate->texture.active+1)
             glstate->fpe_bound_changed = glstate->texture.active+1;
         gles_glCompressedTexImage2D(rtarget, level, internalformat, width, height, border, imageSize, datab);
+        errorGL();
     }
     glstate->vao->unpack = unpack;
 }
