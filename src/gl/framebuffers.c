@@ -473,8 +473,8 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
     if(old_attachment) {
         gltexture_t* old = gl4es_getTexture(old_attachment_type, old_attachment);
         if(old) {
-            tex->binded_fbo = 0;
-            tex->binded_attachment = 0;
+            old->binded_fbo = 0;
+            old->binded_attachment = 0;
         }
     }
 
