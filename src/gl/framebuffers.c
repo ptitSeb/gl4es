@@ -473,12 +473,16 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
     if(old_attachment) {
         gltexture_t* old = gl4es_getTexture(old_attachment_type, old_attachment);
         if(old) {
+            DBG(printf("Detach Texture %d from FBO %d as Attachement %s\n", old->glname, old->binded_fbo, PrintEnum(old->binded_attachment));)
             old->binded_fbo = 0;
             old->binded_attachment = 0;
+        } else {
+            DBG(printf("Old attachement %s for FBO %d not found in textures\n", PrintEnum(attachment), fb->id);)
         }
     }
 
     if(tex) {
+        DBG(printf("Attach Texture %d to FBO %d as Attachement %s\n", tex->glname, fb->id, PrintEnum(attachment));)
         tex->binded_fbo = fb->id;
         tex->binded_attachment = attachment;
     }

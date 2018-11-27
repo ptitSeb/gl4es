@@ -273,6 +273,7 @@ void GoUniformMatrix2fv(program_t *glprogram, GLint location, GLsizei count, GLb
 void GoUniformMatrix3fv(program_t *glprogram, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
 void GoUniformMatrix4fv(program_t *glprogram, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
 int GetUniformi(program_t *glprogram, GLint location);
+const char* GetUniformName(program_t *glprogram, GLint location);
 
 #endif
 

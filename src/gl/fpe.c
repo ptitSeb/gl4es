@@ -819,9 +819,11 @@ void realize_glenv(int ispoint) {
         tu_idx = 0;
         int need = 0;
         while(tu_idx<MAX_TEX && glprogram->texunits[tu_idx].type && !need) {
-            gltexture_t * tex = gl4es_getTexture(to_target(glprogram->texunits[tu_idx].type - 1), glprogram->texunits[tu_idx].req_tu);
-            if(tex && tex->binded_fbo==glstate->fbo.current_fb->id)
+            gltexture_t * tex = glstate->texture.bound[glprogram->texunits[tu_idx].req_tu][glprogram->texunits[tu_idx].type - 1];
+            if(tex && tex->binded_fbo==glstate->fbo.current_fb->id) {
+                DBG(printf("Texture %d is used on Uniform %s (%d) and binded on FBO %d Attachement=%s\n", tex->glname, GetUniformName(glprogram, glprogram->texunits[tu_idx].id), glprogram->texunits[tu_idx].id, glstate->fbo.current_fb->id, PrintEnum(tex->binded_attachment));)
                 need = 1;
+            }
             ++tu_idx;
         }
         if(need) {
