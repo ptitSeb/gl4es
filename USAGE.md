@@ -106,9 +106,7 @@ PANDORA only: enable Texture Streaming (works only on RGB textures)
  * 2 : Enabled on all RGB textures
 
 ##### LIBGL_COPY
-Control the glCopyTex(Sub)Image2D hack (they are buggy on pandora and don't work most of the time)
- * 0 : Don't use native glCopyTex(Sub)Image2D, but a workaround function using FBO
- * 1 : No glCopyTexImage2D / glCopyTexSubImage2D hack, use native ones
+Removed (Controled the glCopyTex(Sub)Image2D hack, it's now automatic, depending on how compatible is the readed framebuffer)
 
 ##### LIBGL_NOLUMALPHA
 Control the availability of the LUMUNANCE_ALPHA format (can be buggy on Pandora model CC)

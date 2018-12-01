@@ -600,7 +600,7 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             *params=globals4es.texdump;
             break;
         case GL_COPY_HINT_GL4ES:
-            *params=globals4es.copytex;
+            *params=0;  // removed
             break;
         case GL_NOLUMAPHA_HINT_GL4ES:
             *params=globals4es.nolumalpha;

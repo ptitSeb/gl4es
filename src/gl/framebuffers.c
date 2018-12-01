@@ -50,10 +50,13 @@ void readfboBegin() {
 	if (glstate->fbo.fbo_read == glstate->fbo.fbo_draw)
         return;
     DBG(printf("readfboBegin, fbo status read=%u, draw=%u, main=%u, current=%u\n", glstate->fbo.fbo_read->id, glstate->fbo.fbo_draw->id, glstate->fbo.mainfbo_fbo, glstate->fbo.current_fb->id);)
-    LOAD_GLES2_OR_OES(glBindFramebuffer);
+    if(glstate->fbo.fbo_read==glstate->fbo.current_fb)
+        return;
+    glstate->fbo.current_fb = glstate->fbo.fbo_read;
 	GLuint fbo = glstate->fbo.fbo_read->id;
 	if (!fbo)
 		fbo = glstate->fbo.mainfbo_fbo;
+    LOAD_GLES2_OR_OES(glBindFramebuffer);
 	gles_glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 }
 
@@ -61,10 +64,13 @@ void readfboEnd() {
 	if (glstate->fbo.fbo_read->id == glstate->fbo.fbo_draw->id)
         return;
     DBG(printf("readfboEnd, fbo status read=%u, draw=%u, main=%u, current=%u\n", glstate->fbo.fbo_read, glstate->fbo.fbo_draw, glstate->fbo.mainfbo_fbo, glstate->fbo.current_fb);)
-    LOAD_GLES2_OR_OES(glBindFramebuffer);
-	GLuint fbo = glstate->fbo.current_fb->id;
+    if(glstate->fbo.fbo_draw==glstate->fbo.current_fb)
+        return;
+    glstate->fbo.current_fb = glstate->fbo.fbo_draw;
+	GLuint fbo = glstate->fbo.fbo_draw->id;
 	if (!fbo)
 		fbo = glstate->fbo.mainfbo_fbo;
+    LOAD_GLES2_OR_OES(glBindFramebuffer);
 	gles_glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 }
 

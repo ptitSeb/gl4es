@@ -24,7 +24,6 @@ typedef struct _globals4es {
  int texdump;
  int alphahack;
  int texstream;
- int copytex;
  int nolumalpha;
  int blendhack;
  int blendcolor;

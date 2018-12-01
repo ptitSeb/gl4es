@@ -292,6 +292,8 @@ typedef struct {
     int    l_stencil;
     int    width;
     int    height;
+    GLenum read_format;
+    GLenum read_type;
 } glframebuffer_t;
 
 typedef struct {

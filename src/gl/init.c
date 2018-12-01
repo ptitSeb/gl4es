@@ -283,11 +283,6 @@ void initialize_gl4es() {
         //FreeStreamed(AddStreamed(1024, 512, 0));
     }
 #endif
-    char *env_copy = getenv("LIBGL_COPY");
-    if (env_copy && strcmp(env_copy, "1") == 0) {
-        SHUT(LOGD("LIBGL: No glCopyTexImage2D / glCopyTexSubImage2D hack\n"));
-        globals4es.copytex = 1;
-    }
     char *env_lumalpha = getenv("LIBGL_NOLUMALPHA");
     if (env_lumalpha && strcmp(env_lumalpha, "1") == 0) {
         globals4es.nolumalpha = 1;

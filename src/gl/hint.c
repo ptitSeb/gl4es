@@ -67,9 +67,7 @@ void gl4es_glHint(GLenum pname, GLenum mode) {
                 errorShim(GL_INVALID_ENUM); 
             break;
         case GL_COPY_HINT_GL4ES: 
-            if (mode<=1)
-                globals4es.copytex = mode;
-            else
+            if (mode>1) //removed
                 errorShim(GL_INVALID_ENUM); 
             break;
         case GL_NOLUMAPHA_HINT_GL4ES: 

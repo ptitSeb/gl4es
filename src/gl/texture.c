@@ -2482,6 +2482,8 @@ void gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
     glstate->vao->pack = NULL;
     glstate->vao->unpack = NULL;
 
+    readfboBegin(); // multiple readfboBegin() can be chained...
+
     gltexture_t* bound = glstate->texture.bound[glstate->texture.active][itarget];
 #ifdef TEXSTREAM
     if (bound->streamed) {
@@ -2499,7 +2501,15 @@ void gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
     } else 
 #endif
     {
-        if (globals4es.copytex || !glstate->colormask[0] || !glstate->colormask[1] || !glstate->colormask[2] || !glstate->colormask[3]) {
+        int copytex = 0;
+        if(glstate->fbo.current_fb->read_type==0) {
+            LOAD_GLES(glGetIntegerv);
+            gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, &glstate->fbo.current_fb->read_format);
+            gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, &glstate->fbo.current_fb->read_type);
+        }
+        copytex = ((bound->format==GL_RGBA && bound->type==GL_UNSIGNED_BYTE) 
+            || (bound->format==glstate->fbo.current_fb->read_format && bound->type==glstate->fbo.current_fb->read_type));
+        if (copytex || !glstate->colormask[0] || !glstate->colormask[1] || !glstate->colormask[2] || !glstate->colormask[3]) {
             gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
         } else {
             void* tmp = malloc(width*height*4);
@@ -2510,6 +2520,7 @@ void gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
             free(tmp);
         }
     }
+    readfboEnd();
     // "Remap" if buffer mapped...
     glstate->vao->pack = pack;
     glstate->vao->unpack = unpack;
@@ -2518,26 +2529,38 @@ void gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
 
 void gl4es_glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  
                                 GLsizei width,  GLsizei height,  GLint border) {
-     DBG(printf("glCopyTexImage2D(%s, %i, %s, %i, %i, %i, %i, %i), glstate->fbo.current_fb=%u\n", PrintEnum(target), level, PrintEnum(internalformat), x, y, width, height, border, glstate->fbo.current_fb);)
+    DBG(printf("glCopyTexImage2D(%s, %i, %s, %i, %i, %i, %i, %i), glstate->fbo.current_fb=%u\n", PrintEnum(target), level, PrintEnum(internalformat), x, y, width, height, border, glstate->fbo.current_fb);)
      //PUSH_IF_COMPILING(glCopyTexImage2D);
-     if (glstate->list.pending) {
-         flush();
-     }
+    if (glstate->list.pending) {
+        flush();
+    }
+    const GLuint itarget = what_target(target);
 
     // actualy bound if targetting shared TEX2D
     realize_bound(glstate->texture.active, target);
 
-     errorGL();
+    errorGL();
 
-     // "Unmap" if buffer mapped...
-     glbuffer_t *pack = glstate->vao->pack;
-     glbuffer_t *unpack = glstate->vao->unpack;
-     glstate->vao->pack = NULL;
-     glstate->vao->unpack = NULL;
+    // "Unmap" if buffer mapped...
+    glbuffer_t *pack = glstate->vao->pack;
+    glbuffer_t *unpack = glstate->vao->unpack;
+    glstate->vao->pack = NULL;
+    glstate->vao->unpack = NULL;
     
-    if (globals4es.copytex) {
+    readfboBegin(); // multiple readfboBegin() can be chained...
+    realize_bound(glstate->texture.active, target);
+    gltexture_t* bound = glstate->texture.bound[glstate->texture.active][itarget];
+
+    if(glstate->fbo.current_fb->read_type==0) {
+        LOAD_GLES(glGetIntegerv);
+        gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, &glstate->fbo.current_fb->read_format);
+        gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, &glstate->fbo.current_fb->read_type);
+    }
+    int copytex = ((bound->format==GL_RGBA && bound->type==GL_UNSIGNED_BYTE) 
+        || (bound->format==glstate->fbo.current_fb->read_format && bound->type==glstate->fbo.current_fb->read_type));
+
+    if (copytex) {
         LOAD_GLES(glCopyTexImage2D);
-        realize_bound(glstate->texture.active, target);
         gles_glCopyTexImage2D(target, level, GL_RGB, x, y, width, height, border);
     } else {
         void* tmp = malloc(width*height*4);
@@ -2546,9 +2569,10 @@ void gl4es_glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,
         free(tmp);
     }
     
-     // "Remap" if buffer mapped...
-     glstate->vao->pack = pack;
-     glstate->vao->unpack = unpack;
+    readfboEnd();
+    // "Remap" if buffer mapped...
+    glstate->vao->pack = pack;
+    glstate->vao->unpack = unpack;
 }
 
 
