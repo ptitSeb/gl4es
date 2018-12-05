@@ -42,6 +42,7 @@ SET(GL_SRC
     gl/shader.c
     gl/shaderconv.c
     gl/stack.c
+    gl/stencil.c
     gl/string_utils.c
     gl/stubs.c
     gl/texenv.c
@@ -97,6 +98,7 @@ SET(GL_H
     gl/shaderconv.h
     gl/stack.h
     gl/state.h
+    gl/stencil.h
     gl/stb_dxt_104.h
     gl/string_utils.h
     gl/texenv.h

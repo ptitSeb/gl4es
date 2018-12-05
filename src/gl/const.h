@@ -285,6 +285,15 @@
 #define GL_SINGLE_COLOR		    0x81F9
 #define GL_SEPARATE_SPECULAR_COLOR		0x81FA
 
+// stencil
+#define GL_STENCIL_BACK_FUNC              0x8800
+#define GL_STENCIL_BACK_VALUE_MASK        0x8CA4
+#define GL_STENCIL_BACK_REF               0x8CA3
+#define GL_STENCIL_BACK_WRITEMASK         0x8CA5
+#define GL_STENCIL_BACK_FAIL              0x8801
+#define GL_STENCIL_BACK_PASS_DEPTH_FAIL   0x8802
+#define GL_STENCIL_BACK_PASS_DEPTH_PASS   0x8803
+
 // pixel transfer
 #define GL_MAP_COLOR             0x0D10
 #define GL_MAP_STENCIL           0x0D11

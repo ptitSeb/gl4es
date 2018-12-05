@@ -269,6 +269,14 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->pointsprite.fadeThresholdSize = 1.0f;
     glstate->pointsprite.distance[0] = 1.0f;
     glstate->pointsprite.coordOrigin = GL_UPPER_LEFT;
+    // Stencil
+    glstate->stencil.func[0] = glstate->stencil.func[1] = GL_ALWAYS;
+    //glstate->stencil.f_ref[0] = glstate->stencil.f_ref[1] = 0;
+    glstate->stencil.f_mask[0] = glstate->stencil.f_mask[1] = ~(GLuint)0;
+    glstate->stencil.mask[0] = glstate->stencil.mask[1] = ~(GLuint)0;
+    glstate->stencil.sfail[0] = glstate->stencil.sfail[1] = GL_KEEP;
+    glstate->stencil.dpfail[0] = glstate->stencil.dpfail[1] = GL_KEEP;
+    glstate->stencil.dppass[0] = glstate->stencil.dppass[1] = GL_KEEP;
     // Color Mask
     for(int i=0; i<4; i++)
         glstate->colormask[i] = 1;

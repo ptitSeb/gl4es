@@ -446,6 +446,51 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_CURRENT_FOG_COORD:
             *params=glstate->fogcoord;
             break;
+        case GL_STENCIL_FUNC:
+            *params=glstate->stencil.func[0];
+            break;
+        case GL_STENCIL_VALUE_MASK:
+            *params=glstate->stencil.f_mask[0];
+            break;
+        case GL_STENCIL_REF:
+            *params=glstate->stencil.f_ref[0];
+            break;
+        case GL_STENCIL_BACK_FUNC:
+            *params=glstate->stencil.func[1];
+            break;
+        case GL_STENCIL_BACK_VALUE_MASK:
+            *params=glstate->stencil.f_mask[1];
+            break;
+        case GL_STENCIL_BACK_REF:
+            *params=glstate->stencil.f_ref[1];
+            break;
+        case GL_STENCIL_WRITEMASK:
+            *params=glstate->stencil.mask[0];
+            break;
+        case GL_STENCIL_BACK_WRITEMASK:
+            *params=glstate->stencil.mask[1];
+            break;
+        case GL_STENCIL_FAIL:
+            *params=glstate->stencil.sfail[0];
+            break;
+        case GL_STENCIL_PASS_DEPTH_FAIL:
+            *params=glstate->stencil.dpfail[0];
+            break;
+        case GL_STENCIL_PASS_DEPTH_PASS:
+            *params=glstate->stencil.dppass[0];
+            break;
+        case GL_STENCIL_BACK_FAIL:
+            *params=glstate->stencil.sfail[1];
+            break;
+        case GL_STENCIL_BACK_PASS_DEPTH_FAIL:
+            *params=glstate->stencil.dpfail[1];
+            break;
+        case GL_STENCIL_BACK_PASS_DEPTH_PASS:
+            *params=glstate->stencil.dppass[1];
+            break;
+        case GL_STENCIL_CLEAR_VALUE:
+            *params=glstate->stencil.clear;
+            break;
         case GL_MAX_TEXTURE_SIZE:
             *params=hardext.maxsize;
             switch(globals4es.texshrink) {

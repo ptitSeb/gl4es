@@ -40,10 +40,6 @@
 #define skip_glBlendFuncSeparate
 #define skip_glBlendFuncSeparatei
 
-#define skip_glStencilFuncSeparate
-#define skip_glStencilMaskSeparate
-#define skip_glStencilOpSeparate
-
 #define skip_glShadeModel
 
 #define skip_glAlphaFunc
@@ -247,6 +243,15 @@
 #define skip_glLinkProgram
 #define skip_glUseProgram
 #define skip_glValidateProgram
+
+// stencil.c
+#define skip_glStencilFunc
+#define skip_glStencilFuncSeparate
+#define skip_glStencilMask
+#define skip_glStencilMaskSeparate
+#define skip_glStencilOp
+#define skip_glStencilOpSeparate
+#define skip_glClearStencil
 
 //uniform.c
 #define skip_glGetUniformfv

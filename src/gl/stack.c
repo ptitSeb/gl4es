@@ -222,7 +222,7 @@ void gl4es_glPushAttrib(GLbitfield mask) {
         gl4es_glGetFloatv(GL_SCISSOR_BOX, cur->scissor_box);
     }
 
-    // TODO: GL_STENCIL_BUFFER_BIT
+    // TODO: GL_STENCIL_BUFFER_BIT on both faces
     if (mask & GL_STENCIL_BUFFER_BIT) {
         cur->stencil_test = gl4es_glIsEnabled(GL_STENCIL_TEST);
         gl4es_glGetIntegerv(GL_STENCIL_FUNC, &cur->stencil_func);

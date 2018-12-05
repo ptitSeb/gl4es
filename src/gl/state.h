@@ -15,6 +15,7 @@
 #include "program.h"
 #include "fpe.h"
 #include "pointsprite.h"
+#include "stencil.h"
 
 typedef struct {
     GLboolean line_stipple,

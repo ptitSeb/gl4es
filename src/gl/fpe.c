@@ -692,6 +692,38 @@ void realize_glenv(int ispoint) {
         }
     }
     program_t *glprogram = glstate->gleshard->glprogram;
+    // Texture Unit managements
+    int need_hackfbo = 0;
+    int tu_idx = 0;
+    while(tu_idx<MAX_TEX && glprogram->texunits[tu_idx].type) {
+        // grab the uniform value
+        glprogram->texunits[tu_idx].req_tu = GetUniformi(glprogram, glprogram->texunits[tu_idx].id);
+        glprogram->texunits[tu_idx].act_tu = glprogram->texunits[tu_idx].req_tu;
+        ++tu_idx;
+    }
+    if(globals4es.fbounbind && glstate->fbo.current_fb->id) {
+        // check if need to unbind/bind fbo because texture is both attached and used
+        tu_idx = 0;
+        int need = 0;
+        gltexture_t * tex = NULL;
+        while(tu_idx<MAX_TEX && glprogram->texunits[tu_idx].type && !need) {
+            tex = glstate->texture.bound[glprogram->texunits[tu_idx].req_tu][glprogram->texunits[tu_idx].type - 1];
+            if(tex && tex->binded_fbo==glstate->fbo.current_fb->id) {
+                DBG(printf("Texture %d is used on Uniform %s (%d) and binded on FBO %d Attachement=%s\n", tex->glname, GetUniformName(glprogram, glprogram->texunits[tu_idx].id), glprogram->texunits[tu_idx].id, glstate->fbo.current_fb->id, PrintEnum(tex->binded_attachment));)
+                need = 1;
+            }
+            ++tu_idx;
+        }
+        if(need && tex) {
+            DBG(printf("LIBGL: Need to Bind/Unbind FBO!");)
+            LOAD_GLES2_OR_OES(glBindFramebuffer);
+            LOAD_GLES2_OR_OES(glFramebufferTexture2D);
+            //gles_glFramebufferTexture2D(GL_FRAMEBUFFER, tex->binded_attachment, GL_TEXTURE_2D, 0, 0);
+            gles_glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            gles_glBindFramebuffer(GL_FRAMEBUFFER, glstate->fbo.current_fb->id);
+            //gles_glFramebufferTexture2D(GL_FRAMEBUFFER, tex->binded_attachment, GL_TEXTURE_2D, tex->glname, 0);
+        }
+    }
     // setup fixed pipeline builtin vertex attrib if needed
     if(glprogram->has_builtin_attrib)
     {
@@ -804,34 +836,6 @@ void realize_glenv(int ispoint) {
             }
         }
         //TODO: Secondary colors
-    }
-    // Texture Unit managements
-    int need_hackfbo = 0;
-    int tu_idx = 0;
-    while(tu_idx<MAX_TEX && glprogram->texunits[tu_idx].type) {
-        // grab the uniform value
-        glprogram->texunits[tu_idx].req_tu = GetUniformi(glprogram, glprogram->texunits[tu_idx].id);
-        glprogram->texunits[tu_idx].act_tu = glprogram->texunits[tu_idx].req_tu;
-        ++tu_idx;
-    }
-    if(globals4es.fbounbind && glstate->fbo.current_fb->id) {
-        // check if need to unbind/bind fbo because texture is both attached and used
-        tu_idx = 0;
-        int need = 0;
-        while(tu_idx<MAX_TEX && glprogram->texunits[tu_idx].type && !need) {
-            gltexture_t * tex = glstate->texture.bound[glprogram->texunits[tu_idx].req_tu][glprogram->texunits[tu_idx].type - 1];
-            if(tex && tex->binded_fbo==glstate->fbo.current_fb->id) {
-                DBG(printf("Texture %d is used on Uniform %s (%d) and binded on FBO %d Attachement=%s\n", tex->glname, GetUniformName(glprogram, glprogram->texunits[tu_idx].id), glprogram->texunits[tu_idx].id, glstate->fbo.current_fb->id, PrintEnum(tex->binded_attachment));)
-                need = 1;
-            }
-            ++tu_idx;
-        }
-        if(need) {
-            DBG(printf("LIBGL: Need to Bind/Unbind FBO!");)
-            LOAD_GLES2_OR_OES(glBindFramebuffer);
-            gles_glBindFramebuffer(GL_FRAMEBUFFER, 0);
-            gles_glBindFramebuffer(GL_FRAMEBUFFER, glstate->fbo.current_fb->id);
-        }
     }
     // setup fixed pipeline builtin matrix uniform if needed
     if(glprogram->has_builtin_matrix)

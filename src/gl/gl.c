@@ -833,51 +833,6 @@ void gl4es_glPolygonMode(GLenum face, GLenum mode) {
 void glPolygonMode(GLenum face, GLenum mode) AliasExport("gl4es_glPolygonMode");
 
 
-void gl4es_glStencilMaskSeparate(GLenum face, GLuint mask) {
-    LOAD_GLES2(glStencilMaskSeparate);
-    errorGL();
-    if(gles_glStencilMaskSeparate) {
-        gles_glStencilMaskSeparate(face, mask);
-    } else {
-        // fake function..., call it only for front or front_and_back, just ignore back (crappy, I know)
-        if ((face==GL_FRONT) || (face==GL_FRONT_AND_BACK))
-            gl4es_glStencilMask(mask);
-        else
-            noerrorShim();
-    }
-}
-void glStencilMaskSeparate(GLenum face, GLuint mask) AliasExport("gl4es_glStencilMaskSeparate");
-
-void gl4es_glStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask) {
-    LOAD_GLES2(glStencilFuncSeparate);
-    errorGL();
-    if(gles_glStencilFuncSeparate) {
-        gles_glStencilFuncSeparate(face, func, ref, mask);
-    } else {
-        // fake function..., call it only for front or front_and_back, just ignore back (crappy, I know)
-        if ((face==GL_FRONT) || (face==GL_FRONT_AND_BACK))
-            gl4es_glStencilFunc(func, ref, mask);
-        else
-            noerrorShim();
-    }
-}
-void glStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask) AliasExport("gl4es_glStencilFuncSeparate");
-
-void gl4es_glStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass) {
-    LOAD_GLES2(glStencilOpSeparate);
-    errorGL();
-    if(gles_glStencilOpSeparate) {
-        gles_glStencilOpSeparate(face, sfail, dpfail, dppass);
-    } else {
-        //fake, again
-        if ((face==GL_FRONT) || (face==GL_FRONT_AND_BACK))
-            gl4es_glStencilOp(sfail, dpfail, dppass);
-        else
-            noerrorShim();
-    }
-}
-void glStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass) AliasExport("gl4es_glStencilOpSeparate");
-
 void flush() {
     // flush internal list
     renderlist_t *mylist = glstate->list.active?extend_renderlist(glstate->list.active):NULL;
