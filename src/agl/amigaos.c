@@ -46,7 +46,7 @@ void os4OpenLib(void** lib)
 	}	
     IOGLES2 = (struct OGLES2IFace *)IExec->GetInterface(LOGLES2, "main", 1, NULL); 
     if(!IOGLES2) {
-        printf("LIBGL: Warning, cannot openogles2 Interface!\n");
+        printf("LIBGL: Warning, cannot open ogles2 Interface!\n");
         IExec->CloseLibrary(LOGLES2);
         LOGLES2 = NULL;
         return;
