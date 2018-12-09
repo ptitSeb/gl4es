@@ -2042,8 +2042,8 @@ void gl4es_glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
 }
 
 void gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
-    DBG(printf("glDeleteTextures(%d, %p {%d...})\n", n, textures, n?textures[0]:-1);)
     if (glstate->list.pending) flush();
+    DBG(printf("glDeleteTextures(%d, %p {%d...})\n", n, textures, n?textures[0]:-1);)
     noerrorShim();
     LOAD_GLES(glDeleteTextures);
     khash_t(tex) *list = glstate->texture.list;
@@ -2982,9 +2982,9 @@ void realize_textures() {
     LOAD_GLES(glBindTexture);
     LOAD_GLES(glActiveTexture);
 #ifdef TEXSTREAM
-    DBG(printf("realize_textures(), glstate->bound_changed=%d, glsate->actual_tex2d[0]=%u / glstate->bound_stream[0]=%u\n", glstate->bound_changed, glstate->actual_tex2d[0], glstate->bound_stream[0]);)
+    DBG(printf("realize_textures(), glstate->bound_changed=%d, glstate->enable.texture[0]=%X glsate->actual_tex2d[0]=%u / glstate->bound_stream[0]=%u\n", glstate->bound_changed, glstate->enable.texture[0], glstate->actual_tex2d[0], glstate->bound_stream[0]);)
 #else
-    DBG(printf("realize_textures(), glstate->bound_changed=%d, glsate->actual_tex2d[0]=%u\n", glstate->bound_changed, glstate->actual_tex2d[0]);)
+    DBG(printf("realize_textures(), glstate->bound_changed=%d, glstate->enable.texture[0]=%X glsate->actual_tex2d[0]=%u\n", glstate->bound_changed, glstate->enable.texture[0], glstate->actual_tex2d[0]);)
 #endif
     for (int i=0; i<glstate->bound_changed; i++) {
         // get highest priority texture unit

@@ -109,6 +109,7 @@ const char* PrintEnum(GLenum what) {
         // texture pack/unpack
         p(GL_UNPACK_ALIGNMENT);
         p(GL_PACK_ALIGNMENT);
+        p(GL_UNPACK_ROW_LENGTH);
         // framebuffer
         p(GL_COLOR_ATTACHMENT0);
         p(GL_COLOR_ATTACHMENT1);
