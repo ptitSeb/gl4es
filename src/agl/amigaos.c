@@ -7,6 +7,12 @@
 // make sure we don't use inline version here
 #undef __USE_INLINE__
 #include <proto/ogles2.h>
+#include <proto/Warp3DNova.h>
+
+#define MIN_W3DNOVA_LIB_VERSION 1
+#define MIN_W3DNOVA_LIB_REVISION 62
+#define MIN_OGLES2_LIB_VERSION 1
+#define MIN_OGLES2_LIB_REVISION 22
 
 struct Library *LOGLES2 = NULL; 
 struct OGLES2IFace *IOGLES2 = NULL;
@@ -14,11 +20,30 @@ struct OGLES2IFace *IOGLES2 = NULL;
 // Open OGLES2 library and interface
 void os4OpenLib(void** lib)
 {
-    LOGLES2 = IExec->OpenLibrary("ogles2.library", 0);
-    if(!LOGLES2) {
-        printf("LIBGL: Warning, cannot open ogles2 Library!\n");
+    // first check version for Warp3DNova lib
+    struct Library *Warp3DNovaBase = NULL;
+	Warp3DNovaBase = IExec->OpenLibrary("Warp3DNova.library", MIN_W3DNOVA_LIB_VERSION);
+	if(!Warp3DNovaBase) {
+        printf("LIBGL: Error, cannot open Warp3DNova.library!\n");
         return;
     }
+    printf("LIBGL: Using Warp3DNova.library v%d revision %d\n", Warp3DNovaBase->lib_Version, Warp3DNovaBase->lib_Version);
+	if (!(Warp3DNovaBase->lib_Version > MIN_W3DNOVA_LIB_VERSION || (Warp3DNovaBase->lib_Version == MIN_W3DNOVA_LIB_VERSION && Warp3DNovaBase->lib_Revision >= MIN_W3DNOVA_LIB_REVISION)))  {
+        printf("LIBGL: Warning, your Warp3DNovaBase.library is too old, minimum is v%d.%d, please update!\n", MIN_W3DNOVA_LIB_VERSION,MIN_W3DNOVA_LIB_REVISION);
+	}	
+	//close warp3dnova.library, we open it just for version check
+	IExec->CloseLibrary(Warp3DNovaBase);
+	Warp3DNovaBase = NULL;
+
+    LOGLES2 = IExec->OpenLibrary("ogles2.library", 0);
+    if(!LOGLES2) {
+        printf("LIBGL: Error, cannot open ogles2 Library!\n");
+        return;
+    }
+    printf("LIBGL: Using OGLES2.library v%d revision %d\n", LOGLES2->lib_Version, LOGLES2->lib_Version);
+	if (!(LOGLES2->lib_Version > MIN_W3DNOVA_LIB_VERSION || (LOGLES2->lib_Version == MIN_OGLES2_LIB_VERSION && Warp3DNovaBase->lib_Revision >= MIN_OGLES2_LIB_REVISION)))  {
+        printf("LIBGL: Warning, your OGLES2.library is too old, minimum is v%d.%d, please update!\n", MIN_OGLES2_LIB_VERSION,MIN_OGLES2_LIB_REVISION);
+	}	
     IOGLES2 = (struct OGLES2IFace *)IExec->GetInterface(LOGLES2, "main", 1, NULL); 
     if(!IOGLES2) {
         printf("LIBGL: Warning, cannot openogles2 Interface!\n");
