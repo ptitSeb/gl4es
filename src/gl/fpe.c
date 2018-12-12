@@ -725,14 +725,16 @@ void realize_glenv(int ispoint) {
         }
     }
     // setup fixed pipeline builtin vertex attrib if needed
+    vertexattrib_t  wanted[MAX_VATTRIB];
     if(glprogram->has_builtin_attrib)
     {
+        memcpy(wanted, glstate->glesva.wanted, sizeof(wanted));
         int vaarray = 0;
         int id = -1;
         // Vertex
         id = glprogram->builtin_attrib[ATT_VERTEX];
         if(id!=-1) {
-            vertexattrib_t *w = &glstate->glesva.wanted[id];
+            vertexattrib_t *w = &wanted[id];
             pointer_state_t *p = &glstate->fpe_client.vert;
             w->vaarray = glstate->fpe_client.vertex_array;
             if(w->vaarray) {
@@ -749,7 +751,7 @@ void realize_glenv(int ispoint) {
         // Color
         id = glprogram->builtin_attrib[ATT_COLOR];
         if(id!=-1) {
-            vertexattrib_t *w = &glstate->glesva.wanted[id];
+            vertexattrib_t *w = &wanted[id];
             pointer_state_t *p = &glstate->fpe_client.color;
             w->vaarray = glstate->fpe_client.color_array;
             if(w->vaarray) {
@@ -766,7 +768,7 @@ void realize_glenv(int ispoint) {
         // Secondary Color
         id = glprogram->builtin_attrib[ATT_SECONDARY];
         if(id!=-1) {
-            vertexattrib_t *w = &glstate->glesva.wanted[id];
+            vertexattrib_t *w = &wanted[id];
             pointer_state_t *p = &glstate->fpe_client.secondary;
             w->vaarray = glstate->fpe_client.secondary_array;
             if(w->vaarray) {
@@ -783,7 +785,7 @@ void realize_glenv(int ispoint) {
         // Fog Coord
         id = glprogram->builtin_attrib[ATT_FOGCOORD];
         if(id!=-1) {
-            vertexattrib_t *w = &glstate->glesva.wanted[id];
+            vertexattrib_t *w = &wanted[id];
             pointer_state_t *p = &glstate->fpe_client.fog;
             w->vaarray = glstate->fpe_client.fog_array;
             if(w->vaarray) {
@@ -802,7 +804,7 @@ void realize_glenv(int ispoint) {
         for(int tex=0; tex<hardext.maxtex; tex++) {
             id = glprogram->builtin_attrib[ATT_MULTITEXCOORD0+tex];
             if(id!=-1) {
-                vertexattrib_t *w = &glstate->glesva.wanted[id];
+                vertexattrib_t *w = &wanted[id];
                 pointer_state_t *p = &glstate->fpe_client.tex[tex];
                 w->vaarray = glstate->fpe_client.tex_coord_array[tex];
                 if(w->vaarray) {
@@ -820,7 +822,7 @@ void realize_glenv(int ispoint) {
         // Normal
         id = glprogram->builtin_attrib[ATT_NORMAL];
         if(id!=-1) {
-            vertexattrib_t *w = &glstate->glesva.wanted[id];
+            vertexattrib_t *w = &wanted[id];
             pointer_state_t *p = &glstate->fpe_client.normal;
             w->vaarray = glstate->fpe_client.normal_array;
             if(w->vaarray) {
@@ -1081,7 +1083,7 @@ void realize_glenv(int ispoint) {
     if(glprogram->va_size[i])   // only check used VA...
     {
         vertexattrib_t *v = &glstate->glesva.vertexattrib[i];
-        vertexattrib_t *w = &glstate->glesva.wanted[i];
+        vertexattrib_t *w = (glprogram->has_builtin_attrib)?(&wanted[i]):(&glstate->glesva.wanted[i]);
         int dirty = 0;
         // enable / disable Array if needed
         if(v->vaarray != w->vaarray || (v->vaarray && w->divisor)) {
