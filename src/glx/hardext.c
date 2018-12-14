@@ -63,6 +63,7 @@ void GetHardwareExtensions(int notest)
     LOAD_EGL(eglChooseConfig);
     LOAD_EGL(eglCreateContext);
     LOAD_EGL(eglQueryString);
+    LOAD_EGL(eglTerminate);
 
     EGLDisplay eglDisplay;
     EGLSurface eglSurface;
@@ -121,6 +122,7 @@ void GetHardwareExtensions(int notest)
     egl_eglBindAPI(EGL_OPENGL_ES_API);
     if (egl_eglInitialize(eglDisplay, NULL, NULL) != EGL_TRUE) {
         LOGE("LIBGL: Error while gathering supported extension (eglInitialize: %s), default to none\n", PrintEGLError(0));
+        egl_eglTerminate(eglDisplay);
         return;
     }
 
@@ -138,6 +140,7 @@ void GetHardwareExtensions(int notest)
 #endif
     if(!configsFound) {
         SHUT(LOGE("LIBGL: Error while gathering supported extension (eglChooseConfig: %s), default to none\n", PrintEGLError(0)));
+        egl_eglTerminate(eglDisplay);
         return;
     }
     eglContext = egl_eglCreateContext(eglDisplay, pbufConfigs[0], EGL_NO_CONTEXT, (hardext.esversion==1)?egl_context_attrib:egl_context_attrib_es2);
@@ -149,6 +152,7 @@ void GetHardwareExtensions(int notest)
     if(!eglSurface) {
         SHUT(LOGE("LIBGL: Error while gathering supported extension (eglCreatePBufferSurface: %s), default to none\n", PrintEGLError(0)));
         egl_eglDestroyContext(eglDisplay, eglContext);
+        egl_eglTerminate(eglDisplay);
         return;
     }
     egl_eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
@@ -297,5 +301,7 @@ void GetHardwareExtensions(int notest)
     egl_eglMakeCurrent(eglDisplay, 0, 0, EGL_NO_CONTEXT);
     egl_eglDestroySurface(eglDisplay, eglSurface);
     egl_eglDestroyContext(eglDisplay, eglContext);
+
+    egl_eglTerminate(eglDisplay);
 #endif
 }
