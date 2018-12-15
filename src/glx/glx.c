@@ -1060,13 +1060,19 @@ Bool gl4es_glXMakeCurrent(Display *display,
 
                 unsigned int width = 0, height = 0, depth = 0;
 #ifndef NOX11
-                if(globals4es.usepbuffer || (globals4es.usefb && bcm_host)) {
+                if(globals4es.usepbuffer) {
                     // Get Window size and all...
                     unsigned int border;
                     Window root;
                     int x, y;
                     XGetGeometry(display, drawable, &root, &x, &y, &width, &height, &border, &depth);
                     DBG(printf("XGetGeometry gives %dx%d for drawable %p\n", width, height, drawable);)
+                } else if((globals4es.usefb) || globals4es.usegbm) {
+                    // Get size of desktop
+                    Screen *screen = DefaultScreenOfDisplay(display);
+                    width = WidthOfScreen(screen);
+                    height = HeightOfScreen(screen);
+                    DBG(printf("X11 gives a size of desktop %dx%d for drawable %p\n", width, height, drawable);)
                 }
                 if(globals4es.usepbuffer) {
                     //let's create a PBuffer attributes
