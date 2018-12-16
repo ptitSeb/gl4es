@@ -41,7 +41,7 @@ void os4OpenLib(void** lib)
         return;
     }
     printf("LIBGL: Using OGLES2.library v%d revision %d\n", LOGLES2->lib_Version, LOGLES2->lib_Revision);
-	if (!(LOGLES2->lib_Version > MIN_W3DNOVA_LIB_VERSION || (LOGLES2->lib_Version == MIN_OGLES2_LIB_VERSION && Warp3DNovaBase->lib_Revision >= MIN_OGLES2_LIB_REVISION)))  {
+	if (!(LOGLES2->lib_Version > MIN_OGLES2_LIB_VERSION || (LOGLES2->lib_Version == MIN_OGLES2_LIB_VERSION && LOGLES2->lib_Revision >= MIN_OGLES2_LIB_REVISION)))  {
         printf("LIBGL: Warning, your OGLES2.library is too old, minimum is v%d.%d, please update!\n", MIN_OGLES2_LIB_VERSION,MIN_OGLES2_LIB_REVISION);
 	}	
     IOGLES2 = (struct OGLES2IFace *)IExec->GetInterface(LOGLES2, "main", 1, NULL); 
