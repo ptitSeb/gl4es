@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include "khash.h"
 
 #include "preproc.h"
 #include "string_utils.h"
@@ -305,6 +306,9 @@ eTokenType GetToken(char **p, uToken *tok, int incomment) {
     return ret;
 }
 
+
+KHASH_MAP_INIT_STR(define, int);
+
 char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts) {
     DBG(printf("Preproc on: =========\n%s\n=================\n", code);)
 
@@ -324,6 +328,16 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
     int nowrite_gl_es = 0;
     int notok = 0;
     char extname[50];
+    khiter_t k;
+    int ret;
+    char defname[50];
+    int  defval;
+
+    khash_t(define) *defines = kh_init(define);
+    if(gl_es) {
+        k = kh_put(define, defines, "GL_ES", &ret);
+        kh_value(defines, k) = 0;
+    }
     GetToken(&p, &tok, incomment);
     while(tok.type!=TK_NULL) {
         // pre get token switch
@@ -424,6 +438,8 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
                             status = 410;
                         } else if(!strcmp(tok.str, "pragma")) {
                             status = 510;
+                        } else if(!strcmp(tok.str, "define")) {
+                            status = 610;
                         } else status=399;
                     } else status = 399;  // meh?
                     break;
@@ -545,11 +561,50 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
                         status = 399; // fallback, syntax error...
                     }
                     break;
+                // #define
+                case 610:
+                    if(tok.type==TK_SPACE) {
+                        // nothing...
+                    } else if(tok.type==TK_TEXT && strlen(tok.str)<50) {
+                        strcpy(defname, tok.str);
+                        status = 620; // and now get the value
+                    } else {
+                        status = 399; // fallback, define name too long...
+                    }
+                    break;
+                case 620:
+                    if(tok.type==TK_SPACE) {
+                        // nothing...
+                    } else if(tok.type==TK_INT) {
+                        defval = tok.integer;
+                        status = 630; // check if end of line (so it's a simple define)
+                    } else {
+                        status = 399; // fallback, define name too long...
+                    }
+                    break;
+                case 630:
+                    if(tok.type==TK_SPACE) {
+                        // nothing...
+                    } else if(tok.type==TK_NEWLINE) {
+                        k = kh_put(define, defines, defname, &ret);
+                        kh_value(defines, k) = defval;
+                        status = 399; // ok, define added to collection, left the line as-is anyway
+                    } else {
+                        status = 399; // fallback, define name too long...
+                    }
+                    break;
             }
             if(notok)
                 notok=0;
             else
                 if(write && !oldp && !nowrite_gl_es) {
+                    if(!incomment) {
+                        k = kh_get(define, defines, tok.str);
+                        if(k!=kh_end(defines)) {
+                            int v = kh_val(defines, k);
+                            sprintf(tok.str, "%d", v); // overide define with defined value
+                        }
+                    }
                     int l = strlen(tok.str);
                     if(sz+l>=cap) {
                         cap+=2000;
@@ -562,6 +617,7 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
     }
 
     DBG(printf("New code is: ------------\n%s\n------------------\n", ncode);)
+    kh_destroy(define, defines);
 
     return ncode;
 }
