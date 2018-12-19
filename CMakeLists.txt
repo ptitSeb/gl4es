@@ -112,7 +112,7 @@ if(USE_CCACHE)
 endif()
 
 link_directories(${CMAKE_BINARY_DIR}/lib)
-add_definitions(-g -std=gnu99 -funwind-tables -O3 -fvisibility=hidden)
+add_definitions(-std=gnu99 -funwind-tables -fvisibility=hidden)
 
 include_directories(include)
 add_subdirectory(src)
