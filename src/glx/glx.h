@@ -142,7 +142,7 @@
 #define GLX_CONTEXT_ES2_PROFILE_BIT_EXT		    0x00000004
 
 
-typedef int GLXDrawable;
+typedef XID GLXDrawable;
 #ifndef NOX11
 struct __GLXContextRec {
     Display *display;
@@ -244,7 +244,7 @@ void gl4es_glXSwapInterval(int interval);
 // GLX 1.1?
 #ifndef NOX11
 Bool gl4es_glXIsDirect(Display * display, GLXContext ctx);
-Bool gl4es_glXMakeCurrent(Display *display, int drawable, GLXContext context);
+Bool gl4es_glXMakeCurrent(Display *display, GLXDrawable drawable, GLXContext context);
 Bool gl4es_glXQueryExtension(Display *display, int *errorBase, int *eventBase);
 Bool gl4es_glXQueryVersion(Display *display, int *major, int *minor);
 const char *gl4es_glXGetClientString(Display *display, int name);
@@ -256,7 +256,7 @@ GLXDrawable gl4es_glXGetCurrentDrawable();
 int gl4es_glXGetConfig(Display *display, XVisualInfo *visual, int attribute, int *value);
 void gl4es_glXCopyContext(Display *display, GLXContext src, GLXContext dst, GLuint mask);
 void gl4es_glXDestroyContext(Display *display, GLXContext ctx);
-void gl4es_glXSwapBuffers(Display *display, int drawable);
+void gl4es_glXSwapBuffers(Display *display, GLXDrawable drawable);
 void gl4es_glXUseXFont(Font font, int first, int count, int listBase);
 #endif //NOX11
 void gl4es_glXWaitGL();

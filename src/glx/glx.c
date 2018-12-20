@@ -179,7 +179,7 @@ static void RecycleAddSurface(GLXDrawable drawable, SharedEGLSurface_t* surf) {
     SharedEGLSurface_t *newsurf = malloc(sizeof(SharedEGLSurface_t));
     memcpy(newsurf, surf, sizeof(SharedEGLSurface_t));
     kh_value(eglsurfaces, k) = newsurf;
-    DBG(printf("LIBGL: EGLSurface for drawable %p Added\n", drawable);)
+    DBG(printf("LIBGL: EGLSurface for drawable %p Added\n", (void*)drawable);)
 }
 
 static SharedEGLSurface_t* RecycleGetSurface(GLXDrawable drawable) {
@@ -189,7 +189,7 @@ static SharedEGLSurface_t* RecycleGetSurface(GLXDrawable drawable) {
     khint_t k;
     k = kh_get(eglsurfacelist_t, eglsurfaces, drawable);
     if (k != kh_end(eglsurfaces)){
-        DBG(printf("LIBGL: EGLSurface for drawable %p found\n", drawable);)
+        DBG(printf("LIBGL: EGLSurface for drawable %p found\n", (void*)drawable);)
         return kh_value(eglsurfaces, k);
     }
     return NULL;
@@ -206,7 +206,7 @@ static void RecycleDelSurface(GLXDrawable drawable) {
         egl_eglDestroySurface(eglDisplay, kh_value(eglsurfaces, k));*/
         free(kh_value(eglsurfaces, k));
         kh_del(eglsurfacelist_t, eglsurfaces, k);
-        DBG(printf("LIBGL: EGLSurface for drawable %p removed\n", drawable);)    
+        DBG(printf("LIBGL: EGLSurface for drawable %p removed\n", (void*)drawable);)    
     }
     return;
 }
@@ -584,7 +584,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
     if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
         init_display(display);
         if (eglDisplay == EGL_NO_DISPLAY) {
-            DBG(printf(" => %p\n", 0);)
+            DBG(printf(" => %p\n", NULL);)
             CheckEGLErrors();
             LOGE("LIBGL: Unable to create EGL display.\n");
             free(fake);
@@ -595,7 +595,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
     // first time?
     if (eglInitialized == false) {
         if(!InitEGL(display)) {
-            DBG(printf(" => %p\n", 0);)
+            DBG(printf(" => %p\n", NULL);)
             CheckEGLErrors();
             LOGE("LIBGL: Unable to init EGL.\n");
             free(fake);
@@ -610,7 +610,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
 
     CheckEGLErrors();
     if (result != EGL_TRUE || configsFound == 0) {
-        DBG(printf(" => %p\n", 0);)
+        DBG(printf(" => %p\n", NULL);)
         LOGE("LIBGL: No EGL configs found (depth=%d, stencil=%d).\n", depthBits, glxfbconfig->stencilBits);
         free(fake);
         return 0;
@@ -858,7 +858,7 @@ void gl4es_glXDestroyContext(Display *display, GLXContext ctx) {
 					destroySurf = 0;
                 if(destroySurf) {
 					if(!globals4es.glxrecycle) {
-						DBG(printf("  egDestroySurface(%p, %p), drawable=%p\n", eglDisplay, ctx->eglSurface, ctx->drawable);)
+						DBG(printf("  egDestroySurface(%p, %p), drawable=%p\n", eglDisplay, ctx->eglSurface, (void*)ctx->drawable);)
 						egl_eglDestroySurface(eglDisplay, ctx->eglSurface);
 						RecycleDelSurface(ctx->drawable);
 					}
@@ -986,7 +986,7 @@ not set to EGL_NO_CONTEXT.
 Bool gl4es_glXMakeCurrent(Display *display,
                     GLXDrawable drawable,
                     GLXContext context) {
-    DBG(printf("glXMakeCurrent(%p, %p, %p), isPBuffer(drawable)=%d, context->drawable=%p, context->eglSurface=%p(%p), context->doublebuff=%d\n", display, drawable, context, isPBuffer(drawable), context?context->drawable:0, context?context->eglSurface:0, eglSurface, context?context->doublebuff:0);)
+    DBG(printf("glXMakeCurrent(%p, %p, %p), isPBuffer(drawable)=%d, context->drawable=%p, context->eglSurface=%p(%p), context->doublebuff=%d\n", display, (void*)drawable, context, isPBuffer(drawable), (void*)(context?context->drawable:0), context?context->eglSurface:0, eglSurface, context?context->doublebuff:0);)
     LOAD_EGL(eglMakeCurrent);
     LOAD_EGL(eglDestroySurface);
     LOAD_EGL(eglCreateWindowSurface);
@@ -1066,13 +1066,13 @@ Bool gl4es_glXMakeCurrent(Display *display,
                     Window root;
                     int x, y;
                     XGetGeometry(display, drawable, &root, &x, &y, &width, &height, &border, &depth);
-                    DBG(printf("XGetGeometry gives %dx%d for drawable %p\n", width, height, drawable);)
+                    DBG(printf("XGetGeometry gives %dx%d for drawable %p\n", width, height, (void*)drawable);)
                 } else if((globals4es.usefb) || globals4es.usegbm) {
                     // Get size of desktop
                     Screen *screen = DefaultScreenOfDisplay(display);
                     width = WidthOfScreen(screen);
                     height = HeightOfScreen(screen);
-                    DBG(printf("X11 gives a size of desktop %dx%d for drawable %p\n", width, height, drawable);)
+                    DBG(printf("X11 gives a size of desktop %dx%d for drawable %p\n", width, height, (void*)drawable);)
                 }
                 if(globals4es.usepbuffer) {
                     //let's create a PBuffer attributes
@@ -1238,13 +1238,13 @@ Bool gl4es_glXMakeCurrent(Display *display,
             if(globals4es.fbomakecurrent && gl4es_getCurrentFBO())
                 gl4es_setCurrentFBO();
              // finished
-            DBG(printf(" => True\n");)
+            DBG(printf(" => True (glstate=%p)\n", context?context->glstate:NULL);)
             return true;
         }
         DBG(printf(" => False\n");)
         return false;
     }
-    DBG(printf(" => True\n");)
+    DBG(printf(" => True (glstate=%p)\n", context?context->glstate:NULL);)
     return true;
 }
 
@@ -1255,9 +1255,9 @@ Bool gl4es_glXMakeContextCurrent(Display *display, int drawable,
 }
 
 void gl4es_glXSwapBuffers(Display *display,
-                    int drawable) {
+                    GLXDrawable drawable) {
     static int frames = 0;
-    DBG(printf("\rglXSwapBuffers(%p, 0x%X) ", display, drawable);)
+    DBG(printf("\rglXSwapBuffers(%p, %p) ", display, (void*)drawable);)
     LOAD_EGL(eglSwapBuffers);
     // TODO: what if active context is not on the drawable?
     realize_textures();
@@ -1873,7 +1873,7 @@ void gl4es_glXCopyContext(Display *display, GLXContext src, GLXContext dst, GLui
 
 Window gl4es_glXCreateWindow(Display *display, GLXFBConfig config, Window win, int *attrib_list) {
     // should return GLXWindow
-    DBG(printf("glXCreateWindow(%p, %p, %d, %p)\n", display, config, win, attrib_list);)
+    DBG(printf("glXCreateWindow(%p, %p, %p, %p)\n", display, config, (void*)win, attrib_list);)
     return win;
 }
 void gl4es_glXDestroyWindow(Display *display, void *win) {
@@ -1895,7 +1895,7 @@ Bool gl4es_glXIsDirect(Display * display, GLXContext ctx) {
 }
 
 void gl4es_glXUseXFont(Font font, int first, int count, int listBase) {
-    DBG(printf("glXUseXFont(%p, %d, %d, %d)\n", font, first, count, listBase);)
+    DBG(printf("glXUseXFont(%p, %d, %d, %d)\n", (void*)font, first, count, listBase);)
 	/* Mostly from MesaGL-9.0.1 
 	 * 
 	 */
@@ -2029,7 +2029,7 @@ void gl4es_glXReleaseBuffersMESA() {}
 #ifndef NOX11
 /* TODO proper implementation */
 int gl4es_glXQueryDrawable(Display *dpy, GLXDrawable draw, int attribute, unsigned int *value) {
-    DBG(printf("glXQueryDrawable(%p, %p", dpy, draw);)
+    DBG(printf("glXQueryDrawable(%p, %p", dpy, (void*)draw);)
     int pbuf=isPBuffer(draw);
     if(pbuf) {
         if(pbuffersize[pbuf-1].Type!=1)
@@ -2134,7 +2134,7 @@ void delPBuffer(int j)
 }
 
 void gl4es_glXDestroyPbuffer(Display * dpy, GLXPbuffer pbuf) {
-    DBG(printf("glxDestroyPBuffer(%p, %p)\n", dpy, pbuf);)
+    DBG(printf("glxDestroyPBuffer(%p, %p)\n", dpy, (void*)pbuf);)
     LOAD_EGL(eglDestroySurface);
     int j=0;
     while(j<pbufferlist_size && pbufferlist[j]!=pbuf) j++;
@@ -2374,7 +2374,7 @@ int createPixBuffer(Display * dpy, int bpp, const EGLint * egl_attribs, NativePi
 }
 
 GLXPixmap gl4es_glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixmap pixmap) {
-    DBG(printf("glXCreateGLXPixmap(%p, %p, %p)\n", display, visual, pixmap);)
+    DBG(printf("glXCreateGLXPixmap(%p, %p, %p)\n", display, visual, (void*)pixmap);)
     LOAD_EGL(eglQuerySurface);
 
 	EGLSurface Surface = 0;
@@ -2416,7 +2416,7 @@ GLXPixmap gl4es_glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixma
 }
 
 GLXPixmap gl4es_glXCreatePixmap(Display * dpy, GLXFBConfig config, Pixmap pixmap, const int * attrib_list) {
-    DBG(printf("glXCreatePixmap(%p, %p, %p, %p)\n", dpy, config, pixmap, attrib_list);)
+    DBG(printf("glXCreatePixmap(%p, %p, %p, %p)\n", dpy, config, (void*)pixmap, attrib_list);)
     // Check that the config is for PBuffer
     if(config->drawableType&GLX_PIXMAP_BIT!=GLX_PIXMAP_BIT)
         return 0;
