@@ -400,7 +400,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
 
 
 void DeleteGLState(void* oldstate) {
-    glstate_t* state = (glstate_t*)state;
+    glstate_t* state = (glstate_t*)oldstate;
     if(!state) return;
 
     if(state->shared_cnt) {
@@ -416,6 +416,7 @@ void DeleteGLState(void* oldstate) {
         free(state->actual_tex2d);
     
     #define free_hashmap(T, N, K, F)        \
+    if(state->N)                            \
     {                                       \
         T *m;                               \
         kh_foreach_value(state->N, m,       \
@@ -434,7 +435,7 @@ void DeleteGLState(void* oldstate) {
     }
     #undef free_hashmap
     // free texture zero as it's not in the list anymore
-    free(glstate->texture.zero);
+    free(state->texture.zero);
     // free eval maps
     #define freemap(dims, name)                              \
     { map_statef_t *m = (map_statef_t *)state->map##dims.name; \
@@ -460,7 +461,7 @@ void DeleteGLState(void* oldstate) {
 	free_matrix(modelview_matrix);
 	for (int i=0; i<MAX_TEX; i++)
 		free_matrix(texture_matrix[i]);
-	free(glstate->texture_matrix);
+	free(state->texture_matrix);
     #undef free_matrix
     // linestipple
     if(state->linestipple.data)

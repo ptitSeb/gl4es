@@ -13,7 +13,7 @@
 
 void gl_init();
 
-globals4es_t globals4es;
+globals4es_t globals4es = {0};
 
 #define SHUT(a) if(!globals4es.nobanner) a
 

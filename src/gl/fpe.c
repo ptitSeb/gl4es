@@ -56,7 +56,6 @@ void fpe_disposeCache(fpe_cache_t* cache, int freeprog) {
             fpe_disposeCache(m, freeprog); free(m);
         )
         kh_destroy(fpecachelist, cache->cache);
-        free(cache->cache);
         cache->cache = NULL;
     }
 }

@@ -2042,6 +2042,7 @@ void gl4es_glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
 }
 
 void gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
+    if(!glstate) return;
     if (glstate->list.pending) flush();
     DBG(printf("glDeleteTextures(%d, %p {%d...})\n", n, textures, n?textures[0]:-1);)
     noerrorShim();
