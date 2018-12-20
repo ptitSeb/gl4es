@@ -141,7 +141,7 @@
 #define GLX_CONTEXT_ES_PROFILE_BIT_EXT		    0x00000004
 #define GLX_CONTEXT_ES2_PROFILE_BIT_EXT		    0x00000004
 
-#ifndef NOX11
+#ifdef NOX11
 typedef int GLXDrawable;    // need 64 / 32bits difs.
 #else
 typedef XID GLXDrawable;
