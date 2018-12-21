@@ -2649,7 +2649,7 @@ Display *glXGetCurrentDisplay() AliasExport("gl4es_glXGetCurrentDisplay");
 XVisualInfo *glXChooseVisual(Display *display, int screen, int *attributes) AliasExport("gl4es_glXChooseVisual");
 Bool glXMakeCurrent(Display *display, GLXDrawable drawable, GLXContext context) AliasExport("gl4es_glXMakeCurrent");
 Bool glXMakeContextCurrent(Display *display, int drawable, int readable, GLXContext context) AliasExport("gl4es_glXMakeContextCurrent");
-void glXSwapBuffers(Display *display, int drawable) AliasExport("gl4es_glXSwapBuffers");
+void glXSwapBuffers(Display *display, GLXDrawable drawable) AliasExport("gl4es_glXSwapBuffers");
 int glXGetConfig(Display *display, XVisualInfo *visual, int attribute, int *value) AliasExport("gl4es_glXGetConfig");
 const char *glXQueryExtensionsString(Display *display, int screen) AliasExport("gl4es_glXQueryExtensionsString");
 const char *glXQueryServerString(Display *display, int screen, int name) AliasExport("gl4es_glXQueryServerString");
