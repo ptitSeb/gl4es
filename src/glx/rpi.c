@@ -19,6 +19,7 @@ typedef uint32_t DISPMANX_UPDATE_HANDLE_T;
 typedef uint32_t DISPMANX_ELEMENT_HANDLE_T;
 typedef uint32_t DISPMANX_RESOURCE_HANDLE_T;
 typedef uint32_t DISPMANX_PROTECTION_T;
+typedef uint32_t DISPMANX_FLAGS_ALPHA_T;
 typedef struct tag_VC_RECT_T {
     int32_t x;
     int32_t y;
@@ -30,6 +31,11 @@ typedef struct {
     int width;
     int height;
 } EGL_DISPMANX_WINDOW_T;
+typedef struct {
+    DISPMANX_FLAGS_ALPHA_T flags;
+    uint32_t opacity;
+    DISPMANX_RESOURCE_HANDLE_T mask;
+} VC_DISPMANX_ALPHA_T;
 int32_t (*graphics_get_display_size)(const uint16_t, uint32_t *, uint32_t*);
 DISPMANX_DISPLAY_HANDLE_T (*vc_dispmanx_display_open)(uint32_t);
 DISPMANX_UPDATE_HANDLE_T (*vc_dispmanx_update_start)(int32_t);
@@ -97,9 +103,10 @@ void* create_rpi_window(int w, int h) {
     src_rect.height = h << 16;
     dispman_display = vc_dispmanx_display_open(/*LCD*/ 0);
     dispman_update = vc_dispmanx_update_start(0);
+    VC_DISPMANX_ALPHA_T alpha = { /*DISPMANX_FLAGS_ALPHA_FIXED_ALL_PIXELS*/ 1, 255, 0 };
     dispman_element = vc_dispmanx_element_add(
         dispman_update,dispman_display, 0, &dst_rect,
-        0, &src_rect, /*DISPMANX_PROTECTION_NONE*/ 0, 0, 0, 
+        0, &src_rect, /*DISPMANX_PROTECTION_NONE*/ 0, &alpha, 0,
         /*DISPMAN_NO_ROTATE*/ 0);
     nativewindow->element = dispman_element;
     nativewindow->width = w;
