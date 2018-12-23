@@ -398,7 +398,7 @@ static void signal_handler(int sig) {
     pandora_reset_gamma();
 #endif
 
-#ifdef BCMHOST
+#if defined(BCMHOST) && !defined(ANDROID)
     rpi_fini();
 #endif
 #if !defined(ANDROID) && !defined(AMIGAOS4)
@@ -454,18 +454,8 @@ void glx_init() {
     MapDrawable = kh_init(mapdrawable);
     kh_put(mapdrawable, MapDrawable, 1, &ret);
     kh_del(mapdrawable, MapDrawable, 1);
-#ifdef BCMHOST
+#if defined(BCMHOST) && !defined(ANDROID)
     rpi_init();
-
-    if (bcm_host) {
-        bcm_host_init = dlsym(bcm_host, "bcm_host_init");
-        bcm_host_deinit = dlsym(bcm_host, "bcm_host_deinit");
-        if (bcm_host_init && bcm_host_deinit) {
-#ifndef ANDROID
-            rpi_init();
-#endif
-        }
-    }
 #endif
     if(globals4es.usegbm)
         atexit(CloseGBMFunctions);

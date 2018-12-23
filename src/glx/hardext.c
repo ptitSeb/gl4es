@@ -46,7 +46,7 @@ void GetHardwareExtensions(int notest)
         }
         return;
     }
-#ifdef BCMHOST
+#if defined(BCMHOST) && !defined(ANDROID)
     rpi_init();
 #endif
 #ifdef NOEGL
