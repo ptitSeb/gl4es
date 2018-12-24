@@ -1434,7 +1434,7 @@ GLXContext gl4es_glXGetCurrentContext() {
 
 #ifndef NO_EGL
 GLXFBConfig * fillGLXFBConfig(EGLConfig *eglConfigs, int count, int withDB, Display *display) {
-    #define MAX_CONFIG 100
+    #define MAX_CONFIG 200
     static struct __GLXFBConfigRec ActualConfigs[MAX_CONFIG] = {0};
     static int ActualConfigIdx = 0;
     LOAD_EGL(eglGetConfigAttrib);
@@ -1668,8 +1668,10 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
     EGLConfig *eglConfigs = (EGLConfig*)calloc((*count), sizeof(EGLConfig));
     if(glxconfig==-1)
         egl_eglChooseConfig(eglDisplay, attr, eglConfigs, *count, count);
-    else
+    else {
         eglConfigs[0] = (EGLConfig)glxconfig;
+        doublebuffer = 1;
+    }
     // and now, build a config list!
     GLXFBConfig *configs = fillGLXFBConfig(eglConfigs, *count, doublebuffer, display);
     if(doublebuffer==2) *count *= 2;
