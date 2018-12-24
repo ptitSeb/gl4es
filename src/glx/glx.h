@@ -155,7 +155,7 @@ struct __GLXContextRec {
     int currentReadable;
     XID xid;
 	EGLSurface eglSurface;
-	EGLConfig eglConfigs[30];
+	EGLConfig eglConfigs[64];
     int eglconfigIdx;
 	EGLContext eglContext;
     int samples;
@@ -196,7 +196,7 @@ struct __GLXFBConfigRec {
 
     int visualSelectGroup;  /* visuals grouped by select priority */
 
-    unsigned int id;
+    EGLConfig id;
 
     unsigned char rgbMode;
     unsigned char colorIndexMode;

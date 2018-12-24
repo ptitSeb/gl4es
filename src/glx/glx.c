@@ -293,7 +293,7 @@ static int get_config_default(Display *display, int attribute, int *value) {
             //*value = 1;
             break;
         case GLX_FBCONFIG_ID:
-            *value = 1;
+            *value = 0;
             break;
         case GLX_DRAWABLE_TYPE:
             *value = GLX_WINDOW_BIT;
@@ -1418,7 +1418,7 @@ int gl4es_glXQueryContext( Display *dpy, GLXContext ctx, int attribute, int *val
     DBG(printf("glXQueryContext(%p, %p, %d, %p)\n", dpy, ctx, attribute, value);)
 	*value=0;
 	if (ctx) switch (attribute) {
-		case GLX_FBCONFIG_ID: *value=ctx->xid; break;
+		case GLX_FBCONFIG_ID: *value=(int)(uintptr_t)ctx->eglConfigs[ctx->eglconfigIdx]; break;
 		case GLX_RENDER_TYPE: *value=GLX_RGBA_TYPE; break;
 		case GLX_SCREEN: break;			// screen n# is always 0
 	}
@@ -1474,6 +1474,7 @@ GLXFBConfig * fillGLXFBConfig(EGLConfig *eglConfigs, int count, int withDB, Disp
             configs[j]->associatedVisualId = visual.visualid;
         }
         configs[j]->doubleBufferMode = (withDB==2)?(j%2):withDB;
+        configs[j]->id = eglConfigs[i];
     }
 
     return configs;
@@ -1509,6 +1510,7 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
     int tmp;
     int drawable_set = 0;
     int doublebuffer = 2;
+    int glxconfig = -1;
     attr[cur++] = EGL_SURFACE_TYPE;
     attr[cur++] = 0;
 
@@ -1602,6 +1604,9 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                     attr[cur++] = EGL_NATIVE_VISUAL_ID;
                     attr[cur++] = tmp;
                     DBG(printf("FBConfig visual id=%d\n", tmp);)
+                case GLX_FBCONFIG_ID:
+                    glxconfig = attrib_list[i++];
+                    DBG(printf("GLXFBConfigID=%d\n", glxconfig);)
                 default:
                     ++i;
 				// discard other stuffs
@@ -1625,39 +1630,46 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
         }
     }
     LOAD_EGL(eglChooseConfig);
-    egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
-    if((*count==0) && (globals4es.usepbuffer)) {
-            DBG(printf("glXChooseFBConfig found 0 config with PixMap, trying again with PBuffer\n");)
-            // try again, but with PBuffer
-            attr[1] = EGL_PBUFFER_BIT;
-            egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
-            // On Pandora and GLES2, only 565 PBuffer are available!
-            if(cr || cg || cb || ca) {
-                --cur;
-                if(cr) attr[cr] = 5; else { attr[cur] = EGL_RED_SIZE; attr[cur++] = 5; }
-                if(cg) attr[cg] = 6; else { attr[cur] = EGL_GREEN_SIZE; attr[cur++] = 6; }
-                if(cb) attr[cb] = 5; else { attr[cur] = EGL_BLUE_SIZE; attr[cur++] = 5; }
-                if(ca) attr[ca] = 0; else { attr[cur] = EGL_ALPHA_SIZE; attr[cur++] = 0; }
-                attr[cur++] = EGL_NONE; // just in case
+    if(glxconfig==-1) {
+        egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
+        if((*count==0) && (globals4es.usepbuffer)) {
+                DBG(printf("glXChooseFBConfig found 0 config with PixMap, trying again with PBuffer\n");)
+                // try again, but with PBuffer
+                attr[1] = EGL_PBUFFER_BIT;
                 egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
-            }
-    }
-    if((*count==0) && (!globals4es.usepbuffer) && ca && attr[ca+1]) {
-            DBG(printf("glXChooseFBConfig found 0 config with an Alpha channel, trying without\n");)
-            attr[ca] = 0;
-            egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
-    }
-    if((*count==0) && (!globals4es.usepbuffer) && ca && attr[ca+1] && (attr[cr]>5 || attr[cg]>5 || attr[cb]>5)) {
-            DBG(printf("glXChooseFBConfig found 0 config without an Alpha channel, but 8bits rgb, trying lowering bitness\n");)
-            attr[cr] = attr[cg] = attr[cb] = 5;
-            egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
-    }
-    if(*count==0) {  // NO Config found....
-        DBG(printf("glXChooseFBConfig found 0 config\n");)
-        return NULL;
+                // On Pandora and GLES2, only 565 PBuffer are available!
+                if(cr || cg || cb || ca) {
+                    --cur;
+                    if(cr) attr[cr] = 5; else { attr[cur] = EGL_RED_SIZE; attr[cur++] = 5; }
+                    if(cg) attr[cg] = 6; else { attr[cur] = EGL_GREEN_SIZE; attr[cur++] = 6; }
+                    if(cb) attr[cb] = 5; else { attr[cur] = EGL_BLUE_SIZE; attr[cur++] = 5; }
+                    if(ca) attr[ca] = 0; else { attr[cur] = EGL_ALPHA_SIZE; attr[cur++] = 0; }
+                    attr[cur++] = EGL_NONE; // just in case
+                    egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
+                }
+        }
+        if((*count==0) && (!globals4es.usepbuffer) && ca && attr[ca+1]) {
+                DBG(printf("glXChooseFBConfig found 0 config with an Alpha channel, trying without\n");)
+                attr[ca] = 0;
+                egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
+        }
+        if((*count==0) && (!globals4es.usepbuffer) && ca && attr[ca+1] && (attr[cr]>5 || attr[cg]>5 || attr[cb]>5)) {
+                DBG(printf("glXChooseFBConfig found 0 config without an Alpha channel, but 8bits rgb, trying lowering bitness\n");)
+                attr[cr] = attr[cg] = attr[cb] = 5;
+                egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
+        }
+        if(*count==0) {  // NO Config found....
+            DBG(printf("glXChooseFBConfig found 0 config\n");)
+            return NULL;
+        }
+    } else {
+        *count = 1;
     }
     EGLConfig *eglConfigs = (EGLConfig*)calloc((*count), sizeof(EGLConfig));
-    egl_eglChooseConfig(eglDisplay, attr, eglConfigs, *count, count);
+    if(glxconfig==-1)
+        egl_eglChooseConfig(eglDisplay, attr, eglConfigs, *count, count);
+    else
+        eglConfigs[0] = (EGLConfig)glxconfig;
     // and now, build a config list!
     GLXFBConfig *configs = fillGLXFBConfig(eglConfigs, *count, doublebuffer, display);
     if(doublebuffer==2) *count *= 2;
@@ -1762,7 +1774,7 @@ int gl4es_glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribu
             //*value = 1;
             break;
         case GLX_FBCONFIG_ID:
-            *value = 1;
+            *value = (int)(uintptr_t)config->id;
             break;
         case GLX_DRAWABLE_TYPE:
             *value = GLX_WINDOW_BIT; //config->drawableType;
@@ -2078,7 +2090,7 @@ int gl4es_glXQueryDrawable(Display *dpy, GLXDrawable draw, int attribute, unsign
             DBG(printf("(%d), GLX_LARGEST_PBUFFER, %p = %d)\n", pbuf, value, *value);)
             return 1;
         case GLX_FBCONFIG_ID:
-            *value = 1;
+            *value = 0;
             DBG(printf("(%d), GLX_FBCONFIG_ID, %p = %d)\n", pbuf, value, *value);)
             return 1;
         case GLX_SWAP_INTERVAL_EXT:
