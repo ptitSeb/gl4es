@@ -221,7 +221,10 @@ void gl4es_glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsi
                 if(type) *type = attribloc->type;
                 if(size) *size = attribloc->size;
                 if(length) *length = strlen(attribloc->name);
-                if(bufSize && name) strncpy(name, attribloc->name, bufSize-1);
+                if(bufSize && name) {
+                    strncpy(name, attribloc->name, bufSize-1);
+                    name[bufSize-1] = '\0';
+                }
                 DBG(printf("found, type=%s, size=%d, name=%s\n", PrintEnum(attribloc->type), attribloc->size, attribloc->name);)
                 noerrorShim();
                 return;
@@ -311,7 +314,10 @@ void gl4es_glGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLs
                 if(type) *type = m->type;
                 if(size) *size = m->size;
                 if(length) *length = strlen(m->name);
-                if(bufSize && name) strncpy(name, m->name, bufSize-1);
+                if(bufSize && name) {
+                    strncpy(name, m->name, bufSize-1);
+                    name[bufSize-1] = '\0';
+                }
                 DBG(printf(" found %s (%d), type=%s, size=%d\n", m->name, strlen(m->name), PrintEnum(m->type), m->size);)
                 return;
             }
