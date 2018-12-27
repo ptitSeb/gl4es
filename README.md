@@ -43,6 +43,8 @@ Status of the GLES1.1 backend
  * FogCoord or Secondary colors are not supported
  * GL_TEXTURE_3D are just a single 2D layer (the 1st layer).
  
+If you use gl4es in your project (as a static or dynamic link), please mention gl4es in you readme / about / whatever.
+ 
 ----
 
 Compiling
