@@ -409,6 +409,9 @@ void DeleteGLState(void* oldstate) {
             state->shared_cnt = 0;
         }
     }
+    if(globals4es.noclean)
+        return;
+        
     if(glstate == state)
         glstate = NULL;
 

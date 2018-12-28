@@ -488,6 +488,7 @@ void initialize_gl4es() {
 
     env(LIBGL_LOGSHADERERROR, globals4es.logshader, "Log to the console Error compiling shaders");
     env(LIBGL_SHADERNOGLES, globals4es.shadernogles, "Remove GLES part in shader");
+    env(LIBGL_NOCLEAN, globals4es.noclean, "Don't clean Context when destroy");
 
 
     globals4es.glxrecycle = 1;

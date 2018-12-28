@@ -291,6 +291,11 @@ Recycle EGLSurface per Drawable, instead of destroying them
 * 0 : Default, don't recycle
 * 1 : Don't destroy EGLSurface, per reused them per drawable (can fix EGL_BAD_ALLOC error). EGLSurface are never destroyed in this mode for now.
 
+##### LIBGL_NOCLEAN
+Debug: don't clean GLContext when they are destroy
+* 0 : Default, clean GLContext 
+* 1 : Don't clean GLContext
+
 ##### LIBGL_EGL
 Define EGL lib to use. Default folder are the standard one for dynamic librarie loading (LD_LIBRARY_PATH and friend) plus "/opt/vc/lib/", /usr/local/lib/" and "/usr/lib/".
 * by default try to use libbrcmEGL and libEGL
