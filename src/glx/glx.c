@@ -1669,7 +1669,7 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
     if(glxconfig==-1)
         egl_eglChooseConfig(eglDisplay, attr, eglConfigs, *count, count);
     else {
-        eglConfigs[0] = (EGLConfig)glxconfig;
+        eglConfigs[0] = (EGLConfig)(uintptr_t)glxconfig;    // downsizing on purpose
         doublebuffer = 1;
     }
     // and now, build a config list!
