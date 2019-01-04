@@ -159,7 +159,7 @@ void initialize_gl4es() {
 
     glx_init();
 
-#ifdef NOEGL
+#if defined(NOEGL) && !defined(ANDROID)
     int gl4es_notest = 1;
 #else
     int gl4es_notest = 0;
