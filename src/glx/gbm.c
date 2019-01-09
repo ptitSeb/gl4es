@@ -166,7 +166,7 @@ void DeleteGBMWindow(void* win)
 {
 }
 
-#ifndef AMIGAOS4
+#if !defined(NOEGL) && !defined(ANDROID)
 int FindGBMConfig(EGLConfig *configs, int numFounds)
 {
     return 0;
