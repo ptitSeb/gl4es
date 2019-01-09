@@ -195,9 +195,11 @@ struct __GLXFBConfigRec {
     int optimalPbufferWidth, optimalPbufferHeight;  /* for SGIX_pbuffer */
 
     int visualSelectGroup;  /* visuals grouped by select priority */
-
+#ifndef NOEGL
     EGLConfig id;
-
+#else
+    int       id;
+#endif
     unsigned char rgbMode;
     unsigned char colorIndexMode;
     unsigned char doubleBufferMode;
