@@ -140,6 +140,9 @@ void *gl4es_glXGetProcAddress(const char *name) {
     _EX(glGetBufferSubData);
     _ARB(glGetBufferSubData);
 
+    _EX(glMapBufferRange);
+    _EX(glFlushMappedBufferRange);
+
     // GL_ARB_vertex_array_object
     _EX(glGenVertexArrays);
     _EX(glBindVertexArray);

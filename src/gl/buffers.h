@@ -29,6 +29,9 @@ GLboolean gl4es_glUnmapBuffer(GLenum target);
 void gl4es_glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params);
 void gl4es_glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data);
 
+void *gl4es_glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access);
+void gl4es_glFlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length);
+
 void glGenBuffers(GLsizei n, GLuint * buffers);
 void glBindBuffer(GLenum target, GLuint buffer);
 void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
@@ -40,6 +43,9 @@ void *glMapBuffer(GLenum target, GLenum access);
 GLboolean glUnmapBuffer(GLenum target);
 void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params);
 void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data);
+
+void *glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access);
+void glFlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length);
 
 void glGenBuffersARB(GLsizei n, GLuint * buffers);
 void glBindBufferARB(GLenum target, GLuint buffer);
