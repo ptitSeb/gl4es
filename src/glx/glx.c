@@ -1580,7 +1580,7 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                 case GLX_SAMPLES:
                     tmp = attrib_list[i++];
                     attr[cur++] = EGL_SAMPLES;
-                    attr[cur++] = tmp;
+                    attr[cur++] = (tmp<0)?0:tmp;
                     DBG(printf("FBConfig multiSampleSize=%d\n", tmp);)
                     break;
                 case GLX_DOUBLEBUFFER:
@@ -1658,6 +1658,13 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                 attr[cr] = attr[cg] = attr[cb] = 5;
                 egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
         }
+#ifdef PANDORA
+        if((*count==0) && (!globals4es.usepbuffer) && (attr[cr]>5 || attr[cg]>5 || attr[cb]>5)) {
+                DBG(printf("glXChooseFBConfig found 0 config with 8bits rgb, trying lowering bitness\n");)
+                attr[cr] = attr[cg] = attr[cb] = 5;
+                egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
+        }
+#endif
         if(*count==0) {  // NO Config found....
             DBG(printf("glXChooseFBConfig found 0 config\n");)
             return NULL;
