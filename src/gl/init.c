@@ -31,8 +31,11 @@ static void fast_math() {
 #endif
 
 #ifndef DEFAULT_ES
-// forcing GLES 1.1 for now
+#ifdef PANDORA
 #define DEFAULT_ES 1
+#else
+#define DEFAULT_ES 2
+#endif
 #endif
 
 void load_libs();
