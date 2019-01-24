@@ -1027,8 +1027,13 @@ void gl4es_use_scratch_indices(int use) {
     gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, use?glstate->scratch_indices:0);
 }
 
+#if defined(AMIGAOS4) || (defined(NOX11) && defined(NOEGL))
 #ifdef AMIGAOS4
-void amiga_pre_swap() {
+void amiga_pre_swap()
+#else
+__attribute__((visibility("default"))) void gl4es_pre_swap()
+#endif
+{
     if (glstate->list.active){
         flush();
     }
@@ -1042,7 +1047,12 @@ void amiga_pre_swap() {
     }
 }
 
-void amiga_post_swap() {
+#ifdef AMIGAOS4
+void amiga_post_swap()
+#else
+__attribute__((visibility("default"))) void gl4es_post_swap()
+#endif
+{
     if (globals4es.showfps) 
     {
         // framerate counter
