@@ -18,7 +18,7 @@ hardext_t hardext;
 #define SHUT(a) if(!globals4es.nobanner) a
 
 #if defined(NOX11) && defined(NOEGL)
-__attribute__((visibity("default")))
+__attribute__((visibility("default")))
 #endif
 void GetHardwareExtensions(int notest)
 {
