@@ -834,7 +834,7 @@ void gl4es_glXDestroyContext(Display *display, GLXContext ctx) {
         
         // bind context back
         if(eglSurface!=ctx->eglSurface || eglContext!=ctx->eglContext)
-            egl_eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
+            egl_eglMakeCurrent(eglDisplay, eglContext?eglSurface:NULL, eglContext?eglSurface:NULL, eglContext);
 
         LOAD_EGL(eglDestroyContext);
         LOAD_EGL(eglDestroySurface);
