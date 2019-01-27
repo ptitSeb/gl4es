@@ -13,7 +13,7 @@ void gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolea
     DBG(printf("glVertexAttribPointer(%d, %d, %s, %d, %d, %p), vertex buffer = %p\n", index, size, PrintEnum(type), normalized, stride, pointer, (glstate->vao->vertex)?glstate->vao->vertex->data:0);)
     FLUSH_BEGINEND;
     // sanity test
-    if(index<0 || index>=hardext.maxvattrib) {
+    if(index>=hardext.maxvattrib) {
         errorShim(GL_INVALID_VALUE);
         return;
     }
@@ -37,7 +37,7 @@ void gl4es_glEnableVertexAttribArray(GLuint index) {
     DBG(printf("glEnableVertexAttrib(%d)\n", index);)
     FLUSH_BEGINEND;
     // sanity test
-    if(index<0 || index>=hardext.maxvattrib) {
+    if(index>=hardext.maxvattrib) {
         errorShim(GL_INVALID_VALUE);
         return;
     }
@@ -48,7 +48,7 @@ void gl4es_glDisableVertexAttribArray(GLuint index) {
     DBG(printf("glDisableVertexAttrib(%d)\n", index);)
     FLUSH_BEGINEND;
     // sanity test
-    if(index<0 || index>=hardext.maxvattrib) {
+    if(index>=hardext.maxvattrib) {
         errorShim(GL_INVALID_VALUE);
         return;
     }

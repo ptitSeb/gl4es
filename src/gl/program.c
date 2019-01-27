@@ -47,7 +47,7 @@ void gl4es_glAttachShader(GLuint program, GLuint shader) {
 }
 
 void gl4es_glBindAttribLocation(GLuint program, GLuint index, const GLchar *name) {
-    DBG(printf("glBindAttribLocation(%d, %d, %s)\n", program, index, name);)
+    DBG(printf("glBindAttribLocation(%d, %d, \"%s\")\n", program, index, name);)
     FLUSH_BEGINEND;
     // sanity tests
     CHECK_PROGRAM(void, program)
@@ -643,8 +643,6 @@ void gl4es_glLinkProgram(GLuint program) {
             // Grab all Attrib
             gles_glGetProgramiv(glprogram->id, GL_ACTIVE_ATTRIBUTES, &n);
             gles_glGetProgramiv(glprogram->id, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxsize);
-            khash_t(attribloclist) *attriblocs = glprogram->attribloc;
-            attribloc_t *glattribloc = NULL;
             name = (char*)malloc(maxsize);
             for (int i=0; i<n; i++) {
                 DBG(e2=gles_glGetError();)
@@ -653,8 +651,16 @@ void gl4es_glLinkProgram(GLuint program) {
                     gles_glGetActiveAttrib(glprogram->id, i, maxsize, NULL, &size, &type, name);
                     GLint id = gles_glGetAttribLocation(glprogram->id, name);
                     if(id!=-1) {
-                        k = kh_put(attribloclist, attriblocs, id, &ret);
-                        glattribloc = kh_value(attriblocs, k) = malloc(sizeof(uniform_t));
+                        attribloc_t *glattribloc = NULL;
+                        k = kh_put(attribloclist, glprogram->attribloc, id, &ret);
+                        if(ret==0) {
+                            // already there
+                            glattribloc = kh_value(glprogram->attribloc, k);
+                            if(glattribloc->name)
+                                free(glattribloc->name);
+                        } else {
+                            glattribloc = kh_value(glprogram->attribloc, k) = malloc(sizeof(attribloc_t));
+                        }
                         memset(glattribloc, 0, sizeof(attribloc_t));
                         glattribloc->name = strdup(name);
                         glattribloc->size = size;
@@ -663,7 +669,7 @@ void gl4es_glLinkProgram(GLuint program) {
                         glattribloc->real_index = i;
                         int builtin = builtin_CheckVertexAttrib(glprogram, name, id);
                         glprogram->va_size[id] = n_uniform(type); // same as uniform
-                        DBG(printf(" attrib #%d : %s%stype=%s size=%d\n", id, glattribloc->name, builtin?" (builtin) ":"", PrintEnum(glattribloc->type), glattribloc->size);)
+                        DBG(printf(" attrib #%d : \"%s\"%s type=%s size=%d\n", id, glattribloc->name, builtin?" (builtin) ":"", PrintEnum(glattribloc->type), glattribloc->size);)
                     }
                 }
                 DBG(else printf("LIBGL: Warning, getting Attrib #%d info failed with %s\n", i, PrintEnum(e2));)

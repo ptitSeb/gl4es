@@ -751,17 +751,9 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
             gltexture_t *bound = glstate->texture.bound[0][ENABLED_TEX2D];
             GLuint oldtex = bound->glname;
             // get size of renderbuffer
-            LOAD_GLES2_OR_OES(glGetRenderbufferParameteriv);
-            GLint width, height;
-            GLenum format;
-            glrenderbuffer_t *oldrenderbuffer = glstate->fbo.current_rb;
-            GLuint oldrender = oldrenderbuffer->renderbuffer;
-            if(oldrender != renderbuffer) gl4es_glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer);
-            // TODO: keep track of Renderbuffer parameter, to avoid querying geometry
-            gles_glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &width);
-            gles_glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &height);
-            gles_glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_INTERNAL_FORMAT, &format);
-            if(oldrender != renderbuffer) gl4es_glBindRenderbuffer(GL_RENDERBUFFER, oldrender);
+            GLenum format = rend->format;
+            GLint width = rend->width;
+            GLint height = rend->height;
             // create a texture if needed
             if(!rend->secondarytexture) {
                 GLuint newtex;
@@ -873,6 +865,7 @@ void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei w
     height = (hardext.npot>0 && !globals4es.potframebuffer)?height:npot(height);
     int use_secondarybuffer = 0;
     int use_secondarytexture = 0;
+    GLenum format = internalformat;
     // check if internal format is GL_DEPTH_STENCIL_EXT
     if (internalformat == GL_DEPTH_STENCIL)
         internalformat = GL_DEPTH24_STENCIL8;
@@ -893,6 +886,12 @@ void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei w
         internalformat = GL_RGB565_OES;
     else if (internalformat == GL_RGBA8 && hardext.rgba8==0)
         internalformat = GL_RGBA4_OES;
+    else if (internalformat == GL_RGBA) {
+        if(hardext.rgba8==0)
+            internalformat = GL_RGBA8;
+        else
+            internalformat = GL_RGBA4_OES;
+    }
 
     if(rend->secondarybuffer) {
         if(use_secondarybuffer) {
@@ -927,6 +926,8 @@ void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei w
 
     rend->width  = width;
     rend->height = height;
+    rend->format = format;
+    rend->actual = internalformat;
 
     gles_glRenderbufferStorage(target, internalformat, width, height);
     DBG(CheckGLError(1);)

@@ -307,7 +307,7 @@ void fpe_program(int ispoint) {
 
 program_t* fpe_CustomShader(program_t* glprogram, fpe_state_t* state)
 {
-    // state is not empty and glprogram already has some cache (it may be empty, but khthingy is initialized)
+    // state is not empty and glprogram already has some cache (it may be empty, but kh'thingy is initialized)
     // TODO: what if program is composed of more then 1 vertex or fragment shader?
     fpe_fpe_t *fpe = fpe_GetCache((fpe_cache_t*)glprogram->fpe_cache, state, 0);
     if(fpe->glprogram==NULL) {
@@ -335,6 +335,14 @@ program_t* fpe_CustomShader(program_t* glprogram, fpe_state_t* state)
         fpe->prog = gl4es_glCreateProgram();
         gl4es_glAttachShader(fpe->prog, fpe->vert);
         gl4es_glAttachShader(fpe->prog, fpe->frag);
+        // re-run the BindAttribLocation if any
+        {
+            attribloc_t *al;
+            LOAD_GLES2(glBindAttribLocation);   // using real one to avoid overwriting of attribloc...
+            kh_foreach_value(glprogram->attribloc, al,
+                gles_glBindAttribLocation(fpe->prog, al->index, al->name);
+            );
+        }
         gl4es_glLinkProgram(fpe->prog);
         gl4es_glGetProgramiv(fpe->prog, GL_LINK_STATUS, &status);
         if(status!=GL_TRUE) {
