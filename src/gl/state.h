@@ -273,6 +273,8 @@ typedef struct {
     GLenum      attachment;         // can be color0 or depth_stencil for example
     GLuint      secondarybuffer;    // secondary renderbuffer, if depth_stencil is not possible for example
     GLuint      secondarytexture;   // the texture, in case of a color0 attachement...
+    GLenum      format;             // requested format
+    GLenum      actual;             // actual formal
     int         width;
     int         height;
 } glrenderbuffer_t;
