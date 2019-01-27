@@ -35,6 +35,9 @@ void gl4es_glHint(GLenum pname, GLenum mode) {
                 return;
             gles_glHint(pname, mode);
             break;
+        case GL_TEXTURE_COMPRESSION_HINT:   // ignore this one
+            // TODO: track setted value
+            return;
         // specifics GL4ES Hints
         case GL_SHRINK_HINT_GL4ES:
             if (mode<=11)

@@ -628,6 +628,9 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             if(hardext.esversion==1) return 0; // fall back to actual glGet
             *params=GL_DONT_CARE;
             break;
+        case GL_TEXTURE_COMPRESSION_HINT:
+            *params=GL_DONT_CARE;
+            break;
         // GL4ES special hints
         case GL_SHRINK_HINT_GL4ES:
             *params=globals4es.texshrink;

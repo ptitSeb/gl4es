@@ -482,6 +482,7 @@
 #define GL_COMPRESSED_RGBA_S3TC_DXT1_EXT     0x83F1
 #define GL_COMPRESSED_RGBA_S3TC_DXT3_EXT     0x83F2
 #define GL_COMPRESSED_RGBA_S3TC_DXT5_EXT     0x83F3
+#define GL_TEXTURE_COMPRESSION_HINT          0x84EF
 
 /* Render Mode */
 #define GL_SELECT                         0x1c02
