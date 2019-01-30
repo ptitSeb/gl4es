@@ -414,7 +414,8 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
         if (a->tex[i]) memcpy(a->tex[i]+a->len*4, b->tex[i], b->len*4*sizeof(GLfloat));
     // indices
     if(!a->mode_inits) list_add_modeinit(a, a->mode_init);
-    if (ilen_a || ilen_b || mode_needindices(a->mode) || mode_needindices(b->mode))
+    if (ilen_a || ilen_b || mode_needindices(a->mode) || mode_needindices(b->mode) 
+        || (a->mode!=b->mode && (a->mode==GL_QUADS || b->mode==GL_QUADS)) )
     {
         // alloc or realloc a->indices first...
         int capindices = renderlist_getindicesize(a)+renderlist_getindicesize(b);
