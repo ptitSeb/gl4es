@@ -91,6 +91,9 @@ void glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) AliasEx
 void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glTexCoordPointer");
 void glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glSecondaryColorPointer");
 void glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glFogCoordPointer");
+void glSecondaryColorPointerEXT(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glSecondaryColorPointer");
+void glFogCoordPointerEXT(GLenum type, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glFogCoordPointer");
+
 
 void gl4es_glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
     uintptr_t ptr = (uintptr_t)pointer;
