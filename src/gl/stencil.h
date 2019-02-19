@@ -1,7 +1,7 @@
-#include "gl.h"
+#include "gl4es.h"
 
-#ifndef __STENCIL_H_
-#define __STENCIL_H_
+#ifndef _GL4ES_STENCIL_H_
+#define _GL4ES_STENCIL_H_
 
 typedef struct {
     GLenum      func[2];
@@ -14,4 +14,4 @@ typedef struct {
     GLint       clear;
 } stencil_t;
 
-#endif
+#endif // _GL4ES_STENCIL_H_

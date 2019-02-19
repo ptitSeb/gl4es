@@ -1,5 +1,5 @@
-#ifndef __GLX_GBM_H_
-#define __GLX_GBM_H_
+#ifndef _GLX_GBM_H_
+#define _GLX_GBM_H_
 
 void LoadGBMFunctions();
 void CloseGBMFunctions();
@@ -13,4 +13,4 @@ void DeleteGBMWindow(void* win);
 int FindGBMConfig(EGLConfig *configs, int numFounds);
 #endif
 
-#endif //__GLX_GBM_H_
+#endif // _GLX_GBM_H_

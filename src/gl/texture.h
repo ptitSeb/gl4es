@@ -1,8 +1,9 @@
-#include "gl.h"
-#include "buffers.h"
+#include "gl4es.h"
 
-#ifndef GL_TEXTURE_H
-#define GL_TEXTURE_H
+#ifndef _GL4ES_TEXTURE_H_
+#define _GL4ES_TEXTURE_H_
+
+#include "buffers.h"
 
 void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLsizei height, GLint border,
@@ -229,4 +230,4 @@ void realize_bound(int TMU, GLenum target);
 void realize_textures();
 void realize_active();
 
-#endif
+#endif // _GL4ES_TEXTURE_H_

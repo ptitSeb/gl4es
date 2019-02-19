@@ -1,4 +1,7 @@
-#include "gl.h"
+#ifndef _GL4ES_TEXGEN_H_
+#define _GL4ES_TEXGEN_H_
+
+#include "gl4es.h"
 #include "matvec.h"
 
 void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *params);
@@ -11,3 +14,5 @@ void gl4es_glLoadTransposeMatrixf(const GLfloat *m);
 void gl4es_glLoadTransposeMatrixd(const GLdouble *m);
 void gl4es_glMultTransposeMatrixd(const GLdouble *m);
 void gl4es_glMultTransposeMatrixf(const GLfloat *m);
+
+#endif // _GL4ES_TEXGEN_H_

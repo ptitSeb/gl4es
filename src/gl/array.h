@@ -1,5 +1,5 @@
-#ifndef GL_ARRAY_H
-#define GL_ARRAY_H
+#ifndef _GL4ES_ARRAY_H_
+#define _GL4ES_ARRAY_H_
 
 #include "gles.h"
 
@@ -30,4 +30,5 @@ GLfloat *copy_eval_double1(GLenum target, GLint ustride, GLint uorder, const GLd
 GLfloat *copy_eval_float1(GLenum target, GLint ustride, GLint uorder, const GLfloat *points);
 GLfloat *copy_eval_double2(GLenum target, GLint ustride, GLint uorder, GLint vstride, GLint vorder, const GLdouble *points);
 GLfloat *copy_eval_float2(GLenum target, GLint ustride, GLint uorder, GLint vstride, GLint vorder, const GLfloat *points);
-#endif
+
+#endif // _GL4ES_ARRAY_H_

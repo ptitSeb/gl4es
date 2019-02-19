@@ -1,5 +1,5 @@
 #include "directstate.h"
-#include "gl.h"
+#include "gl4es.h"
 #include "stack.h"
 
 // Client State

@@ -1,10 +1,12 @@
+#ifndef _GL4ES_GL4ES_H_
+#define _GL4ES_GL4ES_H_
+
 #include <dlfcn.h>
-//#include <GLES/gl.h>
 #include "gles.h"
 #ifndef NOEGL
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
-#endif
+#endif // NOEGL
 #include <inttypes.h>
 #include <math.h>
 #include <stdbool.h>
@@ -16,7 +18,7 @@
 
 #ifdef __ARM_NEON__
 #include <arm_neon.h>
-#endif
+#endif // __ARM_NEON__
 
 #ifndef AliasExport
 #define AliasExport(name)   __attribute__((alias(name))) __attribute__((visibility("default")))
@@ -28,25 +30,22 @@
   #ifdef __ARM_PCS_VFP
    //#warning Arm Hardfloat detected
    #define FASTMATH
-  #else
+  #else // __ARM_PCS_VFP
    #if defined(__ARM_FP) && defined(PANDORA)
     //#warning Arm SoftFP detected
     #define FASTMATH __attribute__((pcs("aapcs-vfp")))
-   #else
+   #else // defined(__ARM_FP) && defined(PANDORA)
 	//#warning Arm no FP detected
 	#define FASTMATH
-   #endif
-  #endif
- #else
+   #endif // defined(__ARM_FP) && defined(PANDORA)
+  #endif // __ARM_PCS_VFP
+ #else // __arm__
   #define FASTMATH
- #endif
-#else
+ #endif // __arm__
+#else // __GNUC__
  #define FASTMATH
-#endif
-#endif
-
-#ifndef GL_H
-#define GL_H
+#endif // __GNUC__
+#endif // FASTMATH
 
 #include "../config.h"
 #include "wrap/gles.h"
@@ -113,8 +112,8 @@ typedef EGLBoolean (*eglQueryStreamKHR_PTR)(EGLDisplay dpy, EGLStreamKHR stream,
 typedef EGLBoolean (*eglQueryStreamTimeKHR_PTR)(EGLDisplay dpy, EGLStreamKHR stream, EGLenum attribute, EGLTimeKHR * value);
 typedef EGLint (*eglWaitSyncKHR_PTR)(EGLDisplay dpy, EGLSyncKHR sync, EGLint flags);
 typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLConfig config, EGLStreamKHR stream, const EGLint * attrib_list);
-#endif
-#endif
+#endif // TEXSTREAM
+#endif // NOEGL
 
 #include "loader.h"
 packed_call_t* glCopyPackedCall(const packed_call_t *packed);
@@ -204,7 +203,7 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
     }
 
 //printf("list:%i, " #nam "\n", state.list.name);
-// cannot include "debug.h" as it include "gl.h"...
+// cannot include "debug.h" as it include "gl4es.h"...
 const char* PrintEnum(GLenum what);
 
 #define PUSH_IF_COMPILING(name) PUSH_IF_COMPILING_EXT(name, name##_ARG_NAMES)
@@ -369,7 +368,7 @@ static inline const GLboolean valid_vertex_type(GLenum type) {
 }
 
 #include "wrap/stub.h"
-#include "wrap/gl.h"
+#include "wrap/gl4es.h"
 #include "eval.h"
 #include "light.h"
 #include "line.h"
@@ -469,8 +468,39 @@ void gl4es_use_scratch_vertex(int use);
 void gl4es_use_scratch_indices(int use);
 
 void ToBuffer(int first, int count);
-#include "defines.h"
+
+GLboolean glIsList(GLuint list);
+GLuint glGenLists(GLsizei range);
+void glActiveTextureARB(GLenum texture);
+void glArrayElement(GLint i);
+void glBegin(GLenum mode);
+void glCallList(GLuint list);
+void glCallLists(GLsizei n, GLenum type, const GLvoid *lists);
+void glClearDepth(GLdouble depth);
+void glDeleteList(GLuint list);
+void glDeleteLists(GLuint list, GLsizei range);
+void glDrawArrays(GLenum mode, GLint first, GLsizei count);
+void glEnd();
+void glEndList();
+void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
+void glGetDoublev(GLenum pname, GLdouble *params);
+void glIndexf(GLfloat i);
+void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer);
+void glListBase(GLuint base);
+void glLockArraysEXT(GLint first, GLsizei count);
+void glNewList(GLuint list, GLenum mode);
+void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
+void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
+void glTexCoord2f(GLfloat s, GLfloat t);
+void glUnlockArraysEXT();
+void glVertex2f(GLfloat x, GLfloat y);
+void glVertex2i(GLint x, GLint y);
+void glVertex3f(GLfloat x, GLfloat y, GLfloat z);
+GLenum glGetError();
+
+// custom functions
+void glPushCall(void *call);
 
 #include "render.h"
 
-#endif
+#endif // _GL4ES_GL4ES_H_

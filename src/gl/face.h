@@ -1,9 +1,9 @@
-#include "gl.h"
+#ifndef _GL4ES_FACE_H_
+#define _GL4ES_FACE_H_
 
-#ifndef __FACE_H__
-#define __FACE_H__
+#include "gl4es.h"
 
 void gl4es_glCullFace(GLenum mode);
 void gl4es_glFrontFace(GLenum mode);
 
-#endif //__FACE_H__
+#endif // _GL4ES_FACE_H_

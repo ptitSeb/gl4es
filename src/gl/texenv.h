@@ -1,7 +1,7 @@
-#include "gl.h"
+#include "gl4es.h"
 
-#ifndef GL_TEXENV_H
-#define GL_TEXENV_H
+#ifndef _GL4ES_TEXENV_H_
+#define _GL4ES_TEXENV_H_
 
 typedef struct {
     GLenum          mode;
@@ -39,4 +39,4 @@ void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param);
 void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params);
 void gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params);
 
-#endif //GL_TEXENV_H
+#endif // _GL4ES_TEXENV_H_

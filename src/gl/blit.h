@@ -1,5 +1,5 @@
-#ifndef _BLIT_H_
-#define _BLIT_H_
+#ifndef _GL4ES_BLIT_H_
+#define _GL4ES_BLIT_H_
 
 #include "gles.h"
 
@@ -15,4 +15,4 @@ void gl4es_blitTexture(GLuint texture,
     float vpwidth, float vpheight, 
     float x, float y, int mode);
 
-#endif
+#endif // _GL4ES_BLIT_H_

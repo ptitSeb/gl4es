@@ -1,7 +1,7 @@
-#include "gl.h"
+#include "gl4es.h"
 
-#ifndef DISPLAY_LIST_H
-#define DISPLAY_LIST_H
+#ifndef _GL4ES_LIST_H_
+#define _GL4ES_LIST_H_
 
 typedef enum {
 	STAGE_NONE = 0,
@@ -291,4 +291,4 @@ void rlPointParamOp(renderlist_t *list, int op, const GLfloat* v);
 void rlFogCoordf(renderlist_t *list, GLfloat coord);
 void rlEnd(renderlist_t *list);
 
-#endif
+#endif // _GL4ES_LIST_H_

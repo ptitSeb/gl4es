@@ -1,5 +1,5 @@
 #include "matvec.h"
-#include "gl.h"
+#include "gl4es.h"
 
 float FASTMATH dot(const float *a, const float *b) {
     return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];

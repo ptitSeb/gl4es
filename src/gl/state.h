@@ -1,8 +1,7 @@
-#include "gl.h"
+#ifndef _GL4ES_STATE_H_
+#define _GL4ES_STATE_H_
 
-#ifndef GL_STATE_H
-#define GL_STATE_H
-
+#include "gl4es.h"
 #include "eval.h"
 #include "texture.h"
 #include "buffers.h"
@@ -346,4 +345,4 @@ typedef struct {
 } face_state_t;
 
 
-#endif
+#endif // _GL4ES_STATE_H_

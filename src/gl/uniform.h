@@ -1,7 +1,7 @@
-#include "gl.h"
+#ifndef _GL4ES_UNIFORM_H_
+#define _GL4ES_UNIFORM_H_
 
-#ifndef __UNIFORM_H_
-#define __UNIFORM_H_
+#include "gl4es.h"
 
 int uniformsize(GLenum type);
 int is_uniform_int(GLenum type);
@@ -55,4 +55,4 @@ GLvoid glUniformMatrix2fvARB(GLint location, GLsizei count, GLboolean transpose,
 GLvoid glUniformMatrix3fvARB(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
 GLvoid glUniformMatrix4fvARB(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
 
-#endif
+#endif // _GL4ES_UNIFORM_H_

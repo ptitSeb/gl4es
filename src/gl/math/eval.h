@@ -26,7 +26,7 @@
 #ifndef _M_EVAL_H
 #define _M_EVAL_H
 
-#include "../gl.h"
+#include "../gl4es.h"
 
 void _math_init_eval( void );
 

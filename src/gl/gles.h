@@ -1,5 +1,6 @@
-#ifndef _GLES_H_
-#define _GLES_H_
+#ifndef _GL4ES_GLES_H_
+#define _GL4ES_GLES_H_
+
 #include <GLES/glplatform.h>
 
 // Define for GLES 1.1
@@ -1109,5 +1110,4 @@ typedef struct __GLsync *GLsync;
 #define GL_MULTISAMPLE_BUFFER_BIT7_QCOM                         0x80000000
 #endif
 
-
-#endif //_GLES_H_
+#endif // _GL4ES_GLES_H_

@@ -1,7 +1,7 @@
-#include "gl.h"
+#include "gl4es.h"
 
-#ifndef __FOG_H_
-#define __FOG_H_
+#ifndef _GL4ES_FOG_H_
+#define _GL4ES_FOG_H_
 
 typedef struct {
     GLenum          mode;
@@ -19,4 +19,4 @@ void gl4es_glFogf(GLenum pname, GLfloat param);
 void gl4es_glFogCoordf(GLfloat coord);
 void gl4es_glFogCoordfv(const GLfloat *coord);
 
-#endif
+#endif // _GL4ES_FOG_H_

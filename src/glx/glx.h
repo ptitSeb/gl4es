@@ -1,3 +1,6 @@
+#ifndef _GLX_GLX_H_
+#define _GLX_GLX_H_
+
 #ifndef NOEGL
 #include <EGL/egl.h>
 #endif
@@ -10,7 +13,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../gl/gl.h"
+#include "../gl/gl4es.h"
 
 // defines yoinked from Mesa glx.h
 #define GLX_VERSION_1_1     1
@@ -297,4 +300,6 @@ GLXPixmap gl4es_glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixma
 void gl4es_glXDestroyGLXPixmap(Display *display, void *pixmap);
 
 GLXContext gl4es_glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list);
-#endif //NOX11
+#endif // NOX11
+
+#endif // _GLX_GLX_H

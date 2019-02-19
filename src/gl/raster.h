@@ -1,13 +1,14 @@
-#include "gl.h"
+#include "gl4es.h"
+
+#ifndef _GL4ES_RASTER_H_
+#define _GL4ES_RASTER_H_
+
 #ifndef GL_STENCIL_INDEX
 #define GL_STENCIL_INDEX			0x1901
-#endif
+#endif // GL_STENCIL_INDEX
 #ifndef GL_DEPTH_COMPONENT
 #define GL_DEPTH_COMPONENT			0x1902
-#endif
-
-#ifndef RASTER_H
-#define RASTER_H
+#endif // GL_DEPTH_COMPONENT
 
 typedef struct {
     GLfloat x;
@@ -48,4 +49,4 @@ void render_raster_list(rasterlist_t* raster);
 
 void bitmap_flush();
 	
-#endif
+#endif // _GL4ES_RASTER_H_

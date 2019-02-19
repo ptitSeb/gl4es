@@ -1,6 +1,6 @@
 #include "fpe.h"
 #include "fpe_shader.h"
-#include "gl.h"
+#include "gl4es.h"
 #include "../glx/hardext.h"
 #include "matrix.h"
 #include "matvec.h"

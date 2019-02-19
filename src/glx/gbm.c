@@ -1,7 +1,7 @@
 #include "hardext.h"
 #include "../gl/loader.h"
 #include "../gl/init.h"
-#include "../gl/gl.h"
+#include "../gl/gl4es.h"
 #include "glx_gbm.h"
 
 #define SHUT(a) if(!globals4es.nobanner) a

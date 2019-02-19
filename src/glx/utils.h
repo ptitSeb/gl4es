@@ -1,14 +1,14 @@
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef _GLX_UTILS_H_
+#define _GLX_UTILS_H_
 
 #ifndef NOX11
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#endif //NOX11
+#endif // NOX11
 #include <stdio.h>
 #include <string.h>
 
-#include "../gl/gl.h"
+#include "../gl/gl4es.h"
 #ifndef NOX11
 void
 fill_bitmap(Display * dpy, Window win, GC gc,
@@ -17,5 +17,5 @@ fill_bitmap(Display * dpy, Window win, GC gc,
 
 XCharStruct *
 isvalid(XFontStruct * fs, int which);
-#endif //NOX11
-#endif
+#endif // NOX11
+#endif // _GLX_UTILS_H_

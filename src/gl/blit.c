@@ -1,6 +1,6 @@
 /* Blit utility function */
 
-#include "gl.h"
+#include "gl4es.h"
 #include "blit.h"
 #include "../glx/hardext.h"
 #include "init.h"

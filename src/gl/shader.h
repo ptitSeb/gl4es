@@ -1,7 +1,7 @@
-#include "gl.h"
+#include "gl4es.h"
 
-#ifndef __SHADER_H_
-#define __SHADER_H_
+#ifndef _GL4ES_SHADER_H_
+#define _GL4ES_SHADER_H_
 
 typedef struct {
     int         need_color;      // front and back
@@ -26,7 +26,6 @@ typedef struct {
 } shader_t;
 
 KHASH_MAP_DECLARE_INT(shaderlist, shader_t *);
-
 
 GLuint gl4es_glCreateShader(GLenum shaderType);
 void gl4es_glDeleteShader(GLuint shader);
@@ -67,4 +66,4 @@ void redoShader(GLuint shader, shaderconv_need_t *need);
 
 GLhandleARB gl4es_glCreateShaderObject(GLenum shaderType);
     
-#endif
+#endif // _GL4ES_SHADER_H_

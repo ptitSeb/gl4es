@@ -1,3 +1,6 @@
+#ifndef GL_CONFIG_H
+#define GL_CONFIG_H
+
 #define SYS_proxy 9999
 #define MAX_EVAL_ORDER 30
 #define MAX_TEX 8
@@ -300,3 +303,5 @@
 #define direct_glVertexPointer
 #define direct_glGenTextures
 #define direct_glGetError
+
+#endif // GL_CONFIG_H

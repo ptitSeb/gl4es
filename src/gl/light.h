@@ -1,7 +1,7 @@
-#include "gl.h"
+#include "gl4es.h"
 
-#ifndef __LIGHT_H_
-#define __LIGHT_H_
+#ifndef _GL4ES_LIGHT_H_
+#define _GL4ES_LIGHT_H_
 
 typedef struct {
     GLfloat         ambient[4];
@@ -49,4 +49,4 @@ void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) ;
 void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param);
 void gl4es_glColorMaterial(GLenum face, GLenum mode);
 
-#endif //__LIGHT_H_
+#endif // _GL4ES_LIGHT_H_

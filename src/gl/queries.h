@@ -1,7 +1,7 @@
-#include "gl.h"
+#include "gl4es.h"
 
-#ifndef GL_QUERIES_H
-#define GL_QUERIES_H
+#ifndef _GL4ES_QUERIES_H_
+#define _GL4ES_QUERIES_H_
 
 void gl4es_glBeginQuery(GLenum target, GLuint id);
 void gl4es_glEndQuery(GLenum target);
@@ -20,4 +20,4 @@ typedef struct {
 
 KHASH_MAP_DECLARE_INT(queries, glquery_t *)
 
-#endif
+#endif // _GL4ES_QUERIES_H_

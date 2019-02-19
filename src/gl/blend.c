@@ -2,7 +2,7 @@
 #include "debug.h"
 #include "../glx/hardext.h"
 #include "init.h"
-#include "gl.h"
+#include "gl4es.h"
 
 void gl4es_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
     PUSH_IF_COMPILING(glBlendColor);

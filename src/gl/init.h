@@ -69,4 +69,4 @@ typedef struct _globals4es {
 
 extern globals4es_t globals4es;
 
-#endif
+#endif // _GL4ES_INIT_H_

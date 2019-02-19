@@ -1,5 +1,5 @@
-#ifndef LOADER_H
-#define LOADER_H
+#ifndef _GL4ES_LOADER_H_
+#define _GL4ES_LOADER_H_
 
 #ifdef AMIGAOS4
 #include "../agl/amigaos.h"
@@ -121,6 +121,6 @@ void *open_lib(const char **names, const char *override);
         LOAD_EGL(eglGetProcAddress); \
         LOAD_RAW_SILENT(gles, name, ((hardext.esversion==1)?((void*)egl_eglGetProcAddress(#name"OES")):((void*)dlsym(gles, #name)))); \
     }
-#endif //NOEGL
+#endif // NOEGL
 
-#endif
+#endif // _GL4ES_LOADER_H_

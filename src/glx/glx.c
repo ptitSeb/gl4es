@@ -19,7 +19,6 @@
 
 #include "glx.h"
 #include "utils.h"
-#include "../gl/gl.h"
 #include "../glx/streaming.h"
 #include "khash.h"
 #include "hardext.h"
