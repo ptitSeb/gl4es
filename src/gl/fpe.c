@@ -535,16 +535,20 @@ void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 
 void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     DBG(printf("fpe_glDrawArrays(%s, %d, %d), program=%d, instanceID=%u\n", PrintEnum(mode), first, count, glstate->glsl->program, glstate->instanceID);)
-    realize_glenv(mode==GL_POINTS);
+    void* scratch = NULL;
+    realize_glenv(mode==GL_POINTS, first, count, 0, NULL, &scratch);
     LOAD_GLES(glDrawArrays);
     gles_glDrawArrays(mode, first, count);
+    if(scratch) free(scratch);
 }
 
 void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
     DBG(printf("fpe_glDrawElements(%s, %d, %s, %p), program=%d, instanceID=%u\n", PrintEnum(mode), count, PrintEnum(type), indices, glstate->glsl->program, glstate->instanceID);)
-    realize_glenv(mode==GL_POINTS);
+    void* scratch = NULL;
+    realize_glenv(mode==GL_POINTS, 0, count, type, indices, &scratch);
     LOAD_GLES(glDrawElements);
     gles_glDrawElements(mode, count, type, indices);
+    if(scratch) free(scratch);
 }
 
 void fpe_glMatrixMode(GLenum mode) {
@@ -628,7 +632,9 @@ int fpe_gettexture(int TMU) {
     return target;
 }
 
-void realize_glenv(int ispoint) {
+void realize_glenv(int ispoint, int first, int count, GLenum type, const void* indices, void** scratch) {
+    // the handling of GL_BGRA size of GL_DOUBLE using 1 scratch in not ideal, and a waste when dealing with Buffers
+    // TODO: have the scratch buffer part of the VBO, and tag it dirty when buffer is changed (or always dirty for VBO 0)
     if(hardext.esversion==1) return;
     LOAD_GLES2(glUseProgram);
     // update texture state for fpe only
@@ -636,7 +642,7 @@ void realize_glenv(int ispoint) {
         for(int i=0; i<glstate->fpe_bound_changed; i++) {
             glstate->fpe_state->texformat &= ~(7<<(i*3));
             glstate->fpe_state->texadjust &= ~(1<<i);
-            // disable texture unit, in that case (binded texture is not valid)
+            // disable texture unit, in that case (binded texture iconsts not valid)
             glstate->fpe_state->textype &= ~(7<<(i*3));
             int texunit = fpe_gettexture(i);
             gltexture_t* tex = (texunit==-1)?NULL:glstate->texture.bound[i][texunit];
@@ -1107,15 +1113,45 @@ void realize_glenv(int ispoint) {
         // check if new value has to be sent to hardware
         if(v->vaarray) {
             // array case
+            void * ptr = (void*)((uintptr_t)w->pointer + ((w->buffer)?(uintptr_t)w->buffer->data:0));
             if(dirty || v->size!=w->size || v->type!=w->type || v->normalized!=w->normalized 
                 || v->stride!=w->stride || v->buffer!=w->buffer
-                || v->pointer!=(void*)((uintptr_t)w->pointer + ((w->buffer)?(uintptr_t)w->buffer->data:0))) {
-                v->size = w->size;
-                v->type = w->type;
-                v->normalized = w->normalized;
-                v->stride = w->stride;
-                v->pointer = (void*)((uintptr_t)w->pointer + ((w->buffer)?(uintptr_t)w->buffer->data:0));
-                v->buffer = w->buffer; // buffer is unused here
+                || v->pointer!=ptr) {
+                if((w->size==GL_BGRA || w->type==GL_DOUBLE) && !*scratch) { 
+                    // need to adjust, so first need the min/max (a shame as I already must have that somewhere)
+                    int imin, imax;
+                    if(type==0) {
+                        imin = first; imax = count;
+                    } else {
+                        if(type==GL_UNSIGNED_INT)
+                            getminmax_indices_ui(indices, &imax, &imin, count);
+                        else
+                            getminmax_indices_us(indices, &imax, &imin, count);
+                        ++imax;
+                    }
+                    if(w->size==GL_BGRA) {
+                        v->size = 4;
+                        v->type = GL_FLOAT;
+                        v->normalized = 0;
+                        v->pointer = *scratch = copy_gl_pointer_color_bgra(ptr, w->stride, 4, imin, imax);
+                        v->stride = 0;
+                        v->buffer = NULL;
+                    } else if (w->type == GL_DOUBLE) {
+                        // TODO
+                        static int warn = 1;
+                        if(warn) {
+                            printf("LIBGL: VertexAttribArray using GL_DOUBLE unimplemented!\n");
+                            warn=0;
+                        }
+                    }
+                } else {
+                    v->size = w->size;
+                    v->type = w->type;
+                    v->normalized = w->normalized;
+                    v->stride = w->stride;
+                    v->pointer = ptr;
+                    v->buffer = w->buffer; // buffer is unused here
+                }
                 LOAD_GLES2(glVertexAttribPointer);
                 gles_glVertexAttribPointer(i, v->size, v->type, v->normalized, v->stride, v->pointer);
                 DBG(printf("glVertexAttribPointer(%d, %d, %s, %d, %d, %p)\n", i, v->size, PrintEnum(v->type), v->normalized, v->stride, (GLvoid*)((uintptr_t)v->pointer+((v->buffer)?(uintptr_t)v->buffer->data:0)));)

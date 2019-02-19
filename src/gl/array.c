@@ -424,10 +424,9 @@ void normalize_indices_ui(GLuint *indices, GLsizei *max, GLsizei *min, GLsizei c
     }
 }
 
-GLvoid *copy_gl_pointer_color_bgra(pointer_state_t *ptr, GLsizei width, GLsizei skip, GLsizei count) {
+GLvoid *copy_gl_pointer_color_bgra(const void *ptr, GLint stride, GLsizei width, GLsizei skip, GLsizei count) {
 	// this one only convert from BGRA (unsigned byte) to RGBA FLOAT
-    GLubyte* src = (GLubyte*)ptr->pointer;
-    int stride = ptr->stride;
+    GLubyte* src = (GLubyte*)ptr;
 
     if (! src || !(count-skip))
         return NULL;

@@ -196,7 +196,7 @@ void builtin_Init(program_t *glprogram);
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size);
 int builtin_CheckVertexAttrib(program_t *glprogram, char* name, GLint id);
 
-void realize_glenv(int ispoint);
+void realize_glenv(int ispoint, int first, int count, GLenum type, const void* indices, void** scratch);
 void realize_blitenv(int alpha);
 
 #endif

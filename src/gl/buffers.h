@@ -98,12 +98,12 @@ typedef struct {
 typedef struct {
     GLint           size;
     GLenum          type;
-    GLboolean       normalized;
     GLsizei         stride;
     const GLvoid*   pointer;
+    GLboolean       vaarray;
+    GLboolean       normalized;
     glbuffer_t      *buffer;    // reference buffer
     GLfloat         current[4];
-    GLboolean       vaarray;
     GLint           divisor;
 } vertexattrib_t;
 
