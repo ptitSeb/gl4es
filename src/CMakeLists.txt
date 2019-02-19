@@ -6,6 +6,7 @@ SET(GL_SRC
     gl/blit.c
     gl/blend.c
     gl/buffers.c
+    gl/build_info.c
     gl/debug.c
     gl/decompress.c
     gl/depth.c
@@ -62,6 +63,7 @@ SET(GL_H
     gl/blend.h
     gl/blit.h
     gl/buffers.h
+	gl/build_info.h
     gl/const.h
     gl/debug.h
     gl/decompress.h
@@ -111,6 +113,8 @@ SET(GL_H
     gl/wrap/gl.h
     gl/wrap/stub.h
 )
+
+set_source_files_properties(gl/build_info.c PROPERTIES OBJECT_OUTPUTS "dummy.c")
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     include_directories(glx)
