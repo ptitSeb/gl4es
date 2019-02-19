@@ -2,15 +2,15 @@ Compiling
 ----
 *for Pandora*
 
- `cmake . -DPANDORA=1; make`
+ `mkdir build; cd build; cmake .. -DPANDORA=1; make`
     
 *or for the Raspberry Pi*
 
- `cmake . -DBCMHOST=1; make`
+ `mkdir build; cd build; cmake .. -DBCMHOST=1; make`
 
 *or for the ODroid*
 
- `cmake . -DODROID=1; make`
+ `mkdir build; cd build; cmake .. -DODROID=1; make`
 
 *or for the OrangePI*
 
@@ -18,7 +18,7 @@ Compiling
 
 *or for CHIP machines*
 
- `cmake . -DCHIP=1; make`
+ `mkdir build; cd build; cmake .. -DCHIP=1; make`
 
 *or for Android*
 
@@ -33,7 +33,7 @@ Alternatively, you can use the curses-bases ccmake (or any other gui frontend fo
 You can avoid the use of X11 with `NOX11=1` and EGL with `NOEGL=1`, but then, you will need to create the EGL Context yourself (or using SDL for example). Be sure to synchronize the context you create with the Backend you use. By default GLES 1.1 backend is used. To used GLES2 by default, use `DEFAULT_ES=2`
 You can use cmake and mix command line argument to custom build your version of GL4ES. For example, for a generic ARM with NEON platform, not using X11 or EGL, defaulting to GLES2 backend, and enabling RPi, you would do:
 
- `cmake . -DBCMHOST=1 -DNOEGL=1 -DNOX11=1 -DDEFAULT_ES=2 -DCMAKE_C_FLAGS="-marm -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=hard" ; make`
+ `mkdir build; cd build; cmake .. -DBCMHOST=1 -DNOEGL=1 -DNOX11=1 -DDEFAULT_ES=2 -DCMAKE_C_FLAGS="-marm -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=hard" ; make`
 
 ----
 
@@ -42,7 +42,7 @@ Testing
 A few tests are included.
 They can be launched with `tests/tests.sh`
 You will need apitrace and imagemagick for them to run. (on debian and friend, it's `sudo apt install apitrace-gl-frontend imagemagick`)
-The tests use a pre-recorded GL trace that is replayed, than a specific frame is captured and compared to a reference picture.
+The tests use a pre-recorded GL trace that is replayed, then a specific frame is captured and compared to a reference picture.
 Because each renderer may render slightly differently, there are some fuzz in the comparison, so only significant changes will be detected.
 For now, 2 tests are done, one with glxgears (basic testing, using mostly glBegin / glEnd) and stuntcarracer (with more GL stuff, textures and lighting).
 
@@ -54,7 +54,7 @@ Per-platform
 ##### OpenPandora
 
 This is the main developpement platform for now. GL4ES works on all 3 models (CC, Rebirth and Gigahertz), and with all driver version.
-For the SGX Driver version that doesn't support X11 Windowed mode (i.e. there is no `/usr/lib/libpvrPVR2D_X11WSEGL.so` library in the firmware), you need to use one of the framebuffer output: `LIBGL_FB=1` is the fastest, but you may need `LIBGL_FB=2` if you need 32bits framebuffer, or `LIBGL_FB=3` if you need GL in a Window (but it will be slow, as each frame as to be blitted back in the X11 windows).
+For the SGX Driver version that doesn't support X11 Windowed mode (i.e. there is no `/usr/lib/libpvrPVR2D_X11WSEGL.so` library in the firmware), you need to use one of the framebuffer output: `LIBGL_FB=1` is the fastest, but you may need `LIBGL_FB=2` if you need 32bits framebuffer, or `LIBGL_FB=3` if you need GL in a Window (but it will be slow, as each frame has to be blitted back in the X11 windows).
 On the Pandora, the special `LIBGL_GAMMA` can be used also, to boost gamma at load, using firmware command to change LCD gamma.
 
 ##### ODroid
@@ -81,8 +81,7 @@ On Android build of GL4ES, no X11 function are called. So most `glX` function ar
 On Android version 4.0 and earlier, there is a bug that prevent dlopen to be called inside dlopen (see [here](http://grokbase.com/t/gg/android-ndk/124bdvscqx/block-with-calling-dlopen-and-dlclose)).
 GL4ES use a "library constructor" to initialize itself a load, and that constructor do some dlopen (to load EGL and GLES libraries), so it will trigger that bug.
 If you are targeting a wide range of device, you should probably activate the workaround:
-1. Modify [Android.mk](Android.mk) to uncomment `#LOCAL_CFLAGS += -DNO_NO_INIT_CONSTRUCTOR` near the end of the file, to prevent the use of the library constructor.
+1. Modify [Android.mk](Android.mk) to uncomment `#LOCAL_CFLAGS += -DNO_INIT_CONSTRUCTOR` near the end of the file, to prevent the use of the library constructor.
 2. In your code, call `void initialize_gl4es()` as soon as possible after loading GL4ES, and before using any GL function.
 
 To try the GLES2 backend, you can compile gl4es with ES2 by default (so you don't have to mess with env. variable). Simply uncomment `#LOCAL_CFLAGS += -DDEFAULT_ES=2`, and create the GL Context as GLES2.
-
