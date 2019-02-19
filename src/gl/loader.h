@@ -14,7 +14,10 @@
 
 // will become references to dlopen'd gles and egl
 extern void *gles, *egl, *bcm_host, *vcos, *gbm;
-#ifndef AMIGAOS4
+#ifdef AMIGAOS4
+#define proc_address(lib, name) os4GetProcAddress(name)
+#else
+#define proc_address(lib, name) dlsym(lib, name)
 void *open_lib(const char **names, const char *override);
 #endif
 
@@ -57,83 +60,43 @@ void *open_lib(const char **names, const char *override);
         } \
     }
 
-#ifdef AMIGAOS4
- #define LOAD_LIB(lib, name) DEFINE_RAW(lib, name); LOAD_RAW(lib, name, os4GetProcAddress(#name))
- #define LOAD_LIB_SILENT(lib, name) DEFINE_RAW(lib, name); LOAD_RAW_SILENT(lib, name, os4GetProcAddress(#name))
- #define LOAD_LIB_ALT(lib, alt, name) DEFINE_RAW(lib, name); LOAD_RAW_ALT(lib, alt, name, os4GetProcAddress(#name))
-#else
- #define LOAD_LIB(lib, name) DEFINE_RAW(lib, name); LOAD_RAW(lib, name, dlsym(lib, #name))
- #define LOAD_LIB_SILENT(lib, name) DEFINE_RAW(lib, name); LOAD_RAW_SILENT(lib, name, dlsym(lib, #name))
- #define LOAD_LIB_ALT(lib, alt, name) DEFINE_RAW(lib, name); LOAD_RAW_ALT(lib, alt, name, dlsym(lib, #name))
-#endif
+#define LOAD_LIB(lib, name) DEFINE_RAW(lib, name); LOAD_RAW(lib, name, proc_address(lib, #name))
+#define LOAD_LIB_SILENT(lib, name) DEFINE_RAW(lib, name); LOAD_RAW_SILENT(lib, name, proc_address(lib, #name))
+#define LOAD_LIB_ALT(lib, alt, name) DEFINE_RAW(lib, name); LOAD_RAW_ALT(lib, alt, name, proc_address(lib, #name))
 
-#define LOAD_GLES(name) \
-    LOAD_LIB(gles, name)
-    
-#define LOAD_GLES2(name) \
-    LOAD_LIB_SILENT(gles, name)
+#define LOAD_GLES(name)         LOAD_LIB(gles, name)
+#define LOAD_GLES2(name)        LOAD_LIB_SILENT(gles, name)
+#define LOAD_GLES_OR_FPE(name)  LOAD_LIB_ALT(gles, fpe, name)
 
-#define LOAD_GLES_OR_FPE(name) \
-    LOAD_LIB_ALT(gles, fpe, name)
-
-#ifdef AMIGAOS4
- #define LOAD_GLES_FPE(name) \
+#define LOAD_GLES_FPE(name) \
     DEFINE_RAW(gles, name); \
     if(hardext.esversion==1) { \
-        LOAD_RAW(gles, name, os4GetProcAddress(#name)); \
+        LOAD_RAW(gles, name, proc_address(gles, #name)); \
     } else { \
         gles_##name = fpe_##name; \
     }
-#else
- #define LOAD_GLES_FPE(name) \
-    DEFINE_RAW(gles, name); \
-    if(hardext.esversion==1) { \
-        LOAD_RAW(gles, name, dlsym(gles, #name)); \
-    } else { \
-        gles_##name = fpe_##name; \
-    }
-#endif
 
 #define LOAD_EGL(name) LOAD_LIB(egl, name)
 
 #define LOAD_GBM(name) LOAD_LIB(gbm, name)
 
-#ifdef AMIGAOS4
+#if defined(AMIGAOS4) || defined(NOEGL)
 #define LOAD_GLES_OES(name) \
     DEFINE_RAW(gles, name); \
     { \
-        LOAD_RAW(gles, name, os4GetProcAddress(#name"OES")); \
+        LOAD_RAW(gles, name, proc_address(gles, #name"OES")); \
     }
 
 #define LOAD_GLES_EXT(name) \
     DEFINE_RAW(gles, name); \
     { \
-        LOAD_RAW(gles, name, os4GetProcAddress(#name"EXT")); \
+        LOAD_RAW(gles, name, proc_address(gles, #name"EXT")); \
     }
 
 #define LOAD_GLES2_OR_OES(name) \
     DEFINE_RAW(gles, name); \
     { \
-        LOAD_RAW_SILENT(gles, name, os4GetProcAddress(#name)); \
-    }
-
-#elif defined(NOEGL)
-#define LOAD_GLES_OES(name) \
-    DEFINE_RAW(gles, name); \
-    { \
-        LOAD_RAW(gles, name, dlsym(gles, #name"OES")); \
-    }
-
-#define LOAD_GLES_EXT(name) \
-    DEFINE_RAW(gles, name); \
-    { \
-        LOAD_RAW(gles, name, dlsym(gles, #name"EXT")); \
-    }
-
-#define LOAD_GLES2_OR_OES(name) \
-    DEFINE_RAW(gles, name); \
-    { \
-        LOAD_RAW_SILENT(gles, name, dlsym(gles, #name)); \
+        LOAD_RAW_SILENT(gles, name, proc_address(gles, #name)); \
     }
 
 #else
