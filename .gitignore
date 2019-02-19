@@ -6,4 +6,4 @@ Makefile
 CMakeCache.txt
 cmake_install.cmake
 spec/yml/gles-1.1-full.yml
-
+/build/

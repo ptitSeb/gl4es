@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include "init.h"
+#include "build_info.h"
 #include "gl.h"
 #include "debug.h"
 #include "../glx/hardext.h"
@@ -63,7 +64,7 @@ void initialize_gl4es() {
 
 	SHUT(LOGD("LIBGL: Initialising gl4es\n"));
 	
-    SHUT(LOGD("LIBGL: v%d.%d.%d built on %s %s\n", MAJOR, MINOR, REVISION, __DATE__, __TIME__));
+    SHUT(print_build_infos());
     #define env(name, global, message)                    \
         char *env_##name = getenv(#name);                 \
         if (env_##name && strcmp(env_##name, "1") == 0) { \
