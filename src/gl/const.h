@@ -1,5 +1,5 @@
-#ifndef CONST_H
-#define CONST_H
+#ifndef _GL4ES_CONST_H_
+#define _GL4ES_CONST_H_
 
 #define GL_QUADS      7
 #define GL_QUAD_STRIP 8
@@ -760,4 +760,4 @@
 //GL_ARB_instanced_arrays
 #define GL_VERTEX_ATTRIB_ARRAY_DIVISOR          0x88FE
 
-#endif
+#endif // _GL4ES_CONST_H_

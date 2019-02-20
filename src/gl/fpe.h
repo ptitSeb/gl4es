@@ -1,7 +1,8 @@
-#include "gl.h"
+#include "gl4es.h"
 
-#ifndef __FPE_H_
-#define __FPE_H_
+#ifndef _GL4ES_FPE_H_
+#define _GL4ES_FPE_H_
+
 /*
   This is the FPE : Fixed Pipeline Emulator
 
@@ -199,4 +200,4 @@ int builtin_CheckVertexAttrib(program_t *glprogram, char* name, GLint id);
 void realize_glenv(int ispoint, int first, int count, GLenum type, const void* indices, void** scratch);
 void realize_blitenv(int alpha);
 
-#endif
+#endif // _GL4ES_FPE_H_

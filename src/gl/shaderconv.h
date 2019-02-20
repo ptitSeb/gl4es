@@ -1,7 +1,7 @@
-#include "gl.h"
+#ifndef _GL4ES_SHADERCONV_H_
+#define _GL4ES_SHADERCONV_H_
 
-#ifndef __SHADERCONV_H_
-#define __SHADERCONV_H_
+#include "gl4es.h"
 
 #include "program.h"
 
@@ -10,4 +10,4 @@ char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need);
 int isBuiltinAttrib(const char* name);
 int isBuiltinMatrix(const char* name);
 
-#endif
+#endif // _GL4ES_SHADERCONV_H_

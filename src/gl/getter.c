@@ -1,4 +1,4 @@
-#include "gl.h"
+#include "gl4es.h"
 #include "init.h"
 #include "texgen.h"
 #include "../glx/hardext.h"

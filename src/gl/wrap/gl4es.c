@@ -1,4 +1,4 @@
-#include "gl.h"
+#include "gl4es.h"
 #include "../debug.h"
 //#include <limits.h>
 
@@ -635,6 +635,16 @@ void gl4es_glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
     gl4es_glGetTexLevelParameteriv(target, 0, pname, params);
 }
 
+
+// Samples stuff
+#include "../loader.h"
+void gl4es_glSampleCoverage(GLclampf value, GLboolean invert) {
+    LOAD_GLES(glSampleCoverage);
+    PUSH_IF_COMPILING(glSampleCoverage)
+    gles_glSampleCoverage(value, invert);
+}
+void glSampleCoverage(GLclampf value, GLboolean invert) AliasExport("gl4es_glSampleCoverage");
+void glSampleCoverageARB(GLclampf value, GLboolean invert) AliasExport("gl4es_glSampleCoverage");
 
 // VertexArray stuff
 void gl4es_glVertexAttrib1f (GLuint index, GLfloat v0) { GLfloat f[4] = {0,0,0,1}; f[0] =v0; gl4es_glVertexAttrib4fv(index, f); };

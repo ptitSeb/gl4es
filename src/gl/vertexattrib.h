@@ -1,7 +1,7 @@
-#include "gl.h"
+#ifndef _GL4ES_VERTEXATTRIB_H_
+#define _GL4ES_VERTEXATTRIB_H_
 
-#ifndef __VERTEXATTRIB_H_
-#define __VERTEXATTRIB_H_
+#include "gl4es.h"
 
 // actual definition of vertexattrib_t is in buffer.h, has they are part of VAO...
 
@@ -22,4 +22,4 @@ void gl4es_glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid **pointe
 // GL_ARB_instanced_arrays
 void gl4es_glVertexAttribDivisor(GLuint index, GLuint divisor);
 
-#endif
+#endif // _GL4ES_VERTEXATTRIB_H_

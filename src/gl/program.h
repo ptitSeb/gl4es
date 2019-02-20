@@ -1,7 +1,7 @@
-#include "gl.h"
+#include "gl4es.h"
 
-#ifndef __PROGRAM_H_
-#define __PROGRAM_H_
+#ifndef _GL4ES_PROGRAM_H_
+#define _GL4ES_PROGRAM_H_
 
 #include "shader.h"
 #include "uniform.h"
@@ -275,8 +275,6 @@ void GoUniformMatrix4fv(program_t *glprogram, GLint location, GLsizei count, GLb
 int GetUniformi(program_t *glprogram, GLint location);
 const char* GetUniformName(program_t *glprogram, GLint location);
 
-#endif
-
 GLvoid glBindAttribLocationARB(GLhandleARB programObj, GLuint index, const GLcharARB *name);
 GLvoid glGetActiveAttribARB(GLhandleARB programObj, GLuint index, GLsizei maxLength, GLsizei *length, GLint *size, GLenum *type, GLcharARB *name);
 GLint glGetAttribLocationARB(GLhandleARB programObj, const GLcharARB *name);
@@ -313,3 +311,5 @@ GLvoid glGetActiveUniformARB(GLhandleARB programObj, GLuint index, GLsizei maxLe
 GLvoid glGetUniformfvARB(GLhandleARB programObj, GLint location, GLfloat *params);
 GLvoid glGetUniformivARB(GLhandleARB programObj, GLint location, GLint *params);
 GLvoid glGetShaderSourceARB(GLhandleARB obj, GLsizei maxLength, GLsizei *length, GLcharARB *source);
+
+#endif // _GL4ES_PROGRAM_H_

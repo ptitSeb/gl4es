@@ -1,4 +1,7 @@
-#include "gl.h"
+#ifndef _GL4ES_MATRIX_H_
+#define _GL4ES_MATRIX_H_
+
+#include "gl4es.h"
 #include "matvec.h"
 
 void gl4es_glMatrixMode(GLenum mode);
@@ -52,3 +55,5 @@ static inline GLfloat* getMVPMat()
 
 void gl4es_immediateMVBegin(renderlist_t *list);
 void gl4es_immediateMVEnd(renderlist_t *list);
+
+#endif // _GL4ES_MATRIX_H_

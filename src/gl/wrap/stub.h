@@ -1,4 +1,4 @@
-#include "../gl.h"
+#include "../gl4es.h"
 
 //GLint gl4es_glRenderMode(GLenum mode);
 //void gl4es_glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha);

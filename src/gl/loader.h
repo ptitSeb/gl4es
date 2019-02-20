@@ -1,5 +1,5 @@
-#ifndef LOADER_H
-#define LOADER_H
+#ifndef _GL4ES_LOADER_H_
+#define _GL4ES_LOADER_H_
 
 #ifdef AMIGAOS4
 #include "../agl/amigaos.h"
@@ -16,10 +16,10 @@
 extern void *gles, *egl, *bcm_host, *vcos, *gbm;
 #ifdef AMIGAOS4
 #define proc_address(lib, name) os4GetProcAddress(name)
-#else
+#else // AMIGAOS4
 #define proc_address(lib, name) dlsym(lib, name)
 void *open_lib(const char **names, const char *override);
-#endif
+#endif // AMIGAOS4
 
 #define WARN_NULL(name) if (name == NULL) LOGD("LIBGL: warning, " #name " is NULL\n");
 
@@ -99,7 +99,7 @@ void *open_lib(const char **names, const char *override);
         LOAD_RAW_SILENT(gles, name, proc_address(gles, #name)); \
     }
 
-#else
+#else // defined(AMIGAOS4) || defined(NOEGL)
 
 #define LOAD_GLES_OES(name) \
     DEFINE_RAW(gles, name); \
@@ -121,6 +121,6 @@ void *open_lib(const char **names, const char *override);
         LOAD_EGL(eglGetProcAddress); \
         LOAD_RAW_SILENT(gles, name, ((hardext.esversion==1)?((void*)egl_eglGetProcAddress(#name"OES")):((void*)dlsym(gles, #name)))); \
     }
-#endif //NOEGL
+#endif // defined(AMIGAOS4) || defined(NOEGL)
 
-#endif
+#endif // _GL4ES_LOADER_H_

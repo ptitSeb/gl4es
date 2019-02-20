@@ -1,10 +1,11 @@
-#include "gl.h"
+#include "gl4es.h"
 #include "debug.h"
 #include "../glx/hardext.h"
 #include "init.h"
 #include "matrix.h"
 #include "fpe.h"
 #include "glstate.h"
+#include "../config.h"
 
 int adjust_vertices(GLenum mode, int nb) {
     switch (mode) {

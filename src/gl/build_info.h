@@ -1,6 +1,6 @@
-#ifndef __BUILD_INFO_H__
-#define __BUILD_INFO_H__
+#ifndef _GL4ES_BUILD_INFO_H_
+#define _GL4ES_BUILD_INFO_H_
 
 void print_build_infos();
 
-#endif // __BUILD_INFO_H__
+#endif // _GL4ES_BUILD_INFO_H_

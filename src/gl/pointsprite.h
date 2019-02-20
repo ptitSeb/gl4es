@@ -1,7 +1,7 @@
-#include "gl.h"
+#include "gl4es.h"
 
-#ifndef __POINTSPRITE_H_
-#define __POINTSPRITE_H_
+#ifndef _GL4ES_POINTSPRITE_H_
+#define _GL4ES_POINTSPRITE_H_
 
 typedef struct {
     GLfloat size;
@@ -19,4 +19,4 @@ void gl4es_glPointParameterfv(GLenum pname, const GLfloat * params);
 
 void gl4es_glPointSize(GLfloat size);
 
-#endif //__POINTSPRITE_H_
+#endif // _GL4ES_POINTSPRITE_H_

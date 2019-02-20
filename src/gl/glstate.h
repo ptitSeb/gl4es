@@ -1,5 +1,5 @@
-#ifndef _GL_STATE_H_
-#define _GL_STATE_H_
+#ifndef _GL4ES_GLSTATE_H_
+#define _GL4ES_GLSTATE_H_
 
 #include "stack.h"
 
@@ -107,4 +107,4 @@ typedef struct {
 } glstate_t;
 
 
-#endif //_GL_STATE_H_
+#endif // _GL4ES_GLSTATE_H_

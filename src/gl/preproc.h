@@ -1,5 +1,5 @@
-#ifndef __PREPROC_H_
-#define __PREPROC_H_
+#ifndef _GL4ES_PREPROC_H_
+#define _GL4ES_PREPROC_H_
 
 typedef struct {
     char    name[50];
@@ -14,4 +14,4 @@ typedef struct {
 
 char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts);
 
-#endif //__PREPROC_H_
+#endif // _GL4ES_PREPROC_H_

@@ -1,7 +1,7 @@
-#include "gl.h"
+#ifndef _GL4ES_FRAMEBUFFERS_H_
+#define _GL4ES_FRAMEBUFFERS_H_
 
-#ifndef GL_FRAMEBUFFERS_H
-#define GL_FRAMEBUFFERS_H
+#include "gl4es.h"
 
 void gl4es_glGenerateMipmap(GLenum target);
 void gl4es_glGenFramebuffers(GLsizei n, GLuint *ids);
@@ -39,4 +39,4 @@ void readfboEnd();
 GLuint gl4es_getCurrentFBO();
 void gl4es_setCurrentFBO();
 
-#endif
+#endif // _GL4ES_FRAMEBUFFERS_H_

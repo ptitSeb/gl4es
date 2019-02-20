@@ -1,4 +1,4 @@
-#include "gl.h"
+#include "gl4es.h"
 
 #define GLAPI __attribute__((visibility("default")))
 #define APIENTRY

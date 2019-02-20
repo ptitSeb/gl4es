@@ -1,11 +1,11 @@
-#include "gl.h"
+#ifndef _GL4ES_DEPTH_H_
+#define _GL4ES_DEPTH_H_
 
-#ifndef __DEPTH_H__
-#define __DEPTH_H__
+#include "gl4es.h"
 
 void gl4es_glDepthFunc(GLenum func);
 void gl4es_glDepthMask(GLboolean flag);
 void gl4es_glDepthRangef(GLclampf nearVal, GLclampf farVal);
 void gl4es_glClearDepthf(GLclampf depth);
 
-#endif //__DEPTH_H__
+#endif // _GL4ES_DEPTH_H_

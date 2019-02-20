@@ -1,7 +1,7 @@
 #ifndef GL_WRAP_H
 #define GL_WRAP_H
 
-#include "../gl.h"
+#include "../gl4es.h"
 //#include <GLES/glext.h>
 
 

@@ -20,7 +20,7 @@ SET(GL_SRC
     gl/fpe_shader.c
     gl/framebuffers.c
     gl/getter.c
-    gl/gl.c
+    gl/gl4es.c
     gl/glstate.c
     gl/hint.c
     gl/init.c
@@ -51,7 +51,7 @@ SET(GL_SRC
     gl/texture.c
     gl/uniform.c
     gl/vertexattrib.c
-	gl/wrap/gl.c
+	gl/wrap/gl4es.c
 	gl/wrap/gles.c
 	gl/wrap/glstub.c
 	gl/math/eval.c
@@ -77,7 +77,7 @@ SET(GL_H
     gl/fpe_shader.h
     gl/framebuffers.h
     gl/gles.h
-    gl/gl.h
+    gl/gl4es.h
     gl/glstate.h
     gl/hint.h
     gl/init.h
@@ -109,8 +109,8 @@ SET(GL_H
     gl/texture.h
     gl/vertexattrib.h
     gl/math/eval.h
+    gl/wrap/gl4es.h
     gl/wrap/gles.h
-    gl/wrap/gl.h
     gl/wrap/stub.h
 )
 

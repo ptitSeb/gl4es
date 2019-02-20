@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "init.h"
 #include "build_info.h"
-#include "gl.h"
+#include "gl4es.h"
 #include "debug.h"
 #include "../glx/hardext.h"
 #include "../../version.h"

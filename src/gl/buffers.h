@@ -1,7 +1,7 @@
-#include "gl.h"
+#include "gl4es.h"
 
-#ifndef GL_BUFFERS_H
-#define GL_BUFFERS_H
+#ifndef _GL4ES_BUFFERS_H_
+#define _GL4ES_BUFFERS_H_
 
 // VBO *****************
 typedef struct {
@@ -153,4 +153,5 @@ void glGenVertexArrays(GLsizei n, GLuint *arrays);
 void glBindVertexArray(GLuint array);
 void glDeleteVertexArrays(GLsizei n, const GLuint *arrays);
 GLboolean glIsVertexArray(GLuint array);
-#endif
+
+#endif // _GL4ES_BUFFERS_H_

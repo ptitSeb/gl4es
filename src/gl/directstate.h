@@ -1,7 +1,7 @@
-#ifndef __DIRECTSTATE_H_
-#define __DIRECTSTATE_H_
+#ifndef _GL4ES_DIRECTSTATE_H_
+#define _GL4ES_DIRECTSTATE_H_
 
-#include "gl.h"
+#include "gl4es.h"
 
 void gl4es_glClientAttribDefault(GLbitfield mask);
 void gl4es_glPushClientAttribDefault(GLbitfield mask);
@@ -117,4 +117,4 @@ void gl4es_glEnableIndexedEXT(GLenum cap, GLuint index);
 void gl4es_glDisableIndexedEXT(GLenum cap, GLuint index);
 GLboolean gl4es_glIsEnabledIndexedEXT(GLenum cap, GLuint index);
 
-#endif
+#endif // _GL4ES_DIRECTSTATE_H_
