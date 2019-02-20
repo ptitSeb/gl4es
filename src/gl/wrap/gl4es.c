@@ -636,6 +636,32 @@ void gl4es_glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
 }
 
 
+// Samples stuff
+void gl4es_glSampleCoverage(GLclampf value, GLboolean invert) {
+    static glSampleCoverage_PTR gles_glSampleCoverage = NULL;
+    {
+        static bool first = true;
+        if (first) {
+            first = false;
+            if (gles != NULL) {
+                gles_glSampleCoverage = (glSampleCoverage_PTR)dlsym(gles, "glSampleCoverage");
+            }
+            if (gles_glSampleCoverage == NULL) LOGD("LIBGL: warning, gles_glSampleCoverage is NULL\n");
+        }
+    }
+    if (glstate->list.active) {
+        if (!glstate->list.pending) {
+            NewStage(glstate->list.active, STAGE_GLCALL);
+            push_glSampleCoverage(value, invert);
+            noerrorShim();
+            return (glSampleCoverage_RETURN)0;
+        } else flush();
+    }
+    gles_glSampleCoverage(value, invert);
+}
+void glSampleCoverage(GLclampf value, GLboolean invert) AliasExport("gl4es_glSampleCoverage");
+void glSampleCoverageARB(GLclampf value, GLboolean invert) AliasExport("gl4es_glSampleCoverage");
+
 // VertexArray stuff
 void gl4es_glVertexAttrib1f (GLuint index, GLfloat v0) { GLfloat f[4] = {0,0,0,1}; f[0] =v0; gl4es_glVertexAttrib4fv(index, f); };
 void gl4es_glVertexAttrib2f (GLuint index, GLfloat v0, GLfloat v1) { GLfloat f[4] = {0,0,0,1}; f[0] =v0; f[1]=v1; gl4es_glVertexAttrib4fv(index, f); };

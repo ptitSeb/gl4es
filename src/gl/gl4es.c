@@ -5,6 +5,7 @@
 #include "matrix.h"
 #include "fpe.h"
 #include "glstate.h"
+#include "../config.h"
 
 int adjust_vertices(GLenum mode, int nb) {
     switch (mode) {

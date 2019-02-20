@@ -22,7 +22,7 @@
 
 #ifndef AliasExport
 #define AliasExport(name)   __attribute__((alias(name))) __attribute__((visibility("default")))
-#endif
+#endif // AliasExport
 
 #ifndef FASTMATH
 #ifdef __GNUC__
@@ -47,7 +47,6 @@
 #endif // __GNUC__
 #endif // FASTMATH
 
-#include "../config.h"
 #include "wrap/gles.h"
 #include "const.h"
 

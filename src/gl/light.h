@@ -3,6 +3,8 @@
 #ifndef _GL4ES_LIGHT_H_
 #define _GL4ES_LIGHT_H_
 
+#include "../config.h"
+
 typedef struct {
     GLfloat         ambient[4];
     GLfloat         diffuse[4];

@@ -11,7 +11,7 @@ glext=$(ls -1 yml/*ext-1.1.yml | tr '\n' ',' | sed -e 's/,$//')
 
 #./gen.py "$gles" gleswrap.c.j2 gleswrap.c gles.h > "$base/gl/wrap/gles.c"
 #./gen.py "$glext" glextwrap.c.j2 glextwrap.c gles.h > "$base/gl/wrap/glesext.c"
-./gen.py "$gles1" gleswrap.c.j2 gleswrap.c gles.h > "$base/gl/wrap/gles.c"
-./gen.py "$gles1" glwrap.h.j2 gleswrap.h ../gl.h > "$base/gl/wrap/gles.h"
-./gen.py "$gles1" glxfuncs.j2 glxfuncs.inc ../gl/gl.h > "$base/glx/glesfuncs.inc"
+./gen.py "$gles1" gleswrap.c.j2 gleswrap.c gles.h skips.h > "$base/gl/wrap/gles.c"
+./gen.py "$gles1" glwrap.h.j2 gleswrap.h ../gl4es.h > "$base/gl/wrap/gles.h"
+./gen.py "$gles1" glxfuncs.j2 glxfuncs.inc ../gl/gl4es.h > "$base/glx/glesfuncs.inc"
 
