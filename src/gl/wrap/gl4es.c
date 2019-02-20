@@ -637,26 +637,10 @@ void gl4es_glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
 
 
 // Samples stuff
+#include "../loader.h"
 void gl4es_glSampleCoverage(GLclampf value, GLboolean invert) {
-    static glSampleCoverage_PTR gles_glSampleCoverage = NULL;
-    {
-        static bool first = true;
-        if (first) {
-            first = false;
-            if (gles != NULL) {
-                gles_glSampleCoverage = (glSampleCoverage_PTR)dlsym(gles, "glSampleCoverage");
-            }
-            if (gles_glSampleCoverage == NULL) LOGD("LIBGL: warning, gles_glSampleCoverage is NULL\n");
-        }
-    }
-    if (glstate->list.active) {
-        if (!glstate->list.pending) {
-            NewStage(glstate->list.active, STAGE_GLCALL);
-            push_glSampleCoverage(value, invert);
-            noerrorShim();
-            return (glSampleCoverage_RETURN)0;
-        } else flush();
-    }
+    LOAD_GLES(glSampleCoverage);
+    PUSH_IF_COMPILING(glSampleCoverage)
     gles_glSampleCoverage(value, invert);
 }
 void glSampleCoverage(GLclampf value, GLboolean invert) AliasExport("gl4es_glSampleCoverage");
