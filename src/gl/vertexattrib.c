@@ -1,4 +1,5 @@
 #include "vertexattrib.h"
+#include "enum_info.h"
 #include "buffers.h"
 #include "../glx/hardext.h"
 

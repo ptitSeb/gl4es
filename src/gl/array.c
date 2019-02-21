@@ -1,7 +1,7 @@
 #include "array.h"
 #include "debug.h"
-#include "gl4es.h"
 #include "state.h"
+#include "enum_info.h"
 
 GLvoid *copy_gl_array(const GLvoid *src,
                       GLenum from, GLsizei width, GLsizei stride,

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "pixel.h"
+#include "enum_info.h"
 #include "debug.h"
 
 #ifdef __BIG_ENDIAN__

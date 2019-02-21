@@ -1,4 +1,5 @@
 #include "gl4es.h"
+#include "enum_info.h"
 #include "debug.h"
 #include "../glx/hardext.h"
 #include "init.h"

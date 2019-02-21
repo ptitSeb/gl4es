@@ -1,4 +1,5 @@
 #include "texture.h"
+#include "enum_info.h"
 #include "raster.h"
 #include "decompress.h"
 #include "debug.h"

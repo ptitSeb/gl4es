@@ -3,6 +3,9 @@
 #ifndef _GL4ES_LIST_H_
 #define _GL4ES_LIST_H_
 
+#include <stdbool.h>
+#include "gles.h"
+
 typedef enum {
 	STAGE_NONE = 0,
 	STAGE_PUSH,
