@@ -1,9 +1,9 @@
-#include "gl4es.h"
+#include "buffers.h"
 
 #ifndef _GL4ES_TEXTURE_H_
 #define _GL4ES_TEXTURE_H_
 
-#include "buffers.h"
+#include "gles.h"
 
 void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLsizei height, GLint border,
