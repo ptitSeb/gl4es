@@ -27,37 +27,36 @@ endif (TOLERANCE)
 # Use the built library
 set(ENV{LD_LIBRARY_PATH} ${LIBRARY_FOLDER}:$ENV{LD_LIBRARY_PATH})
 
-macro(run_test GLES toler)
-	set(ENV{LIBGL_ES} ${GLES})
+macro(run_test GLES)
+	if (GLES${GLES}_ENABLED)
+		argument_required(TOLERANCE_GLES${GLES} "All tests require a pixel tolerance for GLES ${GLES}.")
 
-	message(STATUS "Starting test in GLES $ENV{LIBGL_ES}...")
-	execute_process(
-		COMMAND ${TESTS_DIRECTORY}/test.sh
-		 ${TEST_FILENAME}
-		 ${CALLS}
-		 ${toler}
-		 ${EXTRACT_RANGE}
-		ERROR_VARIABLE TEST_ERROR
-		OUTPUT_VARIABLE TEST_OUTPUT
-		WORKING_DIRECTORY ${TESTS_DIRECTORY}
-	)
-	message(STATUS "Ran test.\nError: ${TEST_ERROR}\nOutput: ${TEST_OUTPUT}")
-	
-	if (TEST_ERROR)
-		message(FATAL_ERROR "Test failed while using GLES $ENV{LIBGL_ES}.\n${TEST_ERROR}")
-	endif (TEST_ERROR)
+		set(ENV{LIBGL_ES} ${GLES})
+
+		message(STATUS "Starting test in GLES ${GLES}...")
+		execute_process(
+			COMMAND ${TESTS_DIRECTORY}/test.sh
+			${TEST_FILENAME}
+			${CALLS}
+			${TOLERANCE_GLES${GLES}}
+			${EXTRACT_RANGE}
+			ERROR_VARIABLE TEST_ERROR
+			OUTPUT_VARIABLE TEST_OUTPUT
+			WORKING_DIRECTORY ${TESTS_DIRECTORY}
+		)
+		message(STATUS "Ran test.\nError: ${TEST_ERROR}\nOutput: ${TEST_OUTPUT}")
+		
+		if (TEST_ERROR)
+			set(ERROR ${ERROR} ${GLES})
+		endif (TEST_ERROR)
+	endif (GLES${GLES}_ENABLED)
 endmacro(run_test)
 
-# Run the test using GLES 1, if not disabled
-if (GLES1_ENABLED)
-	argument_required(TOLERANCE_GLES1 "All tests require a pixel tolerance for GLES 1.")
-	run_test(1 ${TOLERANCE_GLES1})
-endif (GLES1_ENABLED)
+run_test(1)
+run_test(2)
 
-# Run the test using GLES 2, if not disabled
-if (GLES2_ENABLED)
-	argument_required(TOLERANCE_GLES2 "All tests require a pixel tolerance for GLES 2.")
-	run_test(2 ${TOLERANCE_GLES2})
-endif (GLES2_ENABLED)
+if (ERROR)
+	message(FATAL_ERROR "Test(s) failed while using GLES ${ERROR}")
+endif (ERROR)
 
 message(STATUS "Success.")
