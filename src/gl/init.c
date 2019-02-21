@@ -32,7 +32,7 @@ static void fast_math() {
 #endif
 
 #ifndef DEFAULT_ES
-#ifdef PANDORA
+#if defined(PANDORA) || defined(ANDROID)
 #define DEFAULT_ES 1
 #else
 #define DEFAULT_ES 2
