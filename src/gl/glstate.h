@@ -3,6 +3,10 @@
 
 #include "stack.h"
 
+struct fpe_state_s;
+struct fpe_fpe_s;
+struct fpe_cache_s;
+
 typedef struct {
     int                 dummy[16];  // dummy zone, test for memory overwriting...
     displaylist_state_t list;
@@ -73,10 +77,10 @@ typedef struct {
     GLenum              blenddfactoralpha;
     GLenum              logicop;
     glsl_t              *glsl;              //shared
-    fpe_state_t         *fpe_state;
-    fpe_fpe_t           *fpe;
+    struct fpe_state_s  *fpe_state;
+    struct fpe_fpe_s    *fpe;
     fpestatus_t         fpe_client;
-    fpe_cache_t         *fpe_cache;
+    struct fpe_cache_s  *fpe_cache;
     gleshard_s_t        *gleshard;          //shared
     gleshard_ns_t       glesva;
     glesblit_t          *blit;

@@ -1,5 +1,3 @@
-#include "gl4es.h"
-
 #ifndef _GL4ES_FPE_H_
 #define _GL4ES_FPE_H_
 
@@ -12,6 +10,9 @@
   For conveniance, the relevant GL states element are condenced in a bitfield packed fpe_state_t structure
 
 */
+
+#include "gles.h"
+#include "program.h"
 
 #define FPE_FOG_EXP    0
 #define FPE_FOG_EXP2   1
@@ -98,7 +99,7 @@
 #define FPE_TG_REFLECMAP       4
 #define FPE_TG_NONE            5  // dummy, to help fpe
 
-typedef struct {
+struct fpe_state_s {
     uint32_t texsrcrgb[4];               // 8 texenv src rgb n (SRC_n_RGB is 4 bits)
     uint32_t texsrcalpha[4];             // 8 texenv src alpha n (SRC_n_ALPHA is 4 bits)
     uint8_t texcombine[8];               // 8 texture combined (RGB as lower 4 bits, A as higher 4 bits)
@@ -144,19 +145,21 @@ typedef struct {
     unsigned int pointsprite:1;          // point sprite rendering
     unsigned int pointsprite_coord:1;    // point sprite coord replace
     unsigned int pointsprite_upper:1;    // if coord is upper left and not lower left
-}__attribute__((packed)) fpe_state_t;
+}__attribute__((packed));
+typedef struct fpe_state_s fpe_state_t;
 
-typedef struct {
+struct fpe_fpe_s {
   GLuint  frag, vert, prog;   // shader info
   fpe_state_t state;          // state relevent to the current fpe program
   program_t *glprogram;
-} fpe_fpe_t;
+};
+typedef struct fpe_fpe_s fpe_fpe_t;
 
-
-typedef struct {
+struct fpe_cache_s {
   void      *cache;
   fpe_fpe_t *fpe;
-} fpe_cache_t;
+};
+typedef struct fpe_cache_s fpe_cache_t;
 
 KHASH_MAP_DECLARE_INT(fpecachelist, fpe_cache_t *);
 

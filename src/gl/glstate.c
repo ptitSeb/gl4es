@@ -1,4 +1,5 @@
 #include "gl4es.h"
+#include "fpe.h"
 #include "init.h"
 #include "../glx/hardext.h"
 
