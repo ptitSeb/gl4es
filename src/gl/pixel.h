@@ -1,7 +1,8 @@
-#include "gl4es.h"
-
 #ifndef _GL4ES_PIXEL_H_
 #define _GL4ES_PIXEL_H_
+
+#include <stdbool.h>
+#include "gles.h"
 
 typedef struct {
     GLenum type;
