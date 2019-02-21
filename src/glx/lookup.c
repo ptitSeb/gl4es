@@ -1,5 +1,5 @@
 #ifdef ANDROID
-#include "../gl/gl.h"
+#include "../gl/gl4es.h"
 #endif
 #include "glx.h"
 #include "hardext.h"
