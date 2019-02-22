@@ -1,5 +1,9 @@
 #include "face.h"
 
+#include "loader.h"
+#include "gl4es.h"
+#include "glstate.h"
+
 void gl4es_glCullFace(GLenum mode) {
     if(!glstate->list.pending)
         PUSH_IF_COMPILING(glCullFace);

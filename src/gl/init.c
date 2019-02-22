@@ -1,16 +1,16 @@
-#include <unistd.h>
-#include <stdio.h>
 #include "init.h"
-#include "build_info.h"
-#include "gl4es.h"
-#include "debug.h"
-#include "../glx/hardext.h"
-#include "../../version.h"
-#include "../glx/streaming.h"
-#include "../glx/glx_gbm.h"
+
 #if !defined(ANDROID) && !defined(AMIGAOS4)
 #include <execinfo.h>
 #endif
+#include <stdio.h>
+#include <unistd.h>
+#include "../../version.h"
+#include "../glx/glx_gbm.h"
+#include "build_info.h"
+#include "debug.h"
+#include "loader.h"
+#include "logs.h"
 
 void gl_init();
 

@@ -1,14 +1,21 @@
 #include "texture.h"
-#include "raster.h"
+
+#include "../glx/hardext.h"
+#include "../glx/streaming.h"
+#include "array.h"
+#include "blit.h"
 #include "decompress.h"
 #include "debug.h"
-#include "stb_dxt_104.h"
+#include "enum_info.h"
+#include "fpe.h"
+#include "framebuffers.h"
 #include "gles.h"
-#include "../glx/streaming.h"
-#include "../glx/hardext.h"
 #include "init.h"
+#include "loader.h"
 #include "matrix.h"
-#include "blit.h"
+#include "pixel.h"
+#include "raster.h"
+#include "stb_dxt_104.h"
 
 KHASH_MAP_IMPL_INT(tex, gltexture_t *);
 

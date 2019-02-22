@@ -1,7 +1,9 @@
-#include "gl4es.h"
-
 #ifndef _GL4ES_BUFFERS_H_
 #define _GL4ES_BUFFERS_H_
+
+#include <khash.h>
+#include "../config.h"
+#include "gles.h"
 
 // VBO *****************
 typedef struct {

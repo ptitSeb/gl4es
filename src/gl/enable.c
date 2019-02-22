@@ -1,5 +1,7 @@
 #include "gl4es.h"
+#include "glstate.h"
 #include "init.h"
+#include "loader.h"
 
 static void gl_changetex(int n)
 {

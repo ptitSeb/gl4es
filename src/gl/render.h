@@ -1,7 +1,8 @@
 #ifndef _GL4ES_RENDER_H_
 #define _GL4ES_RENDER_H_
 
-#include "gl4es.h"
+#include "buffers.h"
+#include "gles.h"
 
 GLint gl4es_glRenderMode(GLenum mode);
 void gl4es_glInitNames();

@@ -1,9 +1,9 @@
-#include "gl4es.h"
-
 #ifndef _GL4ES_STACK_H_
 #define _GL4ES_STACK_H_
 
+#include "gles.h"
 #include "state.h"
+#include "texture.h"
 #include <gl4eshint.h>
 
 #define STACK_SIZE 16

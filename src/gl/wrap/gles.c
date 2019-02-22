@@ -1,4 +1,6 @@
 #include "gles.h"
+#include "../gl4es.h"
+#include "../loader.h"
 #include "skips.h"
 #ifndef skip_glActiveTexture
 void gl4es_glActiveTexture(GLenum texture) {

@@ -1,5 +1,3 @@
-#include "gl4es.h"
-
 #ifndef _GL4ES_FPE_H_
 #define _GL4ES_FPE_H_
 
@@ -12,6 +10,9 @@
   For conveniance, the relevant GL states element are condenced in a bitfield packed fpe_state_t structure
 
 */
+
+#include "gles.h"
+#include "program.h"
 
 #define FPE_FOG_EXP    0
 #define FPE_FOG_EXP2   1
@@ -151,7 +152,6 @@ typedef struct {
   fpe_state_t state;          // state relevent to the current fpe program
   program_t *glprogram;
 } fpe_fpe_t;
-
 
 typedef struct {
   void      *cache;

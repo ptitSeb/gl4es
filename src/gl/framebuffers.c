@@ -1,11 +1,16 @@
 #include "framebuffers.h"
-#include "debug.h"
-#include "../glx/hardext.h"
-#include "init.h"
+
 #if !defined(ANDROID) && !defined(AMIGAOS4)
 #include <execinfo.h>
 #endif
+#include "../glx/hardext.h"
 #include "blit.h"
+#include "debug.h"
+#include "fpe.h"
+#include "gl4es.h"
+#include "glstate.h"
+#include "init.h"
+#include "loader.h"
 
 //#define DEBUG
 #ifdef DEBUG

@@ -1,8 +1,7 @@
 #ifndef _GL4ES_TEXGEN_H_
 #define _GL4ES_TEXGEN_H_
 
-#include "gl4es.h"
-#include "matvec.h"
+#include "gles.h"
 
 void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *params);
 void gl4es_glTexGeni(GLenum coord, GLenum pname, GLint param);

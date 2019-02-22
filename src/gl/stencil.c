@@ -1,7 +1,10 @@
 #include "stencil.h"
+
 #include "../glx/hardext.h"
 #include "debug.h"
-
+#include "gl4es.h"
+#include "glstate.h"
+#include "loader.h"
 
 void gl4es_glStencilMask(GLuint mask) {
     if(!glstate->list.pending) 

@@ -1,7 +1,10 @@
 #include "uniform.h"
-#include "program.h"
-#include "matvec.h"
+
 #include "../glx/hardext.h"
+#include "gl4es.h"
+#include "glstate.h"
+#include "loader.h"
+#include "matvec.h"
 
 //#define DEBUG
 #ifdef DEBUG

@@ -1,5 +1,7 @@
 #include "stack.h"
+
 #include "../glx/hardext.h"
+#include "wrap/gl4es.h"
 #include "matrix.h"
 
 void gl4es_glPushAttrib(GLbitfield mask) {

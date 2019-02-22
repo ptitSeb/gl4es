@@ -1,9 +1,13 @@
 /* Blit utility function */
-
-#include "gl4es.h"
 #include "blit.h"
-#include "../glx/hardext.h"
+
+#include <math.h>
+
+#include "fpe.h"
+#include "gl4es.h"
+#include "glstate.h"
 #include "init.h"
+#include "loader.h"
 #ifdef TEXSTREAM
 # ifndef GL_TEXTURE_STREAM_IMG
 # define GL_TEXTURE_STREAM_IMG                                   0x8C0D
@@ -18,12 +22,12 @@ void pushViewport(GLint x, GLint y, GLsizei width, GLsizei height);
 void popViewport();
 
 void gl4es_blitTexture_gles1(GLuint texture,
-    float sx, float sy,
-    float width, float height, 
-    float nwidth, float nheight, 
-    float zoomx, float zoomy, 
-    float vpwidth, float vpheight, 
-    float x, float y, int mode) {
+    GLfloat sx, GLfloat sy,
+    GLfloat width, GLfloat height, 
+    GLfloat nwidth, GLfloat nheight, 
+    GLfloat zoomx, GLfloat zoomy, 
+    GLfloat vpwidth, GLfloat vpheight, 
+    GLfloat x, GLfloat y, GLint mode) {
 
     LOAD_GLES(glClientActiveTexture);
 
@@ -58,8 +62,8 @@ void gl4es_blitTexture_gles1(GLuint texture,
         int sourceRect[4] = {sx, sy, width, height};
         gles_glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_CROP_RECT_OES, sourceRect);
         // take x/y of ViewPort into account
-        float dx = (customvp)?0.0f:glstate->raster.viewport.x;
-        float dy = (customvp)?0.0f:glstate->raster.viewport.y;
+        GLfloat dx = (customvp)?0.0f:glstate->raster.viewport.x;
+        GLfloat dy = (customvp)?0.0f:glstate->raster.viewport.y;
         //TODO: do something with width / height of ViewPort?
         // then draw it
         gles_glDrawTexf(x+dx, y+dy, 0.0f, width, height);
@@ -70,12 +74,12 @@ void gl4es_blitTexture_gles1(GLuint texture,
         LOAD_GLES(glTexCoordPointer);
         LOAD_GLES(glDrawArrays);
 
-        float w2 = 2.0f / (customvp?vpwidth:glstate->raster.viewport.width);
-        float h2 = 2.0f / (customvp?vpheight:glstate->raster.viewport.height);
-        float blit_x1=roundf(x);
-        float blit_x2=roundf(x+width*zoomx);
-        float blit_y1=roundf(y);
-        float blit_y2=roundf(y+height*zoomy);
+        GLfloat w2 = 2.0f / (customvp?vpwidth:glstate->raster.viewport.width);
+        GLfloat h2 = 2.0f / (customvp?vpheight:glstate->raster.viewport.height);
+        GLfloat blit_x1=roundf(x);
+        GLfloat blit_x2=roundf(x+width*zoomx);
+        GLfloat blit_y1=roundf(y);
+        GLfloat blit_y2=roundf(y+height*zoomy);
         GLfloat blit_vert[] = {
             blit_x1*w2-1.0f, blit_y1*h2-1.0f,
             blit_x2*w2-1.0f, blit_y1*h2-1.0f,
@@ -187,12 +191,12 @@ const char _blit_fsh_alpha[] = "#version 100            \n" \
 "}                                                      \n";
 
 void gl4es_blitTexture_gles2(GLuint texture,
-    float sx, float sy,
-    float width, float height, 
-    float nwidth, float nheight, 
-    float zoomx, float zoomy, 
-    float vpwidth, float vpheight, 
-    float x, float y, int mode) {
+    GLfloat sx, GLfloat sy,
+    GLfloat width, GLfloat height, 
+    GLfloat nwidth, GLfloat nheight, 
+    GLfloat zoomx, GLfloat zoomy, 
+    GLfloat vpwidth, GLfloat vpheight, 
+    GLfloat x, GLfloat y, GLint mode) {
 
     LOAD_GLES(glDrawArrays);
 
@@ -311,12 +315,12 @@ void gl4es_blitTexture_gles2(GLuint texture,
     }
 
     int customvp = (vpwidth>0.0);
-    float w2 = 2.0f / (customvp?vpwidth:glstate->raster.viewport.width);
-    float h2 = 2.0f / (customvp?vpheight:glstate->raster.viewport.height);
-    float blit_x1=roundf(x);
-    float blit_x2=roundf(x+width*zoomx);
-    float blit_y1=roundf(y);
-    float blit_y2=roundf(y+height*zoomy);
+    GLfloat w2 = 2.0f / (customvp?vpwidth:glstate->raster.viewport.width);
+    GLfloat h2 = 2.0f / (customvp?vpheight:glstate->raster.viewport.height);
+    GLfloat blit_x1=roundf(x);
+    GLfloat blit_x2=roundf(x+width*zoomx);
+    GLfloat blit_y1=roundf(y);
+    GLfloat blit_y2=roundf(y+height*zoomy);
     GLfloat *vert = glstate->blit->vert;
     GLfloat *tex = glstate->blit->tex;
     vert[0] = blit_x1*w2-1.0f;  vert[1] = blit_y1*h2-1.0f;
@@ -351,12 +355,12 @@ void gl4es_blitTexture_gles2(GLuint texture,
 }
 
 void gl4es_blitTexture(GLuint texture, 
-    float sx, float sy, 
-    float width, float height, 
-    float nwidth, float nheight, 
-    float zoomx, float zoomy, 
-    float vpwidth, float vpheight, 
-    float x, float y, int mode) {
+    GLfloat sx, GLfloat sy, 
+    GLfloat width, GLfloat height, 
+    GLfloat nwidth, GLfloat nheight, 
+    GLfloat zoomx, GLfloat zoomy, 
+    GLfloat vpwidth, GLfloat vpheight, 
+    GLfloat x, GLfloat y, GLint mode) {
 //printf("blitTexture(%d, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %d) customvp=%d, vp=%d/%d/%d/%d\n", texture, sx, sy, width, height, nwidth, nheight, zoomx, zoomy, vpwidth, vpheight, x, y, mode, (vpwidth>0.0), glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);
     LOAD_GLES(glBindTexture);
     LOAD_GLES(glActiveTexture);

@@ -1,10 +1,10 @@
-#include "gl4es.h"
 #include "list.h"
-#include "debug.h"
+
 #include "../glx/hardext.h"
+#include "const.h"
+#include "gl4es.h"
+#include "glstate.h"
 #include "init.h"
-#include "matrix.h"
-#include "fpe.h"
 
 // KH Map implementation
 KHASH_MAP_IMPL_INT(material, rendermaterial_t *);

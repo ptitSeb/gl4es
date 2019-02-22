@@ -1,32 +1,33 @@
+#include "glx.h"
+
 #if !defined(ANDROID) && !defined(AMIGAOS4)
 #include <execinfo.h>
-#endif
+#endif // !defined(ANDROID) && !defined(AMIGAOS4)
 #include <fcntl.h>
-
-#include "../gl/init.h"
-
+#include <khash.h>
 #ifdef USE_FBIO
 #include <linux/fb.h>
-#endif
-#ifdef PANDORA
-#include <sys/socket.h>
-#include <sys/un.h>
-#endif
+#endif // USE_FBIO
 #include <signal.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
+#ifdef PANDORA
+#include <sys/socket.h>
+#include <sys/un.h>
+#endif // PANDORA
 #include <unistd.h>
 
-#include "glx.h"
-#include "utils.h"
-#include "../glx/streaming.h"
-#include "khash.h"
-#include "hardext.h"
-#include "../gl/debug.h"
 #ifdef AMIGAOS4
 #include "../agl/amigaos.h"
-#endif
+#endif // AMIGAOS4
+#include "../gl/debug.h"
+#include "../gl/framebuffers.h"
+#include "../gl/init.h"
+#include "../gl/loader.h"
 #include "glx_gbm.h"
+#include "hardext.h"
+#include "streaming.h"
+#include "utils.h"
 
 #ifndef AliasExport
 #define AliasExport(name)   __attribute__((alias(name))) __attribute__((visibility("default")))
@@ -93,7 +94,7 @@ static GLuint current_fb = 0;
 
 #endif //NOX11
 void gl4es_getMainFBSize(GLint* width, GLint* height) {
-#if !defined(NOEGL) && !defined(ANDROID)
+#if !defined(NOX11) && !defined(NOEGL) && !defined(ANDROID)
     // noegl, no updating of framebuffer size
     DBG(printf("gl4es_getMainFBSize() %dx%d -> ", *width, *height);)
     LOAD_EGL(eglQuerySurface);

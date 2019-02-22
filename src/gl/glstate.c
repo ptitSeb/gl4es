@@ -1,6 +1,12 @@
-#include "gl4es.h"
-#include "init.h"
+#include "glstate.h"
+
 #include "../glx/hardext.h"
+#include "fpe.h"
+#include "framebuffers.h"
+#include "gl4es.h"
+#include "glstate.h"
+#include "init.h"
+#include "loader.h"
 
 glstate_t *glstate = NULL;
 

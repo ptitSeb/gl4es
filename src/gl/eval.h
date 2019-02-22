@@ -1,7 +1,8 @@
-#include "gl4es.h"
-
 #ifndef _GL4ES_EVAL_H_
 #define _GL4ES_EVAL_H_
+
+#include "const.h"
+#include "gles.h"
 
 void gl4es_glMap1d(GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order, const GLdouble *points);
 void gl4es_glMap1f(GLenum target, GLfloat u1, GLfloat u2, GLint stride, GLint order, const GLfloat *points);

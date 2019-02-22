@@ -1,6 +1,9 @@
 #include "array.h"
+
 #include "debug.h"
-#include "gl4es.h"
+#include "enum_info.h"
+#include "glcase.h"
+#include "light.h"
 #include "state.h"
 
 GLvoid *copy_gl_array(const GLvoid *src,

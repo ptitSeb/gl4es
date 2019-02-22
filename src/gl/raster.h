@@ -1,7 +1,8 @@
-#include "gl4es.h"
-
 #ifndef _GL4ES_RASTER_H_
 #define _GL4ES_RASTER_H_
+
+#include "gles.h"
+#include "list.h"
 
 #ifndef GL_STENCIL_INDEX
 #define GL_STENCIL_INDEX			0x1901

@@ -1,6 +1,12 @@
 #include "buffers.h"
-#include "debug.h"
+
+#include <khash.h>
 #include "../glx/hardext.h"
+#include "attributes.h"
+#include "debug.h"
+#include "gl4es.h"
+#include "glstate.h"
+#include "logs.h"
 
 //#define DEBUG
 #ifdef DEBUG
@@ -32,7 +38,7 @@ glbuffer_t** BUFF(GLenum target) {
         return &glstate->vao->unpack;
         break;
      default:
-       printf("LIBGL: Warning, unknown buffer target 0x%04X\n", target);
+       LOGD("LIBGL: Warning, unknown buffer target 0x%04X\n", target);
  }
  return (glbuffer_t**)NULL;
 }
@@ -125,7 +131,7 @@ DBG(printf("glBufferData(%s, %i, %p, %s)\n", PrintEnum(target), size, data, Prin
     glbuffer_t *buff = getbuffer_buffer(target);
     if (buff==NULL) {
 		errorShim(GL_INVALID_OPERATION);
-        printf("LIBGL: Warning, null buffer for target=0x%04X for glBufferData\n", target);
+        LOGE("LIBGL: Warning, null buffer for target=0x%04X for glBufferData\n", target);
         return;
     }
     if (buff->data) {

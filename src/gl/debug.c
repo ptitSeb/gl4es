@@ -1,5 +1,12 @@
 #include "debug.h"
+
+#include <string.h>
+#include "wrap/gles.h"
+#include "const.h"
+#include "loader.h"
+#include "logs.h"
 #include "gl4es.h"
+#include "gles.h"
 
 #define p(a) \
     case a: return #a

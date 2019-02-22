@@ -1,9 +1,9 @@
 #ifndef _GL4ES_VERTEXATTRIB_H_
 #define _GL4ES_VERTEXATTRIB_H_
 
-#include "gl4es.h"
+#include "gles.h"
 
-// actual definition of vertexattrib_t is in buffer.h, has they are part of VAO...
+// actual definition of vertexattrib_t is in buffer.h, as they are part of VAO...
 
 void gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer);
 void gl4es_glEnableVertexAttribArray(GLuint index);

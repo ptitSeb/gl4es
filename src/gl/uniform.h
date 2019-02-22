@@ -1,7 +1,7 @@
 #ifndef _GL4ES_UNIFORM_H_
 #define _GL4ES_UNIFORM_H_
 
-#include "gl4es.h"
+#include "gles.h"
 
 int uniformsize(GLenum type);
 int is_uniform_int(GLenum type);

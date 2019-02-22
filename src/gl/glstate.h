@@ -1,7 +1,13 @@
 #ifndef _GL4ES_GLSTATE_H_
 #define _GL4ES_GLSTATE_H_
 
+#include "fog.h"
+#include "fpe.h"
+#include "light.h"
+#include "pointsprite.h"
+#include "queries.h"
 #include "stack.h"
+#include "stencil.h"
 
 typedef struct {
     int                 dummy[16];  // dummy zone, test for memory overwriting...

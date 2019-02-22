@@ -2,7 +2,11 @@
 // TODO: GL_AUTO_NORMAL
 
 #include "eval.h"
+
 #include "math/eval.h"
+#include "wrap/gl4es.h"
+#include "array.h"
+#include "logs.h"
 #include "matvec.h"
 
 static inline map_state_t **get_map_pointer(GLenum target) {
@@ -24,7 +28,7 @@ static inline map_state_t **get_map_pointer(GLenum target) {
         case GL_MAP2_VERTEX_3:        return &glstate->map2.vertex3;
         case GL_MAP2_VERTEX_4:        return &glstate->map2.vertex4;
         default:
-            printf("libGL: unknown glMap target 0x%x\n", target);
+            LOGE("libGL: unknown glMap target 0x%x\n", target);
     }
     return NULL;
 }
@@ -113,7 +117,7 @@ void gl4es_glMap2f(GLenum target, GLfloat u1, GLfloat u2,
         map_state_t *_map = glstate->map##d.name;         \
         if (_map->type == GL_DOUBLE) {                \
             map_stated_t *map = (map_stated_t *)_map; \
-            printf("double: not implemented\n");      \
+            LOGE("double: not implemented\n");      \
         } else if (_map->type == GL_FLOAT) {          \
             map_statef_t *map = (map_statef_t *)_map; \
             code                                      \
@@ -231,7 +235,7 @@ static inline GLenum eval_mesh_prep(GLenum mode) {
         case GL_FILL: return GL_TRIANGLE_STRIP;
         case 0: return 1;
         default:
-            printf("unknown glEvalMesh mode: %x\n", mode);
+            LOGE("unknown glEvalMesh mode: %x\n", mode);
             return 0;
     }
 }

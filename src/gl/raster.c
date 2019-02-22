@@ -1,14 +1,18 @@
 #include "raster.h"
-#include "debug.h"
-#include "init.h"
-#include "blit.h"
+
 #include "../glx/hardext.h"
+#include "blit.h"
+#include "debug.h"
+#include "gl4es.h"
+#include "glstate.h"
+#include "init.h"
+#include "list.h"
+#include "loader.h"
+#include "matvec.h"
+#include "pixel.h"
 
 #define min(a, b)	((a)<b)?(a):(b)
 #define max(a, b)	((a)>(b))?(a):(b)
-
-void matrix_transpose(const GLfloat *a, GLfloat *b);
-void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c);
 
 void gl4es_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
     if (glstate->list.active)

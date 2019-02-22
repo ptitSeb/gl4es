@@ -1,5 +1,10 @@
 #include "fog.h"
+
 #include "../glx/hardext.h"
+#include "fpe.h"
+#include "gl4es.h"
+#include "glstate.h"
+#include "loader.h"
 #include "matrix.h"
 #include "matvec.h"
 

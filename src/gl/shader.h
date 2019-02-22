@@ -1,7 +1,8 @@
-#include "gl4es.h"
-
 #ifndef _GL4ES_SHADER_H_
 #define _GL4ES_SHADER_H_
+
+#include <khash.h>
+#include "gles.h"
 
 typedef struct {
     int         need_color;      // front and back

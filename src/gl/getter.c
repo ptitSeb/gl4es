@@ -1,10 +1,13 @@
-#include "gl4es.h"
-#include "init.h"
-#include "texgen.h"
+#include <gl4eshint.h>
 #include "../glx/hardext.h"
-#include "gl4eshint.h"
-#include "light.h"
 #include "debug.h"
+#include "gl4es.h"
+#include "glstate.h"
+#include "init.h"
+#include "loader.h"
+#include "light.h"
+#include "matvec.h"
+#include "texgen.h"
 
 GLenum gl4es_glGetError() {
 	LOAD_GLES(glGetError);

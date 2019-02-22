@@ -1,8 +1,13 @@
+#include "program.h"
+
 #include <stdlib.h>
 #include <string.h>
-#include "program.h"
 #include "../glx/hardext.h"
 #include "debug.h"
+#include "fpe.h"
+#include "gl4es.h"
+#include "glstate.h"
+#include "loader.h"
 #include "shaderconv.h"
 
 //#define DEBUG

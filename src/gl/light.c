@@ -1,8 +1,10 @@
 #include "light.h"
+
 #include "../glx/hardext.h"
+#include "fpe.h"
+#include "loader.h"
 #include "matrix.h"
 #include "matvec.h"
-#include "fpe.h"
 
 void gl4es_glLightModelf(GLenum pname, GLfloat param) {
 //printf("%sglLightModelf(%04X, %.2f)\n", (state.list.compiling)?"list":"", pname, param);

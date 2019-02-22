@@ -1,7 +1,12 @@
 #include "texgen.h"
-#include "init.h"
-#include "matrix.h"
+
 #include "../glx/hardext.h"
+#include "wrap/gl4es.h"
+#include "fpe.h"
+#include "init.h"
+#include "loader.h"
+#include "matrix.h"
+#include "matvec.h"
 
 //extern void* eglGetProcAddress(const char*);
 

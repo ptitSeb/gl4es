@@ -1,7 +1,14 @@
 #include "list.h"
-#include "init.h"
+
 #include "../glx/hardext.h"
+#include "wrap/gl4es.h"
+#include "fpe.h"
+#include "init.h"
+#include "line.h"
+#include "loader.h"
 #include "matrix.h"
+#include "texgen.h"
+#include "render.h"
 
 int fill_lineIndices(modeinit_t *modes, int length, GLenum mode, GLushort* indices, GLushort *ind_line)
 {

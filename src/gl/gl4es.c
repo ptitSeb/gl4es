@@ -1,11 +1,21 @@
 #include "gl4es.h"
-#include "debug.h"
-#include "../glx/hardext.h"
-#include "init.h"
-#include "matrix.h"
-#include "fpe.h"
-#include "glstate.h"
+
+#if defined(AMIGAOS4) || (defined(NOX11) && defined(NOEGL))
+#include <sys/time.h>
+#endif // defined(AMIGAOS4) || (defined(NOX11) && defined(NOEGL))
+
 #include "../config.h"
+#include "../glx/hardext.h"
+#include "wrap/gl4es.h"
+#include "array.h"
+#include "debug.h"
+#include "enum_info.h"
+#include "fpe.h"
+#include "framebuffers.h"
+#include "glstate.h"
+#include "init.h"
+#include "loader.h"
+#include "matrix.h"
 
 int adjust_vertices(GLenum mode, int nb) {
     switch (mode) {

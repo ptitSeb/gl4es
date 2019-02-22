@@ -1,7 +1,8 @@
-#include "gl4es.h"
-
 #ifndef _GL4ES_QUERIES_H_
 #define _GL4ES_QUERIES_H_
+
+#include <khash.h>
+#include "gles.h"
 
 void gl4es_glBeginQuery(GLenum target, GLuint id);
 void gl4es_glEndQuery(GLenum target);

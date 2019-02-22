@@ -1,8 +1,12 @@
 #include "shader.h"
+
 #include "../glx/hardext.h"
 #include "debug.h"
-#include "shaderconv.h"
 #include "init.h"
+#include "gl4es.h"
+#include "glstate.h"
+#include "loader.h"
+#include "shaderconv.h"
 
 //#define DEBUG
 #ifdef DEBUG

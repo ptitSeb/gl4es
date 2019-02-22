@@ -1,7 +1,7 @@
 #ifndef _GL4ES_DEPTH_H_
 #define _GL4ES_DEPTH_H_
 
-#include "gl4es.h"
+#include "gles.h"
 
 void gl4es_glDepthFunc(GLenum func);
 void gl4es_glDepthMask(GLboolean flag);

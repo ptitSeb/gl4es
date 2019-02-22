@@ -1,10 +1,15 @@
-#ifdef ANDROID
-#include "../gl/gl4es.h"
-#endif
+#include "../gl/wrap/gl4es.h"
+#include "../gl/wrap/stub.h"
+#include "../gl/directstate.h"
+#include "../gl/framebuffers.h"
+#include "../gl/init.h"
+#include "../gl/line.h"
+#include "../gl/loader.h"
+#include "../gl/render.h"
+#include "../gl/texgen.h"
+#include "../gl/vertexattrib.h"
 #include "glx.h"
 #include "hardext.h"
-#include "../gl/init.h"
-#include "../gl/directstate.h"
 
 #define EXPORT __attribute__((visibility("default")))
 

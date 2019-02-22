@@ -1,7 +1,7 @@
 #ifndef _GL4ES_DIRECTSTATE_H_
 #define _GL4ES_DIRECTSTATE_H_
 
-#include "gl4es.h"
+#include "gles.h"
 
 void gl4es_glClientAttribDefault(GLbitfield mask);
 void gl4es_glPushClientAttribDefault(GLbitfield mask);

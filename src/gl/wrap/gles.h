@@ -1,4 +1,4 @@
-#include "../gl4es.h"
+#include "../gles.h"
 
 #ifndef GLESWRAP_H
 #define GLESWRAP_H

@@ -1,5 +1,7 @@
 #include "planes.h"
+
 #include "../glx/hardext.h"
+#include "loader.h"
 #include "matrix.h"
 #include "matvec.h"
 

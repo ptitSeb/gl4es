@@ -1,8 +1,8 @@
-#include "gl4es.h"
-
 #ifndef _GL4ES_PROGRAM_H_
 #define _GL4ES_PROGRAM_H_
 
+#include "gles.h"
+#include "buffers.h"
 #include "shader.h"
 #include "uniform.h"
 

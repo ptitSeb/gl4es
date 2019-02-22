@@ -1,5 +1,5 @@
-#ifndef _GL4ES_HINT_H_
-#define _GL4ES_HINT_H_
+#ifndef _GL4ESINCLUDE_HINT_H_
+#define _GL4ESINCLUDE_HINT_H_
 
 // Custom hints to handles some specifics gl4es options
 
@@ -33,4 +33,4 @@
 #define GL_AVOID16BITS_HINT_GL4ES	    0xA10E
 // same as using LIBGL_GAMMA=xx (PANDORA only)
 #define GL_GAMMA_HINT_GL4ES             0xA10F
-#endif
+#endif // _GL4ESINCLUDE_HINT_H_

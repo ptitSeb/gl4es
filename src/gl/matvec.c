@@ -1,5 +1,6 @@
 #include "matvec.h"
-#include "gl4es.h"
+
+#include <string.h>
 
 float FASTMATH dot(const float *a, const float *b) {
     return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
@@ -340,7 +341,7 @@ void vector4_sub(const float *a, const float *b, float *c) {
 }
     
 void set_identity(float* mat) {
-    memset(mat, 0, 16*sizeof(GLfloat));
+    memset(mat, 0, 16*sizeof(float));
     mat[0] = mat[1+4] = mat[2+8] = mat[3+12] = 1.0f;
 }
 

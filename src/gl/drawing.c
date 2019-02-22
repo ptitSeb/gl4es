@@ -1,6 +1,14 @@
-#include "gl4es.h"
-#include "init.h"
 #include "../glx/hardext.h"
+#include "array.h"
+#include "enum_info.h"
+#include "fpe.h"
+#include "gl4es.h"
+#include "gles.h"
+#include "glstate.h"
+#include "init.h"
+#include "list.h"
+#include "loader.h"
+#include "render.h"
 
 static GLboolean is_cache_compatible(GLsizei count) {
     #define T2(AA, A, B) \

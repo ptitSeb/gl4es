@@ -1,5 +1,9 @@
 #include "stub.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #define STUB(ret, def, args)\
 ret gl4es_ ## def args {\
     char *debug = getenv("LIBGL_DEBUG");\

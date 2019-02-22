@@ -1,20 +1,16 @@
 #ifndef _GL4ES_STATE_H_
 #define _GL4ES_STATE_H_
 
-#include "gl4es.h"
-#include "eval.h"
-#include "texture.h"
+#include <khash.h>
 #include "buffers.h"
-#include "queries.h"
-#include "light.h"
-#include "fog.h"
-#include "texenv.h"
-#include "shader.h"
-#include "vertexattrib.h"
+#include "eval.h"
+#include "gles.h"
+#include "list.h"
 #include "program.h"
-#include "fpe.h"
-#include "pointsprite.h"
-#include "stencil.h"
+#include "raster.h"
+#include "shader.h"
+#include "texenv.h"
+#include "texture.h"
 
 typedef struct {
     GLboolean line_stipple,

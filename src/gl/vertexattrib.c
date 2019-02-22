@@ -1,6 +1,10 @@
 #include "vertexattrib.h"
-#include "buffers.h"
+
 #include "../glx/hardext.h"
+#include "buffers.h"
+#include "enum_info.h"
+#include "gl4es.h"
+#include "glstate.h"
 
 //#define DEBUG
 #ifdef DEBUG
