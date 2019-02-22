@@ -1,6 +1,5 @@
 #include "gl4es.h"
 #include "glstate.h"
-#include "fpe.h"
 #include "init.h"
 #include "loader.h"
 

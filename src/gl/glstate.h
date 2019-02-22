@@ -2,15 +2,12 @@
 #define _GL4ES_GLSTATE_H_
 
 #include "fog.h"
+#include "fpe.h"
 #include "light.h"
 #include "pointsprite.h"
 #include "queries.h"
 #include "stack.h"
 #include "stencil.h"
-
-struct fpe_state_s;
-struct fpe_fpe_s;
-struct fpe_cache_s;
 
 typedef struct {
     int                 dummy[16];  // dummy zone, test for memory overwriting...
@@ -82,10 +79,10 @@ typedef struct {
     GLenum              blenddfactoralpha;
     GLenum              logicop;
     glsl_t              *glsl;              //shared
-    struct fpe_state_s  *fpe_state;
-    struct fpe_fpe_s    *fpe;
+    fpe_state_t         *fpe_state;
+    fpe_fpe_t           *fpe;
     fpestatus_t         fpe_client;
-    struct fpe_cache_s  *fpe_cache;
+    fpe_cache_t         *fpe_cache;
     gleshard_s_t        *gleshard;          //shared
     gleshard_ns_t       glesva;
     glesblit_t          *blit;
