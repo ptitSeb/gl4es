@@ -24,7 +24,7 @@ then
 
 	if [[ ! "$result" -lt "$3" ]]
 	then
-		echo -n "$result pixels of difference" 1>&2
+		echo -n "$result pixels of difference"
 		exit 1
 	fi
 

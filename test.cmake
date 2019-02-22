@@ -46,9 +46,9 @@ macro(run_test GLES)
 		)
 		message(STATUS "Ran test.\nError: ${TEST_ERROR}\nOutput: ${TEST_OUTPUT}")
 		
-		if (TEST_ERROR)
+		if (TEST_OUTPUT)
 			set(ERROR ${ERROR} ${GLES})
-		endif (TEST_ERROR)
+		endif (TEST_OUTPUT)
 	endif (GLES${GLES}_ENABLED)
 endmacro(run_test)
 
