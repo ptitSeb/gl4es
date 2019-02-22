@@ -6,6 +6,7 @@
 #include "debug.h"
 #include "fpe.h"
 #include "gl4es.h"
+#include "glstate.h"
 #include "loader.h"
 #include "shaderconv.h"
 

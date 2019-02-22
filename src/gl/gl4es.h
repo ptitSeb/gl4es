@@ -1,10 +1,6 @@
 #ifndef _GL4ES_GL4ES_H_
 #define _GL4ES_GL4ES_H_
 
-//#ifndef NOEGL
-//#include <EGL/egl.h>
-//#include <EGL/eglext.h>
-//#endif // NOEGL
 #include <khash.h>
 
 #ifdef __ARM_NEON__

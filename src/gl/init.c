@@ -9,7 +9,6 @@
 #include "../glx/glx_gbm.h"
 #include "build_info.h"
 #include "debug.h"
-#include "gl4es.h"
 #include "loader.h"
 #include "logs.h"
 

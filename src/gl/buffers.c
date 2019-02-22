@@ -2,8 +2,10 @@
 
 #include <khash.h>
 #include "../glx/hardext.h"
+#include "attributes.h"
 #include "debug.h"
 #include "gl4es.h"
+#include "glstate.h"
 #include "logs.h"
 
 //#define DEBUG

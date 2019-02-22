@@ -2,6 +2,7 @@
 #include "../glx/hardext.h"
 #include "debug.h"
 #include "gl4es.h"
+#include "glstate.h"
 #include "init.h"
 #include "loader.h"
 #include "light.h"

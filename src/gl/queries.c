@@ -2,6 +2,7 @@
 
 #include <khash.h>
 #include "gl4es.h"
+#include "glstate.h"
 #include "loader.h"
 
 KHASH_MAP_IMPL_INT(queries, glquery_t *);

@@ -3,6 +3,7 @@
 #include <string.h>
 #include "enum_info.h"
 #include "gl4es.h"
+#include "glstate.h"
 #include "debug.h"
 
 #ifdef __BIG_ENDIAN__
