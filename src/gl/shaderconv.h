@@ -1,8 +1,7 @@
 #ifndef _GL4ES_SHADERCONV_H_
 #define _GL4ES_SHADERCONV_H_
 
-#include "gl4es.h"
-
+#include "gles.h"
 #include "program.h"
 
 char* ConvertShader(const char* pBuffer, int isVertex, shaderconv_need_t *need);

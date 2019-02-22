@@ -1,7 +1,12 @@
 #include "matrix.h"
-#include "gl4es.h"
-#include "init.h"
+
+#include "../glx/hardext.h"
 #include "debug.h"
+#include "fpe.h"
+#include "gl4es.h"
+#include "glstate.h"
+#include "init.h"
+#include "loader.h"
 
 //#define DEBUG
 #ifdef DEBUG

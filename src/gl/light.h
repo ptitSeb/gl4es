@@ -1,8 +1,7 @@
-#include "gl4es.h"
-
 #ifndef _GL4ES_LIGHT_H_
 #define _GL4ES_LIGHT_H_
 
+#include "gles.h"
 #include "../config.h"
 
 typedef struct {

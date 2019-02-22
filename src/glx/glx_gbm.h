@@ -1,6 +1,10 @@
 #ifndef _GLX_GBM_H_
 #define _GLX_GBM_H_
 
+#ifndef NOEGL
+#include <EGL/egl.h>
+#endif
+
 void LoadGBMFunctions();
 void CloseGBMFunctions();
 

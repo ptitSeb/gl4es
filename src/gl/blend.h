@@ -1,7 +1,7 @@
 #ifndef _GL4ES_BLEND_H_
 #define _GL4ES_BLEND_H_
 
-#include "gl4es.h"
+#include "gles.h"
 
 void gl4es_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
 void gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);

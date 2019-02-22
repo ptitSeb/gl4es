@@ -1,7 +1,7 @@
 #ifndef _GL4ES_FRAMEBUFFERS_H_
 #define _GL4ES_FRAMEBUFFERS_H_
 
-#include "gl4es.h"
+#include "gles.h"
 
 void gl4es_glGenerateMipmap(GLenum target);
 void gl4es_glGenFramebuffers(GLsizei n, GLuint *ids);

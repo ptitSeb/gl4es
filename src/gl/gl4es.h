@@ -1,55 +1,20 @@
 #ifndef _GL4ES_GL4ES_H_
 #define _GL4ES_GL4ES_H_
 
-#include <dlfcn.h>
-#include "gles.h"
-#ifndef NOEGL
-#include <EGL/egl.h>
-#include <EGL/eglext.h>
-#endif // NOEGL
-#include <inttypes.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "khash.h"
-#include "logs.h"
+//#ifndef NOEGL
+//#include <EGL/egl.h>
+//#include <EGL/eglext.h>
+//#endif // NOEGL
+#include <khash.h>
 
 #ifdef __ARM_NEON__
 #include <arm_neon.h>
 #endif // __ARM_NEON__
 
-#ifndef AliasExport
-#define AliasExport(name)   __attribute__((alias(name))) __attribute__((visibility("default")))
-#endif // AliasExport
-
-#ifndef FASTMATH
-#ifdef __GNUC__
- #ifdef __arm__
-  #ifdef __ARM_PCS_VFP
-   //#warning Arm Hardfloat detected
-   #define FASTMATH
-  #else // __ARM_PCS_VFP
-   #if defined(__ARM_FP) && defined(PANDORA)
-    //#warning Arm SoftFP detected
-    #define FASTMATH __attribute__((pcs("aapcs-vfp")))
-   #else // defined(__ARM_FP) && defined(PANDORA)
-	//#warning Arm no FP detected
-	#define FASTMATH
-   #endif // defined(__ARM_FP) && defined(PANDORA)
-  #endif // __ARM_PCS_VFP
- #else // __arm__
-  #define FASTMATH
- #endif // __arm__
-#else // __GNUC__
- #define FASTMATH
-#endif // __GNUC__
-#endif // FASTMATH
-
 #include "wrap/gles.h"
-#include "const.h"
+#include "gles.h"
+#include "glstate.h"
 
-#include "loader.h"
 packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 
 #define checkError(code)                          \
@@ -129,21 +94,6 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 
 #define ERROR_IN_BEGIN if(glstate->list.begin) {errorShim(GL_INVALID_OPERATION); return;}
 
-#include "wrap/stub.h"
-#include "wrap/gl4es.h"
-#include "eval.h"
-#include "light.h"
-#include "line.h"
-#include "list.h"
-#include "pixel.h"
-#include "raster.h"
-#include "stack.h"
-#include "texgen.h"
-#include "texture.h"
-#include "array.h"
-#include "framebuffers.h"
-#include "blend.h"
-
 const GLubyte *gl4es_glGetString(GLenum name);
 void gl4es_glGetIntegerv(GLenum pname, GLint *params);
 void gl4es_glGetFloatv(GLenum pname, GLfloat *params);
@@ -206,7 +156,6 @@ void flush();
 
 int adjust_vertices(GLenum mode, int nb);
 
-#include "glstate.h"
 extern glstate_t *glstate;
 
 void fpe_Init(glstate_t *glstate);       // defined in fpe.c
@@ -262,7 +211,5 @@ GLenum glGetError();
 
 // custom functions
 void glPushCall(void *call);
-
-#include "render.h"
 
 #endif // _GL4ES_GL4ES_H_

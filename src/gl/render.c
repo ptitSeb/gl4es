@@ -1,4 +1,6 @@
 #include "render.h"
+
+#include "array.h"
 #include "init.h"
 #include "matrix.h"
 

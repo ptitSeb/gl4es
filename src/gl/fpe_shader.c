@@ -1,7 +1,7 @@
-#include <string.h>
-#include <stdlib.h>
-
 #include "fpe_shader.h"
+
+#include <stdio.h>
+
 #include "string_utils.h"
 #include "init.h"
 #include "../glx/hardext.h"

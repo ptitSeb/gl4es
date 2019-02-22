@@ -1,8 +1,10 @@
 #include "line.h"
+
+#include "debug.h"
+#include "gl4es.h"
+#include "list.h"
 #include "matrix.h"
 #include "matvec.h"
-#include "debug.h"
-#include "list.h"
 
 //#define DEBUG
 #ifdef DEBUG

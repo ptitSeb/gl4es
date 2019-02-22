@@ -1,6 +1,11 @@
 #include "pointsprite.h"
-#include "debug.h"
+
 #include "../glx/hardext.h"
+#include "debug.h"
+#include "fpe.h"
+#include "gl4es.h"
+#include "glstate.h"
+#include "loader.h"
 
 void gl4es_glPointParameteri(GLenum pname, GLint param)
 {

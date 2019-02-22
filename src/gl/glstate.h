@@ -1,7 +1,12 @@
 #ifndef _GL4ES_GLSTATE_H_
 #define _GL4ES_GLSTATE_H_
 
+#include "fog.h"
+#include "light.h"
+#include "pointsprite.h"
+#include "queries.h"
 #include "stack.h"
+#include "stencil.h"
 
 struct fpe_state_s;
 struct fpe_fpe_s;

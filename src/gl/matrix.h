@@ -2,6 +2,8 @@
 #define _GL4ES_MATRIX_H_
 
 #include "gl4es.h"
+#include "gles.h"
+#include "glstate.h"
 #include "matvec.h"
 
 void gl4es_glMatrixMode(GLenum mode);

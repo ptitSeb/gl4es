@@ -1,7 +1,7 @@
 #ifndef _GL4ES_LINE_H
 #define _GL4ES_LINE_H
 
-#include "gl4es.h"
+#include "gles.h"
 #include "list.h"
 
 void gl4es_glLineStipple(GLuint factor, GLushort pattern);

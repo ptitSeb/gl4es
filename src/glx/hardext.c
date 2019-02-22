@@ -1,7 +1,10 @@
-#include "../gl/gl4es.h"
 #include "hardext.h"
-#include "../gl/init.h"
+
 #include "../gl/debug.h"
+#include "../gl/gl4es.h"
+#include "../gl/init.h"
+#include "../gl/logs.h"
+#include "../gl/loader.h"
 #ifndef ANDROID
 #include "rpi.h"
 #endif

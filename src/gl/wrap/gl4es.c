@@ -1,6 +1,8 @@
 #include "gl4es.h"
+
+#include "../texgen.h"
 #include "../debug.h"
-//#include <limits.h>
+#include "stub.h"
 
 #define constDoubleToFloat(a, size) \
     GLfloat s[size];                \

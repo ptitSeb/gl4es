@@ -1,6 +1,9 @@
 #include "directstate.h"
-#include "gl4es.h"
+
+#include "wrap/gl4es.h"
+#include "gles.h"
 #include "stack.h"
+#include "texgen.h"
 
 // Client State
 void gl4es_glClientAttribDefault(GLbitfield mask) {

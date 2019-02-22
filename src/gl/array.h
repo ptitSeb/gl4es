@@ -1,9 +1,8 @@
 #ifndef _GL4ES_ARRAY_H_
 #define _GL4ES_ARRAY_H_
 
-#include "gles.h"
-
 #include "buffers.h"
+#include "gles.h"
 
 GLvoid *copy_gl_array(const GLvoid *src,
                       GLenum from, GLsizei width, GLsizei stride,

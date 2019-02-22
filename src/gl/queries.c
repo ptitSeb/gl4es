@@ -1,5 +1,8 @@
 #include "queries.h"
 
+#include <khash.h>
+#include "gl4es.h"
+#include "loader.h"
 
 KHASH_MAP_IMPL_INT(queries, glquery_t *);
 

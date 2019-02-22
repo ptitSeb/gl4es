@@ -1,6 +1,10 @@
 #include "hint.h"
+
 #include <gl4eshint.h>
 #include "init.h"
+#include "loader.h"
+#include "gl4es.h"
+#include "glstate.h"
 
 #ifdef PANDORA
 void pandora_set_gamma();

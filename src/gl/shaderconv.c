@@ -1,11 +1,12 @@
-#include <string.h>
 #include "shaderconv.h"
-#include "string_utils.h"
+
+#include <stdio.h>
 #include "../glx/hardext.h"
 #include "debug.h"
 #include "fpe_shader.h"
-#include "preproc.h"
 #include "init.h"
+#include "preproc.h"
+#include "string_utils.h"
 
 //#define DEBUG
 #ifdef DEBUG

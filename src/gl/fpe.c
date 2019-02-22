@@ -1,14 +1,16 @@
 #include "fpe.h"
-#include "fpe_shader.h"
-#include "enum_info.h"
+
 #include "../glx/hardext.h"
+#include "array.h"
+#include "debug.h"
+#include "enum_info.h"
+#include "fpe_shader.h"
+#include "init.h"
+#include "loader.h"
 #include "matrix.h"
 #include "matvec.h"
 #include "program.h"
 #include "shaderconv.h"
-#include "debug.h"
-#include "array.h"
-#include "init.h"
 
 //#define DEBUG
 #ifdef DEBUG

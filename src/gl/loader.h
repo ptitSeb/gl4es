@@ -1,6 +1,11 @@
 #ifndef _GL4ES_LOADER_H_
 #define _GL4ES_LOADER_H_
 
+#include <stdbool.h>
+#include "gl4es.h"
+#include "gles.h"
+#include "logs.h"
+
 #ifndef NOEGL
 //Typedef for egl to be able to call LOAD_EGL...
 #include <EGL/egl.h>

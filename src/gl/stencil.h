@@ -1,7 +1,7 @@
-#include "gl4es.h"
-
 #ifndef _GL4ES_STENCIL_H_
 #define _GL4ES_STENCIL_H_
+
+#include "gles.h"
 
 typedef struct {
     GLenum      func[2];
