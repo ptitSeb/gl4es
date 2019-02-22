@@ -9,6 +9,7 @@
 #ifndef NOEGL
 //Typedef for egl to be able to call LOAD_EGL...
 #include <EGL/egl.h>
+#include <EGL/eglext.h>
 
 typedef EGLBoolean (*eglBindAPI_PTR)(EGLenum api);
 typedef EGLBoolean (*eglBindTexImage_PTR)(EGLDisplay dpy, EGLSurface surface, EGLint buffer);

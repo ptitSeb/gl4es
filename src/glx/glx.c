@@ -1,4 +1,5 @@
 #include "glx.h"
+#include "../gl/init.h"
 
 #if !defined(ANDROID) && !defined(AMIGAOS4)
 #include <execinfo.h>
@@ -24,6 +25,9 @@
 #include "../gl/framebuffers.h"
 #include "../gl/init.h"
 #include "../gl/loader.h"
+#ifdef PANDORA
+#include "../gl/pixel.h"
+#endif
 #include "glx_gbm.h"
 #include "hardext.h"
 #include "streaming.h"

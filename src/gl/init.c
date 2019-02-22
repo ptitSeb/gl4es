@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include "../../version.h"
 #include "../glx/glx_gbm.h"
+#include "../glx/streaming.h"
 #include "build_info.h"
 #include "debug.h"
 #include "loader.h"

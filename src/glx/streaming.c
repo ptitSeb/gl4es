@@ -11,6 +11,9 @@
 
 #include "streaming.h"
 
+#include "../gl/loader.h"
+#include "../gl/gles.h"
+
 PFNGLTEXBINDSTREAMIMGPROC *glTexBindStreamIMG = NULL;
 PFNGLGETTEXSTREAMDEVICEATTRIBUTEIVIMGPROC *glGetTexAttrIMG = NULL;
 PFNGLGETTEXSTREAMDEVICENAMEIMGPROC *glGetTexDeviceIMG = NULL;
