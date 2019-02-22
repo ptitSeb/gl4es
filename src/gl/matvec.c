@@ -2,13 +2,13 @@
 
 #include <string.h>
 
-GLfloat FASTMATH dot(const GLfloat *a, const GLfloat *b) {
+float FASTMATH dot(const float *a, const float *b) {
     return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
 }
 
-GLfloat FASTMATH dot4(const GLfloat *a, const GLfloat *b) {
+float FASTMATH dot4(const float *a, const float *b) {
 #ifdef __ARM_NEON__
-    register GLfloat ret;
+    register float ret;
     asm volatile (
     "vld1.f32 {d0-d1}, [%1]        \n" //q0 = a(0..3)
     "vld1.f32 {d2-d3}, [%2]        \n" //q1 = b(0..3)
@@ -25,16 +25,16 @@ GLfloat FASTMATH dot4(const GLfloat *a, const GLfloat *b) {
 #endif
 }
 
-GLfloat cross3(const GLfloat *a, const GLfloat *b, GLfloat* c) {
+float cross3(const float *a, const float *b, float* c) {
     //TODO Neonize? Cross product doesn't seems NEON friendly, and this is not much used.
     c[0] = a[1]*b[2] - a[2]*b[1];
     c[1] = a[3]*b[0] - a[0]*b[3];
     c[2] = a[0]*b[1] - a[1]*b[0];
 }
 
-void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c) {
+void matrix_vector(const float *a, const float *b, float *c) {
 #ifdef __ARM_NEON__
-    const GLfloat* a1 = a+8;
+    const float* a1 = a+8;
     asm volatile (
     "vld4.f32 {d0,d2,d4,d6}, [%1]        \n" 
     "vld4.f32 {d1,d3,d5,d7}, [%2]        \n" // q0-q3 = a(0,4,8,12/1,5,9,13/2,6,10,14/3,7,11,15)
@@ -55,11 +55,11 @@ void matrix_vector(const GLfloat *a, const GLfloat *b, GLfloat *c) {
 #endif
 }
 
-void vector_matrix(const GLfloat *a, const GLfloat *b, GLfloat *c) {
+void vector_matrix(const float *a, const float *b, float *c) {
 #ifdef __ARM_NEON__
-    const GLfloat* b2=b+4;
-    const GLfloat* b3=b+8;
-    const GLfloat* b4=b+12;
+    const float* b2=b+4;
+    const float* b3=b+8;
+    const float* b4=b+12;
     asm volatile (
     "vld1.f32 {q0}, [%1]        \n" // %q0 = a(0..3)
     "vld1.f32 {q1}, [%2]        \n" // %q1 = b(0..3)
@@ -75,7 +75,7 @@ void vector_matrix(const GLfloat *a, const GLfloat *b, GLfloat *c) {
     : "%2", "q0", "q1", "q2", "memory"
         );
 #else
-    const GLfloat a0=a[0], a1=a[1], a2=a[2], a3=a[3];
+    const float a0=a[0], a1=a[1], a2=a[2], a3=a[3];
     c[0] = a0 * b[0] + a1 * b[4] + a2 * b[8] + a3 * b[12];
     c[1] = a0 * b[1] + a1 * b[5] + a2 * b[9] + a3 * b[13];
     c[2] = a0 * b[2] + a1 * b[6] + a2 * b[10] + a3 * b[14];
@@ -83,11 +83,11 @@ void vector_matrix(const GLfloat *a, const GLfloat *b, GLfloat *c) {
 #endif
 }
 
-void vector3_matrix(const GLfloat *a, const GLfloat *b, GLfloat *c) {
+void vector3_matrix(const float *a, const float *b, float *c) {
 #ifdef __ARM_NEON__
-    const GLfloat* b2=b+4;
-    const GLfloat* b3=b+8;
-    const GLfloat* b4=b+12;
+    const float* b2=b+4;
+    const float* b3=b+8;
+    const float* b4=b+12;
     asm volatile (
     //"vld1.f32 {q0}, [%1]        \n" // %q0 = a(0..2)
     "vld1.32  {d0}, [%1]        \n"
@@ -113,19 +113,19 @@ void vector3_matrix(const GLfloat *a, const GLfloat *b, GLfloat *c) {
 #endif
 }
 
-void vector3_matrix4(const GLfloat *a, const GLfloat *b, GLfloat *c) {
+void vector3_matrix4(const float *a, const float *b, float *c) {
     c[0] = a[0] * b[0] + a[1] * b[4] + a[2] * b[8];
     c[1] = a[0] * b[1] + a[1] * b[5] + a[2] * b[9];
     c[2] = a[0] * b[2] + a[1] * b[6] + a[2] * b[10];
 }
 
-void vector3_matrix3(const GLfloat *a, const GLfloat *b, GLfloat *c) {
+void vector3_matrix3(const float *a, const float *b, float *c) {
     c[0] = a[0] * b[0] + a[1] * b[3] + a[2] * b[6];
     c[1] = a[0] * b[1] + a[1] * b[4] + a[2] * b[7];
     c[2] = a[0] * b[2] + a[1] * b[5] + a[2] * b[8];
 }
 
-void vector_normalize(GLfloat *a) {
+void vector_normalize(float *a) {
 #ifdef __ARM_NEON__
         asm volatile (
         "vld1.32                {d4}, [%0]                      \n\t"   //d4={x0,y0}
@@ -153,14 +153,14 @@ void vector_normalize(GLfloat *a) {
     : "d0", "d1", "d2", "d3", "d4", "d5", "memory"
         );
 #else
-    GLfloat det=1.0f/sqrtf(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
+    float det=1.0f/sqrtf(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
     a[0]*=det;
     a[1]*=det;
     a[2]*=det;
 #endif
 }
 
-void vector4_normalize(GLfloat *a) {
+void vector4_normalize(float *a) {
 #ifdef __ARM_NEON__
         asm volatile (
         "vld1.32                {q2}, [%0]                      \n\t"   //q2={x0,y0,z0,00}
@@ -185,7 +185,7 @@ void vector4_normalize(GLfloat *a) {
     : "d0", "d1", "d2", "d3", "d4", "d5", "memory"
         );
 #else
-    GLfloat det=1.0f/sqrtf(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
+    float det=1.0f/sqrtf(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
     a[0]*=det;
     a[1]*=det;
     a[2]*=det;
@@ -193,12 +193,12 @@ void vector4_normalize(GLfloat *a) {
 #endif
 }
 
-void FASTMATH matrix_transpose(const GLfloat *a, GLfloat *b) {
+void FASTMATH matrix_transpose(const float *a, float *b) {
     // column major -> row major
     // a(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15) -> b(0,4,8,12,1,5,9,13,2,6,10,14,3,7,11,15)
 #ifdef __ARM_NEON__
-   const GLfloat* a1 = a+8;
-	GLfloat* b1=b+8;
+   const float* a1 = a+8;
+	float* b1=b+8;
     asm volatile (
     "vld4.f32 {d0,d2,d4,d6}, [%1]        \n" 
     "vld4.f32 {d1,d3,d5,d7}, [%2]        \n" // %q0-%q3 = a(0,4,8,12/1,5,9,13/2,6,10,14/3,7,11,15)
@@ -214,7 +214,7 @@ void FASTMATH matrix_transpose(const GLfloat *a, GLfloat *b) {
 #endif
 }
 
-void matrix_inverse(const GLfloat *m, GLfloat *r) {
+void matrix_inverse(const float *m, float *r) {
 
     r[0] = m[5]*m[10]*m[15] - m[5]*m[14]*m[11] - m[6]*m[9]*m[15] + m[6]*m[13]*m[11] + m[7]*m[9]*m[14] - m[7]*m[13]*m[10];
     r[1] = -m[1]*m[10]*m[15] + m[1]*m[14]*m[11] + m[2]*m[9]*m[15] - m[2]*m[13]*m[11] - m[3]*m[9]*m[14] + m[3]*m[13]*m[10];
@@ -236,11 +236,11 @@ void matrix_inverse(const GLfloat *m, GLfloat *r) {
     r[14] = -m[0]*m[5]*m[14] + m[0]*m[13]*m[6] + m[1]*m[4]*m[14] - m[1]*m[12]*m[6] - m[2]*m[4]*m[13] + m[2]*m[12]*m[5];
     r[15] = m[0]*m[5]*m[10] - m[0]*m[9]*m[6] - m[1]*m[4]*m[10] + m[1]*m[8]*m[6] + m[2]*m[4]*m[9] - m[2]*m[8]*m[5];
 
-    GLfloat det = 1.0f/(m[0]*r[0] + m[1]*r[4] + m[2]*r[8] + m[3]*r[12]);
+    float det = 1.0f/(m[0]*r[0] + m[1]*r[4] + m[2]*r[8] + m[3]*r[12]);
     for (int i = 0; i < 16; i++) r[i] *= det;
 }
 
-void matrix_inverse3_transpose(const GLfloat *m, GLfloat *r) {
+void matrix_inverse3_transpose(const float *m, float *r) {
     
     r[0] = m[4+1]*m[8+2] - m[4+2]*m[8+1];
     r[1] = m[4+2]*m[8+0] - m[4+0]*m[8+2];
@@ -254,15 +254,15 @@ void matrix_inverse3_transpose(const GLfloat *m, GLfloat *r) {
     r[7] = m[0+2]*m[4+0] - m[0+0]*m[4+2];
     r[8] = m[0+0]*m[4+1] - m[0+1]*m[4+0];
 
-    GLfloat det = 1.0f/(m[0]*r[0] + m[4+0]*r[3] + m[8+0]*r[6]);
+    float det = 1.0f/(m[0]*r[0] + m[4+0]*r[3] + m[8+0]*r[6]);
     for (int i = 0; i < 9; i++) r[i] *= det;
 }
     
-void matrix_mul(const GLfloat *a, const GLfloat *b, GLfloat *c) {
+void matrix_mul(const float *a, const float *b, float *c) {
 #ifdef __ARM_NEON__
-    const GLfloat* a1 = a+8;
-	const GLfloat* b1=b+8;
-    GLfloat* c1=c+8;
+    const float* a1 = a+8;
+	const float* b1=b+8;
+    float* c1=c+8;
     asm volatile (
     "vld1.32  {d16-d19}, [%2]       \n" 
     "vld1.32  {d20-d23}, [%3]       \n"
@@ -291,12 +291,12 @@ void matrix_mul(const GLfloat *a, const GLfloat *b, GLfloat *c) {
       "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "memory"
         );
 #else
-   GLfloat a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
+   float a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
         a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7],
         a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11],
         a30 = a[12], a31 = a[13], a32 = a[14], a33 = a[15];
 
-    GLfloat b0  = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
+    float b0  = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
     c[0] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
     c[1] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
     c[2] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
@@ -322,32 +322,32 @@ void matrix_mul(const GLfloat *a, const GLfloat *b, GLfloat *c) {
 #endif
 }
 
-void vector4_mult(const GLfloat *a, const GLfloat *b, GLfloat *c) {
+void vector4_mult(const float *a, const float *b, float *c) {
 //TODO: NEON version of this
     for (int i=0; i<4; i++)
         c[i] = a[i]*b[i];
 }
 
-void vector4_add(const GLfloat *a, const GLfloat *b, GLfloat *c) {
+void vector4_add(const float *a, const float *b, float *c) {
 //TODO: NEON version of this
     for (int i=0; i<4; i++)
         c[i] = a[i]+b[i];
 }
 
-void vector4_sub(const GLfloat *a, const GLfloat *b, GLfloat *c) {
+void vector4_sub(const float *a, const float *b, float *c) {
     //TODO: NEON version of this
         for (int i=0; i<4; i++)
             c[i] = a[i]-b[i];
 }
     
-void set_identity(GLfloat* mat) {
-    memset(mat, 0, 16*sizeof(GLfloat));
+void set_identity(float* mat) {
+    memset(mat, 0, 16*sizeof(float));
     mat[0] = mat[1+4] = mat[2+8] = mat[3+12] = 1.0f;
 }
 
-GLint is_identity(const GLfloat* mat) {
-    static GLfloat i1[16];
+int is_identity(const float* mat) {
+    static float i1[16];
     static int set=0;
     if(!set) {set_identity(i1); set=1;}
-    return memcmp(mat, i1, 16*sizeof(GLfloat))==0?1:0;
+    return memcmp(mat, i1, 16*sizeof(float))==0?1:0;
 }
