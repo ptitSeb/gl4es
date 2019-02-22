@@ -1,7 +1,7 @@
 #ifndef _GL4ES_SHADER_H_
 #define _GL4ES_SHADER_H_
 
-#include <khash.h>
+#include "khash.h"
 #include "gles.h"
 
 typedef struct {

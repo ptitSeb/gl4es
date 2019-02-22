@@ -1,7 +1,7 @@
 #ifndef _GL4ES_GL4ES_H_
 #define _GL4ES_GL4ES_H_
 
-#include <khash.h>
+#include "khash.h"
 
 #ifdef __ARM_NEON__
 #include <arm_neon.h>

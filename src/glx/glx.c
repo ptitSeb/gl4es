@@ -5,7 +5,7 @@
 #include <execinfo.h>
 #endif // !defined(ANDROID) && !defined(AMIGAOS4)
 #include <fcntl.h>
-#include <khash.h>
+#include "khash.h"
 #ifdef USE_FBIO
 #include <linux/fb.h>
 #endif // USE_FBIO

@@ -1,6 +1,6 @@
 #include "queries.h"
 
-#include <khash.h>
+#include "khash.h"
 #include "gl4es.h"
 #include "glstate.h"
 #include "loader.h"
