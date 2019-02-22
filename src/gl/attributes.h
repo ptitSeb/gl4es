@@ -1,5 +1,5 @@
-#ifndef _GL4ES_ATRIBUTES_H_
-#define _GL4ES_ATRIBUTES_H_
+#ifndef _GL4ES_ATTRIBUTES_H_
+#define _GL4ES_ATTRIBUTES_H_
 
 #ifndef AliasExport
  #define AliasExport(name)   __attribute__((alias(name))) __attribute__((visibility("default")))
@@ -28,4 +28,4 @@
 #endif // __GNUC__
 #endif // FASTMATH
 
-#endif // _GL4ES_ATRIBUTES_H_
+#endif // _GL4ES_ATTRIBUTES_H_
