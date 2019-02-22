@@ -1,7 +1,7 @@
 #ifndef _GL4ES_BUFFERS_H_
 #define _GL4ES_BUFFERS_H_
 
-#include <khash.h>
+#include "khash.h"
 #include "../config.h"
 #include "gles.h"
 

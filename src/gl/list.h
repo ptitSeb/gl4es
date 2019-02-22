@@ -2,7 +2,7 @@
 #define _GL4ES_LIST_H_
 
 #include <stdbool.h>
-#include <khash.h>
+#include "khash.h"
 #include "../config.h"
 #include "wrap/gles.h"
 #include "attributes.h"

@@ -1,6 +1,6 @@
 #include "buffers.h"
 
-#include <khash.h>
+#include "khash.h"
 #include "../glx/hardext.h"
 #include "attributes.h"
 #include "debug.h"
