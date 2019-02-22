@@ -122,7 +122,6 @@ typedef char             GLcharARB;
 /* EnableCap */
 #define GL_FOG                            0x0B60
 #define GL_LIGHTING                       0x0B50
-//#define GL_TEXTURE_2D                     0x0DE1
 #define GL_CULL_FACE                      0x0B44
 #define GL_ALPHA_TEST                     0x0BC0
 #define GL_BLEND                          0x0BE2
