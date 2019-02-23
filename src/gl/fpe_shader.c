@@ -224,15 +224,22 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         ShadAppend(buff);
         headers += CountLine(buff);
 
-        if(!color_material || !state->cm_front_mode==FPE_CM_DIFFUSE || !state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE) {
+        if(!(cm_front_nullexp && color_material)) {
             ShadAppend("uniform highp float _gl4es_FrontMaterial_shininess;\n");
+            headers++;
+        }
+        if(twosided && !(cm_back_nullexp && color_material)) {
+            ShadAppend("uniform highp float _gl4es_BackMaterial_shininess;\n");
+            headers++;
+        }
+        if(!(color_material && (state->cm_front_mode==FPE_CM_DIFFUSE || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE))) {
             ShadAppend("uniform highp float _gl4es_FrontMaterial_alpha;\n");
-            headers+=2;
-            if(twosided)
-                ShadAppend("uniform highp float _gl4es_BackMaterial_shininess;\n");
+            headers++;
+            if(twosided) {
                 ShadAppend("uniform highp float _gl4es_BackMaterial_alpha;\n");
-                headers+=2;
+                headers++;
             }
+        }
         for(int i=0; i<hardext.maxlights; i++) {
             if(state->light&(1<<i)) {
                 sprintf(buff, "uniform _gl4es_FPELightSourceParameters%d _gl4es_LightSource_%d;\n", (state->light_direction>>i&1)?1:0, i);
