@@ -61,6 +61,7 @@ typedef struct _globals4es {
  int floattex;
  int glxrecycle;
  int noclean;
+ int arb_program;
  #ifndef NO_GBM
  char drmcard[50];
  #endif

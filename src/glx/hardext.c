@@ -226,6 +226,7 @@ void GetHardwareExtensions(int notest)
     }
     if(!globals4es.nodepthtex) {
         S("GL_OES_depth_texture", depthtex, 1);
+        S("GL_OES_texture_stencil8", stenciltex, 1);
     }
     S("GL_OES_draw_texture", drawtex, 1);
     S("GL_EXT_texture_rg", rgtex, 1);

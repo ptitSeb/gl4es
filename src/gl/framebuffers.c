@@ -12,7 +12,7 @@
 #include "init.h"
 #include "loader.h"
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define DBG(a) a
 #else
@@ -546,7 +546,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
         if(hardext.depthtex && (tex || !texture)) {
             // depth texture supported!
             //check if texture needs to be re-created as true depth texture
-            if(tex && tex->format!=GL_DEPTH_COMPONENT) {
+            if(tex && !(tex->format==GL_DEPTH_COMPONENT || tex->format==GL_DEPTH_STENCIL)) {
                 tex->format = GL_DEPTH_COMPONENT;
                 if(tex->type!=GL_UNSIGNED_INT && tex->type!=GL_UNSIGNED_SHORT && tex->type!=GL_FLOAT) tex->type = (hardext.depth24)?GL_UNSIGNED_INT:GL_UNSIGNED_SHORT;
                 tex->fpe_format = FPE_TEX_DEPTH;
@@ -575,6 +575,72 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
             }
             gl4es_glFramebufferRenderbuffer(ntarget, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, tex?tex->renderdepth:0);
+        }
+        errorGL();
+        ReadDraw_Pop(target);
+        return;
+    }
+    if(attachment==GL_STENCIL_ATTACHMENT /*&& hardext.depthtex==0*/) {
+        noerrorShim();
+        if (level!=0) return;
+        // this one is tricky, as it can be GL_DEPTH_STENCIL with DEPTH+DEPTH_STENCIL extension of GL_STENCIL_INDEX8 with STENCIL extension
+        // and having DEPTH+DEPTH_STENCIL extension doesn't grant STENCIL8 texture extension!
+        if((tex || !texture) && (hardext.stenciltex || (hardext.depthtex && hardext.depthstencil))) {
+            // depth texture supported, so are stencil one then!
+            //check if texture needs to be re-created as true depth texture
+            if(tex && !(tex->format==GL_STENCIL_INDEX8 || tex->format==GL_DEPTH_STENCIL)) {
+                if(tex->format==GL_DEPTH_ATTACHMENT) {
+                    //TODO: need to create a new texture, as the depth one is probably used
+                    gl4es_glGenTextures(1, &texture);
+                    realize_textures();
+                    int oldactive = glstate->texture.active;
+                    if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
+                    gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];
+                    GLuint oldtex = bound->glname;
+                    int nwidth = tex->nwidth;
+                    int nheight = tex->nheight;
+                    tex = gl4es_getTexture(textarget, texture);
+                    if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                    tex->format = (hardext.stenciltex)?GL_STENCIL_INDEX8:GL_DEPTH_STENCIL;
+                    tex->type = (hardext.stenciltex)?GL_UNSIGNED_BYTE:GL_UNSIGNED_INT_24_8;
+                    gl4es_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, nwidth, nheight, 0, tex->format, tex->type, NULL);
+                    if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
+                    if(oldactive) gles_glActiveTexture(GL_TEXTURE0+oldactive);
+                } else {
+                    tex->format = GL_STENCIL_INDEX8;
+                    if(tex->type!=GL_UNSIGNED_BYTE && tex->type!=GL_UNSIGNED_SHORT && tex->type!=GL_FLOAT) tex->type = GL_UNSIGNED_BYTE;
+                    tex->fpe_format = FPE_TEX_DEPTH;
+                    realize_textures();
+                    int oldactive = glstate->texture.active;
+                    if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
+                    gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];
+                    GLuint oldtex = bound->glname;
+                    if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                    gles_glTexImage2D(GL_TEXTURE_2D, 0, tex->format, tex->nwidth, tex->nheight, 0, tex->format, tex->type, NULL);
+                    if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
+                    if(oldactive) gles_glActiveTexture(GL_TEXTURE0+oldactive);
+                }
+            }
+            // bind the stencil texture...
+            gles_glFramebufferTexture2D(ntarget, attachment, GL_TEXTURE_2D, texture, 0);
+        } else {
+            // let's create a renderbuffer and attach it instead of the (presumably) stencil texture
+            if(tex && !tex->renderstencil) {
+                gl4es_glGenRenderbuffers(1, &tex->renderstencil);
+                gl4es_glBindRenderbuffer(GL_RENDERBUFFER, tex->renderstencil);
+                gl4es_glRenderbufferStorage(GL_RENDERBUFFER, GL_STENCIL_INDEX8, twidth, theight);
+                gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
+            }
+            gl4es_glFramebufferRenderbuffer(ntarget, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, tex?tex->renderstencil:0);
         }
         errorGL();
         ReadDraw_Pop(target);

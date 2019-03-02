@@ -25,6 +25,7 @@ typedef struct _hardext {
     int multidraw;      // GL_EXT_multi_draw_arrays
     int bgra8888;       // GL_EXT_texture_format_BGRA8888
     int depthtex;       // GL_OES_depth_texture
+    int stenciltex;     // GL_OES_texture_stencil8
     int cubemap;        // GL_OES_texture_cube_map
     int drawtex;        // GL_OES_draw_texture
     int rgtex;          // GL_EXT_texture_rg

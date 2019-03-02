@@ -88,6 +88,7 @@ const char* PrintEnum(GLenum what) {
         p(GL_INTENSITY8);
         p(GL_INTENSITY16F);
         p(GL_INTENSITY32F);
+        p(GL_DEPTH_STENCIL);
         // type
         p(GL_BYTE);
         p(GL_UNSIGNED_BYTE);
@@ -105,6 +106,7 @@ const char* PrintEnum(GLenum what) {
         p(GL_UNSIGNED_INT_8_8_8_8);
         p(GL_FLOAT);
         p(GL_DOUBLE);
+        p(GL_UNSIGNED_INT_24_8);
         // texture infos
         p(GL_TEXTURE_WIDTH);
         p(GL_TEXTURE_HEIGHT);

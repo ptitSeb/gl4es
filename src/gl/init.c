@@ -115,6 +115,7 @@ void initialize_gl4es() {
     }
 #endif
     env(LIBGL_NOBGRA, globals4es.nobgra, "Ignore BGRA texture capability");
+    env(LIBGL_ARBPROGRAM, globals4es.arb_program, "Export (Fake!) ARB Program extensions");
     char *env_es = getenv("LIBGL_ES");
     if (env_es && strcmp(env_es, "1") == 0) {
             globals4es.es = 1;

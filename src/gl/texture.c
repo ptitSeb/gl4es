@@ -238,6 +238,11 @@ void internal2format_type(GLenum internalformat, GLenum *format, GLenum *type)
             *format = GL_DEPTH_COMPONENT;
             *type = GL_UNSIGNED_SHORT;
             break;
+        case GL_DEPTH_STENCIL:
+        case GL_DEPTH24_STENCIL8:
+            *format = GL_DEPTH_STENCIL;
+            *type = GL_UNSIGNED_INT_24_8;
+            break;
         case GL_RGBA16F:
             *format = GL_RGBA;
             *type = (hardext.halffloattex)?GL_HALF_FLOAT_OES:GL_UNSIGNED_BYTE;
@@ -390,6 +395,27 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                     *format = GL_BGRA;
                 } else convert = true;
                 break;
+            case GL_DEPTH24_STENCIL8:
+            case GL_DEPTH_STENCIL:
+                if(hardext.depthtex && hardext.depthstencil) {
+                    *format = dest_format = GL_DEPTH_STENCIL;
+                    dest_type = GL_UNSIGNED_INT_24_8;
+                } else convert = true;
+                break;
+            case GL_DEPTH_COMPONENT:
+            case GL_DEPTH_COMPONENT16:
+            case GL_DEPTH_COMPONENT32:
+                if(hardext.depthtex)
+                    *format = dest_format = GL_DEPTH_COMPONENT;
+                else
+                    convert = true;
+                break;
+            case GL_STENCIL_INDEX8:
+                if(hardext.stenciltex)
+                    *format = dest_format = GL_STENCIL_INDEX8;
+                else
+                    convert = true;
+                break;
             default:
                 convert = true;
                 break;
@@ -434,6 +460,14 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
             case GL_UNSIGNED_BYTE:
                 if(dest_format==GL_RGB && globals4es.avoid24bits) {
                     dest_format = GL_RGBA;
+                    convert = true;
+                }
+                break;
+            case GL_UNSIGNED_INT_24_8:
+                if(hardext.depthtex && hardext.depthstencil) {
+                    dest_type = GL_UNSIGNED_INT_24_8;
+                } else {
+                    *type = GL_UNSIGNED_BYTE;   // will probably do nothing good!
                     convert = true;
                 }
                 break;
@@ -649,6 +683,41 @@ GLenum swizzle_internalformat(GLenum *internalformat, GLenum format, GLenum type
             } else {
                 ret = GL_RGBA;
                 sret = GL_RGBA;
+            }
+            break;
+        case GL_DEPTH_COMPONENT:
+            if(hardext.depthtex) {
+                sret = ret = GL_DEPTH_COMPONENT;
+            } else {
+                sret = ret = GL_RGBA;
+            }
+            break;
+        case GL_DEPTH_COMPONENT16:
+            if(hardext.depthtex) {
+                sret = ret = GL_DEPTH_COMPONENT;
+            } else {
+                sret = ret = GL_RGBA;
+            }
+            break;
+        case GL_DEPTH_COMPONENT32:
+            if(hardext.depthtex) {
+                sret = ret = GL_DEPTH_COMPONENT;
+            } else {
+                sret = ret = GL_RGBA;
+            }
+            break;
+        case GL_DEPTH24_STENCIL8:
+            if(hardext.depthtex) {
+                sret = ret = GL_DEPTH_STENCIL;
+            } else {
+                sret = ret = GL_RGBA;
+            }
+            break;
+        case GL_STENCIL_INDEX8:
+            if(hardext.stenciltex) {
+                sret = ret = GL_STENCIL_INDEX8;
+            } else {
+                sret = ret = (hardext.rgtex)?GL_RED:GL_LUMINANCE;
             }
             break;
         default:
@@ -969,6 +1038,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             case GL_DEPTH_COMPONENT24:
             case GL_DEPTH_COMPONENT32:
             case GL_DEPTH_STENCIL:
+            case GL_DEPTH24_STENCIL8:
                 bound->fpe_format = FPE_TEX_COMPONENT;*/
             default:
                 bound->fpe_format = FPE_TEX_RGBA;
@@ -981,14 +1051,14 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             }
             else if(globals4es.automipmap==2)
                 bound->mipmap_need = 1;
-     }
-     if(level>0 && (bound->npot && globals4es.forcenpot))
+    }
+    if(level>0 && (bound->npot && globals4es.forcenpot))
         return;         // no mipmap...
-     GLenum new_format = swizzle_internalformat(&internalformat, format, type);
-     if (level==0 || !bound->valid) {
-         bound->orig_internal = internalformat;
-         bound->internalformat = new_format;
-     }
+    GLenum new_format = swizzle_internalformat(&internalformat, format, type);
+    if (level==0 || !bound->valid) {
+        bound->orig_internal = internalformat;
+        bound->internalformat = new_format;
+    }
     // shrink checking
     int mipwidth = width << level;
     int mipheight = height << level;
