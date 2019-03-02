@@ -12,7 +12,7 @@
 #include "init.h"
 #include "loader.h"
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define DBG(a) a
 #else
