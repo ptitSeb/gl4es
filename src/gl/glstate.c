@@ -57,7 +57,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
         glstate_t* copy_state = (glstate_t*)shared_glstate;
         if(!copy_state->shared_cnt) {
             copy_state->shared_cnt = (int*)malloc(sizeof(int));
-            (*copy_state->shared_cnt) = 1;
+            (*copy_state->shared_cnt) = 2;
         } else
             (*copy_state->shared_cnt)++;
         glstate->shared_cnt = copy_state->shared_cnt;
