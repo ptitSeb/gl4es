@@ -405,9 +405,13 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
             case GL_DEPTH_COMPONENT:
             case GL_DEPTH_COMPONENT16:
             case GL_DEPTH_COMPONENT32:
-                if(hardext.depthtex)
+                if(hardext.depthtex) {
+                    if(dest_type==GL_UNSIGNED_BYTE) {
+                        dest_type=(*format==GL_DEPTH_COMPONENT32)?GL_UNSIGNED_INT:GL_UNSIGNED_SHORT;
+                        convert = true;
+                    }
                     *format = dest_format = GL_DEPTH_COMPONENT;
-                else
+                } else
                     convert = true;
                 break;
             case GL_STENCIL_INDEX8:
