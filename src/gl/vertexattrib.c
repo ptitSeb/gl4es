@@ -180,3 +180,4 @@ GLvoid glGetVertexAttribPointervARB(GLuint index, GLenum pname, GLvoid **pointer
 
 // ============== GL_ARB_instanced_arrays =================
 void glVertexAttribDivisor(GLuint index, GLuint divisor) AliasExport("gl4es_glVertexAttribDivisor");
+void glVertexAttribDivisorARB(GLuint index, GLuint divisor) AliasExport("gl4es_glVertexAttribDivisor");

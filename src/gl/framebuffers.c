@@ -1451,3 +1451,6 @@ void glGetFramebufferAttachmentParameterivEXT(GLenum target, GLenum attachment, 
 void glGetRenderbufferParameterivEXT(GLenum target, GLenum pname, GLint * params) AliasExport("gl4es_glGetRenderbufferParameteriv");
 void glFramebufferTextureLayerEXT(	GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer) AliasExport("gl4es_glFramebufferTextureLayer");
 void glBlitFramebufferEXT(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) AliasExport("gl4es_glBlitFramebuffer");
+
+// Multisample stub
+void glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height) AliasExport("gl4es_glRenderbufferStorageMultisample");
