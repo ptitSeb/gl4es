@@ -8,13 +8,6 @@
 #include "preproc.h"
 #include "string_utils.h"
 
-//#define DEBUG
-#ifdef DEBUG
-#define DBG(a) a
-#else
-#define DBG(a)
-#endif
-
 typedef struct {
     const char* glname;
     const char* name;
@@ -226,10 +219,10 @@ const char* gl_TexCoordSource = "gl_TexCoord[";
 char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 {
   int fpeShader = (strstr(pEntry, fpeshader_signature)!=NULL)?1:0;
-  DBG(printf("Shader source%s:\n%s\n", pEntry, fpeShader?" (FPEShader generated)":"");)
-
+  if(globals4es.dbgshaderconv) {
+    printf("Shader source%s:\n%s\n", pEntry, fpeShader?" (FPEShader generated)":"");
+  }
   int comments = globals4es.comments;
-  DBG(comments=1-comments;)   // When DBG is activated, the effect of LIBGL_COMMENTS is reversed
   
   char* pBuffer = (char*)pEntry;
 
@@ -748,7 +741,9 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   }
   
   // finish
-  DBG(printf("New Shader source:\n%s\n", Tmp);)
+  if(globals4es.dbgshaderconv) {
+    printf("New Shader source:\n%s\n", Tmp);
+  }
   // clean preproc'd source
   if(pEntry!=pBuffer)
     free(pBuffer);

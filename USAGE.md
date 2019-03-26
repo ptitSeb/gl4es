@@ -307,3 +307,8 @@ Define GLES(2) lib to use. Default folder are the standard one for dynamic libra
 * by default try to use libGLESv1_CM, libGLES_CM or libbrcmGLESv1_CM for GLES1.1 and libGLESv2_CM, libGLESv2 or libbrcmGLESv2 for GLES2 backend
 * filename: try to load from the defaults folder (don't forget to use complete filename, with ".so" extension). If not found/loaded, default one will be tried.
 * /path/to/filename: try to use exact path/filename. If not found/loaded, default one will be tried.
+
+##### LIBGL_DBGSHADERCONV
+Log to the console all shaders before and after conversion
+* 0 : Don't log anything
+* 1 : Log all shaders that goes thru shaderconv, before and after conversion.
