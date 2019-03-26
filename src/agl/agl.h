@@ -27,6 +27,7 @@ void* aglCreateContext2(ULONG * errcode, struct TagItem * tags);
 void aglDestroyContext(void* context);
 void aglMakeCurrent(void* context);
 void aglSwapBuffers();
+void aglSetParams2(struct TagItem * tags);
 void aglSetBitmap(struct BitMap *bitmap);
 void* aglGetProcAddress(const char* name);
 

@@ -130,6 +130,12 @@ void aglMakeCurrent(void* context) {
     }
 }
 
+void aglSetParams2(struct TagItem * tags) {
+    if(IOGLES2) {
+        return IOGLES2->aglSetParams2(tags);
+    }
+} 
+
 void amiga_pre_swap();
 void amiga_post_swap();
 void aglSwapBuffers() {
