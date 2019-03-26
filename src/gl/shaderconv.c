@@ -219,7 +219,9 @@ const char* gl_TexCoordSource = "gl_TexCoord[";
 char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 {
   int fpeShader = (strstr(pEntry, fpeshader_signature)!=NULL)?1:0;
-  if(globals4es.dbgshaderconv) {
+  int maskbefore = 4|(isVertex?1:2);
+  int maskafter = 8|(isVertex?1:2);
+  if((globals4es.dbgshaderconv&maskbefore)==maskbefore) {
     printf("Shader source%s:\n%s\n", pEntry, fpeShader?" (FPEShader generated)":"");
   }
   int comments = globals4es.comments;
@@ -741,7 +743,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   }
   
   // finish
-  if(globals4es.dbgshaderconv) {
+  if((globals4es.dbgshaderconv&maskafter)==maskafter) {
     printf("New Shader source:\n%s\n", Tmp);
   }
   // clean preproc'd source

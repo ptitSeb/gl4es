@@ -494,7 +494,29 @@ void initialize_gl4es() {
 
     env(LIBGL_LOGSHADERERROR, globals4es.logshader, "Log to the console Error compiling shaders");
     env(LIBGL_SHADERNOGLES, globals4es.shadernogles, "Remove GLES part in shader");
-    env(LIBGL_DBGSHADERCONV, globals4es.dbgshaderconv, "Log to the console all shaders before and after conversion");
+    char *env_dbgshaderconv = getenv("LIBGL_DBGSHADERCONV");
+    if(env_dbgshaderconv) {
+        if(sscanf(env_dbgshaderconv, "%d", &globals4es.dbgshaderconv)!=1)
+            globals4es.dbgshaderconv = 0;
+        if(globals4es.dbgshaderconv) {
+            if(globals4es.dbgshaderconv==1)
+                globals4es.dbgshaderconv=15;
+            if(!(globals4es.dbgshaderconv&3))   // neither vertex or fragment
+                globals4es.dbgshaderconv|=3;    // select both
+            if(!(globals4es.dbgshaderconv&12))  // neither before or after
+                globals4es.dbgshaderconv|=12;   // select both
+            SHUT(LOGD("Log to the console all shaders before and after conversion: "));
+            if(globals4es.dbgshaderconv&4)
+                SHUT(LOGD("Before  "));
+            if(globals4es.dbgshaderconv&8)
+                SHUT(LOGD("After  "));
+            if(globals4es.dbgshaderconv&1)
+                SHUT(LOGD("Vertex  "));
+            if(globals4es.dbgshaderconv&2)
+                SHUT(LOGD("Fragment  "));
+            SHUT(LOGD("\n"));
+        }
+    }
     env(LIBGL_NOCLEAN, globals4es.noclean, "Don't clean Context when destroy");
 
 

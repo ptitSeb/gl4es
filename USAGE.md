@@ -311,4 +311,11 @@ Define GLES(2) lib to use. Default folder are the standard one for dynamic libra
 ##### LIBGL_DBGSHADERCONV
 Log to the console all shaders before and after conversion
 * 0 : Default: don't log anything
-* 1 : Log all shaders that goes thru shaderconv, before and after conversion.
+* 1 : Log Vertex Shader
+* 2 : Log Framegent Shader
+* 4 : Log Shaders before going to Shaderconv
+* 8 : Log Shaders after going to Shaderconv
+Note that you can combine (logical or state. So 14 will be only Fragment shader before and after shaderconv)
+Note also that if neither Fragment and Vertex are defined, both will be selected. Same for Before and After.
+At last, the value "1" will be changed to "15", to log everything.
+
