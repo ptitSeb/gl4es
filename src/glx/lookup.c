@@ -781,6 +781,25 @@ void *gl4es_glXGetProcAddress(const char *name) {
     _ARB(glGetUniformfv);
     _ARB(glGetUniformiv);
     _ARB(glGetShaderSource);
+    _EX(glProgramUniform1f);
+    _EX(glProgramUniform2f);
+    _EX(glProgramUniform3f);
+    _EX(glProgramUniform4f);
+    _EX(glProgramUniform1i);
+    _EX(glProgramUniform2i);
+    _EX(glProgramUniform3i);
+    _EX(glProgramUniform4i);
+    _EX(glProgramUniform1fv);
+    _EX(glProgramUniform2fv);
+    _EX(glProgramUniform3fv);
+    _EX(glProgramUniform4fv);
+    _EX(glProgramUniform1iv);
+    _EX(glProgramUniform2iv);
+    _EX(glProgramUniform3iv);
+    _EX(glProgramUniform4iv);
+    _EX(glProgramUniformMatrix2fv);
+    _EX(glProgramUniformMatrix3fv);
+    _EX(glProgramUniformMatrix4fv);
     // EXT version of Shaders functions
     _EXT(glAttachShader);
     _EXT(glBindAttribLocation);
@@ -842,6 +861,25 @@ void *gl4es_glXGetProcAddress(const char *name) {
     _EXT(glVertexAttrib4fv);
     _EXT(glVertexAttribPointer);
     _EXT(glVertexPointer);
+    _EXT(glProgramUniform1f);
+    _EXT(glProgramUniform2f);
+    _EXT(glProgramUniform3f);
+    _EXT(glProgramUniform4f);
+    _EXT(glProgramUniform1i);
+    _EXT(glProgramUniform2i);
+    _EXT(glProgramUniform3i);
+    _EXT(glProgramUniform4i);
+    _EXT(glProgramUniform1fv);
+    _EXT(glProgramUniform2fv);
+    _EXT(glProgramUniform3fv);
+    _EXT(glProgramUniform4fv);
+    _EXT(glProgramUniform1iv);
+    _EXT(glProgramUniform2iv);
+    _EXT(glProgramUniform3iv);
+    _EXT(glProgramUniform4iv);
+    _EXT(glProgramUniformMatrix2fv);
+    _EXT(glProgramUniformMatrix3fv);
+    _EXT(glProgramUniformMatrix4fv);
 
     //ARB_draw_elements_base_vertex / EXT_draw_elements_base_vertex
     _EX(glDrawElementsBaseVertex);

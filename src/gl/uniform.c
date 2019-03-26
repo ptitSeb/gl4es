@@ -396,6 +396,130 @@ void gl4es_glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose
     GoUniformMatrix2fv(glprogram, location, count, transpose, value);
 }
 
+void gl4es_glProgramUniform1f(GLuint program, GLint location, GLfloat v0) {
+    DBG(printf("glUniform1f(%d, %f)\n", location, v0);)
+    PUSH_IF_COMPILING(glUniform1f);
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformfv(glprogram, location, 1, 1, &v0);
+}
+void gl4es_glProgramUniform2f(GLuint program, GLint location, GLfloat v0, GLfloat v1) {
+    DBG(printf("glUniform2f(%d, %f, %f)\n", location, v0, v1);)
+    PUSH_IF_COMPILING(glUniform2f);
+    GLfloat fl[2] = {v0, v1};
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformfv(glprogram, location, 2, 1, fl);
+}
+void gl4es_glProgramUniform3f(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2) {
+    DBG(printf("glUniform3f(%d, %f, %f, %f)\n", location, v0, v1, v2);)
+    PUSH_IF_COMPILING(glUniform3f);
+    GLfloat fl[3] = {v0, v1, v2};
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformfv(glprogram, location, 3, 1, fl);
+}
+void gl4es_glProgramUniform4f(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) {
+    DBG(printf("glUniform4f(%d, %f, %f, %f, %f)\n", location, v0, v1, v2, v3);)
+    PUSH_IF_COMPILING(glUniform4f);
+    GLfloat fl[4] = {v0, v1, v2, v3};
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformfv(glprogram, location, 4, 1, fl);
+}
+void gl4es_glProgramUniform1i(GLuint program, GLint location, GLint v0) {
+    DBG(printf("glUniform1i(%d, %d)\n", location, v0);)
+    PUSH_IF_COMPILING(glUniform1i);
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformiv(glprogram, location, 1, 1, &v0);
+}
+void gl4es_glProgramUniform2i(GLuint program, GLint location, GLint v0, GLint v1) {
+    DBG(printf("glUniform2i(%d, %d, %d)\n", location, v0, v1);)
+    PUSH_IF_COMPILING(glUniform2i);
+    GLint fl[2] = {v0, v1};
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformiv(glprogram, location, 2, 1, fl);
+}
+void gl4es_glProgramUniform3i(GLuint program, GLint location, GLint v0, GLint v1, GLint v2) {
+    DBG(printf("glUniform3i(%d, %d, %d, %d)\n", location, v0, v1, v2);)
+    PUSH_IF_COMPILING(glUniform3i);
+    GLint fl[3] = {v0, v1, v2};
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformiv(glprogram, location, 3, 1, fl);
+}
+void gl4es_glProgramUniform4i(GLuint program, GLint location, GLint v0, GLint v1, GLint v2, GLint v3) {
+    DBG(printf("glUniform4i(%d, %d, %d, %d, %d)\n", location, v0, v1, v2, v3);)
+    PUSH_IF_COMPILING(glUniform4i);
+    GLint fl[4] = {v0, v1, v2, v3};
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformiv(glprogram, location, 4, 1, fl);
+}
+//TODO: the "v" variant and matrix variant cannot be pushed simply...
+void gl4es_glProgramUniform1fv(GLuint program, GLint location, GLsizei count, const GLfloat *value) {
+    DBG(printf("glUniform1fv(%d, %d, %p) =>(%f)\n", location, count, value, value[0]);)
+    PUSH_IF_COMPILING(glUniform1fv);
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformfv(glprogram, location, 1, count, value);
+}
+void gl4es_glProgramUniform2fv(GLuint program, GLint location, GLsizei count, const GLfloat *value) {
+    DBG(printf("glUniform2fv(%d, %d, %p) =>(%f %f)\n", location, count, value, value[0], value[1]);)
+    PUSH_IF_COMPILING(glUniform2fv);
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformfv(glprogram, location, 2, count, value);
+}
+void gl4es_glProgramUniform3fv(GLuint program, GLint location, GLsizei count, const GLfloat *value) {
+    DBG(printf("glUniform3fv(%d, %d, %p) =>(%f %f, %f)\n", location, count, value, value[0], value[1], value[2]);)
+    PUSH_IF_COMPILING(glUniform3fv);
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformfv(glprogram, location, 3, count, value);
+}
+void gl4es_glProgramUniform4fv(GLuint program, GLint location, GLsizei count, const GLfloat *value) {
+    DBG(printf("glUniform4fv(%d, %d, %p) =>(%f %f, %f, %f)\n", location, count, value, value[0], value[1], value[2], value[3]);)
+    PUSH_IF_COMPILING(glUniform4fv);
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformfv(glprogram, location, 4, count, value);
+}
+void gl4es_glProgramUniform1iv(GLuint program, GLint location, GLsizei count, const GLint *value) {
+    PUSH_IF_COMPILING(glUniform1iv);
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformiv(glprogram, location, 1, count, value);
+}
+void gl4es_glProgramUniform2iv(GLuint program, GLint location, GLsizei count, const GLint *value) {
+    PUSH_IF_COMPILING(glUniform2iv);
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformiv(glprogram, location, 2, count, value);
+}
+void gl4es_glProgramUniform3iv(GLuint program, GLint location, GLsizei count, const GLint *value) {
+    PUSH_IF_COMPILING(glUniform3iv);
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformiv(glprogram, location, 3, count, value);
+}
+void gl4es_glProgramUniform4iv(GLuint program, GLint location, GLsizei count, const GLint *value) {
+    PUSH_IF_COMPILING(glUniform4iv);
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformiv(glprogram, location, 4, count, value);
+}
+
+void gl4es_glProgramUniformMatrix2fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) {
+    DBG(printf("glUniformMatrix2fv(%d, %d, %d, %p)\n", location, count, transpose, value);)
+    PUSH_IF_COMPILING(glUniformMatrix2fv);
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformMatrix2fv(glprogram, location, count, transpose, value);
+}
+
 void GoUniformMatrix2fv(program_t *glprogram, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) {
     DBG(printf("GoUniformMatrix2fv(%p[%d], %d, %d, %d, %p)\n", glprogram, glprogram->id, location, count, transpose, value);)
     if(location==-1) {
@@ -449,6 +573,14 @@ void gl4es_glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose
     DBG(printf("glUniformMatrix3fv(%d, %d, %d, %p)\n", location, count, transpose, value);)
     PUSH_IF_COMPILING(glUniformMatrix3fv);
     GLuint program = glstate->glsl->program;
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformMatrix3fv(glprogram, location, count, transpose, value);
+}
+
+void gl4es_glProgramUniformMatrix3fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) {
+    DBG(printf("glUniformMatrix3fv(%d, %d, %d, %p)\n", location, count, transpose, value);)
+    PUSH_IF_COMPILING(glUniformMatrix3fv);
     CHECK_PROGRAM(void, program);
     APPLY_PROGRAM(program, glprogram);
     GoUniformMatrix3fv(glprogram, location, count, transpose, value);
@@ -510,6 +642,14 @@ void gl4es_glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose
     APPLY_PROGRAM(program, glprogram);
     GoUniformMatrix4fv(glprogram, location, count, transpose, value);
 }
+void gl4es_glProgramUniformMatrix4fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) {
+    DBG(printf("glUniformMatrix4fv(%d, %d, %d, %p) p=>(%f, %f, %f, %f, %f...)\n", location, count, transpose, value, value[0], value[1], value[2], value[3], value[4]);)
+    PUSH_IF_COMPILING(glUniformMatrix4fv);
+    CHECK_PROGRAM(void, program);
+    APPLY_PROGRAM(program, glprogram);
+    GoUniformMatrix4fv(glprogram, location, count, transpose, value);
+}
+
 void GoUniformMatrix4fv(program_t *glprogram, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) {
     DBG(printf("GoUniformMatrix4fv(%p[%d], %d, %d, %d, %p) p=>(%f, %f, %f, %f, %f...)\n", glprogram, glprogram->id, location, count, transpose, value, value[0], value[1], value[2], value[3], value[4]);)
     if(location==-1) {
@@ -649,3 +789,44 @@ GLvoid glUniformMatrix4fvARB(GLint location, GLsizei count, GLboolean transpose,
 
 GLvoid glGetUniformfvARB(GLhandleARB programObj, GLint location, GLfloat *params) AliasExport("gl4es_glGetUniformfv");
 GLvoid glGetUniformivARB(GLhandleARB programObj, GLint location, GLint *params) AliasExport("gl4es_glGetUniformiv");
+
+// ===============
+void glProgramUniform1f(GLint location, GLfloat v0) AliasExport("gl4es_glProgramUniform1f");
+void glProgramUniform2f(GLint location, GLfloat v0, GLfloat v1) AliasExport("gl4es_glProgramUniform2f");
+void glProgramUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) AliasExport("gl4es_glProgramUniform3f");
+void glProgramUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) AliasExport("gl4es_glProgramUniform4f");
+void glProgramUniform1i(GLint location, GLint v0) AliasExport("gl4es_glProgramUniform1i");
+void glProgramUniform2i(GLint location, GLint v0, GLint v1) AliasExport("gl4es_glProgramUniform2i");
+void glProgramUniform3i(GLint location, GLint v0, GLint v1, GLint v2) AliasExport("gl4es_glProgramUniform3i");
+void glProgramUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) AliasExport("gl4es_glProgramUniform4i");
+void glProgramUniform1fv(GLint location, GLsizei count, const GLfloat *value) AliasExport("gl4es_glProgramUniform1fv");
+void glProgramUniform2fv(GLint location, GLsizei count, const GLfloat *value) AliasExport("gl4es_glProgramUniform2fv");
+void glProgramUniform3fv(GLint location, GLsizei count, const GLfloat *value) AliasExport("gl4es_glProgramUniform3fv");
+void glProgramUniform4fv(GLint location, GLsizei count, const GLfloat *value) AliasExport("gl4es_glProgramUniform4fv");
+void glProgramUniform1iv(GLint location, GLsizei count, const GLint *value) AliasExport("gl4es_glProgramUniform1iv");
+void glProgramUniform2iv(GLint location, GLsizei count, const GLint *value) AliasExport("gl4es_glProgramUniform2iv");
+void glProgramUniform3iv(GLint location, GLsizei count, const GLint *value) AliasExport("gl4es_glProgramUniform3iv");
+void glProgramUniform4iv(GLint location, GLsizei count, const GLint *value) AliasExport("gl4es_glProgramUniform4iv");
+void glProgramUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) AliasExport("gl4es_glProgramUniformMatrix2fv");
+void glProgramUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) AliasExport("gl4es_glProgramUniformMatrix3fv");
+void glProgramUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) AliasExport("gl4es_glProgramUniformMatrix4fv");
+// ===============	EXT_direct_state_access (part of it)
+void glProgramUniform1fEXT(GLint location, GLfloat v0) AliasExport("gl4es_glProgramUniform1f");
+void glProgramUniform2fEXT(GLint location, GLfloat v0, GLfloat v1) AliasExport("gl4es_glProgramUniform2f");
+void glProgramUniform3fEXT(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) AliasExport("gl4es_glProgramUniform3f");
+void glProgramUniform4fEXT(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) AliasExport("gl4es_glProgramUniform4f");
+void glProgramUniform1iEXT(GLint location, GLint v0) AliasExport("gl4es_glProgramUniform1i");
+void glProgramUniform2iEXT(GLint location, GLint v0, GLint v1) AliasExport("gl4es_glProgramUniform2i");
+void glProgramUniform3iEXT(GLint location, GLint v0, GLint v1, GLint v2) AliasExport("gl4es_glProgramUniform3i");
+void glProgramUniform4iEXT(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) AliasExport("gl4es_glProgramUniform4i");
+void glProgramUniform1fvEXT(GLint location, GLsizei count, const GLfloat *value) AliasExport("gl4es_glProgramUniform1fv");
+void glProgramUniform2fvEXT(GLint location, GLsizei count, const GLfloat *value) AliasExport("gl4es_glProgramUniform2fv");
+void glProgramUniform3fvEXT(GLint location, GLsizei count, const GLfloat *value) AliasExport("gl4es_glProgramUniform3fv");
+void glProgramUniform4fvEXT(GLint location, GLsizei count, const GLfloat *value) AliasExport("gl4es_glProgramUniform4fv");
+void glProgramUniform1ivEXT(GLint location, GLsizei count, const GLint *value) AliasExport("gl4es_glProgramUniform1iv");
+void glProgramUniform2ivEXT(GLint location, GLsizei count, const GLint *value) AliasExport("gl4es_glProgramUniform2iv");
+void glProgramUniform3ivEXT(GLint location, GLsizei count, const GLint *value) AliasExport("gl4es_glProgramUniform3iv");
+void glProgramUniform4ivEXT(GLint location, GLsizei count, const GLint *value) AliasExport("gl4es_glProgramUniform4iv");
+void glProgramUniformMatrix2fvEXT(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) AliasExport("gl4es_glProgramUniformMatrix2fv");
+void glProgramUniformMatrix3fvEXT(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) AliasExport("gl4es_glProgramUniformMatrix3fv");
+void glProgramUniformMatrix4fvEXT(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) AliasExport("gl4es_glProgramUniformMatrix4fv");

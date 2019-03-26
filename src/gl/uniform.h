@@ -54,5 +54,28 @@ GLvoid glUniform4ivARB(GLint location, GLsizei count, const GLint *value);
 GLvoid glUniformMatrix2fvARB(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
 GLvoid glUniformMatrix3fvARB(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
 GLvoid glUniformMatrix4fvARB(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+// ===========
+void gl4es_glProgramUniform1f(GLuint program, GLint location, GLfloat v0);
+void gl4es_glProgramUniform2f(GLuint program, GLint location, GLfloat v0, GLfloat v1);
+void gl4es_glProgramUniform3f(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
+void gl4es_glProgramUniform4f(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
+void gl4es_glProgramUniform1i(GLuint program, GLint location, GLint v0);
+void gl4es_glProgramUniform2i(GLuint program, GLint location, GLint v0, GLint v1); 
+void gl4es_glProgramUniform3i(GLuint program, GLint location, GLint v0, GLint v1, GLint v2); 
+void gl4es_glProgramUniform4i(GLuint program, GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
+
+void gl4es_glProgramUniform1fv(GLuint program, GLint location, GLsizei count, const GLfloat *value); 
+void gl4es_glProgramUniform2fv(GLuint program, GLint location, GLsizei count, const GLfloat *value); 
+void gl4es_glProgramUniform3fv(GLuint program, GLint location, GLsizei count, const GLfloat *value);
+void gl4es_glProgramUniform4fv(GLuint program, GLint location, GLsizei count, const GLfloat *value);
+void gl4es_glProgramUniform1iv(GLuint program, GLint location, GLsizei count, const GLint *value);
+void gl4es_glProgramUniform2iv(GLuint program, GLint location, GLsizei count, const GLint *value);
+void gl4es_glProgramUniform3iv(GLuint program, GLint location, GLsizei count, const GLint *value);
+void gl4es_glProgramUniform4iv(GLuint program, GLint location, GLsizei count, const GLint *value);
+
+void gl4es_glProgramUniformMatrix2fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+void gl4es_glProgramUniformMatrix3fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+void gl4es_glProgramUniformMatrix4fv(GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+
 
 #endif // _GL4ES_UNIFORM_H_
