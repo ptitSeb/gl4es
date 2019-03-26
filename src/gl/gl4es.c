@@ -416,6 +416,7 @@ void gl4es_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
     glstate->secondary[2] = b;
 }
 void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) AliasExport("gl4es_glSecondaryColor3f");
+void glSecondaryColor3fEXT(GLfloat r, GLfloat g, GLfloat b) AliasExport("gl4es_glSecondaryColor3f");
 
 
 void gl4es_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {

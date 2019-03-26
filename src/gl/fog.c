@@ -102,3 +102,10 @@ void glFogCoordd(GLdouble coord) AliasExport("gl4es_glFogCoordd");
 void glFogCoorddv(const GLdouble *coord) AliasExport("gl4es_glFogCoorddv");
 void glFogCoordf(GLfloat coord) AliasExport("gl4es_glFogCoordf");
 void glFogCoordfv(const GLfloat *coord) AliasExport("gl4es_glFogCoordfv");
+
+void glFogfvEXT(GLenum pname, const GLfloat* params) AliasExport("gl4es_glFogfv");
+void glFogfEXT(GLenum pname, GLfloat param) AliasExport("gl4es_glFogf");
+void glFogCoorddEXT(GLdouble coord) AliasExport("gl4es_glFogCoordd");
+void glFogCoorddvEXT(const GLdouble *coord) AliasExport("gl4es_glFogCoorddv");
+void glFogCoordfEXT(GLfloat coord) AliasExport("gl4es_glFogCoordf");
+void glFogCoordfvEXT(const GLfloat *coord) AliasExport("gl4es_glFogCoordfv");

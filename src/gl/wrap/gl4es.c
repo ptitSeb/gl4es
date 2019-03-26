@@ -458,6 +458,8 @@ void gl4es_glIndexfv(const GLfloat *c) {
 void gl4es_glSecondaryColor3fv(const GLfloat *v) {
     gl4es_glSecondaryColor3f(v[0], v[1], v[2]);
 }
+void glSecondaryColor3fvEXT(GLfloat *t) AliasExport("gl4es_glSecondaryColor3fv");
+
 
 // raster
 void gl4es_glRasterPos2f(GLfloat x, GLfloat y) {
