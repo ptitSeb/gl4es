@@ -310,5 +310,5 @@ Define GLES(2) lib to use. Default folder are the standard one for dynamic libra
 
 ##### LIBGL_DBGSHADERCONV
 Log to the console all shaders before and after conversion
-* 0 : Don't log anything
+* 0 : Default: don't log anything
 * 1 : Log all shaders that goes thru shaderconv, before and after conversion.
