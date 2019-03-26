@@ -147,7 +147,21 @@ void *gl4es_glXGetProcAddress(const char *name) {
 
     _EX(glMapBufferRange);
     _EX(glFlushMappedBufferRange);
-
+    // Named Buffer
+    _EX(glNamedBufferData);
+    _EX(glNamedBufferSubData);
+    _EX(glGetNamedBufferParameteriv);
+    _EX(glMapNamedBuffer);
+    _EX(glUnmapNamedBuffer);
+    _EX(glGetNamedBufferSubData);
+    _EX(glGetNamedBufferPointerv);
+    _EXT(glNamedBufferData);
+    _EXT(glNamedBufferSubData);
+    _EXT(glGetNamedBufferParameteriv);
+    _EXT(glMapNamedBuffer);
+    _EXT(glUnmapNamedBuffer);
+    _EXT(glGetNamedBufferSubData);
+    _EXT(glGetNamedBufferPointerv);
     // GL_ARB_vertex_array_object
     _EX(glGenVertexArrays);
     _EX(glBindVertexArray);

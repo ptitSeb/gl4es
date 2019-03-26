@@ -156,4 +156,12 @@ void glBindVertexArray(GLuint array);
 void glDeleteVertexArrays(GLsizei n, const GLuint *arrays);
 GLboolean glIsVertexArray(GLuint array);
 
+void gl4es_glNamedBufferData(GLuint buffer, GLsizeiptr size, const GLvoid * data, GLenum usage);
+void gl4es_glNamedBufferSubData(GLuint buffer, GLintptr offset, GLsizeiptr size, const GLvoid * data);
+void gl4es_glGetNamedBufferParameteriv(GLuint buffer, GLenum value, GLint * data);
+void* gl4es_glMapNamedBuffer(GLuint buffer, GLenum access);
+GLboolean gl4es_glUnmapNamedBuffer(GLuint buffer);
+void gl4es_glGetNamedBufferSubData(GLuint buffer, GLintptr offset, GLsizeiptr size, GLvoid * data);
+void gl4es_glGetNamedBufferPointerv(GLuint buffer, GLenum pname, GLvoid ** params);
+
 #endif // _GL4ES_BUFFERS_H_
