@@ -77,6 +77,13 @@ See [here](USAGE.md) for all variables and what they do.
 
 ----
 
+Media (what is working already)
+----
+
+Some screenshot and youtube links of stuffs that works [here](MEDIA.md)
+
+----
+
 Version history
 ----
 
