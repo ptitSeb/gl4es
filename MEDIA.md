@@ -32,7 +32,8 @@ And OpenGL 2.x opens a lot of dors. Many commercial games run just fine on gl4es
 
 [![Play on Youtube](https://img.youtube.com/vi/VUoeHWuwlMU/0.jpg)](https://www.youtube.com/watch?v=VUoeHWuwlMU)
 
-Here some FNA games, running on an ODroid XU4 (using method described [there](https://magazine.odroid.com/article/playing-modern-fna-games-on-the-odroid-platform/))
+Here some FNA games, running on an ODroid XU4 (using method described [there](https://magazine.odroid.com/article/playing-modern-fna-games-on-the-odroid-platform/)). That video show just a few, and even more can be make to run.
+
 
 
 [![Play on Youtube](https://img.youtube.com/vi/B4YN37z3-ws/0.jpg)](https://www.youtube.com/watch?v=B4YN37z3-ws)
