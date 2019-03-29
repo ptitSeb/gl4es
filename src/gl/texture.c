@@ -1953,9 +1953,13 @@ void gl4es_glBindTexture(GLenum target, GLuint texture) {
 // TODO: also glTexParameterf(v)?
 void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
     DBG(printf("glTexParameteri(%s, %s, %d(%s))\n", PrintEnum(target), PrintEnum(pname), param, PrintEnum(param));)
-    PUSH_IF_COMPILING(glTexParameteri);
+    if(!glstate->list.pending) {
+        PUSH_IF_COMPILING(glTexParameteri);
+    }
     LOAD_GLES(glTexParameteri);
-    realize_bound(glstate->texture.active, target);
+    noerrorShim();
+    if(!glstate->list.pending)   // if there is a pending list, there is no bound to realize...
+        realize_bound(glstate->texture.active, target);
     const GLint itarget = what_target(target);
     const GLuint rtarget = map_tex_target(target);
     gltexture_t *texture = glstate->texture.bound[glstate->texture.active][itarget];
@@ -1988,8 +1992,8 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
             // need to remove MIPMAP for npot if not supported in hardware
             param = minmag_forcenpot(param);
         }
-        if (pname==GL_TEXTURE_MIN_FILTER) texture->min_filter = param;
-        if (pname==GL_TEXTURE_MAG_FILTER) texture->mag_filter = param;
+        if (pname==GL_TEXTURE_MIN_FILTER) { if(texture->min_filter == param) return; texture->min_filter = param; }
+        if (pname==GL_TEXTURE_MAG_FILTER) { if(texture->mag_filter == param) return; texture->mag_filter = param; }
         break;
     case GL_TEXTURE_WRAP_S:
     case GL_TEXTURE_WRAP_T:
@@ -2011,8 +2015,8 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
             break;
         }
 
-        if (pname==GL_TEXTURE_WRAP_S) texture->wrap_s = param;
-        if (pname==GL_TEXTURE_WRAP_T) texture->wrap_t = param;
+        if (pname==GL_TEXTURE_WRAP_S) {if (texture->wrap_s == param) return; texture->wrap_s = param; }
+        if (pname==GL_TEXTURE_WRAP_T) {if (texture->wrap_t == param) return; texture->wrap_t = param; }
         break;
     case GL_TEXTURE_WRAP_R:
         // ignore it on GLES...
@@ -2051,6 +2055,7 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
         texture->aniso = param;
         break;
     }
+    if(glstate->list.pending) flush();
     gles_glTexParameteri(rtarget, pname, param);
     errorGL();
 }
