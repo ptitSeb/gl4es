@@ -198,7 +198,6 @@ Vertex Array BGRA extension
 Merge of subsequent glBegin/glEnd blocks (will be non-effective if BATCH mode is used)
  * 0 : Don't try to merge
  * 1 : Try to merge, even if there is a glColor / glNormal in between (default)
- * 2 : Try hard to merge, even if there is a glColor / glNormal or Matrix operations in between
 
 ##### LIBGL_AVOID16BITS
 Try to avoid 16bits textures

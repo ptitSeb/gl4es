@@ -4,6 +4,7 @@
 #include "gl4es.h"
 #include "glstate.h"
 #include "init.h"
+#include "matrix.h"
 
 static inline void rlVertexCommon(renderlist_t *list, int idx, int l) {
     if(list->use_glstate) {

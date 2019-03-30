@@ -368,13 +368,9 @@ void initialize_gl4es() {
                 globals4es.mergelist = 0;
                 SHUT(LOGD("LIBGL: Don't try to merge subsequent glBegin/glEnd blocks\n"));
         } 
-        if (strcmp(env_beginend, "1") == 0) {
+        if (strcmp(env_beginend, "1") == 0 || strcmp(env_beginend, "2") == 0) {
                 globals4es.beginend = 1;
                 SHUT(LOGD("LIBGL: Try to merge subsequent glBegin/glEnd blocks, even if there is a glColor / glNormal in between\n"));
-        } 
-        if (strcmp(env_beginend, "2") == 0) {
-                globals4es.beginend = 2;
-                SHUT(LOGD("LIBGL: Try hard to merge subsequent glBegin/glEnd blocks, even if there is a glColor / glNormal or Matrix operations in between\n"));
         } 
     }
     env(LIBGL_AVOID16BITS, globals4es.avoid16bits, "Avoid 16bits textures");

@@ -69,7 +69,6 @@ typedef struct {
     float               planes[MAX_CLIP_PLANES][4];
     pointsprite_t       pointsprite;
     linestipple_t       linestipple;
-    int                 immediateMV;
     GLenum              shademodel;
     GLenum              alphafunc;
     GLfloat             alpharef;

@@ -55,8 +55,6 @@ static int send_to_hardware() {
 		case GL_PROJECTION:
 			return 1;
 		case GL_MODELVIEW:
-			if (glstate->immediateMV)
-				return 0;
 			return 1;
 		case GL_TEXTURE:
 			return (globals4es.texmat)?1:0;
@@ -98,7 +96,7 @@ void set_fpe_textureidentity() {
 void gl4es_glMatrixMode(GLenum mode) {
 DBG(printf("glMatrixMode(%s), list=%p\n", PrintEnum(mode), glstate->list.active);)
 	noerrorShim();
-	if (glstate->list.active && glstate->immediateMV && glstate->matrix_mode==GL_MODELVIEW && mode==GL_MODELVIEW) {
+	if (glstate->list.active && glstate->list.pending && glstate->matrix_mode==GL_MODELVIEW && mode==GL_MODELVIEW) {
 		return;	// nothing to do...
 	}
 	PUSH_IF_COMPILING(glMatrixMode);
@@ -108,17 +106,15 @@ DBG(printf("glMatrixMode(%s), list=%p\n", PrintEnum(mode), glstate->list.active)
 		return;
 	}
     if(glstate->matrix_mode != mode) {
-        glstate->matrix_mode = mode;
-		if (mode!=GL_MODELVIEW || !glstate->immediateMV) {
+			glstate->matrix_mode = mode;
 			LOAD_GLES_FPE(glMatrixMode);
-        	gles_glMatrixMode(mode);
-		}
+			gles_glMatrixMode(mode);
     }
 }
 
 void gl4es_glPushMatrix() {
 DBG(printf("glPushMatrix(), list=%p\n", glstate->list.active);)
-	if (glstate->list.active && !(glstate->immediateMV && glstate->matrix_mode==GL_MODELVIEW)) {
+	if (glstate->list.active && !glstate->list.pending) {
 		PUSH_IF_COMPILING(glPushMatrix);
 	}
 	// get matrix mode
@@ -150,9 +146,19 @@ DBG(printf("glPushMatrix(), list=%p\n", glstate->list.active);)
 
 void gl4es_glPopMatrix() {
 DBG(printf("glPopMatrix(), list=%p\n", glstate->list.active);)
-	if (glstate->list.active && !(glstate->immediateMV && glstate->matrix_mode==GL_MODELVIEW)) {
-		PUSH_IF_COMPILING(glPopMatrix);
+	if (glstate->list.active 
+	 && !(glstate->list.compiling)
+	 && (globals4es.beginend) 
+	 && glstate->matrix_mode==GL_MODELVIEW
+	 && !(glstate->polygon_mode==GL_LINE) 
+	 && glstate->list.pending) {
+		// check if pop'd matrix is the same as actual...
+		if(memcmp(TOP(modelview_matrix)-16, TOP(modelview_matrix), 16*sizeof(GLfloat))==0) {
+			--glstate->modelview_matrix->top;
+			return;
+		}
 	}
+	PUSH_IF_COMPILING(glPopMatrix);
 	// get matrix mode
 	GLint matrix_mode = glstate->matrix_mode;
 	// go...
@@ -190,15 +196,7 @@ DBG(printf("glPopMatrix(), list=%p\n", glstate->list.active);)
 
 void gl4es_glLoadMatrixf(const GLfloat * m) {
 DBG(printf("glLoadMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1], m[2], m[3], m[4], m[5], m[6], glstate->list.active);)
-	// check if beginend+matrix optim should trigger...
-	if (glstate->list.active 
-	 && !(glstate->list.compiling)
-	 && (globals4es.beginend==2) 
-	 && !(glstate->polygon_mode==GL_LINE) 
-	 && glstate->list.pending) { //TODO: check TexGen?
-		gl4es_immediateMVBegin(glstate->list.active);
-	}
-    if (glstate->list.active && !(glstate->immediateMV && glstate->matrix_mode==GL_MODELVIEW)) {
+	if (glstate->list.active) {
 		if(glstate->list.pending) flush();
 		else {
 			NewStage(glstate->list.active, STAGE_MATRIX);
@@ -206,7 +204,7 @@ DBG(printf("glLoadMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 			memcpy(glstate->list.active->matrix_val, m, 16*sizeof(GLfloat));
 			return;
 		}
-    }
+	}
 	memcpy(update_current_mat(), m, 16*sizeof(GLfloat));
 	const int id = update_current_identity(0);
 	if(glstate->matrix_mode==GL_MODELVIEW)
@@ -225,15 +223,7 @@ DBG(printf("glLoadMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 
 void gl4es_glMultMatrixf(const GLfloat * m) {
 DBG(printf("glMultMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1], m[2], m[3], m[4], m[5], m[6], glstate->list.active);)
-	// check if beginend+matrix optim should trigger...
-	if (glstate->list.active 
-	 && !(glstate->list.compiling)
-	 && (globals4es.beginend==2) 
-	 && !(glstate->polygon_mode==GL_LINE) 
-	 && glstate->list.pending) { //TODO: check TexGen?
-		gl4es_immediateMVBegin(glstate->list.active);
-	}
-    if (glstate->list.active && !(glstate->immediateMV && glstate->matrix_mode==GL_MODELVIEW)) {
+	if (glstate->list.active) {
 		if(glstate->list.pending) flush();
 		else {
 			if(glstate->list.active->stage == STAGE_MATRIX) {
@@ -267,7 +257,7 @@ DBG(printf("glMultMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 
 void gl4es_glLoadIdentity() {
 DBG(printf("glLoadIdentity(), list=%p\n", glstate->list.active);)
-    if (glstate->list.active && !(glstate->immediateMV && glstate->matrix_mode==GL_MODELVIEW)) {
+	if (glstate->list.active) {
 		if(glstate->list.pending) flush();
 		else {
 			NewStage(glstate->list.active, STAGE_MATRIX);
@@ -362,63 +352,6 @@ DBG(printf("glFrustumf(%f, %f, %f, %f, %f, %f) list=%p\n", left, right, top, bot
 	                                  		tmp[3+8] = -1.0f;
 
 	gl4es_glMultMatrixf(tmp);
-}
-
-void gl4es_immediateMVBegin(renderlist_t *list) {
-	if(glstate->immediateMV || !list)
-		return;	// nothing to do...
-	if(!list->len)
-		return;
-
-	glstate->immediateMV = list->len;
-
-	// set MV matrix to identity
-	if(!glstate->modelview_matrix->identity) {
-		LOAD_GLES2(glLoadIdentity);
-		LOAD_GLES2(glMatrixMode);
-		if(gles_glMatrixMode) {
-			if(glstate->matrix_mode!=GL_MODELVIEW)
-				gles_glMatrixMode(GL_MODELVIEW);
-			gles_glLoadIdentity();
-			if(glstate->matrix_mode!=GL_MODELVIEW)
-				gles_glMatrixMode(glstate->matrix_mode);
-		}
-	}
-
-}
-void gl4es_immediateMVEnd(renderlist_t *list) {
-	if(glstate->immediateMV==0 || !list)
-		return;	// nothing to do
-
-	if(!glstate->modelview_matrix->identity) {
-		// adjust the new Normals and Vertex
-		GLfloat* mat = getMVMat();
-		GLfloat* t;
-		if(list->normal) {
-			t = list->normal + glstate->immediateMV*3;
-			for (int i=glstate->immediateMV; i<list->len; i++, t+=3)
-				vector3_matrix(t, getMVMat(), t);
-		}
-		if(list->vert) {	// should be there!
-			t = list->vert + glstate->immediateMV*4;
-			for (int i=glstate->immediateMV; i<list->len; i++, t+=4)
-				vector_matrix(t, getMVMat(), t);
-		}
-		glstate->inv_mv_matrix_dirty = 1;
-		glstate->normal_matrix_dirty = 1;
-		glstate->mvp_matrix_dirty = 1;
-		// send MV matrix back
-		LOAD_GLES2(glLoadMatrixf);
-		LOAD_GLES2(glMatrixMode);
-		if(gles_glMatrixMode) {
-			if(glstate->matrix_mode!=GL_MODELVIEW)
-				gles_glMatrixMode(GL_MODELVIEW);
-			gles_glLoadMatrixf(getMVMat());
-			if(glstate->matrix_mode!=GL_MODELVIEW)
-				gles_glMatrixMode(glstate->matrix_mode);
-		}
-	}
-	glstate->immediateMV=0;
 }
 
 void glMatrixMode(GLenum mode) AliasExport("gl4es_glMatrixMode");

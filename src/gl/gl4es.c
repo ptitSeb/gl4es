@@ -207,11 +207,11 @@ void glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) A
 // immediate mode functions
 void gl4es_glBegin(GLenum mode) {
     glstate->list.begin = 1;
-    glstate->list.pending = 0;
     if (!glstate->list.active)
         glstate->list.active = alloc_renderlist();
     // small optim... continue a render command if possible
     glstate->list.active = NewDrawStage(glstate->list.active, mode);
+    glstate->list.pending = 0;
     noerrorShim();	// TODO, check Enum validity
 }
 void glBegin(GLenum mode) AliasExport("gl4es_glBegin");
@@ -224,9 +224,6 @@ void gl4es_glEnd() {
 		if ((hardext.esversion==1) && glstate->enable.texture[a] && ((glstate->list.active->tex[a]==0) && !(glstate->enable.texgen_s[a] || glstate->texture.pscoordreplace[a])))
 			rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0+a, glstate->texcoord[a][0], glstate->texcoord[a][1], glstate->texcoord[a][2], glstate->texcoord[a][3]);
     rlEnd(glstate->list.active); // end the list now
-    // end immediateMV if needed
-    if(glstate->immediateMV)
-        gl4es_immediateMVEnd(glstate->list.active);
     // render if we're not in a display list
     int withColor = 0;
     if(glstate->list.compiling) {
@@ -858,8 +855,6 @@ void flush() {
         draw_renderlist(mylist);
         free_renderlist(mylist);
     }
-    if(glstate->immediateMV)
-        gl4es_immediateMVEnd(glstate->list.active);
     glstate->list.active = NULL;
 }
 

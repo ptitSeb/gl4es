@@ -56,7 +56,4 @@ static inline GLfloat* getMVPMat()
 }
 
 
-void gl4es_immediateMVBegin(renderlist_t *list);
-void gl4es_immediateMVEnd(renderlist_t *list);
-
 #endif // _GL4ES_MATRIX_H_
