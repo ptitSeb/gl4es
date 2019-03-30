@@ -1,7 +1,14 @@
 Version history
 ----
 ##### current version
-* 
+* Improved a bit the merger (wich merge subsequent `glBegin(...)`/`glEnd()`) efficiency
+* Removed LIBGL_BEGINEND=2 (that was not working correctly, and it complexify the code too much)
+* Added some Direct Acces function (from EXT_direct_access)
+* Fixes and Improvements on depth (and depth_Stencil) Texture handling
+* Handling of GL_BGRA color size in VA (for HumandRessourceMachine)
+* Some fixes to fpe_shader (for Neverwinter Night)
+* Rework of Header structure (from @rajdakin)
+* Better test, using "make test" (from @rajdakin, still using apitrace for replay)
 
 ##### v1.1.0
 * Default backend is now GLES2 (but not on Pandora, still GLES1.1 for compatibility reasons)
