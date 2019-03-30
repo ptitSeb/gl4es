@@ -1958,8 +1958,6 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
     }
     LOAD_GLES(glTexParameteri);
     noerrorShim();
-    if(!glstate->list.pending)   // if there is a pending list, there is no bound to realize...
-        realize_bound(glstate->texture.active, target);
     const GLint itarget = what_target(target);
     const GLuint rtarget = map_tex_target(target);
     gltexture_t *texture = glstate->texture.bound[glstate->texture.active][itarget];
@@ -2056,6 +2054,7 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
         break;
     }
     if(glstate->list.pending) flush();
+    realize_bound(glstate->texture.active, target);
     gles_glTexParameteri(rtarget, pname, param);
     errorGL();
 }
