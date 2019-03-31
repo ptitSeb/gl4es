@@ -292,6 +292,8 @@ typedef struct {
     int    height;
     GLenum read_format;
     GLenum read_type;
+    int    n_draw;
+    GLenum drawbuff[16];    //TODO: define a MAX_DRAWBUFF?
 } glframebuffer_t;
 
 typedef struct {

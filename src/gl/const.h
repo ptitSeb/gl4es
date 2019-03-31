@@ -648,6 +648,12 @@
 #define GL_LOWER_LEFT                     0x8CA1
 #define GL_UPPER_LEFT                     0x8CA2
 
+// clear buffer
+#define GL_COLOR                          0x1800
+#define GL_DEPTH                          0x1801
+#define GL_STENCIL                        0x1802
+
+
 // direct state
 #define GL_MATRIX0_ARB                    0x88C0
 #define GL_PROGRAM_MATRIX_EXT             0x8E2D

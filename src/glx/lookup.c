@@ -223,8 +223,20 @@ void *gl4es_glXGetProcAddress(const char *name) {
         _ARB(glGetRenderbufferParameteriv);
         _ARB(glFramebufferTextureLayer);
         _ARB(glBlitFramebuffer);
-        STUB(glDrawBuffersARB);
-        STUB(glDrawBuffers);    //TODO: implement something?
+        _EX(glDrawBuffers);
+        _ARB(glDrawBuffers);
+        _EX(glClearBufferiv);
+        _EX(glClearBufferuiv);
+        _EX(glClearBufferfv);
+        _EX(glClearBufferfi);
+        _EX(glClearNamedFramebufferiv)
+        _EX(glClearNamedFramebufferuiv)
+        _EX(glClearNamedFramebufferfv)
+        _EX(glClearNamedFramebufferfi)
+        _EXT(glClearNamedFramebufferiv)
+        _EXT(glClearNamedFramebufferuiv)
+        _EXT(glClearNamedFramebufferfv)
+        _EXT(glClearNamedFramebufferfi)
     }
     
     // GL_EXT_vertex_array

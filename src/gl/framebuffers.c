@@ -116,8 +116,8 @@ void gl4es_glGenFramebuffers(GLsizei n, GLuint *ids) {
         glframebuffer_t *fb = kh_value(list, k) = malloc(sizeof(glframebuffer_t));
         memset(fb, 0, sizeof(glframebuffer_t));
         fb->id = ids[i];
+        fb->n_draw = 0; // correct?
     }
-
 }
 
 void gl4es_glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
@@ -1409,6 +1409,177 @@ void gl4es_setCurrentFBO() {
   gles_glBindFramebuffer(GL_FRAMEBUFFER, (glstate->fbo.current_fb->id)?glstate->fbo.current_fb->id:glstate->fbo.mainfbo_fbo);
 }
 
+// DrawBuffers functions are faked for now. Will be plugg'd when ES3.0 support is implemented
+void gl4es_glDrawBuffers(GLsizei n, const GLenum *bufs) {
+    if(n<0 || n>1) {    // TODO: use hardext to handle max draw buffers
+        errorShim(GL_INVALID_VALUE);
+        return;
+    }
+    // simple copy for now...
+    glstate->fbo.fbo_draw->n_draw = n;
+    memcpy(glstate->fbo.fbo_draw->drawbuff, bufs, n*sizeof(GLenum));
+    noerrorShim();
+}
+void gl4es_glNamedFramebufferDrawBuffers(GLuint framebuffer, GLsizei n, const GLenum *bufs) {
+    if(n<0 || n>1) {    // TODO: use hardext to handle max draw buffers
+        errorShim(GL_INVALID_VALUE);
+        return;
+    }
+    // simple copy for now...
+    glframebuffer_t* fb = find_framebuffer(framebuffer);
+    fb->n_draw = n;
+    memcpy(fb->drawbuff, bufs, n*sizeof(GLenum));
+    noerrorShim();
+}
+
+
+void gl4es_glClearBufferiv(GLenum buffer, GLint drawbuffer, const GLint * value) {
+    noerrorShim();
+    GLenum attch;
+    switch(buffer) {
+        case GL_COLOR:
+            if(drawbuffer>glstate->fbo.fbo_draw->n_draw)
+                return; // GL_NONE...
+            attch = glstate->fbo.fbo_draw->drawbuff[buffer];
+            if(attch!=GL_COLOR_ATTACHMENT0) {
+                errorShim(GL_INVALID_VALUE);
+                return;
+            } else {
+                GLfloat oldclear[4];
+                gl4es_glGetFloatv(GL_COLOR_CLEAR_VALUE, oldclear);
+                // how to convert the value? Most FB will be 8bits / componant for now...
+                gl4es_glClearColor(value[0]/127.0f, value[1]/127.0f, value[2]/127.0f, value[3]/127.0f);
+                gl4es_glClear(GL_COLOR_BUFFER_BIT);
+                gl4es_glClearColor(oldclear[0], oldclear[1], oldclear[2], oldclear[3]);
+                return;
+            }
+            break;
+        case GL_STENCIL:
+            if(drawbuffer==0) {
+                GLint old;
+                gl4es_glGetIntegerv(GL_STENCIL_CLEAR_VALUE, &old);
+                gl4es_glClearStencil(*value);
+                gl4es_glClear(GL_STENCIL_BUFFER_BIT);
+                gl4es_glClearStencil(old);
+                return;
+            } else {
+                errorShim(GL_INVALID_ENUM);
+                return;
+            }
+        default:
+            errorShim(GL_INVALID_ENUM);
+    }
+    return;
+}
+void gl4es_glClearBufferuiv(GLenum buffer, GLint drawbuffer, const GLuint * value) {
+    noerrorShim();
+    GLenum attch;
+    switch(buffer) {
+        case GL_COLOR:
+            if(drawbuffer>glstate->fbo.fbo_draw->n_draw)
+                return; // GL_NONE...
+            attch = glstate->fbo.fbo_draw->drawbuff[buffer];
+            if(attch!=GL_COLOR_ATTACHMENT0) {
+                errorShim(GL_INVALID_VALUE);
+                return;
+            } else {
+                GLfloat oldclear[4];
+                gl4es_glGetFloatv(GL_COLOR_CLEAR_VALUE, oldclear);
+                // how to convert the value? Most FB will be 8bits / componant for now...
+                gl4es_glClearColor(value[0]/255.0f, value[1]/255.0f, value[2]/255.0f, value[3]/255.0f);
+                gl4es_glClear(GL_COLOR_BUFFER_BIT);
+                gl4es_glClearColor(oldclear[0], oldclear[1], oldclear[2], oldclear[3]);
+                return;
+            }
+            break;
+        default:
+            errorShim(GL_INVALID_ENUM);
+    }
+    return;
+}
+void gl4es_glClearBufferfv(GLenum buffer, GLint drawbuffer, const GLfloat * value) {
+    noerrorShim();
+    GLenum attch;
+    switch(buffer) {
+        case GL_COLOR:
+            if(drawbuffer>glstate->fbo.fbo_draw->n_draw)
+                return; // GL_NONE...
+            attch = glstate->fbo.fbo_draw->drawbuff[buffer];
+            if(attch!=GL_COLOR_ATTACHMENT0) {
+                errorShim(GL_INVALID_VALUE);
+                return;
+            } else {
+                GLfloat oldclear[4];
+                gl4es_glGetFloatv(GL_COLOR_CLEAR_VALUE, oldclear);
+                // how to convert the value? Most FB will be 8bits / componant for now...
+                gl4es_glClearColor(value[0], value[1], value[2], value[3]);
+                gl4es_glClear(GL_COLOR_BUFFER_BIT);
+                gl4es_glClearColor(oldclear[0], oldclear[1], oldclear[2], oldclear[3]);
+                return;
+            }
+            break;
+        case GL_DEPTH:
+            if(drawbuffer==0) {
+                GLint old;
+                gl4es_glGetIntegerv(GL_DEPTH_CLEAR_VALUE, &old);
+                gl4es_glClearDepthf(*value);
+                gl4es_glClear(GL_DEPTH_BUFFER_BIT);
+                gl4es_glClearDepthf(old);
+                return;
+            } else {
+                errorShim(GL_INVALID_ENUM);
+                return;
+            }
+        default:
+            errorShim(GL_INVALID_ENUM);
+    }
+    return;
+}
+void gl4es_glClearBufferfi(GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil) {
+    if(buffer!=GL_DEPTH_STENCIL || drawbuffer!=0) {
+        errorShim(GL_INVALID_ENUM);
+        return;
+    }
+    GLint olds, oldd;
+    gl4es_glGetIntegerv(GL_DEPTH_CLEAR_VALUE, &oldd);
+    gl4es_glGetIntegerv(GL_STENCIL_CLEAR_VALUE, &olds);
+    gl4es_glClearDepthf(depth);
+    gl4es_glClearStencil(stencil);
+    gl4es_glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    gl4es_glClearDepthf(oldd);
+    gl4es_glClearStencil(olds);
+}
+
+void gl4es_glClearNamedFramebufferiv(GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLint *value) {
+    GLuint oldf = glstate->fbo.fbo_draw->id;
+    GLenum target = (glstate->fbo.fbo_draw==glstate->fbo.fbo_read)?GL_FRAMEBUFFER:GL_DRAW_FRAMEBUFFER;
+    gl4es_glBindFramebuffer(target, framebuffer);
+    gl4es_glClearBufferiv(buffer, drawbuffer, value);
+    gl4es_glBindFramebuffer(target, oldf);
+}
+void gl4es_glClearNamedFramebufferuiv(GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLuint *value) {
+    GLuint oldf = glstate->fbo.fbo_draw->id;
+    GLenum target = (glstate->fbo.fbo_draw==glstate->fbo.fbo_read)?GL_FRAMEBUFFER:GL_DRAW_FRAMEBUFFER;
+    gl4es_glBindFramebuffer(target, framebuffer);
+    gl4es_glClearBufferuiv(buffer, drawbuffer, value);
+    gl4es_glBindFramebuffer(target, oldf);
+}
+void gl4es_glClearNamedFramebufferfv(GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLfloat *value) {
+    GLuint oldf = glstate->fbo.fbo_draw->id;
+    GLenum target = (glstate->fbo.fbo_draw==glstate->fbo.fbo_read)?GL_FRAMEBUFFER:GL_DRAW_FRAMEBUFFER;
+    gl4es_glBindFramebuffer(target, framebuffer);
+    gl4es_glClearBufferfv(buffer, drawbuffer, value);
+    gl4es_glBindFramebuffer(target, oldf);
+}
+void gl4es_glClearNamedFramebufferfi(GLuint framebuffer, GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil) {
+    GLuint oldf = glstate->fbo.fbo_draw->id;
+    GLenum target = (glstate->fbo.fbo_draw==glstate->fbo.fbo_read)?GL_FRAMEBUFFER:GL_DRAW_FRAMEBUFFER;
+    gl4es_glBindFramebuffer(target, framebuffer);
+    gl4es_glClearBufferfi(buffer, drawbuffer, depth, stencil);
+    gl4es_glBindFramebuffer(target, oldf);
+}
+
+
 // direct wrapper
 
 void glGenFramebuffers(GLsizei n, GLuint *ids) AliasExport("gl4es_glGenFramebuffers");
@@ -1454,3 +1625,25 @@ void glBlitFramebufferEXT(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GL
 
 // Multisample stub
 void glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height) AliasExport("gl4es_glRenderbufferStorageMultisample");
+
+// DrawBuffers
+void glDrawBuffers(GLsizei n, const GLenum *bufs) AliasExport("gl4es_glDrawBuffers");
+void glDrawBuffersERB(GLsizei n, const GLenum *bufs) AliasExport("gl4es_glDrawBuffers");
+void glNamedFramebufferDrawBuffers(GLuint framebuffer, GLsizei n, const GLenum *bufs) AliasExport("gl4es_glNamedFramebufferDrawBuffers");
+void glNamedFramebufferDrawBuffersEXT(GLuint framebuffer, GLsizei n, const GLenum *bufs) AliasExport("gl4es_glNamedFramebufferDrawBuffers");
+
+// ClearBuffer...
+void glClearBufferiv(GLenum buffer, GLint drawbuffer, const GLint * value) AliasExport("gl4es_glClearBufferiv");
+void glClearBufferuiv(GLenum buffer, GLint drawbuffer, const GLuint * value) AliasExport("gl4es_glClearBufferuiv");
+void glClearBufferfv(GLenum buffer, GLint drawbuffer, const GLfloat * value) AliasExport("gl4es_glClearBufferfv");
+void glClearBufferfi(GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil) AliasExport("gl4es_glClearBufferfi");
+
+void glClearNamedFramebufferiv(GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLint *value) AliasExport("gl4es_glClearNamedFramebufferiv");
+void glClearNamedFramebufferuiv(GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLuint *value) AliasExport("gl4es_glClearNamedFramebufferuiv");
+void glClearNamedFramebufferfv(GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLfloat *value) AliasExport("gl4es_glClearNamedFramebufferfv");
+void glClearNamedFramebufferfi(GLuint framebuffer, GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil) AliasExport("gl4es_glClearNamedFramebufferfi");
+
+void glClearNamedFramebufferivEXT(GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLint *value) AliasExport("gl4es_glClearNamedFramebufferiv");
+void glClearNamedFramebufferuivEXT(GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLuint *value) AliasExport("gl4es_glClearNamedFramebufferuiv");
+void glClearNamedFramebufferfvEXT(GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLfloat *value) AliasExport("gl4es_glClearNamedFramebufferfv");
+void glClearNamedFramebufferfiEXT(GLuint framebuffer, GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil) AliasExport("gl4es_glClearNamedFramebufferfi");
