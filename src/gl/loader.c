@@ -92,6 +92,7 @@ void load_libs() {
     if (! first) return;
     first = 0;
     char *gles_override = getenv("LIBGL_GLES");
+#if defined(BCMHOST) && !defined(ANDROID)
     // optimistically try to load the raspberry pi libs
     if (! gles_override) {
         const char *bcm_host_name[] = {"libbcm_host", NULL};
@@ -99,6 +100,7 @@ void load_libs() {
         bcm_host = open_lib(bcm_host_name, NULL);
         vcos = open_lib(vcos_name, NULL);
     }
+#endif
     gles = open_lib((globals4es.es==1)?gles_lib:gles2_lib, gles_override);
     WARN_NULL(gles);
 
