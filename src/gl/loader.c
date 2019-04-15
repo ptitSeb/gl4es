@@ -37,21 +37,27 @@ static const char *lib_ext[] = {
 };
 
 static const char *gles2_lib[] = {
+    #if defined(BCMHOST) && !defined(ANDROID)
     "libbrcmGLESv2",
+    #endif
     "libGLESv2_CM",
     "libGLESv2",
     NULL
 };
 
 static const char *gles_lib[] = {
+    #if defined(BCMHOST) && !defined(ANDROID)
     "libbrcmGLESv1_CM",
+    #endif
     "libGLESv1_CM",
     "libGLES_CM",
     NULL
 };
 
 static const char *egl_lib[] = {
+    #if defined(BCMHOST) && !defined(ANDROID)
     "libbrcmEGL",
+    #endif
     "libEGL",
     NULL
 };
