@@ -135,6 +135,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     int secondary = (state->colorsum && !(lighting && light_separate)) || fpe_texenvSecondary(state);
     int fog = state->fog;
     int fogsource = state->fogsource;
+    int fogmode = state->fogmode;
     int color_material = state->color_material && lighting;
     int point = state->point;
     int pointsprite = state->pointsprite;
@@ -270,14 +271,11 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             headers++;
         }
     }
-    if((fog && fogsource==FPE_FOG_SRC_DEPTH)) {
-        ShadAppend("varying vec4 vertex;\n");
+    if(fog) {
+        ShadAppend("varying float FogF;\n");
         headers++;
-        need_vertex = 2;
-    }
-    if(fog && fogsource==FPE_FOG_SRC_COORD) {
-        ShadAppend("varying float FogCoord;\n");
-        headers++;
+        if(fogsource==FPE_FOG_SRC_DEPTH && need_vertex<1)
+            need_vertex = 1;
     }
     // textures coordinates
     for (int i=0; i<hardext.maxtex; i++) {
@@ -642,9 +640,24 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         InplaceInsert(GetLine(shad, headers), buff);
         headers += CountLine(buff);
     }
-    // pass thru Fog coordinates
-    if(fog && fogsource==FPE_FOG_SRC_COORD) {
-        ShadAppend("FogCoord = gl_FogCoord;\n");
+    if(fog) {
+        if(comments) {
+            sprintf(buff, "// Fog On: mode=%X, source=%X\n", fogmode, fogsource);
+            ShadAppend(buff);
+        }
+        sprintf(buff, "float fog_c = %s;\n", fogsource==FPE_FOG_SRC_DEPTH?"abs(vertex.z)":"FogCoord"); // either vertex.z of length(vertex), let's choose the faster here
+        ShadAppend(buff);
+        switch(fogmode) {
+            case FPE_FOG_EXP:
+                ShadAppend("FogF = clamp(exp(-gl_Fog.density * fog_c), 0., 1.);\n");
+                break;
+            case FPE_FOG_EXP2:
+                ShadAppend("FogF = clamp(exp(-(gl_Fog.density * fog_c)*(gl_Fog.density * fog_c)), 0., 1.);\n");
+                break;
+            case FPE_FOG_LINEAR:
+                ShadAppend("FogF = clamp((gl_Fog.end - fog_c) * gl_Fog.scale, 0., 1.);\n");
+                break;
+        }
     }
         
 
@@ -707,8 +720,8 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             headers++;
         }
     }
-    if(fog && fogsource==FPE_FOG_SRC_DEPTH) {
-        ShadAppend("varying vec4 vertex;\n");
+    if(fog) {
+        ShadAppend("varying float FogF;\n");
         headers++;
     }
     if(planes) {
@@ -721,10 +734,10 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             }
         }
     }
-    if(fog && fogsource==FPE_FOG_SRC_COORD) {
+    /*if(fog && fogsource==FPE_FOG_SRC_COORD) {
         ShadAppend("varying float FogCoord;\n");
         headers++;
-    }
+    }*/
     // textures coordinates
     for (int i=0; i<hardext.maxtex; i++) {
         int t = (state->textype>>(i*3))&0x7;
@@ -1113,19 +1126,6 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         if(comments) {
             sprintf(buff, "// Fog On: mode=%X, source=%X\n", fogmode, fogsource);
             ShadAppend(buff);
-        }
-        sprintf(buff, "float fog_c = %s;\n", fogsource==FPE_FOG_SRC_DEPTH?"abs(vertex.z)":"FogCoord"); // either vertex.z of length(vertex), let's choose the faster here
-        ShadAppend(buff);
-        switch(fogmode) {
-            case FPE_FOG_EXP:
-                ShadAppend("float FogF = clamp(exp(-gl_Fog.density * fog_c), 0., 1.);\n");
-                break;
-            case FPE_FOG_EXP2:
-                ShadAppend("float FogF = clamp(exp(-(gl_Fog.density * fog_c)*(gl_Fog.density * fog_c)), 0., 1.);\n");
-                break;
-            case FPE_FOG_LINEAR:
-                ShadAppend("float FogF = clamp((gl_Fog.end - fog_c) * gl_Fog.scale, 0., 1.);\n");
-                break;
         }
         ShadAppend("fColor.rgb = mix(gl_Fog.color.rgb, fColor.rgb, FogF);\n");
     }
