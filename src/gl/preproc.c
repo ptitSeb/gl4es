@@ -602,7 +602,7 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
                         if(state!=-1) {
                             if(exts->size==exts->cap) {
                                 exts->cap += 4;
-                                exts->ext = (extension_t*)realloc(exts->ext, sizeof(exts)*exts->cap);
+                                exts->ext = (extension_t*)realloc(exts->ext, sizeof(extension_t)*exts->cap);
                             }
                             strcpy(exts->ext[exts->size].name, extname);
                             exts->ext[exts->size].state = state;
