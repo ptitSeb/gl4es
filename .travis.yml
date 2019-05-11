@@ -1,10 +1,8 @@
 language: c
 sudo: false
-dist: trusty
+dist: xenial
 addons:
   apt:
-    sources:
-      - sourceline: 'ppa:adrozdoff/cmake' # cmake 3 for trusty
     packages:
       - cmake
       
