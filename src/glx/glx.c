@@ -261,6 +261,7 @@ static int get_config_default(Display *display, int attribute, int *value) {
         case GLX_AUX_BUFFERS:
             *value = 0;
             break;
+#ifdef PANDORA
         case GLX_RED_SIZE:
             *value = 5;
             break;
@@ -271,11 +272,28 @@ static int get_config_default(Display *display, int attribute, int *value) {
             *value = 5;
             break;
         case GLX_ALPHA_SIZE:
-            *value = 8;
+            *value = 8; // why not 0?
             break;
         case GLX_DEPTH_SIZE:
             *value = 16;
             break;
+#else
+        case GLX_RED_SIZE:
+            *value = 8;
+            break;
+        case GLX_GREEN_SIZE:
+            *value = 8;
+            break;
+        case GLX_BLUE_SIZE:
+            *value = 8;
+            break;
+        case GLX_ALPHA_SIZE:
+            *value = 8;
+            break;
+        case GLX_DEPTH_SIZE:
+            *value = 32;
+            break;
+#endif
         case GLX_STENCIL_SIZE:
             *value = 8;
             break;
