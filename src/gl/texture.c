@@ -45,8 +45,10 @@ int npot(int n) {
 }
 
 static int inline nlevel(int size, int level) {
-    size>>=level;
-    if(!size) size=1;
+    if(size) {
+        size>>=level;
+        if(!size) size=1;
+    }
     return size;
 }
 
