@@ -2043,9 +2043,9 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
         if(globals4es.automipmap==3)
             return; // no mipmap, so no need to generate any
         texture->mipmap_auto = (param)?1:0;
-        if(hardext.esversion<2)
-            gles_glTexParameteri(rtarget, pname, param);
-        return;
+        if(hardext.esversion>1) 
+            return; // should force generation?
+        break;  // fallback to calling actual glTexParameteri
     case GL_TEXTURE_MAX_ANISOTROPY:
         if(!hardext.aniso) {
             errorShim(GL_INVALID_ENUM);
