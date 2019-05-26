@@ -633,7 +633,11 @@ GLenum swizzle_internalformat(GLenum *internalformat, GLenum format, GLenum type
         case GL_LUMINANCE8:
         case GL_LUMINANCE16:
         case GL_LUMINANCE:
-            ret = GL_LUMINANCE; sret = GL_LUMINANCE;
+            if(format==GL_RED && hardext.rgtex) {
+                ret = GL_RED; sret = GL_RED;    
+            } else {
+                ret = GL_LUMINANCE; sret = GL_LUMINANCE;
+            }
             break;
         case 2: 
         case GL_LUMINANCE4_ALPHA4:
