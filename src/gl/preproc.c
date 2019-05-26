@@ -281,6 +281,7 @@ eTokenType NextToken(char **p, uToken *tok) {
         case ';': tok->type=TK_SEMICOLUMN; break;
         case ',': tok->type=TK_COMMA; break;
         case '.': tok->type=TK_DOT; break;
+        case '!': tok->type=TK_EXCLAM; break;
         // todo: char and string?
         default:
             // all other are plain Ids...
@@ -360,6 +361,7 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
     int status=0;
     int write=1;
     int incomment=0;
+    int indefined=0;
     int newline=0;
     int gettok=0;
     int notok = 0;
@@ -465,11 +467,17 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
                             push_if(&stackif, -1);
                             if(nowrite_ifs==1) {
                                 status = 398; notok = 1;
-                            } else
-                                status = 399;
+                            } else {
+                                status = 390;
+                                {
+                                    int l = p - oldp;
+                                    memcpy(tok.str, oldp, l);
+                                    tok.str[l]='\0';
+                                    oldp = 0;
+                                }
+                            }
                             nowrite_ifs = result_if(&stackif);
-                        }
-                        else if(!strcmp(tok.str, "else")) {
+                        } else if(!strcmp(tok.str, "else")) {
                             status = 399;
                             // ifs handling
                             {
@@ -544,6 +552,16 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
                         } else
                             status = 399;
                     } else {push_if(&stackif, -1); nowrite_ifs = result_if(&stackif); status = 399;}
+                    break;
+
+                // #if ...
+                case 390:
+                    if (tok.type == TK_NEWLINE) {
+                        status = 0;
+                    } else if (tok.type == TK_TEXT) {
+                        if(!strcmp(tok.str, "defined"))
+                            status = 710;
+                    }
                     break;
 
                 // end of #ifdef GL_ES and variant..
@@ -677,12 +695,43 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
                         status = 399; // fallback
                     }
                     break;
+                // #defined
+                case 710:
+                    if(tok.type==TK_SPACE) {
+                        // nothing...
+                    } else if(tok.type==TK_OPENBRACE) {
+                        status = 720; // and now get the value
+                        indefined = 1;
+                    } else {
+                        status = 399; // fallback...
+                    }
+                    break;
+                case 720:
+                    if(tok.type==TK_SPACE || tok.type==TK_TEXT) {
+                       // nothing...
+                    } else if (tok.type==TK_CLOSEBRACE) {
+                        indefined = 0;
+                        status = 730;
+                    } else {
+                        indefined = 0;
+                        status = 399;
+                    }
+                    break;
+                case 730:
+                    if(tok.type==TK_SPACE) {
+                        // nothing...
+                    } else if(tok.type==TK_NEWLINE) {
+                        status = 0; // ok... no handling of #defined for now, so just write through the line
+                    } else {
+                        status = 399; // fallback
+                    }
+                    break;
             }
             if(notok)
                 notok=0;
             else
                 if(write && !oldp && nowrite_ifs!=1) {
-                    if(!incomment && tok.type == TK_TEXT) {
+                    if(!incomment && !indefined && tok.type == TK_TEXT) {
                         k = kh_get(define, defines, tok.str);
                         if(k!=kh_end(defines)) {
                             int v = kh_val(defines, k);
