@@ -2042,9 +2042,19 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
     case GL_GENERATE_MIPMAP:
         if(globals4es.automipmap==3)
             return; // no mipmap, so no need to generate any
+        if(texture->mipmap_auto == ((param)?1:0))
+            return; // same value...
         texture->mipmap_auto = (param)?1:0;
-        if(hardext.esversion>1) 
-            return; // should force generation?
+        if(hardext.esversion>1) {
+            if(texture->valid) {
+                // force regeneration, if posssible
+                if(glstate->list.pending) flush();
+                realize_bound(glstate->texture.active, target);
+                LOAD_GLES2_OR_OES(glGenerateMipmap);
+                gl4es_glGenerateMipmap(rtarget);
+            }
+            return;
+        }
         break;  // fallback to calling actual glTexParameteri
     case GL_TEXTURE_MAX_ANISOTROPY:
         if(!hardext.aniso) {
