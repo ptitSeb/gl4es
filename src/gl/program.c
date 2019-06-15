@@ -172,6 +172,7 @@ void deleteProgram(program_t *glprogram, khint_t k_program) {
 
 void gl4es_glDeleteProgram(GLuint program) {
     DBG(printf("glDeleteProgram(%d)\n", program);)
+    if(!glstate) return;    // in case a program delete shaders after deleteing all context
     FLUSH_BEGINEND;
     CHECK_PROGRAM(void, program)
     // send to hardware

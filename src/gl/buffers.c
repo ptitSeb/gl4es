@@ -225,9 +225,9 @@ void gl4es_glNamedBufferSubData(GLuint buffer, GLintptr offset, GLsizeiptr size,
 
 void gl4es_glDeleteBuffers(GLsizei n, const GLuint * buffers) {
     DBG(printf("glDeleteBuffers(%i, %p)\n", n, buffers);)
-    if (glstate->list.pending)
-         flush();
-
+    if(!glstate) return;
+    FLUSH_BEGINEND;
+    
     VaoSharedClear(glstate->vao);
 	khash_t(buff) *list = glstate->buffers;
     if (list) {
@@ -587,8 +587,8 @@ void gl4es_glBindVertexArray(GLuint array) {
 }
 void gl4es_glDeleteVertexArrays(GLsizei n, const GLuint *arrays) {
     DBG(printf("glDeleteVertexArrays(%i, %p)\n", n, arrays);)
-    if (glstate->list.pending)
-         flush();
+    if(!glstate) return;
+    FLUSH_BEGINEND;
 
 	khash_t(glvao) *list = glstate->vaos;
     if (list) {
@@ -611,6 +611,8 @@ void gl4es_glDeleteVertexArrays(GLsizei n, const GLuint *arrays) {
 }
 GLboolean gl4es_glIsVertexArray(GLuint array) {
     DBG(printf("glIsVertexArray(%u)\n", array);)
+    if(!glstate)
+        return GL_FALSE;
 	khash_t(glvao) *list = glstate->vaos;
 	khint_t k;
 	noerrorShim();

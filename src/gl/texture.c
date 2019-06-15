@@ -1846,6 +1846,7 @@ void gl4es_glPixelStorei(GLenum pname, GLint param) {
 
 GLboolean gl4es_glIsTexture(GLuint texture) {
     DBG(printf("glIsTexture(%d):", texture);)
+    if(!glstate) {DBG(printf("GL_FALSE\n");) return GL_FALSE;}
     noerrorShim();
     if (!texture) {
         DBG(printf("%s\n", glstate->texture.zero->valid?"GL_TRUE":"GL_FALSE");)
@@ -2143,9 +2144,10 @@ void gl4es_glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
 }
 
 void gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
-    if(!glstate) return;
-    if (glstate->list.pending) flush();
     DBG(printf("glDeleteTextures(%d, %p {%d...})\n", n, textures, n?textures[0]:-1);)
+    if(!glstate) return;
+    FLUSH_BEGINEND;
+    
     noerrorShim();
     LOAD_GLES(glDeleteTextures);
     khash_t(tex) *list = glstate->texture.list;
