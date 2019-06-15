@@ -526,16 +526,17 @@ void DeleteGLState(void* oldstate) {
 }
 
 void ActivateGLState(void* new_glstate) {
-    if(glstate == (glstate_t*)new_glstate) return;  // same state, nothing to do
+    glstate_t *newstate = (new_glstate)?(glstate_t*)new_glstate:default_glstate;
+    if(glstate == newstate) return;  // same state, nothing to do
     // check if viewport is correct
 #ifdef AMIGAOS4
-    if(glstate || new_glstate!=default_glstate) // avoid getting gles info with no context
+    if(glstate || newstate!=default_glstate) // avoid getting gles info with no context
 #endif
-    if(((glstate_t*)new_glstate)->raster.viewport.width==0.0f || ((glstate_t*)new_glstate)->raster.viewport.height==0.0f) {
+    if(new_glstate && (newstate->raster.viewport.width==0.0f || newstate->raster.viewport.height==0.0f)) {
         LOAD_GLES(glGetFloatv);
-        gles_glGetFloatv(GL_VIEWPORT, (GLfloat*)&((glstate_t*)new_glstate)->raster.viewport);
+        gles_glGetFloatv(GL_VIEWPORT, (GLfloat*)&newstate->raster.viewport);
     }
-    glstate = (new_glstate)?(glstate_t*)new_glstate:default_glstate;
+    glstate = newstate;
 }
 
 void gl_init() {
