@@ -32,7 +32,7 @@ Status of the GLES2 backend
  * Lighting support double-side and color separation
  * FogCoord are supported, along with secondary color
  * An ES2 context should be usable (usefull for SDL2)
- * OpenGL 2.x games that have been tested include: OpenRA, GZDoom, Danger from the Deep, SuperTuxKart 0.8.1, Hammerwatch, OpenMW, many FNA & MonoGames games (FZE, Towerfall Ascension, Stardew Valley, Dust, Owlboy, and many other)...
+ * OpenGL 2.x games that have been tested include: OpenRA, GZDoom, Danger from the Deep, SuperTuxKart 0.8.1, Hammerwatch, OpenMW, many FNA & MonoGames games (FEZ, Towerfall Ascension, Stardew Valley, Dust, Owlboy, and many other)...
  * glxgears works, but FlatShade is not implemented (and will probably never be), so it's slightly different then using GLES1.1 or actuel GL hardware
  * GL_TEXTURE_1D, GL_TEXTURE_3D and GL_TEXTURE_RECTANGLE_ARB are not yet supported in shaders (they are supported in fixed pipeline functions), and texture 3D are just a single 2D layer for now.
  * Program that link only a GL_FRAGMENT or GL_VERTEX shader are not supported yet.
