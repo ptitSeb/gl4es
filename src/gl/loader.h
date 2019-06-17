@@ -88,6 +88,9 @@ typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLC
 extern void *gles, *egl, *bcm_host, *vcos, *gbm;
 #ifdef AMIGAOS4
 #define proc_address(lib, name) os4GetProcAddress(name)
+#elif defined(__EMSCRIPTEN__)
+void *emscripten_GetProcAddress(const char *name);
+#define proc_address(lib, name) emscripten_GetProcAddress(name)
 #else // AMIGAOS4
 #define proc_address(lib, name) dlsym(lib, name)
 void *open_lib(const char **names, const char *override);
@@ -165,7 +168,7 @@ void *open_lib(const char **names, const char *override);
 
 #define LOAD_GBM(name) LOAD_LIB(gbm, name)
 
-#if defined(AMIGAOS4) || defined(NOEGL)
+#if defined(AMIGAOS4) || defined(NOEGL) || defined(__EMSCRIPTEN__)
 #define LOAD_GLES_OES(name) \
     DEFINE_RAW(gles, name); \
     { \

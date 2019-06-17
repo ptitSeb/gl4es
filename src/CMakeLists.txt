@@ -143,6 +143,13 @@ else()
     message(STATUS "Not on Linux: building without GLX support.")
 endif()
 
+if(${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
+    include_directories(glx)
+    list(APPEND GL_SRC
+        glx/hardext.c
+    )
+endif()
+
 if(AMIGAOS4)
     include_directories(agl)
     list(APPEND GL_SRC

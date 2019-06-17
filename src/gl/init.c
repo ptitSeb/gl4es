@@ -1,6 +1,6 @@
 #include "init.h"
 
-#if !defined(ANDROID) && !defined(AMIGAOS4)
+#if !defined(ANDROID) && !defined(AMIGAOS4) && !defined(__EMSCRIPTEN__)
 #include <execinfo.h>
 #endif
 #include <stdio.h>
@@ -12,6 +12,9 @@
 #include "debug.h"
 #include "loader.h"
 #include "logs.h"
+#ifdef __EMSCRIPTEN__
+#define NO_INIT_CONSTRUCTOR
+#endif
 
 void gl_init();
 
@@ -155,6 +158,7 @@ void initialize_gl4es() {
 #endif
     }
 
+#ifndef __EMSCRIPTEN__
     load_libs();
     if(globals4es.usegbm)
         LoadGBMFunctions();
@@ -162,10 +166,12 @@ void initialize_gl4es() {
         SHUT(LOGD("LIBGL: cannot use GBM, disabling\n"));
         globals4es.usegbm = 0;  // should do some smarter fallback?
     }
-
     glx_init();
+#else
+    globals4es.usegbm = 0;
+#endif
 
-#if defined(NOEGL) && !defined(ANDROID)
+#if (defined(NOEGL) && !defined(ANDROID)) || defined(__EMSCRIPTEN__)
     int gl4es_notest = 1;
 #else
     int gl4es_notest = 0;
@@ -186,7 +192,6 @@ void initialize_gl4es() {
         globals4es.floattex = 2;
         SHUT(LOGD("LIBGL: Float and Half-float texture support forced\n"));
     }
-
     GetHardwareExtensions(gl4es_notest);
     gl_init();
 
