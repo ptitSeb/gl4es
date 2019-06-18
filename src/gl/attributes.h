@@ -2,7 +2,11 @@
 #define _GL4ES_ATTRIBUTES_H_
 
 #ifndef AliasExport
- #define AliasExport(name)   __attribute__((alias(name))) __attribute__((visibility("default")))
+ #ifdef __EMSCRIPTEN__
+  #define AliasExport(name)
+ #else
+  #define AliasExport(name)   __attribute__((alias(name))) __attribute__((visibility("default")))
+ #endif
 #endif // AliasExport
 
 #ifndef FASTMATH

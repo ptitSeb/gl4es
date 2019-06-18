@@ -27,6 +27,12 @@
 #ifndef __gl_h_
 #define __gl_h_
 
+#ifdef __EMSCRIPTEN__
+#define USE_MGL_NAMESPACE    1
+#define GL_GLEXT_PROTOTYPES  1
+#define MANGLE(x)            gl4es_gl##x
+#endif
+
 #if defined(USE_MGL_NAMESPACE)
 #include "gl_mangle.h"
 #endif

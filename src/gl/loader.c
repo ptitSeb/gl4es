@@ -1,4 +1,15 @@
 #include "loader.h"
+
+#ifdef __EMSCRIPTEN__
+
+void *gles = (void *)0xFFFFFFFF;
+void *egl = (void *)0xFFFFFFFF;
+
+void load_libs() {
+}
+
+#else
+
 #include "logs.h"
 #include "init.h"
 #ifdef AMIGAOS4
@@ -128,3 +139,6 @@ void load_libs() {
     os4OpenLib(&gles);
 }
 #endif //AMIGAOS4
+
+#endif
+
