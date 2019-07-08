@@ -941,6 +941,11 @@ void *gl4es_glXGetProcAddress(const char *name) {
     STUB(glUniformMatrix4x2fv);
     STUB(glUniformMatrix3x4fv);
     STUB(glUniformMatrix4x3fv);
+
+    //TexStorage
+    _EX(glTexStorage1D);
+    _EX(glTexStorage2D);
+    _EX(glTexStorage3D);
             
 
     if (!globals4es.silentstub) LOGD("glXGetProcAddress: %s not found.\n", name);

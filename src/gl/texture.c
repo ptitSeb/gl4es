@@ -3024,6 +3024,26 @@ void gl4es_glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, 
     gl4es_glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, data);
 }
 
+void gl4es_glTexStorage1D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width)
+{
+    // ignoring call
+    DBG(printf("glTexStorage1D(%s, %d, %s, %d)\n", PrintEnum(target), levels, PrintEnum(internalformat), width);)
+    noerrorShim();
+}
+void gl4es_glTexStorage2D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height)
+{
+    // ignoring call (but could be implemented in GLES3.0)
+    DBG(printf("glTexStorage2D(%s, %d, %s, %d, %d)\n", PrintEnum(target), levels, PrintEnum(internalformat), width, height);)
+    noerrorShim();
+}
+void gl4es_glTexStorage3D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth)
+{
+    // ignoring call
+    DBG(printf("glTexStorage3D(%s, %d, %s, %d, %d, %d)\n", PrintEnum(target), levels, PrintEnum(internalformat), width, height, depth);)
+    noerrorShim();
+}
+
+
 
 // bind the correct texture on Tex2D or TEXCUBE mapper...
 void realize_bound(int TMU, GLenum target) {
@@ -3213,3 +3233,8 @@ void glCompressedTexSubImage1DARB(GLenum target, GLint level, GLint xoffset, GLs
 void glCompressedTexSubImage3DARB(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const GLvoid *data) AliasExport("gl4es_glCompressedTexSubImage3D");
 void glGetCompressedTexImageARB(GLenum target, GLint lod, GLvoid *img) AliasExport("gl4es_glGetCompressedTexImage");
 void glCopyTexSubImage3DARB(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height) AliasExport("gl4es_glCopyTexSubImage3D");
+
+// TexStorage
+void glTexStorage1D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width) AliasExport("gl4es_glTexStorage1D");
+void glTexStorage2D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height) AliasExport("gl4es_glTexStorage2D");
+void glTexStorage3D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth) AliasExport("gl4es_glTexStorage3D");
