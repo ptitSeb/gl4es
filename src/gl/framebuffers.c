@@ -1411,6 +1411,7 @@ void gl4es_setCurrentFBO() {
 
 // DrawBuffers functions are faked for now. Will be plugg'd when ES3.0 support is implemented
 void gl4es_glDrawBuffers(GLsizei n, const GLenum *bufs) {
+    DBG(printf("glDrawBuffers(%d, %p) [0]=%s\n", n, bufs, n?PrintEnum(bufs[0]):"nil");)
     if(n<0 || n>1) {    // TODO: use hardext to handle max draw buffers
         errorShim(GL_INVALID_VALUE);
         return;
