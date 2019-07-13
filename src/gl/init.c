@@ -17,6 +17,7 @@
 #endif
 
 void gl_init();
+void gl_close();
 
 globals4es_t globals4es = {0};
 
@@ -539,4 +540,11 @@ void initialize_gl4es() {
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)
         SHUT(LOGD("LIBGL: Current folder is:%s\n", cwd));
+}
+
+
+__attribute__((destructor))
+void close_gl4es() {
+    SHUT(LOGD("LIBGL: Shuting down\n"));
+    gl_close();
 }

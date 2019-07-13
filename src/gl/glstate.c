@@ -10,7 +10,7 @@
 
 glstate_t *glstate = NULL;
 
-glstate_t *default_glstate = NULL;
+glstate_t default_glstate = {0};
 
 void init_matrix(glstate_t* glstate);
 
@@ -52,7 +52,9 @@ static void free_texture(gltexture_t *tex)
 }
 
 void* NewGLState(void* shared_glstate, int es2only) {
-    glstate_t *glstate = (glstate_t*)calloc(1, sizeof(glstate_t));
+    glstate_t *glstate = (shared_glstate==(void*)0xFFFFFFFF)?((glstate_t*)calloc(1, sizeof(glstate_t))):&default_glstate;
+    if(shared_glstate==(void*)0xFFFFFFFF)
+        shared_glstate=NULL;
     if(shared_glstate) {
         glstate_t* copy_state = (glstate_t*)shared_glstate;
         if(!copy_state->shared_cnt) {
@@ -408,6 +410,9 @@ void* NewGLState(void* shared_glstate, int es2only) {
 void DeleteGLState(void* oldstate) {
     glstate_t* state = (glstate_t*)oldstate;
     if(!state) return;
+    if(state==&default_glstate) return;
+    if(oldstate==(void*)0xFFFFFFFF)
+        state = &default_glstate;
 
     if(state->shared_cnt) {
         if(!--(*state->shared_cnt)) {
@@ -521,12 +526,13 @@ void DeleteGLState(void* oldstate) {
     // probably missing some things to free here!
 
     // all done
-    free(state);
+    if(oldstate!=(void*)0xFFFFFFFF)
+        free(state);
     return;
 }
 
 void ActivateGLState(void* new_glstate) {
-    glstate_t *newstate = (new_glstate)?(glstate_t*)new_glstate:default_glstate;
+    glstate_t *newstate = (new_glstate)?(glstate_t*)new_glstate:&default_glstate;
     if(glstate == newstate) return;  // same state, nothing to do
     // check if viewport is correct
 #ifdef AMIGAOS4
@@ -540,7 +546,10 @@ void ActivateGLState(void* new_glstate) {
 }
 
 void gl_init() {
-    default_glstate = (glstate_t*)NewGLState(NULL, 0);
-    ActivateGLState(default_glstate);
+    (void)NewGLState((void*)0xFFFFFFFF, 0); // automaticaly fill default_glstate
+    ActivateGLState(&default_glstate);
 }
 
+void gl_close() {
+ DeleteGLState((void*)0xFFFFFFFF);
+}
