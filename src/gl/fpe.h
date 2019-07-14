@@ -153,12 +153,8 @@ typedef struct {
   program_t *glprogram;
 } fpe_fpe_t;
 
-typedef struct {
-  void      *cache;
-  fpe_fpe_t *fpe;
-} fpe_cache_t;
-
-KHASH_MAP_DECLARE_INT(fpecachelist, fpe_cache_t *);
+typedef struct kh_fpecachelist_s kh_fpecachelist_t;
+#define fpe_cache_t kh_fpecachelist_t
 
 fpe_fpe_t *fpe_GetCache();
 void fpe_disposeCache(fpe_cache_t* cache, int freeprog);

@@ -21,21 +21,35 @@
 #define DBG(a)
 #endif
 
-KHASH_MAP_IMPL_INT(fpecachelist, fpe_cache_t *);
+static kh_inline khint_t _hash_fpe(fpe_state_t *p)
+{
+    const char* s = (const char*)p;
+	khint_t h = (khint_t)*s;
+	for (int i=0 ; i<sizeof(fpe_state_t); ++i) h = (h << 5) - h + (khint_t)*(++s);
+	return h;
+}
 
+#define kh_fpe_hash_func(key) _hash_fpe(key)
+
+#define kh_fpe_hash_equal(a, b) (memcmp(a, b, sizeof(fpe_state_t)) == 0)
+
+typedef fpe_state_t *kh_fpe_t;
+
+#define KHASH_MAP_INIT_FPE(name, khval_t)								\
+	KHASH_INIT(name, kh_fpe_t, khval_t, 1, kh_fpe_hash_func, kh_fpe_hash_equal)
+
+KHASH_MAP_INIT_FPE(fpecachelist, fpe_fpe_t *);
 
 // ********* Cache handling *********
 
 fpe_cache_t* fpe_NewCache() {
-    fpe_cache_t *ret = (fpe_cache_t*)malloc(sizeof(fpe_cache_t));
     khash_t(fpecachelist) *cache = kh_init(fpecachelist);
-    ret->cache = cache;
     int r;
-    kh_put(fpecachelist, cache, 1, &r);
-    kh_del(fpecachelist, cache, 1);
-    ret->fpe = (fpe_fpe_t*)malloc(sizeof(fpe_fpe_t));
-    memset(ret->fpe, 0, sizeof(fpe_fpe_t));
-    return ret;
+    fpe_fpe_t dummy;
+    memset(&dummy, 0, sizeof(fpe_fpe_t));
+    khint_t k = kh_put(fpecachelist, cache, &dummy.state, &r);
+    kh_del(fpecachelist, cache, k);
+    return cache;
 }
 
 void fpe_Init(glstate_t *glstate) {
@@ -45,27 +59,19 @@ void fpe_Init(glstate_t *glstate) {
 
 void fpe_disposeCache(fpe_cache_t* cache, int freeprog) {
     if(!cache) return;
-    if(cache->fpe) {
+    fpe_fpe_t *m;
+    kh_foreach_value(cache, m, 
         if(freeprog) {
-            if(cache->fpe->glprogram)
-                gl4es_glDeleteProgram(cache->fpe->glprogram->id);
+            if(m->glprogram)
+                gl4es_glDeleteProgram(m->glprogram->id);
         }
-        free(cache->fpe);
-        cache->fpe = NULL;
-    }
-    if(cache->cache) {
-        fpe_cache_t *m;
-        kh_foreach_value((khash_t(fpecachelist)*)cache->cache, m,
-            fpe_disposeCache(m, freeprog); free(m);
-        )
-        kh_destroy(fpecachelist, cache->cache);
-        cache->cache = NULL;
-    }
+        free(m);
+    )
+    kh_destroy(fpecachelist, cache);
 }
 
 void fpe_Dispose(glstate_t *glstate) {
     fpe_disposeCache(glstate->fpe_cache, 0);
-    free(glstate->fpe_cache);
     glstate->fpe_cache = NULL;
 }
 
@@ -185,34 +191,19 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
 }
 
 fpe_fpe_t *fpe_GetCache(fpe_cache_t *cur, fpe_state_t *state, int fixed) {
-    // multi stage hash search    
-    uint32_t t;
-    intptr_t s,p;
-    s=0;
-    while(s<sizeof(fpe_state_t)) {
-        p = sizeof(t);
-        t=0;
-        if(s+p>sizeof(fpe_state_t))
-            p = sizeof(fpe_state_t) - s;
-        memcpy(&t, ((void*)state)+s, p);
-        s+=p;
-        fpe_cache_t *next = NULL;
-        khint_t k_next;
-        {
-            int ret;
-            khash_t(fpecachelist) *curcache = (khash_t(fpecachelist) *)cur->cache;
-            k_next = kh_get(fpecachelist, curcache, t);
-            if (k_next != kh_end(curcache))
-                cur = kh_value(curcache, k_next);
-            else {
-                k_next = kh_put(fpecachelist, curcache, t, &ret);
-                cur = kh_value(curcache, k_next) = fpe_NewCache();
-            }
-        }
+    khint_t k;
+    int r;
+
+    k = kh_get(fpecachelist, cur, state);
+    if(k != kh_end(cur)) {
+        return kh_value(cur, k);
+    } else {
+        fpe_fpe_t *n = (fpe_fpe_t*)calloc(1, sizeof(fpe_fpe_t));
+        memcpy(&n->state, state, sizeof(fpe_state_t));
+        k = kh_put(fpecachelist, cur, &n->state, &r);
+        kh_value(cur, k) = n;
+        return n;
     }
-    // save current state
-    memcpy(&cur->fpe->state, state, sizeof(fpe_state_t));
-    return cur->fpe;
 }
 
 int fpe_IsEmpty(fpe_state_t *state) {
