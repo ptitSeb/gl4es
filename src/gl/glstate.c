@@ -52,7 +52,7 @@ static void free_texture(gltexture_t *tex)
 }
 
 void* NewGLState(void* shared_glstate, int es2only) {
-    glstate_t *glstate = (shared_glstate==(void*)0xFFFFFFFF)?((glstate_t*)calloc(1, sizeof(glstate_t))):&default_glstate;
+    glstate_t *glstate = (shared_glstate!=(void*)0xFFFFFFFF)?((glstate_t*)calloc(1, sizeof(glstate_t))):&default_glstate;
     if(shared_glstate==(void*)0xFFFFFFFF)
         shared_glstate=NULL;
     if(shared_glstate) {
