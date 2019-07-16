@@ -4,6 +4,8 @@
 #define VEND_IMGTEC     0x0100
 #define VEND_ARM        0x0200
 
+#define MAX_PRGBIN   10
+
 typedef struct _hardext {
     int npot;           // 0 = no npot capability, 1 = limited npot, 2 = full npot
     int maxtex;         // maximum number of texture
@@ -48,6 +50,8 @@ typedef struct _hardext {
     int gbm;            // EGL_KHR_platform_gbm
     int vendor;         // which vendor (to apply workaround)
     int eglnoalpha;     // EGL surface doesn't seems to have any alpha channel (auto detect)
+    int prgbinary;      // GL_OES_get_program extension
+    int prgbin_n;       // number of program binary format support
 } hardext_t;
 
 extern hardext_t hardext;

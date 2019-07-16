@@ -258,6 +258,11 @@ void GetHardwareExtensions(int notest)
         gles_glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &hardext.maxvattrib);
         SHUT(LOGD("LIBGL: Max vertex attrib: %d\n", hardext.maxvattrib));
         S("GL_OES_standard_derivatives", derivatives, 1);
+        S("GL_OES_get_program", prgbinary, 0);
+        if(hardext.prgbinary) {
+            gles_glGetIntegerv(GL_NUM_PROGRAM_BINARY_FORMATS_OES, &hardext.prgbin_n);
+            SHUT(LOGD("LIBGL: Number of supported Program Binary Format: %d\n", hardext.prgbin_n));
+        }
     }
     // Now get some max stuffs
     gles_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &hardext.maxsize);

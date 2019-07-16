@@ -766,4 +766,9 @@
 //GL_ARB_instanced_arrays
 #define GL_VERTEX_ATTRIB_ARRAY_DIVISOR          0x88FE
 
+//GL_OES_get_program_binary
+#define GL_PROGRAM_BINARY_LENGTH_OES            0x8741
+#define GL_NUM_PROGRAM_BINARY_FORMATS_OES       0x87FE
+#define GL_PROGRAM_BINARY_FORMATS_OES           0x87FF
+
 #endif // _GL4ES_CONST_H_

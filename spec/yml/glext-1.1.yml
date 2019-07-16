@@ -29,3 +29,6 @@ glDrawTexf_OES_: [void, GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat 
 
 glMultiDrawArrays_OES_: [void, GLenum mode, "const GLint *first", "const GLsizei *count", GLsizei primcount]
 glMultiDrawElements_OES_: [void, GLenum mode, "GLsizei *count", GLenum type, "const void * const *indices", GLsizei primcount]
+
+glGetProgramBinary_OES_ : [void, GLuint program, GLsizei bufSize, "GLsizei *length", "GLenum *binaryFormat", "GLvoid *binary"]
+glProgramBinary_OES_ : [void, GLuint program, GLenum binaryFormat, "const GLvoid *binary", GLint length]

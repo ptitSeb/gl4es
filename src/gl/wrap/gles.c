@@ -972,6 +972,16 @@ void gl4es_glGetPointerv(GLenum pname, GLvoid ** params) {
 }
 void glGetPointerv(GLenum pname, GLvoid ** params) __attribute__((alias("gl4es_glGetPointerv"))) __attribute__((visibility("default")));
 #endif
+#ifndef skip_glGetProgramBinary
+void gl4es_glGetProgramBinary(GLuint program, GLsizei bufSize, GLsizei * length, GLenum * binaryFormat, GLvoid * binary) {
+    LOAD_GLES_OES(glGetProgramBinary);
+#ifndef direct_glGetProgramBinary
+    PUSH_IF_COMPILING(glGetProgramBinary)
+#endif
+    gles_glGetProgramBinary(program, bufSize, length, binaryFormat, binary);
+}
+void glGetProgramBinary(GLuint program, GLsizei bufSize, GLsizei * length, GLenum * binaryFormat, GLvoid * binary) __attribute__((alias("gl4es_glGetProgramBinary"))) __attribute__((visibility("default")));
+#endif
 #ifndef skip_glGetProgramInfoLog
 void gl4es_glGetProgramInfoLog(GLuint program, GLsizei bufSize, GLsizei * length, GLchar * infoLog) {
     LOAD_GLES(glGetProgramInfoLog);
@@ -1671,6 +1681,16 @@ void gl4es_glPopMatrix() {
     gles_glPopMatrix();
 }
 void glPopMatrix() __attribute__((alias("gl4es_glPopMatrix"))) __attribute__((visibility("default")));
+#endif
+#ifndef skip_glProgramBinary
+void gl4es_glProgramBinary(GLuint program, GLenum binaryFormat, const GLvoid * binary, GLint length) {
+    LOAD_GLES_OES(glProgramBinary);
+#ifndef direct_glProgramBinary
+    PUSH_IF_COMPILING(glProgramBinary)
+#endif
+    gles_glProgramBinary(program, binaryFormat, binary, length);
+}
+void glProgramBinary(GLuint program, GLenum binaryFormat, const GLvoid * binary, GLint length) __attribute__((alias("gl4es_glProgramBinary"))) __attribute__((visibility("default")));
 #endif
 #ifndef skip_glPushMatrix
 void gl4es_glPushMatrix() {
@@ -2759,6 +2779,12 @@ void glPackedCall(const packed_call_t *packed) {
             unpacked->func(args.a1, args.a2);
             break;
         }
+        case FORMAT_void_GLuint_GLsizei_GLsizei___GENPT___GLenum___GENPT___GLvoid___GENPT__: {
+            PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLenum___GENPT___GLvoid___GENPT__ *unpacked = (PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLenum___GENPT___GLvoid___GENPT__ *)packed;
+            ARGS_void_GLuint_GLsizei_GLsizei___GENPT___GLenum___GENPT___GLvoid___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4, args.a5);
+            break;
+        }
         case FORMAT_void_GLuint_GLsizei_GLsizei___GENPT___GLchar___GENPT__: {
             PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLchar___GENPT__ *unpacked = (PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLchar___GENPT__ *)packed;
             ARGS_void_GLuint_GLsizei_GLsizei___GENPT___GLchar___GENPT__ args = unpacked->args;
@@ -2907,6 +2933,12 @@ void glPackedCall(const packed_call_t *packed) {
             PACKED_void_GLfixed_GLfixed *unpacked = (PACKED_void_GLfixed_GLfixed *)packed;
             ARGS_void_GLfixed_GLfixed args = unpacked->args;
             unpacked->func(args.a1, args.a2);
+            break;
+        }
+        case FORMAT_void_GLuint_GLenum_const_GLvoid___GENPT___GLint: {
+            PACKED_void_GLuint_GLenum_const_GLvoid___GENPT___GLint *unpacked = (PACKED_void_GLuint_GLenum_const_GLvoid___GENPT___GLint *)packed;
+            ARGS_void_GLuint_GLenum_const_GLvoid___GENPT___GLint args = unpacked->args;
+            unpacked->func(args.a1, args.a2, args.a3, args.a4);
             break;
         }
         case FORMAT_void_GLint_GLint_GLsizei_GLsizei_GLenum_GLenum_GLvoid___GENPT__: {
@@ -3535,6 +3567,13 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
             return (packed_call_t*)newpacked;
             break;
         }
+        case FORMAT_void_GLuint_GLsizei_GLsizei___GENPT___GLenum___GENPT___GLvoid___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLenum___GENPT___GLvoid___GENPT__);
+            PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLenum___GENPT___GLvoid___GENPT__ *newpacked = (PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLenum___GENPT___GLvoid___GENPT__*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
         case FORMAT_void_GLuint_GLsizei_GLsizei___GENPT___GLchar___GENPT__: {
             int sizeofpacked = sizeof(PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLchar___GENPT__);
             PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLchar___GENPT__ *newpacked = (PACKED_void_GLuint_GLsizei_GLsizei___GENPT___GLchar___GENPT__*)malloc(sizeofpacked);
@@ -3706,6 +3745,13 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
         case FORMAT_void_GLfixed_GLfixed: {
             int sizeofpacked = sizeof(PACKED_void_GLfixed_GLfixed);
             PACKED_void_GLfixed_GLfixed *newpacked = (PACKED_void_GLfixed_GLfixed*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLuint_GLenum_const_GLvoid___GENPT___GLint: {
+            int sizeofpacked = sizeof(PACKED_void_GLuint_GLenum_const_GLvoid___GENPT___GLint);
+            PACKED_void_GLuint_GLenum_const_GLvoid___GENPT___GLint *newpacked = (PACKED_void_GLuint_GLenum_const_GLvoid___GENPT___GLint*)malloc(sizeofpacked);
             memcpy(newpacked, packed, sizeofpacked);
             return (packed_call_t*)newpacked;
             break;
