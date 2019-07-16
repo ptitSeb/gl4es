@@ -794,5 +794,5 @@ void* os4GetProcAddress(const char* name)
     EX(glViewport)
     //EX(glPolygonMode) //This is a non-standard function, and gl4es will ignore it (and emulate it), even if Amiga OGLES2 driver implement it
 
-    return NULL;
+    return IOGLES2->aglGetProcAddress(name);
 }
