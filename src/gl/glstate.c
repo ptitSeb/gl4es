@@ -53,6 +53,11 @@ static void free_texture(gltexture_t *tex)
 
 void* NewGLState(void* shared_glstate, int es2only) {
     glstate_t *glstate = (shared_glstate!=(void*)0xFFFFFFFF)?((glstate_t*)calloc(1, sizeof(glstate_t))):&default_glstate;
+#ifdef AMIGAOS4
+    int def = 0;
+    if(shared_glstate==(void*)0xFFFFFFFF)
+        def = 1;
+#endif
     if(shared_glstate==(void*)0xFFFFFFFF)
         shared_glstate=NULL;
     if(shared_glstate) {
@@ -351,7 +356,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     // Grab ViewPort
     LOAD_GLES(glGetIntegerv);
 #ifdef AMIGAOS4
-    if(default_glstate) // if default_glstate is null, then there is probably no glcontext...
+    if(def) // if it's default_glstate, then there is probably no glcontext...
 #endif
     gles_glGetIntegerv(GL_VIEWPORT, (GLint*)&glstate->raster.viewport);
     // FBO
@@ -392,7 +397,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->readf = GL_RGBA;
     glstate->readt = GL_UNSIGNED_BYTE;
 #ifdef AMIGAOS4
-    if(default_glstate) // if default_glstate is null, then there is probably no glcontext...
+    if(def) // if it's default_glstate, then there is probably no glcontext...
     {
 #endif
     gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, &glstate->readf);
@@ -536,7 +541,7 @@ void ActivateGLState(void* new_glstate) {
     if(glstate == newstate) return;  // same state, nothing to do
     // check if viewport is correct
 #ifdef AMIGAOS4
-    if(glstate || newstate!=default_glstate) // avoid getting gles info with no context
+    if(glstate || newstate!=&default_glstate) // avoid getting gles info with no context
 #endif
     if(new_glstate && (newstate->raster.viewport.width==0.0f || newstate->raster.viewport.height==0.0f)) {
         LOAD_GLES(glGetFloatv);
