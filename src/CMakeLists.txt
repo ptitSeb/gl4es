@@ -17,6 +17,7 @@ SET(GL_SRC
     gl/face.c
     gl/fog.c
     gl/fpe.c
+    gl/fpe_cache.c
     gl/fpe_shader.c
     gl/framebuffers.c
     gl/getter.c
