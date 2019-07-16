@@ -13,7 +13,11 @@ fpe_cache_t* fpe_NewCache();
 void fpe_disposeCache(fpe_cache_t* cache, int freeprog);
 fpe_fpe_t *fpe_GetCache(fpe_cache_t *cur, fpe_state_t *state, int fixed);
 
-void fpe_InitPSA();
+void fpe_InitPSA(const char* name);
 void fpe_FreePSA();
+void fpe_readPSA();
+void fpe_writePSA();
+int fpe_GetProgramPSA(GLuint program, fpe_state_t* state);
+void fpe_AddProgramPSA(GLuint program, fpe_state_t* state);
 
 #endif //__FPE_CACHE_H__

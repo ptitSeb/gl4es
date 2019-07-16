@@ -664,7 +664,7 @@ int gl4es_useProgramBinary(GLuint program, int length, GLenum format, void* bina
 
     clear_program(glprogram);
 
-    LOAD_GLES2_OR_OES(glProgramBinary);
+    LOAD_GLES_OES(glProgramBinary);
     LOAD_GLES2(glGetProgramiv);
 
     gles_glProgramBinary(glprogram->id, format, binary, length);
@@ -675,7 +675,7 @@ int gl4es_useProgramBinary(GLuint program, int length, GLenum format, void* bina
         fill_program(glprogram);
     } else {
         // should DBG the linker error?
-        DBG(printf(" Link failled!\n");)
+        DBG(printf(" Load failed!\n");)
         glprogram->linked = 0;
         errorGL();
     }
@@ -690,7 +690,7 @@ int gl4es_getProgramBinary(GLuint program, int *length, GLenum *format, void** b
     CHECK_PROGRAM(int, program)
     noerrorShim();
 
-    LOAD_GLES2_OR_OES(glGetProgramBinary);
+    LOAD_GLES_OES(glGetProgramBinary);
     LOAD_GLES2(glGetProgramiv);
 
     int l;
