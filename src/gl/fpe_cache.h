@@ -13,4 +13,7 @@ fpe_cache_t* fpe_NewCache();
 void fpe_disposeCache(fpe_cache_t* cache, int freeprog);
 fpe_fpe_t *fpe_GetCache(fpe_cache_t *cur, fpe_state_t *state, int fixed);
 
+void fpe_InitPSA();
+void fpe_FreePSA();
+
 #endif //__FPE_CACHE_H__

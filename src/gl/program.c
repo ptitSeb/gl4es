@@ -654,6 +654,34 @@ static void fill_program(program_t *glprogram)
     free(name);
 }
 
+int gl4es_useProgramBinary(GLuint program, int length, GLenum format, void* binary)
+{
+    if(hardext.prgbin_n==0)
+        return 0;
+    DBG(printf("useProgramBinary(%d% %d, %d, %p)\n", program, length, format, binary);)
+    CHECK_PROGRAM(int, program)
+    noerrorShim();
+
+    clear_program(glprogram);
+
+    LOAD_GLES2_OR_OES(glProgramBinary);
+    LOAD_GLES2(glGetProgramiv);
+
+    gles_glProgramBinary(glprogram->id, format, binary, length);
+
+    gles_glGetProgramiv(glprogram->id, GL_LINK_STATUS, &glprogram->linked);
+    DBG(printf(" link status = %d\n", glprogram->linked);)
+    if(glprogram->linked) {
+        fill_program(glprogram);
+    } else {
+        // should DBG the linker error?
+        DBG(printf(" Link failled!\n");)
+        glprogram->linked = 0;
+        errorGL();
+    }
+    return glprogram->linked;
+}
+
 void gl4es_glLinkProgram(GLuint program) {
     DBG(printf("glLinkProgram(%d)\n", program);)
     FLUSH_BEGINEND;

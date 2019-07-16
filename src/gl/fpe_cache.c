@@ -80,3 +80,43 @@ fpe_fpe_t *fpe_GetCache(fpe_cache_t *cur, fpe_state_t *state, int fixed) {
     }
 }
 
+typedef struct psa_s {
+    fpe_state_t state;
+    GLenum      format;
+    int         size;
+    void*       prog;
+} psa_t;
+
+KHASH_MAP_INIT_FPE(psalist, psa_t *);
+
+// Precompiled Shader Archive
+typedef struct gl4es_psa_s {
+    int             size;
+    int             dirty;
+    kh_psalist_t*   cache;    
+} gl4es_psa_t;
+
+static gl4es_psa_t *psa = NULL;
+
+void fpe_InitPSA()
+{
+    if(psa)
+        return; // already inited
+    psa = (gl4es_psa_t*)calloc(1, sizeof(gl4es_psa_t));
+    psa->cache = kh_init(psalist);
+}
+
+void fpe_FreePSA()
+{
+    if(!psa)
+        return; // nothing to init
+    
+    psa_t *m;
+    kh_foreach_value(psa->cache, m, 
+        free(m->prog);
+        free(m);
+    )
+    kh_destroy(psalist, psa->cache);
+
+    free(psa);
+}
