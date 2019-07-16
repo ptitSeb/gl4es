@@ -239,6 +239,7 @@ void gl4es_glUseProgram(GLuint program);
 void gl4es_glValidateProgram(GLuint program);
 
 int gl4es_useProgramBinary(GLuint program, int length, GLenum format, void* binary);    // internal
+int gl4es_getProgramBinary(GLuint program, int *length, GLenum *format, void** binary);    // internal
 
 #define CHECK_PROGRAM(type, program) \
     if(!program) { \

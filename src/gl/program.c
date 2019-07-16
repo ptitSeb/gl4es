@@ -658,7 +658,7 @@ int gl4es_useProgramBinary(GLuint program, int length, GLenum format, void* bina
 {
     if(hardext.prgbin_n==0)
         return 0;
-    DBG(printf("useProgramBinary(%d% %d, %d, %p)\n", program, length, format, binary);)
+    DBG(printf("useProgramBinary(%d, %d, %d, %p)\n", program, length, format, binary);)
     CHECK_PROGRAM(int, program)
     noerrorShim();
 
@@ -680,6 +680,28 @@ int gl4es_useProgramBinary(GLuint program, int length, GLenum format, void* bina
         errorGL();
     }
     return glprogram->linked;
+}
+
+int gl4es_getProgramBinary(GLuint program, int *length, GLenum *format, void** binary)
+{
+    if(hardext.prgbin_n==0)
+        return 0;
+    DBG(printf("getProgramBinary(%d, %p, %p, %p)\n", program, length, format, binary);)
+    CHECK_PROGRAM(int, program)
+    noerrorShim();
+
+    LOAD_GLES2_OR_OES(glGetProgramBinary);
+    LOAD_GLES2(glGetProgramiv);
+
+    int l;
+    gles_glGetProgramiv(glprogram->id, GL_PROGRAM_BINARY_LENGTH_OES, &l);
+    if(!l)
+        return 0;
+
+    *binary = malloc(l);
+    gles_glGetProgramBinary(glprogram->id, l, length, format, *binary);
+
+    return (*length);
 }
 
 void gl4es_glLinkProgram(GLuint program) {
