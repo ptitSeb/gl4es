@@ -210,7 +210,7 @@ void fpe_writePSA()
             fclose(f);
             return;
         }
-        if(fwrite(&p->prog, p->size, 1, f)!=1) {
+        if(fwrite(p->prog, p->size, 1, f)!=1) {
             fclose(f);
             return;
         }
