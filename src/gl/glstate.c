@@ -356,7 +356,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     // Grab ViewPort
     LOAD_GLES(glGetIntegerv);
 #ifdef AMIGAOS4
-    if(def) // if it's default_glstate, then there is probably no glcontext...
+    if(!def) // if it's default_glstate, then there is probably no glcontext...
 #endif
     gles_glGetIntegerv(GL_VIEWPORT, (GLint*)&glstate->raster.viewport);
     // FBO
@@ -397,7 +397,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->readf = GL_RGBA;
     glstate->readt = GL_UNSIGNED_BYTE;
 #ifdef AMIGAOS4
-    if(def) // if it's default_glstate, then there is probably no glcontext...
+    if(!def) // if it's default_glstate, then there is probably no glcontext...
     {
 #endif
     gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, &glstate->readf);
