@@ -542,27 +542,25 @@ void initialize_gl4es() {
     if (getcwd(cwd, sizeof(cwd))!= NULL)
         SHUT(LOGD("LIBGL: Current folder is:%s\n", cwd));
 
-    globals4es.nopsa = 1;
-    char *env_nopsa = getenv("LIBGL_NOPSA");
-    if(env_nopsa && !strcmp(env_nopsa, "0"))
-        globals4es.nopsa = 0;
-    //env(LIBGL_NOPSA, globals4es.nopsa, "Don't use PrecompiledShaderArchive");
-    if(globals4es.nopsa==0) {
-        cwd[0]='\0';
-        // TODO: What to do on ANDROID and EMSCRIPTEN?
+    if(hardext.prgbin_n>1) {
+        env(LIBGL_NOPSA, globals4es.nopsa, "Don't use PrecompiledShaderArchive");
+        if(globals4es.nopsa==0) {
+            cwd[0]='\0';
+            // TODO: What to do on ANDROID and EMSCRIPTEN?
 #ifdef __linux__
-        const char* home = getenv("HOME");
-        if(home)
-            strcpy(cwd, home);
-        if(cwd[strlen(cwd)]!='/')
-            strcat(cwd, "/");
+            const char* home = getenv("HOME");
+            if(home)
+                strcpy(cwd, home);
+            if(cwd[strlen(cwd)]!='/')
+                strcat(cwd, "/");
 #elif defined AMIGAOS4
-        strcpy(cwd, "PROGDIR:");
+            strcpy(cwd, "PROGDIR:");
 #endif
-        if(strlen(cwd)) {
-            strcat(cwd, ".gl4es.psa");
-            fpe_InitPSA(cwd);
-            fpe_readPSA();
+            if(strlen(cwd)) {
+                strcat(cwd, ".gl4es.psa");
+                fpe_InitPSA(cwd);
+                fpe_readPSA();
+            }
         }
     }
 }

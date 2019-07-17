@@ -320,5 +320,5 @@ At last, the value "1" will be changed to "15", to log everything.
 
 ##### LIBGL_NOPSA
 Disable the use of the Precompiled Shader Archive
-* 0 : Don't disable the use (and save) of the PSA (it's saved on $HOME/.gl4es.psa on linux)
-* 1 : Default: Don't use PSA.
+* 0 : Default: use (and save) the PSA (it's saved on $HOME/.gl4es.psa on linux)
+* 1 : Don't use PSA.
