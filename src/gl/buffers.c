@@ -90,8 +90,23 @@ void gl4es_glGenBuffers(GLsizei n, GLuint * buffers) {
 		errorShim(GL_INVALID_VALUE);
         return;
     }
-    for (int i=0; i<n; i++) {
-        buffers[i] = lastbuffer++;
+    khash_t(buff) *list = glstate->buffers;
+    for (int i=0; i<n; i++) {   // create buffer, and check uniqueness...
+        int b;
+        while(getbuffer_id(b=lastbuffer++));
+        buffers[i] = b;
+        // create the buffer
+        khint_t k;
+   	    int ret;
+        k = kh_put(buff, list, b, &ret);
+        glbuffer_t *buff = kh_value(list, k) = malloc(sizeof(glbuffer_t));
+        buff->buffer = b;
+        buff->type = 0; // no target for now
+        buff->data = NULL;
+        buff->usage = GL_STATIC_DRAW;
+        buff->size = 0;
+        buff->access = GL_READ_WRITE;
+        buff->mapped = 0;
     }
 }
 
@@ -127,6 +142,7 @@ void gl4es_glBindBuffer(GLenum target, GLuint buffer) {
             buff->mapped = 0;
         } else {
             buff = kh_value(list, k);
+            buff->type = target;    //TODO: check if old binding?
         }
         bind_buffer(target, buff);
     }
@@ -165,6 +181,7 @@ void gl4es_glNamedBufferData(GLuint buffer, GLsizeiptr size, const GLvoid * data
     DBG(printf("glNamedBufferData(%u, %i, %p, %s)\n", buffer, size, data, PrintEnum(usage));)
     glbuffer_t *buff = getbuffer_id(buffer);
     if (buff==NULL) {
+        DBG(printf("Named Buffer not found\n");)
 		errorShim(GL_INVALID_OPERATION);
         return;
     }
@@ -545,7 +562,7 @@ void gl4es_glGenVertexArrays(GLsizei n, GLuint *arrays) {
 		errorShim(GL_INVALID_VALUE);
         return;
     }
-    for (int i=0; i<n; i++) {
+    for (int i=0; i<n; i++) {   // TODO: create VAO here and check unicity
         arrays[i] = lastvao++;
     }
 }
