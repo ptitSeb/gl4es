@@ -324,6 +324,8 @@ static int get_config_default(Display *display, int attribute, int *value) {
              *value = 16;
             break;
         case GLX_X_VISUAL_TYPE:
+            *value = GLX_TRUE_COLOR;
+            break;
         case GLX_CONFIG_CAVEAT:
         case GLX_SAMPLE_BUFFERS:
         case GLX_SAMPLES:
@@ -518,20 +520,55 @@ void glx_init() {
 }
 
 #ifndef NOX11
-static XVisualInfo *latest_visual = NULL;
-static GLXFBConfig *latest_glxfbconfig = NULL;
+KHASH_MAP_INIT_INT(fbvisual, GLXFBConfig*);
+static kh_fbvisual_t *fbvisual = NULL;
+
+void InitFBVisual()
+{
+    if(fbvisual)
+        return;
+    fbvisual = kh_init(fbvisual);
+}
+void FreeFBVisual()
+{
+    if(!fbvisual)
+        return;
+    GLXFBConfig *conf;
+    kh_foreach_value(fbvisual, conf, free(conf));
+    kh_destroy(fbvisual, fbvisual);
+    fbvisual = NULL;
+}
+GLXFBConfig* FindFBVisual(XVisualInfo *visual)
+{
+    if(!fbvisual)
+        InitFBVisual();
+    khint_t k = kh_get(fbvisual, fbvisual, (uintptr_t)visual);
+    if(k==kh_end(fbvisual))
+        return NULL;
+    return kh_value(fbvisual, k);
+}
+void AddFBVisual(XVisualInfo *visual, GLXFBConfig *conf)
+{
+    if(!fbvisual)
+        InitFBVisual();
+    int ret;
+    khint_t k = kh_put(fbvisual, fbvisual, (uintptr_t)visual, &ret);
+    if(!ret)
+        free(kh_value(fbvisual, k));
+    kh_value(fbvisual, k) = conf;
+}
 
 GLXContext gl4es_glXCreateContext(Display *display,
                             XVisualInfo *visual,
                             GLXContext shareList,
                             Bool isDirect) {
-    DBG(printf("glXCreateContext(%p, %p, %p, %i), latest_visual=%p, fbcontext_count=%d", display, visual, shareList, isDirect, latest_visual, fbcontext_count);)
+    DBG(printf("glXCreateContext(%p, %p, %p, %i) fbcontext_count=%d", display, visual, shareList, isDirect, fbcontext_count);)
 
     static struct __GLXFBConfigRec default_glxfbconfig;
     GLXFBConfig glxfbconfig;
-
-    if(visual==latest_visual && latest_glxfbconfig)
-        glxfbconfig = latest_glxfbconfig[0];
+    GLXFBConfig *visualfbconfig = FindFBVisual(visual);
+    if(visualfbconfig)
+        glxfbconfig = visualfbconfig[0];
     else {
         glxfbconfig = &default_glxfbconfig;
         memset(glxfbconfig, 0, sizeof(struct __GLXFBConfigRec));
@@ -910,13 +947,16 @@ Display *gl4es_glXGetCurrentDisplay() {
 XVisualInfo *gl4es_glXChooseVisual(Display *display,
                              int screen,
                              int *attributes) {
-    DBG(printf("glXChooseVisual(%p, %d, %p)\n", display, screen, attributes);)
+    DBG(printf("glXChooseVisual(%p, %d, %p[", display, screen, attributes);)
+    DBG(if(attributes) {for(int* a=attributes; *a!=0; ++a)printf("%x,", *a);printf("0");})
+    DBG(printf("])\n");)
 
     // create a new attribute list for glXChooseFBConfig based on the attributes liste given...
     int attr[50];
     int idx = 0;
     int cur = 0;
     int ask_depth = 0;
+    int vis_class = TrueColor;
     if(attributes) {
 
         int ask_rgba = 0;
@@ -944,11 +984,20 @@ XVisualInfo *gl4es_glXChooseVisual(Display *display,
                 case GLX_BLUE_SIZE:
                 case GLX_ALPHA_SIZE:
                     ask_depth += attributes[cur+1];
+                    // fallback is intended
                 case GLX_DEPTH_SIZE:
                 case GLX_STENCIL_SIZE:
                 case GLX_LEVEL:
+                case GLX_SAMPLE_BUFFERS:
+                case GLX_SAMPLES:
                     attr[idx++] = attributes[cur++];
                     attr[idx++] = attributes[cur];
+                    break;
+                case GLX_X_VISUAL_TYPE:
+                    attr[idx++] = attributes[cur++];
+                    attr[idx++] = attributes[cur];
+                    if(attributes[cur] == GLX_DIRECT_COLOR)
+                        vis_class = DirectColor;
                     break;
             }
             ++cur;
@@ -964,27 +1013,32 @@ XVisualInfo *gl4es_glXChooseVisual(Display *display,
 
 #ifndef PANDORA
     // PANDORA only has 16bits X11, lets ignore 32bits requests
-    if(ask_depth>glx_default_depth)
+/*    if(ask_depth>glx_default_depth)
         glx_default_depth = ask_depth;  // higher depth...
+*/  // this makes window of TokiTory transparent...
 #endif
 
     XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
-    if (!XMatchVisualInfo(display, screen, glx_default_depth, TrueColor, visual)) {
+    if (!XMatchVisualInfo(display, screen, glx_default_depth, vis_class, visual)) {
         LOGE("LIBGL: XMatchVisualInfo failed in glXChooseVisual\n");
         return NULL;
     }
 
     
     // create and store the glxConfig that goes with thoses attributes
-    latest_visual = visual;
     int count = 1;
-    if(latest_glxfbconfig)
-        free(latest_glxfbconfig);
+    GLXFBConfig * confs = NULL;
     if(cur)
-        latest_glxfbconfig = gl4es_glXChooseFBConfig(display, screen, attr, &count);
+        confs = gl4es_glXChooseFBConfig(display, screen, attr, &count);
     else
-        latest_glxfbconfig = gl4es_glXGetFBConfigs(display, screen, &count);
+        confs = gl4es_glXGetFBConfigs(display, screen, &count);
+    if(!count) {
+        DBG(printf("glXChooseVisual return %p (because no Config found)\n", NULL);)
+        return NULL;
+    }
+    AddFBVisual(visual, confs);
 
+    DBG(printf("glXChooseVisual return %p\n", visual);)
     return visual;
 }
 
@@ -1621,14 +1675,23 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                     attr[cur++] = EGL_LEVEL;
                     attr[cur++] = tmp;
                     DBG(printf("FBConfig level=%d\n", tmp);)
+                    break;
                 case GLX_VISUAL_ID:
                     tmp = attrib_list[i++];
                     attr[cur++] = EGL_NATIVE_VISUAL_ID;
                     attr[cur++] = tmp;
                     DBG(printf("FBConfig visual id=%d\n", tmp);)
+                    break;
                 case GLX_FBCONFIG_ID:
                     glxconfig = attrib_list[i++];
                     DBG(printf("GLXFBConfigID=%d\n", glxconfig);)
+                    break;
+                case GLX_X_VISUAL_TYPE:
+                    tmp = attrib_list[i++];
+                    attr[cur++] = EGL_NATIVE_VISUAL_TYPE;
+                    attr[cur++] = tmp;
+                    DBG(printf("FBConfig visual type=%d", tmp);)
+                    break;
                 default:
                     ++i;
 				// discard other stuffs

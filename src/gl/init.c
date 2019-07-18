@@ -566,9 +566,15 @@ void initialize_gl4es() {
 }
 
 
+#ifndef NOX11
+void FreeFBVisual();
+#endif
 __attribute__((destructor))
 void close_gl4es() {
     SHUT(LOGD("LIBGL: Shuting down\n"));
+    #ifndef NOX11
+    FreeFBVisual();
+    #endif
     gl_close();
     fpe_writePSA();
     fpe_FreePSA();
