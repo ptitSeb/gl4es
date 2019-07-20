@@ -264,25 +264,25 @@ void fpe_AddProgramPSA(GLuint program, fpe_state_t* state)
     if(!psa)
         return;
     psa->dirty = 1;
-    psa_t *p;
-    int ret;
-    khint_t k = kh_put(psalist, psa->cache, state, &ret);
-    if(!ret) {
-        p = kh_value(psa->cache, k);
-        free(p->prog);
-        p->prog = NULL;
-    } else {
-        p = kh_value(psa->cache, k) = (psa_t*)calloc(1, sizeof(psa_t));
-    }
-    
+    psa_t *p = (psa_t*)calloc(1, sizeof(psa_t));
     memcpy(&p->state, state, sizeof(p->state));
 
     int l = gl4es_getProgramBinary(program, &p->size, &p->format, &p->prog);
     if(l==0) { // there was an error...
         free(p->prog);
         free(p);
-        kh_del(psalist, psa->cache, k);
+        return;
     }
+    // add program
+    int ret;
+    khint_t k = kh_put(psalist, psa->cache, &p->state, &ret);
+    if(!ret) {
+        psa_t *p2 = kh_value(psa->cache, k);
+        free(p2->prog);
+        p2->prog = NULL;
+        free(p2);
+    }
+    kh_value(psa->cache, k) = p;
     // all done
     psa->size = kh_size(psa->cache);
 }
