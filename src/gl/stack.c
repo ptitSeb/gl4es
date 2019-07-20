@@ -281,9 +281,6 @@ void gl4es_glPushAttrib(GLbitfield mask) {
 
 void gl4es_glPushClientAttrib(GLbitfield mask) {
     noerrorShim();
-     if (glstate->list.pending) {
-         flush();
-     }
     if (glstate->clientStack == NULL) {
         glstate->clientStack = (glclientstack_t *)malloc(STACK_SIZE * sizeof(glclientstack_t));
         glstate->clientStack->len = 0;
@@ -621,9 +618,6 @@ void gl4es_glPopAttrib() {
 
 void gl4es_glPopClientAttrib() {
     noerrorShim();
-     if (glstate->list.pending) {
-         flush();
-     }
 	//LOAD_GLES(glVertexPointer);
 	//LOAD_GLES(glColorPointer);
 	//LOAD_GLES(glNormalPointer);
