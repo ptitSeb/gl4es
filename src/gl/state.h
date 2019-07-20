@@ -223,7 +223,7 @@ typedef struct {
 
 typedef struct {
     vertexattrib_t  vertexattrib[MAX_VATTRIB];
-    vertexattrib_t  wanted[MAX_VATTRIB];
+    vertexattrib_t  *wanted;    // will point directly to current VAO wanted
 } gleshard_ns_t;
 
 typedef struct {

@@ -143,6 +143,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     }
     // Bind defaults...
     glstate->vao = glstate->defaultvao;
+    glstate->glesva.wanted = glstate->defaultvao->vertexattrib;
 
     //raster & viewport
     glstate->raster.raster_zoomx=1.0f;

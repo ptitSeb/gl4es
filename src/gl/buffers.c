@@ -598,7 +598,7 @@ void gl4es_glBindVertexArray(GLuint array) {
     }
     // TODO: find a better way to do that, to many useless copying stuff
     if(glstate->fpe_state)
-        memcpy(glstate->glesva.wanted, glstate->vao->vertexattrib, MAX_VATTRIB * sizeof(vertexattrib_t));
+        glstate->glesva.wanted = glstate->vao->vertexattrib;
 
     noerrorShim();
 }
