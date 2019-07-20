@@ -413,16 +413,25 @@ void initialize_gl4es() {
             SHUT(LOGD("LIBGL: WARNING, No Limited or Full NPOT support in hardware, Forcing NPOT have no effect!\n"));
         }
     }
-    globals4es.batch = 0;
+    globals4es.maxbatch = 0;
+    globals4es.minbatch = 0;
     char *env_batch = getenv("LIBGL_BATCH");
-    int tmp = 0;
-    if(env_batch && sscanf(env_batch, "%d", &tmp)==1) {
-        globals4es.batch = tmp;
-        if(tmp==0) {
-            SHUT(LOGD("LIBGL: Not trying to batch small subsequent glDrawXXXX\n"));
-        } else {
-            SHUT(LOGD("LIBGL: Trying to batch subsequent glDrawXXXX of size < %d vertices\n", tmp*10));
+    int tmp = 0, tmp2 = 0;
+    if(env_batch && sscanf(env_batch, "%d-%d", &tmp, &tmp2)==2) {
+        globals4es.maxbatch = tmp2;
+        globals4es.minbatch = tmp;
+        if(globals4es.minbatch>globals4es.maxbatch) {
+            globals4es.maxbatch = tmp;
+            globals4es.minbatch = tmp2;
         }
+    } else if(env_batch && sscanf(env_batch, "%d", &tmp)==1) {
+        globals4es.maxbatch = 10*10*tmp;
+        globals4es.minbatch = 0;
+    }
+    if(globals4es.maxbatch==0) {
+        SHUT(LOGD("LIBGL: Not trying to batch small subsequent glDrawXXXX\n"));
+    } else {
+        SHUT(LOGD("LIBGL: Trying to batch subsequent glDrawXXXX of size between %d and %d vertices\n", globals4es.minbatch, globals4es.maxbatch));
     }
 
     globals4es.usevbo = 0;

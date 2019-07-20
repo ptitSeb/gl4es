@@ -385,8 +385,8 @@ if(count>500000) return;
     }
 }
 
-#define MIN_BATCH   (10*globals4es.batch)
-#define MAX_BATCH   (10*10*globals4es.batch)
+#define MIN_BATCH  globals4es.minbatch
+#define MAX_BATCH  globals4es.maxbatch
 
 void gl4es_glDrawRangeElements(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const void *indices) {
     //printf("glDrawRangeElements(%s, %i, %i, %i, %s, @%p), inlist=%i, pending=%d\n", PrintEnum(mode), start, end, count, PrintEnum(type), indices, (glstate->list.active)?1:0, glstate->list.pending);
@@ -406,10 +406,8 @@ void gl4es_glDrawRangeElements(GLenum mode, GLuint start, GLuint end, GLsizei co
 
     //BATCH Mode
     if(!compiling) {
-        if(!intercept && glstate->list.pending && count>MAX_BATCH)    // too large and will not intercept, stop the BATCH
-            flush();
-        else if((!intercept && !glstate->list.pending && count<MIN_BATCH) 
-            || (intercept && globals4es.batch)) {
+        if((!intercept && !glstate->list.pending && (count>=MIN_BATCH && count<=MAX_BATCH)) 
+            || (intercept && globals4es.maxbatch)) {
             compiling = true;
             glstate->list.pending = 1;
             glstate->list.active = alloc_renderlist();
@@ -509,10 +507,8 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 
     //BATCH Mode
     if(!compiling) {
-        if(!intercept && glstate->list.pending && count>MAX_BATCH)    // too large and will not intercept, stop the BATCH
-            flush();
-        else if((!intercept && !glstate->list.pending && count<MIN_BATCH) 
-            || (intercept && globals4es.batch)) {
+        if((!intercept && !glstate->list.pending && (count>=MIN_BATCH && count<=MAX_BATCH)) 
+            || (intercept && globals4es.maxbatch)) {
             compiling = true;
             glstate->list.pending = 1;
             glstate->list.active = alloc_renderlist();
@@ -623,10 +619,8 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     bool intercept = should_intercept_render(mode);
     //BATCH Mode
     if (!glstate->list.compiling) {
-        if(!intercept && glstate->list.pending && count>MAX_BATCH)    // too large and will not intercept, stop the BATCH
-            flush();
-        else if((!intercept && !glstate->list.pending && count<MIN_BATCH) 
-            || (intercept && globals4es.batch)) {
+        if((!intercept && !glstate->list.pending && (count>=MIN_BATCH && count<=MAX_BATCH)) 
+            || (intercept && globals4es.maxbatch)) {
             glstate->list.pending = 1;
             glstate->list.active = alloc_renderlist();
         }
@@ -710,7 +704,7 @@ void gl4es_glMultiDrawArrays(GLenum mode, const GLint *firsts, const GLsizei *co
         if(!intercept && glstate->list.pending && maxcount>MAX_BATCH)    // too large and will not intercept, stop the BATCH
             flush();
         else if((!intercept && !glstate->list.pending && mincount<MIN_BATCH) 
-            || (intercept && globals4es.batch)) {
+            || (intercept && globals4es.maxbatch)) {
             compiling = true;
             glstate->list.pending = 1;
             glstate->list.active = alloc_renderlist();
@@ -815,7 +809,7 @@ void gl4es_glMultiDrawElements( GLenum mode, GLsizei *counts, GLenum type, const
         if(!intercept && glstate->list.pending && maxcount>MAX_BATCH)    // too large and will not intercept, stop the BATCH
             flush();
         else if((!intercept && !glstate->list.pending && mincount<MIN_BATCH) 
-            || (intercept && globals4es.batch)) {
+            || (intercept && globals4es.maxbatch)) {
             compiling = true;
             glstate->list.pending = 1;
             glstate->list.active = alloc_renderlist();
@@ -928,7 +922,7 @@ void gl4es_glMultiDrawElementsBaseVertex( GLenum mode, GLsizei *counts, GLenum t
         if(!intercept && glstate->list.pending && maxcount>MAX_BATCH)    // too large and will not intercept, stop the BATCH
             flush();
         else if((!intercept && !glstate->list.pending && mincount<MIN_BATCH) 
-            || (intercept && globals4es.batch)) {
+            || (intercept && globals4es.maxbatch)) {
             compiling = true;
             glstate->list.pending = 1;
             glstate->list.active = alloc_renderlist();
@@ -1039,7 +1033,7 @@ void gl4es_glDrawElementsBaseVertex(GLenum mode, GLsizei count, GLenum type, con
             if(!intercept && glstate->list.pending && count>MAX_BATCH)    // too large and will not intercept, stop the BATCH
                 flush();
             else if((!intercept && !glstate->list.pending && count<MIN_BATCH) 
-                || (intercept && globals4es.batch)) {
+                || (intercept && globals4es.maxbatch)) {
                 compiling = true;
                 glstate->list.pending = 1;
                 glstate->list.active = alloc_renderlist();
@@ -1135,7 +1129,7 @@ void gl4es_glDrawRangeElementsBaseVertex(GLenum mode, GLuint start, GLuint end, 
             if(!intercept && glstate->list.pending && count>MAX_BATCH)    // too large and will not intercept, stop the BATCH
                 flush();
             else if((!intercept && !glstate->list.pending && count<MIN_BATCH) 
-                || (intercept && globals4es.batch)) {
+                || (intercept && globals4es.maxbatch)) {
                 compiling = true;
                 glstate->list.pending = 1;
                 glstate->list.active = alloc_renderlist();
@@ -1234,10 +1228,8 @@ void gl4es_glDrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsize
     bool intercept = should_intercept_render(mode);
     //BATCH Mode
     if (!glstate->list.compiling) {
-        if(!intercept && glstate->list.pending && count>MAX_BATCH)    // too large and will not intercept, stop the BATCH
-            flush();
-        else if((!intercept && !glstate->list.pending && count<MIN_BATCH) 
-            || (intercept && globals4es.batch)) {
+        if((!intercept && !glstate->list.pending && (count>=MIN_BATCH && count<=MAX_BATCH)) 
+            || (intercept && globals4es.maxbatch)) {
             glstate->list.pending = 1;
             glstate->list.active = alloc_renderlist();
         }
@@ -1320,10 +1312,8 @@ void gl4es_glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, cons
 
     //BATCH Mode
     if(!compiling) {
-        if(!intercept && glstate->list.pending && count>MAX_BATCH)    // too large and will not intercept, stop the BATCH
-            flush();
-        else if((!intercept && !glstate->list.pending && count<MIN_BATCH) 
-            || (intercept && globals4es.batch)) {
+        if((!intercept && !glstate->list.pending && (count>=MIN_BATCH && count<=MAX_BATCH)) 
+            || (intercept && globals4es.maxbatch)) {
             compiling = true;
             glstate->list.pending = 1;
             glstate->list.active = alloc_renderlist();
@@ -1428,8 +1418,8 @@ void gl4es_glDrawElementsInstancedBaseVertex(GLenum mode, GLsizei count, GLenum 
         if(!compiling) {
             if(!intercept && glstate->list.pending && count>MAX_BATCH)    // too large and will not intercept, stop the BATCH
                 flush();
-            else if((!intercept && !glstate->list.pending && count<MIN_BATCH) 
-                || (intercept && globals4es.batch)) {
+            else if((!intercept && !glstate->list.pending && (count>=MIN_BATCH && count<=MAX_BATCH)) 
+                || (intercept && globals4es.maxbatch)) {
                 compiling = true;
                 glstate->list.pending = 1;
                 glstate->list.active = alloc_renderlist();

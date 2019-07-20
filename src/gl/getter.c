@@ -666,7 +666,7 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             *params=globals4es.blendhack;
             break;
         case GL_BATCH_HINT_GL4ES:
-            *params=globals4es.batch;
+            *params=globals4es.maxbatch/100;
             break;
         case GL_NOERROR_HINT_GL4ES:
             *params=globals4es.noerror;

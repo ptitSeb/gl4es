@@ -90,7 +90,8 @@ void gl4es_glHint(GLenum pname, GLenum mode) {
                 errorShim(GL_INVALID_ENUM); 
             break;
         case GL_BATCH_HINT_GL4ES:
-            globals4es.batch = mode;
+            globals4es.minbatch = 0;
+            globals4es.maxbatch = mode*100;
             break;
         case GL_NOERROR_HINT_GL4ES: 
             if (mode<=1)

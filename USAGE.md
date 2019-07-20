@@ -128,10 +128,11 @@ Hack: Control the glGetString version. Overide version string (should be in the 
 
 ##### LIBGL_BATCH
 This has been changed with v1.0.5.
-Now BATCH simply try to merge subsequents glDrawXXXXX (glDrawArrays, glDrawElements...). It only try to merge if arrays is less the 10*N vertices
+Now BATCH simply try to merge subsequents glDrawXXXXX (glDrawArrays, glDrawElements...). It only try to merge if arrays is between MINBATCH and MAXBATCH (inclusive)
 The Batching stop when there is a change of GL State, but also if an Array of more then 100*N is encountered.
  * 0 : Default: don't try to merge glDrawXXXXX
- * N : Any number: try to merger arrays, 1st must be less than 10*N, max is 100*N vertices
+ * N : Any number: try to merger arrays, 1st must be between 0 and 100*N
+ * MIN-MAX : 2 number separated by minus, to try merge arrays that are between MIN and MAX vertices
 
 ##### LIBGL_NOERROR
 Hack: glGetError() always return GL_NOERROR
