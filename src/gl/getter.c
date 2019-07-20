@@ -10,15 +10,15 @@
 #include "texgen.h"
 
 GLenum gl4es_glGetError() {
-	LOAD_GLES(glGetError);
     if(globals4es.noerror)
         return GL_NO_ERROR;
+	LOAD_GLES(glGetError);
 	if (glstate->shim_error) {
-		GLenum tmp = gles_glGetError(); // to purge GLES error stack
-        tmp = glstate->last_error;
+        GLenum tmp = glstate->last_error;
 		glstate->last_error = GL_NO_ERROR;
 		return tmp;
 	}
+    noerrorShim();  // next will be ok
 	return gles_glGetError();
 }
 GLenum glGetError() AliasExport("gl4es_glGetError");
