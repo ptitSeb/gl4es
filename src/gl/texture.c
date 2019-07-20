@@ -1927,11 +1927,13 @@ void gl4es_glBindTexture(GLenum target, GLuint texture) {
         const GLuint itarget = what_target(target);
 
         tex = gl4es_getTexture(target, texture);
-        if (glstate->texture.bound[glstate->texture.active][itarget] != tex) {
-            if(glstate->list.pending) flush();
-            tex_changed = glstate->texture.active+1;
-            glstate->texture.bound[glstate->texture.active][itarget] = tex;
-        }
+        if (glstate->texture.bound[glstate->texture.active][itarget] == tex)
+            return;
+        
+        if(glstate->list.pending) flush();
+        tex_changed = glstate->texture.active+1;
+        glstate->texture.bound[glstate->texture.active][itarget] = tex;
+
         LOAD_GLES(glBindTexture);
         switch(target) {
             // cube map are bounded immediatly, other are defered and will be applied with realize_bound or realize_textures
