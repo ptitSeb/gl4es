@@ -531,7 +531,11 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 for (int j=0; j<ntc; j++) {
                     if(tg[j]==FPE_TG_NORMALMAP) {
                         need_normal=1;
-                        sprintf(buff, "tmp_tcoor.%c=normal.%c;\n", texcoordxy[j], texcoordxy[j]);
+                        if(j==0 && tg[j+1]==FPE_TG_NORMALMAP) {
+                            sprintf(buff, "tmp_tcoor.%c%c=normal.%c%c;\n", texcoordxy[j], texcoordxy[j+1], texcoordxy[j], texcoordxy[j+1]);
+                            ++j;
+                        } else
+                            sprintf(buff, "tmp_tcoor.%c=normal.%c;\n", texcoordxy[j], texcoordxy[j]);
                     } else if(tg[j]==FPE_TG_SPHEREMAP) {
                         if(!spheremap) {
                             spheremap = 1;
@@ -539,9 +543,15 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                             need_normal = 1;
                             ShadAppend("vec3 tmpsphere = reflect(normalize(vertex.xyz), normal);\n");
                             ShadAppend("tmpsphere.z+=1.0;\n");
-                            ShadAppend("tmpsphere.xy = tmpsphere.xy*(0.5*inversesqrt(dot(tmpsphere, tmpsphere))) + vec2(0.5);");
+                            if(j==0 && tg[j+1]==FPE_TG_SPHEREMAP)
+                                sprintf(buff, "tmp_tcoor.xy = tmpsphere.xy*(0.5*inversesqrt(dot(tmpsphere, tmpsphere))) + vec2(0.5);");
+                            else
+                                ShadAppend("tmpsphere.xy = tmpsphere.xy*(0.5*inversesqrt(dot(tmpsphere, tmpsphere))) + vec2(0.5);");
                         }
-                        sprintf(buff, "tmp_tcoor.%c=tmpsphere.%c;\n", texcoordxy[j], texcoordxy[j]);
+                        if(j==0 && tg[j+1]==FPE_TG_SPHEREMAP)
+                            ++j;
+                        else
+                            sprintf(buff, "tmp_tcoor.%c=tmpsphere.%c;\n", texcoordxy[j], texcoordxy[j]);
                     } else if(tg[j]==FPE_TG_OBJLINEAR) {
                         sprintf(buff, "tmp_tcoor.%c=dot(gl_Vertex, _gl4es_ObjectPlane%c_%d);\n", texcoordxy[j], texcoordNAME[j], i);
                         need_objplane[i][j] = 1;
@@ -554,9 +564,15 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                             reflectmap = 1;
                             if(!need_vertex) need_vertex=1;
                             need_normal = 1;
-                            ShadAppend("vec3 tmpreflect = reflect(normalize(vertex.xyz), normal);\n");
+                            if(j==0 && tg[j+1]==FPE_TG_REFLECMAP && tg[j+2]==FPE_TG_REFLECMAP)
+                                sprintf(buff, "tmp_tcoor.xyz = reflect(normalize(vertex.xyz), normal);\n");
+                            else
+                                ShadAppend("vec3 tmpreflect = reflect(normalize(vertex.xyz), normal);\n");
                         }
-                        sprintf(buff, "tmp_tcoor.%c=tmpreflect.%c;\n", texcoordxy[j], texcoordxy[j]);
+                        if(j==0 && tg[j+1]==FPE_TG_REFLECMAP && tg[j+2]==FPE_TG_REFLECMAP)
+                            j+=2;
+                        else
+                            sprintf(buff, "tmp_tcoor.%c=tmpreflect.%c;\n", texcoordxy[j], texcoordxy[j]);
                     } else if(tg[j]==FPE_TG_NONE) {
                         sprintf(buff, "tmp_tcoor.%c=gl_MultiTexCoord%d.%c;\n", texcoordxy[j], i, texcoordxy[j]);
                     }
