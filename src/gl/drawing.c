@@ -33,6 +33,28 @@ static GLboolean is_cache_compatible(GLsizei count) {
     return GL_TRUE;
 }
 
+static GLboolean is_list_compatible(renderlist_t* list) {
+    #define T2(AA, A, B) \
+    if(glstate->vao->AA!=(list->B!=NULL)) return GL_FALSE;
+    #define TEST(A,B) T2(pointers[A].enabled, A, B)
+    #define TESTA(A,B,I) T2(pointers[A+i].enabled, A+i, B[i])
+
+    if(list->post_color && !list->color) return GL_FALSE;
+    if(list->post_normal && !list->normal) return GL_FALSE;
+    TEST(ATT_VERTEX, vert)
+    TEST(ATT_COLOR, color)
+    TEST(ATT_SECONDARY, secondary)
+    TEST(ATT_FOGCOORD, fogcoord)
+    TEST(ATT_NORMAL, normal)
+    for (int i=0; i<hardext.maxtex; i++) {
+        TESTA(ATT_MULTITEXCOORD0,tex,i)
+    }
+    #undef TESTA
+    #undef TEST
+    #undef T2
+    return GL_TRUE;
+}
+
 static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
                                         GLsizei skip, GLsizei count) {
     if (! list)
@@ -51,7 +73,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
     }
     
     if(glstate->vao->shared_arrays) {
-        #define OP(A, N) (A)?A+skip*N:NULL
+        #define OP(A, N) (A)?(A+skip*N):NULL
         list->vert = OP(glstate->vao->vert.ptr,4);
         list->color = OP(glstate->vao->color.ptr,4);
         list->secondary = OP(glstate->vao->secondary.ptr,4);
@@ -148,6 +170,70 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
     for (int i=0; i<hardext.maxtex; i++)
         if(list->tex[i] && list->maxtex < i+1) list->maxtex = i+1;
     return list;
+}
+static renderlist_t *arrays_add_renderlist(renderlist_t *a, GLenum mode,
+                                        GLsizei skip, GLsizei count, GLushort* indices, int ilen_b) {
+    // check cache if any
+    if(glstate->vao->shared_arrays)  {
+        if (!is_cache_compatible(count))
+            VaoSharedClear(glstate->vao);
+    }
+    // append all draw elements of b in a
+    // check the final indice size of a and b
+    int ilen_a = a->ilen;
+    int len_b = count-skip;
+    // lets append all the arrays
+    unsigned long cap = a->cap;
+    if (a->len + len_b >= cap) cap += len_b + DEFAULT_RENDER_LIST_CAPACITY;
+    // Unshare if shared (shared array are not used for now)
+    unshared_renderlist(a, cap);
+    redim_renderlist(a, cap);
+    unsharedindices_renderlist(a, ((ilen_a)?ilen_a:a->len) + ((ilen_b)?ilen_b:len_b));
+    // append arrays
+    if(glstate->vao->shared_arrays) {
+        if (a->vert) memcpy(a->vert+a->len*4, glstate->vao->vert.ptr+skip*4, len_b*4*sizeof(GLfloat));
+        if (a->normal) memcpy(a->normal+a->len*3, glstate->vao->normal.ptr+skip*3, len_b*3*sizeof(GLfloat));
+        if (a->color) memcpy(a->color+a->len*4, glstate->vao->color.ptr+skip*4, len_b*4*sizeof(GLfloat));
+        if (a->secondary) memcpy(a->secondary+a->len*4, glstate->vao->secondary.ptr+skip*4, len_b*4*sizeof(GLfloat));
+        if (a->fogcoord) memcpy(a->fogcoord+a->len*1, glstate->vao->fog.ptr+skip*1, len_b*1*sizeof(GLfloat));
+        for (int i=0; i<a->maxtex; i++)
+            if (a->tex[i]) memcpy(a->tex[i]+a->len*4, glstate->vao->tex[i].ptr+skip*4, len_b*4*sizeof(GLfloat));
+    } else {
+        if (a->vert) copy_gl_pointer_tex_noalloc(a->vert+a->len*4, &glstate->vao->pointers[ATT_VERTEX], 4, skip, count);
+        if (a->normal) copy_gl_pointer_raw_noalloc(a->normal+a->len*3, &glstate->vao->pointers[ATT_NORMAL], 3, skip, count);
+        if (a->color) {
+            if(glstate->vao->pointers[ATT_COLOR].size==GL_BGRA)
+                copy_gl_pointer_color_bgra_noalloc(a->color+a->len*4, glstate->vao->pointers[ATT_COLOR].pointer, glstate->vao->pointers[ATT_COLOR].stride, 4, skip, count);
+            else
+                copy_gl_pointer_color_noalloc(a->color+a->len*4, &glstate->vao->pointers[ATT_COLOR], 4, skip, count);
+        }
+        if (a->secondary)
+            if(glstate->vao->pointers[ATT_SECONDARY].size==GL_BGRA)
+                copy_gl_pointer_color_bgra_noalloc(a->secondary+a->len*4, glstate->vao->pointers[ATT_SECONDARY].pointer, glstate->vao->pointers[ATT_SECONDARY].stride, 4, skip, count);
+            else
+                copy_gl_pointer_noalloc(a->secondary+a->len*4, &glstate->vao->pointers[ATT_SECONDARY], 4, skip, count);		// alpha chanel is always 0 for secondary...
+        if (a->fogcoord) copy_gl_pointer_raw_noalloc(a->fogcoord+a->len*1, &glstate->vao->pointers[ATT_FOGCOORD], 1, skip, count);
+        for (int i=0; i<a->maxtex; i++)
+            if (a->tex[i]) copy_gl_pointer_tex_noalloc(a->tex[i]+a->len*4, &glstate->vao->pointers[ATT_MULTITEXCOORD0+i], 4, skip, count);
+    }
+    // indices
+    int old_ilenb = ilen_b;
+    if(!a->mode_inits) list_add_modeinit(a, a->mode_init);
+    if (ilen_a || ilen_b || mode_needindices(a->mode) || mode_needindices(mode) 
+        || (a->mode!=mode && (a->mode==GL_QUADS || mode==GL_QUADS)) )
+    {
+        // alloc or realloc a->indices first...
+        ilen_b = indices_getindicesize(mode, ((indices)? ilen_b:len_b));
+        prepareadd_renderlist(a, ilen_b);
+        // then append b
+        doadd_renderlist(a, mode, indices, indices?old_ilenb:len_b, ilen_b);
+    }
+    // lenghts
+    a->len += len_b;
+    if(a->mode_inits) list_add_modeinit(a, mode);
+    //all done
+    a->stage = STAGE_DRAW;  // just in case
+    return a;
 }
 
 static inline bool should_intercept_render(GLenum mode) {
@@ -433,28 +519,33 @@ void gl4es_glDrawRangeElements(GLenum mode, GLuint start, GLuint end, GLsizei co
 
     if (compiling) {
         // TODO, handle uint indices
-        renderlist_t *list = NULL;
-
-		NewStage(glstate->list.active, STAGE_DRAW);
-        list = glstate->list.active;
+        renderlist_t *list = glstate->list.active;
 
         if(!need_free) {
             GLushort *tmp = sindices;
             sindices = (GLushort*)malloc(count*sizeof(GLushort));
             memcpy(sindices, tmp, count*sizeof(GLushort));
         }
-        for (int i=0; i<count; i++) sindices[i]-=start;
-        list = arrays_to_renderlist(list, mode, start, end + 1);
+        for (int i=0; i<count; i++) sindices[i]-=start; //TODO: should be optimizable
+
+        if(globals4es.mergelist && list->stage>=STAGE_DRAW && is_list_compatible(list) && !list->use_glstate && sindices) {
+            list = NewDrawStage(list, mode);
+            if(list->vert) {
+                glstate->list.active = arrays_add_renderlist(list, mode, start, end + 1, sindices, count);
+                NewStage(glstate->list.active, STAGE_POSTDRAW);
+                return;
+            }
+        }
+
+		NewStage(list, STAGE_DRAW);
+
+        glstate->list.active = list = arrays_to_renderlist(list, mode, start, end + 1);
         list->indices = sindices;
         list->ilen = count;
         list->indice_cap = count;
         //end_renderlist(list);
         
-        if(glstate->list.pending) {
-            NewStage(glstate->list.active, STAGE_POSTDRAW);
-        } else {
-            glstate->list.active = extend_renderlist(list);
-        }
+        NewStage(glstate->list.active, STAGE_POSTDRAW);
         return;
     }
 
@@ -534,29 +625,33 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 
     if (compiling) {
         // TODO, handle uint indices
-        renderlist_t *list = NULL;
+        renderlist_t *list = glstate->list.active;
         GLsizei min, max;
-
-		NewStage(glstate->list.active, STAGE_DRAW);
-        list = glstate->list.active;
 
         if(!need_free) {
             GLushort *tmp = sindices;
             sindices = (GLushort*)malloc(count*sizeof(GLushort));
             memcpy(sindices, tmp, count*sizeof(GLushort));
         }
+
         normalize_indices_us(sindices, &max, &min, count);
-        list = arrays_to_renderlist(list, mode, min, max + 1);
+
+        if(globals4es.mergelist && list->stage>=STAGE_DRAW && is_list_compatible(list) && !list->use_glstate && sindices) {
+            list = NewDrawStage(list, mode);
+            glstate->list.active = arrays_add_renderlist(list, mode, min, max + 1, sindices, count);
+            NewStage(glstate->list.active, STAGE_POSTDRAW);
+            return;
+        }
+
+		NewStage(list, STAGE_DRAW);
+
+        glstate->list.active = list = arrays_to_renderlist(list, mode, min, max + 1);
         list->indices = sindices;
         list->ilen = count;
         list->indice_cap = count;
         //end_renderlist(list);
         
-        if(glstate->list.pending) {
-            NewStage(glstate->list.active, STAGE_POSTDRAW);
-        } else {
-            glstate->list.active = extend_renderlist(list);
-        }
+        NewStage(glstate->list.active, STAGE_POSTDRAW);
         return;
     }
 
@@ -627,13 +722,20 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     }
 
     if (glstate->list.active) {
-        NewStage(glstate->list.active, STAGE_DRAW);
-        glstate->list.active = arrays_to_renderlist(glstate->list.active, mode, first, count+first);
-        if(glstate->list.pending) {
-            NewStage(glstate->list.active, STAGE_POSTDRAW);
-        } else {
-            glstate->list.active = extend_renderlist(glstate->list.active);
+        renderlist_t *list = glstate->list.active;
+        
+        if(globals4es.mergelist && list->stage>=STAGE_DRAW && is_list_compatible(list) && !list->use_glstate) {
+            list = NewDrawStage(list, mode);
+            if(list->vert) {
+                glstate->list.active = arrays_add_renderlist(list, mode, first, count+first, NULL, 0);
+                NewStage(glstate->list.active, STAGE_POSTDRAW);
+                return;
+            }
         }
+
+        NewStage(list, STAGE_DRAW);
+        glstate->list.active = arrays_to_renderlist(list, mode, first, count+first);
+        NewStage(glstate->list.active, STAGE_POSTDRAW);
         return;
     }
 
@@ -711,32 +813,36 @@ void gl4es_glMultiDrawArrays(GLenum mode, const GLint *firsts, const GLsizei *co
         }
     }
     renderlist_t *list = NULL;
+
+    GLenum err = 0;
+       
     for (int i=0; i<primcount; i++) {
         GLsizei count = adjust_vertices(mode, counts[i]);
         GLint first = firsts[i];
 
         if (count<0) {
-            errorShim(GL_INVALID_VALUE);
+            err = GL_INVALID_VALUE;
             continue;
         }
         if (count==0) {
-            noerrorShim();
             continue;
         }
 
         if (glstate->raster.bm_drawing)
             bitmap_flush();
 
-        noerrorShim();
-
         if (compiling) {
+            if(globals4es.mergelist && glstate->list.active->stage>=STAGE_DRAW && is_list_compatible(glstate->list.active) && !glstate->list.active->use_glstate) {
+                glstate->list.active = NewDrawStage(glstate->list.active, mode);
+                glstate->list.active = arrays_add_renderlist(glstate->list.active, mode, first, count+first, NULL, 0);
+                NewStage(glstate->list.active, STAGE_POSTDRAW);
+                continue;
+            }
+
             NewStage(glstate->list.active, STAGE_DRAW);
             glstate->list.active = arrays_to_renderlist(glstate->list.active, mode, first, count+first);
-            if(glstate->list.pending) {
-                NewStage(glstate->list.active, STAGE_POSTDRAW);
-            } else {
-                glstate->list.active = extend_renderlist(glstate->list.active);
-            }
+            NewStage(glstate->list.active, STAGE_POSTDRAW);
+
             continue;
         }
 
@@ -747,7 +853,13 @@ void gl4es_glMultiDrawArrays(GLenum mode, const GLint *firsts, const GLsizei *co
             if(list) {
                 NewStage(list, STAGE_DRAW);
             }
-            list = arrays_to_renderlist(NULL, mode, first, count+first);
+            if(globals4es.mergelist && list->stage>=STAGE_DRAW && is_list_compatible(list) && !list->use_glstate) {
+                list = NewDrawStage(list, mode);
+                list = arrays_add_renderlist(list, mode, first, count+first, NULL, 0);
+                NewStage(list, STAGE_POSTDRAW);
+            }
+            else
+                list = arrays_to_renderlist(NULL, mode, first, count+first);
         } else {
             if (mode==GL_QUADS) {
                 // TODO: move those static in glstate
@@ -786,6 +898,10 @@ void gl4es_glMultiDrawArrays(GLenum mode, const GLint *firsts, const GLsizei *co
         draw_renderlist(list);
         free_renderlist(list);
     }
+    if(err)
+        errorShim(err);
+    else
+        errorGL();
 }
 void glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount) AliasExport("gl4es_glMultiDrawArrays");
 
