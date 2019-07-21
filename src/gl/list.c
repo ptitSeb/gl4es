@@ -158,8 +158,7 @@ bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
     return true;
 }
 
-void renderlist_createindices(renderlist_t *a, GLushort *indices, int count) {
-    int ilen = a->len;
+void renderlist_createindices(int ilen, GLushort *indices, int count) {
     for (int i = 0; i<ilen; i++) {
         indices[i] = i+count;
     }
@@ -167,9 +166,7 @@ void renderlist_createindices(renderlist_t *a, GLushort *indices, int count) {
 
 #define vind(a) (((ind)?ind[(a)]:(a))+count)
 
-void renderlist_lineloop_lines(renderlist_t *a, GLushort *indices, int count) {
-    GLushort *ind = a->indices;
-    int len = (ind)? a->ilen:a->len;
+void renderlist_lineloop_lines(GLushort *ind, int len, GLushort *indices, int count) {
     int ilen = len*2;  // new size is 2* + return
 
     if(len>1) {
@@ -186,9 +183,7 @@ void renderlist_lineloop_lines(renderlist_t *a, GLushort *indices, int count) {
     }
 }
 
-void renderlist_linestrip_lines(renderlist_t *a, GLushort *indices, int count) {
-    GLushort *ind = a->indices;
-    int len = (ind)? a->ilen:a->len;
+void renderlist_linestrip_lines(GLushort *ind, int len, GLushort *indices, int count) {
     int ilen = len*2-2;  // new size is 2*
     if (ilen<1) ilen=0;
     if(len>1) {
@@ -202,9 +197,7 @@ void renderlist_linestrip_lines(renderlist_t *a, GLushort *indices, int count) {
     }
 }
 
-void renderlist_trianglestrip_triangles(renderlist_t *a, GLushort *indices, int count) {
-    GLushort *ind = a->indices;
-    int len = (ind)? a->ilen:a->len;
+void renderlist_trianglestrip_triangles(GLushort *ind, int len, GLushort *indices, int count) {
     int ilen = (len-2)*3;  
     if (ilen<0) ilen=0;
     for (int i = 2; i<len; i++) {
@@ -214,9 +207,7 @@ void renderlist_trianglestrip_triangles(renderlist_t *a, GLushort *indices, int 
     }
 }
 
-void renderlist_trianglefan_triangles(renderlist_t *a, GLushort *indices, int count) {
-    GLushort *ind = a->indices;
-    int len = (ind)? a->ilen:a->len;
+void renderlist_trianglefan_triangles(GLushort *ind, int len, GLushort *indices, int count) {
     int ilen = (len-2)*3;  
     if (ilen<0) ilen=0;
     for (int i = 2; i<len; i++) {
@@ -226,9 +217,7 @@ void renderlist_trianglefan_triangles(renderlist_t *a, GLushort *indices, int co
     }
 }
 
-void renderlist_quads_triangles(renderlist_t *a, GLushort *indices, int count) {
-    GLushort *ind = a->indices;
-    int len = (ind)? a->ilen:a->len;
+void renderlist_quads_triangles(GLushort *ind, int len, GLushort *indices, int count) {
     // len must be a multiple of 4 !
     len &= ~3;  // discard extra vertex...
     int ilen = len*3/2;
@@ -337,16 +326,8 @@ void list_add_modeinit(renderlist_t* list, GLenum mode) {
     list->mode_inits[list->mode_init_len++].ilen = list->indices?list->ilen:(list->cur_istart?list->cur_istart:list->len);
 }
 
-void append_renderlist(renderlist_t *a, renderlist_t *b) {
-    // append all draw elements of b in a
-    // check the final indice size of a and b
-    int ilen_a = a->ilen;
-    int ilen_b = b->ilen;
-    // lets append all the arrays
-    unsigned long cap = a->cap;
-    if (a->len + b->len >= cap) cap += b->cap + DEFAULT_RENDER_LIST_CAPACITY;
-    if (a->shared_arrays && ((*a->shared_arrays)--)>0) {
-        // Unshare if shared (shared array are not used for now)
+void unshared_renderlist(renderlist_t *a, int cap) {
+    if(a->shared_arrays && ((*a->shared_arrays)--)>0) {
         a->cap = cap;
         GLfloat *tmp;
         tmp = a->vert;
@@ -381,29 +362,160 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
                 memcpy(a->tex[i], tmp, 4*a->len*sizeof(GLfloat));
             }
         }
-    } else {
-        if (a->cap < cap) {
-            a->cap = cap;
-            realloc_sublist(a->vert, 4, cap);
-            realloc_sublist(a->normal, 3, cap);
-            realloc_sublist(a->color, 4, cap);
-            realloc_sublist(a->secondary, 4, cap);
-            realloc_sublist(a->fogcoord, 1, cap);
-            for (int i=0; i<a->maxtex; i++)
-               realloc_sublist(a->tex[i], 4, cap);
-        }
     }
-    if(a->shared_arrays && *a->shared_arrays==0) {free(a->shared_arrays); a->shared_arrays=0;}
+    if(a->shared_arrays && (*a->shared_arrays)==0) {
+        free(a->shared_arrays); 
+        a->shared_arrays=NULL;
+    }
+}
+
+void unsharedindices_renderlist(renderlist_t* a, int cap)
+{
     if (a->shared_indices && ((*a->shared_indices)--)>0) {
         if (a->indices) {
             GLushort* tmpi = a->indices;
-            a->indice_cap = ((ilen_a)?ilen_a:a->len) + ((ilen_b)?ilen_b:b->len);
+            a->indice_cap = cap;
             if (a->indice_cap > 48) a->indice_cap = ((a->indice_cap+512)>>9)<<9;
             a->indices = (GLushort*)malloc(a->indice_cap*sizeof(GLushort));
             memcpy(a->indices, tmpi, a->ilen*sizeof(GLushort));
         }
     } 
-    if(a->shared_indices && *a->shared_indices==0) {free(a->shared_indices); a->shared_indices=0;}
+    if(a->shared_indices && (*a->shared_indices)==0) {
+        free(a->shared_indices); 
+        a->shared_indices=0;
+    }
+}
+
+void redim_renderlist(renderlist_t *a, int cap) {
+    if (a->cap < cap) {
+        a->cap = cap;
+        realloc_sublist(a->vert, 4, cap);
+        realloc_sublist(a->normal, 3, cap);
+        realloc_sublist(a->color, 4, cap);
+        realloc_sublist(a->secondary, 4, cap);
+        realloc_sublist(a->fogcoord, 1, cap);
+        for (int i=0; i<a->maxtex; i++)
+            realloc_sublist(a->tex[i], 4, cap);
+    }
+}
+
+void prepareadd_renderlist(renderlist_t* a, int size_to_add)
+{
+    // alloc or realloc a->indices first...
+    int capindices = renderlist_getindicesize(a)+size_to_add;
+    if (capindices > 48) capindices = ((capindices+512)>>9)<<9;
+    #define alloc_a_indices                                      \
+    newind=(GLushort*)malloc(capindices*sizeof(GLushort))
+    #define copy_a_indices                                       \
+    if (a->indices) free(a->indices);                            \
+    a->indices = newind;                                         \
+    a->indice_cap = capindices
+    // check if "a" needs to be converted
+    int ilen_a = renderlist_getindicesize(a);
+    GLushort *newind=NULL;
+    switch (a->mode) {
+        case GL_LINE_LOOP:
+            alloc_a_indices;
+            renderlist_lineloop_lines(a->indices, a->indices?a->ilen:a->len, newind, 0);
+            a->mode = GL_LINES;
+            copy_a_indices;
+            break;
+        case GL_LINE_STRIP:
+            alloc_a_indices;
+            renderlist_linestrip_lines(a->indices, a->indices?a->ilen:a->len, newind, 0);
+            a->mode = GL_LINES;
+            copy_a_indices;
+            break;
+        case GL_QUAD_STRIP:
+        case GL_TRIANGLE_STRIP:
+            alloc_a_indices;
+            renderlist_trianglestrip_triangles(a->indices, a->indices?a->ilen:a->len, newind, 0);
+            a->mode = GL_TRIANGLES;
+            copy_a_indices;
+            break;
+        case GL_TRIANGLE_FAN:
+        case GL_POLYGON:
+            alloc_a_indices;
+            renderlist_trianglefan_triangles(a->indices, a->indices?a->ilen:a->len, newind, 0);
+            a->mode = GL_TRIANGLES;
+            copy_a_indices;
+            break;
+        case GL_QUADS:
+            alloc_a_indices;
+            renderlist_quads_triangles(a->indices, a->indices?a->ilen:a->len, newind, 0);
+            a->mode = GL_TRIANGLES;
+            copy_a_indices;
+            break;
+        default:
+            if (!a->indices) {
+                // no a->indices, must alloc and fill one
+                alloc_a_indices;
+                renderlist_createindices(a->len, newind, 0);
+                copy_a_indices;
+            } else {
+                // a->indices already exist, just check if need to adjust its size
+                if (a->indice_cap < capindices) {
+                    a->indices = (GLushort*)realloc(a->indices, capindices*sizeof(GLushort));
+                    a->indice_cap = capindices;
+                }
+            }
+            break;
+    }
+    #undef copy_a_indices
+    #undef alloc_a_indices
+
+    a->ilen = ilen_a;
+}
+
+void doadd_renderlist(renderlist_t* a, GLenum mode, GLushort* indices, int count, int size_to_add)
+{
+    // then append b
+    switch (mode) {
+        case GL_LINE_LOOP:
+            renderlist_lineloop_lines(indices, count, a->indices + a->ilen, a->len);
+            break;
+        case GL_LINE_STRIP:
+            renderlist_linestrip_lines(indices, count, a->indices + a->ilen, a->len);
+            break;
+        case GL_QUAD_STRIP:
+        case GL_TRIANGLE_STRIP:
+            renderlist_trianglestrip_triangles(indices, count, a->indices + a->ilen, a->len);
+            break;
+        case GL_POLYGON:
+        case GL_TRIANGLE_FAN:
+            renderlist_trianglefan_triangles(indices, count, a->indices + a->ilen, a->len);
+            break;
+        case GL_QUADS:
+            renderlist_quads_triangles(indices, count, a->indices + a->ilen, a->len);
+            break;
+        default:
+            // no transform here, just take (or create) the indice list as-is
+            if (!indices) {
+                // append a newly created indice list
+                renderlist_createindices(count, a->indices + a->ilen, a->len);
+            } else {
+                // append existing one
+                GLushort* newind = a->indices+a->ilen;
+                for(int i=0; i<count; i++)
+                    newind[i] = indices[i]+a->len;
+            }
+            break;
+    }
+    a->ilen += size_to_add;
+}
+
+void append_renderlist(renderlist_t *a, renderlist_t *b) {
+    // append all draw elements of b in a
+    // check the final indice size of a and b
+    int ilen_a = a->ilen;
+    int ilen_b = b->ilen;
+    // lets append all the arrays
+    unsigned long cap = a->cap;
+    if (a->len + b->len >= cap) cap += b->cap + DEFAULT_RENDER_LIST_CAPACITY;
+    // Unshare if shared (shared array are not used for now)
+    unshared_renderlist(a, cap);
+    redim_renderlist(a, cap);
+    unsharedindices_renderlist(a, ((ilen_a)?ilen_a:a->len) + ((ilen_b)?ilen_b:b->len));
     // append arrays
     if (a->vert) memcpy(a->vert+a->len*4, b->vert, b->len*4*sizeof(GLfloat));
     if (a->normal) memcpy(a->normal+a->len*3, b->normal, b->len*3*sizeof(GLfloat));
@@ -418,103 +530,10 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
         || (a->mode!=b->mode && (a->mode==GL_QUADS || b->mode==GL_QUADS)) )
     {
         // alloc or realloc a->indices first...
-        int capindices = renderlist_getindicesize(a)+renderlist_getindicesize(b);
-        if (capindices > 48) capindices = ((capindices+512)>>9)<<9;
-        #define alloc_a_indices                                      \
-        newind=(GLushort*)malloc(capindices*sizeof(GLushort))
-        #define copy_a_indices                                       \
-        if (a->indices) free(a->indices);                            \
-        a->indices = newind;                                         \
-        a->indice_cap = capindices
-        // check if "a" needs to be converted
-        ilen_a = renderlist_getindicesize(a);
-        GLushort *newind=NULL;
-        switch (a->mode) {
-            case GL_LINE_LOOP:
-                alloc_a_indices;
-                renderlist_lineloop_lines(a, newind, 0);
-                a->mode = GL_LINES;
-                copy_a_indices;
-                break;
-            case GL_LINE_STRIP:
-                alloc_a_indices;
-                renderlist_linestrip_lines(a, newind, 0);
-                a->mode = GL_LINES;
-                copy_a_indices;
-                break;
-            case GL_QUAD_STRIP:
-            case GL_TRIANGLE_STRIP:
-                alloc_a_indices;
-                renderlist_trianglestrip_triangles(a, newind, 0);
-                a->mode = GL_TRIANGLES;
-                copy_a_indices;
-                break;
-            case GL_TRIANGLE_FAN:
-            case GL_POLYGON:
-                alloc_a_indices;
-                renderlist_trianglefan_triangles(a, newind, 0);
-                a->mode = GL_TRIANGLES;
-                copy_a_indices;
-                break;
-            case GL_QUADS:
-                alloc_a_indices;
-                renderlist_quads_triangles(a, newind, 0);
-                a->mode = GL_TRIANGLES;
-                copy_a_indices;
-                break;
-            default:
-                if (!a->indices) {
-                    // no a->indices, must alloc and fill one
-                    alloc_a_indices;
-                    renderlist_createindices(a, newind, 0);
-                    copy_a_indices;
-                } else {
-                    // a->indices already exist, just check if need to adjust its size
-                    if (a->indice_cap < capindices) {
-                        a->indices = (GLushort*)realloc(a->indices, capindices*sizeof(GLushort));
-                        a->indice_cap = capindices;
-                    }
-                }
-                break;
-        }
-        #undef copy_a_indices
-        #undef alloc_a_indices
-
-        a->ilen = ilen_a;
-        // then append b
         ilen_b = renderlist_getindicesize(b);
-        switch (b->mode) {
-            case GL_LINE_LOOP:
-                renderlist_lineloop_lines(b, a->indices + ilen_a, a->len);
-                break;
-            case GL_LINE_STRIP:
-                renderlist_linestrip_lines(b, a->indices + ilen_a, a->len);
-                break;
-            case GL_QUAD_STRIP:
-            case GL_TRIANGLE_STRIP:
-                renderlist_trianglestrip_triangles(b, a->indices + ilen_a, a->len);
-                break;
-            case GL_POLYGON:
-            case GL_TRIANGLE_FAN:
-                renderlist_trianglefan_triangles(b, a->indices + ilen_a, a->len);
-                break;
-            case GL_QUADS:
-                renderlist_quads_triangles(b, a->indices + ilen_a, a->len);
-                break;
-            default:
-                // no transform here, just take (or create) the indice list as-is
-                if (!b->ilen) {
-                    // append a newly created indice list
-                    renderlist_createindices(b, a->indices + ilen_a, a->len);
-                } else {
-                    // append existing one
-                    newind = a->indices+ilen_a;
-                    for(int i=0; i<b->ilen; i++)
-                        newind[i] = b->indices[i]+a->len;
-                }
-                break;
-        }
-        a->ilen += ilen_b;
+        prepareadd_renderlist(a, ilen_b);
+        // then append b
+        doadd_renderlist(a, b->mode, b->indices, b->indices?b->ilen:b->len, ilen_b);
     }
     // lenghts
     a->len += b->len;
@@ -889,46 +908,46 @@ renderlist_t* recycle_renderlist(renderlist_t *list, GLenum mode) {
         case GL_LINES:
             if(mode!=GL_LINES && !list->indices) {
                 pre_expand;
-                renderlist_createindices(list, indices, 0);
+                renderlist_createindices(list->len, indices, 0);
                 post_expand;
             }
             break;
         case GL_LINE_LOOP:
             pre_expand;
-            renderlist_lineloop_lines(list, indices, 0);
+            renderlist_lineloop_lines(list->indices, list->indices?list->ilen:list->len, indices, 0);
             post_expand;
             list->mode=GL_LINES;
             break;
         case GL_LINE_STRIP:
             pre_expand;
-            renderlist_linestrip_lines(list, indices, 0);
+            renderlist_linestrip_lines(list->indices, list->indices?list->ilen:list->len, indices, 0);
             post_expand;
             list->mode=GL_LINES;
             break;
         case GL_TRIANGLES:
             if(mode!=GL_TRIANGLES && !list->indices) {
                 pre_expand;
-                renderlist_createindices(list, indices, 0);
+                renderlist_createindices(list->len, indices, 0);
                 post_expand;
             }
             break;
         case GL_POLYGON:
         case GL_TRIANGLE_FAN:
             pre_expand;
-            renderlist_trianglefan_triangles(list, indices, 0);
+            renderlist_trianglefan_triangles(list->indices, list->indices?list->ilen:list->len, indices, 0);
             post_expand;
             list->mode=GL_TRIANGLES;
             break;
         case GL_QUAD_STRIP:
         case GL_TRIANGLE_STRIP:
             pre_expand;
-            renderlist_trianglestrip_triangles(list, indices, 0);
+            renderlist_trianglestrip_triangles(list->indices, list->indices?list->ilen:list->len, indices, 0);
             post_expand;
             list->mode=GL_TRIANGLES;
             break;
         case GL_QUADS:
             pre_expand;
-            renderlist_quads_triangles(list, indices, 0);
+            renderlist_quads_triangles(list->indices, list->indices?list->ilen:list->len, indices, 0);
             post_expand;
             list->mode=GL_TRIANGLES;
             break;

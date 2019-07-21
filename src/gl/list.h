@@ -266,10 +266,23 @@ renderlist_t* end_renderlist(renderlist_t *list);
 bool isempty_renderlist(renderlist_t *list);
 void resize_renderlist(renderlist_t *list);
 renderlist_t *alloc_renderlist();
+int mode_needindices(GLenum m);
 void resize_indices_renderlist(renderlist_t *list, int n);
 void resize_merger_indices(int cap);
 int indices_getindicesize(GLenum mode, int len);
 void list_add_modeinit(renderlist_t* list, GLenum mode);
+void unshared_renderlist(renderlist_t *a, int cap);
+void unsharedindices_renderlist(renderlist_t* a, int cap);
+void redim_renderlist(renderlist_t *a, int cap);
+void prepareadd_renderlist(renderlist_t* a, int size_to_add);
+void doadd_renderlist(renderlist_t* a, GLenum mode, GLushort* indices, int count, int size_to_add);
+
+void renderlist_createindices(int ilen, GLushort *indices, int count);
+void renderlist_lineloop_lines(GLushort *ind, int len, GLushort *indices, int count);
+void renderlist_linestrip_lines(GLushort *ind, int len, GLushort *indices, int count);
+void renderlist_trianglestrip_triangles(GLushort *ind, int len, GLushort *indices, int count);
+void renderlist_trianglefan_triangles(GLushort *ind, int len, GLushort *indices, int count);
+void renderlist_quads_triangles(GLushort *ind, int len, GLushort *indices, int count);
 
 void rlActiveTexture(renderlist_t *list, GLenum texture );
 void rlBindTexture(renderlist_t *list, GLenum target, GLuint texture);

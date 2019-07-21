@@ -256,7 +256,7 @@ void select_glDrawArrays(const pointer_state_t* vtx, GLenum mode, GLuint first, 
 	if (glstate->selectbuf.buffer == NULL) return;
 	GLfloat *vert = copy_gl_array(vtx->pointer, vtx->type, 
 			vtx->size, vtx->stride,
-			GL_FLOAT, 4, 0, count+first);
+			GL_FLOAT, 4, 0, count+first, NULL);
 	GLfloat zmin=1e10f, zmax=-1e10f;
 	int found = 0;
 
@@ -356,7 +356,7 @@ void select_glDrawElements(const pointer_state_t* vtx, GLenum mode, GLuint count
     max++;
 	GLfloat *vert = copy_gl_array(vtx->pointer, vtx->type, 
 			vtx->size, vtx->stride,
-			GL_FLOAT, 4, 0, max);
+			GL_FLOAT, 4, 0, max, NULL);
 	GLfloat zmin=1e10f, zmax=-10e6f;
 	int found = 0;
 	for (int i=min; i<max; i++) {
