@@ -644,14 +644,30 @@ GLuint gl4es_glGenLists(GLsizei range) {
 		errorShim(GL_INVALID_VALUE);
 		return 0;
 	}
-	noerrorShim();
+    noerrorShim();
+    if(range==0) {
+        return 0;
+    }
    	khint_t k;
    	int ret;
 	khash_t(gllisthead) *lists = glstate->headlists;
     int start = glstate->list.count;
     glstate->list.count += range;
 
-    for (int i = 0; i < range; i++) {
+    // check start -> start+range-1 is all free !
+    int ok = 0;
+    do {
+        ok = 1;
+        for (int i = 1; i <= range && ok; i++) {
+            if(gl4es_glGetList(start+i)) {
+                ok = 0;
+                start += i;
+                glstate->list.count += i;
+            }
+        }
+    } while(!ok);
+
+    for (int i = 1; i <= range; i++) {
         k = kh_get(gllisthead, lists, start+i);
         if (k == kh_end(lists)){
             k = kh_put(gllisthead, lists, start+i, &ret);
@@ -806,13 +822,15 @@ void glListBase(GLuint base) AliasExport("gl4es_glListBase");
 
 GLboolean gl4es_glIsList(GLuint list) {
 	noerrorShim();
+    if(!list)
+        return GL_FALSE;
     khint_t k;
     int ret;
     khash_t(gllisthead) *lists = glstate->headlists;
     k = kh_get(gllisthead, lists, list);
     if (k != kh_end(lists))
-        return true;
-    return false;
+        return GL_TRUE;
+    return GL_FALSE;
 }
 GLboolean glIsList(GLuint list) AliasExport("gl4es_glIsList");
 
