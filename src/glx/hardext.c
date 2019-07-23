@@ -16,7 +16,7 @@
 
 static int tested = 0;
 
-hardext_t hardext;
+hardext_t hardext = {0};
 
 #define SHUT(a) if(!globals4es.nobanner) a
 
@@ -27,7 +27,6 @@ void GetHardwareExtensions(int notest)
 {
     if(tested) return;
     // put some default values
-    memset(&hardext, 0, sizeof(hardext));
     hardext.maxtex = 2;
     hardext.maxsize = 2048;
     hardext.maxlights = 8;
