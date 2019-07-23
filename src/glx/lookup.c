@@ -556,6 +556,9 @@ void *gl4es_glXGetProcAddress(const char *name) {
     }
     /*STUB(glEdgeFlagPointerEXT);
     STUB(glIndexPointerEXT);*/
+    STUB(glClearIndex);
+    STUB(glEdgeFlagv);
+    STUB(glIndexMask);
     
     //EXT_direct_state_access
     _EX(glClientAttribDefault);
