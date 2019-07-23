@@ -9,7 +9,7 @@
 #include <proto/ogles2.h>
 #include <proto/Warp3DNova.h>
 
-#include "hardext.h"
+#include "../glx/hardext.h"
 
 #define MIN_W3DNOVA_LIB_VERSION 1
 #define MIN_W3DNOVA_LIB_REVISION 62
@@ -53,7 +53,7 @@ void os4OpenLib(void** lib)
         LOGLES2 = NULL;
         return;
     }
-    if (!(LOGLES2->lib_Version > 2 || (LOGLES2->lib_Version == 2 && LOGLES2->lib_Revision >= 9)))  {
+    if (LOGLES2->lib_Version > 2 || (LOGLES2->lib_Version == 2 && LOGLES2->lib_Revision >= 9))  {
         hardext.prgbin_n = 1;
     }
     *lib = LOGLES2;
