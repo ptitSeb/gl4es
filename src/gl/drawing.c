@@ -89,7 +89,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
         if(!globals4es.novaocache && glstate->vao != glstate->defaultvao) {
             // prepare a vao cache object
             list->shared_arrays = glstate->vao->shared_arrays = (int*)malloc(sizeof(int));
-            *glstate->vao->shared_arrays = 1;
+            *glstate->vao->shared_arrays = 2; // already shared between glstate & list
             #define G2(AA, A, B) \
             glstate->vao->B.enabled = glstate->vao->pointers[AA].enabled; \
             if (glstate->vao->B.enabled) memcpy(&glstate->vao->B.state, &glstate->vao->pointers[A], sizeof(pointer_state_t));
