@@ -1075,6 +1075,7 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                         v->type = GL_FLOAT;
                         v->normalized = 0;
                         v->pointer = *scratch = copy_gl_pointer_color_bgra(ptr, w->stride, 4, imin, imax);
+                        v->pointer -= imin*4*sizeof(GLfloat);   // adjust for min...
                         v->stride = 0;
                         v->buffer = NULL;
                     } else if (w->type == GL_DOUBLE) {
