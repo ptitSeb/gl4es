@@ -138,6 +138,7 @@ void BuildExtensionsList() {
                 "GL_ARB_framebuffer_object "
                 "GL_EXT_framebuffer_object "
                 "GL_EXT_packed_depth_stencil "
+                "GL_EXT_framebuffer_blit "
                 "GL_ARB_draw_buffers ");
         if(hardext.pointsprite)
             strcat(extensions, "GL_ARB_point_sprite ");
