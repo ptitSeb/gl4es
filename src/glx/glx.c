@@ -728,27 +728,11 @@ GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBCon
         return 0;
 
     // Init what need to be done
-    EGLBoolean result;
-    if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
-        init_display(display);
-
-        if (eglDisplay == EGL_NO_DISPLAY) {
-            LOGE("LIBGL: Unable to create EGL display.\n");
-            return 0;
-        }
-    }
-
-    // first time?
-    if (eglInitialized == false) {
-        result = InitEGL(display);
-        if (!result) {
-            CheckEGLErrors();
-            LOGE("LIBGL: Unable to initialize EGL display.\n");
-            return 0;
-        }
-    }
+    if(!InitEGL(display))
+        return NULL;
 
 	// select a configuration
+    EGLBoolean result;
     int configsFound;
     static EGLConfig pbufConfigs[1];
     result = egl_eglChooseConfig(eglDisplay, configAttribs, pbufConfigs, 1, &configsFound);
@@ -1177,6 +1161,11 @@ Bool gl4es_glXMakeCurrent(Display *display,
 
                     addPixBuffer(display, eglSurf, eglConfig, Width, Height, eglContext, drawable, depth, 2);
                     context->eglSurface = eglSurf;
+                    if(context->eglContext) {
+                        // remove old context before putting PBuffer specific one
+                        LOAD_EGL(eglDestroyContext);
+                        egl_eglDestroyContext(eglDisplay, context->eglContext);
+                    }
                     context->eglContext = eglContext;
                     // update, that context is a created emulated one...
                     created = isPBuffer(drawable); 
@@ -2280,27 +2269,11 @@ int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface
     };
 
     // Init what need to be done
-    EGLBoolean result;
-    if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
-        init_display((globals4es.usefb || globals4es.usepbuffer)?g_display:dpy);
-        if (eglDisplay == EGL_NO_DISPLAY) {
-            CheckEGLErrors();
-            LOGD("LIBGL: Unable to create EGL display.\n");
-            return 0;
-        }
-    }
-
-    // first time?
-    if (eglInitialized == false) {
-        result = InitEGL((globals4es.usefb || globals4es.usepbuffer)?g_display:dpy);
-        if (!result) {
-            CheckEGLErrors();
-            LOGD("LIBGL: Unable to initialize EGL display.\n");
-            return 0;
-        }
-    }
+    if(!InitEGL(dpy))
+        return 0;
 
 	// select a configuration
+    EGLBoolean result;
     int configsFound;
 
     result = egl_eglChooseConfig(eglDisplay, configAttribs, Config, 1, &configsFound);
