@@ -1688,9 +1688,11 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                     break;
                 case GLX_X_VISUAL_TYPE:
                     tmp = attrib_list[i++];
-                    attr[cur++] = EGL_NATIVE_VISUAL_TYPE;
-                    attr[cur++] = tmp;
-                    DBG(printf("FBConfig visual type=%d", tmp);)
+                    if(!(globals4es.usepbuffer || globals4es.usefb || globals4es.usefbo)) {
+                        attr[cur++] = EGL_NATIVE_VISUAL_TYPE;
+                        attr[cur++] = tmp;
+                    }
+                    DBG(printf("FBConfig visual type=%d\n", tmp);)
                     break;
                 default:
                     ++i;
