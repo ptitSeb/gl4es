@@ -26,7 +26,7 @@ typedef enum _eTokenType {
     TK_MINUS,
     TK_EQUAL,
     TK_SLASH,
-    TK_DOUBLESLASH,
+    TK_DOUBLESLASH, //10
     TK_MULTIPLY,
     TK_BACKSLASH,
     TK_OPENBRACE,
@@ -36,7 +36,7 @@ typedef enum _eTokenType {
     TK_OPENBRAKET,
     TK_CLOSEBRAKET,
     TK_OPENCOMMENT,
-    TK_CLOSECOMMENT,
+    TK_CLOSECOMMENT,    //20
     TK_COLUMN,
     TK_SEMICOLUMN,
     TK_COMMA,
@@ -45,7 +45,7 @@ typedef enum _eTokenType {
     TK_POW,
     TK_PIPE,
     TK_EXCLAM,
-    TK_POINT,
+    TK_POINT,   //30
     TK_GREATER,
     TK_LESS,
     TK_DOUBLEEQUAL,
@@ -701,29 +701,22 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
                         // nothing...
                     } else if(tok.type==TK_OPENBRACE) {
                         status = 720; // and now get the value
-                        indefined = 1;
-                    } else {
-                        status = 399; // fallback...
-                    }
+                        ++indefined;
+                    } else if(tok.type==TK_NEWLINE) {
+                        if(!indefined) status = 0; // ok... no handling of #defined for now, so just write through the line
+                    }/* else {
+                        status = 399; // No fallback...
+                    }*/
                     break;
                 case 720:
                     if(tok.type==TK_SPACE || tok.type==TK_TEXT) {
                        // nothing...
                     } else if (tok.type==TK_CLOSEBRACE) {
-                        indefined = 0;
-                        status = 730;
+                        --indefined;
+                        status = 710;
                     } else {
                         indefined = 0;
                         status = 399;
-                    }
-                    break;
-                case 730:
-                    if(tok.type==TK_SPACE) {
-                        // nothing...
-                    } else if(tok.type==TK_NEWLINE) {
-                        status = 0; // ok... no handling of #defined for now, so just write through the line
-                    } else {
-                        status = 399; // fallback
                     }
                     break;
             }
