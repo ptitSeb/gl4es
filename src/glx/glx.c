@@ -63,6 +63,17 @@ static struct sockaddr_un sun;
 static int sock = -2;
 #endif
 
+int8_t CheckEGLErrors() {
+#ifndef NOEGL
+    const char *errortext = PrintEGLError(1);
+    
+    if (errortext) {
+        LOGE("LIBGL: ERROR: EGL Error detected: %s\n", errortext);
+        return 1;
+    }
+#endif
+    return 0;
+}
 #ifndef NOX11
 typedef struct {
     int Width; 
@@ -71,8 +82,9 @@ typedef struct {
     EGLSurface Surface;
     EGLConfig  Config;
     int Depth; 
-    Display *dpy; 
-    int Type; GC gc; 
+    Display *dpy;
+    int Type;
+    GC gc; 
     XImage* frame; 
 } glx_buffSize;
 
@@ -86,6 +98,15 @@ static int isPBuffer(GLXDrawable drawable) {
         if(pbufferlist[i]==(GLXPbuffer)drawable)
             return i+1;
     return 0;
+}
+static void delPBuffer(int j)
+{
+    pbufferlist[j] = 0;
+    pbuffersize[j].Width = 0;
+    pbuffersize[j].Height = 0;
+    pbuffersize[j].gc = 0;
+    pbuffersize[j].Context = NULL;
+    // should pack, but I think it's useless for common use 
 }
 void BlitEmulatedPixmap();
 int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface, EGLContext* Context, EGLConfig* Config, int redBits, int greenBits, int blueBits, int alphaBits, int samplebuffers, int samples);
@@ -200,10 +221,15 @@ static SharedEGLSurface_t* RecycleGetSurface(GLXDrawable drawable) {
 }
 
 static void RecycleDelSurface(GLXDrawable drawable) {
-    if(!eglsurfaces)
-        return;
     int ret;
     khint_t k;
+
+    ret = isPBuffer(drawable);
+    if(ret)
+        delPBuffer(ret-1);
+
+    if(!eglsurfaces)
+        return;
     k = kh_get(eglsurfacelist_t, eglsurfaces, drawable);
     if (k != kh_end(eglsurfaces)){
         /*LOAD_EGL(eglDestroySurface);
@@ -234,17 +260,6 @@ typedef struct {
 KHASH_MAP_INIT_INT(mapdrawable, map_drawable_t*)
 khash_t(mapdrawable) *MapDrawable = NULL;
 
-int8_t CheckEGLErrors() {
-#ifndef NOEGL
-    const char *errortext = PrintEGLError(1);
-    
-    if (errortext) {
-        LOGE("LIBGL: ERROR: EGL Error detected: %s\n", errortext);
-        return 1;
-    }
-#endif
-    return 0;
-}
 #ifndef NOX11
 static int get_config_default(Display *display, int attribute, int *value) {
     switch (attribute) {
@@ -1438,7 +1453,7 @@ int gl4es_glXGetConfig(Display *display,
 
 const char *gl4es_glXQueryExtensionsString(Display *display, int screen) {
     DBG(printf("glXQueryExtensionString(%p, %d)\n", display, screen);)
-    const char *extensions = 
+    static const char *extensions = 
         "GLX_ARB_create_context "
         "GLX_ARB_create_context_profile "
         "GLX_ARB_get_proc_address "
@@ -1469,7 +1484,7 @@ Bool gl4es_glXQueryExtension(Display *display, int *errorBase, int *eventBase) {
     if (eventBase)
         *eventBase = 0;
 
-    return true;
+    return 1;
 }
 
 Bool gl4es_glXQueryVersion(Display *display, int *major, int *minor) {
@@ -1477,7 +1492,7 @@ Bool gl4es_glXQueryVersion(Display *display, int *major, int *minor) {
     // TODO: figure out which version we want to pretend to implement
     *major = 1;
     *minor = 4;
-    return true;
+    return 1;
 }
 
 const char *gl4es_glXGetClientString(Display *display, int name) {
@@ -2219,13 +2234,9 @@ GLXPbuffer addPBuffer(EGLSurface surface, int Width, int Height, EGLContext Cont
     pbuffersize[pbufferlist_size].Type = 1; // 1 = pbuffer
     return pbufferlist[pbufferlist_size++];
 }
-void delPBuffer(int j)
+static void delPBufferContext(int j)
 {
     LOAD_EGL(eglDestroyContext);
-    pbufferlist[j] = 0;
-    pbuffersize[j].Width = 0;
-    pbuffersize[j].Height = 0;
-    pbuffersize[j].gc = 0;
     egl_eglDestroyContext(eglDisplay, pbuffersize[j].Context);
     CheckEGLErrors();
     // should pack, but I think it's useless for common use 
@@ -2245,6 +2256,7 @@ void gl4es_glXDestroyPbuffer(Display * dpy, GLXPbuffer pbuf) {
     egl_eglDestroySurface(eglDisplay, surface);
     CheckEGLErrors();
 
+    delPBufferContext(j);
     delPBuffer(j);
 }
 
