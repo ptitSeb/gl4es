@@ -71,18 +71,18 @@ const builtin_matrix_t builtin_matrix[] = {
 
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
-const char* gl4es_MaxLightsSource =
+static const char* gl4es_MaxLightsSource =
 "#define _gl4es_MaxLights " STR(MAX_LIGHT) "\n";
-const char* gl4es_MaxClipPlanesSource =
+static const char* gl4es_MaxClipPlanesSource =
 "#define _gl4es_MaxClipPlanes " STR(MAX_CLIP_PLANES) "\n";
-const char* gl4es_MaxTextureUnitsSource =
+static const char* gl4es_MaxTextureUnitsSource =
 "#define _gl4es_MaxTextureUnits " STR(MAX_TEX) "\n";
-const char* gl4es_MaxTextureCoordsSource =
+static const char* gl4es_MaxTextureCoordsSource =
 "#define _gl4es_MaxTextureCoords " STR(MAX_TEX) "\n";
 #undef STR
 #undef STR_HELPER
 
-const char* gl4es_LightSourceParametersSource = 
+static const char* gl4es_LightSourceParametersSource = 
 "struct gl_LightSourceParameters\n"
 "{\n"
 "   vec4 ambient;\n"
@@ -100,13 +100,13 @@ const char* gl4es_LightSourceParametersSource =
 "};\n"
 "uniform gl_LightSourceParameters gl_LightSource[gl_MaxLights];\n";
 
-const char* gl4es_LightModelParametersSource =
+static const char* gl4es_LightModelParametersSource =
 "struct gl_LightModelParameters {\n"
 "  vec4 ambient;\n"
 "};\n"
 "uniform gl_LightModelParameters gl_LightModel;\n";
 
-const char* gl4es_MaterialParametersSource =
+static const char* gl4es_MaterialParametersSource =
 "struct gl_MaterialParameters\n"
 "{\n"
 "   vec4 emission;\n"
@@ -118,7 +118,7 @@ const char* gl4es_MaterialParametersSource =
 "uniform gl_MaterialParameters gl_FrontMaterial;\n"
 "uniform gl_MaterialParameters gl_BackMaterial;\n";
 
-const char* gl4es_LightModelProductsSource =
+static const char* gl4es_LightModelProductsSource =
 "struct gl_LightModelProducts\n"
 "{\n"
 "   vec4 sceneColor;\n"
@@ -126,7 +126,7 @@ const char* gl4es_LightModelProductsSource =
 "uniform gl_LightModelProducts gl_FrontLightModelProduct;\n"
 "uniform gl_LightModelProducts gl_BackLightModelProduct;\n";
 
-const char* gl4es_LightProductsSource =
+static const char* gl4es_LightProductsSource =
 "struct gl_LightProducts\n"
 "{\n"
 "   vec4 ambient;\n"
@@ -136,7 +136,7 @@ const char* gl4es_LightProductsSource =
 "uniform gl_LightProducts gl_FrontLightProduct[gl_MaxLights];\n"
 "uniform gl_LightProducts gl_BackLightProduct[gl_MaxLights];\n";
 
-const char* gl4es_PointSpriteSource =
+static const char* gl4es_PointSpriteSource =
 "struct gl_PointParameters\n"
 "{\n"
 "   float size;\n"
@@ -149,7 +149,7 @@ const char* gl4es_PointSpriteSource =
 "};\n"
 "uniform gl_PointParameters gl_Point;\n";
 
-const char* gl4es_FogParametersSource =
+static const char* gl4es_FogParametersSource =
 "struct gl_FogParameters {\n"
 "    vec4 color;\n"
 "    float density;\n"
@@ -159,62 +159,74 @@ const char* gl4es_FogParametersSource =
 "};\n"
 "uniform gl_FogParameters gl_Fog;\n";
 
-const char* gl4es_texenvcolorSource =
+static const char* gl4es_texenvcolorSource =
 "uniform vec4 gl_TextureEnvColor[gl_MaxTextureUnits];\n";
 
-const char* gl4es_texgeneyeSource[4] = {
+static const char* gl4es_texgeneyeSource[4] = {
 "uniform vec4 gl_EyePlaneS[gl_MaxTextureCoords];\n",
 "uniform vec4 gl_EyePlaneT[gl_MaxTextureCoords];\n",
 "uniform vec4 gl_EyePlaneR[gl_MaxTextureCoords];\n",
 "uniform vec4 gl_EyePlaneQ[gl_MaxTextureCoords];\n" };
 
-const char* gl4es_texgenobjSource[4] = {
+static const char* gl4es_texgenobjSource[4] = {
 "uniform vec4 gl_ObjectPlaneS[gl_MaxTextureCoords];\n",
 "uniform vec4 gl_ObjectPlaneT[gl_MaxTextureCoords];\n",
 "uniform vec4 gl_ObjectPlaneR[gl_MaxTextureCoords];\n",
 "uniform vec4 gl_ObjectPlaneQ[gl_MaxTextureCoords];\n" };
 
-const char* gl4es_clipplanesSource = 
+static const char* gl4es_clipplanesSource = 
 "uniform vec4  gl_ClipPlane[gl_MaxClipPlanes];\n";
 
-const char* gl4es_normalscaleSource =
+static const char* gl4es_normalscaleSource =
 "uniform float gl_NormalScale;\n";
 
-const char* gl4es_instanceID =
+static const char* gl4es_instanceID =
 "#define GL_ARB_draw_instanced 1\n"
 "uniform int _gl4es_InstanceID;\n";
 
-const char* gl4es_frontColorSource =
+static const char* gl4es_frontColorSource =
 "varying lowp vec4 _gl4es_FrontColor;\n";
 
-const char* gl4es_backColorSource =
+static const char* gl4es_backColorSource =
 "varying lowp vec4 _gl4es_BackColor;\n";
 
-const char* gl4es_frontSecondaryColorSource =
+static const char* gl4es_frontSecondaryColorSource =
 "varying lowp vec4 _gl4es_FrontSecondaryColor;\n";
 
-const char* gl4es_backSecondaryColorSource =
+static const char* gl4es_backSecondaryColorSource =
 "varying lowp vec4 _gl4es_BackSecondaryColor;\n";
 
-const char* gl4es_texcoordSource =
+static const char* gl4es_texcoordSource =
 "varying mediump vec4 _gl4es_TexCoord[%d];\n";
 
-const char* gl4es_texcoordSourceAlt =
+static const char* gl4es_texcoordSourceAlt =
 "varying mediump vec4 _gl4es_TexCoord_%d;\n";
 
-const char* gl4es_fogcoordSource =
+static const char* gl4es_fogcoordSource =
 "varying mediump float _gl4es_FogFragCoord;\n";
 
-const char* gl4es_ftransformSource = 
+static const char* gl4es_ftransformSource = 
 "\n"
 "highp vec4 ftransform() {\n"
 " return gl_ModelViewProjectionMatrix * gl_Vertex;\n"
 "}\n";
 
-const char* gl4es_dummyClipVertex = 
+static const char* gl4es_dummyClipVertex = 
 "vec4 dummyClipVertex_%d";
 
-const char* gl_TexCoordSource = "gl_TexCoord[";
+static const char* gl_TexCoordSource = "gl_TexCoord[";
+
+static const char* GLESHeader = "#version 100\n%sprecision %s float;\nprecision %s int;\n";
+
+static const char* gl4es_hack1 =
+"#version 120\n"
+"vec4 ps_r0;\n"
+"vec4 ps_t0 = gl_TexCoord[0];\n";
+
+static const char* gl4es_hack1_fix =
+"#version 120\n"
+"vec4 ps_r0;\n"
+"define ps_t0 gl_TexCoord[0]\n";
 
 char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 {
@@ -250,25 +262,35 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     memset(need, 0, sizeof(shaderconv_need_t));
     need->need_texcoord = -1;
   }
-  
-  // first change the version header, and add default precision
-  char* newptr;
-  newptr=strstr(pBuffer, "#version");
-  if (!newptr) 
-    newptr = (char*)pBuffer;
-  else {
-    while(*newptr!=0x0a) newptr++;
-  }
+
   //const char* GLESUseFragHighp = "#extension GL_OES_fragment_precision_high : enable\n"; // does this one is needed?  
-  const char* GLESHeader = "#version 100\n%sprecision %s float;\nprecision %s int;\n";
   char GLESFullHeader[512];
   int wanthighp = !fpeShader;
   if(wanthighp && !hardext.highp) wanthighp = 0;
   //sprintf(GLESFullHeader, GLESHeader, (wanthighp && hardext.highp==1 && !isVertex)?GLESUseFragHighp:"", (wanthighp)?"highp":"mediump", (wanthighp)?"highp":"mediump");
   sprintf(GLESFullHeader, GLESHeader, "", (wanthighp)?"highp":"mediump", (wanthighp)?"highp":"mediump");
-  int tmpsize = strlen(newptr)*2+strlen(GLESFullHeader)+100;
+
+  int tmpsize = strlen(pBuffer)*2+strlen(GLESFullHeader)+100;
   char* Tmp = (char*)malloc(tmpsize);
-  strcpy(Tmp, GLESFullHeader);
+  strcpy(Tmp, pBuffer);
+
+  // check for hack first
+  if(strstr(Tmp, gl4es_hack1)) {
+      // ok, this attribute is used
+      // replace gl_name by _gl4es_ one
+      Tmp = InplaceReplace(Tmp, &tmpsize, gl4es_hack1, gl4es_hack1_fix);
+  }
+
+  // and now change the version header, and add default precision
+  char* newptr;
+  newptr=strstr(Tmp, "#version");
+  if (!newptr) {
+    InplaceInsert(Tmp, GLESFullHeader);
+  } else {
+    while(*newptr!=0x0a) newptr++;
+    memmove(Tmp, newptr, sizeof(newptr));
+    InplaceInsert(Tmp, GLESFullHeader);
+  }
   int headline = 3;
   // check if gl_FragDepth is used
   int fragdepth = (strstr(pBuffer, "gl_FragDepth"))?1:0;
