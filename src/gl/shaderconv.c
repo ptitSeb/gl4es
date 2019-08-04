@@ -218,7 +218,7 @@ static const char* gl_TexCoordSource = "gl_TexCoord[";
 
 static const char* GLESHeader = "#version 100\n%sprecision %s float;\nprecision %s int;\n";
 
-// this is for Psychonauts
+// this is for Psychonauts (using LIBGL_GL=21)
 static const char* gl4es_hack1 =
 "#version 120\n"
 "vec4 ps_r0;\n"
@@ -226,6 +226,17 @@ static const char* gl4es_hack1 =
 
 static const char* gl4es_hack1_fix =
 "#version 120\n"
+"vec4 ps_r0;\n"
+"#define ps_t0 gl_TexCoord[0]\n";
+
+// this is for Psychonauts (using LIBGL_GL=20)
+static const char* gl4es_hack2 =
+"#version 110\n"
+"vec4 ps_r0;\n"
+"vec4 ps_t0 = gl_TexCoord[0];\n";
+
+static const char* gl4es_hack2_fix =
+"#version 110\n"
 "vec4 ps_r0;\n"
 "#define ps_t0 gl_TexCoord[0]\n";
 
@@ -294,9 +305,10 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 
   // check for hack first
   if(strstr(Tmp, gl4es_hack1)) {
-      // ok, this attribute is used
-      // replace gl_name by _gl4es_ one
       Tmp = InplaceReplace(Tmp, &tmpsize, gl4es_hack1, gl4es_hack1_fix);
+  }
+if(strstr(Tmp, gl4es_hack2)) {
+      Tmp = InplaceReplace(Tmp, &tmpsize, gl4es_hack2, gl4es_hack2_fix);
   }
 
   // and now change the version header, and add default precision
