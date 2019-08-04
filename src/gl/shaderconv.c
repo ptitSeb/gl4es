@@ -218,6 +218,7 @@ static const char* gl_TexCoordSource = "gl_TexCoord[";
 
 static const char* GLESHeader = "#version 100\n%sprecision %s float;\nprecision %s int;\n";
 
+// this is for Psychonauts
 static const char* gl4es_hack1 =
 "#version 120\n"
 "vec4 ps_r0;\n"
@@ -319,7 +320,6 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
       InplaceInsert(GetLine(Tmp, headline-1), GLESFakeDerivative);
     headline++;
   }
-  strcat(Tmp, newptr);
     // now check to remove trailling "f" after float, as it's not supported too
   newptr = Tmp;
   // simple state machine...
