@@ -227,7 +227,7 @@ static const char* gl4es_hack1 =
 static const char* gl4es_hack1_fix =
 "#version 120\n"
 "vec4 ps_r0;\n"
-"define ps_t0 gl_TexCoord[0]\n";
+"#define ps_t0 gl_TexCoord[0]\n";
 
 char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 {
@@ -272,7 +272,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   sprintf(GLESFullHeader, GLESHeader, "", (wanthighp)?"highp":"mediump", (wanthighp)?"highp":"mediump");
 
   int tmpsize = strlen(pBuffer)*2+strlen(GLESFullHeader)+100;
-  char* Tmp = (char*)malloc(tmpsize);
+  char* Tmp = (char*)calloc(1, tmpsize);
   strcpy(Tmp, pBuffer);
 
   // check for hack first
@@ -289,7 +289,8 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     InplaceInsert(Tmp, GLESFullHeader);
   } else {
     while(*newptr!=0x0a) newptr++;
-    memmove(Tmp, newptr, sizeof(newptr));
+    newptr++;
+    memmove(Tmp, newptr, strlen(newptr)+1);
     InplaceInsert(Tmp, GLESFullHeader);
   }
   int headline = 3;
