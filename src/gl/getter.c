@@ -641,6 +641,12 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_TEXTURE_COMPRESSION_HINT:
             *params=GL_DONT_CARE;
             break;
+        case GL_MAX_VERTEX_ATTRIBS:
+            if(hardext.esversion==1)
+                *params = 0;
+            else
+                *params = hardext.maxvattrib;
+            break;
         // GL4ES special hints
         case GL_SHRINK_HINT_GL4ES:
             *params=globals4es.texshrink;
