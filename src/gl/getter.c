@@ -14,6 +14,8 @@ GLenum gl4es_glGetError() {
         return GL_NO_ERROR;
 	LOAD_GLES(glGetError);
 	if (glstate->shim_error) {
+        if(glstate->shim_error!=2)
+            gles_glGetError();  // purge error log
         GLenum tmp = glstate->last_error;
 		glstate->last_error = GL_NO_ERROR;
 		return tmp;

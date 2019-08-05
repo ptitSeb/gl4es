@@ -105,6 +105,11 @@ static inline void noerrorShim() {
 	errorShim(GL_NO_ERROR);
 }
 
+static inline void noerrorShimNoPurge() {
+	glstate->shim_error = 2;
+	glstate->last_error = GL_NO_ERROR;
+}
+
 void gl4es_scratch(int alloc);
 void gl4es_scratch_vertex(int alloc);
 void gl4es_scratch_indices(int alloc);

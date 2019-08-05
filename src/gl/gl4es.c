@@ -51,7 +51,7 @@ void gl4es_glVertexPointer(GLint size, GLenum type,
         errorShim(GL_INVALID_VALUE);
 		return;
     }
-    noerrorShim();
+    noerrorShimNoPurge();
     clone_gl_pointer(glstate->vao->pointers[ATT_VERTEX], size);
 }
 void gl4es_glColorPointer(GLint size, GLenum type,
@@ -60,11 +60,11 @@ void gl4es_glColorPointer(GLint size, GLenum type,
         errorShim(GL_INVALID_VALUE);
 		return;
     }
-    noerrorShim();
+    noerrorShimNoPurge();
     clone_gl_pointer(glstate->vao->pointers[ATT_COLOR], size);
 }
 void gl4es_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
-    noerrorShim();
+    noerrorShimNoPurge();
     clone_gl_pointer(glstate->vao->pointers[ATT_NORMAL], 3);
 }
 void gl4es_glTexCoordPointer(GLint size, GLenum type,
@@ -73,7 +73,7 @@ void gl4es_glTexCoordPointer(GLint size, GLenum type,
         errorShim(GL_INVALID_VALUE);
 		return;
     }
-    noerrorShim();
+    noerrorShimNoPurge();
     clone_gl_pointer(glstate->vao->pointers[ATT_MULTITEXCOORD0+glstate->texture.client], size);
 }
 void gl4es_glSecondaryColorPointer(GLint size, GLenum type, 
@@ -83,7 +83,7 @@ void gl4es_glSecondaryColorPointer(GLint size, GLenum type,
 		return;		// Size must be 3...
     }
     clone_gl_pointer(glstate->vao->pointers[ATT_SECONDARY], size);
-    noerrorShim();
+    noerrorShimNoPurge();
 }
 void gl4es_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
     if(type==1 && stride==GL_FLOAT) {
@@ -91,7 +91,7 @@ void gl4es_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer)
         stride = 0; // mistake found in some version of openglide...
     }
     clone_gl_pointer(glstate->vao->pointers[ATT_FOGCOORD], 1);
-    noerrorShim();
+    noerrorShimNoPurge();
 }
 
 #undef clone_gl_pointer
@@ -212,7 +212,7 @@ void gl4es_glBegin(GLenum mode) {
     // small optim... continue a render command if possible
     glstate->list.active = NewDrawStage(glstate->list.active, mode);
     glstate->list.pending = 0;
-    noerrorShim();	// TODO, check Enum validity
+    noerrorShimNoPurge();	// TODO, check Enum validity
 }
 void glBegin(GLenum mode) AliasExport("gl4es_glBegin");
 
@@ -264,7 +264,7 @@ void gl4es_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
         } else {
             rlNormal3f(glstate->list.active, nx, ny, nz);
             glstate->list.active->lastNormal[0] = nx; glstate->list.active->lastNormal[1] = ny; glstate->list.active->lastNormal[2] = nz;
-            noerrorShim();
+            noerrorShimNoPurge();
         }
     }
     else {
@@ -292,7 +292,7 @@ void gl4es_glNormal3fv(GLfloat* v) {
         } else {
             rlNormal3fv(glstate->list.active, v);
             memcpy(glstate->list.active->lastNormal, v, 3*sizeof(GLfloat));
-            noerrorShim();
+            noerrorShimNoPurge();
         }
     }
     else {
@@ -307,7 +307,7 @@ void glNormal3fv(GLfloat* v) AliasExport("gl4es_glNormal3fv");
 void gl4es_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     if (glstate->list.active) {
         rlVertex4f(glstate->list.active, x, y, z, w);
-        noerrorShim();
+        noerrorShimNoPurge();
     } else {
         glstate->vertex[0]=x; glstate->vertex[1]=y; glstate->vertex[2]=z; glstate->vertex[3]=w;
     }
@@ -317,7 +317,7 @@ void glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) AliasExport("gl4es_g
 void gl4es_glVertex3fv(GLfloat* v) {
     if (glstate->list.active) {
         rlVertex3fv(glstate->list.active, v);
-        noerrorShim();
+        noerrorShimNoPurge();
     } else {
         memcpy(glstate->vertex, v, 3*sizeof(GLfloat));
         glstate->vertex[3]=1.f;
@@ -328,7 +328,7 @@ void glVertex3fv(GLfloat* v) AliasExport("gl4es_glVertex3fv");
 void gl4es_glVertex4fv(GLfloat* v) {
     if (glstate->list.active) {
         rlVertex4fv(glstate->list.active, v);
-        noerrorShim();
+        noerrorShimNoPurge();
     } else {
         memcpy(glstate->vertex, v, 3*sizeof(GLfloat));
         glstate->vertex[3]=1.f;
@@ -353,7 +353,7 @@ void gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
             PUSH_IF_COMPILING(glColor4f);
         } else {
             rlColor4f(glstate->list.active, red, green, blue, alpha);
-            noerrorShim();
+            noerrorShimNoPurge();
         }
     } else {
         LOAD_GLES_FPE(glColor4f);
@@ -382,7 +382,7 @@ void gl4es_glColor4fv(GLfloat* v) {
                 return gl4es_glColor4f(v[0], v[1], v[2], v[3]);
         } else {
             rlColor4fv(glstate->list.active, v);
-            noerrorShim();
+            noerrorShimNoPurge();
         }
     } else {
         LOAD_GLES_FPE(glColor4f);
@@ -404,9 +404,9 @@ void gl4es_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
             glstate->list.active->lastSecondaryColors[0] = r; glstate->list.active->lastSecondaryColors[1] = g;
             glstate->list.active->lastSecondaryColors[2] = b;
         }
-        noerrorShim();
+        noerrorShimNoPurge();
     } else {
-        noerrorShim();
+        noerrorShimNoPurge();
     }
     // change the state last thing
     glstate->secondary[0] = r; glstate->secondary[1] = g;
@@ -426,7 +426,7 @@ void gl4es_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
                 rlMultiTexCoord4f(glstate->list.active, GL_TEXTURE0, s, t, r, q);
         }
     }
-    noerrorShim();
+    noerrorShimNoPurge();
     glstate->texcoord[0][0] = s; glstate->texcoord[0][1] = t;
     glstate->texcoord[0][2] = r; glstate->texcoord[0][3] = q;
 }
@@ -443,7 +443,7 @@ void gl4es_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLf
                 rlMultiTexCoord4f(glstate->list.active, target, s, t, r, q);
         }
     }
-    noerrorShim();
+    noerrorShimNoPurge();
     glstate->texcoord[target-GL_TEXTURE0][0] = s; glstate->texcoord[target-GL_TEXTURE0][1] = t;
     glstate->texcoord[target-GL_TEXTURE0][2] = r; glstate->texcoord[target-GL_TEXTURE0][3] = q;
 }
@@ -461,7 +461,7 @@ void gl4es_glMultiTexCoord2fv(GLenum target, GLfloat* v) {
                 rlMultiTexCoord2fv(glstate->list.active, target, v);
         }
     }
-    noerrorShim();
+    noerrorShimNoPurge();
     memcpy(glstate->texcoord[target-GL_TEXTURE0], v, 2*sizeof(GLfloat));
     glstate->texcoord[target-GL_TEXTURE0][2] = 0.f; glstate->texcoord[target-GL_TEXTURE0][3] = 1.f;
 }
@@ -479,7 +479,7 @@ void gl4es_glMultiTexCoord4fv(GLenum target, GLfloat* v) {
                 rlMultiTexCoord4fv(glstate->list.active, target, v);
         }
     }
-    noerrorShim();
+    noerrorShimNoPurge();
     memcpy(glstate->texcoord[target-GL_TEXTURE0], v, 4*sizeof(GLfloat));
 }
 void glMultiTexCoord4fv(GLenum target, GLfloat* v) AliasExport("gl4es_glMultiTexCoord4fv");
@@ -644,7 +644,7 @@ GLuint gl4es_glGenLists(GLsizei range) {
 		errorShim(GL_INVALID_VALUE);
 		return 0;
 	}
-    noerrorShim();
+    noerrorShimNoPurge();
     if(range==0) {
         return 0;
     }
@@ -693,7 +693,7 @@ void gl4es_glNewList(GLuint list, GLenum mode) {
             kh_value(lists, k) = NULL;
         }
     }
-    noerrorShim();
+    noerrorShimNoPurge();
 
     glstate->list.name = list;
     glstate->list.mode = mode;
@@ -704,7 +704,6 @@ void gl4es_glNewList(GLuint list, GLenum mode) {
 void glNewList(GLuint list, GLenum mode) AliasExport("gl4es_glNewList");
 
 void gl4es_glEndList() {
-	noerrorShim();
     GLuint list = glstate->list.name;
     khash_t(gllisthead) *lists = glstate->headlists;
     khint_t k;
@@ -725,9 +724,12 @@ void gl4es_glEndList() {
         glstate->list.active = NULL;
 
         if (glstate->list.mode == GL_COMPILE_AND_EXECUTE) {
+        	noerrorShim();
             glCallList(list);
-        }
-    }
+        } else
+        	noerrorShimNoPurge();
+    } else
+    	noerrorShim();
 }
 void glEndList() AliasExport("gl4es_glEndList");
 
@@ -807,7 +809,7 @@ void gl4es_glDeleteList(GLuint list) {
 }
 
 void gl4es_glDeleteLists(GLuint list, GLsizei range) {
-	noerrorShim();
+	noerrorShimNoPurge();
     for (int i = 0; i < range; i++) {
         gl4es_glDeleteList(list+i);
     }
@@ -815,13 +817,13 @@ void gl4es_glDeleteLists(GLuint list, GLsizei range) {
 void glDeleteLists(GLuint list, GLsizei range) AliasExport("gl4es_glDeleteLists");
 
 void gl4es_glListBase(GLuint base) {
-	noerrorShim();
+	noerrorShimNoPurge();
     glstate->list.base = base;
 }
 void glListBase(GLuint base) AliasExport("gl4es_glListBase");
 
 GLboolean gl4es_glIsList(GLuint list) {
-	noerrorShim();
+	noerrorShimNoPurge();
     if(!list)
         return GL_FALSE;
     khint_t k;
@@ -836,7 +838,7 @@ GLboolean glIsList(GLuint list) AliasExport("gl4es_glIsList");
 
 void gl4es_glPolygonMode(GLenum face, GLenum mode) {
     ERROR_IN_BEGIN
-	noerrorShim();
+	noerrorShimNoPurge();
 	if (face == GL_FRONT)
 		face = GL_FRONT_AND_BACK;   //TODO, better handle all this
 	if (face == GL_BACK)
