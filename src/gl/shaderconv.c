@@ -216,6 +216,13 @@ static const char* gl4es_dummyClipVertex =
 
 static const char* gl_TexCoordSource = "gl_TexCoord[";
 
+static const char* gl_TexMatrixSources[] = {
+"gl_TextureMatrixInverseTranspose[",
+"gl_TextureMatrixInverse[",
+"gl_TextureMatrixTranspose[",
+"gl_TextureMatrix["
+};
+
 static const char* GLESHeader = "#version 100\n%sprecision %s float;\nprecision %s int;\n";
 
 // this is for Psychonauts (using LIBGL_GL=21)
@@ -418,40 +425,59 @@ if(strstr(Tmp, gl4es_hack2)) {
       // don't increment headline count, as all variying and attributes should be created before
     }
     // check for builtin matrix uniform...
-    int n = sizeof(builtin_matrix)/sizeof(builtin_matrix_t);
-    for (int i=0; i<n; i++) {
-        if(strstr(Tmp, builtin_matrix[i].glname)) {
-            // ok, this matrix is used
-            // replace gl_name by _gl4es_ one
-            Tmp = InplaceReplace(Tmp, &tmpsize, builtin_matrix[i].glname, builtin_matrix[i].name);
-            // insert a declaration of it
-            char def[100];
-            int ishighp = (isVertex || hardext.highp)?1:0;
-            if(builtin_matrix[i].matrix == MAT_N) {
-              if(need->need_normalmatrix && !hardext.highp)
-                ishighp = 0;
-              if(!hardext.highp && !isVertex)
-                need->need_normalmatrix = 1;
-            }
-            if(builtin_matrix[i].matrix == MAT_MV) {
-              if(need->need_mvmatrix && !hardext.highp)
-                ishighp = 0;
-              if(!hardext.highp && !isVertex)
-                need->need_mvmatrix = 1;
-            }
-            if(builtin_matrix[i].matrix == MAT_MVP) {
-              if(need->need_mvpmatrix && !hardext.highp)
-                ishighp = 0;
-              if(!hardext.highp && !isVertex)
-                need->need_mvpmatrix = 1;
-            }
-            if(builtin_matrix[i].texarray)
-                sprintf(def, "uniform %s%s %s[%d];\n", (ishighp)?"highp ":"mediump ", builtin_matrix[i].type, builtin_matrix[i].name, hardext.maxtex);
-            else
-                sprintf(def, "uniform %s%s %s;\n", (ishighp)?"highp ":"mediump ", builtin_matrix[i].type, builtin_matrix[i].name);
-            Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(def));
-            InplaceInsert(GetLine(Tmp, headline++), def);
+    {
+      // first check number of texture matrices used
+      int ntex = -1;
+      // Try to determine max Texture matrice used, for each transposed inverse or regular...
+      for(int i=0; i<4; ++i) {
+        char* p = Tmp;
+        while((p=strstr(p, gl_TexMatrixSources[i]))) {
+          p+=strlen(gl_TexMatrixSources[i]);
+          if(*p>='0' && *p<='9') {
+            int n = (*p) - '0';
+            if (ntex<n) ntex = n;
+          }
         }
+      }
+        
+      // if failed to determine, take max...
+      if (ntex==-1) ntex = hardext.maxtex; else ++ntex;
+
+      int n = sizeof(builtin_matrix)/sizeof(builtin_matrix_t);
+      for (int i=0; i<n; i++) {
+          if(strstr(Tmp, builtin_matrix[i].glname)) {
+              // ok, this matrix is used
+              // replace gl_name by _gl4es_ one
+              Tmp = InplaceReplace(Tmp, &tmpsize, builtin_matrix[i].glname, builtin_matrix[i].name);
+              // insert a declaration of it
+              char def[100];
+              int ishighp = (isVertex || hardext.highp)?1:0;
+              if(builtin_matrix[i].matrix == MAT_N) {
+                if(need->need_normalmatrix && !hardext.highp)
+                  ishighp = 0;
+                if(!hardext.highp && !isVertex)
+                  need->need_normalmatrix = 1;
+              }
+              if(builtin_matrix[i].matrix == MAT_MV) {
+                if(need->need_mvmatrix && !hardext.highp)
+                  ishighp = 0;
+                if(!hardext.highp && !isVertex)
+                  need->need_mvmatrix = 1;
+              }
+              if(builtin_matrix[i].matrix == MAT_MVP) {
+                if(need->need_mvpmatrix && !hardext.highp)
+                  ishighp = 0;
+                if(!hardext.highp && !isVertex)
+                  need->need_mvpmatrix = 1;
+              }
+              if(builtin_matrix[i].texarray)
+                  sprintf(def, "uniform %s%s %s[%d];\n", (ishighp)?"highp ":"mediump ", builtin_matrix[i].type, builtin_matrix[i].name, ntex);
+              else
+                  sprintf(def, "uniform %s%s %s;\n", (ishighp)?"highp ":"mediump ", builtin_matrix[i].type, builtin_matrix[i].name);
+              Tmp = ResizeIfNeeded(Tmp, &tmpsize, strlen(def));
+              InplaceInsert(GetLine(Tmp, headline++), def);
+          }
+      }
     }
   }
   // Handling of gl_LightSource[x].halfVector => normalize(gl_LightSource[x].position - gl_Vertex), but what if in the FragShader ?
