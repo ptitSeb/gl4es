@@ -442,6 +442,18 @@ if(strstr(Tmp, gl4es_hack2)) {
         
       // if failed to determine, take max...
       if (ntex==-1) ntex = hardext.maxtex; else ++ntex;
+      // change gl_TextureMatrix[X] to gl_TextureMatrix_X if notexrray
+      if(globals4es.notexarray) {
+        for (int k=0; k<ntex+1; k++) {
+          char d[100];
+          char d2[100];
+          sprintf(d2, "gl_TextureMatrix[%d]", k);
+          if(strstr(Tmp, d2)) {
+            sprintf(d, "gl_TextureMatrix_%d", k);
+            Tmp = InplaceReplace(Tmp, &tmpsize, d2, d);
+          }
+        }
+      }
 
       int n = sizeof(builtin_matrix)/sizeof(builtin_matrix_t);
       for (int i=0; i<n; i++) {
