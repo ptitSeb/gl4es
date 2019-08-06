@@ -551,7 +551,7 @@ void initialize_gl4es() {
     if (getcwd(cwd, sizeof(cwd))!= NULL)
         SHUT(LOGD("LIBGL: Current folder is:%s\n", cwd));
 
-    if(hardext.prgbin_n>0) {
+    if(hardext.prgbin_n>0 && !globals4es.notexarray) {
         env(LIBGL_NOPSA, globals4es.nopsa, "Don't use PrecompiledShaderArchive");
         if(globals4es.nopsa==0) {
             cwd[0]='\0';
