@@ -1,10 +1,6 @@
 language: c
 sudo: false
 dist: trusty
-addons:
-  apt:
-    packages:
-      - cmake
       
 compiler:
     - gcc
