@@ -142,6 +142,9 @@ void initialize_gl4es() {
     if (env_gl && strcmp(env_gl, "21") == 0) {
             globals4es.gl = 21;
     }
+    if (env_gl && strcmp(env_gl, "30") == 0) {
+            globals4es.gl = 30;
+    }
     // automatic GL version selection
     if(globals4es.gl==0)
         globals4es.gl = (globals4es.es==1)?15:20;  // forcing GL 1.5 for es1.1 and GL 2.0 for es2.0

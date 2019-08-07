@@ -224,7 +224,12 @@ static const char* gl_TexMatrixSources[] = {
 "gl_TextureMatrix["
 };
 
-static const char* GLESHeader = "#version 100\n%sprecision %s float;\nprecision %s int;\n";
+static const char* GLESHeader[] = {
+  "#version 100\n%sprecision %s float;\nprecision %s int;\n",
+  "#version 120\n%sprecision %s float;\nprecision %s int;\n",
+  "#version 310es\n%sprecision %s float;\nprecision %s int;\n",
+  "#version 300es\n%sprecision %s float;\nprecision %s int;\n"
+};
 
 // this is for Psychonauts (using LIBGL_GL=21)
 static const char* gl4es_hack1 =
@@ -277,12 +282,14 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   
   char* pBuffer = (char*)pEntry;
 
+  int version120 = 0;
+  char* versionString = NULL;
   if(!fpeShader) {
     extensions_t exts;  // dummy...
     exts.cap = exts.size = 0;
     exts.ext = NULL;
     // preproc first
-    pBuffer = preproc(pBuffer, comments, globals4es.shadernogles, &exts);
+    pBuffer = preproc(pBuffer, comments, globals4es.shadernogles, &exts, &versionString);
     // now comment all line starting with precision...
     if(strstr(pBuffer, "\nprecision")) {
       int sz = strlen(pBuffer);
@@ -304,8 +311,17 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   char GLESFullHeader[512];
   int wanthighp = !fpeShader;
   if(wanthighp && !hardext.highp) wanthighp = 0;
+  int versionHeader = 0;
+  if(versionString && strcmp(versionString, "120")==0)
+     version120 = 1;
+  if(version120) {
+    if(hardext.glsl120) versionHeader = 1;
+    else if(hardext.glsl310es) versionHeader = 2;
+    else if(hardext.glsl300es) { versionHeader = 3; /* location on uniform not supported ! */ }
+    /* else no location or in / out are supported */
+  }
   //sprintf(GLESFullHeader, GLESHeader, (wanthighp && hardext.highp==1 && !isVertex)?GLESUseFragHighp:"", (wanthighp)?"highp":"mediump", (wanthighp)?"highp":"mediump");
-  sprintf(GLESFullHeader, GLESHeader, "", (wanthighp)?"highp":"mediump", (wanthighp)?"highp":"mediump");
+  sprintf(GLESFullHeader, GLESHeader[versionHeader], "", (wanthighp)?"highp":"mediump", (wanthighp)?"highp":"mediump");
 
   int tmpsize = strlen(pBuffer)*2+strlen(GLESFullHeader)+100;
   char* Tmp = (char*)calloc(1, tmpsize);

@@ -12,6 +12,6 @@ typedef struct {
     int         cap;
 } extensions_t;
 
-char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts);
+char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts, char** versionString);
 
 #endif // _GL4ES_PREPROC_H_

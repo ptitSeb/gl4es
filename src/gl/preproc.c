@@ -348,7 +348,7 @@ static int result_if(stackif_t *st) {
 KHASH_MAP_INIT_STR(define, int);
 KHASH_MAP_INIT_STR(alldefine, char*);
 
-char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts) {
+char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts, char** versionString) {
     DBG(printf("Preproc on: =========\n%s\n=================\n", code);)
 
     uToken tok;
@@ -504,6 +504,10 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
                             status = 510;
                         } else if(!strcmp(tok.str, "define")) {
                             status = 610;
+                        } else if(!strcmp(tok.str, "version")) {
+                            status = 810;
+                            if(!*versionString)
+                                *versionString = (char*)calloc(1, 51);
                         } else status=399;
                     } else status = 399;  // meh?
                     break;
@@ -717,6 +721,37 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts)
                     } else {
                         indefined = 0;
                         status = 399;
+                    }
+                    break;
+                // #version
+                case 810:
+                    if(tok.type==TK_SPACE) {
+                        // nothing...
+                    } else if(tok.type==TK_TEXT) {
+                        strncat(*versionString, tok.str, 50);
+                        status = 820;
+                    } else {
+                        status = 399; // fallback, syntax error...
+                    }
+                    break;
+                case 820:
+                    if(tok.type==TK_SPACE) {
+                        strncat(*versionString, " ", 50);
+                        status = 830;
+                    } else if(tok.type==TK_TEXT) {
+                        strncat(*versionString, tok.str, 50);
+                    } else {
+                        status = 399; // fallback, syntax error...
+                    }
+                    break;
+                case 830:
+                    if(tok.type==TK_SPACE) {
+                        status = 830;
+                    } else if(tok.type==TK_TEXT) {
+                        strncat(*versionString, tok.str, 50);
+                        status = 820;
+                    } else {
+                        status = 399; // fallback, syntax error...
                     }
                     break;
             }
