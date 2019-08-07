@@ -20,6 +20,41 @@ hardext_t hardext = {0};
 
 #define SHUT(a) if(!globals4es.nobanner) a
 
+static int testGLSL(const char* version, int uniformLoc) {
+    // check if glsl 120 shaders are supported... by compiling one !
+    LOAD_GLES2(glCreateShader);
+    LOAD_GLES2(glShaderSource);
+    LOAD_GLES2(glCompileShader);
+    LOAD_GLES2(glGetShaderiv);
+    LOAD_GLES2(glDeleteShader);
+
+    GLuint shad = gles_glCreateShader(GL_VERTEX_SHADER);
+    const char* shadTest[4] = {
+        version,
+        "\n"
+        "layout(location = 0) in vec4 vecPos;\n",
+        uniformLoc?"layout(location = 0) uniform mat4 matPVP;\n":"uniform mat4 matPVP;\n",
+        "void main() {\n"
+        " gl_Position = matMVP * vecPos;\n"
+        "}\n"
+    };
+    gles_glShaderSource(shad, 2, shadTest, NULL);
+    gles_glCompileShader(shad);
+    GLint compiled;
+    gles_glGetShaderiv(shad, GL_COMPILE_STATUS, &compiled);
+    /*
+    if(!compiled) {
+        LOAD_GLES2(glGetShaderInfoLog)
+        char buff[500];
+        gles_glGetShaderInfoLog(shad, 500, NULL, buff);
+        printf("LIBGL: \"%s\" failed, message:\n%s\n", version, buff);
+    }
+    */
+    gles_glDeleteShader(shad);
+
+    return compiled;
+}
+
 #if defined(NOX11) && defined(NOEGL)
 __attribute__((visibility("default")))
 #endif
@@ -48,6 +83,9 @@ void GetHardwareExtensions(int notest)
             hardext.pointsprite = 1;
             hardext.pointsize = 1;
             hardext.cubemap = 1;
+#ifdef AMIGAOS4
+            hardext.glsl300es = 1;
+#endif
         }
         return;
     }
@@ -257,7 +295,7 @@ void GetHardwareExtensions(int notest)
         gles_glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &hardext.maxvattrib);
         SHUT(LOGD("LIBGL: Max vertex attrib: %d\n", hardext.maxvattrib));
         S("GL_OES_standard_derivatives", derivatives, 1);
-        S("GL_OES_get_program", prgbinary, 0);
+        S("GL_OES_get_program", prgbinary, 1);
         if(hardext.prgbinary) {
             gles_glGetIntegerv(GL_NUM_PROGRAM_BINARY_FORMATS_OES, &hardext.prgbin_n);
             SHUT(LOGD("LIBGL: Number of supported Program Binary Format: %d\n", hardext.prgbin_n));
@@ -301,6 +339,23 @@ void GetHardwareExtensions(int notest)
         hardext.vendor = VEND_ARM;
     else if(strstr(vendor, "Imagination Technologies"))
         hardext.vendor = VEND_IMGTEC;
+    if(hardext.esversion>1) {
+        if(testGLSL("#version 120", 1))
+            hardext.glsl120 = 1;
+        if(testGLSL("#version 300 es", 0))
+            hardext.glsl300es = 1;
+        if(testGLSL("#version 310 es", 1))
+            hardext.glsl310es = 1;
+    }
+    if(hardext.glsl120) {
+        SHUT(LOGD("LIBGL: GLSL 120 supported\n"));
+    }
+    if(hardext.glsl300es) {
+        SHUT(LOGD("LIBGL: GLSL 300 es supported\n"));
+    }
+    if(hardext.glsl310es) {
+        SHUT(LOGD("LIBGL: GLSL 310 es supported\n"));
+    }
 
 #ifndef NOEGL
     if(strstr(egl_eglQueryString(eglDisplay, EGL_EXTENSIONS), "EGL_KHR_gl_colorspace")) {
