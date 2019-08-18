@@ -487,6 +487,11 @@ void DeleteGLState(void* oldstate) {
 		free_matrix(texture_matrix[i]);
 	free(state->texture_matrix);
     #undef free_matrix
+    // states stack
+    if(glstate->stack)
+        free(glstate->stack);
+    if(glstate->clientStack)
+        free(glstate->clientStack);
     // linestipple
     if(state->linestipple.data)
         free(state->linestipple.data);
