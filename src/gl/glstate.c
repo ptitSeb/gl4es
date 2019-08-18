@@ -354,12 +354,13 @@ void* NewGLState(void* shared_glstate, int es2only) {
 		kh_del(programlist, programs, k);
     }
 
-    // Grab ViewPort
+    // Grab ViewPort & Scissor
     LOAD_GLES(glGetIntegerv);
 #ifdef AMIGAOS4
     if(!def) // if it's default_glstate, then there is probably no glcontext...
 #endif
     gles_glGetIntegerv(GL_VIEWPORT, (GLint*)&glstate->raster.viewport);
+    gles_glGetIntegerv(GL_SCISSOR_BOX, (GLint*)&glstate->raster.scissor);
     // FBO
     glstate->fbowidth  = glstate->fbo.mainfbo_width  = glstate->raster.viewport.width;
     glstate->fboheight = glstate->fbo.mainfbo_height = glstate->raster.viewport.height;
@@ -544,9 +545,10 @@ void ActivateGLState(void* new_glstate) {
 #ifdef AMIGAOS4
     if(glstate || newstate!=&default_glstate) // avoid getting gles info with no context
 #endif
-    if(new_glstate && (newstate->raster.viewport.width==0.0f || newstate->raster.viewport.height==0.0f)) {
-        LOAD_GLES(glGetFloatv);
-        gles_glGetFloatv(GL_VIEWPORT, (GLfloat*)&newstate->raster.viewport);
+    if(new_glstate && (newstate->raster.viewport.width==0 || newstate->raster.viewport.height==0)) {
+        LOAD_GLES(glGetIntegerv);
+        gles_glGetIntegerv(GL_VIEWPORT, (GLint*)&newstate->raster.viewport);
+        gles_glGetIntegerv(GL_SCISSOR_BOX, (GLint*)&newstate->raster.scissor);
     }
     glstate = newstate;
 }

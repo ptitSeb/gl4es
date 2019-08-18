@@ -55,9 +55,16 @@ void gl4es_glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
 }
 
 void gl4es_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
-    PUSH_IF_COMPILING(glViewport);
-    LOAD_GLES(glViewport);
-	if(glstate->raster.viewport.x!=x || glstate->raster.viewport.y!=y || glstate->raster.viewport.width!=width || glstate->raster.viewport.height!=height) {
+	if(!glstate->list.pending) 
+		PUSH_IF_COMPILING(glViewport);
+	if(	glstate->raster.viewport.x!=x || 
+		glstate->raster.viewport.y!=y || 
+		glstate->raster.viewport.width!=width || 
+		glstate->raster.viewport.height!=height) 
+	{
+		if(glstate->list.pending)
+			flush();
+    	LOAD_GLES(glViewport);
 		if (glstate->raster.bm_drawing)
 			bitmap_flush();
 		gles_glViewport(x, y, width, height);
@@ -65,6 +72,31 @@ void gl4es_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
 		glstate->raster.viewport.y = y;
 		glstate->raster.viewport.width = width;
 		glstate->raster.viewport.height = height;
+	}
+}
+
+void gl4es_glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
+	if(!glstate->list.pending) 
+	    PUSH_IF_COMPILING(glScissor);
+#ifdef AMIGAOS4
+	if(x<0) {width+=x; x=0;}
+	if(y<0) {height+=y; y=0;}
+#endif
+	if(	glstate->raster.scissor.x!=x || 
+		glstate->raster.scissor.y!=y || 
+		glstate->raster.scissor.width!=width || 
+		glstate->raster.scissor.height!=height) 
+	{
+		if(glstate->list.pending)
+			flush();
+    	LOAD_GLES(glScissor);
+		if (glstate->raster.bm_drawing)
+			bitmap_flush();
+		gles_glScissor(x, y, width, height);
+		glstate->raster.scissor.x = x;
+		glstate->raster.scissor.y = y;
+		glstate->raster.scissor.width = width;
+		glstate->raster.scissor.height = height;
 	}
 }
 
@@ -739,6 +771,7 @@ void glDrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, con
 void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) AliasExport("gl4es_glRasterPos3f");
 void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) AliasExport("gl4es_glWindowPos3f");
 void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) AliasExport("gl4es_glViewport");
+void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) AliasExport("gl4es_glScissor");
 void glPixelZoom(GLfloat xfactor, GLfloat yfactor) AliasExport("gl4es_glPixelZoom");
 void glPixelTransferf(GLenum pname, GLfloat param) AliasExport("gl4es_glPixelTransferf");
 void glPixelMapfv(GLenum map, GLsizei mapsize, const GLfloat *values) AliasExport("gl4es_glPixelMapfv");

@@ -78,6 +78,7 @@
 
 // raster.c
 #define skip_glViewport
+#define skip_glScissor
 
 // texture.c
 #define skip_glIsTexture

@@ -120,6 +120,7 @@ typedef struct {
 typedef struct {
     rasterpos_t rPos;
     viewport_t viewport;
+    viewport_t scissor;
     GLfloat raster_scale[4];
     GLfloat raster_bias[4];
     GLfloat raster_zoomx;
