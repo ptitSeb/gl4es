@@ -548,6 +548,9 @@ void DeleteGLState(void* oldstate) {
     for(int i=0; i<MAX_TEX; ++i) {
         if(state->helper_tex[i])
             free(state->helper_tex[i]);
+        if(state->texgened[i])
+            free(state->texgened[i]);
+
     }
     //TODO: free sharderlist and programlist...
 

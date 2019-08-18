@@ -140,8 +140,6 @@ void draw_renderlist(renderlist_t *list) {
 
 	int old_tex;
     GLushort *indices;
-    static GLfloat *texgened[MAX_TEX] = {0};
-    static int texgenedsz[MAX_TEX] = {0};
     int use_texgen[MAX_TEX] = {0};
     old_tex = glstate->texture.client;
     GLuint cur_tex = old_tex;
@@ -416,7 +414,7 @@ void draw_renderlist(renderlist_t *list) {
             modeinit_t tmp; tmp.mode_init = list->mode_init; tmp.ilen=list->ilen?list->ilen:list->len;
             list->tex[stipple_tmu] = gen_stipple_tex_coords(list->vert, list->indices, list->mode_inits?list->mode_inits:&tmp, list->vert_stride, list->mode_inits?list->mode_init_len:1, (list->use_glstate)?(list->vert+8+stipple_tmu*4):NULL);
         }
-        #define RS(A, len) if(texgenedsz[A]<len) {free(texgened[A]); texgened[A]=malloc(4*sizeof(GLfloat)*len); texgenedsz[A]=len; } use_texgen[A]=1
+        #define RS(A, len) if(glstate->texgenedsz[A]<len) {free(glstate->texgened[A]); glstate->texgened[A]=malloc(4*sizeof(GLfloat)*len); glstate->texgenedsz[A]=len; } use_texgen[A]=1
         // cannot use list->maxtex because some TMU can be using TexGen or point sprites...
         if(hardext.esversion==1) {
             for (int a=0; a<hardext.maxtex; a++) {
@@ -427,10 +425,10 @@ void draw_renderlist(renderlist_t *list) {
                     if ((glstate->enable.texgen_s[a] || glstate->enable.texgen_t[a] || glstate->enable.texgen_r[a]  || glstate->enable.texgen_q[a])) {
                         TEXTURE(a);
                         RS(a, list->len);
-                        gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
+                        gen_tex_coords(list->vert, list->normal, &glstate->texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
                     } else if ((list->tex[a]==NULL) && !(list->mode==GL_POINT && glstate->texture.pscoordreplace[a])) {
                         RS(a, list->len);
-                        gen_tex_coords(list->vert, list->normal, &texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
+                        gen_tex_coords(list->vert, list->normal, &glstate->texgened[a], list->len, &needclean[a], a, (list->ilen<list->len)?indices:NULL, (list->ilen<list->len)?list->ilen:0);
                     }
                     // adjust the tex_coord now if needed, even on texgened ones
                     gltexture_t *bound = glstate->texture.bound[a][itarget];
@@ -439,7 +437,7 @@ void draw_renderlist(renderlist_t *list) {
                             RS(a, list->len);
                             if(list->tex_stride[a]) {
                                 GLfloat *src = list->tex[a];
-                                GLfloat *dst = texgened[a];
+                                GLfloat *dst = glstate->texgened[a];
                                 int stride = list->tex_stride[a]>>2;    // stride need to be a multiple of 4 (i.e. sizeof(GLfloat))
                                 for (int ii=0; ii<list->len; ii++) {
                                     memcpy(dst, src, 4*sizeof(GLfloat));
@@ -447,12 +445,12 @@ void draw_renderlist(renderlist_t *list) {
                                     dst+=4;
                                 }
                             } else
-                                memcpy(texgened[a], list->tex[a], 4*sizeof(GLfloat)*list->len);
+                                memcpy(glstate->texgened[a], list->tex[a], 4*sizeof(GLfloat)*list->len);
                         }
                         if (!(globals4es.texmat || glstate->texture_matrix[a]->identity))
-                            tex_coord_matrix(texgened[a], list->len, getTexMat(a));
+                            tex_coord_matrix(glstate->texgened[a], list->len, getTexMat(a));
                         if (bound->adjust) {
-                            tex_coord_npot(texgened[a], list->len, bound->width, bound->height, bound->nwidth, bound->nheight);
+                            tex_coord_npot(glstate->texgened[a], list->len, bound->width, bound->height, bound->nwidth, bound->nheight);
                         }
                     }
                 }
@@ -462,7 +460,7 @@ void draw_renderlist(renderlist_t *list) {
                         gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
                         glstate->clientstate[ATT_MULTITEXCOORD0+a] = 1;
                     }
-                    gles_glTexCoordPointer(4, GL_FLOAT, (use_texgen[a])?0:list->tex_stride[a], (use_texgen[a])?texgened[a]:list->tex[a]);
+                    gles_glTexCoordPointer(4, GL_FLOAT, (use_texgen[a])?0:list->tex_stride[a], (use_texgen[a])?glstate->texgened[a]:list->tex[a]);
                 } else {
                     if (glstate->clientstate[ATT_MULTITEXCOORD0+a]) {
                         TEXTURE(a);
