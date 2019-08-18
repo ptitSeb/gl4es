@@ -536,6 +536,14 @@ void DeleteGLState(void* oldstate) {
             fpe_Dispose(state);
         }
     }
+    // get extensions
+    if(state->extensions)
+        free(state->extensions);
+    if(state->extensions_list) {
+        for(int i=0; i<state->num_extensions; ++i)
+            free(state->extensions_list[i]);
+        free(state->extensions_list);
+    }
     //TODO: free sharderlist and programlist...
 
     // probably missing some things to free here!

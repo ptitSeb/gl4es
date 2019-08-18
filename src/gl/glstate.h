@@ -109,6 +109,10 @@ typedef struct {
     // Implementation read
     GLenum              readf; // implementation Read Format
     GLenum              readt; // implementation Read Type
+    // Get extension
+    GLubyte*            extensions;
+    int                 num_extensions;
+    GLubyte**           extensions_list;
 } glstate_t;
 
 
