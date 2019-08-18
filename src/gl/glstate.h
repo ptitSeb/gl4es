@@ -113,6 +113,9 @@ typedef struct {
     GLubyte*            extensions;
     int                 num_extensions;
     GLubyte**           extensions_list;
+    // Texture adjust helper
+    void*               helper_tex[MAX_TEX];
+    int                 helper_texlen[MAX_TEX];
 } glstate_t;
 
 

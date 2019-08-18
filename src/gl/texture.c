@@ -117,30 +117,27 @@ void tex_setup_texcoord(GLuint len, int changes, GLuint itarget, pointer_state_t
     LOAD_GLES_FPE(glTexCoordPointer);
     GLuint texunit = glstate->texture.client;
     
-    static void * tex[MAX_TEX] = {0};
-    static int texlen[MAX_TEX] = {0};
-    
     gltexture_t *bound = glstate->texture.bound[texunit][itarget];
     
     if (changes) {
         // first convert to GLfloat, without normalization
-        if(texlen[texunit]<len) {
-            if(tex[texunit]) free(tex[texunit]);
-            tex[texunit] = malloc(4*sizeof(GLfloat)*len);
-            texlen[texunit] = len;
+        if(glstate->helper_texlen[texunit]<len) {
+            if(glstate->helper_tex[texunit]) free(glstate->helper_tex[texunit]);
+            glstate->helper_tex[texunit] = malloc(4*sizeof(GLfloat)*len);
+            glstate->helper_texlen[texunit] = len;
         }
-        copy_gl_pointer_tex_noalloc(tex[texunit], ptr, 4, 0, len);
+        copy_gl_pointer_tex_noalloc(glstate->helper_tex[texunit], ptr, 4, 0, len);
         // Normalize if needed
         if (itarget == ENABLED_TEXTURE_RECTANGLE)
-            tex_coord_rect_arb(tex[texunit], 4, len, bound->width, bound->height);
+            tex_coord_rect_arb(glstate->helper_tex[texunit], 4, len, bound->width, bound->height);
         // Apply transformation matrix if any
         if (!(globals4es.texmat || glstate->texture_matrix[texunit]->identity))
-            tex_coord_matrix(tex[texunit], len, getTexMat(texunit));
+            tex_coord_matrix(glstate->helper_tex[texunit], len, getTexMat(texunit));
         // NPOT adjust
         if (bound->adjust)
-            tex_coord_npot(tex[texunit], len, bound->width, bound->height, bound->nwidth, bound->nheight);
+            tex_coord_npot(glstate->helper_tex[texunit], len, bound->width, bound->height, bound->nwidth, bound->nheight);
         // All done, setup the texcoord array now
-        gles_glTexCoordPointer(4, GL_FLOAT, 0, tex[texunit]);
+        gles_glTexCoordPointer(4, GL_FLOAT, 0, glstate->helper_tex[texunit]);
     } else {
         gles_glTexCoordPointer(ptr->size, ptr->type, ptr->stride, ptr->pointer);
     }

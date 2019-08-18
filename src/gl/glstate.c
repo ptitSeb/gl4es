@@ -544,6 +544,11 @@ void DeleteGLState(void* oldstate) {
             free(state->extensions_list[i]);
         free(state->extensions_list);
     }
+    // helper texture adjust
+    for(int i=0; i<MAX_TEX; ++i) {
+        if(state->helper_tex[i])
+            free(state->helper_tex[i]);
+    }
     //TODO: free sharderlist and programlist...
 
     // probably missing some things to free here!
