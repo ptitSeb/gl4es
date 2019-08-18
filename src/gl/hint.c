@@ -12,8 +12,7 @@ void pandora_set_gamma();
 
 void gl4es_glHint(GLenum pname, GLenum mode) {
     
-    if (glstate->list.pending)
-        flush();
+    FLUSH_BEGINEND;
 
     LOAD_GLES(glHint);
     noerrorShim();

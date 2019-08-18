@@ -35,8 +35,7 @@ void gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfac
         && sfactorAlpha==glstate->blendsfactoralpha && dfactorAlpha==glstate->blenddfactoralpha)
         return; // no change...
 
-    if(glstate->list.pending)
-        flush();
+    FLUSH_BEGINEND;
 
 #ifndef PANDORA
     if(gles_glBlendFuncSeparate==NULL) {
@@ -80,8 +79,7 @@ void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
         && sfactor==glstate->blendsfactoralpha && dfactor==glstate->blenddfactoralpha)
         return; // already set
 
-    if(glstate->list.pending)
-        flush();
+    FLUSH_BEGINEND;
 
     LOAD_GLES(glBlendFunc);
     LOAD_GLES2_OR_OES(glBlendFuncSeparate);

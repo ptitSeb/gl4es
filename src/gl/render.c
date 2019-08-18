@@ -41,7 +41,7 @@ void push_hit() {
 
 GLint gl4es_glRenderMode(GLenum mode) {
 	if(glstate->list.compiling) {errorShim(GL_INVALID_OPERATION); return 0;}
-	if(glstate->list.active) flush();
+	FLUSH_BEGINEND;
 
 	int ret = 0;
     if ((mode==GL_SELECT) || (mode==GL_RENDER)) {  // missing GL_FEEDBACK
@@ -88,8 +88,7 @@ void gl4es_glInitNames() {
 }
 
 void gl4es_glPopName() {
-	if(glstate->list.pending)
-		flush();
+	FLUSH_BEGINEND;
 	if(glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_RENDER);
 		glstate->list.active->render_op = 2;
@@ -106,8 +105,7 @@ void gl4es_glPopName() {
 }
 
 void gl4es_glPushName(GLuint name) {
-	if(glstate->list.pending)
-		flush();
+	FLUSH_BEGINEND;
 	if(glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_RENDER);
 		glstate->list.active->render_op = 3;
@@ -126,8 +124,7 @@ void gl4es_glPushName(GLuint name) {
 }
 
 void gl4es_glLoadName(GLuint name) {
-	if(glstate->list.pending)
-		flush();
+	FLUSH_BEGINEND;
 	if(glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_RENDER);
 		glstate->list.active->render_op = 4;
@@ -146,8 +143,7 @@ void gl4es_glLoadName(GLuint name) {
 }
 
 void gl4es_glSelectBuffer(GLsizei size, GLuint *buffer) {
-    if (glstate->list.pending)
-		flush();
+    FLUSH_BEGINEND;
 		
     noerrorShim();
 	glstate->selectbuf.buffer = buffer;

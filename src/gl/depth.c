@@ -11,8 +11,7 @@ void gl4es_glDepthFunc(GLenum func) {
     noerrorShim();
     if (glstate->depth.func == func)
         return;
-    if(glstate->list.pending)
-        flush();
+    FLUSH_BEGINEND;
     glstate->depth.func = func;
     LOAD_GLES(glDepthFunc);
     errorGL();
@@ -26,8 +25,7 @@ void gl4es_glDepthMask(GLboolean flag) {
     noerrorShim();
     if (glstate->depth.mask == flag)
         return;
-    if(glstate->list.pending)
-        flush();
+    FLUSH_BEGINEND;
     glstate->depth.mask = flag;
     LOAD_GLES(glDepthMask);
     errorGL();
@@ -47,8 +45,7 @@ void gl4es_glDepthRangef(GLclampf near, GLclampf far) {
     noerrorShim();
     if ((glstate->depth.near == near) && (glstate->depth.far == far))
         return;
-    if(glstate->list.pending)
-        flush();
+    FLUSH_BEGINEND;
     glstate->depth.near = near;
     glstate->depth.far = far;
     LOAD_GLES(glDepthRangef);

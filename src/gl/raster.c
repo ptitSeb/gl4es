@@ -62,11 +62,9 @@ void gl4es_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
 		glstate->raster.viewport.width!=width || 
 		glstate->raster.viewport.height!=height) 
 	{
-		if(glstate->list.pending)
-			flush();
+		FLUSH_BEGINEND;
+		if (glstate->raster.bm_drawing)	bitmap_flush();
     	LOAD_GLES(glViewport);
-		if (glstate->raster.bm_drawing)
-			bitmap_flush();
 		gles_glViewport(x, y, width, height);
 		glstate->raster.viewport.x = x;
 		glstate->raster.viewport.y = y;
@@ -87,11 +85,9 @@ void gl4es_glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
 		glstate->raster.scissor.width!=width || 
 		glstate->raster.scissor.height!=height) 
 	{
-		if(glstate->list.pending)
-			flush();
+		FLUSH_BEGINEND;
+		if (glstate->raster.bm_drawing) bitmap_flush();
     	LOAD_GLES(glScissor);
-		if (glstate->raster.bm_drawing)
-			bitmap_flush();
 		gles_glScissor(x, y, width, height);
 		glstate->raster.scissor.x = x;
 		glstate->raster.scissor.y = y;
@@ -340,8 +336,7 @@ void gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig,
     // TODO: shouldn't be drawn if the raster pos is outside the viewport?
     // TODO: negative width/height mirrors bitmap?
 	noerrorShim();
-	if(glstate->list.active && glstate->list.pending)
-		flush();
+	FLUSH_BEGINEND;
 	if(glstate->list.active) {
 		renderlist_t* list = glstate->list.active;
 		if (!list->bitmaps) {
@@ -480,11 +475,9 @@ void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
 	}
 
     noerrorShim();
-	if(glstate->list.active && glstate->list.pending)
-		flush();
+	FLUSH_BEGINEND;
 
-    if (glstate->raster.bm_drawing)
-        bitmap_flush();
+    if (glstate->raster.bm_drawing) bitmap_flush();
 
 /*printf("glDrawPixels, xy={%f, %f}, size={%i, %i}, format=%s, type=%s, zoom={%f, %f}, viewport={%i, %i, %i, %i}\n", 	
 	glstate->raster.rPos.x, glstate->raster.rPos.y, width, height, PrintEnum(format), PrintEnum(type), glstate->raster.raster_zoomx, glstate->raster.raster_zoomy, glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);*/

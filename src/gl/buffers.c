@@ -112,8 +112,8 @@ void gl4es_glGenBuffers(GLsizei n, GLuint * buffers) {
 
 void gl4es_glBindBuffer(GLenum target, GLuint buffer) {
     DBG(printf("glBindBuffer(%s, %u)\n", PrintEnum(target), buffer);)
-    if (glstate->list.pending)  // this is probably not needed as long as real VBO are not used
-         flush();
+    // this flush is probably not needed as long as real VBO are not used
+    FLUSH_BEGINEND;
 
    	khint_t k;
    	int ret;
@@ -378,8 +378,7 @@ void *gl4es_glMapNamedBuffer(GLuint buffer, GLenum access) {
 GLboolean gl4es_glUnmapBuffer(GLenum target) {
     DBG(printf("glUnmapBuffer(%s)\n", PrintEnum(target));)
     if(glstate->list.compiling) {errorShim(GL_INVALID_OPERATION); return GL_FALSE;}
-    if(glstate->list.active)
-        flush();
+    FLUSH_BEGINEND;
         
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
@@ -402,8 +401,7 @@ GLboolean gl4es_glUnmapBuffer(GLenum target) {
 GLboolean gl4es_glUnmapNamedBuffer(GLuint buffer) {
     DBG(printf("glUnmapNamedBuffer(%u)\n", buffer);)
     if(glstate->list.compiling) {errorShim(GL_INVALID_OPERATION); return GL_FALSE;}
-    if(glstate->list.active)
-        flush();
+    FLUSH_BEGINEND;
         
 	glbuffer_t *buff = getbuffer_id(buffer);
 	if (buff==NULL)
@@ -568,8 +566,7 @@ void gl4es_glGenVertexArrays(GLsizei n, GLuint *arrays) {
 }
 void gl4es_glBindVertexArray(GLuint array) {
     DBG(printf("glBindVertexArray(%u)\n", array);)
-    if (glstate->list.pending)
-         flush();
+    FLUSH_BEGINEND;
 
    	khint_t k;
    	int ret;

@@ -509,6 +509,12 @@ void fpe_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
     noerrorShim();
 }
 void fpe_glMaterialf(GLenum face, GLenum pname, const GLfloat param) {
+    if(face==GL_FRONT_AND_BACK || face==GL_FRONT) {
+        glstate->fpe_state->cm_front_nullexp=(param<=0.0)?0:1;
+    }
+    if(face==GL_FRONT_AND_BACK || face==GL_BACK) {
+        glstate->fpe_state->cm_back_nullexp=(param<=0.0)?0:1;
+    }
     noerrorShim();
 }
 

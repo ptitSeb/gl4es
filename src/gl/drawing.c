@@ -696,9 +696,6 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
         return;
     }
 
-    if (glstate->raster.bm_drawing)
-        bitmap_flush();
-
     // special case for (very) large GL_QUADS array
     if ((mode==GL_QUADS) && (count>4*8000)) {
         // split the array in manageable slice
@@ -827,9 +824,6 @@ void gl4es_glMultiDrawArrays(GLenum mode, const GLint *firsts, const GLsizei *co
         if (count==0) {
             continue;
         }
-
-        if (glstate->raster.bm_drawing)
-            bitmap_flush();
 
         if (compiling) {
             if(globals4es.mergelist && glstate->list.active->stage>=STAGE_DRAW && is_list_compatible(glstate->list.active) && !glstate->list.active->use_glstate) {
@@ -1325,9 +1319,6 @@ void gl4es_glDrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsize
         noerrorShim();
         return;
     }
-
-    if (glstate->raster.bm_drawing)
-        bitmap_flush();
 
     // special case for (very) large GL_QUADS array
     if ((mode==GL_QUADS) && (count>4*8000)) {

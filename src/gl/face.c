@@ -15,8 +15,7 @@ void gl4es_glCullFace(GLenum mode) {
         noerrorShim();
         return;
     }
-    if(glstate->list.pending)
-        flush();
+    FLUSH_BEGINEND;
     
     glstate->face.cull = mode;
     LOAD_GLES(glCullFace);
@@ -34,8 +33,7 @@ void gl4es_glFrontFace(GLenum mode) {
         noerrorShim();
         return;
     }
-    if(glstate->list.pending)
-        flush();
+    FLUSH_BEGINEND;
     
     glstate->face.front = mode;
     LOAD_GLES(glFrontFace);

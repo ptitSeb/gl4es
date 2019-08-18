@@ -683,6 +683,10 @@ void gl4es_glNewList(GLuint list, GLenum mode) {
 	errorShim(GL_INVALID_VALUE);
 	if (list==0)
 		return;
+    
+    if (glstate->raster.bm_drawing) bitmap_flush();
+    FLUSH_BEGINEND;
+
     {
         khint_t k;
         int ret;
@@ -769,6 +773,8 @@ void gl4es_glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
             gl4es_glCallList(list + glstate->list.base);                  \
             break
 
+    if (glstate->raster.bm_drawing) bitmap_flush();
+    FLUSH_BEGINEND;
     unsigned int i, j;
     GLuint list;
     GLubyte *l;
@@ -866,6 +872,8 @@ void glPolygonMode(GLenum face, GLenum mode) AliasExport("gl4es_glPolygonMode");
 
 
 void flush() {
+    if(glstate->list.compiling)
+        return;
     // flush internal list
     renderlist_t *mylist = glstate->list.active?extend_renderlist(glstate->list.active):NULL;
     if (mylist) {
@@ -885,7 +893,7 @@ void gl4es_glFlush() {
 	LOAD_GLES(glFlush);
     
     realize_textures();
-    if (glstate->list.pending) flush();
+    FLUSH_BEGINEND;
     if (glstate->raster.bm_drawing) bitmap_flush();
     
     gles_glFlush();
@@ -902,7 +910,7 @@ void gl4es_glFinish() {
 	LOAD_GLES(glFinish);
     
     realize_textures();
-    if (glstate->list.pending) flush();
+    FLUSH_BEGINEND;
     if (glstate->raster.bm_drawing) bitmap_flush();
     
     gles_glFinish();
@@ -1064,11 +1072,8 @@ void amiga_pre_swap()
 __attribute__((visibility("default"))) void gl4es_pre_swap()
 #endif
 {
-    if (glstate->list.active){
-        flush();
-    }
-    if (glstate->raster.bm_drawing)
-        bitmap_flush();
+    if (glstate->list.active) flush();
+    if (glstate->raster.bm_drawing) bitmap_flush();
 
     if (globals4es.usefbo) {
         unbindMainFBO();

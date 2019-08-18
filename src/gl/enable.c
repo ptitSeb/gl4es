@@ -62,9 +62,9 @@ void change_vao_texcoord(int tmu, bool enable)
 
 static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     #define proxy_GO(constant, name) \
-        case constant: if(glstate->enable.name != enable) {if(glstate->list.pending) flush(); glstate->enable.name = enable; next(cap);} break
+        case constant: if(glstate->enable.name != enable) {FLUSH_BEGINEND; glstate->enable.name = enable; next(cap);} break
     #define proxy_GOFPE(constant, name, fct) \
-        case constant: if(glstate->enable.name != enable) {if(glstate->list.pending) flush(); glstate->enable.name = enable; if(glstate->fpe_state) { fct; } else next(cap);} break
+        case constant: if(glstate->enable.name != enable) {FLUSH_BEGINEND; glstate->enable.name = enable; if(glstate->fpe_state) { fct; } else next(cap);} break
     #define GO(constant, name) \
         case constant: if(glstate->list.pending && glstate->enable.name!=enable) flush(); glstate->enable.name = enable; break;
     #define GONF(constant, name) \
@@ -85,7 +85,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 	noerrorShim();
 #ifdef TEXSTREAM
     if (cap==GL_TEXTURE_STREAM_IMG) {
-        if(glstate->list.pending) flush();
+        FLUSH_BEGINEND;
         if(enable)
             glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX2D);
         else
@@ -186,7 +186,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         
         // Texture 1D and 3D
         case GL_TEXTURE_1D:
-            if(glstate->list.pending) flush(); 
+            FLUSH_BEGINEND; 
             if(enable)
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX1D);
             else
@@ -212,7 +212,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             }
             break;
         case GL_TEXTURE_3D:
-            if(glstate->list.pending) flush(); 
+            FLUSH_BEGINEND; 
             if(enable)
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEX3D);
             else
@@ -222,7 +222,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
                 fpe_changetex(glstate->texture.active);
             break;
         case GL_TEXTURE_RECTANGLE_ARB:
-            if(glstate->list.pending) flush(); 
+            FLUSH_BEGINEND; 
             if(enable)
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_TEXTURE_RECTANGLE);
             else
@@ -232,7 +232,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
                 fpe_changetex(glstate->texture.active);
             break;
         case GL_TEXTURE_CUBE_MAP:
-            if(glstate->list.pending) flush(); 
+            FLUSH_BEGINEND; 
             if(enable)
                 glstate->enable.texture[glstate->texture.active] |= (1<<ENABLED_CUBE_MAP);
             else
@@ -247,7 +247,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
             break;
 
         
-        default: errorGL(); if(glstate->list.pending) flush(); realize_active(); next(cap); break;
+        default: errorGL(); FLUSH_BEGINEND; realize_active(); next(cap); break;
     }
     #undef proxy_GO
     #undef GO

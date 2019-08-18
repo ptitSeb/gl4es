@@ -337,7 +337,7 @@ void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
             break;
     }
 
-    if(face==GL_BACK) { // lets ignore GL_BACK in GLES 1.1
+    if(face==GL_BACK && hardext.esversion==1) { // lets ignore GL_BACK in GLES 1.1
         noerrorShim();
         return;
     }
@@ -357,7 +357,7 @@ void gl4es_glMaterialf(GLenum face, GLenum pname, GLfloat param) {
             rlMaterialfv(glstate->list.active, face, pname, params);
             noerrorShim();
             return;
-        } else flush();
+        }
 
     if(face!=GL_FRONT_AND_BACK && face!=GL_FRONT && face!=GL_BACK) {
         errorShim(GL_INVALID_ENUM);
@@ -372,21 +372,21 @@ void gl4es_glMaterialf(GLenum face, GLenum pname, GLfloat param) {
         return;
     }
     if(face==GL_FRONT_AND_BACK || face==GL_FRONT) {
+        if(glstate->material.front.shininess == param)
+            return;
         glstate->material.front.shininess = param;
-        if(glstate->fpe_state)
-            glstate->fpe_state->cm_front_nullexp=(param<=0.0)?0:1;
     }
     if(face==GL_FRONT_AND_BACK || face==GL_BACK) {
+        if(glstate->material.back.shininess == param)
+            return;
         glstate->material.back.shininess = param;
-        if(glstate->fpe_state)
-            glstate->fpe_state->cm_back_nullexp=(param<=0.0)?0:1;
     }
 
     if(face==GL_BACK && hardext.esversion==1) { // lets ignore GL_BACK in GLES 1.1
         noerrorShim();
         return;
     }
-
+    FLUSH_BEGINEND;
     LOAD_GLES_FPE(glMaterialf);
     gles_glMaterialf(GL_FRONT_AND_BACK, pname, param);
     errorGL();
