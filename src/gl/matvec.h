@@ -6,7 +6,7 @@
 
 float dot(const float *a, const float *b) FASTMATH;
 float dot4(const float *a, const float *b) FASTMATH;
-float cross3(const float *a, const float *b, float* c) FASTMATH;
+void cross3(const float *a, const float *b, float* c) FASTMATH;
 void matrix_vector(const float *a, const float *b, float *c);
 void vector_matrix(const float *a, const float *b, float *c);
 void vector3_matrix(const float *a, const float *b, float *c);
