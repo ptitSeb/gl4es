@@ -292,7 +292,7 @@ GLboolean gl4es_glIsBuffer(GLuint buffer) {
 }
 
 
-static void* bufferGetParameteriv(glbuffer_t* buff, GLenum value, GLint * data) {
+static void bufferGetParameteriv(glbuffer_t* buff, GLenum value, GLint * data) {
 	noerrorShim();
 	switch (value) {
 		case GL_BUFFER_ACCESS:
