@@ -7,6 +7,7 @@
 typedef struct {
     GLenum type;
     GLint red, green, blue, alpha;
+    int maxv;
 } colorlayout_t;
 
 typedef struct {

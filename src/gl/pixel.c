@@ -39,18 +39,18 @@ static const colorlayout_t *get_color_map(GLenum format) {
         static colorlayout_t layout = {fmt, __VA_ARGS__}; \
         return &layout; }
     switch (format) {
-        map(GL_RED, 0, -1, -1, -1);
-        map(GL_R,   0, -1, -1, -1);
-        map(GL_RG,  0,  1, -1, -1);
-        map(GL_RGBA,0,  1, 2, 3);
-        map(GL_RGB, 0,  1, 2, -1);
-        map(GL_BGRA,2,  1, 0, 3);
-        map(GL_BGR, 2,  1, 0, -1);
-		map(GL_LUMINANCE_ALPHA, 0, 0, 0, 1);
-		map(GL_LUMINANCE, 0, 0, 0, -1);
-		map(GL_ALPHA,-1, -1, -1, 0);
-        map(GL_DEPTH_COMPONENT, 0, -1, -1, -1);
-        map(GL_COLOR_INDEX, 0, 1, 2, 3);
+        map(GL_RED, 0, -1, -1, -1, 0);
+        map(GL_R,   0, -1, -1, -1, 0);
+        map(GL_RG,  0,  1, -1, -1, 0);
+        map(GL_RGBA,0,  1, 2, 3, 3);
+        map(GL_RGB, 0,  1, 2, -1, 2);
+        map(GL_BGRA,2,  1, 0, 3, 3);
+        map(GL_BGR, 2,  1, 0, -1, 2);
+		map(GL_LUMINANCE_ALPHA, 0, 0, 0, 1, 1);
+		map(GL_LUMINANCE, 0, 0, 0, -1, 0);
+		map(GL_ALPHA,-1, -1, -1, 0, 0);
+        map(GL_DEPTH_COMPONENT, 0, -1, -1, -1, 0);
+        map(GL_COLOR_INDEX, 0, 1, 2, 3, 3);
         default:
             printf("LIBGL: unknown pixel format %s\n", PrintEnum(format));
             break;
@@ -144,7 +144,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
     // this pixel stores our intermediate color
     // it will be RGBA and normalized to between (0.0 - 1.0f)
     pixel_t pixel;
-    int max_a = src_color->red;
+    int max_a = src_color->maxv;
     if (src_color->green>max_a) max_a=src_color->green;
     if (src_color->blue>max_a) max_a=src_color->blue;
     if (src_color->alpha>max_a) max_a=src_color->alpha;
@@ -215,7 +215,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
             return false;
             break;
     }
-    max_a = dst_color->red;
+    max_a = dst_color->maxv;
     if (dst_color->green>max_a) max_a=dst_color->green;
     if (dst_color->blue>max_a) max_a=dst_color->blue;
     if (dst_color->alpha>max_a) max_a=dst_color->alpha;
@@ -319,7 +319,7 @@ bool transform_pixel(const GLvoid *src, GLvoid *dst,
     // this pixel stores our intermediate color
     // it will be RGBA and normalized to between (0.0 - 1.0f)
     pixel_t pixel;
-    int max_a = src_color->red;
+    int max_a = src_color->maxv;
     if (src_color->green>max_a) max_a=src_color->green;
     if (src_color->blue>max_a) max_a=src_color->blue;
     if (src_color->alpha>max_a) max_a=src_color->alpha;
@@ -473,7 +473,7 @@ bool half_pixel(const GLvoid *src0, const GLvoid *src1,
     // this pixel stores our intermediate color
     // it will be RGBA and normalized to between (0.0 - 1.0f)
     pixel_t pix[4], pixel;
-    int max_a = src_color->red;
+    int max_a = src_color->maxv;
     if (src_color->green>max_a) max_a=src_color->green;
     if (src_color->blue>max_a) max_a=src_color->blue;
     if (src_color->alpha>max_a) max_a=src_color->alpha;
@@ -641,7 +641,7 @@ bool quarter_pixel(const GLvoid *src[16],
     // this pixel stores our intermediate color
     // it will be RGBA and normalized to between (0.0 - 1.0f)
     pixel_t pix[16], pixel;
-    int max_a = src_color->red;
+    int max_a = src_color->maxv;
     if (src_color->green>max_a) max_a=src_color->green;
     if (src_color->blue>max_a) max_a=src_color->blue;
     if (src_color->alpha>max_a) max_a=src_color->alpha;
