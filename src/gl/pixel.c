@@ -816,6 +816,22 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         }
         return true;
     }
+    // RGBA or BGRA with GL_INT_8_8_8_8 <-> GL_INT_8_8_8_8_REV
+    if((src_format==dst_format) && (src_format==GL_RGBA || src_format==GL_BGRA) && ((src_type==GL_INT8 && dst_type==GL_INT8_REV) || (src_type==GL_INT8_REV && dst_type==GL_INT8))) {
+        for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				((char*)dst_pos)[0] = ((char*)src_pos)[3];
+				((char*)dst_pos)[1] = ((char*)src_pos)[2];
+				((char*)dst_pos)[2] = ((char*)src_pos)[1];
+                ((char*)dst_pos)[3] = ((char*)src_pos)[0];
+				src_pos += src_stride;
+				dst_pos += dst_stride;
+			}
+			dst_pos += dst_width;
+            src_pos += src_widthadj;
+        }
+        return true;
+    }
     // BGRA1555 -> RGBA5551
     if ((src_format == GL_BGRA) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_SHORT_5_5_5_1) && (src_type == GL_UNSIGNED_SHORT_1_5_5_5_REV)) {
       GLushort tmp;

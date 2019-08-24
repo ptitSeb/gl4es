@@ -392,7 +392,17 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 if(hardext.bgra8888 && ((*type)==GL_UNSIGNED_BYTE || (*type)==GL_FLOAT || (*type)==GL_HALF_FLOAT)) {
                     dest_format = GL_BGRA;
                     *format = GL_BGRA;
-                } else convert = true;
+                } else {
+                    convert = true;
+                    if(hardext.bgra8888 && 
+                    #ifdef __BIG_ENDIAN__
+                        (*type==GL_UNSIGNED_INT_8_8_8_8_REV)
+                    #else
+                        (*type==GL_UNSIGNED_INT_8_8_8_8)
+                    #endif
+                    )
+                        *format = GL_BGRA;    //only type needs conversion
+                }
                 break;
             case GL_DEPTH24_STENCIL8:
             case GL_DEPTH_STENCIL:
@@ -457,7 +467,11 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 else
                     convert = true;
                 break;
+            #ifdef __BIG_ENDIAN__
+            case GL_UNSIGNED_INT_8_8_8_8:
+            #else
             case GL_UNSIGNED_INT_8_8_8_8_REV:
+            #endif
                 *type = GL_UNSIGNED_BYTE;
                 // fall through
             case GL_UNSIGNED_BYTE:
@@ -465,6 +479,14 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                     dest_format = GL_RGBA;
                     convert = true;
                 }
+                break;
+            #ifdef __BIG_ENDIAN__
+            case GL_UNSIGNED_INT_8_8_8_8_REV:
+            #else
+            case GL_UNSIGNED_INT_8_8_8_8:
+            #endif
+                dest_type = GL_UNSIGNED_BYTE;
+                convert = true;
                 break;
             case GL_UNSIGNED_INT_24_8:
                 if(hardext.depthtex && hardext.depthstencil) {
@@ -605,6 +627,9 @@ GLenum swizzle_internalformat(GLenum *internalformat, GLenum format, GLenum type
             if(globals4es.avoid16bits==0 && format==GL_RGBA && type==GL_UNSIGNED_SHORT_4_4_4_4) {
                 sret = ret = GL_RGBA4;
                 break;
+            }
+            if(format==GL_BGRA && hardext.bgra8888) {
+                sret = ret = GL_BGRA;
             }
         case GL_RGBA8:
         case GL_RGBA16:
