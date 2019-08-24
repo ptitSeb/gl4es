@@ -12,6 +12,8 @@ glstate_t *glstate = NULL;
 
 glstate_t default_glstate = {0};
 
+#define DEFAULT_STATE (void*)(~(uintptr_t)0)
+
 void init_matrix(glstate_t* glstate);
 
 static void free_renderbuffer(glrenderbuffer_t *rend)
@@ -52,13 +54,13 @@ static void free_texture(gltexture_t *tex)
 }
 
 void* NewGLState(void* shared_glstate, int es2only) {
-    glstate_t *glstate = (shared_glstate!=(void*)0xFFFFFFFF)?((glstate_t*)calloc(1, sizeof(glstate_t))):&default_glstate;
+    glstate_t *glstate = (shared_glstate!=DEFAULT_STATE)?((glstate_t*)calloc(1, sizeof(glstate_t))):&default_glstate;
 #ifdef AMIGAOS4
     int def = 0;
-    if(shared_glstate==(void*)0xFFFFFFFF)
+    if(shared_glstate==DEFAULT_STATE)
         def = 1;
 #endif
-    if(shared_glstate==(void*)0xFFFFFFFF)
+    if(shared_glstate==DEFAULT_STATE)
         shared_glstate=NULL;
     if(shared_glstate) {
         glstate_t* copy_state = (glstate_t*)shared_glstate;
@@ -421,7 +423,7 @@ void DeleteGLState(void* oldstate) {
     glstate_t* state = (glstate_t*)oldstate;
     if(!state) return;
     if(state==&default_glstate) return;
-    if(oldstate==(void*)0xFFFFFFFF)
+    if(oldstate==DEFAULT_STATE)
         state = &default_glstate;
 
     if(state->shared_cnt) {
@@ -434,7 +436,7 @@ void DeleteGLState(void* oldstate) {
         return;
         
     if(glstate == state)
-        glstate = NULL;
+        glstate = (oldstate==DEFAULT_STATE)?NULL:&default_glstate;
 
     if(!state->shared_cnt)
         free(state->actual_tex2d);
@@ -557,7 +559,7 @@ void DeleteGLState(void* oldstate) {
     // probably missing some things to free here!
 
     // all done
-    if(oldstate!=(void*)0xFFFFFFFF)
+    if(oldstate!=DEFAULT_STATE)
         free(state);
     return;
 }
@@ -583,5 +585,5 @@ void gl_init() {
 }
 
 void gl_close() {
- DeleteGLState((void*)0xFFFFFFFF);
+ DeleteGLState(DEFAULT_STATE);
 }
