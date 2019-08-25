@@ -127,11 +127,12 @@ void DeleteGBMWindow(void* win)
 
 int FindGBMConfig(EGLConfig *configs, int numFounds)
 {
+    LOAD_EGL(eglGetConfigAttrib);
     int idx = 0;
     while(idx<numFounds)
     {
         EGLint gbm_format;
-        if (eglGetConfigAttrib(gbmdev, configs[idx], EGL_NATIVE_VISUAL_ID, &gbm_format)) {
+        if (egl_eglGetConfigAttrib(gbmdev, configs[idx], EGL_NATIVE_VISUAL_ID, &gbm_format)) {
             if (gbm_format == GBM_FORMAT_XRGB8888) {
                 return idx;
             }
