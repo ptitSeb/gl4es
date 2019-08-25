@@ -154,12 +154,6 @@ void GetHardwareExtensions(int notest)
     int configsFound;
     static EGLConfig pbufConfigs[1];
 
-#ifndef NO_GBM
-    if(strstr(egl_eglQueryString(EGL_NO_DISPLAY, EGL_EXTENSIONS), "EGL_KHR_platform_gbm")) {
-        SHUT(LOGD("LIBGL: GBM Surfaces supported%s\n", globals4es.usegbm?" and used":""));
-        hardext.gbm = 1;
-    }
-#endif
     eglDisplay = egl_eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
     egl_eglBindAPI(EGL_OPENGL_ES_API);
@@ -170,6 +164,13 @@ void GetHardwareExtensions(int notest)
     }
 
     egl_eglChooseConfig(eglDisplay, configAttribs, pbufConfigs, 1, &configsFound);
+#ifndef NO_GBM
+    const char* eglExts = egl_eglQueryString(EGL_NO_DISPLAY, EGL_EXTENSIONS);
+    if(eglExts && strstr(eglExts, "EGL_KHR_platform_gbm")) {
+        SHUT(LOGD("LIBGL: GBM Surfaces supported%s\n", globals4es.usegbm?" and used":""));
+        hardext.gbm = 1;
+    }
+#endif
 #ifndef PANDORA
     if(!configsFound) {
         // try without alpha channel
