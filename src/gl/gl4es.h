@@ -85,6 +85,8 @@ void gl4es_glDrawElementsInstancedBaseVertex(GLenum mode, GLsizei count, GLenum 
 
 const GLubyte *gl4es_glGetStringi(GLenum name, GLuint index);
 
+void gl4es_glClampColor(GLenum target, GLenum clamp);
+
 void flush();
 
 int adjust_vertices(GLenum mode, int nb);

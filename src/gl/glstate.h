@@ -28,6 +28,7 @@ typedef struct {
     GLboolean           colormask[4];
     int	                render_mode;
     int                 polygon_mode;
+    int                 clamp_read_color;
     namestack_t         namestack;
     GLfloat             mvp_matrix[16];
     int                 mvp_matrix_dirty;

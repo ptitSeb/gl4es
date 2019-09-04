@@ -1018,6 +1018,19 @@ void gl4es_glClear(GLbitfield mask) {
 }
 void glClear(GLbitfield mask) AliasExport("gl4es_glClear");
 
+void gl4es_glClampColor(GLenum target, GLenum clamp)
+{
+    // TODO: test valid clamp values?
+    // Not to be executed in list
+    if(target==GL_CLAMP_READ_COLOR) {
+        glstate->clamp_read_color = clamp;
+        noerrorShimNoPurge();
+    } else {
+        errorShim(GL_INVALID_ENUM);
+    }
+}
+void glClampColor(GLenum target, GLenum clamp) AliasExport("gl4es_glClampColor");
+
 void gl4es_scratch(int alloc) {
     if(glstate->scratch_alloc<alloc) {
         if(glstate->scratch)

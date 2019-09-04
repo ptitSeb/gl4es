@@ -639,6 +639,9 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_TEXTURE_COMPRESSION_HINT:
             *params=GL_DONT_CARE;
             break;
+        case GL_CLAMP_READ_COLOR:
+            *params=glstate->clamp_read_color;
+            break;
         case GL_MAX_VERTEX_ATTRIBS:
             if(hardext.esversion==1)
                 *params = 0;

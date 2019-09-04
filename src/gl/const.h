@@ -771,4 +771,7 @@
 #define GL_NUM_PROGRAM_BINARY_FORMATS_OES       0x87FE
 #define GL_PROGRAM_BINARY_FORMATS_OES           0x87FF
 
+//Clamp color
+#define GL_CLAMP_READ_COLOR               0x891C
+
 #endif // _GL4ES_CONST_H_
