@@ -360,31 +360,8 @@ if(count>500000) return;
 
         #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
 
-        if(globals4es.usevbo) ToBuffer(0, count);
-        int buffered = glstate->vao->locked_mapped;
-        if (buffered) {
-            // new check to see if texture are ok...
-            for (int aa=0; aa<hardext.maxtex && buffered; aa++) {
-                client_state(ATT_MULTITEXCOORD0+aa, GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
-                if(glstate->vao->pointers[ATT_MULTITEXCOORD0+aa].enabled) {
-                    TEXTURE(aa);
-                    const GLint itarget = get_target(glstate->enable.texture[aa]);
-                    if(itarget>=0)
-                        if(tex_setup_needchange(itarget))
-                            buffered = 0;
-                }
-            }
-        }
-        if(buffered) {
-            gl4es_use_scratch_vertex(1);
-            // and move indices too
-            int size = ((iindices)?4:2)*count;
-            gl4es_scratch_indices(size);
-            LOAD_GLES(glBufferSubData);
-            gles_glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, size, (iindices)?(void*)iindices:(void*)sindices);
-        }
         pointer_state_t *p;
-        #define GetP(A) (buffered)?(&glstate->vao->locked_pointers[A]):(&glstate->vao->pointers[A])
+        #define GetP(A) (&glstate->vao->pointers[A])
         // secondary color and color sizef != 4 are "intercepted" and draw using a list, unless usin ES>1.1
         client_state(ATT_COLOR, GL_COLOR_ARRAY, );
         p = GetP(ATT_COLOR);
@@ -439,23 +416,18 @@ if(count>500000) return;
             if(!iindices && !sindices)
                 gles_glDrawArrays(mode, first, count);
             else
-                gles_glDrawElements(mode, count, (sindices)?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, buffered?0:(sindices?((void*)sindices):((void*)iindices)));
+                gles_glDrawElements(mode, count, (sindices)?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, (sindices?((void*)sindices):((void*)iindices)));
         } else {
             if(!iindices && !sindices)
                 for (glstate->instanceID=0; glstate->instanceID<instancecount; ++glstate->instanceID)
                     gles_glDrawArrays(mode, first, count);
             else {
-                void* tmp=buffered?NULL:(sindices?((void*)sindices):((void*)iindices));
+                void* tmp=(sindices?((void*)sindices):((void*)iindices));
                 GLenum t = (sindices)?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT;
                 for (glstate->instanceID=0; glstate->instanceID<instancecount; ++glstate->instanceID)
                     gles_glDrawElements(mode, count, t, tmp);
             }
             glstate->instanceID = 0;
-        }
-
-        if(buffered) {
-            gl4es_use_scratch_vertex(0);
-            gl4es_use_scratch_indices(0);
         }
 
         for (int aa=0; aa<hardext.maxtex; aa++) {
@@ -1598,80 +1570,3 @@ void gl4es_glDrawElementsInstancedBaseVertex(GLenum mode, GLsizei count, GLenum 
 }
 void glDrawElementsInstancedBaseVertex(GLenum mode, GLsizei count, GLenum type, const void *indices, GLsizei primcount, GLint basevertex) AliasExport("gl4es_glDrawElementsInstancedBaseVertex");
 void glDrawElementsInstancedBaseVertexARB(GLenum mode, GLsizei count, GLenum type, const void *indices, GLsizei primcount, GLint basevertex) AliasExport("gl4es_glDrawElementsInstancedBaseVertex");
-
-void ToBuffer(int first, int count) {
-    if(globals4es.usevbo) {
-        int ok = 1;
-        int tcount = count+first;
-        if (!should_intercept_render(GL_TRIANGLES)) ok = 0;
-        if(ok)
-        for (int i=0; i<NB_VA; i++)
-            for (int i=0; i<NB_VA && ok; i++)
-                if(glstate->vao->pointers[i].enabled && !valid_vertex_type(glstate->vao->pointers[i].type))
-                    ok = 0;
-        if (ok) {
-            // try to see if there is a master index....
-            uintptr_t master = (uintptr_t)glstate->vao->pointers[ATT_VERTEX].pointer;
-            int stride = glstate->vao->pointers[ATT_VERTEX].stride;
-            if(stride<16) stride = 0;
-            for (int i=0; i<NB_VA; i++) {
-                if(glstate->vao->pointers[i].enabled) {
-                    uintptr_t p = (uintptr_t)glstate->vao->pointers[i].pointer;
-                    int nstride = glstate->vao->pointers[i].stride;
-                    if(nstride<16) nstride=0;
-                    if(!stride && nstride) {
-                        stride = nstride;
-                        master = p;
-                    } else if(stride && stride==nstride) {
-                        if ((p>master-stride) && (p<master+stride)) {
-                            if(p<master) master = p;
-                        }
-                    }
-                }
-            }
-            // ok, now we have a "master", let's count the required size
-            int total = stride * tcount;
-            for (int i=0; i<NB_VA; i++) {
-                if(glstate->vao->pointers[i].enabled) {
-                    uintptr_t p = (uintptr_t)glstate->vao->pointers[i].pointer;
-                    if(!(p>=master && p<master+stride)) {
-                        total += gl_sizeof(glstate->vao->pointers[i].type)*(glstate->vao->pointers[i].stride?glstate->vao->pointers[i].stride:glstate->vao->pointers[i].size)*tcount;
-                    }
-                }
-            }
-            // now allocate (if needed) the buffer and bind it
-            gl4es_scratch_vertex(total);
-            uintptr_t ptr = 0;
-            // move "master" data if there
-            LOAD_GLES(glBufferSubData);
-            LOAD_GLES(glBindBuffer);
-            if(stride) {
-                gles_glBufferSubData(GL_ARRAY_BUFFER, ptr+first*stride, stride*count, (void*)master);
-                ptr += stride*tcount;
-            }
-            for (int i=0; i<NB_VA; i++) {
-                if(glstate->vao->pointers[i].enabled) {
-                    uintptr_t p = (uintptr_t)glstate->vao->pointers[i].pointer;
-                    if(!(p>=master && p<master+stride)) {
-                        int size = gl_sizeof(glstate->vao->pointers[i].type)*(glstate->vao->pointers[i].stride?glstate->vao->pointers[i].stride:glstate->vao->pointers[i].size);
-                        gles_glBufferSubData(GL_ARRAY_BUFFER, ptr+size*first, size*count, glstate->vao->pointers[i].pointer);
-                        glstate->vao->locked_pointers[i].pointer = (void*)ptr;
-                        ptr+=size*tcount;
-                    } else {
-                        glstate->vao->locked_pointers[i].pointer = (void*)(((uintptr_t)glstate->vao->pointers[i].pointer)-master);
-                    }
-                    glstate->vao->locked_pointers[i].type = glstate->vao->pointers[i].type;
-                    glstate->vao->locked_pointers[i].size = glstate->vao->pointers[i].size;
-                    glstate->vao->locked_pointers[i].stride = glstate->vao->pointers[i].stride;
-//printf("BindBuffers %d = %p %sx%d (%d)\n", i, glstate->vao->locked_pointers[i].pointer, PrintEnum(glstate->vao->locked_pointers[i].type), glstate->vao->locked_pointers[i].size, glstate->vao->locked_pointers[i].stride);
-                }
-                glstate->vao->locked_pointers[i].enabled = glstate->vao->pointers[i].enabled;
-            }
-//printf("BindBuffers (fist=%d, count=%d) vertex = %p %sx%d (%d)\n", first, count, glstate->vao->locked_pointers[ATT_VERTEX].pointer, PrintEnum(glstate->vao->locked_pointers[ATT_VERTEX].type), glstate->vao->locked_pointers[ATT_VERTEX].size, glstate->vao->locked_pointers[ATT_VERTEX].stride);
-            // unbind the buffer
-            gl4es_use_scratch_vertex(0);
-            // All done!
-            glstate->vao->locked_mapped = true;
-        }
-    }
-}

@@ -45,6 +45,12 @@ int adjust_vertices(GLenum mode, int nb) {
 #undef client_state
 #define clone_gl_pointer(t, s)\
     t.size = s; t.type = type; t.stride = stride; t.pointer = pointer + (uintptr_t)((glstate->vao->vertex)?glstate->vao->vertex->data:0)
+#define break_lockarrays(t)\
+    if(glstate->vao->pointers[t].real_buffer) {    \
+        glstate->vao->pointers[t].real_buffer = 0; \
+        getFPEVA(t)->real_buffer = 0;              \
+    }
+
 void gl4es_glVertexPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     if(size<1 || size>4) {
@@ -52,6 +58,7 @@ void gl4es_glVertexPointer(GLint size, GLenum type,
 		return;
     }
     noerrorShimNoPurge();
+    break_lockarrays(ATT_VERTEX);
     clone_gl_pointer(glstate->vao->pointers[ATT_VERTEX], size);
 }
 void gl4es_glColorPointer(GLint size, GLenum type,
@@ -61,10 +68,12 @@ void gl4es_glColorPointer(GLint size, GLenum type,
 		return;
     }
     noerrorShimNoPurge();
+    break_lockarrays(ATT_COLOR);
     clone_gl_pointer(glstate->vao->pointers[ATT_COLOR], size);
 }
 void gl4es_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
     noerrorShimNoPurge();
+    break_lockarrays(ATT_NORMAL);
     clone_gl_pointer(glstate->vao->pointers[ATT_NORMAL], 3);
 }
 void gl4es_glTexCoordPointer(GLint size, GLenum type,
@@ -74,6 +83,7 @@ void gl4es_glTexCoordPointer(GLint size, GLenum type,
 		return;
     }
     noerrorShimNoPurge();
+    break_lockarrays(ATT_MULTITEXCOORD0+glstate->texture.client);
     clone_gl_pointer(glstate->vao->pointers[ATT_MULTITEXCOORD0+glstate->texture.client], size);
 }
 void gl4es_glSecondaryColorPointer(GLint size, GLenum type, 
@@ -82,6 +92,7 @@ void gl4es_glSecondaryColorPointer(GLint size, GLenum type,
         errorShim(GL_INVALID_VALUE);
 		return;		// Size must be 3...
     }
+    break_lockarrays(ATT_SECONDARY);
     clone_gl_pointer(glstate->vao->pointers[ATT_SECONDARY], size);
     noerrorShimNoPurge();
 }
@@ -90,6 +101,7 @@ void gl4es_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer)
         type = GL_FLOAT;
         stride = 0; // mistake found in some version of openglide...
     }
+    break_lockarrays(ATT_FOGCOORD);
     clone_gl_pointer(glstate->vao->pointers[ATT_FOGCOORD], 1);
     noerrorShimNoPurge();
 }
@@ -615,18 +627,145 @@ void glArrayElementEXT(GLint i) AliasExport("gl4es_glArrayElement");
 // so I can build a renderlist_t on the first call and hold onto it
 // maybe I need a way to call a renderlist_t with (first, count)
 void gl4es_glLockArrays(GLint first, GLsizei count) {
+    if(glstate->vao->locked) {
+        errorGL(GL_INVALID_OPERATION);
+        return;
+    }
     glstate->vao->locked = true;
     glstate->vao->first = first;
     glstate->vao->count = count;
+    if(hardext.esversion>1 && globals4es.usevbo && !glstate->list.compiling) {
+        // can now browse all enabled VA, and put the corresponding data in a VBO
+        // warning, with the use of first 
+        // Checking only Vertex Attrib for now!
+        // TODO: check all va, and take care of interleaved ones...
+        ToBuffer(first, count);
+    }
     noerrorShim();
 }
 void glLockArraysEXT(GLint first, GLsizei count) AliasExport("gl4es_glLockArrays");
 void gl4es_glUnlockArrays() {
     glstate->vao->locked = false;
+    UnBuffer();
 
     noerrorShim();
 }
 void glUnlockArraysEXT() AliasExport("gl4es_glUnlockArrays");
+
+pointer_state_t* getFPEVA(int i) {
+    switch (i)
+    {
+    case ATT_VERTEX:
+        return &glstate->fpe_client.vert;
+    case ATT_COLOR:
+        return &glstate->fpe_client.color;
+    case ATT_NORMAL:
+        return &glstate->fpe_client.normal;
+    case ATT_FOGCOORD:
+        return &glstate->fpe_client.fog;
+    case ATT_SECONDARY:
+        return &glstate->fpe_client.secondary;
+    case ATT_MULTITEXCOORD0:
+    case ATT_MULTITEXCOORD1:
+    case ATT_MULTITEXCOORD2:
+    case ATT_MULTITEXCOORD3:
+    case ATT_MULTITEXCOORD4:
+    case ATT_MULTITEXCOORD5:
+    case ATT_MULTITEXCOORD6:
+    case ATT_MULTITEXCOORD7:
+        return &glstate->fpe_client.tex[i-ATT_MULTITEXCOORD0];
+    }
+    return NULL;
+}
+
+void ToBuffer(int first, int count) {
+    int ok = 1;
+    int tcount = count+first;
+    if (hardext.esversion==1) ok = 0;
+    if(ok)
+    for (int i=0; i<NB_LOCKVA; i++)
+        for (int i=0; i<NB_LOCKVA && ok; i++)
+            if(glstate->vao->pointers[i].enabled && (!valid_vertex_type(glstate->vao->pointers[i].type) || glstate->vao->pointers[i].real_buffer)) {
+                ok = 0;
+            }
+    if (ok) {
+        // try to see if there is a master index....
+        uintptr_t master = (uintptr_t)glstate->vao->pointers[ATT_VERTEX].pointer;
+        int stride = glstate->vao->pointers[ATT_VERTEX].stride;
+        if(stride<16) stride = 0;
+        for (int i=0; i<NB_LOCKVA; i++) {
+            if(glstate->vao->pointers[i].enabled) {
+                uintptr_t p = (uintptr_t)glstate->vao->pointers[i].pointer;
+                int nstride = glstate->vao->pointers[i].stride;
+                if(nstride<16) nstride=0;
+                if(!stride && nstride) {
+                    stride = nstride;
+                    master = p;
+                } else if(stride && stride==nstride) {
+                    if ((p>master-stride) && (p<master+stride)) {
+                        if(p<master) master = p;
+                    }
+                }
+            }
+        }
+        memset(glstate->vao->locked_mapped, 0, sizeof(glstate->vao->locked_mapped));
+        // ok, now we have a "master", let's count the required size
+        int total = stride * tcount;
+        for (int i=0; i<NB_LOCKVA; i++) {
+            if(glstate->vao->pointers[i].enabled) {
+                uintptr_t p = (uintptr_t)glstate->vao->pointers[i].pointer;
+                if(!(p>=master && p<master+stride)) {
+                    total += gl_sizeof(glstate->vao->pointers[i].type)*(glstate->vao->pointers[i].stride?glstate->vao->pointers[i].stride:glstate->vao->pointers[i].size)*tcount;
+                }
+            }
+        }
+        // now allocate (if needed) the buffer and bind it
+        gl4es_scratch_vertex(total);
+        uintptr_t ptr = 0;
+        // move "master" data if there
+        LOAD_GLES(glBufferSubData);
+        LOAD_GLES(glBindBuffer);
+        if(stride) {
+            gles_glBufferSubData(GL_ARRAY_BUFFER, ptr+first*stride, stride*count, (void*)(master+first*stride));
+            ptr += stride*tcount;
+        }
+        for (int i=0; i<NB_LOCKVA; i++) {
+            if(glstate->vao->pointers[i].enabled) {
+                uintptr_t p = (uintptr_t)glstate->vao->pointers[i].pointer;
+                if(p>=master && p<master+stride) {
+                    glstate->vao->pointers[i].real_pointer = (void*)(p-master);
+                } else {
+                    int size = glstate->vao->pointers[i].stride?glstate->vao->pointers[i].stride:(gl_sizeof(glstate->vao->pointers[i].type)*glstate->vao->pointers[i].size);
+                    gles_glBufferSubData(GL_ARRAY_BUFFER, ptr+size*first, size*count, (void*)(p+size*first));
+                    glstate->vao->pointers[i].real_pointer = (void*)ptr;
+                    ptr+=size*tcount;
+                }
+                glstate->vao->pointers[i].real_buffer = glstate->scratch_vertex;
+                glstate->vao->locked_mapped[i] = 1;
+                pointer_state_t* fpe_p = getFPEVA(i);
+                fpe_p->real_buffer = glstate->scratch_vertex;
+                fpe_p->real_pointer = glstate->vao->pointers[i].real_pointer;
+            }
+        }
+//printf("BindBuffers (fist=%d, count=%d) vertex = %p %sx%d (%d)\n", first, count, glstate->vao->pointers[ATT_VERTEX].real_pointer, PrintEnum(glstate->vao->pointers[ATT_VERTEX].type), glstate->vao->pointers[ATT_VERTEX].size, glstate->vao->pointers[ATT_VERTEX].stride);
+        // unbind the buffer
+        gl4es_use_scratch_vertex(0);
+    }
+}
+
+void UnBuffer()
+{
+    for (int i=0; i<NB_LOCKVA; i++)
+        if(glstate->vao->locked_mapped[i]) {
+            glstate->vao->pointers[i].real_buffer = 0;
+            pointer_state_t* fpe_p = getFPEVA(i);
+            fpe_p->real_buffer = 0;
+            fpe_p->real_pointer = NULL;
+            glstate->vao->locked_mapped[i] = 0;
+        }
+}
+
+
 // display lists
 
 static renderlist_t *gl4es_glGetList(GLuint list) {

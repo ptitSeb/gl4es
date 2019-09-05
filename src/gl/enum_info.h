@@ -152,6 +152,7 @@ static const GLboolean pixel_hasalpha(GLenum format) {
 
 static inline const GLboolean valid_vertex_type(GLenum type) {
     switch (type) {
+        case GL_UNSIGNED_BYTE:
         case GL_BYTE:
         case GL_FIXED:
         case GL_FLOAT:

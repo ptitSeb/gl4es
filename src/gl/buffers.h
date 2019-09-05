@@ -68,10 +68,14 @@ typedef struct {
     GLsizei stride;
     const GLvoid *pointer;
     GLboolean enabled;
+    GLuint real_buffer;
+    const GLvoid* real_pointer;
 } pointer_state_t;
 
 typedef enum {
     ATT_VERTEX = 0,
+    ATT_NORMAL,
+    ATT_FOGCOORD,
     ATT_COLOR,
     ATT_MULTITEXCOORD0,
     ATT_MULTITEXCOORD1,
@@ -81,14 +85,14 @@ typedef enum {
     ATT_MULTITEXCOORD5,
     ATT_MULTITEXCOORD6,
     ATT_MULTITEXCOORD7,
-    ATT_NORMAL,
     ATT_SECONDARY,
-    ATT_FOGCOORD,
     //ATT_POINTSIZE,   //this one is supported by GLES hardware
     ATT_MAX
 } reserved_attrib_t;
 
 #define NB_VA (ATT_MAX)
+// glLockArrays should lock all arrays, but Quake3 do change values on Color and Textures UV, so limit Lock to 3D" Coords arrays
+#define NB_LOCKVA (ATT_FOGCOORD+1)
 
 typedef struct {
     GLfloat *ptr;
@@ -107,6 +111,8 @@ typedef struct {
     glbuffer_t      *buffer;    // reference buffer
     GLfloat         current[4];
     GLint           divisor;
+    GLuint          real_buffer;    // If there is a real VBO binded
+    const GLvoid*   real_pointer;   // the pointer related to real VBO
 } vertexattrib_t;
 
 // VAO ****************
@@ -123,8 +129,7 @@ typedef struct {
     GLboolean locked;
     GLsizei   count;
     GLint     first;
-    GLboolean locked_mapped;
-    pointer_state_t   locked_pointers[NB_VA];
+    GLboolean locked_mapped[NB_VA];
 
     int maxtex; // upper limit enabled tex_coord
     // VAO optimisation: keep a shared copy of the digested datas (unless the vao is the default one)

@@ -118,7 +118,9 @@ void gl4es_scratch_indices(int alloc);
 void gl4es_use_scratch_vertex(int use);
 void gl4es_use_scratch_indices(int use);
 
+pointer_state_t* getFPEVA(int i);
 void ToBuffer(int first, int count);
+void UnBuffer();
 
 GLboolean glIsList(GLuint list);
 GLuint glGenLists(GLsizei range);

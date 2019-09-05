@@ -704,6 +704,8 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                 w->stride = p->stride;
                 w->pointer = p->pointer;
                 w->buffer = NULL;
+                w->real_buffer = p->real_buffer;
+                w->real_pointer = p->real_pointer;
             } else {
                 memcpy(w->current, glstate->vertex, 4*sizeof(GLfloat));
             }
@@ -721,6 +723,8 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                 w->stride = p->stride;
                 w->pointer = p->pointer;
                 w->buffer = NULL;
+                w->real_buffer = p->real_buffer;
+                w->real_pointer = p->real_pointer;
             } else {
                 memcpy(w->current, glstate->color, 4*sizeof(GLfloat));
             }
@@ -738,6 +742,8 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                 w->stride = p->stride;
                 w->pointer = p->pointer;
                 w->buffer = NULL;
+                w->real_buffer = p->real_buffer;
+                w->real_pointer = p->real_pointer;
             } else {
                 memcpy(w->current, glstate->secondary, 4*sizeof(GLfloat));
             }
@@ -755,6 +761,8 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                 w->stride = p->stride;
                 w->pointer = p->pointer;
                 w->buffer = NULL;
+                w->real_buffer = p->real_buffer;
+                w->real_pointer = p->real_pointer;
             } else {
                 memcpy(w->current, &glstate->fogcoord, 1*sizeof(GLfloat));
                 memset(w->current+1, 0, 3*sizeof(GLfloat));
@@ -774,6 +782,8 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                     w->stride = p->stride;
                     w->pointer = p->pointer;
                     w->buffer = NULL;
+                    w->real_buffer = p->real_buffer;
+                    w->real_pointer = p->real_pointer;
                 } else {
                     memcpy(w->current, glstate->texcoord[tex], 4*sizeof(GLfloat));
                 }
@@ -792,12 +802,13 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                 w->stride = p->stride;
                 w->pointer = p->pointer;
                 w->buffer = NULL;
+                w->real_buffer = p->real_buffer;
+                w->real_pointer = p->real_pointer;
             } else {
                 memcpy(w->current, glstate->normal, 3*sizeof(GLfloat));
                 w->current[3] = 1.0f;
             }
         }
-        //TODO: Secondary colors
     }
     // setup fixed pipeline builtin matrix uniform if needed
     if(glprogram->has_builtin_matrix)
@@ -1063,7 +1074,7 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
             void * ptr = (void*)((uintptr_t)w->pointer + ((w->buffer)?(uintptr_t)w->buffer->data:0));
             if(dirty || v->size!=w->size || v->type!=w->type || v->normalized!=w->normalized 
                 || v->stride!=w->stride || v->buffer!=w->buffer
-                || v->pointer!=ptr) {
+                || v->pointer!=ptr || w->real_buffer) {
                 if((w->size==GL_BGRA || w->type==GL_DOUBLE) && !*scratch) { 
                     // need to adjust, so first need the min/max (a shame as I already must have that somewhere)
                     int imin, imax;
@@ -1084,6 +1095,7 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                         v->pointer -= imin*4*sizeof(GLfloat);   // adjust for min...
                         v->stride = 0;
                         v->buffer = NULL;
+                        v->real_buffer = 0;
                     } else if (w->type == GL_DOUBLE) {
                         // TODO
                         static int warn = 1;
@@ -1097,12 +1109,21 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                     v->type = w->type;
                     v->normalized = w->normalized;
                     v->stride = w->stride;
-                    v->pointer = ptr;
+                    v->real_buffer = w->real_buffer;
+                    v->real_pointer = w->real_pointer;
+                    v->pointer = (v->real_buffer)?v->real_pointer:ptr;
                     v->buffer = w->buffer; // buffer is unused here
                 }
                 LOAD_GLES2(glVertexAttribPointer);
+                LOAD_GLES2(glBindBuffer);
+                if(v->real_buffer) {
+                    DBG(printf("Buffer %d for VA %d\n", v->real_buffer, i);)
+                    gles_glBindBuffer(GL_ARRAY_BUFFER, v->real_buffer);
+                }
                 gles_glVertexAttribPointer(i, v->size, v->type, v->normalized, v->stride, v->pointer);
                 DBG(printf("glVertexAttribPointer(%d, %d, %s, %d, %d, %p)\n", i, v->size, PrintEnum(v->type), v->normalized, v->stride, (GLvoid*)((uintptr_t)v->pointer+((v->buffer)?(uintptr_t)v->buffer->data:0)));)
+                if(v->real_buffer)
+                    gles_glBindBuffer(GL_ARRAY_BUFFER, 0);
             }
         } else {
             // single value case
@@ -1186,6 +1207,7 @@ void realize_blitenv(int alpha) {
                 v->stride = 0;
                 v->pointer = ((i==0)?glstate->blit->vert:glstate->blit->tex);
                 v->buffer = 0;
+                v->real_buffer = 0;
                 LOAD_GLES2(glVertexAttribPointer);
                 gles_glVertexAttribPointer(i, v->size, v->type, v->normalized, v->stride, v->pointer);
             }

@@ -323,3 +323,8 @@ At last, the value "1" will be changed to "15", to log everything.
 Disable the use of the Precompiled Shader Archive
 * 0 : Default: use (and save) the PSA (it's saved on $HOME/.gl4es.psa on linux)
 * 1 : Don't use PSA.
+
+##### LIBGL_USEVBO
+Usage of VBO in certain cases (for now, only when using `glLockArrays(...)`). Only for GLES2+
+* 0 : Disable the use of VBO.
+* 1 : Default: Use VBO when possible.
