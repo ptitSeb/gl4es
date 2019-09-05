@@ -580,7 +580,7 @@ void ActivateGLState(void* new_glstate) {
 }
 
 void gl_init() {
-    (void)NewGLState((void*)0xFFFFFFFF, 0); // automaticaly fill default_glstate
+    (void)NewGLState(DEFAULT_STATE, 0); // automaticaly fill default_glstate
     ActivateGLState(&default_glstate);
 }
 

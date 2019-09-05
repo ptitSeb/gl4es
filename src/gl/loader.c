@@ -2,8 +2,8 @@
 
 #ifdef __EMSCRIPTEN__
 
-void *gles = (void *)0xFFFFFFFF;
-void *egl = (void *)0xFFFFFFFF;
+void *gles = (void*)(~(uintptr_t)0);
+void *egl = (void*)(~(uintptr_t)0);
 
 void load_libs() {
 }
