@@ -152,11 +152,11 @@ static const char* gl4es_PointSpriteSource =
 
 static const char* gl4es_FogParametersSource =
 "struct gl_FogParameters {\n"
-"    vec4 color;\n"
-"    float density;\n"
-"    float start;\n"
-"    float end;\n"
-"    float scale;\n"   // Derived:   1.0 / (end - start) 
+"    lowp vec4 color;\n"
+"    mediump float density;\n"
+"    mediump float start;\n"
+"    mediump float end;\n"
+"    mediump float scale;\n"   // Derived:   1.0 / (end - start) 
 "};\n"
 "uniform gl_FogParameters gl_Fog;\n";
 

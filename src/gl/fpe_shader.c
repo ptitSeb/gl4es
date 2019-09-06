@@ -272,7 +272,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         }
     }
     if(fog) {
-        ShadAppend("varying float FogF;\n");
+        ShadAppend("varying mediump float FogF;\n");
         headers++;
         if(fogsource==FPE_FOG_SRC_DEPTH && need_vertex<1)
             need_vertex = 1;
@@ -737,7 +737,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         }
     }
     if(fog) {
-        ShadAppend("varying float FogF;\n");
+        ShadAppend("varying mediump float FogF;\n");
         headers++;
     }
     if(planes) {
@@ -1184,6 +1184,7 @@ const char* const* fpe_CustomFragmentShader(const char* initial, fpe_state_t* st
         // wrap real main...
         shad = InplaceReplace(shad, &shad_cap, "main", "_gl4es_main");
     }
+    int is_fragcolor = (strstr(shad, "gl_FragColor")!=NULL)?1:0;
     if(strstr(shad, "_gl4es_main")) {
         ShadAppend("void main() {\n");
         ShadAppend(" _gl4es_main();\n");
@@ -1207,7 +1208,7 @@ const char* const* fpe_CustomFragmentShader(const char* initial, fpe_state_t* st
                 // FPE_LESS FPE_EQUAL FPE_LEQUAL FPE_GREATER FPE_NOTEQUAL FPE_GEQUAL
                 // but need to negate the operator
                 const char* alpha_test_op[] = {">=","!=",">","<=","==","<"}; 
-                sprintf(buff, "if (floor(gl_FragColor.a*255.) %s _gl4es_AlphaRef) discard;\n", alpha_test_op[alpha_func-FPE_LESS]);
+                sprintf(buff, "if (floor(%s.a*255.) %s _gl4es_AlphaRef) discard;\n", is_fragcolor?"gl_FragColor":"gl_FragData[0]", alpha_test_op[alpha_func-FPE_LESS]);
                 ShadAppend(buff);
             }
         }
