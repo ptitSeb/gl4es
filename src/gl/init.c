@@ -447,6 +447,7 @@ void initialize_gl4es() {
     } else if(env_usevbo && strcmp(env_usevbo,"2") == 0) {
         globals4es.usevbo = 2;
     }
+    if(hardext.esversion==1) globals4es.usevbo=0;   // VBO on ES1.1 backend will be too messy, so disabling
     if(globals4es.usevbo==1) {
         SHUT(LOGD("LIBGL: VBO used (in a few cases)\n"));
     }
