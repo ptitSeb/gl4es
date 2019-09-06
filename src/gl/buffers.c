@@ -7,6 +7,8 @@
 #include "gl4es.h"
 #include "glstate.h"
 #include "logs.h"
+#include "init.h"
+#include "loader.h"
 
 //#define DEBUG
 #ifdef DEBUG
@@ -81,6 +83,21 @@ int buffer_target(GLenum target) {
 	if (target==GL_PIXEL_UNPACK_BUFFER)
 		return 1;
 	return 0;
+}
+
+void rebind_real_buff_arrays(int old_buffer, int new_buffer) {
+    for (int j = 0; j < hardext.maxvattrib; j++) {
+        if (glstate->vao->pointers[j].real_buffer == old_buffer) {
+            glstate->vao->pointers[j].real_buffer = new_buffer;
+            if(!new_buffer)
+                glstate->vao->pointers[j].real_pointer = 0;
+        }
+        if (glstate->vao->vertexattrib[j].real_buffer == old_buffer) {
+            glstate->vao->vertexattrib[j].real_buffer = new_buffer;
+            if(!new_buffer)
+                glstate->vao->vertexattrib[j].real_pointer = 0;
+        }
+    }
 }
 
 void gl4es_glGenBuffers(GLsizei n, GLuint * buffers) {
@@ -167,6 +184,29 @@ void gl4es_glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLe
     }
     if(target==GL_ARRAY_BUFFER)
         VaoSharedClear(glstate->vao);
+    
+    int go_real = 0;
+    if(target==GL_ARRAY_BUFFER && (usage==GL_STREAM_DRAW || usage==GL_STATIC_DRAW) && globals4es.usevbo)
+        go_real = 1;
+    
+    if(buff->real_buffer && !go_real) {
+        rebind_real_buff_arrays(buff->real_buffer, 0);
+        LOAD_GLES(glDeleteBuffers);
+        gles_glDeleteBuffers(1, &buff->real_buffer);
+        // what about VA already pointing there?
+        buff->real_buffer = 0;
+    }
+    if(go_real) {
+        if(!buff->real_buffer) {
+            LOAD_GLES(glGenBuffers);
+            gles_glGenBuffers(1, &buff->real_buffer);
+        }
+        LOAD_GLES(glBufferData);
+        LOAD_GLES(glBindBuffer);
+        gles_glBindBuffer(target, buff->real_buffer);
+        gles_glBufferData(target, size, data, usage);
+        gles_glBindBuffer(target, 0);
+    }
         
     buff->size = size;
     buff->usage = usage;
@@ -188,6 +228,27 @@ void gl4es_glNamedBufferData(GLuint buffer, GLsizeiptr size, const GLvoid * data
     if (buff->data) {
         free(buff->data);
 
+    }
+    int go_real = 0;
+    if(buff->type==GL_ARRAY_BUFFER && (usage==GL_STREAM_DRAW || usage==GL_STATIC_DRAW) && globals4es.usevbo)
+        go_real = 1;
+    
+    if(buff->real_buffer && !go_real) {
+        LOAD_GLES(glDeleteBuffers);
+        gles_glDeleteBuffers(1, &buff->real_buffer);
+        // what about VA already pointing there?
+        buff->real_buffer = 0;
+    }
+    if(go_real) {
+        if(!buff->real_buffer) {
+            LOAD_GLES(glGenBuffers);
+            gles_glGenBuffers(1, &buff->real_buffer);
+        }
+        LOAD_GLES(glBufferData);
+        LOAD_GLES(glBindBuffer);
+        gles_glBindBuffer(buff->type, buff->real_buffer);
+        gles_glBufferData(buff->type, size, data, usage);
+        gles_glBindBuffer(buff->type, 0);
     }
 
     buff->size = size;
@@ -219,6 +280,15 @@ void gl4es_glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, cons
         errorShim(GL_INVALID_VALUE);
         return;
     }
+
+    if(target==GL_ARRAY_BUFFER && buff->real_buffer) {
+        LOAD_GLES(glBufferSubData);
+        LOAD_GLES(glBindBuffer);
+        gles_glBindBuffer(target, buff->real_buffer);
+        gles_glBufferSubData(target, offset, size, data);
+        gles_glBindBuffer(target, 0);
+
+    }
         
     memcpy(buff->data + offset, data, size);
     noerrorShim();
@@ -236,6 +306,13 @@ void gl4es_glNamedBufferSubData(GLuint buffer, GLintptr offset, GLsizeiptr size,
         return;
     }
         
+    if(buff->type==GL_ARRAY_BUFFER && buff->real_buffer) {
+        LOAD_GLES(glBufferSubData);
+        LOAD_GLES(glBindBuffer);
+        gles_glBindBuffer(buff->type, buff->real_buffer);
+        gles_glBufferSubData(buff->type, offset, size, data);
+        gles_glBindBuffer(buff->type, 0);
+    }
     memcpy(buff->data + offset, data, size);
     noerrorShim();
 }
@@ -256,6 +333,11 @@ void gl4es_glDeleteBuffers(GLsizei n, const GLuint * buffers) {
                 k = kh_get(buff, list, t);
                 if (k != kh_end(list)) {
                     buff = kh_value(list, k);
+                    if(buff->real_buffer) {
+                        rebind_real_buff_arrays(buff->real_buffer, 0);  // unbind
+                        LOAD_GLES(glDeleteBuffers);
+                        gles_glDeleteBuffers(1, &buff->real_buffer);
+                    }
                     if (glstate->vao->vertex == buff)
                         glstate->vao->vertex = NULL;
                     if (glstate->vao->elements == buff)
@@ -392,6 +474,13 @@ GLboolean gl4es_glUnmapBuffer(GLenum target) {
 	if (buff==NULL)
 		return GL_FALSE;		// Should generate an error!
 	noerrorShim();
+    if(buff->real_buffer && buff->type==GL_ARRAY_BUFFER && buff->mapped && (buff->access==GL_WRITE_ONLY || buff->access==GL_READ_WRITE)) {
+        LOAD_GLES(glBufferSubData);
+        LOAD_GLES(glBindBuffer);
+        gles_glBindBuffer(buff->type, buff->real_buffer);
+        gles_glBufferSubData(buff->type, 0, buff->size, buff->data);
+        gles_glBindBuffer(buff->type, 0);
+    }
 	if (buff->mapped) {
 		buff->mapped = 0;
 		return GL_TRUE;
@@ -407,6 +496,13 @@ GLboolean gl4es_glUnmapNamedBuffer(GLuint buffer) {
 	if (buff==NULL)
 		return GL_FALSE;		// Should generate an error!
 	noerrorShim();
+    if(buff->real_buffer && buff->type==GL_ARRAY_BUFFER && buff->mapped && (buff->access==GL_WRITE_ONLY || buff->access==GL_READ_WRITE)) {
+        LOAD_GLES(glBufferSubData);
+        LOAD_GLES(glBindBuffer);
+        gles_glBindBuffer(buff->type, buff->real_buffer);
+        gles_glBufferSubData(buff->type, 0, buff->size, buff->data);
+        gles_glBindBuffer(buff->type, 0);
+    }
 	if (buff->mapped) {
 		buff->mapped = 0;
 		return GL_TRUE;
@@ -482,9 +578,6 @@ void* gl4es_glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, 
 		return (void*)NULL;
 	}
 
-    if(target==GL_ARRAY_BUFFER)
-        VaoSharedClear(glstate->vao);
-
 	glbuffer_t *buff = getbuffer_buffer(target);
 	if (buff==NULL)
 		return (void*)NULL;		// Should generate an error!
@@ -497,9 +590,23 @@ void* gl4es_glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, 
 }
 void gl4es_glFlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length)
 {
-    // ignored for now. A proprer handling is probably necessary
-    // but that would mean also proprer handling of MapBuffer in the first place
-    // with shadow copy for example when in read mode only
+	if (!buffer_target(target)) {
+		errorShim(GL_INVALID_ENUM);
+		return;
+	}
+
+    if(target==GL_ARRAY_BUFFER)
+        VaoSharedClear(glstate->vao);
+
+	glbuffer_t *buff = getbuffer_buffer(target);
+
+    if(buff->real_buffer && buff->type==GL_ARRAY_BUFFER && buff->mapped && (buff->access==GL_WRITE_ONLY || buff->access==GL_READ_WRITE)) {
+        LOAD_GLES(glBufferSubData);
+        LOAD_GLES(glBindBuffer);
+        gles_glBindBuffer(buff->type, buff->real_buffer);
+        gles_glBufferSubData(buff->type, 0, length, (void*)(((uintptr_t)buff->data)+offset));
+        gles_glBindBuffer(buff->type, 0);
+    }
 }
 
 

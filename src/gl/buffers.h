@@ -8,6 +8,7 @@
 // VBO *****************
 typedef struct {
     GLuint      buffer;
+    GLuint      real_buffer;
     GLenum      type;
     GLsizeiptr  size;
     GLenum      usage;

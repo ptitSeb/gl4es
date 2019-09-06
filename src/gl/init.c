@@ -437,7 +437,7 @@ void initialize_gl4es() {
         SHUT(LOGD("LIBGL: Trying to batch subsequent glDrawXXXX of size between %d and %d vertices\n", globals4es.minbatch, globals4es.maxbatch));
     }
 
-    globals4es.usevbo = 1;
+    globals4es.usevbo = 0;
     char *env_usevbo = getenv("LIBGL_USEVBO");
     if(env_usevbo && strcmp(env_usevbo,"0") == 0) {
         SHUT(LOGD("LIBGL: Use of VBO disabled\n"));
