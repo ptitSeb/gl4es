@@ -634,13 +634,6 @@ void gl4es_glLockArrays(GLint first, GLsizei count) {
     glstate->vao->locked = true;
     glstate->vao->first = first;
     glstate->vao->count = count;
-    if(hardext.esversion>1 && globals4es.usevbo && !glstate->list.compiling) {
-        // can now browse all enabled VA, and put the corresponding data in a VBO
-        // warning, with the use of first 
-        // Checking only Vertex Attrib for now!
-        // TODO: check all va, and take care of interleaved ones...
-        ToBuffer(first, count);
-    }
     noerrorShim();
 }
 void glLockArraysEXT(GLint first, GLsizei count) AliasExport("gl4es_glLockArrays");
@@ -681,59 +674,63 @@ pointer_state_t* getFPEVA(int i) {
 void ToBuffer(int first, int count) {
     // Strategy: compile only VA that are interleaved. So only 1 "Buffer" is compiled. Out of the buffer VA are not compiled
     // That should works with Quake3 engine that expect only Vertices array to be Compiled, but still allow to build more complex arrays
-    int ok = 1;
-    int tcount = count+first;
-    if (hardext.esversion==1) ok = 0;
-    if(ok)
     for (int i=0; i<NB_VA; i++)
-        for (int i=0; i<NB_VA && ok; i++)
+        for (int i=0; i<NB_VA; i++)
             if(glstate->vao->pointers[i].enabled && (!valid_vertex_type(glstate->vao->pointers[i].type) || glstate->vao->pointers[i].real_buffer)) {
-                ok = 0;
+                return;
             }
-    if (ok) {
-        // try to see if there is a master index....
-        uintptr_t master = (uintptr_t)glstate->vao->pointers[ATT_VERTEX].pointer;
-        int stride = glstate->vao->pointers[ATT_VERTEX].stride;
-        if(stride)
-        for (int i=ATT_VERTEX+1; i<NB_VA; i++) {
-            if(glstate->vao->pointers[i].enabled) {
-                uintptr_t p = (uintptr_t)glstate->vao->pointers[i].pointer;
-                int nstride = glstate->vao->pointers[i].stride;
-                if(stride && stride==nstride) {
-                    if ((p>master-stride) && (p<master+stride)) {
-                        if(p<master) master = p;
-                    }
+    // try to see if there is a master index....
+    uintptr_t master = (uintptr_t)glstate->vao->pointers[ATT_VERTEX].pointer;
+    int stride = glstate->vao->pointers[ATT_VERTEX].stride;
+    if(stride)
+    for (int i=ATT_VERTEX+1; i<NB_VA; i++) {
+        if(glstate->vao->pointers[i].enabled) {
+            uintptr_t p = (uintptr_t)glstate->vao->pointers[i].pointer;
+            int nstride = glstate->vao->pointers[i].stride;
+            if(stride && stride==nstride) {
+                if ((p>master-stride) && (p<master+stride)) {
+                    if(p<master) master = p;
                 }
             }
         }
-        if(!stride) stride = gl_sizeof(glstate->vao->pointers[ATT_VERTEX].type)*glstate->vao->pointers[ATT_VERTEX].size;
-        memset(glstate->vao->locked_mapped, 0, sizeof(glstate->vao->locked_mapped));
-        // ok, now we have a "master", let's count the required size
-        int total = stride * tcount;
-        // now allocate (if needed) the buffer and bind it
-        gl4es_scratch_vertex(total);
-        uintptr_t ptr = 0;
-        // move "master" data if there
-        LOAD_GLES(glBufferSubData);
-        LOAD_GLES(glBindBuffer);
-        gles_glBufferSubData(GL_ARRAY_BUFFER, ptr+first*stride, stride*count, (void*)(master+first*stride));
-        for (int i=0; i<NB_VA; i++) {
-            if(glstate->vao->pointers[i].enabled) {
-                uintptr_t p = (uintptr_t)glstate->vao->pointers[i].pointer;
-                if(p>=master && p<master+stride) {
-                    glstate->vao->pointers[i].real_pointer = (void*)(p-master);
-                    glstate->vao->pointers[i].real_buffer = glstate->scratch_vertex;
-                    glstate->vao->locked_mapped[i] = 1;
-                    pointer_state_t* fpe_p = getFPEVA(i);
-                    fpe_p->real_buffer = glstate->scratch_vertex;
-                    fpe_p->real_pointer = glstate->vao->pointers[i].real_pointer;
-                }
-            }
-        }
-//printf("BindBuffers (fist=%d, count=%d) vertex = %p %sx%d (%d)\n", first, count, glstate->vao->pointers[ATT_VERTEX].real_pointer, PrintEnum(glstate->vao->pointers[ATT_VERTEX].type), glstate->vao->pointers[ATT_VERTEX].size, glstate->vao->pointers[ATT_VERTEX].stride);
-        // unbind the buffer
-        gl4es_use_scratch_vertex(0);
     }
+    if(!stride) stride = gl_sizeof(glstate->vao->pointers[ATT_VERTEX].type)*glstate->vao->pointers[ATT_VERTEX].size;
+    memset(glstate->vao->locked_mapped, 0, sizeof(glstate->vao->locked_mapped));
+    // ok, now we have a "master", let's count the required size
+    int total = stride * count;
+    // now allocate (if needed) the buffer and bind it
+    uintptr_t ptr = 0;
+    // move "master" data if there
+    #if 0
+    LOAD_GLES(glGenBuffers);
+    LOAD_GLES(glBufferData);
+    LOAD_GLES(glBindBuffer);
+    if(!glstate->scratch_vertex)
+        gles_glGenBuffers(1, &glstate->scratch_vertex);
+    glstate->scratch_vertex_size = stride*count;
+    gles_glBindBuffer(GL_ARRAY_BUFFER, glstate->scratch_vertex);
+    gles_glBufferData(GL_ARRAY_BUFFER, stride*count, (void*)(master+first*stride), GL_STREAM_DRAW);
+    #else
+    LOAD_GLES(glBufferSubData);
+    gl4es_scratch_vertex(total);    // alloc if needed and bind scratch vertex buffer
+    gles_glBufferSubData(GL_ARRAY_BUFFER, ptr, stride*count, (void*)(master+first*stride));
+    #endif
+    for (int i=0; i<NB_VA; i++) {
+        if(glstate->vao->pointers[i].enabled) {
+            uintptr_t p = (uintptr_t)glstate->vao->pointers[i].pointer;
+            if(p>=master && p<master+stride) {
+                glstate->vao->pointers[i].real_pointer = (void*)(p-master - first*stride);
+                glstate->vao->pointers[i].real_buffer = glstate->scratch_vertex;
+                glstate->vao->locked_mapped[i] = 1;
+                pointer_state_t* fpe_p = getFPEVA(i);
+                fpe_p->real_buffer = glstate->scratch_vertex;
+                fpe_p->real_pointer = glstate->vao->pointers[i].real_pointer;
+            }
+        }
+    }
+//printf("BindBuffers (fist=%d, count=%d) vertex = %p %sx%d (%d)\n", first, count, glstate->vao->pointers[ATT_VERTEX].real_pointer, PrintEnum(glstate->vao->pointers[ATT_VERTEX].type), glstate->vao->pointers[ATT_VERTEX].size, glstate->vao->pointers[ATT_VERTEX].stride);
+    // unbind the buffer
+    gl4es_use_scratch_vertex(0);
 }
 
 void UnBuffer()
@@ -1171,7 +1168,7 @@ void gl4es_scratch_vertex(int alloc) {
     }
     gles_glBindBuffer(GL_ARRAY_BUFFER, glstate->scratch_vertex);
     if(glstate->scratch_vertex_size < alloc) {
-        gles_glBufferData(GL_ARRAY_BUFFER, alloc, NULL, GL_DYNAMIC_DRAW);
+        gles_glBufferData(GL_ARRAY_BUFFER, alloc, NULL, GL_STREAM_DRAW);
         glstate->scratch_vertex_size = alloc;
     }
 }

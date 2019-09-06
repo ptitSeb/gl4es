@@ -1073,8 +1073,8 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
             // array case
             void * ptr = (void*)((uintptr_t)w->pointer + ((w->buffer)?(uintptr_t)w->buffer->data:0));
             if(dirty || v->size!=w->size || v->type!=w->type || v->normalized!=w->normalized 
-                || v->stride!=w->stride || v->buffer!=w->buffer
-                || v->pointer!=ptr || w->real_buffer) {
+                || v->stride!=w->stride || v->buffer!=w->buffer || (w->real_buffer==0 && v->pointer!=ptr)
+                || v->real_buffer!=w->real_buffer || (w->real_buffer!=0 && v->real_pointer != w->real_pointer)) {
                 if((w->size==GL_BGRA || w->type==GL_DOUBLE) && !*scratch) { 
                     // need to adjust, so first need the min/max (a shame as I already must have that somewhere)
                     int imin, imax;

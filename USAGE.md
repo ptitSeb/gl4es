@@ -325,6 +325,7 @@ Disable the use of the Precompiled Shader Archive
 * 1 : Don't use PSA.
 
 ##### LIBGL_USEVBO
-Usage of VBO in certain cases (for now, only when using `glLockArrays(...)`). Only for GLES2+
+Usage of VBO in certain cases. Only for GLES2+
 * 0 : Disable the use of VBO.
-* 1 : Default: Use VBO when possible.
+* 1 : Default: Use VBO when possible (not yet implemented)
+* 2 : Use VBO when possible (on `glLockArrays`)

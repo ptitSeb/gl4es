@@ -444,9 +444,14 @@ void initialize_gl4es() {
         globals4es.usevbo = 0;
     } else if(env_usevbo && strcmp(env_usevbo,"1") == 0) {
         globals4es.usevbo = 1;
+    } else if(env_usevbo && strcmp(env_usevbo,"2") == 0) {
+        globals4es.usevbo = 2;
     }
-    if(globals4es.usevbo) {
+    if(globals4es.usevbo==1) {
         SHUT(LOGD("LIBGL: VBO used (in a few cases)\n"));
+    }
+    if(globals4es.usevbo==2) {
+        SHUT(LOGD("LIBGL: VBO used (in a few cases and with glLockArrays)\n"));
     }
 
     globals4es.fbomakecurrent = 0;
