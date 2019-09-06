@@ -11,7 +11,11 @@
 #endif // USE_FBIO
 #include <signal.h>
 #include <sys/ioctl.h>
+#ifdef USE_CLOCK
+#include <time.h>
+#else
 #include <sys/time.h>
+#endif
 #ifdef PANDORA
 #include <sys/socket.h>
 #include <sys/un.h>
@@ -1396,9 +1400,15 @@ void gl4es_glXSwapBuffers(Display *display,
         // framerate counter
         static float avg, fps = 0;
         static int frame1, last_frame, frame, now, current_frames;
+        #ifdef USE_CLOCK
+        struct timespec out;
+        clock_gettime(CLOCK_MONOTONIC_RAW, &out);
+        now = out.tv_sec;
+        #else
         struct timeval out;
         gettimeofday(&out, NULL);
         now = out.tv_sec;
+        #endif
         frame++;
         current_frames++;
 

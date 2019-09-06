@@ -18,6 +18,7 @@ option(NOEGL "Set to ON to not use EGL (all functions are taken in GLES library)
 option(STATICLIB "Set to ON to build a static version of gl4es" ${STATICLIB})
 option(GBM "Set to ON to not build GBM interface" ${GBM})
 option(USE_CCACHE "Set to ON to use ccache if present in the system" ${USE_CCACHE})
+option(USE_CLOCK "Set to ON to use clock_gettime instead of gttimeofday for LIBGL_FPS" ${USE_CLOCK})
 
 # Pandora
 if(PANDORA)
@@ -93,6 +94,11 @@ endif()
 
 if(NO_GBM)
     add_definitions(-DNO_GBM)
+endif()
+
+#NOX11
+if(USE_CLOCK)
+    add_definitions(-DUSE_CLOCK)
 endif()
 
 #DEFAULT_ES=2
