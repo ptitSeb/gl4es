@@ -437,7 +437,7 @@ void initialize_gl4es() {
         SHUT(LOGD("LIBGL: Trying to batch subsequent glDrawXXXX of size between %d and %d vertices\n", globals4es.minbatch, globals4es.maxbatch));
     }
 
-    globals4es.usevbo = 0;
+    globals4es.usevbo = 1;
     char *env_usevbo = getenv("LIBGL_USEVBO");
     if(env_usevbo && strcmp(env_usevbo,"0") == 0) {
         SHUT(LOGD("LIBGL: Use of VBO disabled\n"));
@@ -449,10 +449,10 @@ void initialize_gl4es() {
     }
     if(hardext.esversion==1) globals4es.usevbo=0;   // VBO on ES1.1 backend will be too messy, so disabling
     if(globals4es.usevbo==1) {
-        SHUT(LOGD("LIBGL: VBO used (in a few cases)\n"));
+        SHUT(LOGD("LIBGL: try to use VBO\n"));
     }
     if(globals4es.usevbo==2) {
-        SHUT(LOGD("LIBGL: VBO used (in a few cases and with glLockArrays)\n"));
+        SHUT(LOGD("LIBGL: try to use VBO (also with glLockArrays)\n"));
     }
 
     globals4es.fbomakecurrent = 0;

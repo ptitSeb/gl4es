@@ -417,6 +417,13 @@ void fpe_glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const 
     glstate->fpe_client.secondary.type = type;
     glstate->fpe_client.secondary.stride = stride;
     glstate->fpe_client.secondary.pointer = pointer;
+    if(pointer==glstate->vao->pointers[ATT_SECONDARY].pointer) {
+        glstate->fpe_client.secondary.real_buffer = glstate->vao->pointers[ATT_SECONDARY].real_buffer;
+        glstate->fpe_client.secondary.real_pointer = glstate->vao->pointers[ATT_SECONDARY].real_pointer;
+    } else {
+        glstate->fpe_client.secondary.real_buffer = 0;
+        glstate->fpe_client.secondary.real_pointer = 0;
+    }
 }
 
 void fpe_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -425,6 +432,13 @@ void fpe_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *
     glstate->fpe_client.vert.type = type;
     glstate->fpe_client.vert.stride = stride;
     glstate->fpe_client.vert.pointer = pointer;
+    if(pointer==glstate->vao->pointers[ATT_VERTEX].pointer) {
+        glstate->fpe_client.vert.real_buffer = glstate->vao->pointers[ATT_VERTEX].real_buffer;
+        glstate->fpe_client.vert.real_pointer = glstate->vao->pointers[ATT_VERTEX].real_pointer;
+    } else {
+        glstate->fpe_client.vert.real_buffer = 0;
+        glstate->fpe_client.vert.real_pointer = 0;
+    }
 }
 
 void fpe_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -433,6 +447,13 @@ void fpe_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *p
     glstate->fpe_client.color.type = type;
     glstate->fpe_client.color.stride = stride;
     glstate->fpe_client.color.pointer = pointer;
+    if(pointer==glstate->vao->pointers[ATT_COLOR].pointer) {
+        glstate->fpe_client.color.real_buffer = glstate->vao->pointers[ATT_COLOR].real_buffer;
+        glstate->fpe_client.color.real_pointer = glstate->vao->pointers[ATT_COLOR].real_pointer;
+    } else {
+        glstate->fpe_client.color.real_buffer = 0;
+        glstate->fpe_client.color.real_pointer = 0;
+    }
 }
 
 void fpe_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -441,6 +462,13 @@ void fpe_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
     glstate->fpe_client.normal.type = type;
     glstate->fpe_client.normal.stride = stride;
     glstate->fpe_client.normal.pointer = pointer;
+    if(pointer==glstate->vao->pointers[ATT_NORMAL].pointer) {
+        glstate->fpe_client.normal.real_buffer = glstate->vao->pointers[ATT_NORMAL].real_buffer;
+        glstate->fpe_client.normal.real_pointer = glstate->vao->pointers[ATT_NORMAL].real_pointer;
+    } else {
+        glstate->fpe_client.normal.real_buffer = 0;
+        glstate->fpe_client.normal.real_pointer = 0;
+    }
 }
 
 void fpe_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -449,6 +477,13 @@ void fpe_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid
     glstate->fpe_client.tex[glstate->texture.client].type = type;
     glstate->fpe_client.tex[glstate->texture.client].stride = stride;
     glstate->fpe_client.tex[glstate->texture.client].pointer = pointer;
+    if(pointer==glstate->vao->pointers[ATT_MULTITEXCOORD0+glstate->texture.client].pointer) {
+        glstate->fpe_client.tex[glstate->texture.client].real_buffer = glstate->vao->pointers[ATT_MULTITEXCOORD0+glstate->texture.client].real_buffer;
+        glstate->fpe_client.tex[glstate->texture.client].real_pointer = glstate->vao->pointers[ATT_MULTITEXCOORD0+glstate->texture.client].real_pointer;
+    } else {
+        glstate->fpe_client.tex[glstate->texture.client].real_buffer = 0;
+        glstate->fpe_client.tex[glstate->texture.client].real_pointer = 0;
+    }
 }
 
 void fpe_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -457,6 +492,13 @@ void fpe_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
     glstate->fpe_client.fog.type = type;
     glstate->fpe_client.fog.stride = stride;
     glstate->fpe_client.fog.pointer = pointer;
+    if(pointer==glstate->vao->pointers[ATT_FOGCOORD].pointer) {
+        glstate->fpe_client.fog.real_buffer = glstate->vao->pointers[ATT_FOGCOORD].real_buffer;
+        glstate->fpe_client.fog.real_pointer = glstate->vao->pointers[ATT_FOGCOORD].real_pointer;
+    } else {
+        glstate->fpe_client.fog.real_buffer = 0;
+        glstate->fpe_client.fog.real_pointer = 0;
+    }
 }
 
 void fpe_glEnable(GLenum cap) {

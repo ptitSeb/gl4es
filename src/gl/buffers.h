@@ -127,7 +127,7 @@ typedef struct {
     glbuffer_t *pack;
     glbuffer_t *unpack;
     // locked arrays
-    GLboolean locked;
+    int       locked;
     GLsizei   count;
     GLint     first;
     GLboolean locked_mapped[NB_VA];

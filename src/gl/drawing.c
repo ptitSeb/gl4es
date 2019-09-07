@@ -358,6 +358,15 @@ if(count>500000) return;
         
         realize_textures();
 
+        // check if arrays are locked and can be put in a VBO
+        if(hardext.esversion>1 && globals4es.usevbo==2 && glstate->vao->locked==1) {
+            // can now browse all enabled VA, and put the corresponding data in a VBO
+            // warning, with the use of first 
+            // Checking only Vertex Attrib for now!
+            // TODO: check all va, and take care of interleaved ones...
+            ToBuffer(glstate->vao->first, glstate->vao->count);
+        }
+
         #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
 
         pointer_state_t *p;
@@ -410,15 +419,6 @@ if(count>500000) return;
         #undef GetP
         if (glstate->texture.client!=old_tex)
             TEXTURE(old_tex);
-
-        // check if arrays are locked and can be put in a VBO
-        if(hardext.esversion>1 && globals4es.usevbo==2 && glstate->vao->locked && !glstate->vao->locked_mapped[ATT_VERTEX]) {
-            // can now browse all enabled VA, and put the corresponding data in a VBO
-            // warning, with the use of first 
-            // Checking only Vertex Attrib for now!
-            // TODO: check all va, and take care of interleaved ones...
-            ToBuffer(glstate->vao->first, glstate->vao->count);
-        }
 
         // POLYGON mode as LINE is "intercepted" and drawn using list
         if(instancecount==1) {

@@ -124,6 +124,7 @@ void gl4es_glGenBuffers(GLsizei n, GLuint * buffers) {
         buff->size = 0;
         buff->access = GL_READ_WRITE;
         buff->mapped = 0;
+        buff->real_buffer = 0;
     }
 }
 
@@ -157,6 +158,7 @@ void gl4es_glBindBuffer(GLenum target, GLuint buffer) {
             buff->size = 0;
             buff->access = GL_READ_WRITE;
             buff->mapped = 0;
+            buff->real_buffer = 0;
         } else {
             buff = kh_value(list, k);
             buff->type = target;    //TODO: check if old binding?
@@ -206,6 +208,7 @@ void gl4es_glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLe
         gles_glBindBuffer(target, buff->real_buffer);
         gles_glBufferData(target, size, data, usage);
         gles_glBindBuffer(target, 0);
+        DBG(printf(" => real VBO %d\n", buff->real_buffer);)
     }
         
     buff->size = size;

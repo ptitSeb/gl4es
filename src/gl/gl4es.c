@@ -44,10 +44,12 @@ int adjust_vertices(GLenum mode, int nb) {
 
 #undef client_state
 #define clone_gl_pointer(t, s)\
-    t.size = s; t.type = type; t.stride = stride; t.pointer = pointer + (uintptr_t)((glstate->vao->vertex)?glstate->vao->vertex->data:0)
+    t.size = s; t.type = type; t.stride = stride; t.pointer = pointer + (uintptr_t)((glstate->vao->vertex)?glstate->vao->vertex->data:0);\
+    t.real_buffer=(glstate->vao->vertex)?glstate->vao->vertex->real_buffer:0; t.real_pointer=(glstate->vao->vertex)?pointer:0
 #define break_lockarrays(t)\
-    if(glstate->vao->pointers[t].real_buffer) {    \
+    if(glstate->vao->pointers[t].real_buffer && glstate->vao->locked_mapped[t]) {    \
         glstate->vao->pointers[t].real_buffer = 0; \
+        glstate->vao->locked_mapped[t] = 0; \
         getFPEVA(t)->real_buffer = 0;              \
     }
 
@@ -631,15 +633,15 @@ void gl4es_glLockArrays(GLint first, GLsizei count) {
         errorGL(GL_INVALID_OPERATION);
         return;
     }
-    glstate->vao->locked = true;
+    glstate->vao->locked = 1;
     glstate->vao->first = first;
     glstate->vao->count = count;
     noerrorShim();
 }
 void glLockArraysEXT(GLint first, GLsizei count) AliasExport("gl4es_glLockArrays");
 void gl4es_glUnlockArrays() {
-    glstate->vao->locked = false;
-    UnBuffer();
+    if(glstate->vao->locked==2) UnBuffer();
+    glstate->vao->locked = 0;
 
     noerrorShim();
 }
@@ -672,13 +674,13 @@ pointer_state_t* getFPEVA(int i) {
 }
 
 void ToBuffer(int first, int count) {
+    glstate->vao->locked = 2;
     // Strategy: compile only VA that are interleaved. So only 1 "Buffer" is compiled. Out of the buffer VA are not compiled
     // That should works with Quake3 engine that expect only Vertices array to be Compiled, but still allow to build more complex arrays
     for (int i=0; i<NB_VA; i++)
-        for (int i=0; i<NB_VA; i++)
-            if(glstate->vao->pointers[i].enabled && (!valid_vertex_type(glstate->vao->pointers[i].type) || glstate->vao->pointers[i].real_buffer)) {
-                return;
-            }
+        if(glstate->vao->pointers[i].enabled && (!valid_vertex_type(glstate->vao->pointers[i].type) || glstate->vao->pointers[i].real_buffer)) {
+            return;
+        }
     // try to see if there is a master index....
     uintptr_t master = (uintptr_t)glstate->vao->pointers[ATT_VERTEX].pointer;
     int stride = glstate->vao->pointers[ATT_VERTEX].stride;
