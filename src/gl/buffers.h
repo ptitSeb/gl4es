@@ -14,6 +14,9 @@ typedef struct {
     GLenum      usage;
     GLint		access;
     int			mapped;
+    int         ranged;
+    GLintptr    offset;
+    GLsizeiptr  length;
     GLvoid     *data;
 } glbuffer_t;
 

@@ -188,7 +188,7 @@ void gl4es_glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLe
         VaoSharedClear(glstate->vao);
     
     int go_real = 0;
-    if(target==GL_ARRAY_BUFFER && (usage==GL_STREAM_DRAW || usage==GL_STATIC_DRAW) && globals4es.usevbo)
+    if(target==GL_ARRAY_BUFFER && (usage==GL_STREAM_DRAW || usage==GL_STATIC_DRAW || usage==GL_DYNAMIC_DRAW) && globals4es.usevbo)
         go_real = 1;
     
     if(buff->real_buffer && !go_real) {
@@ -233,7 +233,7 @@ void gl4es_glNamedBufferData(GLuint buffer, GLsizeiptr size, const GLvoid * data
 
     }
     int go_real = 0;
-    if(buff->type==GL_ARRAY_BUFFER && (usage==GL_STREAM_DRAW || usage==GL_STATIC_DRAW) && globals4es.usevbo)
+    if(buff->type==GL_ARRAY_BUFFER && (usage==GL_STREAM_DRAW || usage==GL_STATIC_DRAW || usage==GL_DYNAMIC_DRAW) && globals4es.usevbo)
         go_real = 1;
     
     if(buff->real_buffer && !go_real) {
@@ -441,10 +441,17 @@ void *gl4es_glMapBuffer(GLenum target, GLenum access) {
         VaoSharedClear(glstate->vao);
 
 	glbuffer_t *buff = getbuffer_buffer(target);
-	if (buff==NULL)
-		return (void*)NULL;		// Should generate an error!
+	if (buff==NULL) {
+        errorShim(GL_INVALID_VALUE);
+		return NULL;
+    }
+    if(buff->mapped) {
+        errorShim(GL_INVALID_OPERATION);
+        return NULL;
+    }
 	buff->access = access;	// not used
 	buff->mapped = 1;
+    buff->ranged = 0;
 	noerrorShim();
 	return buff->data;		// Not nice, should do some copy or something probably
 }
@@ -452,10 +459,17 @@ void *gl4es_glMapNamedBuffer(GLuint buffer, GLenum access) {
     DBG(printf("glMapNamedBuffer(%u, %s)\n", buffer, PrintEnum(access));)
 
 	glbuffer_t *buff = getbuffer_id(buffer);
-	if (buff==NULL)
-		return (void*)NULL;		// Should generate an error!
+	if (buff==NULL) {
+        errorShim(GL_INVALID_VALUE);
+		return NULL;
+    }
+    if(buff->mapped) {
+        errorShim(GL_INVALID_OPERATION);
+        return NULL;
+    }
 	buff->access = access;	// not used
 	buff->mapped = 1;
+    buff->ranged = 0;
 	noerrorShim();
 	return buff->data;		// Not nice, should do some copy or something probably
 }
@@ -474,18 +488,28 @@ GLboolean gl4es_glUnmapBuffer(GLenum target) {
         VaoSharedClear(glstate->vao);
         
 	glbuffer_t *buff = getbuffer_buffer(target);
-	if (buff==NULL)
-		return GL_FALSE;		// Should generate an error!
+	if (buff==NULL) {
+        errorShim(GL_INVALID_VALUE);
+		return GL_FALSE;
+    }
 	noerrorShim();
-    if(buff->real_buffer && buff->type==GL_ARRAY_BUFFER && buff->mapped && (buff->access==GL_WRITE_ONLY || buff->access==GL_READ_WRITE)) {
+    if(buff->real_buffer && buff->type==GL_ARRAY_BUFFER && buff->mapped && !buff->ranged && (buff->access==GL_WRITE_ONLY || buff->access==GL_READ_WRITE)) {
         LOAD_GLES(glBufferSubData);
         LOAD_GLES(glBindBuffer);
         gles_glBindBuffer(buff->type, buff->real_buffer);
         gles_glBufferSubData(buff->type, 0, buff->size, buff->data);
         gles_glBindBuffer(buff->type, 0);
     }
-	if (buff->mapped) {
+    if(buff->real_buffer && buff->type==GL_ARRAY_BUFFER && buff->mapped && buff->ranged && (buff->access&GL_MAP_WRITE_BIT_EXT) && !(buff->access&GL_MAP_FLUSH_EXPLICIT_BIT_EXT)) {
+        LOAD_GLES(glBufferSubData);
+        LOAD_GLES(glBindBuffer);
+        gles_glBindBuffer(buff->type, buff->real_buffer);
+        gles_glBufferSubData(buff->type, buff->offset, buff->length, (void*)((uintptr_t)buff->data+buff->offset));
+        gles_glBindBuffer(buff->type, 0);
+    }
+    if (buff->mapped) {
 		buff->mapped = 0;
+        buff->ranged = 0;
 		return GL_TRUE;
 	}
 	return GL_FALSE;
@@ -506,8 +530,16 @@ GLboolean gl4es_glUnmapNamedBuffer(GLuint buffer) {
         gles_glBufferSubData(buff->type, 0, buff->size, buff->data);
         gles_glBindBuffer(buff->type, 0);
     }
+    if(buff->real_buffer && buff->type==GL_ARRAY_BUFFER && buff->mapped && buff->ranged && (buff->access&GL_MAP_WRITE_BIT_EXT) && !(buff->access&GL_MAP_FLUSH_EXPLICIT_BIT_EXT)) {
+        LOAD_GLES(glBufferSubData);
+        LOAD_GLES(glBindBuffer);
+        gles_glBindBuffer(buff->type, buff->real_buffer);
+        gles_glBufferSubData(buff->type, buff->offset, buff->length, (void*)((uintptr_t)buff->data+buff->offset));
+        gles_glBindBuffer(buff->type, 0);
+    }
 	if (buff->mapped) {
 		buff->mapped = 0;
+        buff->ranged = 0;
 		return GL_TRUE;
 	}
 	return GL_FALSE;
@@ -578,18 +610,27 @@ void* gl4es_glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, 
     DBG(printf("glMapBuffer(%s, %s)\n", PrintEnum(target), PrintEnum(access));)
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
-		return (void*)NULL;
+		return NULL;
 	}
 
 	glbuffer_t *buff = getbuffer_buffer(target);
-	if (buff==NULL)
-		return (void*)NULL;		// Should generate an error!
-	buff->access = access;	// not used
+	if (buff==NULL) {
+        errorShim(GL_INVALID_VALUE);
+		return NULL;		// Should generate an error!
+    }
+    if(buff->mapped) {
+        errorShim(GL_INVALID_OPERATION);
+        return NULL;
+    }
+	buff->access = access;
 	buff->mapped = 1;
+    buff->ranged = 1;
+    buff->offset = offset;
+    buff->length = length;
 	noerrorShim();
     uintptr_t ret = (uintptr_t)buff->data;
     ret += offset;
-	return (void*)ret;		// Not nice, should do some copy or something probably
+	return (void*)ret;
 }
 void gl4es_glFlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length)
 {
@@ -602,12 +643,20 @@ void gl4es_glFlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr l
         VaoSharedClear(glstate->vao);
 
 	glbuffer_t *buff = getbuffer_buffer(target);
+    if(!buff) {
+        errorShim(GL_INVALID_VALUE);
+        return;
+    }
+    if(!buff->mapped || !buff->ranged || !(buff->access&GL_MAP_FLUSH_EXPLICIT_BIT_EXT)) {
+        errorShim(GL_INVALID_OPERATION);
+        return;
+    }
 
-    if(buff->real_buffer && buff->type==GL_ARRAY_BUFFER && buff->mapped && (buff->access==GL_WRITE_ONLY || buff->access==GL_READ_WRITE)) {
+    if(buff->real_buffer && buff->type==GL_ARRAY_BUFFER && (buff->access&GL_MAP_WRITE_BIT_EXT)) {
         LOAD_GLES(glBufferSubData);
         LOAD_GLES(glBindBuffer);
         gles_glBindBuffer(buff->type, buff->real_buffer);
-        gles_glBufferSubData(buff->type, 0, length, (void*)(((uintptr_t)buff->data)+offset));
+        gles_glBufferSubData(buff->type, buff->offset+offset, length, (void*)((uintptr_t)buff->data+buff->offset+offset));
         gles_glBindBuffer(buff->type, 0);
     }
 }
