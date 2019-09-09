@@ -72,6 +72,8 @@ if(AMIGAOS4)
     set(NOX11 ON)
     set(NOEGL ON)
     set(NO_GBM ON)
+    set(CMAKE_C_FLAGS_DEBUG "-O1 -gstabs")
+    set(CMAKE_C_FLAGS_RELWITHDEBINFO "-O2 -gstabs")
 endif()
 
 #NOX11
