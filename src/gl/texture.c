@@ -2668,7 +2668,6 @@ void gl4es_glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,
     glstate->vao->unpack = NULL;
     
     readfboBegin(); // multiple readfboBegin() can be chained...
-    realize_bound(glstate->texture.active, target);
     gltexture_t* bound = glstate->texture.bound[glstate->texture.active][itarget];
 
     if(glstate->fbo.current_fb->read_type==0) {
@@ -2880,7 +2879,6 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
         bound->internalformat = internalformat;
         bound->compressed = true;
         bound->valid = 1;
-        realize_bound(glstate->texture.active, target);
         if (glstate->fpe_state && glstate->fpe_bound_changed < glstate->texture.active+1)
             glstate->fpe_bound_changed = glstate->texture.active+1;
         gles_glCompressedTexImage2D(rtarget, level, internalformat, width, height, border, imageSize, datab);
@@ -2956,7 +2954,6 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
         if (pixels!=datab)
             free(pixels);
     } else {
-        realize_bound(glstate->texture.active, target);        
         gles_glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, datab);
     }
 }
@@ -3057,6 +3054,7 @@ void gl4es_glTexStorage3D(GLenum target, GLsizei levels, GLenum internalformat, 
 
 // bind the correct texture on Tex2D or TEXCUBE mapper...
 void realize_bound(int TMU, GLenum target) {
+    realize_active();
     LOAD_GLES(glBindTexture);
     gltexture_t *tex = glstate->texture.bound[TMU][what_target(target)];
     GLuint t = tex->glname;
