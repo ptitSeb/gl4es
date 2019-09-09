@@ -19,7 +19,7 @@ void init_matrix(glstate_t* glstate);
 static void free_renderbuffer(glrenderbuffer_t *rend)
 {
     LOAD_GLES2_OR_OES(glDeleteRenderbuffers);
-    if(!rend)
+    if(!rend || !gles_glDeleteRenderbuffers)
         return;
     if(rend->secondarybuffer)
         gles_glDeleteRenderbuffers(1, &rend->secondarybuffer);
@@ -32,7 +32,7 @@ static void free_renderbuffer(glrenderbuffer_t *rend)
 static void free_framebuffer(glframebuffer_t *fb)
 {
     LOAD_GLES2_OR_OES(glDeleteFramebuffers);
-    if(!fb)
+    if(!fb || !gles_glDeleteFramebuffers)
         return;
     if(fb->id)
         gles_glDeleteFramebuffers(1, &fb->id);
@@ -43,7 +43,7 @@ static void free_framebuffer(glframebuffer_t *fb)
 static void free_texture(gltexture_t *tex)
 {
     LOAD_GLES(glDeleteTextures);
-    if(!tex)
+    if(!tex || !gles_glDeleteTextures)
         return;
     if(tex->glname)
         gles_glDeleteTextures(1, &tex->glname);
