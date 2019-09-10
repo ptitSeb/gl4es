@@ -110,7 +110,6 @@ endif()
 if(DEFAULT_ES EQUAL 1)
     add_definitions(-DDEFAULT_ES=1)
 endif()
-
 if(USE_CCACHE)
     find_program(CCACHE_FOUND ccache)
     if(CCACHE_FOUND)

@@ -14,7 +14,8 @@ void* CreateGBMWindow(int w, int h);
 void DeleteGBMWindow(void* win);
 
 #if !defined(NOEGL) && !defined(ANDROID)
-int FindGBMConfig(EGLConfig *configs, int numFounds);
+int FindGBMConfig(EGLDisplay eglDisp, EGLConfig *configs, int numFounds);
+EGLBoolean GBMMakeCurrent(EGLDisplay eglDisp, EGLSurface draw, EGLSurface read, EGLContext ctx);
 #endif
 
 #endif // _GLX_GBM_H_

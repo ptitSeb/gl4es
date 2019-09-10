@@ -165,15 +165,6 @@ void initialize_gl4es() {
 
 #ifndef __EMSCRIPTEN__
     load_libs();
-    if(globals4es.usegbm)
-        LoadGBMFunctions();
-    if(globals4es.usegbm && !gbm) {
-        SHUT(LOGD("LIBGL: cannot use GBM, disabling\n"));
-        globals4es.usegbm = 0;  // should do some smarter fallback?
-    }
-    glx_init();
-#else
-    globals4es.usegbm = 0;
 #endif
 
 #if (defined(NOEGL) && !defined(ANDROID)) || defined(__EMSCRIPTEN__)
@@ -198,6 +189,19 @@ void initialize_gl4es() {
         SHUT(LOGD("LIBGL: Float and Half-float texture support forced\n"));
     }
     GetHardwareExtensions(gl4es_notest);
+
+#ifndef __EMSCRIPTEN__
+    if(globals4es.usegbm)
+        LoadGBMFunctions();
+    if(globals4es.usegbm && !(gbm && drm)) {
+        SHUT(LOGD("LIBGL: cannot use GBM, disabling\n"));
+        globals4es.usegbm = 0;  // should do some smarter fallback?
+    }
+    glx_init();
+#else
+    globals4es.usegbm = 0;
+#endif
+
     gl_init();
 
     env(LIBGL_RECYCLEFBO, globals4es.recyclefbo, "Recycling of FBO enabled");

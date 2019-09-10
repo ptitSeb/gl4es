@@ -581,7 +581,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
                             XVisualInfo *visual,
                             GLXContext shareList,
                             Bool isDirect) {
-    DBG(printf("glXCreateContext(%p, %p, %p, %i) fbcontext_count=%d", display, visual, shareList, isDirect, fbcontext_count);)
+    DBG(printf("glXCreateContext(%p, %p, %p, %i) fbcontext_count=%d ", display, visual, shareList, isDirect, fbcontext_count);)
 
     static struct __GLXFBConfigRec default_glxfbconfig;
     GLXFBConfig glxfbconfig;
@@ -602,6 +602,8 @@ GLXContext gl4es_glXCreateContext(Display *display,
     int depthBits = glxfbconfig->depthBits;
     if(glxfbconfig->stencilBits>8)
         glxfbconfig->stencilBits = 8;
+    if(depthBits==16 && glxfbconfig->stencilBits)
+        glxfbconfig->stencilBits = EGL_DONT_CARE;
 #ifdef PANDORA
     if(depthBits==32)
         depthBits = (glxfbconfig->stencilBits==8 && hardext.esversion==2)?24:16;
@@ -611,7 +613,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
         depthBits = 24;
 #endif    
 
-    DBG(printf("Creating R:%d G:%d B:%d A:%d Depth:%d Stencil:%d Multisample:%d/%d\n", glxfbconfig->redBits, glxfbconfig->greenBits, glxfbconfig->blueBits, glxfbconfig->alphaBits, depthBits, glxfbconfig->stencilBits, glxfbconfig->nMultiSampleBuffers, glxfbconfig->multiSampleSize);)
+    DBG(printf("Creating R:%d G:%d B:%d A:%d visual deth=%d Depth:%d Stencil:%d Multisample:%d/%d\n", glxfbconfig->redBits, glxfbconfig->greenBits, glxfbconfig->blueBits, glxfbconfig->alphaBits, visual?visual->depth:0, depthBits, glxfbconfig->stencilBits, glxfbconfig->nMultiSampleBuffers, glxfbconfig->multiSampleSize);)
     EGLint configAttribs[] = {
 #ifdef PANDORA
         EGL_RED_SIZE, 5,
@@ -631,7 +633,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
         EGL_SAMPLE_BUFFERS, glxfbconfig->nMultiSampleBuffers,
         EGL_SAMPLES, glxfbconfig->multiSampleSize,
 
-        EGL_SURFACE_TYPE, EGL_WINDOW_BIT | EGL_PBUFFER_BIT,
+        EGL_SURFACE_TYPE, (globals4es.usegbm)?EGL_WINDOW_BIT:(EGL_WINDOW_BIT | EGL_PBUFFER_BIT),
         EGL_NONE
     };
     if (globals4es.usefb)
@@ -674,12 +676,13 @@ GLXContext gl4es_glXCreateContext(Display *display,
     int configsFound;
 	result = egl_eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 30, &configsFound);
     if(configsFound && globals4es.usegbm)
-        fake->eglconfigIdx = FindGBMConfig(fake->eglConfigs, configsFound);
+        fake->eglconfigIdx = FindGBMConfig(eglDisplay, fake->eglConfigs, configsFound);
 
     CheckEGLErrors();
     if (result != EGL_TRUE || configsFound == 0) {
         DBG(printf(" => %p\n", NULL);)
         LOGE("LIBGL: No EGL configs found (depth=%d, stencil=%d).\n", depthBits, glxfbconfig->stencilBits);
+        CheckEGLErrors();
         free(fake);
         return 0;
     }
@@ -844,7 +847,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
         int configsFound;
         result = egl_eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 30, &configsFound);
         if(configsFound && globals4es.usegbm)
-            fake->eglconfigIdx = FindGBMConfig(fake->eglConfigs, configsFound);
+            fake->eglconfigIdx = FindGBMConfig(eglDisplay, fake->eglConfigs, configsFound);
 
         CheckEGLErrors();
         if (result != EGL_TRUE || configsFound == 0) {
@@ -885,8 +888,14 @@ void gl4es_glXDestroyContext(Display *display, GLXContext ctx) {
     if (ctx->eglContext) {
         // need to bind back the context to delete stuff?
         LOAD_EGL(eglMakeCurrent);
-        if(eglSurface!=ctx->eglSurface || eglContext!=ctx->eglContext)
-            egl_eglMakeCurrent(eglDisplay, ctx->eglSurface, ctx->eglSurface, ctx->eglContext);
+        if(eglSurface!=ctx->eglSurface || eglContext!=ctx->eglContext) {
+#ifndef NO_GBM
+            if(globals4es.usegbm)
+                GBMMakeCurrent(eglDisplay, ctx->eglSurface, ctx->eglSurface, ctx->eglContext);
+            else
+#endif
+                egl_eglMakeCurrent(eglDisplay, ctx->eglSurface, ctx->eglSurface, ctx->eglContext);
+        }
 
         if (globals4es.usefbo && ctx->contextType==0) {
             deleteMainFBO(ctx->glstate);
@@ -896,6 +905,11 @@ void gl4es_glXDestroyContext(Display *display, GLXContext ctx) {
         
         // bind context back
         if(eglSurface!=ctx->eglSurface || eglContext!=ctx->eglContext)
+#ifndef NO_GBM
+            if(globals4es.usegbm)
+                GBMMakeCurrent(eglDisplay, eglContext?eglSurface:NULL, eglContext?eglSurface:NULL, ctx->eglContext);
+            else
+#endif
             egl_eglMakeCurrent(eglDisplay, eglContext?eglSurface:NULL, eglContext?eglSurface:NULL, eglContext);
 
         LOAD_EGL(eglDestroyContext);
@@ -1188,9 +1202,9 @@ Bool gl4es_glXMakeCurrent(Display *display,
                             }
                             if(eglSurf == EGL_NO_CONTEXT) {
                                 context->nativewin = create_native_window(width,height);
-#ifndef NO_GBM
+#if 0//ndef NO_GBM
                                 if(globals4es.usegbm) {
-                                    LOAD_EGL(eglCreatePlatformWindowSurface);
+                                    LOAD_EGL_EXT(eglCreatePlatformWindowSurface);
                                     eglSurf = egl_eglCreatePlatformWindowSurface(eglDisplay, context->eglConfigs[context->eglconfigIdx], context->nativewin, attrib_list);
                                 } else
 #endif
@@ -1239,7 +1253,13 @@ Bool gl4es_glXMakeCurrent(Display *display,
         eglSurf = context->eglSurface;
         eglContext = context->eglContext;
     }
-    EGLBoolean result = egl_eglMakeCurrent(eglDisplay, eglSurf, eglSurf, eglContext);
+    EGLBoolean result;
+#ifndef NO_GBM
+    if(globals4es.usegbm)
+        result = GBMMakeCurrent(eglDisplay, eglSurf, eglSurf, eglContext);
+    else
+#endif
+        result = egl_eglMakeCurrent(eglDisplay, eglSurf, eglSurf, eglContext);
     DBG(printf("LIBGL: eglMakeCurrent(%p, %p, %p, %p)\n", eglDisplay, eglSurf, eglSurf, eglContext);)
     CheckEGLErrors();
     glxContext = context;
@@ -2623,7 +2643,12 @@ void BlitEmulatedPixmap() {
 
             DBG(printf("LIBGL: Recreate PBuffer %dx%dx%d => %dx%dx%d\n", Width, Height, Depth, width, height, depth);)
 
-            egl_eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
+#ifndef NO_GBM
+            if(globals4es.usegbm)
+                GBMMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
+            else
+#endif
+                egl_eglMakeCurrent(eglDisplay, NULL, NULL, EGL_NO_CONTEXT);
             egl_eglDestroySurface(eglDisplay, buff->Surface);
             CheckEGLErrors();
 
@@ -2632,7 +2657,12 @@ void BlitEmulatedPixmap() {
             if(Surface==EGL_NO_SURFACE)
                 LOGE("LIBGL: Warning, Recration of pbuffer failed (from %dx%dx%d => %dx%dx%d)\n", buff->Width, buff->Height, buff->Depth, width, height, depth);
             CheckEGLErrors();
-            egl_eglMakeCurrent(eglDisplay, Surface, Surface, buff->Context);
+#ifndef NO_GBM
+            if(globals4es.usegbm)
+                GBMMakeCurrent(eglDisplay, Surface, Surface, buff->Context);
+            else
+#endif
+                egl_eglMakeCurrent(eglDisplay, Surface, Surface, buff->Context);
             CheckEGLErrors();
             glxContext->eglSurface = buff->Surface = Surface;
             buff->Width = width;

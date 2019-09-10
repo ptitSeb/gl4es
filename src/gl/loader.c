@@ -19,8 +19,12 @@ void load_libs() {
 #include <linux/limits.h>
 #endif
 
-void *gles = NULL, *egl = NULL, *bcm_host = NULL, *vcos = NULL, *gbm = NULL;
+void *gles = NULL, *egl = NULL, *bcm_host = NULL, *vcos = NULL, *gbm = NULL, *drm = NULL;
 #ifndef NO_GBM
+static const char *drm_lib[] = {
+    "libdrm",
+    NULL
+};
 static const char *gbm_lib[] = {
     "libgbm",
     NULL
@@ -132,6 +136,8 @@ void load_libs() {
 #ifndef NO_GBM
     char *gbm_override = getenv("LIBGL_GBM");
     gbm = open_lib(gbm_lib, gbm_override);
+    char *drm_override = getenv("LIBGL_DRM");
+    drm = open_lib(drm_lib, drm_override);
 #endif
 }
 #else

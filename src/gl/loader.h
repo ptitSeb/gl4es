@@ -85,7 +85,7 @@ typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLC
 #include "../glx/hardext.h"
 
 // will become references to dlopen'd gles and egl
-extern void *gles, *egl, *bcm_host, *vcos, *gbm;
+extern void *gles, *egl, *bcm_host, *vcos, *gbm, *drm;
 #ifdef AMIGAOS4
 #define proc_address(lib, name) os4GetProcAddress(name)
 #elif defined(__EMSCRIPTEN__)
@@ -119,6 +119,20 @@ void *open_lib(const char **names, const char *override);
             first = false; \
             if (lib != NULL) { \
                 lib##_##name = (name##_PTR)__VA_ARGS__; \
+            } \
+            WARN_NULL(lib##_##name); \
+        } \
+    }
+
+#define LOAD_RAW_2(lib, name, fnc1, fnc2) \
+    { \
+        static bool first = true; \
+        if (first) { \
+            first = false; \
+            if (lib != NULL) { \
+                lib##_##name = (name##_PTR)fnc1; \
+                if(! lib##_##name) \
+                    lib##_##name = (name##_PTR)fnc2; \
             } \
             WARN_NULL(lib##_##name); \
         } \
@@ -188,6 +202,10 @@ void *open_lib(const char **names, const char *override);
     }
 
 #else // defined(AMIGAOS4) || defined(NOEGL)
+
+#define LOAD_EGL_EXT(name) \
+    DEFINE_RAW(egl, name); \
+    LOAD_RAW_2(egl, name, proc_address(egl, #name), proc_address(egl, #name "EXT"))
 
 #define LOAD_GLES_OES(name) \
     DEFINE_RAW(gles, name); \
