@@ -53,7 +53,6 @@ static struct gbm_device *gbmdev = NULL;
 static struct gbm_surface *gbmsurf = NULL;
 static struct gbm_bo *gbm_bo = NULL;
 static uint32_t fb_id = 0;
-static EGLSurface eglsurf = NULL;
 
 // code here from icecream95 https://gitlab.com/icecream95/drmegl-wrapper
 static uint32_t find_crtc_for_encoder(const drmModeRes *resources,
@@ -227,7 +226,7 @@ static struct drm_fb * drm_fb_get_from_bo(struct gbm_bo *bo)
     if (fb)
         return fb;
 
-    fb = calloc(1, sizeof *fb);
+    fb = calloc(1, sizeof(*fb));
     fb->bo = bo;
 
     width = gbmdrm_gbm_bo_get_width(bo);
@@ -352,13 +351,12 @@ EGLBoolean GBMMakeCurrent(EGLDisplay eglDisp, EGLSurface draw, EGLSurface read, 
 
     EGLBoolean res = egl_eglMakeCurrent(eglDisp, draw, read, ctx);
 
-    eglsurf = draw;
-    if(ctx==EGL_NO_CONTEXT) {
+    if(ctx==EGL_NO_CONTEXT || draw==NULL) {
         // clean up gbm/drm stuff?
         return res;
     }
 
-    egl_eglSwapBuffers(eglDisp, eglsurf);
+    egl_eglSwapBuffers(eglDisp, draw);
     struct gbm_bo *bo = gbmdrm_gbm_surface_lock_front_buffer(gbmsurf);
     if(!bo) {
         printf("LIBGL: gbm BO is NULL\n");
