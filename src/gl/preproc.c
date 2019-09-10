@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <locale.h>
 #include "khash.h"
 
 #include "preproc.h"
@@ -374,6 +375,8 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts,
     int nowrite_ifs = 0;
     int current_if = 0;
     int need_pop = 0;
+
+    char* old_locale = setlocale(LC_ALL, "C");
 
     khash_t(alldefine) *alldefines = kh_init(alldefine);  // will conatin all defines, even the one without int inside
 
@@ -786,5 +789,6 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts,
     if(stackif.ifs)
         free(stackif.ifs);
 
+    setlocale(LC_ALL, old_locale);
     return ncode;
 }
