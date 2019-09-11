@@ -137,7 +137,6 @@ void *open_lib(const char **names, const char *override);
                     __VA_ARGS__ \
                 } \
             } \
-            WARN_NULL(lib##_##name); \
         } \
     }
 
