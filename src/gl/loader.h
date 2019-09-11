@@ -124,7 +124,7 @@ void *open_lib(const char **names, const char *override);
         } \
     }
 
-#define LOAD_RAW_2(lib, name, fnc1, fnc2) \
+#define LOAD_RAW_3(lib, name, fnc1, fnc2, ...) \
     { \
         static bool first = true; \
         if (first) { \
@@ -133,6 +133,9 @@ void *open_lib(const char **names, const char *override);
                 lib##_##name = (name##_PTR)fnc1; \
                 if(! lib##_##name) \
                     lib##_##name = (name##_PTR)fnc2; \
+                if(! lib##_##name) { \
+                    __VA_ARGS__ \
+                } \
             } \
             WARN_NULL(lib##_##name); \
         } \
@@ -205,7 +208,7 @@ void *open_lib(const char **names, const char *override);
 
 #define LOAD_EGL_EXT(name) \
     DEFINE_RAW(egl, name); \
-    LOAD_RAW_2(egl, name, proc_address(egl, #name), proc_address(egl, #name "EXT"))
+    LOAD_RAW_3(egl, name, proc_address(egl, #name), proc_address(egl, #name "EXT"), LOAD_EGL(eglGetProcAddress); LOAD_RAW(egl, name, egl_eglGetProcAddress(#name "EXT")); )
 
 #define LOAD_GLES_OES(name) \
     DEFINE_RAW(gles, name); \
