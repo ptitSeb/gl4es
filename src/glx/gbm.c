@@ -359,8 +359,9 @@ EGLBoolean GBMMakeCurrent(EGLDisplay eglDisp, EGLSurface draw, EGLSurface read, 
     egl_eglSwapBuffers(eglDisp, draw);
     struct gbm_bo *bo = gbmdrm_gbm_surface_lock_front_buffer(gbmsurf);
     if(!bo) {
-        printf("LIBGL: gbm BO is NULL\n");
-        return EGL_FALSE;
+        // probably a PBuffer
+        //printf("LIBGL: gbm BO is NULL\n");
+        return EGL_TRUE;
     }
     struct drm_fb *fb = drm_fb_get_from_bo(bo);
     // Is it safe to do this here?
