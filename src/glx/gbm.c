@@ -212,7 +212,7 @@ static void drm_fb_destroy_callback(struct gbm_bo *bo, void *data)
     struct gbm_device *gbm = gbmdrm_gbm_bo_get_device(bo);
 
     if (fb->fb_id)
-        drmModeRmFB(drm_fd, fb->fb_id);
+        gbmdrm_drmModeRmFB(drm_fd, fb->fb_id);
 
     free(fb);
 }
@@ -260,6 +260,10 @@ static int OpenGBM()
 
 void LoadGBMFunctions()
 {
+    static int hasrun = 0;
+    if(hasrun)
+        return;
+    hasrun = 1;
     if(!gbm || !drm)
         return;
     // load functions

@@ -154,7 +154,14 @@ void GetHardwareExtensions(int notest)
     int configsFound;
     static EGLConfig pbufConfigs[1];
 
-    eglDisplay = egl_eglGetDisplay(EGL_DEFAULT_DISPLAY);
+#ifndef NO_GBM
+    if (globals4es.usegbm) {
+        GBMLoadFunctions();
+        eglDisplay = GBMOpenDisplay(EGL_DEFAULT_DISPLAY);
+    }
+    else
+#endif
+        eglDisplay = egl_eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
     egl_eglBindAPI(EGL_OPENGL_ES_API);
     if (egl_eglInitialize(eglDisplay, NULL, NULL) != EGL_TRUE) {
