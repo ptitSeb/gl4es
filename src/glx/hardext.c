@@ -156,8 +156,8 @@ void GetHardwareExtensions(int notest)
 
 #ifndef NO_GBM
     if (globals4es.usegbm) {
-        GBMLoadFunctions();
-        eglDisplay = GBMOpenDisplay(EGL_DEFAULT_DISPLAY);
+        LoadGBMFunctions();
+        eglDisplay = OpenGBMDisplay(EGL_DEFAULT_DISPLAY);
     }
     else
 #endif
