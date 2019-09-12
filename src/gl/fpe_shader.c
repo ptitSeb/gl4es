@@ -911,6 +911,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                             sprintf(buff, "fColor = texColor%d;\n", i);
                             ShadAppend(buff);
                         }
+                        needclamp = 0;
                         break;
                     case FPE_COMBINE:
                     case FPE_COMBINE4:
@@ -982,122 +983,172 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                                 headers+=CountLine(buff);                            
                             }
                             for (int j=0; j<4; j++) {
-                                if(op_r[j]!=-1)
-                                switch(op_r[j]) {
-                                    case FPE_OP_SRCCOLOR:
-                                        sprintf(buff, "Arg%d.rgb = %s.rgb;\n", j, fpe_texenvSrc(src_r[j], i, twosided));
-                                        ShadAppend(buff);
+                                if(src_r[j]==src_a[j] && op_r[j]==FPE_OP_SRCCOLOR && op_a[j]==FPE_OP_ALPHA) {
+                                    sprintf(buff, "Arg%d = %s;\n", j, fpe_texenvSrc(src_r[j], i, twosided));
+                                    ShadAppend(buff);
+                                } else if(src_r[j]==src_a[j] && op_r[j]==FPE_OP_MINUSCOLOR && op_a[j]==FPE_OP_MINUSALPHA) {
+                                    sprintf(buff, "Arg%d = vec4(1.) - %s;\n", j, fpe_texenvSrc(src_r[j], i, twosided));
+                                    ShadAppend(buff);
+                                } else {
+                                    if(op_r[j]!=-1)
+                                    switch(op_r[j]) {
+                                        case FPE_OP_SRCCOLOR:
+                                            sprintf(buff, "Arg%d.rgb = %s.rgb;\n", j, fpe_texenvSrc(src_r[j], i, twosided));
+                                            ShadAppend(buff);
+                                            break;
+                                        case FPE_OP_MINUSCOLOR:
+                                            sprintf(buff, "Arg%d.rgb = vec3(1.) - %s.rgb;\n", j, fpe_texenvSrc(src_r[j], i, twosided));
+                                            ShadAppend(buff);
+                                            break;
+                                        case FPE_OP_ALPHA:
+                                            sprintf(buff, "Arg%d.rgb = vec3(%s.a);\n", j, fpe_texenvSrc(src_r[j], i, twosided));
+                                            ShadAppend(buff);
+                                            break;
+                                        case FPE_OP_MINUSALPHA:
+                                            sprintf(buff, "Arg%d.rgb = vec3(1. - %s.a);\n", j, fpe_texenvSrc(src_r[j], i, twosided));
+                                            ShadAppend(buff);
+                                            break;
+                                    }
+                                    if(op_a[j]!=-1)
+                                    switch(op_a[j]) {
+                                        case FPE_OP_ALPHA:
+                                            sprintf(buff, "Arg%d.a = %s.a;\n", j, fpe_texenvSrc(src_a[j], i, twosided));
+                                            ShadAppend(buff);
+                                            break;
+                                        case FPE_OP_MINUSALPHA:
+                                            sprintf(buff, "Arg%d.a = 1. - %s.a;\n", j, fpe_texenvSrc(src_a[j], i, twosided));
+                                            ShadAppend(buff);
+                                            break;
+                                    }
+                                }
+                            }
+                            if(combine_rgb!=FPE_CR_DOT3_RGBA && combine_rgb!=FPE_CR_DOT3_RGB && combine_rgb==combine_alpha) {
+                                switch(combine_alpha) {
+                                    case FPE_CR_REPLACE:
+                                        ShadAppend("fColor = Arg0;\n");
                                         break;
-                                    case FPE_OP_MINUSCOLOR:
-                                        sprintf(buff, "Arg%d.rgb = vec3(1.) - %s.rgb;\n", j, fpe_texenvSrc(src_r[j], i, twosided));
-                                        ShadAppend(buff);
+                                    case FPE_CR_MODULATE:
+                                        ShadAppend("fColor = Arg0 * Arg1;\n");
                                         break;
-                                    case FPE_OP_ALPHA:
-                                        sprintf(buff, "Arg%d.rgb = vec3(%s.a);\n", j, fpe_texenvSrc(src_r[j], i, twosided));
-                                        ShadAppend(buff);
+                                    case FPE_CR_ADD:
+                                        if(texenv==FPE_COMBINE4)
+                                            ShadAppend("fColor = Arg0*Arg1 + Arg2*Arg3;\n");
+                                        else
+                                            ShadAppend("fColor = Arg0 + Arg1;\n");
                                         break;
-                                    case FPE_OP_MINUSALPHA:
-                                        sprintf(buff, "Arg%d.rgb = vec3(1. - %s.a);\n", j, fpe_texenvSrc(src_r[j], i, twosided));
-                                        ShadAppend(buff);
+                                    case FPE_CR_ADD_SIGNED:
+                                        if(texenv==FPE_COMBINE4)
+                                            ShadAppend("fColor = Arg0*Arg1 + Arg2*Arg3 - vec4(0.5);\n");
+                                        else
+                                            ShadAppend("fColor = Arg0 + Arg1 - vec4(0.5);\n");
+                                        break;
+                                    case FPE_CR_INTERPOLATE:
+                                        ShadAppend("fColor = Arg0*Arg2 + Arg1*(vec4(1.)-Arg2);\n");
+                                        break;
+                                    case FPE_CR_SUBTRACT:
+                                        ShadAppend("fColor = Arg0 - Arg1;\n");
+                                        break;
+                                    case FPE_CR_MOD_ADD:
+                                        ShadAppend("fColor = Arg0*Arg2 + Arg1;\n");
+                                        break;
+                                    case FPE_CR_MOD_ADD_SIGNED:
+                                        ShadAppend("fColor = Arg0*Arg2 + Arg1 - vec4(0.5);\n");
+                                        break;
+                                    case FPE_CR_MOD_SUB:
+                                        ShadAppend("fColor = Arg0*Arg2 - Arg1;\n");
                                         break;
                                 }
-                                if(op_a[j]!=-1)
-                                switch(op_a[j]) {
-                                    case FPE_OP_ALPHA:
-                                        sprintf(buff, "Arg%d.a = %s.a;\n", j, fpe_texenvSrc(src_a[j], i, twosided));
-                                        ShadAppend(buff);
+                            } else {
+                                switch(combine_rgb) {
+                                    case FPE_CR_REPLACE:
+                                        ShadAppend("fColor.rgb = Arg0.rgb;\n");
                                         break;
-                                    case FPE_OP_MINUSALPHA:
-                                        sprintf(buff, "Arg%d.a = 1. - %s.a;\n", j, fpe_texenvSrc(src_a[j], i, twosided));
-                                        ShadAppend(buff);
+                                    case FPE_CR_MODULATE:
+                                        ShadAppend("fColor.rgb = Arg0.rgb * Arg1.rgb;\n");
+                                        break;
+                                    case FPE_CR_ADD:
+                                        if(texenv==FPE_COMBINE4)
+                                            ShadAppend("fColor.rgb = Arg0.rgb*Arg1.rgb + Arg2.rgb*Arg3.rgb;\n");
+                                        else
+                                            ShadAppend("fColor.rgb = Arg0.rgb + Arg1.rgb;\n");
+                                        break;
+                                    case FPE_CR_ADD_SIGNED:
+                                        if(texenv==FPE_COMBINE4)
+                                            ShadAppend("fColor.rgb = Arg0.rgb*Arg1.rgb + Arg2.rgb*Arg3.rgb - vec3(0.5);\n");
+                                        else
+                                            ShadAppend("fColor.rgb = Arg0.rgb + Arg1.rgb - vec3(0.5);\n");
+                                        break;
+                                    case FPE_CR_INTERPOLATE:
+                                        ShadAppend("fColor.rgb = Arg0.rgb*Arg2.rgb + Arg1.rgb*(vec3(1.)-Arg2.rgb);\n");
+                                        break;
+                                    case FPE_CR_SUBTRACT:
+                                        ShadAppend("fColor.rgb = Arg0.rgb - Arg1.rgb;\n");
+                                        break;
+                                    case FPE_CR_DOT3_RGB:
+                                        ShadAppend("fColor.rgb = vec3(4.*((Arg0.r-0.5)*(Arg1.r-0.5)+(Arg0.g-0.5)*(Arg1.g-0.5)+(Arg0.b-0.5)*(Arg1.b-0.5)));\n");
+                                        break;
+                                    case FPE_CR_DOT3_RGBA:
+                                        ShadAppend("fColor = vec4(4.*((Arg0.r-0.5)*(Arg1.r-0.5)+(Arg0.g-0.5)*(Arg1.g-0.5)+(Arg0.b-0.5)*(Arg1.b-0.5)));\n");
+                                        break;
+                                    case FPE_CR_MOD_ADD:
+                                        ShadAppend("fColor.rgb = Arg0.rgb*Arg2.rgb + Arg1.rgb;\n");
+                                        break;
+                                    case FPE_CR_MOD_ADD_SIGNED:
+                                        ShadAppend("fColor.rgb = Arg0.rgb*Arg2.rgb + Arg1.rgb - vec3(0.5);\n");
+                                        break;
+                                    case FPE_CR_MOD_SUB:
+                                        ShadAppend("fColor.rgb = Arg0.rgb*Arg2.rgb - Arg1.rgb;\n");
+                                        break;
+                                }
+                                if(combine_rgb!=FPE_CR_DOT3_RGBA) 
+                                switch(combine_alpha) {
+                                    case FPE_CR_REPLACE:
+                                        ShadAppend("fColor.a = Arg0.a;\n");
+                                        break;
+                                    case FPE_CR_MODULATE:
+                                        ShadAppend("fColor.a = Arg0.a * Arg1.a;\n");
+                                        break;
+                                    case FPE_CR_ADD:
+                                        if(texenv==FPE_COMBINE4)
+                                            ShadAppend("fColor.a = Arg0.a*Arg1.a + Arg2.a*Arg3.a;\n");
+                                        else
+                                            ShadAppend("fColor.a = Arg0.a + Arg1.a;\n");
+                                        break;
+                                    case FPE_CR_ADD_SIGNED:
+                                        if(texenv==FPE_COMBINE4)
+                                            ShadAppend("fColor.a = Arg0.a*Arg1.a + Arg2.a*Arg3.a - 0.5;\n");
+                                        else
+                                            ShadAppend("fColor.a = Arg0.a + Arg1.a - 0.5;\n");
+                                        break;
+                                    case FPE_CR_INTERPOLATE:
+                                        ShadAppend("fColor.a = Arg0.a*Arg2.a + Arg1.a*(1.-Arg2.a);\n");
+                                        break;
+                                    case FPE_CR_SUBTRACT:
+                                        ShadAppend("fColor.a = Arg0.a - Arg1.a;\n");
+                                        break;
+                                    case FPE_CR_MOD_ADD:
+                                        ShadAppend("fColor.a = Arg0.a*Arg2.a + Arg1.a;\n");
+                                        break;
+                                    case FPE_CR_MOD_ADD_SIGNED:
+                                        ShadAppend("fColor.a = Arg0.a*Arg2.a + Arg1.a - 0.5;\n");
+                                        break;
+                                    case FPE_CR_MOD_SUB:
+                                        ShadAppend("fColor.a = Arg0.a*Arg2.a - Arg1.a;\n");
                                         break;
                                 }
                             }
-                                
-                            switch(combine_rgb) {
-                                case FPE_CR_REPLACE:
-                                    ShadAppend("fColor.rgb = Arg0.rgb;\n");
-                                    break;
-                                case FPE_CR_MODULATE:
-                                    ShadAppend("fColor.rgb = Arg0.rgb * Arg1.rgb;\n");
-                                    break;
-                                case FPE_CR_ADD:
-                                    if(texenv==FPE_COMBINE4)
-                                        ShadAppend("fColor.rgb = Arg0.rgb*Arg1.rgb + Arg2.rgb*Arg3.rgb;\n");
-                                    else
-                                        ShadAppend("fColor.rgb = Arg0.rgb + Arg1.rgb;\n");
-                                    break;
-                                case FPE_CR_ADD_SIGNED:
-                                    if(texenv==FPE_COMBINE4)
-                                        ShadAppend("fColor.rgb = Arg0.rgb*Arg1.rgb + Arg2.rgb*Arg3.rgb - vec3(0.5);\n");
-                                    else
-                                        ShadAppend("fColor.rgb = Arg0.rgb + Arg1.rgb - vec3(0.5);\n");
-                                    break;
-                                case FPE_CR_INTERPOLATE:
-                                    ShadAppend("fColor.rgb = Arg0.rgb*Arg2.rgb + Arg1.rgb*(vec3(1.)-Arg2.rgb);\n");
-                                    break;
-                                case FPE_CR_SUBTRACT:
-                                    ShadAppend("fColor.rgb = Arg0.rgb - Arg1.rgb;\n");
-                                    break;
-                                case FPE_CR_DOT3_RGB:
-                                    ShadAppend("fColor.rgb = vec3(4.*((Arg0.r-0.5)*(Arg1.r-0.5)+(Arg0.g-0.5)*(Arg1.g-0.5)+(Arg0.b-0.5)*(Arg1.b-0.5)));\n");
-                                    break;
-                                case FPE_CR_DOT3_RGBA:
-                                    ShadAppend("fColor = vec4(4.*((Arg0.r-0.5)*(Arg1.r-0.5)+(Arg0.g-0.5)*(Arg1.g-0.5)+(Arg0.b-0.5)*(Arg1.b-0.5)));\n");
-                                    break;
-                                case FPE_CR_MOD_ADD:
-                                    ShadAppend("fColor.rgb = Arg0.rgb*Arg2.rgb + Arg1.rgb;\n");
-                                    break;
-                                case FPE_CR_MOD_ADD_SIGNED:
-                                    ShadAppend("fColor.rgb = Arg0.rgb*Arg2.rgb + Arg1.rgb - vec3(0.5);\n");
-                                    break;
-                                case FPE_CR_MOD_SUB:
-                                    ShadAppend("fColor.rgb = Arg0.rgb*Arg2.rgb - Arg1.rgb;\n");
-                                    break;
-                            }
-                            if(combine_rgb!=FPE_CR_DOT3_RGBA) 
-                            switch(combine_alpha) {
-                                case FPE_CR_REPLACE:
-                                    ShadAppend("fColor.a = Arg0.a;\n");
-                                    break;
-                                case FPE_CR_MODULATE:
-                                    ShadAppend("fColor.a = Arg0.a * Arg1.a;\n");
-                                    break;
-                                case FPE_CR_ADD:
-                                    if(texenv==FPE_COMBINE4)
-                                        ShadAppend("fColor.a = Arg0.a*Arg1.a + Arg2.a*Arg3.a;\n");
-                                    else
-                                        ShadAppend("fColor.a = Arg0.a + Arg1.a;\n");
-                                    break;
-                                case FPE_CR_ADD_SIGNED:
-                                    if(texenv==FPE_COMBINE4)
-                                        ShadAppend("fColor.a = Arg0.a*Arg1.a + Arg2.a*Arg3.a - 0.5;\n");
-                                    else
-                                        ShadAppend("fColor.a = Arg0.a + Arg1.a - 0.5;\n");
-                                    break;
-                                case FPE_CR_INTERPOLATE:
-                                    ShadAppend("fColor.a = Arg0.a*Arg2.a + Arg1.a*(1.-Arg2.a);\n");
-                                    break;
-                                case FPE_CR_SUBTRACT:
-                                    ShadAppend("fColor.a = Arg0.a - Arg1.a;\n");
-                                    break;
-                                case FPE_CR_MOD_ADD:
-                                    ShadAppend("fColor.a = Arg0.a*Arg2.a + Arg1.a;\n");
-                                    break;
-                                case FPE_CR_MOD_ADD_SIGNED:
-                                    ShadAppend("fColor.a = Arg0.a*Arg2.a + Arg1.a - 0.5;\n");
-                                    break;
-                                case FPE_CR_MOD_SUB:
-                                    ShadAppend("fColor.a = Arg0.a*Arg2.a - Arg1.a;\n");
-                                    break;
-                            }
-                            if((state->texrgbscale>>i)&1) {
-                                sprintf(buff, "fColor.rgb *= _gl4es_TexEnvRGBScale_%d;\n", i);
+                            if(((state->texrgbscale>>i)&1) && ((state->texalphascale>>i)&1)) {
+                                sprintf(buff, "fColor *= _gl4es_TexEnvRGBScale_%d;\n", i);
                                 ShadAppend(buff);
-                            }
-                            if((state->texalphascale>>i)&1) {
-                                sprintf(buff, "fColor.a *= _gl4es_TexEnvAlphaScale_%d;\n", i);
-                                ShadAppend(buff);
+                            } else {
+                                if((state->texrgbscale>>i)&1) {
+                                    sprintf(buff, "fColor.rgb *= _gl4es_TexEnvRGBScale_%d;\n", i);
+                                    ShadAppend(buff);
+                                }
+                                if((state->texalphascale>>i)&1) {
+                                    sprintf(buff, "fColor.a *= _gl4es_TexEnvAlphaScale_%d;\n", i);
+                                    ShadAppend(buff);
+                                }
                             }
                         }
                         break;
