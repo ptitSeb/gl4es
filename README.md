@@ -1,5 +1,6 @@
 GL4ES - OpenGL for GLES Hardware
 ====
+![logo](gl4es.png "gl4es logo")
 
 ![gl4es build status](https://api.travis-ci.org/ptitSeb/gl4es.png "gl4es build status") [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=LU8Y2T62ZWFHU)
 
