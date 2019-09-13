@@ -167,6 +167,7 @@ void fpe_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *
 void fpe_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer);
 void fpe_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer);
 void fpe_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer);
+void fpe_glTexCoordPointerTMU(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer, int TMU);
 void fpe_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer);
 void fpe_glEnable(GLenum cap);
 void fpe_glDisable(GLenum cap);

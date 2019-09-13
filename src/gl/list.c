@@ -5,6 +5,7 @@
 #include "gl4es.h"
 #include "glstate.h"
 #include "init.h"
+#include "loader.h"
 
 // KH Map implementation
 KHASH_MAP_IMPL_INT(material, rendermaterial_t *);
@@ -111,6 +112,10 @@ bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
         if (a_mode != b_mode)
             return false;
     }
+    if(a->use_vbo_array==2 || b->use_vbo_array==2)
+        return false;
+    if(a->use_vbo_indices==2 || b->use_vbo_indices==2)
+        return false;
     if(!a->open || !b->open)
         return false;
     if(a->use_glstate)
@@ -150,9 +155,9 @@ bool islistscompatible_renderlist(renderlist_t *a, renderlist_t *b) {
         return false;
         
     // Check the size of a list, if it"s too big, don't merge...
-    if ((a->len+b->len)>30000)
+    if ((a->len+b->len)>60000)
         return false;
-    if ((a->ilen+b->ilen)>30000)
+    if ((a->ilen+b->ilen)>60000)
         return false;
     
     return true;
@@ -666,6 +671,7 @@ renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a)
 }
 
 void free_renderlist(renderlist_t *list) {
+    LOAD_GLES2(glDeleteBuffers);
 	// test if list is NULL
 	if (list == NULL)
 		return;
@@ -755,6 +761,10 @@ void free_renderlist(renderlist_t *list) {
             free(list->ind_lines);
         if(list->final_colors)
             free(list->final_colors);
+        if(list->vbo_array)
+            gles_glDeleteBuffers(1, &list->vbo_array);
+        if(list->vbo_indices)
+            gles_glDeleteBuffers(1, &list->vbo_indices);
 
         next = list->next;
         free(list);

@@ -843,7 +843,12 @@ void gl4es_glEndList() {
     if (glstate->list.compiling) {
 	// Free the previous list if it exist...
         free_renderlist(kh_value(lists, k));
-        kh_value(lists, k) = GetFirst(glstate->list.active);
+        renderlist_t* l = kh_value(lists, k) = GetFirst(glstate->list.active);
+        // set name
+        while(l) {
+            l->name = list;
+            l = l->next;
+        }
         glstate->list.compiling = false;
         end_renderlist(glstate->list.active);
         glstate->list.active = NULL;

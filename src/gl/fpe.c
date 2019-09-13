@@ -472,17 +472,21 @@ void fpe_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
 }
 
 void fpe_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
-    DBG(printf("fpe_glTexCoordPointer(%d, %s, %d, %p) on tmu=%d\n", size, PrintEnum(type), stride, pointer, glstate->texture.client);)
-    glstate->fpe_client.tex[glstate->texture.client].size = size;
-    glstate->fpe_client.tex[glstate->texture.client].type = type;
-    glstate->fpe_client.tex[glstate->texture.client].stride = stride;
-    glstate->fpe_client.tex[glstate->texture.client].pointer = pointer;
-    if(pointer==glstate->vao->pointers[ATT_MULTITEXCOORD0+glstate->texture.client].pointer) {
-        glstate->fpe_client.tex[glstate->texture.client].real_buffer = glstate->vao->pointers[ATT_MULTITEXCOORD0+glstate->texture.client].real_buffer;
-        glstate->fpe_client.tex[glstate->texture.client].real_pointer = glstate->vao->pointers[ATT_MULTITEXCOORD0+glstate->texture.client].real_pointer;
+    fpe_glTexCoordPointerTMU(size, type, stride, pointer, glstate->texture.client);
+}
+
+void fpe_glTexCoordPointerTMU(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer, int TMU) {
+    DBG(printf("fpe_glTexCoordPointer(%d, %s, %d, %p) on tmu=%d\n", size, PrintEnum(type), stride, pointer, TMU);)
+    glstate->fpe_client.tex[TMU].size = size;
+    glstate->fpe_client.tex[TMU].type = type;
+    glstate->fpe_client.tex[TMU].stride = stride;
+    glstate->fpe_client.tex[TMU].pointer = pointer;
+    if(pointer==glstate->vao->pointers[ATT_MULTITEXCOORD0+TMU].pointer) {
+        glstate->fpe_client.tex[TMU].real_buffer = glstate->vao->pointers[ATT_MULTITEXCOORD0+TMU].real_buffer;
+        glstate->fpe_client.tex[TMU].real_pointer = glstate->vao->pointers[ATT_MULTITEXCOORD0+TMU].real_pointer;
     } else {
-        glstate->fpe_client.tex[glstate->texture.client].real_buffer = 0;
-        glstate->fpe_client.tex[glstate->texture.client].real_pointer = 0;
+        glstate->fpe_client.tex[TMU].real_buffer = 0;
+        glstate->fpe_client.tex[TMU].real_pointer = 0;
     }
 }
 

@@ -327,5 +327,5 @@ Disable the use of the Precompiled Shader Archive
 ##### LIBGL_USEVBO
 Usage of VBO in certain cases. Only for GLES2+
 * 0 : Disable the use of VBO.
-* 1 : Default: Use VBO when possible
+* 1 : Default: Use VBO when possible (for Arrays VBO or glList)
 * 2 : Use VBO when possible (and also on `glLockArrays`)

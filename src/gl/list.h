@@ -143,6 +143,7 @@ typedef struct _renderlist_t {
     unsigned long cap;
     GLenum mode;
     GLenum mode_init;		// initial requested mode
+    GLuint name;
     modeinit_t* mode_inits;   // array of requested/len, for the merger
     int     mode_init_cap;
     int     mode_init_len;
@@ -171,6 +172,16 @@ typedef struct _renderlist_t {
     int      secondary_stride;
     int      fogcoord_stride;
     int      tex_stride[MAX_TEX];
+    GLuint   vbo_array;
+    GLuint   vbo_indices;
+    int      use_vbo_array;   // 0=Not evaluated, 1=No, 2=Yes
+    int      use_vbo_indices; // same
+    GLfloat *vbo_vert;
+    GLfloat *vbo_normal;
+    GLfloat *vbo_color;
+    GLfloat *vbo_secondary;
+    GLfloat *vbo_fogcoord;
+    GLfloat *vbo_tex[MAX_TEX];
     int *shared_indices;
     GLushort *indices;
     unsigned int indice_cap;
