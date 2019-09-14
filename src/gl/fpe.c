@@ -531,11 +531,19 @@ void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 
 void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
     DBG(printf("fpe_glDrawElements(%s, %d, %s, %p), program=%d, instanceID=%u\n", PrintEnum(mode), count, PrintEnum(type), indices, glstate->glsl->program, glstate->instanceID);)
+    LOAD_GLES2(glBindBuffer);
     void* scratch = NULL;
     realize_glenv(mode==GL_POINTS, 0, count, type, indices, &scratch);
     LOAD_GLES(glDrawElements);
+    int use_vbo = 0;
+    if(glstate->vao->elements && glstate->vao->elements->real_buffer && indices>=glstate->vao->elements->data && indices<=(glstate->vao->elements->data+glstate->vao->elements->size)) {
+        use_vbo = 1;
+        gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, glstate->vao->elements->real_buffer);
+        indices = (GLvoid*)((uintptr_t)indices - (uintptr_t)(glstate->vao->elements->data));
+    }
     gles_glDrawElements(mode, count, type, indices);
     if(scratch) free(scratch);
+    if(use_vbo) gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void fpe_glMatrixMode(GLenum mode) {
