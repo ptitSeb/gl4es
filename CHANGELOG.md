@@ -9,6 +9,21 @@ Version history
 * Some fixes to fpe_shader (for Neverwinter Night)
 * Rework of Header structure (from @rajdakin)
 * Better test, using "make test" (from @rajdakin, still using apitrace for replay)
+* Added PSA: Precompiled Shader Archive, to store (and fast retreive) FPE shader (and avoid some pauses when complex FPE shaders are computed)
+* Numerous optimization and changes in Batch mode.
+* Fixes to GL_BGRA handling
+* Improvment in texture format handling, to limit number of conversions
+* Added handling of VBO. Real VBO are used (in GLES2+ only) for GL_ARRAY_BUFFER and GL_ELEMENT_ARRAY_BUFFER
+* Added VBO when processing glList (only in GLES2+)
+* Added more GL3.x stuff (like glTexStorage functions). No real GL3.0 support yet
+* Can now use GBM/DRM, using LIBGL_FB=4. Still WIP, but now it start to work (thanks to @icecream95)
+* Preliminary Emscripten support (thanks to @CecilHarvey)
+* AmigaOS4 support is now live (thanks to @kas1e)
+* Some fixes to texture handling, when uploading (or modifying) a texture in a multi-texture context
+* Small optimization some of the FPE Generated program (many fragment shaders that do texturing)
+* Added support to glGetProgramBinary extension
+* GL4ES has a logo now :) !
+
 
 ##### v1.1.0
 * Default backend is now GLES2 (but not on Pandora, still GLES1.1 for compatibility reasons)
