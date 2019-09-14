@@ -2633,11 +2633,17 @@ void gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
             || (bound->format==glstate->fbo.current_fb->read_format && bound->type==glstate->fbo.current_fb->read_type));
         if (copytex || !glstate->colormask[0] || !glstate->colormask[1] || !glstate->colormask[2] || !glstate->colormask[3]) {
             gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
+            if(((((bound->max_level == level) && (level || bound->mipmap_need)) && (globals4es.automipmap!=3) && (bound->mipmap_need!=0))) && !(bound->max_level==bound->base_level && bound->base_level==0)) {
+                LOAD_GLES2_OR_OES(glGenerateMipmap);
+                if(gl4es_glGenerateMipmap)
+                    gl4es_glGenerateMipmap(to_target(itarget));
+            }
         } else {
             void* tmp = malloc(width*height*4);
             GLenum format = bound->format;
             GLenum type = bound->type;
             gl4es_glReadPixels(x, y, width, height, format, type, tmp);
+            // mipmap will be calculated buy gl4es_glTexSubImage2D
             gl4es_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, tmp);
             free(tmp);
         }
