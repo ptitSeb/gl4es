@@ -263,6 +263,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->fog.density = 1.0f;
     glstate->fog.end = 1.0f;
     glstate->fog.coord_src = GL_FRAGMENT_DEPTH;
+    glstate->fog.distance = GL_EYE_PLANE_ABSOLUTE_NV;
     // Alpha Func
     glstate->alphafunc = GL_ALWAYS;
     glstate->alpharef = 0.0f;

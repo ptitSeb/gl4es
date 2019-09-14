@@ -763,6 +763,11 @@
 #define GL_OPERAND3_RGB                         0x8593
 #define GL_OPERAND3_ALPHA                       0x859B
 
+//GL_NV_fog_distance
+#define GL_FOG_DISTANCE_MODE_NV                 0x855A
+#define GL_EYE_RADIAL_NV                        0x855B
+#define GL_EYE_PLANE_ABSOLUTE_NV                0x855C
+
 //GL_ARB_instanced_arrays
 #define GL_VERTEX_ATTRIB_ARRAY_DIVISOR          0x88FE
 

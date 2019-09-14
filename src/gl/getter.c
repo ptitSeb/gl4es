@@ -177,6 +177,7 @@ void BuildExtensionsList() {
                 "GL_ATI_texture_env_combine3 "
                 "GL_ATIX_texture_env_route "
                 "GL_NV_texture_env_combine4 "
+                "GL_NV_fog_distance "
                 "GL_ARB_draw_instanced "
                 "GL_ARB_instanced_arrays "
                 );
@@ -444,6 +445,9 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             break;
         case GL_FOG_DENSITY:
             *params=glstate->fog.density;
+            break;
+        case GL_FOG_DISTANCE_MODE_NV:
+            *params=glstate->fog.distance;
             break;
         case GL_FOG_START:
             *params=glstate->fog.start;

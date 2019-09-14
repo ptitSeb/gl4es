@@ -135,6 +135,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     int secondary = (state->colorsum && !(lighting && light_separate)) || fpe_texenvSecondary(state);
     int fog = state->fog;
     int fogsource = state->fogsource;
+    int fogdist = state->fogdist;
     int fogmode = state->fogmode;
     int color_material = state->color_material && lighting;
     int point = state->point;
@@ -658,10 +659,18 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     }
     if(fog) {
         if(comments) {
-            sprintf(buff, "// Fog On: mode=%X, source=%X\n", fogmode, fogsource);
+            sprintf(buff, "// Fog On: mode=%X, source=%X distance=%X\n", fogmode, fogsource, fogdist);
             ShadAppend(buff);
         }
-        sprintf(buff, "float fog_c = %s;\n", fogsource==FPE_FOG_SRC_DEPTH?"abs(vertex.z)":"FogCoord"); // either vertex.z of length(vertex), let's choose the faster here
+        char fogsrc[50];
+        if(fogsource==FPE_FOG_SRC_COORD)
+            strcpy(fogsrc, "FogCoord");
+        else switch(fogdist) {
+            case FPE_FOG_DIST_RADIAL: strcpy(fogsrc, "length(vertex.xyz)"); break;
+            case FPE_FOG_DIST_PLANE: strcpy(fogsrc, "vertex.z"); break;
+            default: strcpy(fogsrc, "abs(vertex.z)");
+        }
+        sprintf(buff, "float fog_c = %s;\n", fogsrc);
         ShadAppend(buff);
         switch(fogmode) {
             case FPE_FOG_EXP:

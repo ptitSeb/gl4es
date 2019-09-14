@@ -21,6 +21,10 @@
 #define FPE_FOG_SRC_DEPTH 0
 #define FPE_FOG_SRC_COORD 1
 
+#define FPE_FOG_DIST_PLANE_ABS  0
+#define FPE_FOG_DIST_PLANE      1
+#define FPE_FOG_DIST_RADIAL     2
+
 #define FPE_TEX_OFF  0
 #define FPE_TEX_2D   1
 #define FPE_TEX_RECT 2
@@ -125,6 +129,7 @@ typedef struct fpe_state_s {
     unsigned int texgen_q_mode:24;       // 8 texgen Q on 3 bits
     unsigned int plane:6;                // 6 planes packed
     unsigned int fogmode:2;              // fog mode
+    unsigned int fogdist:2;              // fog distance mode
     unsigned int fogsource:1;            // fog source
     unsigned int fog:1;                  // Fog enabled or not
     unsigned int colorsum:1;             // secondary color enabled

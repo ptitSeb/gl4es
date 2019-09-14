@@ -6,6 +6,7 @@
 typedef struct {
     GLenum          mode;
     GLfloat         density;
+    GLenum          distance;
     GLfloat         start;
     GLfloat         end;
     GLfloat         index;

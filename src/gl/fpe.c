@@ -122,9 +122,12 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
             }
         }
     }
+    if(dest->fog && dest->fogsource==FPE_FOG_SRC_COORD)
+        dest->fogdist = 0;
     if(!fixed || !dest->fog) {
         dest->fogmode = 0;
         dest->fogsource = 0;
+        dest->fogdist = 0;
     }
     if(!fixed || !dest->point)
         dest->pointsprite = 0;
@@ -143,6 +146,7 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
         dest->lighting = 0;
         dest->textype = 0;
         dest->fog = 0;
+        dest->fogdist = 0;  //?
         dest->point = 0;
     }
 }
@@ -587,6 +591,14 @@ void fpe_glFogfv(GLenum pname, const GLfloat* params) {
         switch(p) {
             case GL_FRAGMENT_DEPTH: glstate->fpe_state->fogsource = FPE_FOG_SRC_DEPTH; break;
             case GL_FOG_COORD: glstate->fpe_state->fogsource = FPE_FOG_SRC_COORD; break;
+            default: errorShim(GL_INVALID_ENUM);
+        }
+    } else if (pname==GL_FOG_DISTANCE_MODE_NV) {
+        int p = *params;
+        switch(p) {
+            case GL_EYE_PLANE_ABSOLUTE_NV: glstate->fpe_state->fogdist = FPE_FOG_DIST_PLANE_ABS; break;
+            case GL_EYE_PLANE: glstate->fpe_state->fogdist = FPE_FOG_DIST_PLANE; break;
+            case GL_EYE_RADIAL_NV: glstate->fpe_state->fogdist = FPE_FOG_DIST_RADIAL; break;
             default: errorShim(GL_INVALID_ENUM);
         }
     }
