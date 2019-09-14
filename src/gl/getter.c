@@ -187,6 +187,11 @@ void BuildExtensionsList() {
             "GL_ARB_fragment_program "
             );
         }
+        if(hardext.prgbin_n) {
+            strcat(glstate->extensions,
+            "GL_ARB_get_program_binary "
+            );
+        }
         char* p = glstate->extensions;
         glstate->num_extensions = 0;
         // quickly count extensions. Each one is separated by space...

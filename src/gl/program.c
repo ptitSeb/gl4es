@@ -654,7 +654,7 @@ static void fill_program(program_t *glprogram)
     free(name);
 }
 
-int gl4es_useProgramBinary(GLuint program, int length, GLenum format, void* binary)
+int gl4es_useProgramBinary(GLuint program, int length, GLenum format, const void* binary)
 {
     if(hardext.prgbin_n==0)
         return 0;
@@ -702,6 +702,32 @@ int gl4es_getProgramBinary(GLuint program, int *length, GLenum *format, void** b
     gles_glGetProgramBinary(glprogram->id, l, length, format, *binary);
 
     return (*length);
+}
+
+void gl4es_glGetProgramBinary(GLuint program, GLsizei bufSize, GLsizei *length, GLenum *binaryFormat, void *binary)
+{
+    if(hardext.prgbin_n==0) {
+        errorShim(GL_INVALID_OPERATION);
+        return;
+    }
+    DBG(printf("glGetProgramBinary(%d, %d, %p, %p, %p)\n", program, bufSize, length, binaryFormat, binary);)
+    CHECK_PROGRAM(void, program)
+    LOAD_GLES_OES(glGetProgramBinary);
+    gles_glGetProgramBinary(glprogram->id, bufSize, length, binaryFormat, binary);
+    errorGL();
+}
+
+void gl4es_glProgramBinary(GLuint program, GLenum binaryFormat, const void *binary, GLsizei length)
+{
+    if(hardext.prgbin_n==0) {
+        errorShim(GL_INVALID_OPERATION);
+        return;
+    }
+    DBG(printf("glProgramBinary(%d, %d, %p, %d)\n", program, binaryFormat, binary, length);)
+    if(gl4es_useProgramBinary(program, length, binaryFormat, binary))
+        noerrorShim();
+    else
+        errorShim(GL_INVALID_OPERATION);
 }
 
 void gl4es_glLinkProgram(GLuint program) {
@@ -811,6 +837,9 @@ GLboolean glIsProgram(GLuint program) AliasExport("gl4es_glIsProgram");
 void glLinkProgram(GLuint program) AliasExport("gl4es_glLinkProgram");
 void glUseProgram(GLuint program) AliasExport("gl4es_glUseProgram");
 void glValidateProgram(GLuint program) AliasExport("gl4es_glValidateProgram");
+
+void glGetProgramBinary(GLuint program, GLsizei bufSize, GLsizei *length, GLenum *binaryFormat, void *binary) AliasExport("gl4es_glGetProgramBinary");
+void glProgramBinary(GLuint program, GLenum binaryFormat, const void *binary, GLsizei length) AliasExport("gl4es_glProgramBinary");
 
 
 // ================ GL_ARB_vertex_shader =================

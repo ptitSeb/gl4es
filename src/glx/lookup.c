@@ -910,6 +910,14 @@ void *gl4es_glXGetProcAddress(const char *name) {
     _EXT(glProgramUniformMatrix3fv);
     _EXT(glProgramUniformMatrix4fv);
 
+    //Binary program
+    _EX(glGetProgramBinary);
+    _EX(glProgramBinary);
+    _EXT(glGetProgramBinary);
+    _EXT(glProgramBinary);
+    _ARB(glGetProgramBinary);
+    _ARB(glProgramBinary);
+
     //ARB_draw_elements_base_vertex / EXT_draw_elements_base_vertex
     _EX(glDrawElementsBaseVertex);
     _EXT(glDrawElementsBaseVertex);

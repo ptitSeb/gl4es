@@ -234,6 +234,8 @@
 #define skip_glLinkProgram
 #define skip_glUseProgram
 #define skip_glValidateProgram
+#define skip_glProgramBinary
+#define skip_glGetProgramBinary
 
 // stencil.c
 #define skip_glStencilFunc
