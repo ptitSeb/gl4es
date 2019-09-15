@@ -649,6 +649,11 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
     // the handling of GL_BGRA size of GL_DOUBLE using 1 scratch in not ideal, and a waste when dealing with Buffers
     // TODO: have the scratch buffer part of the VBO, and tag it dirty when buffer is changed (or always dirty for VBO 0)
     if(hardext.esversion==1) return;
+    LOAD_GLES2(glEnableVertexAttribArray)
+    LOAD_GLES2(glDisableVertexAttribArray);
+    LOAD_GLES2(glVertexAttribPointer);
+    LOAD_GLES2(glVertexAttrib4fv);
+    LOAD_GLES2(glBindBuffer);
     LOAD_GLES2(glUseProgram);
     // update texture state for fpe only
     if(glstate->fpe_bound_changed && !glstate->glsl->program) {
@@ -1116,6 +1121,7 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
     
 
     // set VertexAttrib if needed
+    GLuint old_buffer = 0;
     for(int i=0; i<hardext.maxvattrib; i++) 
     if(glprogram->va_size[i])   // only check used VA...
     {
@@ -1125,8 +1131,6 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         // enable / disable Array if needed
         if(v->vaarray != w->vaarray || (v->vaarray && w->divisor)) {
             dirty = 1;
-            LOAD_GLES2(glEnableVertexAttribArray)
-            LOAD_GLES2(glDisableVertexAttribArray);
             v->vaarray = (w->divisor)?0:w->vaarray;
             DBG(printf("VertexAttribArray[%d]:%s, divisor=%d\n", i, (w->vaarray)?"Enable":"Disable", w->divisor);)
             if(v->vaarray)
@@ -1180,16 +1184,13 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                     v->pointer = (v->real_buffer)?v->real_pointer:ptr;
                     v->buffer = w->buffer; // buffer is unused here
                 }
-                LOAD_GLES2(glVertexAttribPointer);
-                LOAD_GLES2(glBindBuffer);
-                if(v->real_buffer) {
-                    DBG(printf("Buffer %d for VA %d\n", v->real_buffer, i);)
+                if(old_buffer != v->real_buffer) {
+                    DBG(printf("Switching to Buffer %d\n", v->real_buffer);)
                     gles_glBindBuffer(GL_ARRAY_BUFFER, v->real_buffer);
+                    old_buffer = v->real_buffer;
                 }
                 gles_glVertexAttribPointer(i, v->size, v->type, v->normalized, v->stride, v->pointer);
                 DBG(printf("glVertexAttribPointer(%d, %d, %s, %d, %d, %p)\n", i, v->size, PrintEnum(v->type), v->normalized, v->stride, (GLvoid*)((uintptr_t)v->pointer+((v->buffer)?(uintptr_t)v->buffer->data:0)));)
-                if(v->real_buffer)
-                    gles_glBindBuffer(GL_ARRAY_BUFFER, 0);
             }
         } else {
             // single value case
@@ -1224,7 +1225,6 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
             }
             if(dirty || memcmp(v->current, current, 4*sizeof(GLfloat))) {
                 memcpy(v->current, current, 4*sizeof(GLfloat));
-                LOAD_GLES2(glVertexAttrib4fv);
                 gles_glVertexAttrib4fv(i, v->current);
                 DBG(printf("glVertexAttrib4fv(%d, %p) => (%f, %f, %f, %f)\n", i, v->current, v->current[0], v->current[1], v->current[2], v->current[3]);)
             }
@@ -1233,12 +1233,14 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         // disable VAArray, to be on the safe side
         vertexattrib_t *v = &glstate->glesva.vertexattrib[i];
         if(v->vaarray) {
-            LOAD_GLES2(glDisableVertexAttribArray);
             v->vaarray = 0;
             DBG(printf("VertexAttribArray[%d]:%s\n", i, "Disable");)
             gles_glDisableVertexAttribArray(i);
         }
     }
+    if(old_buffer)
+        gles_glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 }
 
 void realize_blitenv(int alpha) {
