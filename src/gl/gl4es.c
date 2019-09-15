@@ -674,6 +674,8 @@ pointer_state_t* getFPEVA(int i) {
 }
 
 void ToBuffer(int first, int count) {
+    if(count<13)
+        return; // no VBO for smallest ones (4 triangles)
     glstate->vao->locked = 2;
     // Strategy: compile only VA that are interleaved. So only 1 "Buffer" is compiled. Out of the buffer VA are not compiled
     // That should works with Quake3 engine that expect only Vertices array to be Compiled, but still allow to build more complex arrays
