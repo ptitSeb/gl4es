@@ -1,36 +1,45 @@
 Compiling
-----
+====
 It's better to define the CMake Build type, preferably `RelWithDebInfo`, that define a Release build (so with some optimizations) but with debug info (so gdb Backtrace shows infos).
 
-*for Pandora*
+*Pandora*
+---
 
- `mkdir build; cd build; cmake .. -DPANDORA=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo; make`
+`mkdir build; cd build; cmake .. -DPANDORA=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo; make`
     
-*or for the Raspberry Pi*
+*Raspberry Pi*
+---
 
- `mkdir build; cd build; cmake .. -DBCMHOST=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo; make`
+    If your are using legacy driver (non-mesa ones)
 
-*or for the ODroid*
+`mkdir build; cd build; cmake .. -DBCMHOST=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo; make`
 
- `mkdir build; cd build; cmake .. -DODROID=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo; make`
+    For Mesa VC4 driver, use the ODROID profile.
 
-*or for the OrangePI*
+*ODroid*
+---
+
+`mkdir build; cd build; cmake .. -DODROID=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo; make`
+
+*OrangePI*
+---
 
     use ODROID profile.
 
-*or for CHIP machines*
+*CHIP machines*
+---
 
- `mkdir build; cd build; cmake .. -DCHIP=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo; make`
+`mkdir build; cd build; cmake .. -DCHIP=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo; make`
 
-*or for Android*
+*Android*
+---
 
     An Android.mk is provided that should compile with an NDK
 
-*or use ccmake*
+*Custom build*
+---
 
 Alternatively, you can use the curses-bases ccmake (or any other gui frontend for cmake) to select wich platform to use interactively.
-
-*for other board*
 
 You can avoid the use of X11 with `NOX11=1` and EGL with `NOEGL=1`, but then, you will need to create the EGL Context yourself (or using SDL for example). Be sure to synchronize the context you create with the Backend you use. By default GLES 1.1 backend is used. To used GLES2 by default, use `DEFAULT_ES=2`
 
@@ -43,7 +52,7 @@ You can use cmake and mix command line argument to custom build your version of 
 ----
 
 Testing
-----
+====
 A few tests are included.
 They can be launched with `tests/tests.sh`
 You will need apitrace and imagemagick for them to run. (on debian and friend, it's `sudo apt install apitrace-gl-frontend imagemagick`)
@@ -54,7 +63,7 @@ For now, 2 tests are done, one with glxgears (basic testing, using mostly glBegi
 ----
 
 Per-platform
-----
+====
 
 ##### OpenPandora
 
