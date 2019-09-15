@@ -162,7 +162,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         ShadAppend(buff);
         headers+=CountLine(buff);
     }
-    ShadAppend("varying vec4 Color;\n");  // might be unused...
+    ShadAppend("varying lowp vec4 Color;\n");  // might be unused...
     headers++;
     if(planes) {
         for (int i=0; i<hardext.maxplanes; i++) {
@@ -261,14 +261,14 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         }
     }
     if(twosided) {
-        ShadAppend("varying vec4 BackColor;\n");
+        ShadAppend("varying lowp vec4 BackColor;\n");
         headers++;
     }
     if(light_separate || secondary) {
-        ShadAppend("varying vec4 SecColor;\n");
+        ShadAppend("varying lowp vec4 SecColor;\n");
         headers++;
         if(twosided) {
-            ShadAppend("varying vec4 SecBackColor;\n");
+            ShadAppend("varying lowp vec4 SecBackColor;\n");
             headers++;
         }
     }
@@ -343,7 +343,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             sprintf(buff, "Color = %s;\n", fm_emission);
             ShadAppend(buff);
             if(twosided) {
-                sprintf(buff, "vec4 BackColor = %s;\n", bm_emission);
+                sprintf(buff, "BackColor = %s;\n", bm_emission);
                 ShadAppend(buff);
             }
             sprintf(buff, "Color += %s*gl_LightModel.ambient;\n", fm_ambient);
@@ -731,17 +731,17 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         ShadAppend(buff);
         headers+=CountLine(buff);
     }
-    ShadAppend("varying vec4 Color;\n");
+    ShadAppend("varying lowp vec4 Color;\n");
     headers++;
     if(twosided) {
-        ShadAppend("varying vec4 BackColor;\n");
+        ShadAppend("varying lowp vec4 BackColor;\n");
         headers++;
     }
     if(light_separate || secondary) {
-        ShadAppend("varying vec4 SecColor;\n");
+        ShadAppend("varying lowp vec4 SecColor;\n");
         headers++;
         if(twosided) {
-            ShadAppend("varying vec4 SecBackColor;\n");
+            ShadAppend("varying lowp vec4 SecBackColor;\n");
             headers++;
         }
     }
