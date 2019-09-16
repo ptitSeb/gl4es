@@ -427,22 +427,19 @@ if(count>500000) return;
         }
 
         // POLYGON mode as LINE is "intercepted" and drawn using list
-        if(instancecount==1) {
+        if(instancecount==1 || hardext.esversion==1) {
             if(!iindices && !sindices)
                 gles_glDrawArrays(mode, first, count);
             else
                 gles_glDrawElements(mode, count, (sindices)?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, (sindices?((void*)sindices):((void*)iindices)));
         } else {
             if(!iindices && !sindices)
-                for (glstate->instanceID=0; glstate->instanceID<instancecount; ++glstate->instanceID)
-                    gles_glDrawArrays(mode, first, count);
+                fpe_glDrawArraysInstanced(mode, first, count,instancecount);
             else {
                 void* tmp=(sindices?((void*)sindices):((void*)iindices));
                 GLenum t = (sindices)?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT;
-                for (glstate->instanceID=0; glstate->instanceID<instancecount; ++glstate->instanceID)
-                    gles_glDrawElements(mode, count, t, tmp);
+                fpe_glDrawElementsInstanced(mode, count, t, tmp, instancecount);
             }
-            glstate->instanceID = 0;
         }
 
         for (int aa=0; aa<hardext.maxtex; aa++) {

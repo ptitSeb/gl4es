@@ -549,6 +549,39 @@ void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *i
     if(scratch) free(scratch);
     if(use_vbo) gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
+void fpe_glDrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsizei primcount) {
+    DBG(printf("fpe_glDrawArraysInstanced(%s, %d, %d, %d), program=%d\n", PrintEnum(mode), first, count, primcount, glstate->glsl->program);)
+    void* scratch = NULL;
+    realize_glenv(mode==GL_POINTS, first, count, 0, NULL, &scratch);
+    program_t *glprogram = glstate->gleshard->glprogram;
+    LOAD_GLES(glDrawArrays);
+    for (GLint i=0; i<primcount; ++i) {
+        GoUniformiv(glprogram, glprogram->builtin_instanceID, 1, 1, &i);
+        gles_glDrawArrays(mode, first, count);
+    }
+    if(scratch) free(scratch);
+}
+void fpe_glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices, GLsizei primcount) {
+    DBG(printf("fpe_glDrawElementsInstanced(%s, %d, %s, %p, %d), program=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, primcount, glstate->glsl->program);)
+    LOAD_GLES2(glBindBuffer);
+    void* scratch = NULL;
+    realize_glenv(mode==GL_POINTS, 0, count, type, indices, &scratch);
+    LOAD_GLES(glDrawElements);
+    program_t *glprogram = glstate->gleshard->glprogram;
+    int use_vbo = 0;
+    if(glstate->vao->elements && glstate->vao->elements->real_buffer && indices>=glstate->vao->elements->data && indices<=(glstate->vao->elements->data+glstate->vao->elements->size)) {
+        use_vbo = 1;
+        gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, glstate->vao->elements->real_buffer);
+        indices = (GLvoid*)((uintptr_t)indices - (uintptr_t)(glstate->vao->elements->data));
+    }
+    for (GLint i=0; i<primcount; ++i) {
+        GoUniformiv(glprogram, glprogram->builtin_instanceID, 1, 1, &i);
+        gles_glDrawElements(mode, count, type, indices);
+    }
+    if(scratch) free(scratch);
+    if(use_vbo) gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
 
 void fpe_glMatrixMode(GLenum mode) {
     noerrorShim();
