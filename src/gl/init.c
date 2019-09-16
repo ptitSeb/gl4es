@@ -450,6 +450,8 @@ void initialize_gl4es() {
         globals4es.usevbo = 1;
     } else if(env_usevbo && strcmp(env_usevbo,"2") == 0) {
         globals4es.usevbo = 2;
+    } else if(env_usevbo && strcmp(env_usevbo,"3") == 0) {
+        globals4es.usevbo = 3;
     }
     if(hardext.esversion==1) globals4es.usevbo=0;   // VBO on ES1.1 backend will be too messy, so disabling
     if(globals4es.usevbo==1) {
@@ -457,6 +459,9 @@ void initialize_gl4es() {
     }
     if(globals4es.usevbo==2) {
         SHUT(LOGD("LIBGL: try to use VBO (also with glLockArrays)\n"));
+    }
+    if(globals4es.usevbo==3) {
+        SHUT(LOGD("LIBGL: try to use VBO (special glLockArrays case for idtech3 engine)\n"));
     }
 
     globals4es.fbomakecurrent = 0;

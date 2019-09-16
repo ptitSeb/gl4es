@@ -640,7 +640,7 @@ void gl4es_glLockArrays(GLint first, GLsizei count) {
 }
 void glLockArraysEXT(GLint first, GLsizei count) AliasExport("gl4es_glLockArrays");
 void gl4es_glUnlockArrays() {
-    if(glstate->vao->locked==2) UnBuffer();
+    if(globals4es.usevbo>1 && glstate->vao->locked==globals4es.usevbo) UnBuffer();
     glstate->vao->locked = 0;
 
     noerrorShim();
@@ -674,9 +674,10 @@ pointer_state_t* getFPEVA(int i) {
 }
 
 void ToBuffer(int first, int count) {
+    // this is hacky. Only the fpe VA should be treated here (but then, the consistancy check is a bit more difficult to do)
     if(count<13)
         return; // no VBO for smallest ones (4 triangles)
-    glstate->vao->locked = 2;
+    glstate->vao->locked = globals4es.usevbo;
     // Strategy: compile only VA that are interleaved. So only 1 "Buffer" is compiled. Out of the buffer VA are not compiled
     // That should works with Quake3 engine that expect only Vertices array to be Compiled, but still allow to build more complex arrays
     for (int i=0; i<NB_VA; i++)
