@@ -199,7 +199,8 @@ endmacro(create_test_GLES)
 
 create_test(GLXgears glxgears "0000008203" 25 "NOEXTRACT_RANGE" 700)
 create_test(StuntCarRacer stuntcarracer "0000118817" 20 "638x478+1+1")
-create_test(Neverball neverball "0000078750" 20 "798x478+1+1" 200)
+create_test_GLES(Neverball 1 neverball "0000078750" 20 "798x478+1+1" 200)
+create_test_GLES(Neverball 2 neverball "0000078749" 20 "798x478+1+1" 200)
 create_test(FoobillardPlus foobillardplus "0000014748" 20 "798x478+1+1" 60)
 create_test(PointSprite pointsprite "0000248810" 20)
 
