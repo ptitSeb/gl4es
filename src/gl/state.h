@@ -220,6 +220,7 @@ typedef struct {
     GLuint          program;
     program_t       *glprogram;
     GLuint          active; // active texture (is it shared?)
+    vertexattrib_t  wanted[MAX_VATTRIB];
 } gleshard_s_t;
 
 typedef struct {

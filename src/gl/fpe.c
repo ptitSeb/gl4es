@@ -551,12 +551,51 @@ void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *i
 }
 void fpe_glDrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsizei primcount) {
     DBG(printf("fpe_glDrawArraysInstanced(%s, %d, %d, %d), program=%d\n", PrintEnum(mode), first, count, primcount, glstate->glsl->program);)
+    LOAD_GLES(glDrawArrays);
+    LOAD_GLES2(glVertexAttrib4fv);
     void* scratch = NULL;
+    GLfloat tmp[4] = {0.0f, 0.0f, 0.0f, 1.0f};
     realize_glenv(mode==GL_POINTS, first, count, 0, NULL, &scratch);
     program_t *glprogram = glstate->gleshard->glprogram;
-    LOAD_GLES(glDrawArrays);
-    for (GLint i=0; i<primcount; ++i) {
-        GoUniformiv(glprogram, glprogram->builtin_instanceID, 1, 1, &i);
+    for (GLint id=0; id<primcount; ++id) {
+        GoUniformiv(glprogram, glprogram->builtin_instanceID, 1, 1, &id);
+        for(int i=0; i<hardext.maxvattrib; i++) 
+        if(glprogram->va_size[i])   // only check used VA...
+        {
+            vertexattrib_t *v = &glstate->glesva.vertexattrib[i];
+            vertexattrib_t *w = (glprogram->has_builtin_attrib)?(&glstate->gleshard->wanted[i]):(&glstate->glesva.wanted[i]);
+            if(w->divisor && w->vaarray) {
+                char* current = (char*)((uintptr_t)w->pointer + ((w->buffer)?(uintptr_t)w->buffer->data:0));
+                int stride=w->stride;
+                if(!stride) stride=gl_sizeof(w->type)*w->size;
+                current += (id/w->divisor) * stride;
+                if(w->type==GL_FLOAT) {
+                    if(w->size!=4) {
+                        memcpy(tmp, current, sizeof(GLfloat)*w->size);
+                        current = (char*)tmp;
+                    }
+                } else {
+                    if(w->type == GL_DOUBLE || !w->normalized) {
+                        for(int k=0; k<w->size; ++k) {
+                            GL_TYPE_SWITCH(input, current, w->type,
+                                tmp[k] = input[k];
+                            ,)
+                        }
+                    } else {
+                        for(int k=0; k<w->size; ++k) {
+                            GL_TYPE_SWITCH_MAX(input, current, w->type,
+                                tmp[k] = (float)input[k]/(float)maxv;
+                            ,)
+                        }
+                    }
+                    current = (char*)tmp;
+                }
+                if(memcmp(v->current, current, 4*sizeof(GLfloat))) {
+                    memcpy(v->current, current, 4*sizeof(GLfloat));
+                    gles_glVertexAttrib4fv(i, v->current);
+                }
+            }
+        }
         gles_glDrawArrays(mode, first, count);
     }
     if(scratch) free(scratch);
@@ -564,19 +603,60 @@ void fpe_glDrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsizei 
 void fpe_glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices, GLsizei primcount) {
     DBG(printf("fpe_glDrawElementsInstanced(%s, %d, %s, %p, %d), program=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, primcount, glstate->glsl->program);)
     LOAD_GLES2(glBindBuffer);
+    LOAD_GLES(glDrawElements);
+    LOAD_GLES2(glVertexAttrib4fv);
     void* scratch = NULL;
     realize_glenv(mode==GL_POINTS, 0, count, type, indices, &scratch);
-    LOAD_GLES(glDrawElements);
     program_t *glprogram = glstate->gleshard->glprogram;
     int use_vbo = 0;
+    void* inds;
+    GLfloat tmp[4] = {0.0f, 0.0f, 0.0f, 1.0f};
     if(glstate->vao->elements && glstate->vao->elements->real_buffer && indices>=glstate->vao->elements->data && indices<=(glstate->vao->elements->data+glstate->vao->elements->size)) {
         use_vbo = 1;
         gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, glstate->vao->elements->real_buffer);
-        indices = (GLvoid*)((uintptr_t)indices - (uintptr_t)(glstate->vao->elements->data));
-    }
-    for (GLint i=0; i<primcount; ++i) {
-        GoUniformiv(glprogram, glprogram->builtin_instanceID, 1, 1, &i);
-        gles_glDrawElements(mode, count, type, indices);
+        inds = (void*)((uintptr_t)indices - (uintptr_t)(glstate->vao->elements->data));
+    } else 
+        inds = (void*)indices;
+    for (GLint id=0; id<primcount; ++id) {
+        GoUniformiv(glprogram, glprogram->builtin_instanceID, 1, 1, &id);
+        for(int i=0; i<hardext.maxvattrib; i++) 
+        if(glprogram->va_size[i])   // only check used VA...
+        {
+            vertexattrib_t *v = &glstate->glesva.vertexattrib[i];
+            vertexattrib_t *w = (glprogram->has_builtin_attrib)?(&glstate->gleshard->wanted[i]):(&glstate->glesva.wanted[i]);
+            if(w->divisor && w->vaarray) {
+                char* current = (char*)((uintptr_t)w->pointer + ((w->buffer)?(uintptr_t)w->buffer->data:0));
+                int stride=w->stride;
+                if(!stride) stride=gl_sizeof(w->type)*w->size;
+                current += (id/w->divisor) * stride;
+                if(w->type==GL_FLOAT) {
+                    if(w->size!=4) {
+                        memcpy(tmp, current, sizeof(GLfloat)*w->size);
+                        current = (char*)tmp;
+                    }
+                } else {
+                    if(w->type == GL_DOUBLE || !w->normalized) {
+                        for(int k=0; k<w->size; ++k) {
+                            GL_TYPE_SWITCH(input, current, w->type,
+                                tmp[k] = input[k];
+                            ,)
+                        }
+                    } else {
+                        for(int k=0; k<w->size; ++k) {
+                            GL_TYPE_SWITCH_MAX(input, current, w->type,
+                                tmp[k] = (float)input[k]/(float)maxv;
+                            ,)
+                        }
+                    }
+                    current = (char*)tmp;
+                }
+                if(memcmp(v->current, current, 4*sizeof(GLfloat))) {
+                    memcpy(v->current, current, 4*sizeof(GLfloat));
+                    gles_glVertexAttrib4fv(i, v->current);
+                }
+            }
+        }
+        gles_glDrawElements(mode, count, type, inds);
     }
     if(scratch) free(scratch);
     if(use_vbo) gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -789,16 +869,15 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         }
     }
     // setup fixed pipeline builtin vertex attrib if needed
-    vertexattrib_t  wanted[MAX_VATTRIB];
     if(glprogram->has_builtin_attrib)
     {
-        memcpy(wanted, glstate->glesva.wanted, sizeof(wanted));
+        memcpy(glstate->gleshard->wanted, glstate->glesva.wanted, sizeof(glstate->gleshard->wanted));
         int vaarray = 0;
         int id = -1;
         // Vertex
         id = glprogram->builtin_attrib[ATT_VERTEX];
         if(id!=-1) {
-            vertexattrib_t *w = &wanted[id];
+            vertexattrib_t *w = &glstate->gleshard->wanted[id];
             pointer_state_t *p = &glstate->fpe_client.vert;
             w->vaarray = glstate->fpe_client.vertex_array;
             if(w->vaarray) {
@@ -817,7 +896,7 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         // Color
         id = glprogram->builtin_attrib[ATT_COLOR];
         if(id!=-1) {
-            vertexattrib_t *w = &wanted[id];
+            vertexattrib_t *w = &glstate->gleshard->wanted[id];
             pointer_state_t *p = &glstate->fpe_client.color;
             w->vaarray = glstate->fpe_client.color_array;
             if(w->vaarray) {
@@ -836,7 +915,7 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         // Secondary Color
         id = glprogram->builtin_attrib[ATT_SECONDARY];
         if(id!=-1) {
-            vertexattrib_t *w = &wanted[id];
+            vertexattrib_t *w = &glstate->gleshard->wanted[id];
             pointer_state_t *p = &glstate->fpe_client.secondary;
             w->vaarray = glstate->fpe_client.secondary_array;
             if(w->vaarray) {
@@ -855,7 +934,7 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         // Fog Coord
         id = glprogram->builtin_attrib[ATT_FOGCOORD];
         if(id!=-1) {
-            vertexattrib_t *w = &wanted[id];
+            vertexattrib_t *w = &glstate->gleshard->wanted[id];
             pointer_state_t *p = &glstate->fpe_client.fog;
             w->vaarray = glstate->fpe_client.fog_array;
             if(w->vaarray) {
@@ -876,7 +955,7 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         for(int tex=0; tex<hardext.maxtex; tex++) {
             id = glprogram->builtin_attrib[ATT_MULTITEXCOORD0+tex];
             if(id!=-1) {
-                vertexattrib_t *w = &wanted[id];
+                vertexattrib_t *w = &glstate->gleshard->wanted[id];
                 pointer_state_t *p = &glstate->fpe_client.tex[tex];
                 w->vaarray = glstate->fpe_client.tex_coord_array[tex];
                 if(w->vaarray) {
@@ -896,7 +975,7 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         // Normal
         id = glprogram->builtin_attrib[ATT_NORMAL];
         if(id!=-1) {
-            vertexattrib_t *w = &wanted[id];
+            vertexattrib_t *w = &glstate->gleshard->wanted[id];
             pointer_state_t *p = &glstate->fpe_client.normal;
             w->vaarray = glstate->fpe_client.normal_array;
             if(w->vaarray) {
@@ -1159,7 +1238,7 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
     if(glprogram->va_size[i])   // only check used VA...
     {
         vertexattrib_t *v = &glstate->glesva.vertexattrib[i];
-        vertexattrib_t *w = (glprogram->has_builtin_attrib)?(&wanted[i]):(&glstate->glesva.wanted[i]);
+        vertexattrib_t *w = (glprogram->has_builtin_attrib)?(&glstate->gleshard->wanted[i]):(&glstate->glesva.wanted[i]);
         int dirty = 0;
         // enable / disable Array if needed
         if(v->vaarray != w->vaarray || (v->vaarray && w->divisor)) {
