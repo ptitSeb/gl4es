@@ -394,7 +394,7 @@ void gl4es_blitTexture(GLuint texture,
 #endif
     int tmp = glstate->enable.texture[0];
 
-    if(glstate->actual_tex2d[0] != texture);
+    if(glstate->actual_tex2d[0] != texture)
         gles_glBindTexture(GL_TEXTURE_2D, texture);
 
     if(hardext.esversion==1) {

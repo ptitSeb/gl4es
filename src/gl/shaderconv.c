@@ -397,7 +397,7 @@ if(strstr(Tmp, gl4es_hack2)) {
           state = 2;  // fractional part
         else if ((*newptr==' ') || (*newptr==0x0d) || (*newptr==0x0a) || (*newptr=='-') || (*newptr=='+') || (*newptr=='*') || (*newptr=='/') || (*newptr=='(') || (*newptr==')' || (*newptr=='>') || (*newptr=='<')))
           state = 0; // separator
-        else  if ((*newptr == 'f' )) {
+        else  if (*newptr == 'f' ) {
           // remove that f
           memmove(newptr, newptr+1, strlen(newptr+1)+1);
           newptr--;
@@ -409,7 +409,7 @@ if(strstr(Tmp, gl4es_hack2)) {
           state = 2;
         else if ((*newptr==' ') || (*newptr==0x0d) || (*newptr==0x0a) || (*newptr=='-') || (*newptr=='+') || (*newptr=='*') || (*newptr=='/') || (*newptr=='(') || (*newptr==')' || (*newptr=='>') || (*newptr=='<')))
           state = 0; // separator
-        else  if ((*newptr == 'f' )) {
+        else  if (*newptr == 'f' ) {
           // remove that f
           memmove(newptr, newptr+1, strlen(newptr+1)+1);
           newptr--;

@@ -89,7 +89,7 @@ static inline halffloat_t float_f2h(float f)
     if (tmp.x.exp == 0) {
         // O and denormal
         ret.bin = 0;
-    } else if (tmp.x.exp=255) {
+    } else if (tmp.x.exp==255) {
         // Inf / NaN
         ret.x.exp = 31;
         ret.x.mant = tmp.x.mant>>13;
@@ -947,10 +947,10 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     if (((src_format == GL_BGR)) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				((char*)dst_pos)[0] = ((char*)src_pos)[2];
-				((char*)dst_pos)[1] = ((char*)src_pos)[1];
-				((char*)dst_pos)[2] = ((char*)src_pos)[0];
-                ((char*)dst_pos)[3] = 255;
+				((unsigned char*)dst_pos)[0] = ((unsigned char*)src_pos)[2];
+				((unsigned char*)dst_pos)[1] = ((unsigned char*)src_pos)[1];
+				((unsigned char*)dst_pos)[2] = ((unsigned char*)src_pos)[0];
+                ((unsigned char*)dst_pos)[3] = 255;
 				src_pos += src_stride;
 				dst_pos += dst_stride;
 			}
@@ -1074,10 +1074,10 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
                 const GLushort pix = *(GLushort*)src_pos;
-                ((char*)dst_pos)[0] = ((pix>>11)&0x1f)<<3;
-                ((char*)dst_pos)[1] = ((pix>>6)&0x1f)<<3;
-                ((char*)dst_pos)[2] = ((pix>>1)&0x1f)<<3;
-                ((char*)dst_pos)[3] = ((pix)&0x01)?255:0;  
+                ((unsigned char*)dst_pos)[0] = ((pix>>11)&0x1f)<<3;
+                ((unsigned char*)dst_pos)[1] = ((pix>>6)&0x1f)<<3;
+                ((unsigned char*)dst_pos)[2] = ((pix>>1)&0x1f)<<3;
+                ((unsigned char*)dst_pos)[3] = ((pix)&0x01)?255:0;  
 				src_pos += src_stride;
 				dst_pos += dst_stride;
 			}

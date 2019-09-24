@@ -776,20 +776,20 @@ static int get_shrinklevel(int width, int height, int level) {
             break;
         case 2: //only > 512 /2
         case 7: //only > 512 /2 , but not for empty texture
-            if (((mipwidth%2==0) && (mipheight%2==0)) && 
-                ((mipwidth > 512) && (mipheight > 8)) || ((mipheight > 512) && (mipwidth > 8))) {
+            if (((mipwidth%2==0) && (mipheight%2==0)) && (
+                ((mipwidth > 512) && (mipheight > 8)) || ((mipheight > 512) && (mipwidth > 8))) ) {
                 shrink = 1;
             }
             break;
         case 3: //only > 256 /2
-            if (((mipwidth%2==0) && (mipheight%2==0)) && 
-                ((mipwidth > 256) && (mipheight > 8)) || ((mipheight > 256) && (mipwidth > 8))) {
+            if (((mipwidth%2==0) && (mipheight%2==0)) && (
+                ((mipwidth > 256) && (mipheight > 8)) || ((mipheight > 256) && (mipwidth > 8))) ) {
                 shrink = 1;
             }
             break;
         case 4: //only > 256 /2, >=1024 /4
-            if (((mipwidth%4==0) && (mipheight%4==0)) && 
-                ((mipwidth > 256) && (mipheight > 8)) || ((mipheight > 256) && (mipwidth > 8))) {
+            if (((mipwidth%4==0) && (mipheight%4==0)) && (
+                ((mipwidth > 256) && (mipheight > 8)) || ((mipheight > 256) && (mipwidth > 8))) ) {
                 if ((mipwidth>=1024) || (mipheight>=1024)) {
                     shrink = 2;
                 } else {
@@ -798,8 +798,8 @@ static int get_shrinklevel(int width, int height, int level) {
             }
             break;
         case 5: //every > 256 is downscaled to 256, but not for empty texture
-            if (((mipwidth%4==0) && (mipheight%4==0)) && 
-                ((mipwidth > 256) && (mipheight > 8)) || ((mipheight > 256) && (mipwidth > 8))) {
+            if (((mipwidth%4==0) && (mipheight%4==0)) && (
+                ((mipwidth > 256) && (mipheight > 8)) || ((mipheight > 256) && (mipwidth > 8))) ) {
                 if ((mipwidth>256) || (mipheight>256)) {
                     while (((mipwidth > 256) && (mipheight > 4)) || ((mipheight > 256) && (mipwidth > 4))) {
                         width /= 2;
@@ -814,8 +814,8 @@ static int get_shrinklevel(int width, int height, int level) {
             }
             break;
         case 6: //only > 128 /2, >=512 is downscaled to 256, but not for empty texture
-            if (((mipwidth%2==0) && (mipheight%2==0)) && 
-                ((mipwidth > 128) && (mipheight > 8)) || ((mipheight > 128) && (mipwidth > 8))) {
+            if (((mipwidth%2==0) && (mipheight%2==0)) && (
+                ((mipwidth > 128) && (mipheight > 8)) || ((mipheight > 128) && (mipwidth > 8))) ) {
                 if ((mipwidth>=512) || (mipheight>=512)) {
                     while (((mipwidth > 256) && (mipheight > 8)) || ((mipheight > 256) && (mipwidth > 8))) {
                         width /= 2;
@@ -2635,8 +2635,8 @@ void gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
             gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
             if(((((bound->max_level == level) && (level || bound->mipmap_need)) && (globals4es.automipmap!=3) && (bound->mipmap_need!=0))) && !(bound->max_level==bound->base_level && bound->base_level==0)) {
                 LOAD_GLES2_OR_OES(glGenerateMipmap);
-                if(gl4es_glGenerateMipmap)
-                    gl4es_glGenerateMipmap(to_target(itarget));
+                if(gles_glGenerateMipmap)
+                    gles_glGenerateMipmap(to_target(itarget));
             }
         } else {
             void* tmp = malloc(width*height*4);

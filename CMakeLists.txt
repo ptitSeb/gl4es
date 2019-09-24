@@ -119,7 +119,11 @@ if(USE_CCACHE)
 endif()
 
 link_directories(${CMAKE_BINARY_DIR}/lib)
-add_definitions(-std=gnu99 -funwind-tables -fvisibility=hidden)
+add_definitions(-std=gnu11 -funwind-tables -fvisibility=hidden)
+
+if (CMAKE_CC_COMPILER_ID MATCHES "Clang" OR CMAKE_SYSTEM_NAME MATCHES "Emscripten")
+    add_definitions(-Wno-pointer-sign -Wno-dangling-else)
+endif()
 
 include_directories(include)
 add_subdirectory(src)

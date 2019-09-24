@@ -1,5 +1,3 @@
-#include "fpe.h"
-
 #include "../glx/hardext.h"
 #include "array.h"
 #include "debug.h"
@@ -13,6 +11,7 @@
 #include "program.h"
 #include "shaderconv.h"
 #include "fpe_cache.h"
+#include "fpe.h"
 
 //#define DEBUG
 #ifdef DEBUG

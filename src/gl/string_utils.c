@@ -50,7 +50,7 @@ int CountLine(const char* pBuffer)
 {
     int n=0;
     const char* p = pBuffer;
-    while(p=strstr(p, "\n")) {
+    while((p=strstr(p, "\n"))) {
         p+=strlen("\n");
         n++;
     }

@@ -630,7 +630,7 @@ void glArrayElementEXT(GLint i) AliasExport("gl4es_glArrayElement");
 // maybe I need a way to call a renderlist_t with (first, count)
 void gl4es_glLockArrays(GLint first, GLsizei count) {
     if(glstate->vao->locked) {
-        errorGL(GL_INVALID_OPERATION);
+        errorShim(GL_INVALID_OPERATION);
         return;
     }
     glstate->vao->locked = 1;

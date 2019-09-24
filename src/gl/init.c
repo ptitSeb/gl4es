@@ -1,5 +1,3 @@
-#include "init.h"
-
 #if !defined(ANDROID) && !defined(AMIGAOS4) && !defined(__EMSCRIPTEN__)
 #include <execinfo.h>
 #endif
@@ -13,6 +11,7 @@
 #include "loader.h"
 #include "logs.h"
 #include "fpe_cache.h"
+#include "init.h"
 #ifdef __EMSCRIPTEN__
 #define NO_INIT_CONSTRUCTOR
 #endif
