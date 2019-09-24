@@ -943,7 +943,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     realize_bound(glstate->texture.active, target);
 
     if (glstate->list.pending) {
-        flush();
+        gl4es_flush();
     } else {
         PUSH_IF_COMPILING(glTexImage2D);
     }
@@ -1522,7 +1522,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
                      const GLvoid *data) {
 
     if (glstate->list.pending) {
-        flush();
+        gl4es_flush();
     } else {
         PUSH_IF_COMPILING(glTexSubImage2D);
     }
@@ -2510,7 +2510,7 @@ void gl4es_glActiveTexture( GLenum texture ) {
             noerrorShim();
             return;
         }
-        flush();*/
+        gl4es_flush();*/
     } else if (glstate->list.active) {
         NewStage(glstate->list.active, STAGE_ACTIVETEX);
         rlActiveTexture(glstate->list.active, texture);

@@ -21,7 +21,7 @@ void gl4es_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
 			rlRasterOp(glstate->list.active, 1, x, y, z);
 			noerrorShim();
 			return;
-		} else flush();
+		} else gl4es_flush();
 
 	// Transform xyz coordinates with current modelview and projection matrix...
 	GLfloat glmatrix[16], projection[16], modelview[16];
@@ -47,7 +47,7 @@ void gl4es_glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
 			rlRasterOp(glstate->list.active, 2, x, y, z);
 			noerrorShim();
 			return;
-		} else flush();
+		} else gl4es_flush();
 
     glstate->raster.rPos.x = x;
     glstate->raster.rPos.y = y;
@@ -116,7 +116,7 @@ void gl4es_glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
 			rlRasterOp(glstate->list.active, 3, xfactor, yfactor, 0.0f);
 			noerrorShim();
 			return;
-		} else flush();
+		} else gl4es_flush();
 
 	glstate->raster.raster_zoomx = xfactor;
 	glstate->raster.raster_zoomy = yfactor;
@@ -130,7 +130,7 @@ void gl4es_glPixelTransferf(GLenum pname, GLfloat param) {
 			rlRasterOp(glstate->list.active, pname|0x10000, param, 0.0f, 0.0f);
 			noerrorShim();
 			return;
-		} else flush();
+		} else gl4es_flush();
 
 //printf("LIBGL: glPixelTransferf(%04x, %f)\n", pname, param);
 	switch(pname) {

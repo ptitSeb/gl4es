@@ -106,7 +106,7 @@ void *open_lib(const char **names, const char *override);
             noerrorShim();							\
             return (nam##_RETURN)0;                 \
         }                                           \
-        else flush();                               \
+        else gl4es_flush();                               \
     }
 
 #define PUSH_IF_COMPILING(name) PUSH_IF_COMPILING_EXT(name, name##_ARG_NAMES)

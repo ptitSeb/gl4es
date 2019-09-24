@@ -42,7 +42,7 @@ void gl4es_glPointParameterfv(GLenum pname, const GLfloat * params)
                 gl4es_glPointParameterf(pname, params[0]);
                 return;
             }
-        } else flush();
+        } else gl4es_flush();
 
     switch(pname) {
         case GL_POINT_SIZE_MIN:

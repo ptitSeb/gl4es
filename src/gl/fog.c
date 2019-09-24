@@ -16,7 +16,7 @@ void gl4es_glFogfv(GLenum pname, const GLfloat* params) {
                 rlFogOp(glstate->list.active, pname, params);
                 return;
             }
-        else flush();
+        else gl4es_flush();
     noerrorShim();
     #define GO(A,name, size) if(memcmp(A glstate->fog.name, params, size)==0) return; else memcpy(A glstate->fog.name, params, size);
     switch (pname) {
@@ -86,7 +86,7 @@ void gl4es_glFogCoordfv(const GLfloat *coord) {
 void gl4es_glFogCoordf(GLfloat coord) {
     if (glstate->list.active) {
         if(glstate->list.pending)
-            flush();
+            gl4es_flush();
         else
         {
             rlFogCoordf(glstate->list.active, coord);

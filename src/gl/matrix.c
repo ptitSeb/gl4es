@@ -197,7 +197,7 @@ DBG(printf("glPopMatrix(), list=%p\n", glstate->list.active);)
 void gl4es_glLoadMatrixf(const GLfloat * m) {
 DBG(printf("glLoadMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1], m[2], m[3], m[4], m[5], m[6], glstate->list.active);)
 	if (glstate->list.active) {
-		if(glstate->list.pending) flush();
+		if(glstate->list.pending) gl4es_flush();
 		else {
 			NewStage(glstate->list.active, STAGE_MATRIX);
 			glstate->list.active->matrix_op = 1;
@@ -224,7 +224,7 @@ DBG(printf("glLoadMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 void gl4es_glMultMatrixf(const GLfloat * m) {
 DBG(printf("glMultMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1], m[2], m[3], m[4], m[5], m[6], glstate->list.active);)
 	if (glstate->list.active) {
-		if(glstate->list.pending) flush();
+		if(glstate->list.pending) gl4es_flush();
 		else {
 			if(glstate->list.active->stage == STAGE_MATRIX) {
 				// multiply the matrix mith the current one....
@@ -258,7 +258,7 @@ DBG(printf("glMultMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 void gl4es_glLoadIdentity() {
 DBG(printf("glLoadIdentity(), list=%p\n", glstate->list.active);)
 	if (glstate->list.active) {
-		if(glstate->list.pending) flush();
+		if(glstate->list.pending) gl4es_flush();
 		else {
 			NewStage(glstate->list.active, STAGE_MATRIX);
 			glstate->list.active->matrix_op = 1;

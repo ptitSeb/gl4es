@@ -15,7 +15,7 @@ void gl4es_glLightModelf(GLenum pname, GLfloat param) {
             dummy[0]=param;
             gl4es_glLightModelfv(pname, dummy);
             return;
-        } else flush();
+        } else gl4es_flush();
     switch (pname) {
         case GL_LIGHT_MODEL_TWO_SIDE:
             errorGL();
@@ -75,7 +75,7 @@ void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
             memcpy(glstate->list.active->lightmodel, params, sz*sizeof(GLfloat));
             noerrorShim();
             return;
-        } else flush();
+        } else gl4es_flush();
     switch (pname) {
         case GL_LIGHT_MODEL_AMBIENT:
             if(memcmp(glstate->light.ambient, params, 4*sizeof(GLfloat))==0) {
@@ -144,7 +144,7 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
             rlLightfv(glstate->list.active, light, pname, params);
             noerrorShim();
             return;
-        } else flush();
+        } else gl4es_flush();
 
     GLfloat tmp[4];
     GLfloat mtmp[16];
@@ -266,7 +266,7 @@ void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
                 rlMaterialfv(glstate->list.active, face, pname, params);
                 noerrorShim();
                 return;
-            } else flush();
+            } else gl4es_flush();
         }
     if(face!=GL_FRONT_AND_BACK && face!=GL_FRONT && face!=GL_BACK) {
         errorShim(GL_INVALID_ENUM);
@@ -401,7 +401,7 @@ void gl4es_glColorMaterial(GLenum face, GLenum mode) {
             glstate->list.active->colormat_mode = mode;
             noerrorShim();
             return;
-        } else flush();
+        } else gl4es_flush();
 
     if(face!=GL_FRONT_AND_BACK && face!=GL_FRONT && face!=GL_BACK) {
         errorShim(GL_INVALID_ENUM);

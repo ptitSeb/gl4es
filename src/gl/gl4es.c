@@ -411,7 +411,7 @@ void glColor4fv(GLfloat* v) AliasExport("gl4es_glColor4fv");
 void gl4es_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
     if (glstate->list.active) {
         if(glstate->list.pending)
-            flush();
+            gl4es_flush();
         else
         {
             rlSecondary3f(glstate->list.active, r, g, b);
@@ -433,7 +433,7 @@ void glSecondaryColor3fEXT(GLfloat r, GLfloat g, GLfloat b) AliasExport("gl4es_g
 void gl4es_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     if (glstate->list.active) {
         if(glstate->list.pending)
-            flush();
+            gl4es_flush();
         else {
             // test if called between glBegin / glEnd but Texture is not active and not using a program. In that case, ignore the call
             if(hardext.esversion==1 || glstate->glsl->program || (glstate->list.begin && (glstate->list.compiling || glstate->enable.texture[0])))
@@ -450,7 +450,7 @@ void gl4es_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLf
 	// TODO, error if target is unsuported texture....
     if (glstate->list.active) {
         if(glstate->list.pending)
-            flush();
+            gl4es_flush();
         else {
             // test if called between glBegin / glEnd but Texture is not active. In that case, ignore the call
             if(hardext.esversion==1 || (glstate->list.begin && (glstate->list.compiling || glstate->enable.texture[target-GL_TEXTURE0])))
@@ -468,7 +468,7 @@ void gl4es_glMultiTexCoord2fv(GLenum target, GLfloat* v) {
 	// TODO, error if target is unsuported texture....
     if (glstate->list.active) {
         if(glstate->list.pending)
-            flush();
+            gl4es_flush();
         else {
             // test if called between glBegin / glEnd but Texture is not active. In that case, ignore the call
             if(hardext.esversion==1 || (glstate->list.begin && (glstate->list.compiling || glstate->enable.texture[target-GL_TEXTURE0])))
@@ -486,7 +486,7 @@ void gl4es_glMultiTexCoord4fv(GLenum target, GLfloat* v) {
 	// TODO, error if target is unsuported texture....
     if (glstate->list.active) {
         if(glstate->list.pending)
-            flush();
+            gl4es_flush();
         else {
             // test if called between glBegin / glEnd but Texture is not active. In that case, ignore the call
             if(hardext.esversion==1 || (glstate->list.begin && (glstate->list.compiling || glstate->enable.texture[target-GL_TEXTURE0])))
@@ -984,7 +984,7 @@ void gl4es_glPolygonMode(GLenum face, GLenum mode) {
             glstate->list.active->polygon_mode = mode;
             return;
         }
-        else flush();
+        else gl4es_flush();
 	switch(mode) {
 		case GL_LINE:
 		case GL_POINT:
@@ -1000,7 +1000,7 @@ void gl4es_glPolygonMode(GLenum face, GLenum mode) {
 void glPolygonMode(GLenum face, GLenum mode) AliasExport("gl4es_glPolygonMode");
 
 
-void flush() {
+void gl4es_flush() {
     if(glstate->list.compiling)
         return;
     // flush internal list
@@ -1221,7 +1221,7 @@ void amiga_pre_swap()
 __attribute__((visibility("default"))) void gl4es_pre_swap()
 #endif
 {
-    if (glstate->list.active) flush();
+    if (glstate->list.active) gl4es_flush();
     if (glstate->raster.bm_drawing) bitmap_flush();
 
     if (globals4es.usefbo) {

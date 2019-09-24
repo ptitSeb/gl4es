@@ -23,7 +23,7 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
     {int error; if ((error = glGetError())) \
         printf(file ":%i -> %i\n", line, error);}
 
-#define FLUSH_BEGINEND if(glstate->list.pending) flush()
+#define FLUSH_BEGINEND if(glstate->list.pending) gl4es_flush()
 
 #define ERROR_IN_BEGIN if(glstate->list.begin) {errorShim(GL_INVALID_OPERATION); return;}
 
@@ -87,7 +87,7 @@ const GLubyte *gl4es_glGetStringi(GLenum name, GLuint index);
 
 void gl4es_glClampColor(GLenum target, GLenum clamp);
 
-void flush();
+void gl4es_flush(void);
 
 int adjust_vertices(GLenum mode, int nb);
 

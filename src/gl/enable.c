@@ -66,11 +66,11 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
     #define proxy_GOFPE(constant, name, fct) \
         case constant: if(glstate->enable.name != enable) {FLUSH_BEGINEND; glstate->enable.name = enable; if(glstate->fpe_state) { fct; } else next(cap);} break
     #define GO(constant, name) \
-        case constant: if(glstate->list.pending && glstate->enable.name!=enable) flush(); glstate->enable.name = enable; break;
+        case constant: if(glstate->list.pending && glstate->enable.name!=enable) gl4es_flush(); glstate->enable.name = enable; break;
     #define GONF(constant, name) \
         case constant: glstate->enable.name = enable; break;
     #define GOFPE(constant, name, fct) \
-        case constant: if(glstate->list.pending && glstate->enable.name!=enable) flush(); glstate->enable.name = enable; if(glstate->fpe_state) { fct; } break;
+        case constant: if(glstate->list.pending && glstate->enable.name!=enable) gl4es_flush(); glstate->enable.name = enable; if(glstate->fpe_state) { fct; } break;
     #define proxy_clientGO(constant, name) \
         case constant: if (glstate->vao->name != enable) {glstate->vao->name = enable; next(cap);} break
     #define clientGO(constant, name) \
@@ -196,7 +196,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
                 fpe_changetex(glstate->texture.active);
             break;
         case GL_TEXTURE_2D:
-            if(glstate->list.pending && ((glstate->enable.texture[glstate->texture.active]>>ENABLED_TEX2D)&1)!=enable) flush();
+            if(glstate->list.pending && ((glstate->enable.texture[glstate->texture.active]>>ENABLED_TEX2D)&1)!=enable) gl4es_flush();
             if(enable == ((glstate->enable.texture[glstate->texture.active]>>ENABLED_TEX2D)&1))
                 return; // no change
             if(enable)
@@ -298,7 +298,7 @@ void gl4es_glEnableClientState(GLenum cap) {
     ERROR_IN_BEGIN
     // should flush for now... to be optimized later!
     /*if (glstate->list.active && !glstate->list.compiling && !glstate->list.pending)
-        flush();*/
+        gl4es_flush();*/
     LOAD_GLES_FPE(glEnableClientState);
     proxy_glEnable(cap, true, gles_glEnableClientState);
 }
@@ -308,7 +308,7 @@ void gl4es_glDisableClientState(GLenum cap) {
     ERROR_IN_BEGIN
     // should flush for now... to be optimized later!
     /*if (glstate->list.active && !glstate->list.compiling && !glstate->list.pending)
-        flush();*/
+        gl4es_flush();*/
     LOAD_GLES_FPE(glDisableClientState);
     proxy_glEnable(cap, false, gles_glDisableClientState);
 }
@@ -325,7 +325,7 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
     if(glstate->list.compiling) {errorShim(GL_INVALID_OPERATION); return GL_FALSE;}
     // should flush for now... but no need if it's just a pending list...
     if (glstate->list.active && !glstate->list.pending)
-        flush();
+        gl4es_flush();
     LOAD_GLES(glIsEnabled);
     noerrorShim();
     switch (cap) {

@@ -35,7 +35,7 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
             rlTexGenfv(glstate->list.active, coord, pname, param);
             noerrorShim();
             return;
-        } else flush();
+        } else gl4es_flush();
 
     // pname is in: GL_TEXTURE_GEN_MODE, GL_OBJECT_PLANE, GL_EYE_PLANE
     noerrorShim();

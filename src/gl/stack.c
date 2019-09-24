@@ -13,7 +13,7 @@ void gl4es_glPushAttrib(GLbitfield mask) {
             NewStage(glstate->list.active, STAGE_PUSH);
             glstate->list.active->pushattribute = mask;
             return;
-        } else flush();
+        } else gl4es_flush();
 
     if (glstate->stack == NULL) {
         glstate->stack = (glstack_t *)malloc(STACK_SIZE * sizeof(glstack_t));
@@ -340,7 +340,7 @@ void gl4es_glPopAttrib() {
             NewStage(glstate->list.active, STAGE_POP);
 		    glstate->list.active->popattribute = true;
 		    return;
-        } else flush();
+        } else gl4es_flush();
 
     if (glstate->stack == NULL || glstate->stack->len == 0) {
         errorShim(GL_STACK_UNDERFLOW);
