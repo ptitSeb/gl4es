@@ -1356,7 +1356,7 @@ void gl4es_glXSwapBuffers(Display *display,
     // TODO: what if active context is not on the drawable?
     realize_textures();
     if (glstate->list.active){
-        flush();
+        gl4es_flush();
     }
     if (glstate->raster.bm_drawing)
         bitmap_flush();
