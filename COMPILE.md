@@ -31,6 +31,11 @@ It's better to define the CMake Build type, preferably `RelWithDebInfo`, that de
 
 `mkdir build; cd build; cmake .. -DCHIP=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo; make`
 
+*Emscripten*
+---
+
+`mkdir build; cd build; emcmake cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DNOX11=ON -DNOEGL=ON -DSTATICLIB=ON; make`
+
 *Android*
 ---
 
@@ -99,3 +104,9 @@ If you are targeting a wide range of device, you should probably activate the wo
 2. In your code, call `void initialize_gl4es()` as soon as possible after loading GL4ES, and before using any GL function.
 
 To try the GLES2 backend, you can compile gl4es with ES2 by default (so you don't have to mess with env. variable). Simply uncomment `#LOCAL_CFLAGS += -DDEFAULT_ES=2`, and create the GL Context as GLES2.
+
+##### Emscripten
+
+In your code, call `void initialize_gl4es()` as soon as possible after loading GL4ES, and before using any GL function.
+
+Use `-s FULL_ES2=1 -I[directory where GL4ES source code is located]/gl4es/include -lGL` when compiling your program for Emscripten.
