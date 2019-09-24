@@ -65,10 +65,10 @@ LOCAL_SRC_FILES := \
 	src/gl/texture.c \
 	src/gl/uniform.c \
 	src/gl/vertexattrib.c \
-	src/gl/wrap/gl4es.c \
+	src/gl/wrap/gl4eswraps.c \
 	src/gl/wrap/gles.c \
 	src/gl/wrap/glstub.c \
-	src/gl/math/eval.c \
+	src/gl/math/matheval.c \
 	src/glx/hardext.c \
 	src/glx/glx.c \
 	src/glx/lookup.c \

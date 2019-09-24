@@ -52,10 +52,10 @@ SET(GL_SRC
     gl/texture.c
     gl/uniform.c
     gl/vertexattrib.c
-	gl/wrap/gl4es.c
+	gl/wrap/gl4eswraps.c
 	gl/wrap/gles.c
 	gl/wrap/glstub.c
-	gl/math/eval.c
+	gl/math/matheval.c
 )
 
 SET(GL_H
