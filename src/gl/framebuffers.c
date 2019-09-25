@@ -102,11 +102,10 @@ void gl4es_glGenFramebuffers(GLsizei n, GLuint *ids) {
         ids[m++] = glstate->fbo.old->fbos[--glstate->fbo.old->nbr];
     }
     noerrorShim();
-    if(n-m == 0)
-        return;
-    errorGL();
-    gles_glGenFramebuffers(n-m, ids+m);
-
+    if(n-m) {
+        errorGL();
+        gles_glGenFramebuffers(n-m, ids+m);
+    }
     // track the framebuffers...
     int ret;
     khint_t k;
@@ -174,7 +173,7 @@ void gl4es_glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
             glstate->fbo.old->cap = 16;
             glstate->fbo.old->fbos = (GLuint*)malloc(glstate->fbo.old->cap * sizeof(GLuint));
         }
-        if (glstate->fbo.old->nbr+n == glstate->fbo.old->cap) {
+        if (glstate->fbo.old->nbr+n > glstate->fbo.old->cap) {
             glstate->fbo.old->cap += n;
             glstate->fbo.old->fbos = (GLuint*)realloc(glstate->fbo.old->fbos, glstate->fbo.old->cap *sizeof(GLuint));
         }
