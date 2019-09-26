@@ -15,7 +15,7 @@ Version history
 * Improvment in texture format handling, to limit number of conversions
 * Added handling of VBO. Real VBO are used (in GLES2+ only) for GL_ARRAY_BUFFER and GL_ELEMENT_ARRAY_BUFFER
 * Added VBO when processing glList (only in GLES2+)
-* Added more GL3.x stuff (like glTexStorage functions). No real GL3.0 support yet
+* Added a few more GL3.x functions (like glTexStorage). No real GL3.0 support yet
 * Can now use GBM/DRM, using LIBGL_FB=4. Still WIP, but now it start to work (thanks to @icecream95)
 * Preliminary Emscripten support (thanks to @CecilHarvey)
 * AmigaOS4 support is now live (thanks to @kas1e)
@@ -23,6 +23,8 @@ Version history
 * Small optimization some of the FPE Generated program (many fragment shaders that do texturing)
 * Added support to glGetProgramBinary extension
 * GL4ES has a logo now :) !
+* AmigaOS4 is now fully supported! And SDK (with libs and samples) is available on os4depot
+* Emscripten is now supported! A first example of a game using gl4es in a web build can be found [here](http://ptitseb.github.io/stuntcarremake/) with [Stunt Car Remake](https://github.com/ptitSeb/stuntcarremake)
 
 
 ##### v1.1.0
