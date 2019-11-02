@@ -1,5 +1,8 @@
 Version history
 ----
+##### Current version
+* Fixed some regression, and foobillard++ is working fine now
+
 ##### v1.1.2
 * Improved a bit the merger (wich merge subsequent `glBegin(...)`/`glEnd()`) efficiency
 * Removed LIBGL_BEGINEND=2 (that was not working correctly, and it complexify the code too much)

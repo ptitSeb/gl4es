@@ -162,7 +162,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         ShadAppend(buff);
         headers+=CountLine(buff);
     }
-    ShadAppend("varying lowp vec4 Color;\n");  // might be unused...
+    ShadAppend("varying vec4 Color;\n");  // might be unused...
     headers++;
     if(planes) {
         for (int i=0; i<hardext.maxplanes; i++) {
@@ -261,14 +261,14 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         }
     }
     if(twosided) {
-        ShadAppend("varying lowp vec4 BackColor;\n");
+        ShadAppend("varying vec4 BackColor;\n");
         headers++;
     }
     if(light_separate || secondary) {
-        ShadAppend("varying lowp vec4 SecColor;\n");
+        ShadAppend("varying vec4 SecColor;\n");
         headers++;
         if(twosided) {
-            ShadAppend("varying lowp vec4 SecBackColor;\n");
+            ShadAppend("varying vec4 SecBackColor;\n");
             headers++;
         }
     }
@@ -731,17 +731,17 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         ShadAppend(buff);
         headers+=CountLine(buff);
     }
-    ShadAppend("varying lowp vec4 Color;\n");
+    ShadAppend("varying vec4 Color;\n");
     headers++;
     if(twosided) {
-        ShadAppend("varying lowp vec4 BackColor;\n");
+        ShadAppend("varying vec4 BackColor;\n");
         headers++;
     }
     if(light_separate || secondary) {
-        ShadAppend("varying lowp vec4 SecColor;\n");
+        ShadAppend("varying vec4 SecColor;\n");
         headers++;
         if(twosided) {
-            ShadAppend("varying lowp vec4 SecBackColor;\n");
+            ShadAppend("varying vec4 SecBackColor;\n");
             headers++;
         }
     }
