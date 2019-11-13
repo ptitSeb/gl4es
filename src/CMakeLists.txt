@@ -43,6 +43,7 @@ SET(GL_SRC
     gl/render.c
     gl/shader.c
     gl/shaderconv.c
+    gl/shader_hacks.c
     gl/stack.c
     gl/stencil.c
     gl/string_utils.c
@@ -99,6 +100,7 @@ SET(GL_H
     gl/render.h
     gl/shader.h
     gl/shaderconv.h
+    gl/shader_hacks.h
     gl/stack.h
     gl/state.h
     gl/stencil.h

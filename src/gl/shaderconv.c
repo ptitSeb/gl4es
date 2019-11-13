@@ -7,6 +7,7 @@
 #include "init.h"
 #include "preproc.h"
 #include "string_utils.h"
+#include "shader_hacks.h"
 
 typedef struct {
     const char* glname;
@@ -231,28 +232,6 @@ static const char* GLESHeader[] = {
   "#version 300es\n%sprecision %s float;\nprecision %s int;\n"
 };
 
-// this is for Psychonauts (using LIBGL_GL=21)
-static const char* gl4es_hack1 =
-"#version 120\n"
-"vec4 ps_r0;\n"
-"vec4 ps_t0 = gl_TexCoord[0];\n";
-
-static const char* gl4es_hack1_fix =
-"#version 120\n"
-"vec4 ps_r0;\n"
-"#define ps_t0 gl_TexCoord[0]\n";
-
-// this is for Psychonauts (using LIBGL_GL=20)
-static const char* gl4es_hack2 =
-"#version 110\n"
-"vec4 ps_r0;\n"
-"vec4 ps_t0 = gl_TexCoord[0];\n";
-
-static const char* gl4es_hack2_fix =
-"#version 110\n"
-"vec4 ps_r0;\n"
-"#define ps_t0 gl_TexCoord[0]\n";
-
 static const char* gl4es_transpose =
 "mat2 gl4es_transpose(mat2 m) {\n"
 " return mat2(m[0][0], m[0][1],\n"
@@ -288,8 +267,12 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     extensions_t exts;  // dummy...
     exts.cap = exts.size = 0;
     exts.ext = NULL;
+    // hacks
+    char* pHacked = ShaderHacks(pBuffer);
     // preproc first
-    pBuffer = preproc(pBuffer, comments, globals4es.shadernogles, &exts, &versionString);
+    pBuffer = preproc(pHacked, comments, globals4es.shadernogles, &exts, &versionString);
+    if(pHacked!=pEntry && pHacked!=pBuffer)
+      free(pHacked);
     // now comment all line starting with precision...
     if(strstr(pBuffer, "\nprecision")) {
       int sz = strlen(pBuffer);
@@ -326,14 +309,6 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   int tmpsize = strlen(pBuffer)*2+strlen(GLESFullHeader)+100;
   char* Tmp = (char*)calloc(1, tmpsize);
   strcpy(Tmp, pBuffer);
-
-  // check for hack first
-  if(strstr(Tmp, gl4es_hack1)) {
-      Tmp = InplaceReplace(Tmp, &tmpsize, gl4es_hack1, gl4es_hack1_fix);
-  }
-if(strstr(Tmp, gl4es_hack2)) {
-      Tmp = InplaceReplace(Tmp, &tmpsize, gl4es_hack2, gl4es_hack2_fix);
-  }
 
   // and now change the version header, and add default precision
   char* newptr;

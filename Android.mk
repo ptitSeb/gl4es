@@ -56,6 +56,7 @@ LOCAL_SRC_FILES := \
 	src/gl/render.c \
 	src/gl/shader.c \
 	src/gl/shaderconv.c \
+	src/gl/shader_hacks.c \
 	src/gl/stack.c \
 	src/gl/stencil.c \
 	src/gl/string_utils.c \
