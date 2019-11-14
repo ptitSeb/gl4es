@@ -86,7 +86,13 @@ static const char* gl4es_hacks[] = {
 "branchB . y = 0.0 ;",
 
 "branchB . x = 0 ;",
-"branchB . x = 0.0 ;"
+"branchB . x = 0.0 ;",
+
+"gl_FragColor = WaterCol * ( 1.2 - 0.4 * pow ( v_texcoord0 . y , 5 ) ) ;",
+"gl_FragColor = WaterCol * ( 1.2 - 0.4 * pow ( v_texcoord0 . y , 5.0 ) ) ;",
+
+"float heightWave = dropDist * pow ( sin ( - ( distance ( ocoord . x , WaterPos . x ) ) * 85.0 + TimeCoord . x * 15.0 ) / WaterPos . y - 0.2 , 2 ) - 0.2 ;",
+"float heightWave = dropDist * pow ( sin ( - ( distance ( ocoord . x , WaterPos . x ) ) * 85.0 + TimeCoord . x * 15.0 ) / WaterPos . y - 0.2 , 2.0 ) - 0.2 ;"
 
 };
 
