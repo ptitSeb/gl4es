@@ -249,6 +249,35 @@ static const char* gl4es_transpose =
 "             m[3][0], m[3][1], m[3][2], m[3][3]);\n"
 "}\n";
 
+static const char* HackAltPow = 
+"float pow(float f, int a) {\n"
+" return pow(f, float(a));\n"
+"}\n";
+static const char* HackAltMax = 
+"float max(float a, int b) {\n"
+" return max(a, float(b));\n"
+"}\n"
+"float max(int a, float b) {\n"
+" return max(float(a), b);\n"
+"}\n";
+static const char* HackAltMin = 
+"float min(float a, int b) {\n"
+" return min(a, float(b));\n"
+"}\n"
+"float min(int a, float b) {\n"
+" return min(float(a), b);\n"
+"}\n";
+static const char* HackAltClamp = 
+"float clamp(float f, int a, int b) {\n"
+" return clamp(f, float(a), float(b));\n"
+"}\n"
+"float clamp(float f, float a, int b) {\n"
+" return clamp(f, a, float(b));\n"
+"}\n"
+"float clamp(float f, int a, float b) {\n"
+" return clamp(f, float(a), b);\n"
+"}\n";
+
 char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 {
   int fpeShader = (strstr(pEntry, fpeshader_signature)!=NULL)?1:0;
@@ -348,6 +377,19 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     else
       InplaceInsert(GetLine(Tmp, headline-1), GLESFakeDerivative);
     headline++;
+  }
+  // if some functions are used, add some int/float alternative
+  if(strstr(Tmp, "pow(") || strstr(Tmp, "pow (")) {
+      InplaceInsert(GetLine(Tmp, headline), HackAltPow);
+  }
+  if(strstr(Tmp, "max(") || strstr(Tmp, "max (")) {
+      InplaceInsert(GetLine(Tmp, headline), HackAltMax);
+  }
+  if(strstr(Tmp, "min(") || strstr(Tmp, "min (")) {
+      InplaceInsert(GetLine(Tmp, headline), HackAltMin);
+  }
+  if(strstr(Tmp, "clamp(") || strstr(Tmp, "clamp (")) {
+      InplaceInsert(GetLine(Tmp, headline), HackAltClamp);
   }
     // now check to remove trailling "f" after float, as it's not supported too
   newptr = Tmp;
