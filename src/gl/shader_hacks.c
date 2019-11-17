@@ -50,7 +50,46 @@ static const char* gl4es_hacks[] = {
 "branchB . y = 0.0 ;",
 
 "branchB . x = 0 ;",
-"branchB . x = 0.0 ;"
+"branchB . x = 0.0 ;",
+
+// this is for Battle Block Theater
+"   if(texColor.w == 0)\n       gl_FragColor = texColor;",
+"   if(texColor.w == 0.0)\n       gl_FragColor = texColor;",
+
+"if(dist1 > 0)       {           float lightVal = (1-dist1) * light1Luminosity;",
+"if(dist1 > 0.0)       {           float lightVal = (1.0-dist1) * light1Luminosity;",
+
+"float lightVal = 0;",
+"float lightVal = 0.0;",
+
+"       if(dist1 > 0)\n"
+"       {\n"
+"			if(dist1 > 1)\n"
+"				dist1 = 1;\n",
+"       if(dist1 > 0.0)\n"
+"       {\n"
+"			if(dist1 > 1.0)\n"
+"				dist1 = 1.0;\n",
+
+
+"lightVal += (1-dist1) * light1Luminosity;",
+"lightVal += (1.0-dist1) * light1Luminosity;",
+
+"lightVal += (1-dist1) * light2Luminosity;",
+"lightVal += (1.0-dist1) * light2Luminosity;",
+
+"lightVal += (1-dist1) * light3Luminosity;",
+"lightVal += (1.0-dist1) * light3Luminosity;",
+
+"if(lightVal > 1)\n"
+"			lightVal = 1;",
+"if(lightVal > 1.0)\n"
+"			lightVal = 1.0;",
+
+"if(lightVal > 1)\n"
+"           lightVal = 1;", // space and tabs make a difference...
+"if(lightVal > 1.0)\n"
+"           lightVal = 1.0;",
 
 };
 
