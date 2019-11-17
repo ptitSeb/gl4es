@@ -918,7 +918,7 @@ void gl4es_glXDestroyContext(Display *display, GLXContext ctx) {
 		EGLBoolean result = egl_eglDestroyContext(eglDisplay, ctx->eglContext);
         ctx->eglContext = 0;
         if (ctx->eglSurface != 0) {
-            if(globals4es.usefb!=1 /*|| !fbcontext_count*/) { // this ressource leak is left on purpose (Pandora driver doesn't seems to like to many Creation of the surface)
+            if(globals4es.usefb!=1 || !fbcontext_count) { // (This may cause troble on Pandora, has some driver doesn't seems to like to many Creation of the surface)
 				int destroySurf = 1;
                 if(ctx->shared_eglsurface && (--(*ctx->shared_eglsurface))>0)
 					destroySurf = 0;
