@@ -42,6 +42,7 @@ const char* PrintEnum(GLenum what) {
         p(GL_COLOR_INDEX);
         p(GL_RED);
         p(GL_R);
+        p(GL_R8);
         p(GL_R3_G3_B2);
         p(GL_RGB);
         p(GL_BGR);

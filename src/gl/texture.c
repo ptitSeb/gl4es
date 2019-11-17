@@ -162,6 +162,8 @@ void internal2format_type(GLenum internalformat, GLenum *format, GLenum *type)
 {
     switch(internalformat) {
         case GL_RED:
+        case GL_R8:
+        case GL_R:
             if(!hardext.rgtex) {
                 *format = GL_RGB;
                 *type = GL_UNSIGNED_BYTE;
@@ -184,7 +186,7 @@ void internal2format_type(GLenum internalformat, GLenum *format, GLenum *type)
             *format = GL_ALPHA;
             *type = GL_UNSIGNED_BYTE;
             break;
-        case 1:
+        case 1: // is this here or with GL_RED?
         case GL_COMPRESSED_LUMINANCE:
         case GL_LUMINANCE:
             *format = GL_LUMINANCE;
@@ -584,6 +586,8 @@ GLenum swizzle_internalformat(GLenum *internalformat, GLenum format, GLenum type
     GLenum sret;
     switch(*internalformat) {
         case GL_RED:
+        case GL_R:
+        case GL_R8:
             if(!hardext.rgtex) {
                 ret = GL_RGB; sret = GL_RGB;
             } else
