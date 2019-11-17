@@ -1628,7 +1628,7 @@ void glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum int
 
 // DrawBuffers
 void glDrawBuffers(GLsizei n, const GLenum *bufs) AliasExport("gl4es_glDrawBuffers");
-void glDrawBuffersERB(GLsizei n, const GLenum *bufs) AliasExport("gl4es_glDrawBuffers");
+void glDrawBuffersARB(GLsizei n, const GLenum *bufs) AliasExport("gl4es_glDrawBuffers");
 void glNamedFramebufferDrawBuffers(GLuint framebuffer, GLsizei n, const GLenum *bufs) AliasExport("gl4es_glNamedFramebufferDrawBuffers");
 void glNamedFramebufferDrawBuffersEXT(GLuint framebuffer, GLsizei n, const GLenum *bufs) AliasExport("gl4es_glNamedFramebufferDrawBuffers");
 
