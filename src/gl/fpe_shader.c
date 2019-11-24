@@ -273,10 +273,24 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         }
     }
     if(fog) {
+        #if 0   // vertex fog
         ShadAppend("varying mediump float FogF;\n");
         headers++;
         if(fogsource==FPE_FOG_SRC_DEPTH && need_vertex<1)
             need_vertex = 1;
+        #else   // pixel fog
+        if(fogsource==FPE_FOG_SRC_COORD)
+            ShadAppend("varying mediump float FogSrc;\n");
+        else {
+            if(need_vertex<1)
+                need_vertex = 1;
+            switch(fogdist) {
+                case FPE_FOG_DIST_RADIAL: ShadAppend("varying mediump vec3 FogSrc;\n"); break;
+                case FPE_FOG_DIST_PLANE: ShadAppend("varying mediump float FogSrc;\n"); break;
+                default: ShadAppend("varying mediump float FogSrc;\n");
+            }
+        }
+        #endif
     }
     // textures coordinates
     for (int i=0; i<hardext.maxtex; i++) {
@@ -662,6 +676,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             sprintf(buff, "// Fog On: mode=%X, source=%X distance=%X\n", fogmode, fogsource, fogdist);
             ShadAppend(buff);
         }
+        #if 0    // vertex fog
         char fogsrc[50];
         if(fogsource==FPE_FOG_SRC_COORD)
             strcpy(fogsrc, "FogCoord");
@@ -683,6 +698,16 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 ShadAppend("FogF = clamp((gl_Fog.end - fog_c) * gl_Fog.scale, 0., 1.);\n");
                 break;
         }
+        #else   // pixel fog
+        if(fogsource==FPE_FOG_SRC_COORD)
+            sprintf(buff, "FogSrc = FogCoord;\n");
+        else switch(fogdist) {
+            case FPE_FOG_DIST_RADIAL: sprintf(buff, "FogSrc = vertex.xyz;\n"); break;
+            case FPE_FOG_DIST_PLANE:
+            default: sprintf(buff, "FogSrc = vertex.z;\n");
+        }
+        ShadAppend(buff);
+        #endif
     }
         
 
@@ -704,6 +729,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     int fog = state->fog;
     int fogsource = state->fogsource;
     int fogmode = state->fogmode;
+    int fogdist = state->fogdist;
     int planes = state->plane;
     int point = state->point;
     int pointsprite = state->pointsprite;
@@ -746,8 +772,18 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         }
     }
     if(fog) {
+        #if 0   // vertex fog
         ShadAppend("varying mediump float FogF;\n");
         headers++;
+        #else   // pixel fog
+        if(fogsource==FPE_FOG_SRC_COORD)
+            ShadAppend("varying mediump float FogSrc;\n");
+        else switch(fogdist) {
+            case FPE_FOG_DIST_RADIAL: ShadAppend("varying mediump vec3 FogSrc;\n"); break;
+            case FPE_FOG_DIST_PLANE: ShadAppend("varying mediump float FogSrc;\n"); break;
+            default: ShadAppend("varying mediump float FogSrc;\n");
+        }
+        #endif
     }
     if(planes) {
         //ShadAppend("varying vec4 clipvertex;\n");
@@ -1203,7 +1239,32 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             sprintf(buff, "// Fog On: mode=%X, source=%X\n", fogmode, fogsource);
             ShadAppend(buff);
         }
+        #if 0   // vertex fog
         ShadAppend("fColor.rgb = mix(gl_Fog.color.rgb, fColor.rgb, FogF);\n");
+        #else   // pixel fog
+        char fogsrc[50];
+        if(fogsource==FPE_FOG_SRC_COORD)
+            strcpy(fogsrc, "FogSrc");
+        else switch(fogdist) {
+            case FPE_FOG_DIST_RADIAL: strcpy(fogsrc, "length(FogScr)"); break;
+            case FPE_FOG_DIST_PLANE: strcpy(fogsrc, "FogSrc"); break;
+            default: strcpy(fogsrc, "abs(FogSrc)");
+        }
+        sprintf(buff, "mediump float fog_c = %s;\n", fogsrc);
+        ShadAppend(buff);
+        switch(fogmode) {
+            case FPE_FOG_EXP:
+                ShadAppend("mediump float FogF = clamp(exp(-gl_Fog.density * fog_c), 0., 1.);\n");
+                break;
+            case FPE_FOG_EXP2:
+                ShadAppend("mediump float FogF = clamp(exp(-(gl_Fog.density * fog_c)*(gl_Fog.density * fog_c)), 0., 1.);\n");
+                break;
+            case FPE_FOG_LINEAR:
+                ShadAppend("mediump float FogF = clamp((gl_Fog.end - fog_c) * gl_Fog.scale, 0., 1.);\n");
+                break;
+        }
+        ShadAppend("fColor.rgb = mix(gl_Fog.color.rgb, fColor.rgb, FogF);\n");
+        #endif
     }
 
     //done
