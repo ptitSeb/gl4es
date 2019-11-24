@@ -91,6 +91,10 @@ static const char* gl4es_hacks[] = {
 "if(lightVal > 1.0)\n"
 "           lightVal = 1.0;",
 
+// For Night of the Zombie / Irrlicht 1.9.0
+"gl_FragColor = (sample*(1-grayScaleFactor)) + (gray*grayScaleFactor);",
+"gl_FragColor = (sample*(1.0-grayScaleFactor)) + (gray*grayScaleFactor);",
+
 };
 
 char* ShaderHacks(char* shader)
