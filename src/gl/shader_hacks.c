@@ -97,20 +97,20 @@ static const char* gl4es_hacks[] = {
 "gl_FragColor = (sample*(1.0-grayScaleFactor)) + (gray*grayScaleFactor);",
 
 // For Stellaris
-"\t\n\tif (Data.Type == 1) \n\t{",
-"\t\n\tif (Data.Type == 1.0) \n\t{",
+"\t\n\tif (Data.Type == 1) ",
+"\t\n\tif (Data.Type == 1.0) ",
 
-"\t}\n\telse if (Data.Type == 2) \n\t{",
-"\t}\n\telse if (Data.Type == 2.0) \n\t{",
+"\t}\n\telse if (Data.Type == 2) ",
+"\t}\n\telse if (Data.Type == 2.0) ",
 
-"\t\n\tif (Data.BlendMode == 0) \n\t{",
-"\t\n\tif (Data.BlendMode == 0.0) \n\t{",
+"\t\n\tif (Data.BlendMode == 0) ",
+"\t\n\tif (Data.BlendMode == 0.0) ",
 
-"\t\n\tif (Data.BlendMode == 1) \n\t{",
-"\t\n\tif (Data.BlendMode == 1.0) \n\t{",
+"\t\n\tif (Data.BlendMode == 1) ",
+"\t\n\tif (Data.BlendMode == 1.0) ",
 
-"\t\n\tif (Data.BlendMode == 2) \n\t{",
-"\t\n\tif (Data.BlendMode == 2.0) \n\t{",
+"\t\n\tif (Data.BlendMode == 2) ",
+"\t\n\tif (Data.BlendMode == 2.0) ",
 
 
 };
