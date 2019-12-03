@@ -96,29 +96,64 @@ static const char* gl4es_hacks[] = {
 "gl_FragColor = (sample*(1-grayScaleFactor)) + (gray*grayScaleFactor);",
 "gl_FragColor = (sample*(1.0-grayScaleFactor)) + (gray*grayScaleFactor);",
 
-// For Stellaris
-"\t\n\tif (Data.Type == 1) ",
-"\t\n\tif (Data.Type == 1.0) ",
-
-"\t}\n\telse if (Data.Type == 2) ",
-"\t}\n\telse if (Data.Type == 2.0) ",
-
-"\t\n\tif (Data.BlendMode == 0) ",
-"\t\n\tif (Data.BlendMode == 0.0) ",
-
-"\t\n\tif (Data.BlendMode == 1) ",
-"\t\n\tif (Data.BlendMode == 1.0) ",
-
-"\t\n\tif (Data.BlendMode == 2) ",
-"\t\n\tif (Data.BlendMode == 2.0) ",
-
-
 };
+
+// For Stellaris
+static const char* gl4es_sign_1[] = {
+"if (Data.Type == 1)",
+"if (Data.BlendMode == 0)",
+};
+static const char* gl4es_hacks_1[] = {
+"if (Data.Type == 1)",
+"if (Data.Type == 1.0)",
+
+"if (Data.Type == 2)",
+"if (Data.Type == 2.0)",
+
+"if (Data.Type == 3)",
+"if (Data.Type == 3.0)",
+
+"if (Data.BlendMode == 0)",
+"if (Data.BlendMode == 0.0)",
+
+"if (Data.BlendMode == 1)",
+"if (Data.BlendMode == 1.0)",
+
+"if (Data.BlendMode == 2)",
+"if (Data.BlendMode == 2.0)",
+
+"Out.vMaskingTexCoord = saturate(v.vTexCoord * 1000);",
+"Out.vMaskingTexCoord = saturate(v.vTexCoord * 1000.0);",
+
+"float vTime = 0.9 - saturate( (Time - AnimationTime) * 4 );",
+"float vTime = 0.9 - saturate( (Time - AnimationTime) * 4.0 );",
+
+"float vTime = 0.9 - saturate( (Time - AnimationTime) * 16 );",
+"float vTime = 0.9 - saturate( (Time - AnimationTime) * 16.0 );",
+};
+
+static char* ShaderHacks_1(char* shader, char* Tmp, int* tmpsize)
+{
+    // check for all signature first
+    for (int i=0; i<sizeof(gl4es_sign_1)/sizeof(gl4es_sign_1[0]); i++)
+        if(!strstr(Tmp, gl4es_sign_1[i]))
+            return Tmp;
+    // Do the replace
+    for (int i=0; i<sizeof(gl4es_hacks_1)/sizeof(gl4es_hacks_1[0]); i+=2)
+        if(strstr(Tmp, gl4es_hacks_1[i])) {
+            if(Tmp==shader) {Tmp = malloc(*tmpsize); strcpy(Tmp, shader);}   // hacking!
+            Tmp = InplaceReplace(Tmp, tmpsize, gl4es_hacks_1[i], gl4es_hacks_1[i+1]);
+        }
+    return Tmp;
+}
 
 char* ShaderHacks(char* shader)
 {
     char* Tmp = shader;
     int tmpsize = strlen(Tmp)+10;
+    // specific hacks
+    Tmp = ShaderHacks_1(shader, Tmp, &tmpsize);
+    // generic
     for (int i=0; i<sizeof(gl4es_hacks)/sizeof(gl4es_hacks[0]); i+=2)
         if(strstr(Tmp, gl4es_hacks[i])) {
             if(Tmp==shader) {Tmp = malloc(tmpsize); strcpy(Tmp, shader);}   // hacking!
