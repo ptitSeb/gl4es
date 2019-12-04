@@ -288,7 +288,7 @@ static const char* HackAltMod =
 "vec3 mod(vec3 f, int a) {\n"
 " return mod(f, float(a));\n"
 "}\n"
-"vac4 mod(vac4 f, int a) {\n"
+"vec4 mod(vec4 f, int a) {\n"
 " return mod(f, float(a));\n"
 "}\n";
 
