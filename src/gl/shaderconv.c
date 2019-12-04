@@ -278,6 +278,21 @@ static const char* HackAltClamp =
 " return clamp(f, float(a), b);\n"
 "}\n";
 
+static const char* HackAltMod = 
+"float mod(float f, int a) {\n"
+" return mod(f, float(a));\n"
+"}\n"
+"vec2 mod(vec2 f, int a) {\n"
+" return mod(f, float(a));\n"
+"}\n"
+"vec3 mod(vec3 f, int a) {\n"
+" return mod(f, float(a));\n"
+"}\n"
+"vac4 mod(vac4 f, int a) {\n"
+" return mod(f, float(a));\n"
+"}\n";
+
+
 char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 {
   int fpeShader = (strstr(pEntry, fpeshader_signature)!=NULL)?1:0;
@@ -390,6 +405,9 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   }
   if(strstr(Tmp, "clamp(") || strstr(Tmp, "clamp (")) {
       InplaceInsert(GetLine(Tmp, headline), HackAltClamp);
+  }
+  if(strstr(Tmp, "mod(") || strstr(Tmp, "mod (")) {
+      InplaceInsert(GetLine(Tmp, headline), HackAltMod);
   }
     // now check to remove trailling "f" after float, as it's not supported too
   newptr = Tmp;
