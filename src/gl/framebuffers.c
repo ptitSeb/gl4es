@@ -1112,12 +1112,25 @@ void gl4es_glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachmen
     }
     */
     // hack to return DEPTH size
-    if(attachment==GL_DEPTH_ATTACHMENT && pname==GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE && hardext.depthtex==0) {
+    if(attachment==GL_DEPTH_ATTACHMENT && pname==GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE) {
+        if(hardext.depthtex==0) {
+            errorGL();
+            *params = GetAttachment(fb, attachment);
+            //TODO: Check all this?!
+            if (*params)
+                *params = 16;   //Depth buffer is 16 on GLES. No check for 24 bits here...
+            return;
+        }
+        // check if it's depth/stencil 16/8, in that case, lie by spoofing 24/8 or some FNA game will fail
+        int depth, stencil;
+        GLenum ntarget = ReadDraw_Push(target);
+        gles_glGetFramebufferAttachmentParameteriv(ntarget, GL_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE, &stencil);
+        gles_glGetFramebufferAttachmentParameteriv(ntarget, GL_DEPTH_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE, &depth);
         errorGL();
-        *params = GetAttachment(fb, attachment);
-        //TODO: Check all this?!
-        if (*params)
-            *params = 16;   //Depth buffer is 16 on GLES. No check for 24 bits here...
+        ReadDraw_Pop(target);
+        if(depth==16 && stencil==8)
+            depth = 24;
+        *params = depth;
         return;
     }
 
@@ -1194,7 +1207,7 @@ void createMainFBO(int width, int height) {
     gles_glBindRenderbuffer(GL_RENDERBUFFER, glstate->fbo.mainfbo_ste);
     gles_glRenderbufferStorage(GL_RENDERBUFFER, GL_STENCIL_INDEX8, width, height);
     gles_glBindRenderbuffer(GL_RENDERBUFFER, glstate->fbo.mainfbo_dep);
-    gles_glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);
+    gles_glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
     gles_glBindRenderbuffer(GL_RENDERBUFFER, 0);
     // create a fbo
     if(createIt)
