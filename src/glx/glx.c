@@ -1069,7 +1069,7 @@ not set to EGL_NO_CONTEXT.
 Bool gl4es_glXMakeCurrent(Display *display,
                     GLXDrawable drawable,
                     GLXContext context) {
-    DBG(printf("glXMakeCurrent(%p, %p, %p), isPBuffer(drawable)=%d, context->drawable=%p, context->eglSurface=%p(%p), context->doublebuff=%d\n", display, (void*)drawable, context, isPBuffer(drawable), (void*)(context?context->drawable:0), context?context->eglSurface:0, eglSurface, context?context->doublebuff:0);)
+    DBG(printf("glXMakeCurrent(%p, %p, %p), isPBuffer(drawable)=%d, context->drawable=%p, context->eglSurface=%p(%p), context->doublebuff=%d, glxContext=%p\n", display, (void*)drawable, context, isPBuffer(drawable), (void*)(context?context->drawable:0), context?context->eglSurface:0, eglSurface, context?context->doublebuff:0, glxContext);)
     LOAD_EGL(eglMakeCurrent);
     LOAD_EGL(eglDestroySurface);
     LOAD_EGL(eglCreateWindowSurface);
@@ -1093,6 +1093,12 @@ Bool gl4es_glXMakeCurrent(Display *display,
         DBG(printf(" => True\n");)
         //same context, all is done bye
         DBG(printf("Same context and drawable, doing nothing\n");)
+        return true;
+    }
+    if(context && glxContext && context->drawable==drawable && context->eglSurface==eglSurface) {
+        DBG(printf(" => True\n");)
+        //same context, all is done bye (only one context per surface anyway in EGL, iirc)
+        DBG(printf("Same Surface and Drawable, doing nothing\n");)
         return true;
     }
     if(globals4es.fbomakecurrent && glxContext && glxContext->glstate) {
