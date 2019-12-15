@@ -96,6 +96,13 @@ static const char* gl4es_hacks[] = {
 "gl_FragColor = (sample*(1-grayScaleFactor)) + (gray*grayScaleFactor);",
 "gl_FragColor = (sample*(1.0-grayScaleFactor)) + (gray*grayScaleFactor);",
 
+// For Knytt Underground
+"vec2 val = texture_coordinate1+coeff*2*(i/float(iterations-1.0) - 0.5);",
+"vec2 val = texture_coordinate1+coeff*2.0*(float(i)/float(iterations-1) - 0.5);",
+
+"    b /= iterations;",
+"    b /= float(iterations);",
+
 };
 
 // For Stellaris
