@@ -134,11 +134,13 @@ const char* PrintEnum(GLenum what) {
         p(GL_MAX_DRAW_BUFFERS_ARB);
         // VBO
         p(GL_STATIC_DRAW);
+        p(GL_STREAM_DRAW);
         p(GL_READ_WRITE);
         p(GL_ARRAY_BUFFER);
         p(GL_ELEMENT_ARRAY_BUFFER);
         p(GL_PIXEL_PACK_BUFFER);
         p(GL_PIXEL_UNPACK_BUFFER);
+        p(GL_WRITE_ONLY);
         // Texture
         p(GL_TEXTURE0);
         p(GL_TEXTURE1);

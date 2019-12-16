@@ -1642,7 +1642,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
             pixel_scale(pixels, &old, width, height, newwidth, newheight, format, type);
             width = newwidth;
             height = newheight;
-            if (old != pixels && pixels!=data)
+            if (old != pixels && pixels!=datab)
                 free(pixels);
             pixels = old;
         } else {
@@ -1656,7 +1656,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
                     pixel_halfscale(pixels, &old, width, height, format, type);
                 else
                     pixel_quarterscale(pixels, &old, width, height, format, type);
-                if (old != pixels && pixels!=data)
+                if (old != pixels && pixels!=datab)
                     free(pixels);
                 pixels = old;
                 width = nlevel(width, toshrink);
