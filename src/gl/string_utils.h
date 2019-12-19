@@ -7,7 +7,7 @@ int CountString(char* pBuffer, const char* S);
 char* ResizeIfNeeded(char* pBuffer, int *size, int addsize);
 char* InplaceReplace(char* pBuffer, int* size, const char* S, const char* D);
 char* Append(char* pBuffer, int* size, const char* S);
-void InplaceInsert(char* pBuffer, const char* S);
+char* InplaceInsert(char* pBuffer, const char* S, char* master, int* size);
 char* GetLine(char* pBuffer, int num);
 int CountLine(const char* pBuffer);
 int CountString(char* pBuffer, const char* S);

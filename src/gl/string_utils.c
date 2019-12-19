@@ -31,12 +31,19 @@ char* InplaceReplace(char* pBuffer, int* size, const char* S, const char* D)
     return pBuffer;
 }
 
-void InplaceInsert(char* pBuffer, const char* S)
+char* InplaceInsert(char* pBuffer, const char* S, char* master, int* size)
 {
+    char* m = ResizeIfNeeded(master, size, strlen(S));
+    if(m!=master) {
+        pBuffer += (m-master);
+        master = m;
+    }
     char* p = pBuffer;
     int lS = strlen(S), ll = strlen(pBuffer);
     memmove(p+lS, p, ll+1);
     memcpy(p, S, lS);
+
+    return master;
 }
 
 char* GetLine(char* pBuffer, int num)
