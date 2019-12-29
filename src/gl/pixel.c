@@ -222,7 +222,7 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
     if ((dst_color->red==dst_color->green) && (dst_color->red==dst_color->blue)) {
         // special case
         GLfloat aa = (pixel.r + pixel.g + pixel.b)/3.0f;    //*TODO* find a better formula. real luminance is not just the mean value.
-        pixel.r = pixel.b = pixel.b = aa;
+        pixel.r = pixel.g = pixel.b = aa;
     }
     switch (dst_type) {
         type_case(GL_FLOAT, GLfloat, write_each(,,))
