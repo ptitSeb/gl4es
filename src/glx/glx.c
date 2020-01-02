@@ -522,7 +522,9 @@ void glx_init() {
 #elif defined(BCMHOST)
     atexit(bcm_host_deinit);
 #elif defined(AMIGAOS4)
-    atexit(os4CloseLib);
+		#ifndef GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB
+    	atexit(os4CloseLib);
+    #endif
 #endif
     //V-Sync
     if (globals4es.vsync)

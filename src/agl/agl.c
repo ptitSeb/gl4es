@@ -155,3 +155,15 @@ void aglSetBitmap(struct BitMap *bitmap) {
 }
 
 //void* aglGetProcAddress(const char* name); //-> declared in glx/lookup.c
+
+#ifdef GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB
+void agl_reset_internals() {
+	if(agl_context) {
+		free(agl_context);
+		agl_context=NULL;
+	}
+	agl_context_len=0;
+	agl_context_cap=0;
+	agl_current_ctx=NULL;
+}
+#endif

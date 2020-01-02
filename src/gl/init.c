@@ -19,6 +19,11 @@
 void gl_init();
 void gl_close();
 
+#ifdef GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB
+	void agl_reset_internals();
+	void fpe_shader_reset_internals();
+#endif
+
 globals4es_t globals4es = {0};
 
 #if defined(PANDORA) || defined(CHIP)
@@ -50,11 +55,10 @@ __attribute__((visibility("default")))
 #else
 __attribute__((constructor))
 #endif
+static int inited = 0;
 void initialize_gl4es() {
     // only init 1 time
-    static int inited = 0;
-    if(inited) return;
-    inited = 1;
+    if(inited++) return;
     // default init of globals
     memset(&globals4es, 0, sizeof(globals4es));
     globals4es.mergelist = 1;
@@ -200,6 +204,11 @@ void initialize_gl4es() {
 #endif
 
     gl_init();
+		
+		#ifdef GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB
+			fpe_shader_reset_internals();
+			agl_reset_internals();
+		#endif
 		
     env(LIBGL_RECYCLEFBO, globals4es.recyclefbo, "Recycling of FBO enabled");
     // Texture hacks
@@ -417,7 +426,11 @@ void initialize_gl4es() {
             SHUT_LOGD("WARNING, No Limited or Full NPOT support in hardware, Forcing NPOT have no effect!\n");
         }
     }
-    globals4es.maxbatch = 0;
+		#if defined(GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB) && defined(AMIGAOS4) // temporary workaround for not-working envs
+   		globals4es.maxbatch = 40;
+		#else
+   		globals4es.maxbatch = 0;
+   	#endif
     globals4es.minbatch = 0;
     char *env_batch = getenv("LIBGL_BATCH");
     int tmp = 0, tmp2 = 0;
@@ -595,6 +608,10 @@ void FreeFBVisual();
 #endif
 __attribute__((destructor))
 void close_gl4es() {
+		#ifdef GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB
+	    SHUT_LOGD("Shuting down request\n");
+    	if(--inited) return;
+    #endif
     SHUT_LOGD("Shuting down\n");
     #ifndef NOX11
     FreeFBVisual();
@@ -602,4 +619,7 @@ void close_gl4es() {
     gl_close();
     fpe_writePSA();
     fpe_FreePSA();
+		#if defined(GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB) && defined(AMIGAOS4)
+	    os4CloseLib();
+	  #endif
 }
