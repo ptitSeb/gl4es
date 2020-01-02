@@ -10,6 +10,7 @@
 #include <proto/Warp3DNova.h>
 
 #include "../glx/hardext.h"
+#include "../gl/logs.h"
 
 #define MIN_W3DNOVA_LIB_VERSION 1
 #define MIN_W3DNOVA_LIB_REVISION 62
@@ -22,43 +23,43 @@ struct OGLES2IFace *IOGLES2 = NULL;
 // Open OGLES2 library and interface
 void os4OpenLib(void** lib)
 {
-    // first check version for Warp3DNova lib
-    struct Library *Warp3DNovaBase = NULL;
+  // first check version for Warp3DNova lib
+  struct Library *Warp3DNovaBase = NULL;
 	Warp3DNovaBase = IExec->OpenLibrary("Warp3DNova.library", MIN_W3DNOVA_LIB_VERSION);
 	if(!Warp3DNovaBase) {
-        printf("LIBGL: Error, cannot open Warp3DNova.library!\n");
+        SHUT_LOGE("Error, cannot open Warp3DNova.library!\n");
         return;
     }
-    printf("LIBGL: Using Warp3DNova.library v%d revision %d\n", Warp3DNovaBase->lib_Version, Warp3DNovaBase->lib_Revision);
+    SHUT_LOGD("Using Warp3DNova.library v%d revision %d\n", Warp3DNovaBase->lib_Version, Warp3DNovaBase->lib_Revision);
 	if (!(Warp3DNovaBase->lib_Version > MIN_W3DNOVA_LIB_VERSION || (Warp3DNovaBase->lib_Version == MIN_W3DNOVA_LIB_VERSION && Warp3DNovaBase->lib_Revision >= MIN_W3DNOVA_LIB_REVISION)))  {
-        printf("LIBGL: Warning, your Warp3DNovaBase.library is too old, minimum is v%d.%d, please update!\n", MIN_W3DNOVA_LIB_VERSION,MIN_W3DNOVA_LIB_REVISION);
+        SHUT_LOGE("Warning, your Warp3DNovaBase.library is too old, minimum is v%d.%d, please update!\n", MIN_W3DNOVA_LIB_VERSION,MIN_W3DNOVA_LIB_REVISION);
 	}	
 	//close warp3dnova.library, we open it just for version check
 	IExec->CloseLibrary(Warp3DNovaBase);
 	Warp3DNovaBase = NULL;
 
-    LOGLES2 = IExec->OpenLibrary("ogles2.library", MIN_OGLES2_LIB_VERSION);
-    if(!LOGLES2) {
-        printf("LIBGL: Error, cannot open ogles2 Library!\n");
-        return;
-    }
-    printf("LIBGL: Using OGLES2.library v%d revision %d\n", LOGLES2->lib_Version, LOGLES2->lib_Revision);
+  LOGLES2 = IExec->OpenLibrary("ogles2.library", MIN_OGLES2_LIB_VERSION);
+  if(!LOGLES2) {
+      SHUT_LOGE("Error, cannot open ogles2 Library!\n");
+      return;
+  }
+  SHUT_LOGD("Using OGLES2.library v%d revision %d\n", LOGLES2->lib_Version, LOGLES2->lib_Revision);
 	if (!(LOGLES2->lib_Version > MIN_OGLES2_LIB_VERSION || (LOGLES2->lib_Version == MIN_OGLES2_LIB_VERSION && LOGLES2->lib_Revision >= MIN_OGLES2_LIB_REVISION)))  {
-        printf("LIBGL: Warning, your OGLES2.library is too old, minimum is v%d.%d, please update!\n", MIN_OGLES2_LIB_VERSION,MIN_OGLES2_LIB_REVISION);
+        SHUT_LOGE("Warning, your OGLES2.library is too old, minimum is v%d.%d, please update!\n", MIN_OGLES2_LIB_VERSION,MIN_OGLES2_LIB_REVISION);
 	}	
-    IOGLES2 = (struct OGLES2IFace *)IExec->GetInterface(LOGLES2, "main", 1, NULL); 
-    if(!IOGLES2) {
-        printf("LIBGL: Warning, cannot open ogles2 Interface!\n");
-        IExec->CloseLibrary(LOGLES2);
-        LOGLES2 = NULL;
-        return;
-    }
-    if (LOGLES2->lib_Version > 2 || (LOGLES2->lib_Version == 2 && LOGLES2->lib_Revision >= 9))  {
-        hardext.prgbin_n = 1;
-    }
-    *lib = LOGLES2;
-    // small debug message, always helpfull at beggining
-    printf("LIBGL: OGLES2 Library and Interface open successfuly\n");
+  IOGLES2 = (struct OGLES2IFace *)IExec->GetInterface(LOGLES2, "main", 1, NULL); 
+  if(!IOGLES2) {
+      SHUT_LOGE("Error, cannot open ogles2 Interface!\n");
+      IExec->CloseLibrary(LOGLES2);
+      LOGLES2 = NULL;
+      return;
+  }
+  if (LOGLES2->lib_Version > 2 || (LOGLES2->lib_Version == 2 && LOGLES2->lib_Revision >= 9))  {
+      hardext.prgbin_n = 1;
+  }
+  *lib = LOGLES2;
+  // small debug message, always helpfull at beggining
+  SHUT_LOGD("OGLES2 Library and Interface open successfuly\n");
 }
 
 // Close OGLES2 lib and interface
@@ -72,7 +73,7 @@ void os4CloseLib()
         IExec->CloseLibrary(LOGLES2);
         LOGLES2 = NULL;
     }
-    printf("LIBGL: OGLES2 Library and Interface closed\n");
+    SHUT_LOGD("OGLES2 Library and Interface closed\n");
 }
 
 

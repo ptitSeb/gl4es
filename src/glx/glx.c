@@ -178,8 +178,6 @@ static void delete_native_window(void* win) {
 #endif
 }
 
-#define SHUT(a) if(!globals4es.nobanner) a
-
 #ifndef NOEGL
 static EGLint egl_context_attrib_es2[] = {
     EGL_CONTEXT_CLIENT_VERSION, 2,
@@ -533,7 +531,7 @@ void glx_init() {
 
     init_liveinfo();
     if (sock>-1) {
-        SHUT(LOGD("LIBGL: LiveInfo detected, fps will be shown\n"));
+        SHUT_LOGD("LiveInfo detected, fps will be shown\n");
     }
 #endif
 }
@@ -1175,7 +1173,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
 
                     if(createPBuffer(display, egl_attribs, &eglSurf, &eglContext, &eglConfig, (depth>16)?8:5, (depth==15)?5:(depth>16)?8:6, (depth>16)?8:5, (depth==32)?8:0, context->samplebuffers, context->samples)==0) {
                         // fail too, abort
-                        SHUT(LOGE("LIBGL: PBuffer creation failed too\n"));
+                        SHUT_LOGE("PBuffer creation failed too\n");
                         return 0;
                     }
                     int Width, Height;
@@ -1327,7 +1325,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
                 if(getenv("LIBGL_FBO")) {
                     int fbo_width, fbo_height;
                     if(sscanf(getenv("LIBGL_FBO"), "%dx%d", &fbo_width, &fbo_height)==2) {
-                        SHUT(printf("LIBGL: Forcing FBO size %dx%d (%dx%d)\n", fbo_width, fbo_height, g_width, g_height);)
+                        SHUT_LOGD("Forcing FBO size %dx%d (%dx%d)\n", fbo_width, fbo_height, g_width, g_height);
                         g_width = fbo_width; 
                         g_height = fbo_height;
                     }
@@ -1987,7 +1985,7 @@ void gl4es_glXSwapInterval(int interval) {
         egl_eglSwapInterval(eglDisplay, swapinterval);
         CheckEGLErrors();
         if(interval<minswap || interval>maxswap) {
-            SHUT(printf("LIBGL: Warning, Swap Interval %d is out of possible values %d, %d\n", interval, minswap, maxswap);)
+            SHUT_LOGE("Warning, Swap Interval %d is out of possible values %d, %d\n", interval, minswap, maxswap);
         } else
             swapinterval = interval;
     } else {
@@ -2508,7 +2506,7 @@ GLXPixmap gl4es_glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixma
     // let's try to create a PixmapSurface directly
     if(globals4es.usefb || createPixBuffer(display, depth, NULL, (NativePixmapType)pixmap, &Surface, &Context)==0) {
         // fail, so emulate with a PBuffer
-        SHUT(LOGE("LIBGL: Pixmap creation failed, trying PBuffer instead\n"));
+        SHUT_LOGE("Pixmap creation failed, trying PBuffer instead\n");
         //let's create a PixBuffer attributes
         EGLint egl_attribs[10];	// should be enough
         int i = 0;
@@ -2520,7 +2518,7 @@ GLXPixmap gl4es_glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixma
 
         if(createPBuffer(display, egl_attribs, &Surface, &Context, Config, (depth>16)?8:5, (depth==15)?5:(depth>16)?8:6, (depth>16)?8:5, (depth==32)?8:0, 0, 0)==0) {
             // fail too, abort
-            SHUT(LOGE("LIBGL: PBuffer creation failed too\n"));
+            SHUT_LOGE("PBuffer creation failed too\n");
             return 0;
         }
         emulated = 1;
