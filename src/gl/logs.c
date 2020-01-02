@@ -14,7 +14,7 @@ void LogPrintf_NoPrefix(const char *fmt,...)
 //----------------------------------------------------------------------------
 void LogFPrintf(FILE *fp,const char *fmt,...)
 {
-	fputs(log_prefix,fp);
+	fprintf(fp,log_prefix);
 	va_list args;
 	va_start(args,fmt);
 	vfprintf(fp,fmt,args);
@@ -23,7 +23,7 @@ void LogFPrintf(FILE *fp,const char *fmt,...)
 //----------------------------------------------------------------------------
 void LogPrintf(const char *fmt,...)
 {
-	puts(log_prefix);
+	printf(log_prefix);
 	va_list args;
 	va_start(args,fmt);
 	vprintf(fmt,args);

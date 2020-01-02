@@ -5,5 +5,7 @@
 
 void print_build_infos()
 {
-	LOGD("LIBGL: v%d.%d.%d built on %s %s\n", MAJOR, MINOR, REVISION, __DATE__, __TIME__);
+	#ifndef GL4ES_SILENCE_MESSAGES
+	LOGD("v%d.%d.%d built on %s %s\n", MAJOR, MINOR, REVISION, __DATE__, __TIME__);
+	#endif
 }
