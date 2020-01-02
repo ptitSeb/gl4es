@@ -31,6 +31,7 @@ SET(GL_SRC
     gl/listdraw.c
     gl/listrl.c
     gl/loader.c
+    gl/logs.c
     gl/matrix.c
     gl/matvec.c
     gl/pixel.c

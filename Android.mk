@@ -44,6 +44,7 @@ LOCAL_SRC_FILES := \
 	src/gl/listdraw.c \
 	src/gl/listrl.c \
 	src/gl/loader.c \
+	src/gl/logs.c \
 	src/gl/matrix.c \
 	src/gl/matvec.c \
 	src/gl/pixel.c \
