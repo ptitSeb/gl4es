@@ -68,8 +68,12 @@ void BuildExtensionsList() {
 		glstate->extensions = (GLubyte*)malloc(5000);	// arbitrary size...
 		strcpy(glstate->extensions,
 				"GL_EXT_abgr "
+                #ifdef AMIGAOS4
+                "GL_MGL_packed_pixels " // same as GL_EXT_packed_pixels, but older, some old Amiga games may check for this
+                #endif
                 "GL_EXT_packed_pixels "
                 "GL_EXT_compiled_vertex_array "
+                "GL_EXT_compiled_vertex_arrays " // yes, at least on AmigaOS there are progs which check for this wrong string; reason is an old typo in the MiniGL driver.
                 "GL_ARB_vertex_buffer_object "
                 "GL_ARB_vertex_array_object "
                 "GL_ARB_vertex_buffer "
