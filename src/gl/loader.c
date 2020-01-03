@@ -99,7 +99,7 @@ void *open_lib(const char **names, const char *override) {
             for (int e = 0; lib_ext[e]; e++) {
                 snprintf(path_name, PATH_MAX, "%s%s.%s", path_prefix[p], names[i], lib_ext[e]);
                 if ((lib = dlopen(path_name, flags))) {
-                    if(!globals4es.nobanner) LOGD("LIBGL: loaded: %s\n", path_name);
+                    if(!globals4es.nobanner) LOGD("loaded: %s\n", path_name);
                     return lib;
                 }
             }

@@ -163,7 +163,7 @@ void GetHardwareExtensions(int notest)
 
     egl_eglBindAPI(EGL_OPENGL_ES_API);
     if (egl_eglInitialize(eglDisplay, NULL, NULL) != EGL_TRUE) {
-        LOGE("LIBGL: Error while gathering supported extension (eglInitialize: %s), default to none\n", PrintEGLError(0));
+        LOGE("Error while gathering supported extension (eglInitialize: %s), default to none\n", PrintEGLError(0));
         egl_eglTerminate(eglDisplay);
         return;
     }

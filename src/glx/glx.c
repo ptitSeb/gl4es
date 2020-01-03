@@ -72,7 +72,7 @@ int8_t CheckEGLErrors() {
     const char *errortext = PrintEGLError(1);
     
     if (errortext) {
-        LOGE("LIBGL: ERROR: EGL Error detected: %s\n", errortext);
+        LOGE("ERROR: EGL Error detected: %s\n", errortext);
         return 1;
     }
 #endif
@@ -353,7 +353,7 @@ static int get_config_default(Display *display, int attribute, int *value) {
             break;
         default:
             DBG(printf(" => Unknown attrib\n");)
-            LOGD("LIBGL: unknown attrib %i\n", attribute);
+            LOGD("unknown attrib %i\n", attribute);
             *value = 0;
             return 1;
     }
@@ -394,7 +394,7 @@ static int InitEGL(Display *display) {
     EGLint result = egl_eglInitialize(eglDisplay, NULL, NULL);
     if (result != EGL_TRUE) {
         CheckEGLErrors();
-        LOGE("LIBGL: Unable to initialize EGL display.\n");
+        LOGE("Unable to initialize EGL display.\n");
         return 0;
     }
     eglInitialized = true;
@@ -406,7 +406,7 @@ static void init_vsync() {
 #ifdef USE_FBIO
     fbdev = open("/dev/fb0", O_RDONLY);
     if (fbdev < 0) {
-        LOGE("LIBGL: Could not open /dev/fb0 for vsync.\n");
+        LOGE("Could not open /dev/fb0 for vsync.\n");
     }
 #endif
 }
@@ -452,9 +452,9 @@ static void signal_handler(int sig) {
                 void *array[10];
                 size_t size = backtrace(array, 10);
                 if (! size) {
-                    LOGD("LIBGL: No stacktrace. Compile with -funwind-tables.\n");
+                    LOGD("No stacktrace. Compile with -funwind-tables.\n");
                 } else {
-                    LOGD("LIBGL: Stacktrace: %zd\n", size);
+                    LOGD("Stacktrace: %zd\n", size);
                     backtrace_symbols_fd(array, size, 2);
                 }
                 break;
@@ -656,7 +656,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
         if (eglDisplay == EGL_NO_DISPLAY) {
             DBG(printf(" => %p\n", NULL);)
             CheckEGLErrors();
-            LOGE("LIBGL: Unable to create EGL display.\n");
+            LOGE("Unable to create EGL display.\n");
             free(fake);
             return 0;
         }
@@ -667,7 +667,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
         if(!InitEGL(display)) {
             DBG(printf(" => %p\n", NULL);)
             CheckEGLErrors();
-            LOGE("LIBGL: Unable to init EGL.\n");
+            LOGE("Unable to init EGL.\n");
             free(fake);
             return 0;
         }
@@ -681,7 +681,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
     CheckEGLErrors();
     if (result != EGL_TRUE || configsFound == 0) {
         DBG(printf(" => %p\n", NULL);)
-        LOGE("LIBGL: No EGL configs found (depth=%d, stencil=%d).\n", depthBits, glxfbconfig->stencilBits);
+        LOGE("No EGL configs found (depth=%d, stencil=%d).\n", depthBits, glxfbconfig->stencilBits);
         CheckEGLErrors();
         free(fake);
         return 0;
@@ -746,7 +746,7 @@ GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBCon
 
     CheckEGLErrors();
     if (result != EGL_TRUE || configsFound == 0) {
-        LOGE("LIBGL: No EGL configs found.\n");
+        LOGE("No EGL configs found.\n");
         return 0;
     }
 
@@ -829,7 +829,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
         if (eglDisplay == NULL || eglDisplay == EGL_NO_DISPLAY) {
             init_display(display);
             if (eglDisplay == EGL_NO_DISPLAY) {
-                LOGE("LIBGL: Unable to create EGL display.\n");
+                LOGE("Unable to create EGL display.\n");
                 return fake;
             }
         }
@@ -839,7 +839,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
             result = InitEGL(display);
             if (!result) {
                 CheckEGLErrors();
-                LOGE("LIBGL: Unable to initialize EGL display.\n");
+                LOGE("Unable to initialize EGL display.\n");
                 return fake;
             }
         }
@@ -851,7 +851,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
 
         CheckEGLErrors();
         if (result != EGL_TRUE || configsFound == 0) {
-            LOGE("LIBGL: No EGL configs found.\n");
+            LOGE("No EGL configs found.\n");
             return fake;
         }
         EGLContext shared = (share_context)?share_context->eglContext:EGL_NO_CONTEXT;
@@ -938,7 +938,7 @@ void gl4es_glXDestroyContext(Display *display, GLXContext ctx) {
 
         if (result != EGL_TRUE) {
             CheckEGLErrors();
-            LOGE("LIBGL: Failed to destroy EGL context.\n");
+            LOGE("Failed to destroy EGL context.\n");
         }
         /*if (fbdev >= 0) {
             close(fbdev);
@@ -1026,7 +1026,7 @@ XVisualInfo *gl4es_glXChooseVisual(Display *display,
     }
     glx_default_depth = XDefaultDepth(display, screen);
     if (glx_default_depth != 16 && glx_default_depth != 24  && glx_default_depth != 32)
-        LOGD("LIBGL: unusual desktop color depth %d\n", glx_default_depth);
+        LOGD("unusual desktop color depth %d\n", glx_default_depth);
 
 #ifndef PANDORA
     // PANDORA only has 16bits X11, lets ignore 32bits requests
@@ -1037,7 +1037,7 @@ XVisualInfo *gl4es_glXChooseVisual(Display *display,
 
     XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
     if (!XMatchVisualInfo(display, screen, glx_default_depth, vis_class, visual)) {
-        LOGE("LIBGL: XMatchVisualInfo failed in glXChooseVisual\n");
+        LOGE("XMatchVisualInfo failed in glXChooseVisual\n");
         return NULL;
     }
 
@@ -1452,7 +1452,7 @@ void gl4es_glXSwapBuffers(Display *display,
                 current_frames = 0;
 
                 avg = frame / (float)(now - frame1);
-                if (globals4es.showfps) LOGD("LIBGL: fps: %.2f, avg: %.2f\n", fps, avg);
+                if (globals4es.showfps) LOGD("fps: %.2f, avg: %.2f\n", fps, avg);
 #ifdef PANDORA
                 if (sock>-1) {
                     char tmp[60];
@@ -1561,7 +1561,7 @@ GLXFBConfig * fillGLXFBConfig(EGLConfig *eglConfigs, int count, int withDB, Disp
     for (int j=0; j<count; ++j) {
         configs[j] = &ActualConfigs[ActualConfigIdx++];
         if(ActualConfigIdx==MAX_CONFIG) {
-            LOGD("LIBGL: Warning, GLXFBConfig static array looped\n");
+            LOGD("Warning, GLXFBConfig static array looped\n");
             ActualConfigIdx=0;  // better then overwrite...
         }
         int i = (withDB!=2)?j:(j/2);
@@ -1751,7 +1751,7 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
     if (eglInitialized == false) {
         if(!InitEGL((globals4es.usefb || globals4es.usepbuffer)?g_display:display)) {
             CheckEGLErrors();
-            LOGE("LIBGL: Unable to initialize EGL.\n");
+            LOGE("Unable to initialize EGL.\n");
             return NULL;
             *count = 0;
         }
@@ -1843,7 +1843,7 @@ GLXFBConfig *gl4es_glXGetFBConfigs(Display *display, int screen, int *count) {
     if (eglInitialized == false) {
         if(!InitEGL((globals4es.usefb || globals4es.usepbuffer)?g_display:display)) {
             CheckEGLErrors();
-            LOGE("LIBGL: Unable to initialize EGL.\n");
+            LOGE("Unable to initialize EGL.\n");
             return NULL;
             *count = 0;
         }
@@ -1976,7 +1976,7 @@ void gl4es_glXSwapInterval(int interval) {
     if (! globals4es.vsync) {
         static int warned = 0;
         if(!warned) {
-            LOGD("LIBGL: Enable LIBGL_VSYNC=1 if you want to use vsync.\n");
+            LOGD("Enable LIBGL_VSYNC=1 if you want to use vsync.\n");
             warned++;
         }
     }
@@ -2059,7 +2059,7 @@ void gl4es_glXUseXFont(Font font, int first, int count, int listBase) {
 	// Grab font params
 	fs = XQueryFont(dpy, font);
     if (!fs) {
-      LOGE("LIBGL: error, no font set before call to glXUseFont\n");
+      LOGE("error, no font set before call to glXUseFont\n");
       return;
     }
 	max_width = fs->max_bounds.rbearing - fs->min_bounds.lbearing;
@@ -2316,7 +2316,7 @@ int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface
 
     CheckEGLErrors();
     if (result != EGL_TRUE || configsFound == 0) {
-        LOGD("LIBGL: No EGL configs found.\n");
+        LOGD("No EGL configs found.\n");
         return 0;
     }
 
@@ -2325,7 +2325,7 @@ int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface
 
     if((*Surface)==EGL_NO_SURFACE) {
         CheckEGLErrors();
-        LOGD("LIBGL: Error creating PBuffer\n");
+        LOGD("Error creating PBuffer\n");
         return 0;
     }
     (*Context) = egl_eglCreateContext(eglDisplay, Config[0], EGL_NO_CONTEXT, (hardext.esversion==1)?egl_context_attrib:egl_context_attrib_es2);
@@ -2451,7 +2451,7 @@ int createPixBuffer(Display * dpy, int bpp, const EGLint * egl_attribs, NativePi
         init_display((globals4es.usefb || globals4es.usepbuffer)?g_display:dpy);
         if (eglDisplay == EGL_NO_DISPLAY) {
             CheckEGLErrors();
-            LOGE("LIBGL: Unable to create EGL display.\n");
+            LOGE("Unable to create EGL display.\n");
             return 0;
         }
     }
@@ -2461,7 +2461,7 @@ int createPixBuffer(Display * dpy, int bpp, const EGLint * egl_attribs, NativePi
         result = InitEGL((globals4es.usefb || globals4es.usepbuffer)?g_display:dpy);
         if (!result) {
             CheckEGLErrors();
-            LOGE("LIBGL: Unable to initialize EGL display.\n");
+            LOGE("Unable to initialize EGL display.\n");
             return 0;
         }
     }
@@ -2473,7 +2473,7 @@ int createPixBuffer(Display * dpy, int bpp, const EGLint * egl_attribs, NativePi
 
     CheckEGLErrors();
     if (result != EGL_TRUE || configsFound == 0) {
-        LOGE("LIBGL: No EGL configs found.\n");
+        LOGE("No EGL configs found.\n");
         return 0;
     }
 
@@ -2482,7 +2482,7 @@ int createPixBuffer(Display * dpy, int bpp, const EGLint * egl_attribs, NativePi
 
     if((*Surface)==EGL_NO_SURFACE) {
         CheckEGLErrors();
-        LOGE("LIBGL: Error creating PixmapSurface\n");
+        LOGE("Error creating PixmapSurface\n");
         return 0;
     }
 
@@ -2661,7 +2661,7 @@ void BlitEmulatedPixmap() {
             EGLSurface Surface = NULL;
             Surface = egl_eglCreatePbufferSurface(eglDisplay, buff->Config, egl_attribs);
             if(Surface==EGL_NO_SURFACE)
-                LOGE("LIBGL: Warning, Recration of pbuffer failed (from %dx%dx%d => %dx%dx%d)\n", buff->Width, buff->Height, buff->Depth, width, height, depth);
+                LOGE("Warning, Recration of pbuffer failed (from %dx%dx%d => %dx%dx%d)\n", buff->Width, buff->Height, buff->Depth, width, height, depth);
             CheckEGLErrors();
 #ifndef NO_GBM
             if(globals4es.usegbm)
@@ -2748,15 +2748,15 @@ GLXContext gl4es_glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXCo
     if(majver*10+minver != 0) {
         DBG(printf(" Required context version %d.%d\n", majver, minver);)
         if(majver*10+minver>21) {
-            LOGE("LIBGL: Asked for unsupported context version %d.%d\n", majver, minver);
+            LOGE("Asked for unsupported context version %d.%d\n", majver, minver);
             return 0;
         }
         if(majver*10+minver>globals4es.gl) {
-            LOGE("LIBGL: Asked for unsupported context version %d.%d (max version is %d.%d)\n", majver, minver, globals4es.gl/10, globals4es.gl%10);
+            LOGE("Asked for unsupported context version %d.%d (max version is %d.%d)\n", majver, minver, globals4es.gl/10, globals4es.gl%10);
             return 0;
         }
         if((mask&GLX_CONTEXT_ES2_PROFILE_BIT_EXT) && hardext.esversion<2) {
-            LOGE("LIBGL: Asked for ES2 compatible context on GLES1.1 Backend\n");
+            LOGE("Asked for ES2 compatible context on GLES1.1 Backend\n");
             return 0;
         }
     }

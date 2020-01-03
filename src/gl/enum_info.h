@@ -47,7 +47,7 @@ static const GLsizei gl_sizeof(GLenum type) {
             return 1;
     }
     // formats
-    LOGD("LIBGL: Unsupported pixel data type: %s\n", PrintEnum(type));
+    LOGD("Unsupported pixel data type: %s\n", PrintEnum(type));
     return 0;
 }
 
@@ -67,7 +67,7 @@ static const GLuint gl_max_value(GLenum type) {
         case GL_INT:            return 2147483647;
         case GL_UNSIGNED_INT:   return 4294967295;
     }
-    LOGD("LIBGL: unknown gl max value type: %s\n", PrintEnum(type));
+    LOGD("unknown gl max value type: %s\n", PrintEnum(type));
     return 0;
 }
 
@@ -118,7 +118,7 @@ static const GLsizei pixel_sizeof(GLenum format, GLenum type) {
             width = 4;
             break;
         default:
-            LOGD("LIBGL: unsupported pixel format %s\n", PrintEnum(format));
+            LOGD("unsupported pixel format %s\n", PrintEnum(format));
             return 0;
     }
 

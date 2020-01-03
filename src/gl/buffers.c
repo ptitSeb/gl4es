@@ -40,7 +40,7 @@ glbuffer_t** BUFF(GLenum target) {
         return &glstate->vao->unpack;
         break;
      default:
-       LOGD("LIBGL: Warning, unknown buffer target 0x%04X\n", target);
+       LOGD("Warning, unknown buffer target 0x%04X\n", target);
  }
  return (glbuffer_t**)NULL;
 }
@@ -177,7 +177,7 @@ void gl4es_glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLe
     glbuffer_t *buff = getbuffer_buffer(target);
     if (buff==NULL) {
 		errorShim(GL_INVALID_OPERATION);
-        LOGE("LIBGL: Warning, null buffer for target=0x%04X for glBufferData\n", target);
+        LOGE("Warning, null buffer for target=0x%04X for glBufferData\n", target);
         return;
     }
     if(target==GL_ARRAY_BUFFER)

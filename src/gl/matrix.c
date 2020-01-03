@@ -139,7 +139,7 @@ DBG(printf("glPushMatrix(), list=%p\n", glstate->list.active);)
 		default:
 			//Warning?
 			errorShim(GL_INVALID_OPERATION);
-			//LOGE("LIBGL: PushMatrix with Unrecognise matrix mode (0x%04X)\n", matrix_mode);
+			//LOGE("PushMatrix with Unrecognise matrix mode (0x%04X)\n", matrix_mode);
 			//gles_glPushMatrix();
 	}
 }
@@ -189,7 +189,7 @@ DBG(printf("glPopMatrix(), list=%p\n", glstate->list.active);)
 		default:
 			//Warning?
 			errorShim(GL_INVALID_OPERATION);
-			//LOGE("LIBGL: PopMatrix with Unrecognise matrix mode (0x%04X)\n", matrix_mode);
+			//LOGE("PopMatrix with Unrecognise matrix mode (0x%04X)\n", matrix_mode);
 			//gles_glPopMatrix();
 	}
 }

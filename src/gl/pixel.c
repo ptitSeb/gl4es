@@ -770,7 +770,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     dst_color = get_color_map(dst_format);
     if (!dst_size || !pixel_sizeof(src_format, src_type)
         || !src_color->type || !dst_color->type) {
-        LOGE("LIBGL: pixel conversion, anticipated abort\n");
+        LOGE("pixel conversion, anticipated abort\n");
         return false;
     }
     if(src_type==GL_HALF_FLOAT) src_type=GL_HALF_FLOAT_OES;
