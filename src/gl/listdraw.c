@@ -238,6 +238,16 @@ int fill_lineIndices(modeinit_t *modes, int length, GLenum mode, GLushort* indic
                             ind_line[k++] = ind(i+0); ind_line[k++] = ind(i+1);
                         }
                     }
+                } else if(mode_init==GL_POLYGON) {
+                    if (len) {
+                        int z = i;
+                        ind_line[k++] = ind(i+0); ind_line[k++] = ind(i+1);
+                        ++i;
+                        for (; i<len; i++) {
+                            ind_line[k++] = ind(i-1); ind_line[k++] = ind(i);
+                        }
+                        ind_line[k++] = ind(len-1); ind_line[k++] = ind(z);
+                    }
                 } else {
                     // first 3 points a triangle, then a 2 lines per new point too
                     if (len>2) {

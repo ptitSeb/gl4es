@@ -488,7 +488,7 @@ void rlTexEnviv(renderlist_t *list, GLenum target, GLenum pname, const GLint * p
 #undef realloc_sublist
 
 renderlist_t* NewDrawStage(renderlist_t* l, GLenum m) {
-    if(globals4es.mergelist
+    if(globals4es.mergelist && !glstate->polygon_mode
         && ((isempty_renderlist(l) && l->prev && l->prev->open && l->prev->mode==m && l->prev->mode_init==m)
             || (l->stage==STAGE_POSTDRAW && l->open))
         && ((l->mode_dimension==rendermode_dimensions(m) && l->mode_dimension>0)))
