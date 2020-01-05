@@ -40,11 +40,6 @@ KHASH_MAP_INIT_FPE(fpecachelist, fpe_fpe_t *);
 
 fpe_cache_t* fpe_NewCache() {
     khash_t(fpecachelist) *cache = kh_init(fpecachelist);
-    int r;
-    fpe_fpe_t dummy;
-    memset(&dummy, 0, sizeof(fpe_fpe_t));
-    khint_t k = kh_put(fpecachelist, cache, &dummy.state, &r);
-    kh_del(fpecachelist, cache, k);
     return cache;
 }
 
