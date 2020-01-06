@@ -51,13 +51,13 @@ static void fast_math() {
 void load_libs();
 void glx_init();
 
+static int inited = 0;
+
 #ifdef NO_INIT_CONSTRUCTOR
 __attribute__((visibility("default")))
 #else
 __attribute__((constructor))
 #endif
-
-static int inited = 0;
 void initialize_gl4es() {
     // only init 1 time
     if(inited++) return;
