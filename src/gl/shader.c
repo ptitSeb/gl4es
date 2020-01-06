@@ -48,8 +48,7 @@ GLuint gl4es_glCreateShader(GLenum shaderType) {
     shader_t *glshader = NULL;
     if (k == kh_end(shaders)){
         k = kh_put(shaderlist, shaders, shader, &ret);
-        glshader = kh_value(shaders, k) = malloc(sizeof(shader_t));
-        memset(glshader, 0, sizeof(shader_t));
+        glshader = kh_value(shaders, k) = (shader_t*)calloc(1, sizeof(shader_t));
     } else {
         glshader = kh_value(shaders, k);
     }

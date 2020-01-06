@@ -36,11 +36,11 @@ void gl4es_glAttachShader(GLuint program, GLuint shader) {
         glprogram->attach = (GLuint*)realloc(glprogram->attach, sizeof(GLuint)*glprogram->attach_cap);
     }
     glprogram->attach[glprogram->attach_size++] = glshader->id;
-    ++glshader->attached;
+    glshader->attached++;
     // save last vertex or fragment attached
-    if(glshader->type==GL_VERTEX_SHADER)
+    if(glshader->type==GL_VERTEX_SHADER && !glprogram->last_vert)
         glprogram->last_vert = glshader;
-    else if(glshader->type==GL_FRAGMENT_SHADER)
+    else if(glshader->type==GL_FRAGMENT_SHADER && !glprogram->last_frag)
         glprogram->last_frag = glshader;
     // send to hadware
     LOAD_GLES2(glAttachShader);
@@ -110,8 +110,7 @@ GLuint gl4es_glCreateProgram(void) {
     program_t *glprogram = NULL;
     if (k == kh_end(programs)){
         k = kh_put(programlist, programs, program, &ret);
-        glprogram = kh_value(programs, k) = malloc(sizeof(program_t));
-        memset(glprogram, 0, sizeof(program_t));
+        glprogram = kh_value(programs, k) = (program_t*)calloc(1, sizeof(program_t));
     } else {
         glprogram = kh_value(programs, k);
         if(glprogram->attribloc) {
@@ -122,16 +121,13 @@ GLuint gl4es_glCreateProgram(void) {
             kh_destroy(attribloclist, glprogram->attribloc);
             glprogram->attribloc = NULL;
         }
+        memset(glprogram, 0, sizeof(program_t));
     }
     glprogram->id = program;
     // initialize attribloc hashmap
     khash_t(attribloclist) *attribloc = glprogram->attribloc = kh_init(attribloclist);
-    k = kh_put(attribloclist, attribloc, 1, &ret);
-    kh_del(attribloclist, attribloc, k);
     // initialize uniform hashmap
     khash_t(uniformlist) *uniform = glprogram->uniform = kh_init(uniformlist);
-    k = kh_put(uniformlist, uniform, 1, &ret);
-    kh_del(uniformlist, uniform, k);
     // all done
     return program;
 }
@@ -199,8 +195,9 @@ void gl4es_glDetachShader(GLuint program, GLuint shader) {
     int f = 0;
     while(f<glprogram->attach_size && glprogram->attach[f]!=shader)
         f++;
-    if(f==glprogram->attach_size) {
-        errorShim(GL_INVALID_VALUE);
+    // if program is linked, don't try anything....
+    if(glprogram->linked) {
+        noerrorShim();
         return;
     }
     // send to hardware

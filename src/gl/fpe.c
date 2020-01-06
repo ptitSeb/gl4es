@@ -80,6 +80,8 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
         dest->texgen_q_mode = 0;
         dest->texformat = 0;
         dest->texadjust = 0;
+        dest->texrgbscale = 0;
+        dest->texalphascale = 0;
     } else {
         // individual textures
         for (int i=0; i<8; i++) {
@@ -95,6 +97,8 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
                 dest->texgen_r_mode &= ~(7<<(i*3));
                 dest->texgen_q &= ~(1<<i);
                 dest->texgen_q_mode &= ~(7<<(i*3));
+                dest->texrgbscale &= ~(1<<i);
+                dest->texalphascale &= ~(1<<i);
             } else {    // texture is on
                 if ((dest->texgen_s&(1<<i))==0)
                     dest->texgen_s_mode &= ~(7<<(i*3));
@@ -145,24 +149,15 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
         dest->lighting = 0;
         dest->textype = 0;
         dest->fog = 0;
-        dest->fogdist = 0;  //?
         dest->point = 0;
     }
 }
 
 int fpe_IsEmpty(fpe_state_t *state) {
-    uint32_t t;
-    intptr_t s,p;
-    s=0;
-    while(s<sizeof(fpe_state_t)) {
-        p = sizeof(t);
-        t=0;
-        if(s+p>sizeof(fpe_state_t))
-            p = sizeof(fpe_state_t) - s;
-        memcpy(&t, ((void*)state)+s, p);
-        s+=p;
-        if(t) return 0;
-    }
+    uint8_t* p = (uint8_t*)state;
+    for (int i=0; i<sizeof(fpe_state_t); ++i)
+        if(p[i])
+            return 0;
     return 1;
 }
 
