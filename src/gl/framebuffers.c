@@ -401,12 +401,12 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
         tex = gl4es_getTexture(textarget, texture);
 
         if (!tex) {
-            LOGE("LIBGL: texture for FBO not found, name=%u\n", texture);
+            LOGE("texture for FBO not found, name=%u\n", texture);
         } else {
             texture = tex->glname;
             // check if texture is shrinked...
             if (tex->shrink || tex->useratio || (tex->adjust && (hardext.npot==1 || hardext.npot==2) && !globals4es.potframebuffer)) {
-                LOGD("LIBGL: %s texture for FBO\n",(tex->useratio)?"going back to npot size pot'ed":"unshrinking shrinked");
+                LOGD("%s texture for FBO\n",(tex->useratio)?"going back to npot size pot'ed":"unshrinking shrinked");
                 if(tex->shrink || tex->useratio) {
                     if(tex->useratio) {
                         tex->width = tex->nwidth/tex->ratiox;
@@ -438,7 +438,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
             }
             if(need_change) {
                 // check if POT size is asked
-                LOGD("LIBGL: Recreate a texture for a FBO (%s%s%s)\n", (need_change&1)?"POT":"", (need_change==3)?" & ":"", (need_change&2)?"Float":"");
+                LOGD("Recreate a texture for a FBO (%s%s%s)\n", (need_change&1)?"POT":"", (need_change==3)?" & ":"", (need_change&2)?"Float":"");
                 if(need_change&1) {
                     twidth = tex->nwidth = npot(tex->nwidth);
                     theight = tex->nheight = npot(tex->nheight);

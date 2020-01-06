@@ -17,8 +17,6 @@
 #define DBG(a)
 #endif
 
-#define SHUT(a) if(!globals4es.nobanner) a
-
 static kh_inline khint_t _hash_fpe(fpe_state_t *p)
 {
     const char* s = (const char*)p;
@@ -163,7 +161,7 @@ void fpe_readPSA()
         psa->size = kh_size(psa->cache);
     }
     fclose(f);
-    SHUT(LOGD("LIBGL: Loaded a PSA with %d Precompiled Programs\n", psa->size));
+    SHUT_LOGD("Loaded a PSA with %d Precompiled Programs\n", psa->size);
 }
 
 void fpe_writePSA()
@@ -213,7 +211,7 @@ void fpe_writePSA()
         }
     );
     fclose(f);
-    SHUT(LOGD("LIBGL: Saved a PSA with %d Precompiled Programs\n", psa->size));
+    SHUT_LOGD("Saved a PSA with %d Precompiled Programs\n", psa->size);
 }
 
 void fpe_InitPSA(const char* name)

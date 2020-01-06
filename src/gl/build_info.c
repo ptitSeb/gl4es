@@ -5,5 +5,5 @@
 
 void print_build_infos()
 {
-	LOGD("LIBGL: v%d.%d.%d built on %s %s\n", MAJOR, MINOR, REVISION, __DATE__, __TIME__);
+	SHUT_LOGD("v%d.%d.%d built on %s %s\n", MAJOR, MINOR, REVISION, __DATE__, __TIME__);
 }

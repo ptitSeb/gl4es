@@ -1333,3 +1333,14 @@ const char* const* fpe_CustomFragmentShader(const char* initial, fpe_state_t* st
 
     return (const char* const*)&shad;
 }
+
+#ifdef GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB
+void fpe_shader_reset_internals() {
+	if(shad) {
+		free(shad);
+		shad=NULL;
+	}
+	shad_cap=0;
+	comments=1;
+}
+#endif

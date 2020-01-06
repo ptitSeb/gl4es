@@ -2581,7 +2581,7 @@ void gl4es_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum 
     gles_glReadPixels(x, y, width, height, use_bgra?GL_BGRA:GL_RGBA, GL_UNSIGNED_BYTE, pixels);
     if (! pixel_convert(pixels, &dst, width, height,
                         use_bgra?GL_BGRA:GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0,glstate->texture.pack_align)) {
-        LOGE("LIBGL: ReadPixels error: (%s, UNSIGNED_BYTE -> %s, %s )\n",
+        LOGE("ReadPixels error: (%s, UNSIGNED_BYTE -> %s, %s )\n",
             PrintEnum(use_bgra?GL_BGRA:GL_RGBA), PrintEnum(format), PrintEnum(type));
     }
     free(pixels);

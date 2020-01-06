@@ -8,14 +8,13 @@
 #include "glstate.h"
 #include "init.h"
 #include "loader.h"
+#include "logs.h"
 #ifdef TEXSTREAM
 # ifndef GL_TEXTURE_STREAM_IMG
 # define GL_TEXTURE_STREAM_IMG                                   0x8C0D
 # endif
 #include "../glx/streaming.h"
 #endif
-
-#define SHUT(a) if(!globals4es.nobanner) a
 
 // hacky viewport temporary changes
 void pushViewport(GLint x, GLint y, GLsizei width, GLsizei height);
@@ -229,7 +228,7 @@ void gl4es_blitTexture_gles2(GLuint texture,
             LOAD_GLES(glGetShaderInfoLog);
             char log[400];
             gles_glGetShaderInfoLog(glstate->blit->pixelshader_alpha, 399, NULL, log);
-            SHUT(printf("LIBGL: Failed to produce blit fragment shader.\n%s", log);)
+            SHUT_LOGE("Failed to produce blit fragment shader.\n%s", log);
             free(glstate->blit);
             glstate->blit = NULL;
         }
@@ -244,7 +243,7 @@ void gl4es_blitTexture_gles2(GLuint texture,
             LOAD_GLES(glGetShaderInfoLog);
             char log[400];
             gles_glGetShaderInfoLog(glstate->blit->pixelshader_alpha, 399, NULL, log);
-            SHUT(printf("LIBGL: Failed to produce blit with alpha fragment shader.\n%s", log);)
+            SHUT_LOGE("Failed to produce blit with alpha fragment shader.\n%s", log);
             free(glstate->blit);
             glstate->blit = NULL;
         }
@@ -259,7 +258,7 @@ void gl4es_blitTexture_gles2(GLuint texture,
             LOAD_GLES(glGetShaderInfoLog);
             char log[400];
             gles_glGetShaderInfoLog(glstate->blit->pixelshader_alpha, 399, NULL, log);
-            SHUT(printf("LIBGL: Failed to produce blit vertex shader.\n%s", log);)
+            SHUT_LOGE("Failed to produce blit vertex shader.\n%s", log);
             free(glstate->blit);
             glstate->blit = NULL;
         }
@@ -274,7 +273,7 @@ void gl4es_blitTexture_gles2(GLuint texture,
             LOAD_GLES(glGetShaderInfoLog);
             char log[400];
             gles_glGetShaderInfoLog(glstate->blit->pixelshader_alpha, 399, NULL, log);
-            SHUT(printf("LIBGL: Failed to produce blit with alpha vertex shader.\n%s", log);)
+            SHUT_LOGE("Failed to produce blit with alpha vertex shader.\n%s", log);
             free(glstate->blit);
             glstate->blit = NULL;
         }
@@ -288,7 +287,7 @@ void gl4es_blitTexture_gles2(GLuint texture,
         gles_glGetProgramiv( glstate->blit->program, GL_LINK_STATUS, &success );
         if( !success )
         {
-            SHUT(printf("LIBGL: Failed to link blit program.\n");)
+            SHUT_LOGE("Failed to link blit program.\n");
             free(glstate->blit);
             glstate->blit = NULL;
         }
@@ -305,7 +304,7 @@ void gl4es_blitTexture_gles2(GLuint texture,
         gles_glGetProgramiv( glstate->blit->program_alpha, GL_LINK_STATUS, &success );
         if( !success )
         {
-            SHUT(printf("LIBGL: Failed to link blit program.\n");)
+            SHUT_LOGE("Failed to link blit program.\n");
             free(glstate->blit);
             glstate->blit = NULL;
         }

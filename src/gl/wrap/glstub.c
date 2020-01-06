@@ -3,11 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../envvars.h"
 
 #define STUB(ret, def, args)\
 ret gl4es_ ## def args {\
-    char *debug = getenv("LIBGL_DEBUG");\
-    if (debug && strcmp(debug, "1") == 0)\
+    if(IsEnvVarTrue("LIBGL_DEBUG"))\
         printf("stub: %s;\n", #def);\
 } \
 ret def args __attribute((alias("gl4es_"#def))) __attribute__((visibility("default")));

@@ -13,6 +13,7 @@ SET(GL_SRC
     gl/directstate.c
     gl/drawing.c
     gl/enable.c
+    gl/envvars.c
     gl/eval.c
     gl/face.c
     gl/fog.c
@@ -31,6 +32,7 @@ SET(GL_SRC
     gl/listdraw.c
     gl/listrl.c
     gl/loader.c
+    gl/logs.c
     gl/matrix.c
     gl/matvec.c
     gl/pixel.c
@@ -72,6 +74,7 @@ SET(GL_H
     gl/defines.h
     gl/depth.h
     gl/directstate.h
+    gl/envvars.h
     gl/eval.h
     gl/face.h
     gl/fog.h

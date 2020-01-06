@@ -96,7 +96,7 @@ void *emscripten_GetProcAddress(const char *name);
 void *open_lib(const char **names, const char *override);
 #endif // AMIGAOS4
 
-#define WARN_NULL(name) if (name == NULL) LOGD("LIBGL: warning, " #name " is NULL\n");
+#define WARN_NULL(name) if (name == NULL) LOGD("warning, " #name " is NULL\n");
 
 #define PUSH_IF_COMPILING_EXT(nam, ...)             \
     if (glstate->list.active) {                     \

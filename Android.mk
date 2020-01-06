@@ -26,6 +26,7 @@ LOCAL_SRC_FILES := \
 	src/gl/directstate.c \
 	src/gl/drawing.c \
 	src/gl/enable.c \
+	src/gl/envvars.c \
 	src/gl/eval.c \
 	src/gl/face.c \
 	src/gl/fog.c \
@@ -44,6 +45,7 @@ LOCAL_SRC_FILES := \
 	src/gl/listdraw.c \
 	src/gl/listrl.c \
 	src/gl/loader.c \
+	src/gl/logs.c \
 	src/gl/matrix.c \
 	src/gl/matvec.c \
 	src/gl/pixel.c \

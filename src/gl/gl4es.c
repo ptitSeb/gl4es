@@ -1231,12 +1231,7 @@ __attribute__((visibility("default"))) void gl4es_pre_swap()
     }
 }
 
-#ifdef AMIGAOS4
-void amiga_post_swap()
-#else
-__attribute__((visibility("default"))) void gl4es_post_swap()
-#endif
-{
+void show_fps() {
     if (globals4es.showfps) 
     {
         // framerate counter
@@ -1267,6 +1262,16 @@ __attribute__((visibility("default"))) void gl4es_post_swap()
         }
         last_frame = now;
     }
+}
+
+
+#ifdef AMIGAOS4
+void amiga_post_swap()
+#else
+__attribute__((visibility("default"))) void gl4es_post_swap()
+#endif
+{
+		show_fps();
 
     // If drawing in fbo, rebind it...
     if (globals4es.usefbo) {

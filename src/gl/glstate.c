@@ -581,8 +581,12 @@ void ActivateGLState(void* new_glstate) {
 }
 
 void gl_init() {
-    (void)NewGLState(DEFAULT_STATE, 0); // automaticaly fill default_glstate
-    ActivateGLState(&default_glstate);
+	#ifdef GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB
+		glstate=NULL;
+		memset(&default_glstate,0,sizeof(glstate_t));
+	#endif
+  (void)NewGLState(DEFAULT_STATE, 0); // automaticaly fill default_glstate
+  ActivateGLState(&default_glstate);
 }
 
 void gl_close() {

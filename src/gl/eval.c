@@ -28,7 +28,7 @@ static inline map_state_t **get_map_pointer(GLenum target) {
         case GL_MAP2_VERTEX_3:        return &glstate->map2.vertex3;
         case GL_MAP2_VERTEX_4:        return &glstate->map2.vertex4;
         default:
-            LOGE("libGL: unknown glMap target 0x%x\n", target);
+            LOGE("unknown glMap target 0x%x\n", target);
     }
     return NULL;
 }
