@@ -18,6 +18,7 @@ void load_libs() {
 #else
 #include <linux/limits.h>
 #endif
+#include "envvars.h"
 
 void *gles = NULL, *egl = NULL, *bcm_host = NULL, *vcos = NULL, *gbm = NULL, *drm = NULL;
 #ifndef NO_GBM
@@ -112,7 +113,7 @@ void load_libs() {
     static int first = 1;
     if (! first) return;
     first = 0;
-    char *gles_override = getenv("LIBGL_GLES");
+    const char *gles_override = GetEnvVar("LIBGL_GLES");
 #if defined(BCMHOST) && !defined(ANDROID)
     // optimistically try to load the raspberry pi libs
     if (! gles_override) {
@@ -128,15 +129,15 @@ void load_libs() {
 #ifdef NOEGL
     egl = gles;
 #else
-    char *egl_override = getenv("LIBGL_EGL");
+    const char *egl_override = GetEnvVar("LIBGL_EGL");
     egl = open_lib(egl_lib, egl_override);
 #endif
     WARN_NULL(egl);
 
 #ifndef NO_GBM
-    char *gbm_override = getenv("LIBGL_GBM");
+    const char *gbm_override = GetEnvVar("LIBGL_GBM");
     gbm = open_lib(gbm_lib, gbm_override);
-    char *drm_override = getenv("LIBGL_DRM");
+    const char *drm_override = GetEnvVar("LIBGL_DRM");
     drm = open_lib(drm_lib, drm_override);
 #endif
 }

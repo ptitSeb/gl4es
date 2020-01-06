@@ -26,6 +26,7 @@ LOCAL_SRC_FILES := \
 	src/gl/directstate.c \
 	src/gl/drawing.c \
 	src/gl/enable.c \
+	src/gl/envvars.c \
 	src/gl/eval.c \
 	src/gl/face.c \
 	src/gl/fog.c \
