@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "init.h"
 //----------------------------------------------------------------------------
+void LogPrintf_NoPrefix(const char *fmt,...);
 void LogFPrintf(FILE *fp,const char *fmt,...);
 void LogPrintf(const char *fmt,...);
 //----------------------------------------------------------------------------
