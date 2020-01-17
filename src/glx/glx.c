@@ -226,11 +226,11 @@ static SharedEGLSurface_t* RecycleGetSurface(GLXDrawable drawable) {
 static void RecycleDelSurface(GLXDrawable drawable) {
     int ret;
     khint_t k;
-
+#ifndef NOX11
     ret = isPBuffer(drawable);
     if(ret)
         delPBuffer(ret-1);
-
+#endif
     if(!eglsurfaces)
         return;
     k = kh_get(eglsurfacelist_t, eglsurfaces, drawable);
@@ -1070,7 +1070,11 @@ not set to EGL_NO_CONTEXT.
 Bool gl4es_glXMakeCurrent(Display *display,
                     GLXDrawable drawable,
                     GLXContext context) {
+#ifdef NOX11
+    DBG(printf("glXMakeCurrent(%p, %p, %p), context->drawable=%p, context->eglSurface=%p(%p), context->doublebuff=%d, glxContext=%p\n", display, (void*)drawable, context, (void*)(context?context->drawable:0), context?context->eglSurface:0, eglSurface, context?context->doublebuff:0, glxContext);)
+#else
     DBG(printf("glXMakeCurrent(%p, %p, %p), isPBuffer(drawable)=%d, context->drawable=%p, context->eglSurface=%p(%p), context->doublebuff=%d, glxContext=%p\n", display, (void*)drawable, context, isPBuffer(drawable), (void*)(context?context->drawable:0), context?context->eglSurface:0, eglSurface, context?context->doublebuff:0, glxContext);)
+#endif
     LOAD_EGL(eglMakeCurrent);
     LOAD_EGL(eglDestroySurface);
     LOAD_EGL(eglCreateWindowSurface);
