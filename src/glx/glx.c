@@ -634,7 +634,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
         EGL_SAMPLE_BUFFERS, glxfbconfig->nMultiSampleBuffers,
         EGL_SAMPLES, glxfbconfig->multiSampleSize,
 
-        EGL_SURFACE_TYPE, (globals4es.usegbm)?EGL_WINDOW_BIT:(EGL_WINDOW_BIT | EGL_PBUFFER_BIT),
+        EGL_SURFACE_TYPE, (globals4es.usegbm)?EGL_WINDOW_BIT:(globals4es.usefbo?EGL_PBUFFER_BIT:(EGL_WINDOW_BIT | EGL_PBUFFER_BIT)),
         EGL_NONE
     };
     if (globals4es.usefb)
