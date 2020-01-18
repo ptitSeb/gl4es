@@ -206,6 +206,7 @@ create_test(StuntCarRacer stuntcarracer "0000118817" 20 "638x478+1+1")
 create_test(Neverball neverball "0000078750" 20 "798x478+1+1" 200)
 #create_test_GLES(Neverball 2 neverball "0000078750" 20 "798x478+1+1" 200)
 create_test(FoobillardPlus foobillardplus "0000014748" 50 "798x478+1+1" 60)
+create_test(Descent3 descent3 "0000284192" 20 "638x478+1+1")
 create_test(PointSprite pointsprite "0000248810" 20)
 
 create_test_GLES(OpenRA 2 openra "0000031249" 20 "638x478+1+1")
