@@ -22,10 +22,11 @@ static int comments = 1;
 
 #define ShadAppend(S) shad = Append(shad, &shad_cap, S)
 
-const char* texvecsize[] = {"vec2", "vec2", "vec2", "vec3", "vec2"};
-const char* texxyzsize[] = {"xy", "xy", "xy", "xyz", "xy"};
-//                          2D          Rectangle    3D             CubeMap      Stream
-const char* texname[] = {"texture2D", "texture2D", "texture2D", "textureCube", "textureStreamIMG"};    // textureRectange and 3D are emulated with 2D
+//                           2D   Rectangle    3D   CubeMap  Stream
+const char* texvecsize[] = {"vec4", "vec3", "vec2", "vec3", "vec2"};
+const char* texxyzsize[] = {"stpq", "stp",   "st",  "stp",   "st"};
+//                          2D              Rectangle         3D          CubeMap          Stream
+const char* texname[] = {"texture2DProj", "texture2DProj", "texture2D", "textureCube", "textureStreamIMG"};    // textureRectange and 3D are emulated with 2D
 const char* texsampler[] = {"sampler2D", "sampler2D", "sampler2D", "samplerCube", "samplerStreamIMG"};
 int texnsize[] = {2, 2, 3, 3, 2};
 const char texcoordname[] = {'s', 't', 'r', 'q'};
@@ -296,7 +297,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     for (int i=0; i<hardext.maxtex; i++) {
         int t = (state->textype>>(i*3))&0x7;
         if(t) {
-            sprintf(buff, "varying %s _gl4es_TexCoord_%d;\n", texvecsize[t-1], i);
+            sprintf(buff, "varying %s _gl4es_TexCoord_%d;\n", "vec4"/*texvecsize[t-1]*/, i);
             ShadAppend(buff);
             headers++;
             if(state->textmat&(1<<i)) {
@@ -596,14 +597,21 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             } else {
                 sprintf(texcoord, "gl_MultiTexCoord%d", i);
             }
+            const char* text_tmp = texcoord;
+            static const char* tmp_tex = "tmp_tex";
             if(mat) {
-                // it would be better to use texture2Dproj in fragment shader, but that will complicate the varying definition...
-                sprintf(buff, "tmp_tex = (_gl4es_TextureMatrix_%d * %s);\n", i, texcoord);
+                text_tmp = tmp_tex;
+                sprintf(buff, "%s = (_gl4es_TextureMatrix_%d * %s);\n", text_tmp, i, texcoord);
                 ShadAppend(buff);
-                sprintf(buff, "_gl4es_TexCoord_%d = tmp_tex.%s / tmp_tex.q;\n", i, texxyzsize[t-1]);
-                //sprintf(buff, "_gl4es_TexCoord_%d = (_gl4es_TextureMatrix_%d * %s).%s;\n", i, i, texcoord, texxyzsize[t-1]);
-            } else
-                sprintf(buff, "_gl4es_TexCoord_%d = %s.%s / %s.q;\n", i, texcoord, texxyzsize[t-1], texcoord);
+            }
+            if(t==FPE_TEX_STRM) {
+                sprintf(buff, "_gl4es_TexCoord_%d = %s.%s / %s.q;\n", i, text_tmp, texxyzsize[t-1], text_tmp);
+            } else if(t==FPE_TEX_RECT) {
+                need_adjust[i] = 1;
+                sprintf(buff, "_gl4es_TexCoord_%d.st = %s.st\n_gl4es_TexCoord_%d.p = 1.0/_gl4es_TexAdjust_%d", i, text_tmp, i, text_tmp);
+            } else {
+                sprintf(buff, "_gl4es_TexCoord_%d = %s.%s;\n", i, text_tmp, texxyzsize[t-1]);
+            }
             ShadAppend(buff);
             if(adjust) {
                 need_adjust[i] = 1;
