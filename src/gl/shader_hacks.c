@@ -139,6 +139,11 @@ static const char* gl4es_hacks[] = {
 "attribute vec4 _Un_AttrBlendWeight0;\n"
 "#define Un_AttrBlendWeight0 _Un_AttrBlendWeight0\n",
 
+"attribute vec4 _Un_AttrBinormal0;\n"
+"vec4 Un_AttrBinormal0 = _Un_AttrBinormal0;\n",
+"attribute vec4 _Un_AttrBinormal0;\n"
+"#define Un_AttrBinormal0 _Un_AttrBinormal0\n",
+
 "attribute vec4 _Un_AttrTexCoord0;\n"
 "vec4 Un_AttrTexCoord0 = _Un_AttrTexCoord0;\n",
 "attribute vec4 _Un_AttrTexCoord0;\n"
