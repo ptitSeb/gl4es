@@ -1489,6 +1489,7 @@ const char *gl4es_glXQueryExtensionsString(Display *display, int screen) {
         "GLX_SGI_swap_control "
         "GLX_MESA_swap_control "
         "GLX_EXT_swap_control "
+        "GLX_EXT_framebuffer_sRGB "
         "GLX_EXT_create_context_es2_profile ";
     //TODO: make this string parametrable, to remo ES2 profile if not on ES2 Backend?
     return extensions;
