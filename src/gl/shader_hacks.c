@@ -103,6 +103,37 @@ static const char* gl4es_hacks[] = {
 "    b /= iterations;",
 "    b /= float(iterations);",
 
+// For Antichamber
+"attribute vec4 _Un_AttrPosition0;\n"
+"vec4 Un_AttrPosition0 = _Un_AttrPosition0;\n"
+"attribute vec4 _Un_AttrColor1;\n"
+"vec4 Un_AttrColor1 = _Un_AttrColor1;\n"
+"attribute vec4 _Un_AttrTexCoord0;\n"
+"vec4 Un_AttrTexCoord0 = _Un_AttrTexCoord0;\n"
+"\n"
+"vec4 InstrHelpTemp;\n"
+"const vec4 LocalConst4 = vec4(1.000000, 0.000000, 0.000000, 0.000000);\n"
+"\n"
+"void main()\n"
+"{\n",
+"attribute vec4 _Un_AttrPosition0;\n"
+"vec4 Un_AttrPosition0;\n"
+"attribute vec4 _Un_AttrColor1;\n"
+"vec4 Un_AttrColor1;\n"
+"attribute vec4 _Un_AttrTexCoord0;\n"
+"vec4 Un_AttrTexCoord0;\n"
+"\n"
+"vec4 InstrHelpTemp;\n"
+"const vec4 LocalConst4 = vec4(1.000000, 0.000000, 0.000000, 0.000000);\n"
+"\n"
+"void main()\n"
+"{\n"
+"Un_AttrPosition0 = _Un_AttrPosition0;\n"
+"Un_AttrColor1 = _Un_AttrColor1;\n"
+"Un_AttrTexCoord0 = _Un_AttrTexCoord0;\n",
+
+
+
 };
 
 // For Stellaris
