@@ -109,32 +109,25 @@ static const char* gl4es_hacks[] = {
 "attribute vec4 _Un_AttrPosition0;\n"
 "#define Un_AttrPosition0 _Un_AttrPosition0\n",
 
+"attribute vec4 _Un_AttrColor0;\n"
+"vec4 Un_AttrColor0 = _Un_AttrColor0;\n",
+"attribute vec4 _Un_AttrColor0;\n"
+"#define Un_AttrColor0 _Un_AttrColor0\n",
+
 "attribute vec4 _Un_AttrColor1;\n"
 "vec4 Un_AttrColor1 = _Un_AttrColor1;\n",
 "attribute vec4 _Un_AttrColor1;\n"
 "#define Un_AttrColor1 _Un_AttrColor1\n",
-
-"attribute vec4 _Un_AttrTexCoord0;\n"
-"vec4 Un_AttrTexCoord0 = _Un_AttrTexCoord0;\n",
-"attribute vec4 _Un_AttrTexCoord0;\n"
-"#define Un_AttrTexCoord0 _Un_AttrTexCoord0\n",
 
 "attribute vec4 _Un_AttrTangent0;\n"
 "vec4 Un_AttrTangent0 = _Un_AttrTangent0;\n",
 "attribute vec4 _Un_AttrTangent0;\n"
 "#define Un_AttrTangent0 _Un_AttrTangent0\n",
 
-
 "attribute vec4 _Un_AttrNormal0;\n"
 "vec4 Un_AttrNormal0 = _Un_AttrNormal0;\n",
 "attribute vec4 _Un_AttrNormal0;\n"
 "#define Un_AttrNormal0 _Un_AttrNormal0\n",
-
-
-"attribute vec4 _Un_AttrTexCoord1;\n"
-"vec4 Un_AttrTexCoord1 = _Un_AttrTexCoord1;\n",
-"attribute vec4 _Un_AttrTexCoord1;\n"
-"#define Un_AttrTexCoord1 _Un_AttrTexCoord1\n",
 
 "attribute vec4 _Un_AttrBlendIndices0;\n"
 "vec4 Un_AttrBlendIndices0 = _Un_AttrBlendIndices0;\n",
@@ -146,10 +139,40 @@ static const char* gl4es_hacks[] = {
 "attribute vec4 _Un_AttrBlendWeight0;\n"
 "#define Un_AttrBlendWeight0 _Un_AttrBlendWeight0\n",
 
-"attribute vec4 _Un_AttrColor0;\n"
-"vec4 Un_AttrColor0 = _Un_AttrColor0;\n",
-"attribute vec4 _Un_AttrColor0;\n"
-"#define Un_AttrColor0 _Un_AttrColor0\n",
+"attribute vec4 _Un_AttrTexCoord0;\n"
+"vec4 Un_AttrTexCoord0 = _Un_AttrTexCoord0;\n",
+"attribute vec4 _Un_AttrTexCoord0;\n"
+"#define Un_AttrTexCoord0 _Un_AttrTexCoord0\n",
+
+"attribute vec4 _Un_AttrTexCoord1;\n"
+"vec4 Un_AttrTexCoord1 = _Un_AttrTexCoord1;\n",
+"attribute vec4 _Un_AttrTexCoord1;\n"
+"#define Un_AttrTexCoord1 _Un_AttrTexCoord1\n",
+
+"attribute vec4 _Un_AttrTexCoord2;\n"
+"vec4 Un_AttrTexCoord2 = _Un_AttrTexCoord2;\n",
+"attribute vec4 _Un_AttrTexCoord2;\n"
+"#define Un_AttrTexCoord2 _Un_AttrTexCoord2\n",
+
+"attribute vec4 _Un_AttrTexCoord3;\n"
+"vec4 Un_AttrTexCoord3 = _Un_AttrTexCoord3;\n",
+"attribute vec4 _Un_AttrTexCoord3;\n"
+"#define Un_AttrTexCoord3 _Un_AttrTexCoord3\n",
+
+"attribute vec4 _Un_AttrTexCoord4;\n"
+"vec4 Un_AttrTexCoord4 = _Un_AttrTexCoord4;\n",
+"attribute vec4 _Un_AttrTexCoord4;\n"
+"#define Un_AttrTexCoord4 _Un_AttrTexCoord4\n",
+
+"attribute vec4 _Un_AttrTexCoord5;\n"
+"vec4 Un_AttrTexCoord5 = _Un_AttrTexCoord5;\n",
+"attribute vec4 _Un_AttrTexCoord5;\n"
+"#define Un_AttrTexCoord5 _Un_AttrTexCoord5\n",
+
+"attribute vec4 _Un_AttrTexCoord6;\n"
+"vec4 Un_AttrTexCoord6 = _Un_AttrTexCoord6;\n",
+"attribute vec4 _Un_AttrTexCoord6;\n"
+"#define Un_AttrTexCoord6 _Un_AttrTexCoord6\n",
 
 };
 
