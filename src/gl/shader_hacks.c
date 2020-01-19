@@ -174,6 +174,11 @@ static const char* gl4es_hacks[] = {
 "attribute vec4 _Un_AttrTexCoord6;\n"
 "#define Un_AttrTexCoord6 _Un_AttrTexCoord6\n",
 
+"attribute vec4 _Un_AttrTexCoord7;\n"
+"vec4 Un_AttrTexCoord7 = _Un_AttrTexCoord7;\n",
+"attribute vec4 _Un_AttrTexCoord7;\n"
+"#define Un_AttrTexCoord7 _Un_AttrTexCoord7\n",
+
 };
 
 // For Stellaris
