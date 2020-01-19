@@ -136,6 +136,21 @@ static const char* gl4es_hacks[] = {
 "attribute vec4 _Un_AttrTexCoord1;\n"
 "#define Un_AttrTexCoord1 _Un_AttrTexCoord1\n",
 
+"attribute vec4 _Un_AttrBlendIndices0;\n"
+"vec4 Un_AttrBlendIndices0 = _Un_AttrBlendIndices0;\n",
+"attribute vec4 _Un_AttrBlendIndices0;\n"
+"#define Un_AttrBlendIndices0 _Un_AttrBlendIndices0\n",
+
+"attribute vec4 _Un_AttrBlendWeight0;\n"
+"vec4 Un_AttrBlendWeight0 = _Un_AttrBlendWeight0;\n",
+"attribute vec4 _Un_AttrBlendWeight0;\n"
+"#define Un_AttrBlendWeight0 _Un_AttrBlendWeight0\n",
+
+"attribute vec4 _Un_AttrColor0;\n"
+"vec4 Un_AttrColor0 = _Un_AttrColor0;\n",
+"attribute vec4 _Un_AttrColor0;\n"
+"#define Un_AttrColor0 _Un_AttrColor0\n",
+
 };
 
 // For Stellaris
