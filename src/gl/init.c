@@ -571,11 +571,11 @@ void initialize_gl4es() {
         globals4es.glxrecycle = 0;
     
     int env_glxrecycle=ReturnEnvVarIntDef("LIBGL_GLXRECYCLE",-1);
-    if(globals4es.glxrecycle && env_glxrecycle && env_glxrecycle==0 && !((globals4es.usepbuffer) || (globals4es.usefb))) {
+    if(globals4es.glxrecycle && env_glxrecycle==0 && !((globals4es.usepbuffer) || (globals4es.usefb))) {
         globals4es.glxrecycle = 0;
         SHUT_LOGD("glX Will NOT try to recycle EGL Surface\n");
     }
-    if(env_glxrecycle && env_glxrecycle==1)
+    if(env_glxrecycle==1)
         globals4es.glxrecycle = 1;
     if(globals4es.glxrecycle) {
         SHUT_LOGD("glX Will try to recycle EGL Surface\n");
