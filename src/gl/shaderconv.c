@@ -320,6 +320,11 @@ static const char* HackAltMod =
 " return mod(f, float(a));\n"
 "}\n";
 
+static const char* texture2DLodAlt =
+"vec4 _gl4es_texture2DLod(sampler2D sampler, vec2 coord, float lod) {\n"
+" return texture2D(sampler, coord);\n"
+"}\n";
+
 
 char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 {
@@ -355,12 +360,13 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
       free(exts.ext);
   }
 
-  static shaderconv_need_t dummy_need;
+  static shaderconv_need_t dummy_need = {0};
   if(!need) {
     need = &dummy_need;
-    memset(need, 0, sizeof(shaderconv_need_t));
     need->need_texcoord = -1;
+    need->need_clean = 1; // no hack, this is a dummy need structure
   }
+  int notexarray = globals4es.notexarray || need->need_notexarray || fpeShader;
 
   //const char* GLESUseFragHighp = "#extension GL_OES_fragment_precision_high : enable\n"; // does this one is needed?  
   char GLESFullHeader[512];
@@ -436,6 +442,11 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   }
   if(strstr(Tmp, "mod(") || strstr(Tmp, "mod (")) {
       Tmp = InplaceInsert(GetLine(Tmp, headline), HackAltMod, Tmp, &tmpsize);
+  }
+  if(!isVertex && (strstr(Tmp, "texture2DLod(") || strstr(Tmp, "texture2DLod ("))) {
+      Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod(", "_gl4es_texture2DLod(");
+      Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod (", "_gl4es_texture2DLod (");
+      Tmp = InplaceInsert(GetLine(Tmp, headline), texture2DLodAlt, Tmp, &tmpsize);
   }
     // now check to remove trailling "f" after float, as it's not supported too
   newptr = Tmp;
@@ -521,7 +532,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
       // if failed to determine, take max...
       if (ntex==-1) ntex = hardext.maxtex; else ++ntex;
       // change gl_TextureMatrix[X] to gl_TextureMatrix_X if notexrray
-      if(globals4es.notexarray) {
+      if(notexarray) {
         for (int k=0; k<ntex+1; k++) {
           char d[100];
           char d2[100];
@@ -825,19 +836,34 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     int ntex = need->need_texcoord;
     // Try to determine max gl_TexCoord used
     char* p = Tmp;
+    int notexarray_ok = 1;
     while((p=strstr(p, gl_TexCoordSource))) {
       p+=strlen(gl_TexCoordSource);
       if(*p>='0' && *p<='9') {
         int n = (*p) - '0';
+        if(p[1]>='0' && p[1]<='9')
+          n = n*10 + (p[1] - '0');
         if (ntex<n) ntex = n;
-      }
+      } else 
+        notexarray_ok=0;
     }
     // if failed to determine, take max...
     if (ntex==-1) ntex = hardext.maxtex;
-    if (ntex+nvarying>hardext.maxvarying) ntex = hardext.maxvarying - nvarying;
+    // check constraint, and switch to notexarray if needed
+    if (!notexarray && ntex+nvarying>hardext.maxvarying && !need->need_clean && notexarray_ok) {
+      notexarray = 1;
+      need->need_notexarray = 1;
+    }
+    // prefer notexarray...
+    if(!isVertex && notexarray_ok && !need->need_clean) {
+      notexarray = 1;
+      need->need_notexarray = 1;
+    }
+    // check constaints
+    if (!notexarray && ntex+nvarying>hardext.maxvarying) ntex = hardext.maxvarying - nvarying;
     need->need_texcoord = ntex;
     char d[100];
-    if(globals4es.notexarray) {
+    if(notexarray) {
       for (int k=0; k<ntex+1; k++) {
         char d2[100];
         sprintf(d2, "gl_TexCoord[%d]", k);

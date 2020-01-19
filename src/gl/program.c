@@ -736,8 +736,7 @@ void gl4es_glLinkProgram(GLuint program) {
     clear_program(glprogram);
 
     // check if attached shaders are compatible in term of varying...
-    shaderconv_need_t needs;
-    memset(&needs, 0, sizeof(needs));
+    shaderconv_need_t needs = {0};
     needs.need_texcoord = -1;
     // first get the compatible need
     for (int i=0; i<glprogram->attach_size; i++) {

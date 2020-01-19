@@ -9,9 +9,11 @@ typedef struct {
     int         need_secondary;  //  same
     int         need_fogcoord;
     int         need_texcoord;      // max texcoord needed (-1 for none)
+    int         need_notexarray;    // need to not use tex array
     int         need_normalmatrix;  // if normal matrix is needed (for highp / mediump choosing)
     int         need_mvmatrix;
     int         need_mvpmatrix;
+    int         need_clean;         // this shader needs to stay "clean", no hack in here
 } shaderconv_need_t;
 
 typedef struct {

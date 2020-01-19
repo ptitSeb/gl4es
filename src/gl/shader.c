@@ -183,18 +183,23 @@ void gl4es_glShaderSource(GLuint shader, GLsizei count, const GLchar * const *st
         noerrorShim();
 }
 
+#define SUPER()     \
+    GO(color)       \
+    GO(secondary)   \
+    GO(fogcoord)    \
+    GO(texcoord)    \
+    GO(normalmatrix)\
+    GO(mvmatrix)    \
+    GO(mvpmatrix)   \
+    GO(notexarray)  \
+    GO(clean)
+
 void accumShaderNeeds(GLuint shader, shaderconv_need_t *need) {
     CHECK_SHADER(void, shader)
     if(!glshader->converted) 
         return;
-    #define GO(A) if(need->need_##A < glshader->need.need_##A) need->need_##A = glshader->need.need_##A
-    GO(color);
-    GO(secondary);
-    GO(fogcoord);
-    GO(texcoord);
-    GO(normalmatrix);
-    GO(mvmatrix);
-    GO(mvpmatrix);
+    #define GO(A) if(need->need_##A < glshader->need.need_##A) need->need_##A = glshader->need.need_##A;
+    SUPER()
     #undef GO
 }
 int isShaderCompatible(GLuint shader, shaderconv_need_t *need) {
@@ -202,16 +207,12 @@ int isShaderCompatible(GLuint shader, shaderconv_need_t *need) {
     if(!glshader->converted)
         return 0;
     #define GO(A) if(need->need_##A > glshader->need.need_##A) return 0;
-    GO(color);
-    GO(secondary);
-    GO(fogcoord);
-    GO(texcoord);
-    GO(normalmatrix);
-    GO(mvmatrix);
-    GO(mvpmatrix);
+    SUPER()
     #undef GO
     return 1;
 }
+#undef SUPER
+
 void redoShader(GLuint shader, shaderconv_need_t *need) {
     LOAD_GLES2(glShaderSource);
     if(!gles_glShaderSource)
