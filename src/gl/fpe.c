@@ -21,6 +21,11 @@
 #define DBG(a)
 #endif
 
+void free_scratch(scratch_t* scratch) {
+    for(int i=0; i<scratch->size; ++i)
+        free(scratch->scratch[i]);
+}
+
 void fpe_Init(glstate_t *glstate) {
     // initialize cache
     glstate->fpe_cache = fpe_NewCache();
@@ -520,17 +525,17 @@ void fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 
 void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     DBG(printf("fpe_glDrawArrays(%s, %d, %d), program=%d, instanceID=%u\n", PrintEnum(mode), first, count, glstate->glsl->program, glstate->instanceID);)
-    void* scratch = NULL;
+    scratch_t scratch = {0};
     realize_glenv(mode==GL_POINTS, first, count, 0, NULL, &scratch);
     LOAD_GLES(glDrawArrays);
     gles_glDrawArrays(mode, first, count);
-    if(scratch) free(scratch);
+    free_scratch(&scratch);
 }
 
 void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
     DBG(printf("fpe_glDrawElements(%s, %d, %s, %p), program=%d, instanceID=%u\n", PrintEnum(mode), count, PrintEnum(type), indices, glstate->glsl->program, glstate->instanceID);)
     LOAD_GLES2(glBindBuffer);
-    void* scratch = NULL;
+    scratch_t scratch = {0};
     realize_glenv(mode==GL_POINTS, 0, count, type, indices, &scratch);
     LOAD_GLES(glDrawElements);
     int use_vbo = 0;
@@ -540,14 +545,14 @@ void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *i
         indices = (GLvoid*)((uintptr_t)indices - (uintptr_t)(glstate->vao->elements->data));
     }
     gles_glDrawElements(mode, count, type, indices);
-    if(scratch) free(scratch);
+    free_scratch(&scratch);
     if(use_vbo) gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 void fpe_glDrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsizei primcount) {
     DBG(printf("fpe_glDrawArraysInstanced(%s, %d, %d, %d), program=%d\n", PrintEnum(mode), first, count, primcount, glstate->glsl->program);)
     LOAD_GLES(glDrawArrays);
     LOAD_GLES2(glVertexAttrib4fv);
-    void* scratch = NULL;
+    scratch_t scratch = {0};
     GLfloat tmp[4] = {0.0f, 0.0f, 0.0f, 1.0f};
     realize_glenv(mode==GL_POINTS, first, count, 0, NULL, &scratch);
     program_t *glprogram = glstate->gleshard->glprogram;
@@ -592,14 +597,14 @@ void fpe_glDrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsizei 
         }
         gles_glDrawArrays(mode, first, count);
     }
-    if(scratch) free(scratch);
+    free_scratch(&scratch);
 }
 void fpe_glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices, GLsizei primcount) {
     DBG(printf("fpe_glDrawElementsInstanced(%s, %d, %s, %p, %d), program=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, primcount, glstate->glsl->program);)
     LOAD_GLES2(glBindBuffer);
     LOAD_GLES(glDrawElements);
     LOAD_GLES2(glVertexAttrib4fv);
-    void* scratch = NULL;
+    scratch_t scratch = {0};
     realize_glenv(mode==GL_POINTS, 0, count, type, indices, &scratch);
     program_t *glprogram = glstate->gleshard->glprogram;
     int use_vbo = 0;
@@ -652,7 +657,7 @@ void fpe_glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const 
         }
         gles_glDrawElements(mode, count, type, inds);
     }
-    if(scratch) free(scratch);
+    free_scratch(&scratch);
     if(use_vbo) gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
@@ -752,7 +757,7 @@ int fpe_gettexture(int TMU) {
     return target;
 }
 
-void realize_glenv(int ispoint, int first, int count, GLenum type, const void* indices, void** scratch) {
+void realize_glenv(int ispoint, int first, int count, GLenum type, const void* indices, scratch_t* scratch) {
     // the handling of GL_BGRA size of GL_DOUBLE using 1 scratch in not ideal, and a waste when dealing with Buffers
     // TODO: have the scratch buffer part of the VBO, and tag it dirty when buffer is changed (or always dirty for VBO 0)
     if(hardext.esversion==1) return;
@@ -1251,7 +1256,7 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
             if(dirty || v->size!=w->size || v->type!=w->type || v->normalized!=w->normalized 
                 || v->stride!=w->stride || v->buffer!=w->buffer || (w->real_buffer==0 && v->pointer!=ptr)
                 || v->real_buffer!=w->real_buffer || (w->real_buffer!=0 && v->real_pointer != w->real_pointer)) {
-                if((w->size==GL_BGRA || w->type==GL_DOUBLE) && !*scratch) { 
+                if((w->size==GL_BGRA || w->type==GL_DOUBLE) && scratch->size<8) { 
                     // need to adjust, so first need the min/max (a shame as I already must have that somewhere)
                     int imin, imax;
                     if(type==0) {
@@ -1267,7 +1272,7 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                         v->size = 4;
                         v->type = GL_FLOAT;
                         v->normalized = 0;
-                        v->pointer = *scratch = copy_gl_pointer_color_bgra(ptr, w->stride, 4, imin, imax);
+                        v->pointer = scratch->scratch[scratch->size++] = copy_gl_pointer_color_bgra(ptr, w->stride, 4, imin, imax);
                         v->pointer -= imin*4*sizeof(GLfloat);   // adjust for min...
                         v->stride = 0;
                         v->buffer = NULL;

@@ -161,6 +161,13 @@ typedef struct fpe_fpe_s {
 typedef struct kh_fpecachelist_s kh_fpecachelist_t;
 #define fpe_cache_t kh_fpecachelist_t
 
+typedef struct scratch_s {
+    void*       scratch[8];
+    int         size;
+} scratch_t;
+void free_scratch(scratch_t* scratch);
+
+
 fpe_fpe_t *fpe_GetCache();
 void fpe_disposeCache(fpe_cache_t* cache, int freeprog);
 
@@ -202,7 +209,7 @@ void builtin_Init(program_t *glprogram);
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size);
 int builtin_CheckVertexAttrib(program_t *glprogram, char* name, GLint id);
 
-void realize_glenv(int ispoint, int first, int count, GLenum type, const void* indices, void** scratch);
+void realize_glenv(int ispoint, int first, int count, GLenum type, const void* indices, scratch_t* scratch);
 void realize_blitenv(int alpha);
 
 #endif // _GL4ES_FPE_H_
