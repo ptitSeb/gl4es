@@ -147,6 +147,7 @@ static int is_fake_compressed_rgb(GLenum internalformat)
 {
     if(internalformat==GL_COMPRESSED_RGB) return 1;
     if(internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT) return 1;
+    if(internalformat==GL_COMPRESSED_SRGB_S3TC_DXT1_EXT) return 1;
     return 0;
 }
 static int is_fake_compressed_rgba(GLenum internalformat)
@@ -155,6 +156,9 @@ static int is_fake_compressed_rgba(GLenum internalformat)
     if(internalformat==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT) return 1;
     if(internalformat==GL_COMPRESSED_RGBA_S3TC_DXT3_EXT) return 1;
     if(internalformat==GL_COMPRESSED_RGBA_S3TC_DXT5_EXT) return 1;
+    if(internalformat==GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT) return 1;
+    if(internalformat==GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT) return 1;
+    if(internalformat==GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT) return 1;
     return 0;
 }
 
@@ -703,12 +707,16 @@ GLenum swizzle_internalformat(GLenum *internalformat, GLenum format, GLenum type
             sret = GL_RGBA;
             break;
         case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
+        case GL_COMPRESSED_SRGB_S3TC_DXT1_EXT:  // should ube sRGB...
             ret = GL_COMPRESSED_RGB;
             sret = GL_RGB;
             break;
         case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:  // not good...
         case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:  // not good, but there is no DXT3 compressor
         case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
+        case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT:
+        case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT:
+        case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT:
             ret = GL_COMPRESSED_RGBA;
             sret = GL_RGBA;
             break;
@@ -1066,6 +1074,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             case GL_RGB16F:
             case GL_RGB32F:
             case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
+            case GL_COMPRESSED_SRGB_S3TC_DXT1_EXT:
             case GL_COMPRESSED_RGB:
                 bound->fpe_format = FPE_TEX_RGB;
                 break;
@@ -2712,6 +2721,21 @@ GLboolean isDXTc(GLenum format) {
         case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
         case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:
         case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
+        case GL_COMPRESSED_SRGB_S3TC_DXT1_EXT:
+        case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT:
+        case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT:
+        case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT:
+            return true;
+    }
+    return false;
+}
+
+GLboolean isDXTcSRGB(GLenum format) {
+    switch (format) {
+        case GL_COMPRESSED_SRGB_S3TC_DXT1_EXT:
+        case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT:
+        case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT:
+        case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT:
             return true;
     }
     return false;
@@ -2747,11 +2771,15 @@ GLvoid *uncompressDXTc(GLsizei width, GLsizei height, GLenum format, GLsizei ima
     int blocksize;
     switch (format) {
         case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
+        case GL_COMPRESSED_SRGB_S3TC_DXT1_EXT:
         case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
+        case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT:
             blocksize = 8;
             break;
         case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:
         case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
+        case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT:
+        case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT:
             blocksize = 16;
             break;
     }
@@ -2761,12 +2789,16 @@ GLvoid *uncompressDXTc(GLsizei width, GLsizei height, GLenum format, GLsizei ima
             switch(format) {
                 case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
                 case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
+                case GL_COMPRESSED_SRGB_S3TC_DXT1_EXT:
+                case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT:
                     DecompressBlockDXT1(x, y, width, (uint8_t*)src, pixels);
                     break;
                 case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:
+                case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT:
                     DecompressBlockDXT3(x, y, width, (uint8_t*)src, pixels);
                     break;
                 case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
+                case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT:
                     DecompressBlockDXT5(x, y, width, (uint8_t*)src, pixels);
                     break;
             }
@@ -2815,7 +2847,7 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
     if (isDXTc(internalformat)) {
         GLvoid *pixels, *half;
         pixels = half = NULL;
-        bound->alpha = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
+        bound->alpha = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_S3TC_DXT1_EXT)?false:true;
         if(globals4es.nodownsampling==1) {  // will be removed soon, avoid16bits is better
             format = GL_RGBA;
             type = GL_UNSIGNED_BYTE;
@@ -2824,14 +2856,15 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
                 format = GL_RGBA;
                 type = GL_UNSIGNED_BYTE;
             } else {
-                format = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_RGB:GL_RGBA;
+                format = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_S3TC_DXT1_EXT)?GL_RGB:GL_RGBA;
 #ifdef PANDORA
-                type = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_6_5:(internalformat==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_5_5_1:GL_UNSIGNED_SHORT_4_4_4_4;
+                type = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_6_5:(internalformat==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_5_5_1:GL_UNSIGNED_SHORT_4_4_4_4;
 #else
-                type = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_SHORT_4_4_4_4;
+                type = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_SHORT_4_4_4_4;
 #endif
             }
         }
+        int srgb = isDXTcSRGB(internalformat);
         if (datab) {
             if (width<4 || height<4) {	// can happens :(
                 GLvoid *tmp;
@@ -2848,8 +2881,10 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
             } else {
                 pixels = uncompressDXTc(width, height, internalformat, imageSize, datab);
             }
+            if(srgb)
+                pixel_srgb_inplace(pixels, width, height);
             // if RGBA / DXT1, then RGB 000 needs to have 0 alpha too
-            if(internalformat==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT) {
+            if(internalformat==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT) {
                 GLuint *p = (GLuint*)pixels;
                 for(int i=0; i<width*height; i++, p++)
                     if(*p==0xff000000) *p=0;
@@ -2869,7 +2904,7 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
             gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         gl4es_glTexImage2D(rtarget, level, format==GL_RGBA?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB, width, height, border, format, type, half);
         // re-update bounded texture info
-        bound->alpha = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?false:true;
+        bound->alpha = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_S3TC_DXT1_EXT)?false:true;
         bound->format = format; //internalformat;
         bound->type = type;
         bound->compressed = true;
@@ -2923,6 +2958,7 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
     LOAD_GLES(glCompressedTexSubImage2D);
     errorGL();
     if (isDXTc(format)) {
+        int srgb = isDXTcSRGB(format);
         GLvoid *pixels;
         if (width<4 || height<4) {	// can happens :(
             GLvoid *tmp;
@@ -2939,6 +2975,8 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
         } else {
             pixels = uncompressDXTc(width, height, format, imageSize, datab);
         }
+        if(srgb)
+            pixel_srgb_inplace(pixels, width, height);
         // if RGBA / DXT1, then RGB 000 needs to have 0 alpha too
         if(format==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT) {
             GLuint *p = (GLuint*)pixels;

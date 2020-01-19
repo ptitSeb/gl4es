@@ -485,6 +485,13 @@
 #define GL_COMPRESSED_RGBA_S3TC_DXT5_EXT     0x83F3
 #define GL_TEXTURE_COMPRESSION_HINT          0x84EF
 
+/* S3TC with sRGB */
+#define GL_COMPRESSED_SRGB_S3TC_DXT1_EXT        0x8C4C
+#define GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT  0x8C4D
+#define GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT  0x8C4E
+#define GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT  0x8C4F
+
+
 /* Render Mode */
 #define GL_SELECT                         0x1c02
 #define GL_RENDER                         0x1C00

@@ -51,4 +51,7 @@ bool pixel_to_ppm(const GLvoid *pixels,
                   GLuint width, GLuint height,
                   GLenum format, GLenum type, GLuint name, GLuint align);
 
+// sRGB ->RGB colorspace conversion, for RGBA data...
+void pixel_srgb_inplace(GLvoid* pixels, GLuint width, GLuint height);
+
 #endif // _GL4ES_PIXEL_H_

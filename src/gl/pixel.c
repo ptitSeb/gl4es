@@ -1,6 +1,7 @@
 #include "pixel.h"
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "enum_info.h"
 #include "gl4es.h"
 #include "glstate.h"
@@ -1381,4 +1382,19 @@ bool pixel_to_ppm(const GLvoid *pixels, GLuint width, GLuint height,
     fwrite(src, 1, size, fd);
     fclose(fd);
     return true;
+}
+
+static uint8_t srgb_table[256] = {0};
+void pixel_srgb_inplace(GLvoid* pixels, GLuint width, GLuint height)
+{
+    if(!srgb_table[255]) {
+        // create table
+        for (int i=1; i<256; ++i) {
+            srgb_table[i] = floorf(255.f*powf(i/255.f, 1.f/2.2f)+0.5f);
+        }
+    }
+    uint8_t *data = (uint8_t*)pixels;
+    int sz = width*height*4;
+    for (int i=0; i<sz; ++i)
+        data[i] = srgb_table[data[i]];
 }
