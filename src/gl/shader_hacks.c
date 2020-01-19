@@ -180,7 +180,7 @@ static char* ShaderHacks_1(char* shader, char* Tmp, int* tmpsize)
     for (int i=0; i<sizeof(gl4es_hacks_1)/sizeof(gl4es_hacks_1[0]); i+=2)
         if(strstr(Tmp, gl4es_hacks_1[i])) {
             if(Tmp==shader) {Tmp = malloc(*tmpsize); strcpy(Tmp, shader);}   // hacking!
-            Tmp = InplaceReplace(Tmp, tmpsize, gl4es_hacks_1[i], gl4es_hacks_1[i+1]);
+            Tmp = InplaceReplaceSimple(Tmp, tmpsize, gl4es_hacks_1[i], gl4es_hacks_1[i+1]);
         }
     return Tmp;
 }
@@ -195,7 +195,7 @@ char* ShaderHacks(char* shader)
     for (int i=0; i<sizeof(gl4es_hacks)/sizeof(gl4es_hacks[0]); i+=2)
         if(strstr(Tmp, gl4es_hacks[i])) {
             if(Tmp==shader) {Tmp = malloc(tmpsize); strcpy(Tmp, shader);}   // hacking!
-            Tmp = InplaceReplace(Tmp, &tmpsize, gl4es_hacks[i], gl4es_hacks[i+1]);
+            Tmp = InplaceReplaceSimple(Tmp, &tmpsize, gl4es_hacks[i], gl4es_hacks[i+1]);
         }
     return Tmp;
 }

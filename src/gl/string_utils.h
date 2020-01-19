@@ -19,4 +19,9 @@ char* NextLine(char* pBuffer);   // go to next new line (crlf not included)
 
 const char* GetNextStr(char* pBuffer); // get a (static) copy of next str (until next separator), can be a simple number or separator also
 
+// those function don't try to be smart with separators...
+int CountStringSimple(char* pBuffer, const char* S);
+char* InplaceReplaceSimple(char* pBuffer, int* size, const char* S, const char* D);
+
+
 #endif // _GL4ES_STRING_UTILS_H_

@@ -154,3 +154,36 @@ const char* GetNextStr(char* pBuffer) {
     buff[i] = '\0';
     return buff;
 }
+
+int CountStringSimple(char* pBuffer, const char* S)
+{
+    char* p = pBuffer;
+    int lS = strlen(S);
+    int n = 0;
+    while((p = strstr(p, S)))
+    {
+        // found an occurence of S
+        n++;
+        p+=lS;
+    }
+    return n;
+}
+
+char* InplaceReplaceSimple(char* pBuffer, int* size, const char* S, const char* D)
+{
+    int lS = strlen(S), lD = strlen(D);
+    pBuffer = ResizeIfNeeded(pBuffer, size, (lD-lS)*CountStringSimple(pBuffer, S));
+    char* p = pBuffer;
+    while((p = strstr(p, S)))
+    {
+        // found an occurence of S
+        // move out rest of string
+        memmove(p+lD, p+lS, strlen(p)-lS+1);
+        // replace
+        memcpy(p, D, strlen(D));
+        // next
+        p+=lD;
+    }
+    
+    return pBuffer;
+}
