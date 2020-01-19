@@ -105,117 +105,36 @@ static const char* gl4es_hacks[] = {
 
 // For Antichamber
 "attribute vec4 _Un_AttrPosition0;\n"
-"vec4 Un_AttrPosition0 = _Un_AttrPosition0;\n"
-"attribute vec4 _Un_AttrColor1;\n"
-"vec4 Un_AttrColor1 = _Un_AttrColor1;\n"
-"attribute vec4 _Un_AttrTexCoord0;\n"
-"vec4 Un_AttrTexCoord0 = _Un_AttrTexCoord0;\n"
-"\n"
-"vec4 InstrHelpTemp;\n"
-"const vec4 LocalConst4 = vec4(1.000000, 0.000000, 0.000000, 0.000000);\n"
-"\n"
-"void main()\n"
-"{\n",
+"vec4 Un_AttrPosition0 = _Un_AttrPosition0;\n",
 "attribute vec4 _Un_AttrPosition0;\n"
-"vec4 Un_AttrPosition0;\n"
-"attribute vec4 _Un_AttrColor1;\n"
-"vec4 Un_AttrColor1;\n"
-"attribute vec4 _Un_AttrTexCoord0;\n"
-"vec4 Un_AttrTexCoord0;\n"
-"\n"
-"vec4 InstrHelpTemp;\n"
-"const vec4 LocalConst4 = vec4(1.000000, 0.000000, 0.000000, 0.000000);\n"
-"\n"
-"void main()\n"
-"{\n"
-"Un_AttrPosition0 = _Un_AttrPosition0;\n"
-"Un_AttrColor1 = _Un_AttrColor1;\n"
-"Un_AttrTexCoord0 = _Un_AttrTexCoord0;\n",
+"#define Un_AttrPosition0 _Un_AttrPosition0\n",
 
-"attribute vec4 _Un_AttrPosition0;\n"
-"vec4 Un_AttrPosition0 = _Un_AttrPosition0;\n"
-"attribute vec4 _Un_AttrTangent0;\n"
-"vec4 Un_AttrTangent0 = _Un_AttrTangent0;\n"
-"attribute vec4 _Un_AttrNormal0;\n"
-"vec4 Un_AttrNormal0 = _Un_AttrNormal0;\n"
 "attribute vec4 _Un_AttrColor1;\n"
-"vec4 Un_AttrColor1 = _Un_AttrColor1;\n"
-"attribute vec4 _Un_AttrTexCoord0;\n"
-"vec4 Un_AttrTexCoord0 = _Un_AttrTexCoord0;\n"
-"\n"
-"vec4 InstrHelpTemp;\n"
-"const vec4 LocalConst7 = vec4(0.007843, -1.000000, 1.000000, 0.000000);\n"
-"\n"
-"void main()\n"
-"{\n",
-"attribute vec4 _Un_AttrPosition0;\n"
-"vec4 Un_AttrPosition0;\n"
-"attribute vec4 _Un_AttrTangent0;\n"
-"vec4 Un_AttrTangent0;\n"
-"attribute vec4 _Un_AttrNormal0;\n"
-"vec4 Un_AttrNormal0;\n"
+"vec4 Un_AttrColor1 = _Un_AttrColor1;\n",
 "attribute vec4 _Un_AttrColor1;\n"
-"vec4 Un_AttrColor1;\n"
-"attribute vec4 _Un_AttrTexCoord0;\n"
-"vec4 Un_AttrTexCoord0;\n"
-"\n"
-"vec4 InstrHelpTemp;\n"
-"const vec4 LocalConst7 = vec4(0.007843, -1.000000, 1.000000, 0.000000);\n"
-"\n"
-"void main()\n"
-"{\n"
-"Un_AttrPosition0 = _Un_AttrPosition0;\n"
-"Un_AttrTangent0 = _Un_AttrTangent0;\n"
-"Un_AttrNormal0 = _Un_AttrNormal0;\n"
-"Un_AttrColor1 = _Un_AttrColor1;\n"
-"Un_AttrTexCoord0 = _Un_AttrTexCoord0;\n",
+"#define Un_AttrColor1 _Un_AttrColor1\n",
 
-"attribute vec4 _Un_AttrPosition0;\n"
-"vec4 Un_AttrPosition0 = _Un_AttrPosition0;\n"
-"attribute vec4 _Un_AttrTangent0;\n"
-"vec4 Un_AttrTangent0 = _Un_AttrTangent0;\n"
-"attribute vec4 _Un_AttrNormal0;\n"
-"vec4 Un_AttrNormal0 = _Un_AttrNormal0;\n"
-"attribute vec4 _Un_AttrColor1;\n"
-"vec4 Un_AttrColor1 = _Un_AttrColor1;\n"
 "attribute vec4 _Un_AttrTexCoord0;\n"
-"vec4 Un_AttrTexCoord0 = _Un_AttrTexCoord0;\n"
+"vec4 Un_AttrTexCoord0 = _Un_AttrTexCoord0;\n",
+"attribute vec4 _Un_AttrTexCoord0;\n"
+"#define Un_AttrTexCoord0 _Un_AttrTexCoord0\n",
+
+"attribute vec4 _Un_AttrTangent0;\n"
+"vec4 Un_AttrTangent0 = _Un_AttrTangent0;\n",
+"attribute vec4 _Un_AttrTangent0;\n"
+"#define Un_AttrTangent0 _Un_AttrTangent0\n",
+
+
+"attribute vec4 _Un_AttrNormal0;\n"
+"vec4 Un_AttrNormal0 = _Un_AttrNormal0;\n",
+"attribute vec4 _Un_AttrNormal0;\n"
+"#define Un_AttrNormal0 _Un_AttrNormal0\n",
+
+
 "attribute vec4 _Un_AttrTexCoord1;\n"
-"vec4 Un_AttrTexCoord1 = _Un_AttrTexCoord1;\n"
-"\n"
-"vec4 InstrHelpTemp;\n"
-"const vec4 LocalConst7 = vec4(0.007843, -1.000000, 1.000000, 0.000000);\n"
-"\n"
-"void main()\n"
-"{\n",
-"attribute vec4 _Un_AttrPosition0;\n"
-"vec4 Un_AttrPosition0;\n"
-"attribute vec4 _Un_AttrTangent0;\n"
-"vec4 Un_AttrTangent0;\n"
-"attribute vec4 _Un_AttrNormal0;\n"
-"vec4 Un_AttrNormal0;\n"
-"attribute vec4 _Un_AttrColor1;\n"
-"vec4 Un_AttrColor1;\n"
-"attribute vec4 _Un_AttrTexCoord0;\n"
-"vec4 Un_AttrTexCoord0;\n"
+"vec4 Un_AttrTexCoord1 = _Un_AttrTexCoord1;\n",
 "attribute vec4 _Un_AttrTexCoord1;\n"
-"vec4 Un_AttrTexCoord1;\n"
-"\n"
-"vec4 InstrHelpTemp;\n"
-"const vec4 LocalConst7 = vec4(0.007843, -1.000000, 1.000000, 0.000000);\n"
-"\n"
-"void main()\n"
-"{\n"
-"Un_AttrPosition0 = _Un_AttrPosition0;\n"
-"Un_AttrTangent0 = _Un_AttrTangent0;\n"
-"Un_AttrNormal0 = _Un_AttrNormal0;\n"
-"Un_AttrColor1 = _Un_AttrColor1;\n"
-"Un_AttrTexCoord0 = _Un_AttrTexCoord0;\n"
-"Un_AttrTexCoord1 = _Un_AttrTexCoord1;\n",
-
-
-
-
+"#define Un_AttrTexCoord1 _Un_AttrTexCoord1\n",
 
 };
 
