@@ -114,6 +114,7 @@ void BuildExtensionsList() {
                 "GL_ARB_draw_elements_base_vertex "
                 "GL_EXT_draw_elements_base_vertex "
                 "GL_ARB_map_buffer_range "
+                "GL_NV_blend_square "
 //                "GL_EXT_blend_logic_op "
 				);
         if(globals4es.vabgra)
