@@ -687,6 +687,7 @@ void *glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitf
 void glFlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length) AliasExport("gl4es_glFlushMappedBufferRange");
 
 //ARB wrapper
+#ifndef AMIGAOS4
 void glGenBuffersARB(GLsizei n, GLuint * buffers) AliasExport("gl4es_glGenBuffers");
 void glBindBufferARB(GLenum target, GLuint buffer) AliasExport("gl4es_glBindBuffer");
 void glBufferDataARB(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) AliasExport("gl4es_glBufferData");
@@ -698,6 +699,7 @@ void *glMapBufferARB(GLenum target, GLenum access) AliasExport("gl4es_glMapBuffe
 GLboolean glUnmapBufferARB(GLenum target) AliasExport("gl4es_glUnmapBuffer");
 void glGetBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data) AliasExport("gl4es_glGetBufferSubData");
 void glGetBufferPointervARB(GLenum target, GLenum pname, GLvoid ** params) AliasExport("gl4es_glGetBufferPointerv");
+#endif
 
 //Direct Access
 void glNamedBufferData(GLuint buffer, GLsizeiptr size, const GLvoid * data, GLenum usage) AliasExport("gl4es_glNamedBufferData");
