@@ -608,7 +608,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
                 sprintf(buff, "_gl4es_TexCoord_%d = %s.%s / %s.q;\n", i, text_tmp, texxyzsize[t-1], text_tmp);
             } else if(t==FPE_TEX_RECT) {
                 need_adjust[i] = 1;
-                sprintf(buff, "_gl4es_TexCoord_%d.st = %s.st\n_gl4es_TexCoord_%d.p = 1.0/_gl4es_TexAdjust_%d", i, text_tmp, i, text_tmp);
+                sprintf(buff, "_gl4es_TexCoord_%d.st = %s.st\n_gl4es_TexCoord_%d.p = 1.0/_gl4es_TexAdjust_%d", i, text_tmp, i, i);
             } else {
                 sprintf(buff, "_gl4es_TexCoord_%d = %s.%s;\n", i, text_tmp, texxyzsize[t-1]);
             }
