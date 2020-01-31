@@ -65,6 +65,7 @@ typedef struct _globals4es {
  int arb_program;
  int dbgshaderconv;
  int nopsa;
+ int noes2;
  #ifndef NO_GBM
  char drmcard[50];
  #endif

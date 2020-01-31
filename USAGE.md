@@ -330,3 +330,8 @@ Usage of VBO in certain cases. Only for GLES2+. The 2 and 3 mode are experimenta
 * 1 : Default: Use VBO when possible (for Arrays VBO or glList)
 * 2 : Use VBO when possible (and also on `glLockArrays`).
 * 3 : Use VBO when possible (and special case on `glLockArrays` for idTech3 engine games).
+
+##### LIBGL_NOES2COMPAT
+Don't expose GLX_EXT_create_context_es2_profile extension
+* 0 : Extension is there
+* 1 : Don't expose the extension: for SDL2, use it with SDL_VIDEO_GL_DRIVER and SDL_VIDEO_EGL_DRIVER to use GLESv2 driver directly

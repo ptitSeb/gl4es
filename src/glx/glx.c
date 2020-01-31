@@ -1481,7 +1481,7 @@ int gl4es_glXGetConfig(Display *display,
 
 const char *gl4es_glXQueryExtensionsString(Display *display, int screen) {
     DBG(printf("glXQueryExtensionString(%p, %d)\n", display, screen);)
-    static const char *extensions = 
+    static const char *basic_extensions = 
         "GLX_ARB_create_context "
         "GLX_ARB_create_context_profile "
         "GLX_ARB_get_proc_address "
@@ -1489,9 +1489,19 @@ const char *gl4es_glXQueryExtensionsString(Display *display, int screen) {
         "GLX_SGI_swap_control "
         "GLX_MESA_swap_control "
         "GLX_EXT_swap_control "
-        "GLX_EXT_framebuffer_sRGB "
+        "GLX_EXT_framebuffer_sRGB ";
+    static const char *es2_profile =
         "GLX_EXT_create_context_es2_profile ";
-    //TODO: make this string parametrable, to remo ES2 profile if not on ES2 Backend?
+    static char extensions[5000] = {0};
+    static int inited = 0;
+
+    if(!inited) {
+        inited = 1;
+        strcpy(extensions, basic_extensions);
+        if(globals4es.es>1 && !globals4es.noes2)
+            strcat(extensions, es2_profile);
+    }
+    
     return extensions;
 }
 
