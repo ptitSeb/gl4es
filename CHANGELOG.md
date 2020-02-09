@@ -2,6 +2,7 @@ Version history
 ----
 ##### Current version
 * Fixed some regression, and foobillard++ is working fine now
+* Set default GL version to 2.1 (instead of 2.0) for GLES2.0 backend
 
 ##### v1.1.2
 * Improved a bit the merger (wich merge subsequent `glBegin(...)`/`glEnd()`) efficiency

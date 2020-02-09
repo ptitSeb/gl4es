@@ -19,10 +19,11 @@ Controls the version of GLES to use
 
 ##### LIBGL_GL
 Controls the version of OpenGL exposed
- * 0 : Default, expose OpenGL 1.5 when using GLES1.1 or OpenGL 2.0 when using GLES2.0
- * 15: Expose OpenGL 1.5
+ * 0 : Default, expose OpenGL 1.5 when using GLES1.1 or OpenGL 2.1 when using GLES2.0
+ * 10..14: Export OpenGL 1.0-1.4
+ * 15: Expose OpenGL 1.5 (default for GLES 1.1 backend)
  * 20: Expose OpenGL 2.0
- * 21: Expose OpenGL 2.1
+ * 21: Expose OpenGL 2.1 (default for GLES 2.0 backend)
 
 ##### LIBGL_XREFRESH
 Debug helper in specific cases

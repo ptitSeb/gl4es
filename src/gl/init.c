@@ -142,14 +142,28 @@ void initialize_gl4es() {
 
     globals4es.gl=ReturnEnvVarInt("LIBGL_GL");
     switch(globals4es.gl) {
+      case 10:
+      case 11:
+      case 12:
+      case 13:
+      case 14:
       case 15:
       case 20:
       case 21:
       case 30:
+      case 31:
+      case 32:
+      case 33:
+      case 40:
+      case 41:
+      case 42:
+      case 43:
+      case 44:
+      case 45:
         break;
       default:
         // automatic GL version selection
-        globals4es.gl = (globals4es.es==1)?15:20;  // forcing GL 1.5 for es1.1 and GL 2.0 for es2.0
+        globals4es.gl = (globals4es.es==1)?15:21;  // forcing GL 1.5 for es1.1 and GL 2.1 for es2.0
         break;
     }
 
