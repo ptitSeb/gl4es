@@ -325,11 +325,12 @@ void GetHardwareExtensions(int notest)
         if(hardext.maxvattrib<16 && hardext.maxtex>4)
             hardext.maxtex = 4; // with less then 16 vertexattrib, more then 4 textures seems unreasonnable
     }
+    int hardmaxtex = hardext.maxtex;
     if(hardext.maxtex>MAX_TEX) hardext.maxtex=MAX_TEX;      // caping, as there are some fixed-sized array...
     if(hardext.maxteximage>MAX_TEX) hardext.maxteximage=MAX_TEX;
     if(hardext.maxlights>MAX_LIGHT) hardext.maxlights=MAX_LIGHT;                // caping lights too
     if(hardext.maxplanes>MAX_CLIP_PLANES) hardext.maxplanes=MAX_CLIP_PLANES;    // caping planes, even 6 should be the max supported anyway
-    SHUT_LOGD("Texture Units: %d(%d), Max lights: %d, Max planes: %d\n", hardext.maxtex, hardext.maxteximage, hardext.maxlights, hardext.maxplanes);
+    SHUT_LOGD("Texture Units: %d/%d (hardware: %d), Max lights: %d, Max planes: %d\n", hardext.maxtex, hardext.maxteximage, hardmaxtex, hardext.maxlights, hardext.maxplanes);
     S("GL_EXT_texture_filter_anisotropic", aniso, 1);
     if(hardext.aniso) {
         gles_glGetIntegerv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &hardext.aniso);
