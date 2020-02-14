@@ -193,7 +193,7 @@ void initialize_gl4es() {
 #endif
     env(LIBGL_NOHIGHP, globals4es.nohighp, "Do not use HIGHP in fragment shader even if detected");
 
-    globals4es.floattex=ReturnEnvVarInt("LIBGL_FLOAT");
+    globals4es.floattex=ReturnEnvVarIntDef("LIBGL_FLOAT", 1);
     switch(globals4es.floattex) {
       case 0:
         SHUT_LOGD("Float and Half-Float texture support disabled\n");
