@@ -152,9 +152,11 @@ void BuildExtensionsList() {
         }
         if(hardext.rgtex) {
             strcat(glstate->extensions, "GL_EXT_texture_rg ");
+            strcat(glstate->extensions, "GL_ARB_texture_rg ");
         }
         if(hardext.floattex || (globals4es.floattex==2)) {
             strcat(glstate->extensions, "GL_EXT_texture_float ");
+            strcat(glstate->extensions, "GL_ARB_texture_float ");
         }
         if(hardext.halffloattex || (globals4es.floattex==2)) {
             strcat(glstate->extensions, "GL_EXT_texture_half_float ");
