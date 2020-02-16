@@ -27,6 +27,7 @@ const char* texvecsize[] = {"vec4", "vec2", "vec2", "vec3", "vec2"};
 const char* texxyzsize[] = {"stpq", "st",    "st",  "stp",   "st"};
 //                          2D              Rectangle      3D          CubeMap          Stream
 const char* texname[] = {"texture2DProj", "texture2D", "texture2D", "textureCube", "textureStreamIMG"};    // textureRectange and 3D are emulated with 2D
+const char* texnoproj[] = {"texture2D", "texture2D", "texture2D", "textureCube", "textureStreamIMG"};    // textureRectange and 3D are emulated with 2D
 const char* texsampler[] = {"sampler2D", "sampler2D", "sampler2D", "samplerCube", "samplerStreamIMG"};
 int texnsize[] = {2, 2, 3, 3, 2};
 const char texcoordname[] = {'s', 't', 'r', 'q'};
@@ -863,9 +864,9 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             if(t) {
                 if(point && pointsprite && pointsprite_coord) {
                     if(pointsprite_upper)
-                        sprintf(buff, "vec4 texColor%d = %s(_gl4es_TexSampler_%d, vec2(gl_PointCoord.x, 1.-gl_PointCoord.y));\n", i, texname[t-1], i);
+                        sprintf(buff, "vec4 texColor%d = %s(_gl4es_TexSampler_%d, vec2(gl_PointCoord.x, 1.-gl_PointCoord.y));\n", i, texnoproj[t-1], i);
                     else
-                        sprintf(buff, "vec4 texColor%d = %s(_gl4es_TexSampler_%d, gl_PointCoord);\n", i, texname[t-1], i);
+                        sprintf(buff, "vec4 texColor%d = %s(_gl4es_TexSampler_%d, gl_PointCoord);\n", i, texnoproj[t-1], i);
                 } else
                     sprintf(buff, "vec4 texColor%d = %s(_gl4es_TexSampler_%d, _gl4es_TexCoord_%d);\n", i, texname[t-1], i, i);
                 ShadAppend(buff);
