@@ -32,8 +32,11 @@ static GLfloat* update_current_mat() {
 			return TOP(projection_matrix);
 		case GL_TEXTURE:
 			return TOP(texture_matrix[glstate->texture.active]);
+		default:
+			if(glstate->matrix_mode>=GL_MATRIX0_ARB && glstate->matrix_mode<GL_MATRIX0_ARB+MAX_ARB_MATRIX)
+				return TOP(arb_matrix[glstate->matrix_mode-GL_MATRIX0_ARB]);
+			return NULL;
 	}
-	return NULL;
 }
 
 static int update_current_identity(int I) {
@@ -44,8 +47,11 @@ static int update_current_identity(int I) {
 			return glstate->projection_matrix->identity = (I)?1:is_identity(TOP(projection_matrix));
 		case GL_TEXTURE:
 			return glstate->texture_matrix[glstate->texture.active]->identity = (I)?1:is_identity(TOP(texture_matrix[glstate->texture.active]));
+		default:
+			if(glstate->matrix_mode>=GL_MATRIX0_ARB && glstate->matrix_mode<GL_MATRIX0_ARB+MAX_ARB_MATRIX)
+				return glstate->arb_matrix[glstate->matrix_mode-GL_MATRIX0_ARB]->identity = (I)?1:is_identity(TOP(arb_matrix[glstate->matrix_mode-GL_MATRIX0_ARB]));
+		return 0;
 	}
-	return 0;
 }
 
 static int send_to_hardware() {
@@ -58,6 +64,9 @@ static int send_to_hardware() {
 			return 1;
 		case GL_TEXTURE:
 			return (globals4es.texmat)?1:0;
+		/*default:
+			if(glstate->matrix_mode>=GL_MATRIX0_ARB && glstate->matrix_mode<GL_MATRIX0_ARB+MAX_ARB_MATRIX)
+				return 0;*/
 	}
 	return 0;
 }
@@ -71,6 +80,7 @@ DBG(printf("init_matrix(%p)\n", glstate);)
     set_identity(TOP(modelview_matrix));
 	glstate->modelview_matrix->identity = 1;
 	glstate->texture_matrix = (matrixstack_t**)malloc(sizeof(matrixstack_t*)*MAX_TEX);
+	glstate->arb_matrix = (matrixstack_t**)malloc(sizeof(matrixstack_t*)*MAX_ARB_MATRIX);
 	set_identity(glstate->mvp_matrix);
 	glstate->mvp_matrix_dirty = 0;
 	set_identity(glstate->inv_mv_matrix);
@@ -83,6 +93,11 @@ DBG(printf("init_matrix(%p)\n", glstate);)
         alloc_matrix(&glstate->texture_matrix[i], MAX_STACK_TEXTURE);
         set_identity(TOP(texture_matrix[i]));
 		glstate->texture_matrix[i]->identity = 1;
+    }
+    for (int i=0; i<MAX_ARB_MATRIX; i++) {
+        alloc_matrix(&glstate->arb_matrix[i], MAX_STACK_ARB_MATRIX);
+        set_identity(TOP(arb_matrix[i]));
+		glstate->arb_matrix[i]->identity = 1;
     }
 }
 
@@ -101,7 +116,7 @@ DBG(printf("glMatrixMode(%s), list=%p\n", PrintEnum(mode), glstate->list.active)
 	}
 	PUSH_IF_COMPILING(glMatrixMode);
 
-	if(!(mode==GL_MODELVIEW || mode==GL_PROJECTION || mode==GL_TEXTURE)) {
+	if(!(mode==GL_MODELVIEW || mode==GL_PROJECTION || mode==GL_TEXTURE || (mode>=GL_MATRIX0_ARB && mode<GL_MATRIX0_ARB+MAX_ARB_MATRIX))) {
 		errorShim(GL_INVALID_ENUM);
 		return;
 	}
@@ -135,12 +150,16 @@ DBG(printf("glPushMatrix(), list=%p\n", glstate->list.active);)
 		case GL_TEXTURE:
 			P(texture_matrix[glstate->texture.active], TEXTURE);
 			break;
-		#undef P
 		default:
-			//Warning?
-			errorShim(GL_INVALID_OPERATION);
-			//LOGE("PushMatrix with Unrecognise matrix mode (0x%04X)\n", matrix_mode);
-			//gles_glPushMatrix();
+			if(glstate->matrix_mode>=GL_MATRIX0_ARB && glstate->matrix_mode<GL_MATRIX0_ARB+MAX_ARB_MATRIX) {
+				P(arb_matrix[glstate->matrix_mode-GL_MATRIX0_ARB], ARB_MATRIX);
+			} else {
+				//Warning?
+				errorShim(GL_INVALID_OPERATION);
+				//LOGE("PushMatrix with Unrecognise matrix mode (0x%04X)\n", matrix_mode);
+				//gles_glPushMatrix();
+			}
+		#undef P
 	}
 }
 
@@ -184,13 +203,16 @@ DBG(printf("glPopMatrix(), list=%p\n", glstate->list.active);)
 			if(glstate->fpe_state)
 				set_fpe_textureidentity();
 			break;
-		#undef P
-			
 		default:
-			//Warning?
-			errorShim(GL_INVALID_OPERATION);
-			//LOGE("PopMatrix with Unrecognise matrix mode (0x%04X)\n", matrix_mode);
-			//gles_glPopMatrix();
+			if(glstate->matrix_mode>=GL_MATRIX0_ARB && glstate->matrix_mode<GL_MATRIX0_ARB+MAX_ARB_MATRIX) {
+				P(arb_matrix[glstate->matrix_mode-GL_MATRIX0_ARB]);
+			} else {
+				//Warning?
+				errorShim(GL_INVALID_OPERATION);
+				//LOGE("PopMatrix with Unrecognise matrix mode (0x%04X)\n", matrix_mode);
+				//gles_glPopMatrix();
+			}
+		#undef P
 	}
 }
 
@@ -244,7 +266,7 @@ DBG(printf("glMultMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 		glstate->normal_matrix_dirty = glstate->inv_mv_matrix_dirty = 1;
 	if(glstate->matrix_mode==GL_MODELVIEW || glstate->matrix_mode==GL_PROJECTION)
 		glstate->mvp_matrix_dirty = 1;
-	else if(glstate->fpe_state)
+	else if((glstate->matrix_mode==GL_TEXTURE) && glstate->fpe_state)
 		set_fpe_textureidentity();
 	DBG(printf(" => (%f, %f, %f, %f, %f, %f, %f...)\n", current_mat[0], current_mat[1], current_mat[2], current_mat[3], current_mat[4], current_mat[5], current_mat[6]);)
 	if(send_to_hardware()) {
@@ -272,7 +294,7 @@ DBG(printf("glLoadIdentity(), list=%p\n", glstate->list.active);)
 		glstate->normal_matrix_dirty = glstate->inv_mv_matrix_dirty = 1;
 	if(glstate->matrix_mode==GL_MODELVIEW || glstate->matrix_mode==GL_PROJECTION)
 		glstate->mvp_matrix_dirty = 1;
-	else if(glstate->fpe_state)
+	else if((glstate->matrix_mode==GL_TEXTURE) && glstate->fpe_state)
 		set_fpe_textureidentity();
 	if(send_to_hardware()) {
 		LOAD_GLES(glLoadIdentity);

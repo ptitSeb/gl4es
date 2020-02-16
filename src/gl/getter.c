@@ -659,11 +659,15 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_CLAMP_READ_COLOR:
             *params=glstate->clamp_read_color;
             break;
+        //case GL_MAX_VERTEX_ATTRIBS_ARB:   //same value
         case GL_MAX_VERTEX_ATTRIBS:
             if(hardext.esversion==1)
                 *params = 0;
             else
                 *params = hardext.maxvattrib;
+            break;
+        case GL_MAX_PROGRAM_MATRICES_ARB:
+            *params = MAX_ARB_MATRIX;
             break;
         // GL4ES special hints
         case GL_SHRINK_HINT_GL4ES:
