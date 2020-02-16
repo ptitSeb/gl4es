@@ -138,6 +138,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
 
         // point sprite
         proxy_GOFPE(GL_POINT_SPRITE, pointsprite, glstate->fpe_state->pointsprite=enable); // TODO: plugin fpe stuffs
+        proxy_GO(GL_PROGRAM_POINT_SIZE, point_size);
 
         // Smooth and multisample (todo: do somthing with fpe?)
         proxy_GOFPE(GL_MULTISAMPLE, multisample, );
@@ -183,6 +184,10 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         GONF(GL_MAP2_TEXTURE_COORD_4 , map2_texture4);
         GONF(GL_MAP2_VERTEX_3 , map2_vertex3);
         GONF(GL_MAP2_VERTEX_4 , map2_vertex4);
+
+        // ARB_vertex_program
+        GONF(GL_VERTEX_PROGRAM_ARB, vertex_arb);
+        GONF(GL_VERTEX_PROGRAM_TWO_SIDE_ARB, vertex_two_side_arb);
         
         // Texture 1D and 3D
         case GL_TEXTURE_1D:
@@ -344,6 +349,7 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
         isenabled(GL_COLOR_MATERIAL, color_material);
 		isenabled(GL_COLOR_SUM, color_sum);
         isenabled(GL_POINT_SPRITE, pointsprite);
+        isenabled(GL_PROGRAM_POINT_SIZE, point_size);
         isenabled(GL_CLIP_PLANE0, plane[0]);
         isenabled(GL_CLIP_PLANE1, plane[1]);
         isenabled(GL_CLIP_PLANE2, plane[2]);
@@ -397,6 +403,9 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
         isenabled(GL_MAP2_TEXTURE_COORD_4, map2_texture4);
         isenabled(GL_MAP2_VERTEX_3, map2_vertex3);
         isenabled(GL_MAP2_VERTEX_4, map2_vertex4);
+        // ARB_vertex_program
+        isenabled(GL_VERTEX_PROGRAM_ARB, vertex_arb);
+        isenabled(GL_VERTEX_PROGRAM_TWO_SIDE_ARB, vertex_two_side_arb);
         default:
 			errorGL();
             return gles_glIsEnabled(cap);

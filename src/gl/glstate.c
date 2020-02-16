@@ -489,6 +489,8 @@ void DeleteGLState(void* oldstate) {
 	for (int i=0; i<MAX_TEX; i++)
 		free_matrix(texture_matrix[i]);
 	free(state->texture_matrix);
+	for (int i=0; i<MAX_ARB_MATRIX; i++)
+		free_matrix(arb_matrix[i]);
     #undef free_matrix
     // states stack
     if(state->stack)

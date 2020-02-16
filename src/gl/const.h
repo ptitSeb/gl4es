@@ -655,6 +655,7 @@
 #define GL_POINT_SPRITE_COORD_ORIGIN      0x8CA0
 #define GL_LOWER_LEFT                     0x8CA1
 #define GL_UPPER_LEFT                     0x8CA2
+#define GL_PROGRAM_POINT_SIZE             0x8642
 
 // clear buffer
 #define GL_COLOR                          0x1800
