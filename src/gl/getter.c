@@ -405,6 +405,9 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_MAX_TEXTURE_STACK_DEPTH:
             *params=MAX_STACK_TEXTURE;
             break;
+        case GL_MAX_PROGRAM_MATRIX_STACK_DEPTH_ARB:
+            *params=MAX_STACK_ARB_MATRIX;
+            break;
         case GL_MODELVIEW_STACK_DEPTH:
             *params=(glstate->modelview_matrix)?(glstate->modelview_matrix->top+1):1;
             break;
@@ -668,18 +671,6 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             break;
         case GL_MAX_PROGRAM_MATRICES_ARB:
             *params = MAX_ARB_MATRIX;
-            break;
-        case GL_MAX_PROGRAM_LOCAL_PARAMETERS_ARB:
-            if(hardext.esversion==1)
-                *params = 0;
-            else
-                *params = MAX_PROG_LOC_PARAMS;
-            break;
-        case GL_MAX_PROGRAM_ENV_PARAMETERS_ARB:
-            if(hardext.esversion==1)
-                *params = 0;
-            else
-                *params = MAX_PROG_ENV_PARAMS;
             break;
         // GL4ES special hints
         case GL_SHRINK_HINT_GL4ES:
