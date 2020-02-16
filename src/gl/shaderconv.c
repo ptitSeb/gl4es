@@ -946,3 +946,18 @@ int isBuiltinMatrix(const char* name) {
     }
     return ret;
 }
+
+const char* hasBuiltinAttrib(const char* vertexShader, int Att) {
+    // first search for the string
+    const char* ret = NULL;
+    int n = sizeof(builtin_attrib)/sizeof(builtin_attrib_t);
+    for (int i=0; i<n && !ret; i++) {
+        if (builtin_attrib[i].attrib == Att)
+            ret = builtin_attrib[i].name;
+    }
+    if (!ret)
+      return NULL;
+    if(strstr(vertexShader, ret)) // it's here!
+      return ret;
+    return NULL;  // nope
+}

@@ -22,7 +22,8 @@ typedef struct {
     int             attached; // number of time the shader is attached
     int             deleted;// flagged for deletion
     int             compiled;// flag if compiled
-    char*           source; // original source of the shader
+    char*           old;     // in case the shader is an old ARB ASM-like program
+    char*           source; // original source of the shader (or converted if comming from "old")
     char*           converted;  // converted source (or null if nothing)
     // shaderconv
     shaderconv_need_t  need;    // the varying need / provide of the shader

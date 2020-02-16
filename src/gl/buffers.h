@@ -76,12 +76,16 @@ typedef struct {
     const GLvoid* real_pointer;
 } pointer_state_t;
 
+// This map correspond to ARB_vertex_program map
 typedef enum {
     ATT_VERTEX = 0,
-    ATT_NORMAL,
-    ATT_FOGCOORD,
+    //ATT_WEIGHT
+    ATT_NORMAL = 2,
     ATT_COLOR,
-    ATT_MULTITEXCOORD0,
+    ATT_SECONDARY,
+    ATT_FOGCOORD,
+    // 6 and 7 are nothing specifics
+    ATT_MULTITEXCOORD0 = 8,
     ATT_MULTITEXCOORD1,
     ATT_MULTITEXCOORD2,
     ATT_MULTITEXCOORD3,
@@ -89,14 +93,13 @@ typedef enum {
     ATT_MULTITEXCOORD5,
     ATT_MULTITEXCOORD6,
     ATT_MULTITEXCOORD7,
-    ATT_SECONDARY,
     //ATT_POINTSIZE,   //this one is supported by GLES hardware
     ATT_MAX
 } reserved_attrib_t;
 
 #define NB_VA (ATT_MAX)
 // glLockArrays should lock all arrays, but Quake3 do change values on Color and Textures UV, so limit Lock to 3D" Coords arrays
-#define NB_LOCKVA (ATT_FOGCOORD+1)
+#define NB_LOCKVA (ATT_NORMAL+1)
 
 typedef struct {
     GLfloat *ptr;

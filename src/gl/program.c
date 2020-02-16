@@ -754,6 +754,12 @@ void gl4es_glLinkProgram(GLuint program) {
             redoShader(glprogram->attach[i], &needs);
         }
     }
+    // check if Built-in VA are used, and if so, bind them to their proper location
+    for (int i=0; i<ATT_MAX; ++i) {
+        const char* attribute = hasBuiltinAttrib(glprogram->last_vert->converted, i);
+        if(attribute)
+            gl4es_glBindAttribLocation(glprogram->id, i, attribute);
+    }
     // ok, continue with linking
     LOAD_GLES2(glLinkProgram);
     if(gles_glLinkProgram) {
