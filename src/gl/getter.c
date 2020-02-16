@@ -669,6 +669,18 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_MAX_PROGRAM_MATRICES_ARB:
             *params = MAX_ARB_MATRIX;
             break;
+        case GL_MAX_PROGRAM_LOCAL_PARAMETERS_ARB:
+            if(hardext.esversion==1)
+                *params = 0;
+            else
+                *params = MAX_PROG_LOC_PARAMS;
+            break;
+        case GL_MAX_PROGRAM_ENV_PARAMETERS_ARB:
+            if(hardext.esversion==1)
+                *params = 0;
+            else
+                *params = MAX_PROG_ENV_PARAMS;
+            break;
         // GL4ES special hints
         case GL_SHRINK_HINT_GL4ES:
             *params=globals4es.texshrink;

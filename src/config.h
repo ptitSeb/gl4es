@@ -14,5 +14,7 @@
 #define MAX_VATTRIB 32
 #define MAX_MAP_SIZE 256
 #define MAX_ARB_MATRIX  8
+#define MAX_PROG_ENV_PARAMS 96
+#define MAX_PROG_LOC_PARAMS 96
 
 #endif // _GL4ES_MAIN_CONFIG_H
