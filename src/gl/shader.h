@@ -3,6 +3,7 @@
 
 #include "khash.h"
 #include "gles.h"
+#include "oldprogram.h"
 
 typedef struct {
     int         need_color;      // front and back
@@ -16,13 +17,13 @@ typedef struct {
     int         need_clean;         // this shader needs to stay "clean", no hack in here
 } shaderconv_need_t;
 
-typedef struct {
+typedef struct shader_s {
     GLuint          id;     // internal id of the shader
     GLenum          type;   // type of the shader (GL_VERTEX or GL_FRAGMENT)
     int             attached; // number of time the shader is attached
     int             deleted;// flagged for deletion
     int             compiled;// flag if compiled
-    char*           old;     // in case the shader is an old ARB ASM-like program
+    oldprogram_t   *old;     // in case the shader is an old ARB ASM-like program
     char*           source; // original source of the shader (or converted if comming from "old")
     char*           converted;  // converted source (or null if nothing)
     // shaderconv

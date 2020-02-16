@@ -73,8 +73,6 @@ void actualy_deleteshader(GLuint shader) {
         shader_t *glshader = kh_value(shaders, k);
         if(glshader->deleted && !glshader->attached) {
             kh_del(shaderlist, shaders, k);
-            if(glshader->old)
-                free(glshader->old);
             if(glshader->source)
                 free(glshader->source);
             if(glshader->converted)

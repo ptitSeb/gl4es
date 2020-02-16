@@ -48,6 +48,7 @@ LOCAL_SRC_FILES := \
 	src/gl/logs.c \
 	src/gl/matrix.c \
 	src/gl/matvec.c \
+	src/gl/oldprogram.c \
 	src/gl/pixel.c \
 	src/gl/planes.c \
 	src/gl/pointsprite.c \

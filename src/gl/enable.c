@@ -186,7 +186,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         GONF(GL_MAP2_VERTEX_4 , map2_vertex4);
 
         // ARB_vertex_program
-        GONF(GL_VERTEX_PROGRAM_ARB, vertex_arb);
+        proxy_GOFPE(GL_VERTEX_PROGRAM_ARB, vertex_arb, glstate->fpe_state->vertex_prg_enable=enable);
         GONF(GL_VERTEX_PROGRAM_TWO_SIDE_ARB, vertex_two_side_arb);
         
         // Texture 1D and 3D

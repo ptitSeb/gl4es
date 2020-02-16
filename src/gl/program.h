@@ -15,6 +15,8 @@ typedef struct {
 } attribloc_t;
 KHASH_MAP_DECLARE_INT(attribloclist, attribloc_t *);
 
+typedef struct shader_s shader_t;
+
 typedef enum {
     MAT_MV = 0,
     MAT_MV_I,

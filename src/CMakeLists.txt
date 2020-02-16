@@ -35,6 +35,7 @@ SET(GL_SRC
     gl/logs.c
     gl/matrix.c
     gl/matvec.c
+    gl/oldprogram.c
     gl/pixel.c
     gl/planes.c
     gl/pointsprite.c
@@ -93,6 +94,7 @@ SET(GL_H
     gl/logs.h
     gl/matrix.h
     gl/matvec.h
+    gl/oldprogram.h
     gl/pixel.h
     gl/planes.h
     gl/pointsprite.h

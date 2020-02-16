@@ -7,6 +7,7 @@
 #include "glstate.h"
 #include "init.h"
 #include "loader.h"
+#include "oldprogram.h"
 
 glstate_t *glstate = NULL;
 
@@ -142,6 +143,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
         glstate->glsl = (glsl_t*)malloc(sizeof(glsl_t));
         memset(glstate->glsl, 0, sizeof(glsl_t));
         glstate->gleshard = (gleshard_s_t*)calloc(1, sizeof(gleshard_s_t));
+        InitOldProgramMap(glstate);
     }
     // Bind defaults...
     glstate->vao = glstate->defaultvao;
@@ -535,6 +537,7 @@ void DeleteGLState(void* oldstate) {
         free(state->blit);
     }
     if(!state->shared_cnt) {
+        FreeOldProgramMap(state);
         free(state->glsl);
         free(state->gleshard);
         if(state->fpe_cache) {

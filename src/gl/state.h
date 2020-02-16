@@ -11,6 +11,7 @@
 #include "shader.h"
 #include "texenv.h"
 #include "texture.h"
+#include "oldprogram.h"
 
 typedef struct {
     GLboolean line_stipple,
@@ -213,11 +214,19 @@ typedef struct {
 } matrixstack_t;
 
 typedef struct {
+    float                  vtx_env_params[MAX_VTX_PROG_ENV_PARAMS][4];  // ARB_vertex_program Program Env Parameters
+    float                  frg_env_params[MAX_FRG_PROG_ENV_PARAMS][4];  // ARB_fragment_program Program Env Parameters
     khash_t(shaderlist)    *shaders;
     khash_t(programlist)   *programs;
     GLuint                 program;
     program_t              *glprogram;
     int                    es2; // context is es2
+    // old ARB_vertex_program & ARB_fragment_program states
+    khash_t(oldprograms)   *oldprograms;
+    int                    error_ptr;   // error position from last "Old" program compile
+    char*                  error_msg;   // error msg from last "Old" program compile
+    oldprogram_t           *vtx_prog;
+    oldprogram_t           *frg_prog;
 } glsl_t;
 
 typedef struct {

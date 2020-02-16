@@ -245,6 +245,9 @@ int fpe_GetProgramPSA(GLuint program, fpe_state_t* state)
 {
     if(!psa)
         return 0;
+    // if state contains custom vertex of fragment shader, then ignore
+    if(state->vertex_prg_enable || state->fragment_prg_enable)
+        return 0;
     khint_t k = kh_get(psalist, psa->cache, state);
     if(k==kh_end(psa->cache))
         return 0; // not here
@@ -256,6 +259,9 @@ int fpe_GetProgramPSA(GLuint program, fpe_state_t* state)
 void fpe_AddProgramPSA(GLuint program, fpe_state_t* state)
 {
     if(!psa)
+        return;
+    // if state contains custom vertex of fragment shader, then ignore
+    if(state->vertex_prg_enable || state->fragment_prg_enable)
         return;
     psa->dirty = 1;
     psa_t *p = (psa_t*)calloc(1, sizeof(psa_t));

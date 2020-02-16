@@ -150,6 +150,10 @@ typedef struct fpe_state_s {
     unsigned int pointsprite:1;          // point sprite rendering
     unsigned int pointsprite_coord:1;    // point sprite coord replace
     unsigned int pointsprite_upper:1;    // if coord is upper left and not lower left
+    unsigned int vertex_prg_enable:1;    // if vertex program is enabled
+    unsigned int fragment_prg_enable:1;  // if fragment program is enabled
+    uint16_t     vertex_prg_id;          // Id of vertex program currently binded (0 most of the time), 16bits is more than enough...
+    uint16_t     fragment_prg_id;        // Id of fragment program currently binded (0 most of the time)
 }__attribute__((packed)) fpe_state_t;
 
 typedef struct fpe_fpe_s {

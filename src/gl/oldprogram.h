@@ -1,0 +1,66 @@
+#ifndef _GL4ES_OLD_PROGRAM_H_
+#define _GL4ES_OLD_PROGRAM_H_
+
+#include "gles.h"
+#include "buffers.h"
+#include "shader.h"
+#include "uniform.h"
+#include "program.h"
+
+typedef struct kh_oldprograms_s kh_oldprograms_t;
+typedef struct glstate_s glstate_t;
+typedef struct shader_s shader_t;
+
+typedef struct oldprogram_s {
+    GLuint      id;
+    GLenum      type;
+    char*       string;
+    shader_t*   shader;
+    float*      prog_local_params;
+} oldprogram_t;
+
+void InitOldProgramMap(glstate_t* glstate);
+void FreeOldProgramMap(glstate_t* glstate);
+
+// ARB_vertex_program
+// VertexAttrib are the same as ARB_vertex_shader
+
+void gl4es_glProgramStringARB(GLenum target, GLenum format, GLsizei len, const GLvoid *string); 
+
+void gl4es_glBindProgramARB(GLenum target, GLuint program);
+
+void gl4es_glDeleteProgramsARB(GLsizei n, const GLuint *programs);
+
+void gl4es_glGenProgramsARB(GLsizei n, GLuint *programs);
+
+void gl4es_glProgramEnvParameter4dARB(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
+void gl4es_glProgramEnvParameter4dvARB(GLenum target, GLuint index, const GLdouble *params);
+void gl4es_glProgramEnvParameter4fARB(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+void gl4es_glProgramEnvParameter4fvARB(GLenum target, GLuint index, const GLfloat *params);
+
+void gl4es_glProgramLocalParameter4dARB(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
+void gl4es_glProgramLocalParameter4dvARB(GLenum target, GLuint index, const GLdouble *params);
+void gl4es_glProgramLocalParameter4fARB(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+void gl4es_glProgramLocalParameter4fvARB(GLenum target, GLuint index, const GLfloat *params);
+
+void gl4es_glGetProgramEnvParameterdvARB(GLenum target, GLuint index, GLdouble *params);
+void gl4es_glGetProgramEnvParameterfvARB(GLenum target, GLuint index, GLfloat *params);
+
+void gl4es_glGetProgramLocalParameterdvARB(GLenum target, GLuint index, GLdouble *params);
+void gl4es_glGetProgramLocalParameterfvARB(GLenum target, GLuint index, GLfloat *params);
+
+void gl4es_glGetProgramivARB(GLenum target, GLenum pname, GLint *params);
+
+void gl4es_glGetProgramStringARB(GLenum target, GLenum pname, GLvoid *string);
+
+void gl4es_glGetVertexAttribdvARB(GLuint index, GLenum pname, GLdouble *params);
+void gl4es_glGetVertexAttribfvARB(GLuint index, GLenum pname, GLfloat *params);
+void gl4es_glGetVertexAttribivARB(GLuint index, GLenum pname, GLint *params);
+
+void gl4es_glGetVertexAttribPointervARB(GLuint index, GLenum pname, GLvoid **pointer);
+
+GLboolean gl4es_glIsProgramARB(GLuint program);
+
+
+
+#endif //_GL4ES_OLD_PROGRAM_H_

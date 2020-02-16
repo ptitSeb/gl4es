@@ -8,6 +8,7 @@
 #include "../gl/render.h"
 #include "../gl/texgen.h"
 #include "../gl/vertexattrib.h"
+#include "../gl/oldprogram.h"
 #include "glx.h"
 #include "hardext.h"
 
@@ -1062,7 +1063,27 @@ void *gl4es_glXGetProcAddress(const char *name) {
 
     _EX(glClampColor);
     _EXT(glClampColor);
-            
+
+    //GL_ARB_vertex_program
+    _EX(glProgramStringARB);
+    _EX(glBindProgramARB);
+    _EX(glDeleteProgramsARB);
+    _EX(glGenProgramsARB);
+    _EX(glProgramEnvParameter4dARB);
+    _EX(glProgramEnvParameter4dvARB);
+    _EX(glProgramEnvParameter4fARB);
+    _EX(glProgramEnvParameter4fvARB);
+    _EX(glProgramLocalParameter4dARB);
+    _EX(glProgramLocalParameter4dvARB);
+    _EX(glProgramLocalParameter4fARB);
+    _EX(glProgramLocalParameter4fvARB);
+    _EX(glGetProgramEnvParameterdvARB);
+    _EX(glGetProgramEnvParameterfvARB);
+    _EX(glGetProgramLocalParameterdvARB);
+    _EX(glGetProgramLocalParameterfvARB);
+    _EX(glGetProgramivARB);
+    _EX(glGetProgramStringARB);
+    _EX(glIsProgramARB);
 
     if (!globals4es.silentstub) LOGD("glXGetProcAddress: %s not found.\n", name);
     return NULL;

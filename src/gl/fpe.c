@@ -143,6 +143,12 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
         dest->pointsprite_upper = 0;
         dest->pointsprite_coord = 0;
     }
+    // ARB_vertex_program and ARB_fragment_program
+    if(!fixed || !dest->vertex_prg_enable)
+        dest->vertex_prg_id = 0;
+    if(!fixed || !dest->fragment_prg_enable)
+        dest->fragment_prg_id = 0;
+
     if(!fixed) {
         dest->textmat = 0;
         dest->texadjust = 0;
@@ -155,6 +161,9 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
         dest->textype = 0;
         dest->fog = 0;
         dest->point = 0;
+
+        dest->vertex_prg_enable = 0;
+        dest->fragment_prg_enable = 0;
     }
 }
 

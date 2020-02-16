@@ -822,6 +822,8 @@
 #define GL_MATRIX30_ARB                                 0x88DE
 #define GL_MATRIX31_ARB                                 0x88DF
 
+#define GL_PROGRAM_ERROR_STRING_ARB                     0x8874
+
 #define GL_PROGRAM_ERROR_POSITION_ARB                   0x864B
 #define GL_CURRENT_MATRIX_ARB                           0x8641
 #define GL_TRANSPOSE_CURRENT_MATRIX_ARB                 0x88B7

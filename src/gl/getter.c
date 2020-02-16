@@ -237,6 +237,8 @@ const GLubyte *gl4es_glGetString(GLenum name) {
             else if(globals4es.gl==20)
                 return (GLubyte *)"1.10 via gl4es";
 			return (GLubyte *)"";
+        case GL_PROGRAM_ERROR_STRING_ARB:
+            return (GLubyte*)glstate->glsl->error_msg;
         default:
 			errorShim(GL_INVALID_ENUM);
             return (GLubyte*)"";
@@ -671,6 +673,9 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             break;
         case GL_MAX_PROGRAM_MATRICES_ARB:
             *params = MAX_ARB_MATRIX;
+            break;
+        case GL_PROGRAM_ERROR_POSITION_ARB:
+            *params = glstate->glsl->error_ptr;
             break;
         // GL4ES special hints
         case GL_SHRINK_HINT_GL4ES:

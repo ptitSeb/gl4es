@@ -9,7 +9,7 @@
 #include "stack.h"
 #include "stencil.h"
 
-typedef struct {
+typedef struct glstate_s {
     int                 dummy[16];  // dummy zone, test for memory overwriting...
     displaylist_state_t list;
     enable_state_t      enable;
