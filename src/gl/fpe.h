@@ -76,12 +76,20 @@
 #define FPE_SRC_TEXTURE5       6
 #define FPE_SRC_TEXTURE6       7
 #define FPE_SRC_TEXTURE7       8
-#define FPE_SRC_CONSTANT       9
-#define FPE_SRC_PRIMARY_COLOR  10
-#define FPE_SRC_PREVIOUS       11
-#define FPE_SRC_ZERO           12
-#define FPE_SRC_ONE            13
-#define FPE_SRC_SECONDARY_COLOR 14
+#define FPE_SRC_TEXTURE8       9
+#define FPE_SRC_TEXTURE9       10
+#define FPE_SRC_TEXTURE10      11
+#define FPE_SRC_TEXTURE11      12
+#define FPE_SRC_TEXTURE12      13
+#define FPE_SRC_TEXTURE13      14
+#define FPE_SRC_TEXTURE14      15
+#define FPE_SRC_TEXTURE15      16
+#define FPE_SRC_CONSTANT       17
+#define FPE_SRC_PRIMARY_COLOR  18
+#define FPE_SRC_PREVIOUS       19
+#define FPE_SRC_ZERO           20
+#define FPE_SRC_ONE            21
+#define FPE_SRC_SECONDARY_COLOR 22
 
 #define FPE_OP_ALPHA           0
 #define FPE_OP_MINUSALPHA      1
@@ -104,29 +112,29 @@
 #define FPE_TG_NONE            5  // dummy, to help fpe
 
 typedef struct fpe_state_s {
-    uint32_t texsrcrgb[4];               // 8 texenv src rgb n (SRC_n_RGB is 4 bits)
-    uint32_t texsrcalpha[4];             // 8 texenv src alpha n (SRC_n_ALPHA is 4 bits)
-    uint8_t texcombine[8];               // 8 texture combined (RGB as lower 4 bits, A as higher 4 bits)
-    uint16_t texoprgb[4];                // 8 texenv src op (OPERATION_n_RGB is 2 bits)
-    uint8_t texopalpha[4];               // 8 texenv src op (OPERATION_n_ALPHA is 1 bits)
-    uint8_t texrgbscale;                 // 8 flags if RGB_SCALE for texture is != 1.0
-    uint8_t texalphascale;               // 8 flags if ALPHA_SCALE for texture is != 1.0
+    uint8_t texsrcrgb[MAX_TEX][4];       // 16 texenv src rgb n
+    uint8_t texsrcalpha[MAX_TEX][4];     // 16 texenv src alpha n
+    uint8_t texcombine[16];              // 16 texture combined (RGB as lower 4 bits, A as higher 4 bits)
+    uint32_t texoprgb[4];                // 16 texenv src op (OPERATION_n_RGB is 2 bits)
+    uint16_t texopalpha[4];              // 16 texenv src op (OPERATION_n_ALPHA is 1 bits)
+    uint16_t texrgbscale;                // 16 flags if RGB_SCALE for texture is != 1.0
+    uint16_t texalphascale;              // 16 flags if ALPHA_SCALE for texture is != 1.0
     uint8_t light;                       // 8 lights packed
     uint8_t light_cutoff180;             // 8 lights cutoff!=180 flags
     uint8_t light_direction;             // 8 lights position[3].w==0 flags
-    uint8_t textmat;                     // 8 flags if texture matrix is not identity
-    uint8_t texadjust;                   // 8 flags if texture need adjustement
-    unsigned int textype:24;                    // 8 textures type stored on 3 bits
-    unsigned int texformat:24;           // 8 textures (simplified) internal format on 3 bits
-    unsigned int texenv:24;              // 8 texenv flags, each stored on 3bits
-    uint8_t      texgen_s;               // 8 texgen S enabled on 1 bit
-    unsigned int texgen_s_mode:24;       // 8 texgen S on 3 bits
-    uint8_t      texgen_t;               // 8 texgen S enabled on 1 bit
-    unsigned int texgen_t_mode:24;       // 8 texgen T on 3 bits
-    uint8_t      texgen_r;               // 8 texgen S enabled on 1 bit
-    unsigned int texgen_r_mode:24;       // 8 texgen R on 3 bits
-    uint8_t      texgen_q;               // 8 texgen S enabled on 1 bit
-    unsigned int texgen_q_mode:24;       // 8 texgen Q on 3 bits
+    uint16_t textmat;                    // 16 flags if texture matrix is not identity
+    uint64_t textype:48;                 // 16 textures type stored on 3 bits
+    uint16_t texadjust;                  // 16 flags if texture need adjustement
+    uint64_t texformat:48;               // 16 textures (simplified) internal format on 3 bits
+    uint64_t texenv:48;                  // 16 texenv flags, each stored on 3bits
+    uint16_t     texgen_s;               // 16 texgen S enabled on 1 bit
+    uint64_t texgen_s_mode:48;           // 16 texgen S on 3 bits
+    uint16_t     texgen_t;               // 16 texgen S enabled on 1 bit
+    uint64_t texgen_t_mode:48;           // 16 texgen T on 3 bits
+    uint16_t     texgen_r;               // 16 texgen S enabled on 1 bit
+    uint64_t texgen_r_mode:48;           // 16 texgen R on 3 bits
+    uint16_t     texgen_q;               // 16 texgen S enabled on 1 bit
+    uint64_t texgen_q_mode:48;           // 16 texgen Q on 3 bits
     unsigned int plane:6;                // 6 planes packed
     unsigned int fogmode:2;              // fog mode
     unsigned int fogdist:2;              // fog distance mode
@@ -166,7 +174,7 @@ typedef struct kh_fpecachelist_s kh_fpecachelist_t;
 #define fpe_cache_t kh_fpecachelist_t
 
 typedef struct scratch_s {
-    void*       scratch[8];
+    void*       scratch[16];
     int         size;
 } scratch_t;
 void free_scratch(scratch_t* scratch);

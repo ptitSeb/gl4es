@@ -50,6 +50,14 @@ const char* fpe_texenvSrc(int src, int tmu, int twosided) {
         case FPE_SRC_TEXTURE5:
         case FPE_SRC_TEXTURE6:
         case FPE_SRC_TEXTURE7:
+        case FPE_SRC_TEXTURE8:
+        case FPE_SRC_TEXTURE9:
+        case FPE_SRC_TEXTURE10:
+        case FPE_SRC_TEXTURE11:
+        case FPE_SRC_TEXTURE12:
+        case FPE_SRC_TEXTURE13:
+        case FPE_SRC_TEXTURE14:
+        case FPE_SRC_TEXTURE15:
             sprintf(buff, "texColor%d", src-FPE_SRC_TEXTURE0);  // should check if texture is enabled
             break;
         case FPE_SRC_CONSTANT:
@@ -84,7 +92,7 @@ int fpe_texenvSecondary(fpe_state_t* state) {
                 int combine_rgb = state->texcombine[i]&0xf;
                 int src_r[3];
                 for (int j=0; j<3; j++) {
-                    src_r[j] = (state->texsrcrgb[j]>>(i*4))&0xf;
+                    src_r[j] = state->texsrcrgb[i][j];
                 }
                 if(combine_rgb==FPE_CR_DOT3_RGBA) {
                         src_r[2] = -1;
@@ -970,9 +978,9 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                             int src_r[4], op_r[4];
                             int src_a[4], op_a[4];
                             for (int j=0; j<4; j++) {
-                                src_a[j] = (state->texsrcalpha[j]>>(i*4))&0xf;
+                                src_a[j] = state->texsrcalpha[i][j];
                                 op_a[j] = (state->texopalpha[j]>>i)&1;
-                                src_r[j] = (state->texsrcrgb[j]>>(i*4))&0xf;
+                                src_r[j] = state->texsrcrgb[i][j];
                                 op_r[j] = (state->texoprgb[j]>>(i*2))&3;
                             }
                             if(combine_rgb==FPE_CR_DOT3_RGBA) {

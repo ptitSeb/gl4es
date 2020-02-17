@@ -89,7 +89,7 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
         dest->texalphascale = 0;
     } else {
         // individual textures
-        for (int i=0; i<8; i++) {
+        for (int i=0; i<MAX_TEX; i++) {
             if(((dest->textype>>(i*3))&7)==0) { // texture is off
                 dest->textmat &= ~(1<<i);
                 dest->texformat &= ~(7<<(i*3));
@@ -117,14 +117,14 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
             if((((dest->texenv>>(i*3))&7) < FPE_COMBINE) || ((dest->textype>>(i*3)&7)==0)) {
                 dest->texcombine[i] = 0;
                 for (int j=0; j<3; j++) {
-                    dest->texsrcrgb[j] &= ~(0xf<<(i*4));
-                    dest->texsrcalpha[j] &= ~(0xf<<(i*4));
+                    dest->texsrcrgb[i][j] = 0;
+                    dest->texsrcalpha[i][j] = 0;
                     dest->texoprgb[j] &= ~(0x3<<(i*2));
                     dest->texopalpha[j] &= ~(0x1<<i);
                 }
             } else if(((dest->texenv>>(i*3))&7) != FPE_COMBINE4) {
-                dest->texsrcrgb[3] &= ~(0xf<<(i*4));
-                dest->texsrcalpha[3] &= ~(0xf<<(i*4));
+                dest->texsrcrgb[i][3] = 0;
+                dest->texsrcalpha[i][3] = 0;
                 dest->texoprgb[3] &= ~(0x3<<(i*2));
                 dest->texopalpha[3] &= ~(0x1<<i);
             }

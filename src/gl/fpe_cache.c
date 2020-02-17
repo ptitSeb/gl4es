@@ -90,7 +90,7 @@ static gl4es_psa_t *psa = NULL;
 static char *psa_name = NULL;
 
 static const char PSA_SIGN[] = "GL4ES PrecompiledShaderArchive";
-#define CACHE_VERSION 108
+#define CACHE_VERSION 109
 
 void fpe_readPSA()
 {

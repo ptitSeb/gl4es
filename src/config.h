@@ -3,7 +3,7 @@
 
 #define SYS_proxy 9999
 #define MAX_EVAL_ORDER 30
-#define MAX_TEX 8
+#define MAX_TEX 16
 #define MAX_LIGHT 8
 #define MAX_STACK_PROJECTION	16
 #define MAX_STACK_TEXTURE	16

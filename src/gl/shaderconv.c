@@ -523,7 +523,10 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
         while((p=strstr(p, gl_TexMatrixSources[i]))) {
           p+=strlen(gl_TexMatrixSources[i]);
           if(*p>='0' && *p<='9') {
-            int n = (*p) - '0';
+            int n = 0;
+            while(*p>='0' && *p<='9')
+              n = n*10 + (*(p++) - '0');
+            
             if (ntex<n) ntex = n;
           }
         }

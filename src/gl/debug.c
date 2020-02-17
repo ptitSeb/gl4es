@@ -150,6 +150,14 @@ const char* PrintEnum(GLenum what) {
         p(GL_TEXTURE5);
         p(GL_TEXTURE6);
         p(GL_TEXTURE7);
+        p(GL_TEXTURE8);
+        p(GL_TEXTURE9);
+        p(GL_TEXTURE10);
+        p(GL_TEXTURE11);
+        p(GL_TEXTURE12);
+        p(GL_TEXTURE13);
+        p(GL_TEXTURE14);
+        p(GL_TEXTURE15);
         p(GL_TEXTURE_WRAP_S);
         p(GL_TEXTURE_WRAP_T);
         p(GL_LINEAR);
