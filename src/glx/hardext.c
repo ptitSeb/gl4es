@@ -222,7 +222,7 @@ void GetHardwareExtensions(int notest)
         SHUT_LOGD("Hardware %s NPOT detected and used\n", hardext.npot==3?"Full":(hardext.npot==2?"Limited+Mipmap":"Limited"));
     }
     S("GL_EXT_blend_minmax", blendminmax, 1);
-    S("GL_EXT_drawbuffers", drawbuffers, 0);
+    S("GL_EXT_draw_buffers", drawbuffers, 0);
     /*if(hardext.blendcolor==0) {
         // try by just loading the function
         LOAD_GLES_OR_OES(glBlendColor);
