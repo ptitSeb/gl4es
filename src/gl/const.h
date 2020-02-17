@@ -898,5 +898,8 @@
 
 #define GL_FRAGMENT_PROGRAM_ARB                         0x8804
 
+// EXT_draw_buffers
+
+#define GL_MAX_COLOR_ATTACHMENTS_EXT                    0x8CDF
 
 #endif // _GL4ES_CONST_H_

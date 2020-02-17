@@ -294,13 +294,13 @@ KHASH_MAP_DECLARE_INT(renderbufferlist_t, glrenderbuffer_t *);
 typedef struct {
     GLuint id;
     GLenum target;
-    GLuint color[10];   // attachement_color0..9
+    GLuint color[MAX_DRAW_BUFFERS];   // attachement_color0..9
     GLuint depth;
     GLuint stencil;
-    GLuint t_color[10]; // type for attachement_0 (GL_NONE, GL_TEXTUREXX, GL_RENDERBUFFER)
+    GLuint t_color[MAX_DRAW_BUFFERS]; // type for attachement_0 (GL_NONE, GL_TEXTUREXX, GL_RENDERBUFFER)
     GLuint t_depth;
     GLuint t_stencil;
-    int    l_color[10]; // level of attachment
+    int    l_color[MAX_DRAW_BUFFERS]; // level of attachment
     int    l_depth;
     int    l_stencil;
     int    width;
@@ -308,7 +308,7 @@ typedef struct {
     GLenum read_format;
     GLenum read_type;
     int    n_draw;
-    GLenum drawbuff[16];    //TODO: define a MAX_DRAWBUFF?
+    GLenum drawbuff[MAX_DRAW_BUFFERS];    //TODO: define a MAX_DRAWBUFF?
 } glframebuffer_t;
 
 typedef struct {

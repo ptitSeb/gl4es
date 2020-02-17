@@ -222,6 +222,7 @@ void GetHardwareExtensions(int notest)
         SHUT_LOGD("Hardware %s NPOT detected and used\n", hardext.npot==3?"Full":(hardext.npot==2?"Limited+Mipmap":"Limited"));
     }
     S("GL_EXT_blend_minmax", blendminmax, 1);
+    S("GL_EXT_drawbuffers", drawbuffers, 0);
     /*if(hardext.blendcolor==0) {
         // try by just loading the function
         LOAD_GLES_OR_OES(glBlendColor);
@@ -339,6 +340,12 @@ void GetHardwareExtensions(int notest)
         if(hardext.aniso)
             SHUT_LOGD("Max Anisotropic filtering: %d\n", hardext.aniso);
     }
+    hardext.maxdrawbuffers = 1;
+    if(hardext.drawbuffers)
+        gles_glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS_EXT,&hardext.maxdrawbuffers);
+    if(hardext.maxdrawbuffers>MAX_DRAW_BUFFERS)
+        hardext.maxdrawbuffers=MAX_DRAW_BUFFERS;
+    SHUT_LOGD("Max Draw buffers: %d\n", hardext.maxdrawbuffers);
     // get GLES driver signatures...
     const char* vendor = gles_glGetString(GL_VENDOR);
     SHUT_LOGD("Hardware vendor is %s\n", vendor);
