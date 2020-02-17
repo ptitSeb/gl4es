@@ -325,6 +325,9 @@ static const char* texture2DLodAlt =
 " return texture2D(sampler, coord);\n"
 "}\n";
 
+static const char* useEXTDrawBuffers =
+"#extension GL_EXT_draw_buffers : enable\n";
+
 
 char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 {
@@ -426,6 +429,10 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     else
       Tmp = InplaceInsert(GetLine(Tmp, headline-1), GLESFakeDerivative, Tmp, &tmpsize);
     headline++;
+  }
+  // check if draw_buffers may be used (no fallback here :( )
+  if(hardext.drawbuffers==1 && strstr(pBuffer, "gl_FragData[")) {
+    Tmp = InplaceInsert(GetLine(Tmp, 1), useEXTDrawBuffers, Tmp, &tmpsize);
   }
   // if some functions are used, add some int/float alternative
   if(strstr(Tmp, "pow(") || strstr(Tmp, "pow (")) {

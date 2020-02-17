@@ -52,6 +52,7 @@ _EX(glDisable);
 _EX(glDisableClientState);
 _EX(glDisableVertexAttribArray);
 _EX(glDrawArrays);
+_EX(glDrawBuffersEXT);
 _EX(glDrawElements);
 _EX(glDrawTexf);
 _EX(glDrawTexi);

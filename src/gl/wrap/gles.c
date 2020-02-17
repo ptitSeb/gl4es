@@ -542,6 +542,16 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 }
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) __attribute__((alias("gl4es_glDrawArrays"))) __attribute__((visibility("default")));
 #endif
+#ifndef skip_glDrawBuffersEXT
+void gl4es_glDrawBuffersEXT(GLsizei n, const GLenum * bufs) {
+    LOAD_GLES(glDrawBuffersEXT);
+#ifndef direct_glDrawBuffersEXT
+    PUSH_IF_COMPILING(glDrawBuffersEXT)
+#endif
+    gles_glDrawBuffersEXT(n, bufs);
+}
+void glDrawBuffersEXT(GLsizei n, const GLenum * bufs) __attribute__((alias("gl4es_glDrawBuffersEXT"))) __attribute__((visibility("default")));
+#endif
 #ifndef skip_glDrawElements
 void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices) {
     LOAD_GLES(glDrawElements);
@@ -2625,6 +2635,12 @@ void glPackedCall(const packed_call_t *packed) {
             unpacked->func(args.a1, args.a2, args.a3);
             break;
         }
+        case FORMAT_void_GLsizei_const_GLenum___GENPT__: {
+            PACKED_void_GLsizei_const_GLenum___GENPT__ *unpacked = (PACKED_void_GLsizei_const_GLenum___GENPT__ *)packed;
+            ARGS_void_GLsizei_const_GLenum___GENPT__ args = unpacked->args;
+            unpacked->func(args.a1, args.a2);
+            break;
+        }
         case FORMAT_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__: {
             PACKED_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__ *unpacked = (PACKED_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__ *)packed;
             ARGS_void_GLenum_GLsizei_GLenum_const_GLvoid___GENPT__ args = unpacked->args;
@@ -3381,6 +3397,13 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed) {
         case FORMAT_void_GLenum_GLint_GLsizei: {
             int sizeofpacked = sizeof(PACKED_void_GLenum_GLint_GLsizei);
             PACKED_void_GLenum_GLint_GLsizei *newpacked = (PACKED_void_GLenum_GLint_GLsizei*)malloc(sizeofpacked);
+            memcpy(newpacked, packed, sizeofpacked);
+            return (packed_call_t*)newpacked;
+            break;
+        }
+        case FORMAT_void_GLsizei_const_GLenum___GENPT__: {
+            int sizeofpacked = sizeof(PACKED_void_GLsizei_const_GLenum___GENPT__);
+            PACKED_void_GLsizei_const_GLenum___GENPT__ *newpacked = (PACKED_void_GLsizei_const_GLenum___GENPT__*)malloc(sizeofpacked);
             memcpy(newpacked, packed, sizeofpacked);
             return (packed_call_t*)newpacked;
             break;

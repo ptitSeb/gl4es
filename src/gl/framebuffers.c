@@ -134,7 +134,7 @@ void gl4es_glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
                     if (k != kh_end(glstate->fbo.framebufferlist)) {
                         fb = kh_value(glstate->fbo.framebufferlist, k);
                         // detach texture...
-                        for(int j=0; j<10; ++j) {
+                        for(int j=0; j<MAX_DRAW_BUFFERS; ++j) {
                             if(fb->color[j] && fb->t_color[j]!=GL_RENDERBUFFER) {
                                 gltexture_t *tex = gl4es_getTexture(fb->t_color[j], fb->color[j]);
                                 if(tex) {
@@ -289,8 +289,21 @@ void SetAttachment(glframebuffer_t* fb, GLenum attachment, GLenum atttarget, GLu
 {
     switch (attachment) {
     case GL_COLOR_ATTACHMENT0:
-    /*case GL_COLOR_ATTACHMENT1:
-    case GL_COLOR_ATTACHMENT2:*/
+    case GL_COLOR_ATTACHMENT1:
+    case GL_COLOR_ATTACHMENT2:
+    case GL_COLOR_ATTACHMENT3:
+    case GL_COLOR_ATTACHMENT4:
+    case GL_COLOR_ATTACHMENT5:
+    case GL_COLOR_ATTACHMENT6:
+    case GL_COLOR_ATTACHMENT7:
+    case GL_COLOR_ATTACHMENT8:
+    case GL_COLOR_ATTACHMENT9:
+    case GL_COLOR_ATTACHMENT10:
+    case GL_COLOR_ATTACHMENT11:
+    case GL_COLOR_ATTACHMENT12:
+    case GL_COLOR_ATTACHMENT13:
+    case GL_COLOR_ATTACHMENT14:
+    case GL_COLOR_ATTACHMENT15:
         fb->color[attachment - GL_COLOR_ATTACHMENT0] = att;
         fb->l_color[attachment - GL_COLOR_ATTACHMENT0] = level;
         fb->t_color[attachment - GL_COLOR_ATTACHMENT0] = atttarget;
@@ -318,8 +331,21 @@ void SetAttachment(glframebuffer_t* fb, GLenum attachment, GLenum atttarget, GLu
 GLuint GetAttachment(glframebuffer_t* fb, GLenum attachment) {
     switch (attachment) {
     case GL_COLOR_ATTACHMENT0:
-    /*case GL_COLOR_ATTACHMENT1:
-    case GL_COLOR_ATTACHMENT2:*/
+    case GL_COLOR_ATTACHMENT1:
+    case GL_COLOR_ATTACHMENT2:
+    case GL_COLOR_ATTACHMENT3:
+    case GL_COLOR_ATTACHMENT4:
+    case GL_COLOR_ATTACHMENT5:
+    case GL_COLOR_ATTACHMENT6:
+    case GL_COLOR_ATTACHMENT7:
+    case GL_COLOR_ATTACHMENT8:
+    case GL_COLOR_ATTACHMENT9:
+    case GL_COLOR_ATTACHMENT10:
+    case GL_COLOR_ATTACHMENT11:
+    case GL_COLOR_ATTACHMENT12:
+    case GL_COLOR_ATTACHMENT13:
+    case GL_COLOR_ATTACHMENT14:
+    case GL_COLOR_ATTACHMENT15:
         return fb->color[attachment - GL_COLOR_ATTACHMENT0];
     case GL_DEPTH_ATTACHMENT:
         return fb->depth;
@@ -334,8 +360,21 @@ GLuint GetAttachment(glframebuffer_t* fb, GLenum attachment) {
 GLenum GetAttachmentType(glframebuffer_t* fb, GLenum attachment) {
     switch (attachment) {
     case GL_COLOR_ATTACHMENT0:
-    /*case GL_COLOR_ATTACHMENT1:
-    case GL_COLOR_ATTACHMENT2:*/
+    case GL_COLOR_ATTACHMENT1:
+    case GL_COLOR_ATTACHMENT2:
+    case GL_COLOR_ATTACHMENT3:
+    case GL_COLOR_ATTACHMENT4:
+    case GL_COLOR_ATTACHMENT5:
+    case GL_COLOR_ATTACHMENT6:
+    case GL_COLOR_ATTACHMENT7:
+    case GL_COLOR_ATTACHMENT8:
+    case GL_COLOR_ATTACHMENT9:
+    case GL_COLOR_ATTACHMENT10:
+    case GL_COLOR_ATTACHMENT11:
+    case GL_COLOR_ATTACHMENT12:
+    case GL_COLOR_ATTACHMENT13:
+    case GL_COLOR_ATTACHMENT14:
+    case GL_COLOR_ATTACHMENT15:
         return fb->t_color[attachment - GL_COLOR_ATTACHMENT0];
     case GL_DEPTH_ATTACHMENT:
         return fb->t_depth;
@@ -349,8 +388,21 @@ GLenum GetAttachmentType(glframebuffer_t* fb, GLenum attachment) {
 int GetAttachmentLevel(glframebuffer_t* fb, GLenum attachment) {
     switch (attachment) {
     case GL_COLOR_ATTACHMENT0:
-    /*case GL_COLOR_ATTACHMENT1:
-    case GL_COLOR_ATTACHMENT2:*/
+    case GL_COLOR_ATTACHMENT1:
+    case GL_COLOR_ATTACHMENT2:
+    case GL_COLOR_ATTACHMENT3:
+    case GL_COLOR_ATTACHMENT4:
+    case GL_COLOR_ATTACHMENT5:
+    case GL_COLOR_ATTACHMENT6:
+    case GL_COLOR_ATTACHMENT7:
+    case GL_COLOR_ATTACHMENT8:
+    case GL_COLOR_ATTACHMENT9:
+    case GL_COLOR_ATTACHMENT10:
+    case GL_COLOR_ATTACHMENT11:
+    case GL_COLOR_ATTACHMENT12:
+    case GL_COLOR_ATTACHMENT13:
+    case GL_COLOR_ATTACHMENT14:
+    case GL_COLOR_ATTACHMENT15:
         return fb->l_color[attachment - GL_COLOR_ATTACHMENT0];
     case GL_DEPTH_ATTACHMENT:
         return fb->l_depth;
@@ -386,7 +438,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
         return;
     }
 
-    if( attachment!=GL_COLOR_ATTACHMENT0 
+    if( !(attachment>=GL_COLOR_ATTACHMENT0 && attachment<GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers)
      && attachment!=GL_DEPTH_ATTACHMENT 
      && attachment!=GL_STENCIL_ATTACHMENT 
      && attachment!=GL_DEPTH_STENCIL_ATTACHMENT) {
@@ -506,7 +558,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
 
     SetAttachment(fb, attachment, textarget, tex?tex->texture:texture, level);
 
-    if(attachment==GL_COLOR_ATTACHMENT0 && tex) {
+    if(attachment>=GL_COLOR_ATTACHMENT0 && attachment<GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers && tex) {
         int oldactive = glstate->texture.active;
         gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];
         GLuint oldtex = bound->glname;
@@ -793,12 +845,12 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
     }
 
     // Ignore Color attachment 1 .. 9
-    if ((attachment>=GL_COLOR_ATTACHMENT0+1) && (attachment<=GL_COLOR_ATTACHMENT0+9)) {
+    if ((attachment>=GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers) && (attachment<GL_COLOR_ATTACHMENT15)) {
         errorShim(GL_INVALID_ENUM);
         return;
     }
 
-    if( attachment!=GL_COLOR_ATTACHMENT0 
+    if( !(attachment>=GL_COLOR_ATTACHMENT0 && attachment<GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers)
      && attachment!=GL_DEPTH_ATTACHMENT 
      && attachment!=GL_STENCIL_ATTACHMENT 
      && attachment!=GL_DEPTH_STENCIL_ATTACHMENT) {
@@ -813,7 +865,7 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
         return;
     }
 
-    if (attachment == GL_COLOR_ATTACHMENT0 && globals4es.fboforcetex) {
+    if (attachment >= GL_COLOR_ATTACHMENT0 && (attachment < GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers) && globals4es.fboforcetex) {
         if(rend->renderbuffer) {
             // drop the renderbuffer attachement and create a texture instead...
             int oldactive = glstate->texture.active;
@@ -1424,9 +1476,15 @@ void gl4es_setCurrentFBO() {
 // DrawBuffers functions are faked for now. Will be plugg'd when ES3.0 support is implemented
 void gl4es_glDrawBuffers(GLsizei n, const GLenum *bufs) {
     DBG(printf("glDrawBuffers(%d, %p) [0]=%s\n", n, bufs, n?PrintEnum(bufs[0]):"nil");)
-    if(n<0 || n>1) {    // TODO: use hardext to handle max draw buffers
-        errorShim(GL_INVALID_VALUE);
-        return;
+    if(hardext.drawbuffers) {
+        LOAD_GLES(glDrawBuffersEXT);
+        gles_glDrawBuffersEXT(n, bufs);
+        errorGL();
+    } else {
+        if(n<0 || n>hardext.maxdrawbuffers) {
+            errorShim(GL_INVALID_VALUE);
+            return;
+        }
     }
     // simple copy for now...
     glstate->fbo.fbo_draw->n_draw = n;
@@ -1434,12 +1492,20 @@ void gl4es_glDrawBuffers(GLsizei n, const GLenum *bufs) {
     noerrorShim();
 }
 void gl4es_glNamedFramebufferDrawBuffers(GLuint framebuffer, GLsizei n, const GLenum *bufs) {
-    if(n<0 || n>1) {    // TODO: use hardext to handle max draw buffers
+    if(n<0 || n>hardext.maxdrawbuffers) {
         errorShim(GL_INVALID_VALUE);
         return;
     }
     // simple copy for now...
     glframebuffer_t* fb = find_framebuffer(framebuffer);
+    if(hardext.drawbuffers) {
+        GLuint oldf = glstate->fbo.fbo_draw->id;
+        gl4es_glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fb->id);
+        LOAD_GLES(glDrawBuffersEXT);
+        gles_glDrawBuffersEXT(n, bufs);
+        errorGL();
+        gl4es_glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldf);
+    }
     fb->n_draw = n;
     memcpy(fb->drawbuff, bufs, n*sizeof(GLenum));
     noerrorShim();
@@ -1454,10 +1520,11 @@ void gl4es_glClearBufferiv(GLenum buffer, GLint drawbuffer, const GLint * value)
             if(drawbuffer>glstate->fbo.fbo_draw->n_draw)
                 return; // GL_NONE...
             attch = glstate->fbo.fbo_draw->drawbuff[buffer];
-            if(attch!=GL_COLOR_ATTACHMENT0) {
+            if(!(attch>=GL_COLOR_ATTACHMENT0 && attch<GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers)) {
                 errorShim(GL_INVALID_VALUE);
                 return;
             } else {
+                // TODO: Select the buffer to clear, espcialy if GL_EXT_draw_buffers is supported!
                 GLfloat oldclear[4];
                 gl4es_glGetFloatv(GL_COLOR_CLEAR_VALUE, oldclear);
                 // how to convert the value? Most FB will be 8bits / componant for now...
@@ -1492,7 +1559,7 @@ void gl4es_glClearBufferuiv(GLenum buffer, GLint drawbuffer, const GLuint * valu
             if(drawbuffer>glstate->fbo.fbo_draw->n_draw)
                 return; // GL_NONE...
             attch = glstate->fbo.fbo_draw->drawbuff[buffer];
-            if(attch!=GL_COLOR_ATTACHMENT0) {
+            if(!(attch>=GL_COLOR_ATTACHMENT0 && attch<GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers)) {
                 errorShim(GL_INVALID_VALUE);
                 return;
             } else {
@@ -1518,7 +1585,7 @@ void gl4es_glClearBufferfv(GLenum buffer, GLint drawbuffer, const GLfloat * valu
             if(drawbuffer>glstate->fbo.fbo_draw->n_draw)
                 return; // GL_NONE...
             attch = glstate->fbo.fbo_draw->drawbuff[buffer];
-            if(attch!=GL_COLOR_ATTACHMENT0) {
+            if(!(attch>=GL_COLOR_ATTACHMENT0 && attch<GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers)) {
                 errorShim(GL_INVALID_VALUE);
                 return;
             } else {

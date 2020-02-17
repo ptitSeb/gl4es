@@ -442,7 +442,7 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             break;
         case GL_MAX_COLOR_ATTACHMENTS:
             if(hardext.fbo)
-                *params=1;
+                *params=hardext.maxdrawbuffers;
             else
                 *params=0;
             break;
