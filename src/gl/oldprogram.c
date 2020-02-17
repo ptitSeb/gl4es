@@ -103,6 +103,9 @@ void gl4es_glProgramStringARB(GLenum target, GLenum format, GLsizei len, const G
         case GL_VERTEX_PROGRAM_ARB:
             old = glstate->glsl->vtx_prog;
             break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            old = glstate->glsl->frg_prog;
+            break;
         default:
             errorShim(GL_INVALID_VALUE);
             return;
@@ -171,7 +174,31 @@ void gl4es_glBindProgramARB(GLenum target, GLuint program) {
                     glstate->fpe_state->vertex_prg_id = 0;
             }
             break;
-
+        case GL_FRAGMENT_PROGRAM_ARB:
+            if(program) {
+                noerrorShimNoPurge();
+                if(glstate->fpe_state)
+                    glstate->fpe_state->fragment_prg_id = program;
+                glstate->glsl->frg_prog = old;
+                if(!old->type) {
+                    // create an empty shader
+                    old->type = target;
+                    GLuint shader = gl4es_glCreateShader(GL_FRAGMENT_SHADER);
+                    shader_t *glshader = NULL;
+                    khash_t(shaderlist) *shaders = glstate->glsl->shaders;
+                    k = kh_get(shaderlist, shaders, shader);
+                    glshader = kh_value(shaders, k);
+                    old->shader = glshader;
+                    // alloc memory for locals
+                    old->prog_local_params = (float*)calloc(MAX_FRG_PROG_LOC_PARAMS*4, sizeof(float));
+                }
+            } else {
+                noerrorShimNoPurge();
+                glstate->glsl->frg_prog = NULL;
+                if(glstate->fpe_state)
+                    glstate->fpe_state->fragment_prg_id = 0;
+            }
+            break;
         default:
             errorShim(GL_INVALID_ENUM);
     }
@@ -218,6 +245,17 @@ void gl4es_glProgramEnvParameter4dARB(GLenum target, GLuint index, GLdouble x, G
             } else
                 errorShim(GL_INVALID_VALUE);
             break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            if(index<MAX_FRG_PROG_ENV_PARAMS) {
+                noerrorShimNoPurge();
+                float* f = glstate->glsl->frg_env_params[index];
+                f[0] = x;
+                f[1] = y;
+                f[2] = z;
+                f[3] = w;
+            } else
+                errorShim(GL_INVALID_VALUE);
+            break;
         default:
             errorShim(GL_INVALID_ENUM);
     }
@@ -228,6 +266,17 @@ void gl4es_glProgramEnvParameter4dvARB(GLenum target, GLuint index, const GLdoub
             if(index<MAX_VTX_PROG_ENV_PARAMS) {
                 noerrorShimNoPurge();
                 float* f = glstate->glsl->vtx_env_params[index];
+                f[0] = params[0];
+                f[1] = params[1];
+                f[2] = params[2];
+                f[3] = params[3];
+            } else
+                errorShim(GL_INVALID_VALUE);
+            break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            if(index<MAX_FRG_PROG_ENV_PARAMS) {
+                noerrorShimNoPurge();
+                float* f = glstate->glsl->frg_env_params[index];
                 f[0] = params[0];
                 f[1] = params[1];
                 f[2] = params[2];
@@ -252,6 +301,17 @@ void gl4es_glProgramEnvParameter4fARB(GLenum target, GLuint index, GLfloat x, GL
             } else
                 errorShim(GL_INVALID_VALUE);
             break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            if(index<MAX_FRG_PROG_ENV_PARAMS) {
+                noerrorShimNoPurge();
+                float* f = glstate->glsl->frg_env_params[index];
+                f[0] = x;
+                f[1] = y;
+                f[2] = z;
+                f[3] = w;
+            } else
+                errorShim(GL_INVALID_VALUE);
+            break;
         default:
             errorShim(GL_INVALID_ENUM);
     }
@@ -262,6 +322,13 @@ void gl4es_glProgramEnvParameter4fvARB(GLenum target, GLuint index, const GLfloa
             if(index<MAX_VTX_PROG_ENV_PARAMS) {
                 noerrorShimNoPurge();
                 memcpy(glstate->glsl->vtx_env_params[index], params, 4*sizeof(float));
+            } else
+                errorShim(GL_INVALID_VALUE);
+            break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            if(index<MAX_FRG_PROG_ENV_PARAMS) {
+                noerrorShimNoPurge();
+                memcpy(glstate->glsl->frg_env_params[index], params, 4*sizeof(float));
             } else
                 errorShim(GL_INVALID_VALUE);
             break;
@@ -280,6 +347,21 @@ void gl4es_glProgramLocalParameter4dARB(GLenum target, GLuint index, GLdouble x,
             if(index<MAX_VTX_PROG_ENV_PARAMS) {
                 noerrorShimNoPurge();
                 float* f = glstate->glsl->vtx_prog->prog_local_params+index*4;
+                f[0] = x;
+                f[1] = y;
+                f[2] = z;
+                f[3] = w;
+            } else
+                errorShim(GL_INVALID_VALUE);
+            break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            if(!glstate->glsl->frg_prog) {
+                errorShim(GL_INVALID_OPERATION);
+                return;
+            }
+            if(index<MAX_FRG_PROG_ENV_PARAMS) {
+                noerrorShimNoPurge();
+                float* f = glstate->glsl->frg_prog->prog_local_params+index*4;
                 f[0] = x;
                 f[1] = y;
                 f[2] = z;
@@ -308,6 +390,21 @@ void gl4es_glProgramLocalParameter4dvARB(GLenum target, GLuint index, const GLdo
             } else
                 errorShim(GL_INVALID_VALUE);
             break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            if(!glstate->glsl->frg_prog) {
+                errorShim(GL_INVALID_OPERATION);
+                return;
+            }
+            if(index<MAX_FRG_PROG_ENV_PARAMS) {
+                noerrorShimNoPurge();
+                float* f = glstate->glsl->frg_prog->prog_local_params+index*4;
+                f[0] = params[0];
+                f[1] = params[1];
+                f[2] = params[2];
+                f[3] = params[3];
+            } else
+                errorShim(GL_INVALID_VALUE);
+            break;
         default:
             errorShim(GL_INVALID_ENUM);
     }
@@ -322,6 +419,21 @@ void gl4es_glProgramLocalParameter4fARB(GLenum target, GLuint index, GLfloat x, 
             if(index<MAX_VTX_PROG_ENV_PARAMS) {
                 noerrorShimNoPurge();
                 float* f = glstate->glsl->vtx_prog->prog_local_params+index*4;
+                f[0] = x;
+                f[1] = y;
+                f[2] = z;
+                f[3] = w;
+            } else
+                errorShim(GL_INVALID_VALUE);
+            break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            if(!glstate->glsl->frg_prog) {
+                errorShim(GL_INVALID_OPERATION);
+                return;
+            }
+            if(index<MAX_FRG_PROG_ENV_PARAMS) {
+                noerrorShimNoPurge();
+                float* f = glstate->glsl->frg_prog->prog_local_params+index*4;
                 f[0] = x;
                 f[1] = y;
                 f[2] = z;
@@ -346,6 +458,17 @@ void gl4es_glProgramLocalParameter4fvARB(GLenum target, GLuint index, const GLfl
             } else
                 errorShim(GL_INVALID_VALUE);
             break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            if(!glstate->glsl->frg_prog) {
+                errorShim(GL_INVALID_OPERATION);
+                return;
+            }
+            if(index<MAX_FRG_PROG_ENV_PARAMS) {
+                noerrorShimNoPurge();
+                memcpy(glstate->glsl->frg_prog->prog_local_params+index*4, params, 4*sizeof(float));
+            } else
+                errorShim(GL_INVALID_VALUE);
+            break;
         default:
             errorShim(GL_INVALID_ENUM);
     }
@@ -364,6 +487,17 @@ void gl4es_glGetProgramEnvParameterdvARB(GLenum target, GLuint index, GLdouble *
             } else
                 errorShim(GL_INVALID_VALUE);
             break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            if(index<MAX_FRG_PROG_ENV_PARAMS) {
+                noerrorShimNoPurge();
+                float* f = glstate->glsl->frg_env_params[index];
+                params[0] = f[0];
+                params[1] = f[1];
+                params[2] = f[2];
+                params[3] = f[3];
+            } else
+                errorShim(GL_INVALID_VALUE);
+            break;
         default:
             errorShim(GL_INVALID_ENUM);
     }
@@ -374,6 +508,13 @@ void gl4es_glGetProgramEnvParameterfvARB(GLenum target, GLuint index, GLfloat *p
             if(index<MAX_VTX_PROG_ENV_PARAMS) {
                 noerrorShimNoPurge();
                 memcpy(params, glstate->glsl->vtx_env_params[index], 4*sizeof(float));
+            } else
+                errorShim(GL_INVALID_VALUE);
+            break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            if(index<MAX_FRG_PROG_ENV_PARAMS) {
+                noerrorShimNoPurge();
+                memcpy(params, glstate->glsl->frg_env_params[index], 4*sizeof(float));
             } else
                 errorShim(GL_INVALID_VALUE);
             break;
@@ -399,6 +540,21 @@ void gl4es_glGetProgramLocalParameterdvARB(GLenum target, GLuint index, GLdouble
             } else
                 errorShim(GL_INVALID_VALUE);
             break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            if(!glstate->glsl->frg_prog) {
+                errorShim(GL_INVALID_OPERATION);
+                return;
+            }
+            if(index<MAX_FRG_PROG_ENV_PARAMS) {
+                noerrorShimNoPurge();
+                float* f = glstate->glsl->frg_prog->prog_local_params+index*4;
+                params[0] = f[0];
+                params[1] = f[1];
+                params[2] = f[2];
+                params[3] = f[3];
+            } else
+                errorShim(GL_INVALID_VALUE);
+            break;
         default:
             errorShim(GL_INVALID_ENUM);
     }
@@ -416,6 +572,17 @@ void gl4es_glGetProgramLocalParameterfvARB(GLenum target, GLuint index, GLfloat 
             } else
                 errorShim(GL_INVALID_VALUE);
             break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            if(!glstate->glsl->frg_prog) {
+                errorShim(GL_INVALID_OPERATION);
+                return;
+            }
+            if(index<MAX_FRG_PROG_ENV_PARAMS) {
+                noerrorShimNoPurge();
+                memcpy(params, glstate->glsl->frg_prog->prog_local_params+index*4, 4*sizeof(float));
+            } else
+                errorShim(GL_INVALID_VALUE);
+            break;
         default:
             errorShim(GL_INVALID_ENUM);
     }
@@ -426,6 +593,9 @@ void gl4es_glGetProgramivARB(GLenum target, GLenum pname, GLint *params) {
     switch(target) {
         case GL_VERTEX_PROGRAM_ARB:
             old = glstate->glsl->vtx_prog;
+            break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            old = glstate->glsl->frg_prog;
             break;
         default:
             errorShim(GL_INVALID_VALUE);
@@ -480,6 +650,18 @@ void gl4es_glGetProgramivARB(GLenum target, GLenum pname, GLint *params) {
         case GL_MAX_PROGRAM_ADDRESS_REGISTERS_ARB:
             *params = 4;
             break;
+        case GL_MAX_PROGRAM_NATIVE_ALU_INSTRUCTIONS_ARB:
+        case GL_MAX_PROGRAM_ALU_INSTRUCTIONS_ARB:
+            *params = 1024;
+            break;
+        case GL_MAX_PROGRAM_NATIVE_TEX_INSTRUCTIONS_ARB:
+        case GL_MAX_PROGRAM_TEX_INSTRUCTIONS_ARB:
+            *params = 32;
+            break;
+        case GL_MAX_PROGRAM_TEX_INDIRECTIONS_ARB:
+        case GL_MAX_PROGRAM_NATIVE_TEX_INDIRECTIONS_ARB:
+            *params = 8;
+            break;
         /*
         // bounded program stats...
         case GL_PROGRAM_NATIVE_INSTRUCTIONS_ARB:
@@ -492,6 +674,12 @@ void gl4es_glGetProgramivARB(GLenum target, GLenum pname, GLint *params) {
         case GL_PROGRAM_ATTRIBS_ARB:
         case GL_PROGRAM_NATIVE_ADDRESS_REGISTERS_ARB:
         case GL_PROGRAM_ADDRESS_REGISTERS_ARB:
+        case GL_PROGRAM_NATIVE_ALU_INSTRUCTIONS_ARB:
+        case GL_PROGRAM_ALU_INSTRUCTIONS_ARB:
+        case GL_PROGRAM_NATIVE_TEX_INSTRUCTIONS_ARB:
+        case GL_PROGRAM_TEX_INSTRUCTIONS_ARB:
+        case GL_PROGRAM_NATIVE_TEX_INDIRECTIONS_ARB:
+        case GL_PROGRAM_TEX_INDIRECTIONS_ARB:
         */
         case GL_PROGRAM_UNDER_NATIVE_LIMITS_ARB:
             *params = 1;    // always return OK for now
@@ -506,6 +694,9 @@ void gl4es_glGetProgramStringARB(GLenum target, GLenum pname, GLvoid *string) {
     switch(target) {
         case GL_VERTEX_PROGRAM_ARB:
             old = glstate->glsl->vtx_prog;
+            break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            old = glstate->glsl->frg_prog;
             break;
         default:
             errorShim(GL_INVALID_VALUE);
