@@ -1,6 +1,6 @@
 #include "framebuffers.h"
 
-#if !defined(ANDROID) && !defined(AMIGAOS4) && !defined(__EMSCRIPTEN__)
+#if !defined(ANDROID) && !defined(AMIGAOS4) && !defined(__EMSCRIPTEN__) && !defined(__APPLE__)
 #include <execinfo.h>
 #endif
 #include "../glx/hardext.h"

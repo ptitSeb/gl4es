@@ -2,7 +2,7 @@
 #define _GL4ES_ATTRIBUTES_H_
 
 #ifndef AliasExport
- #ifdef __EMSCRIPTEN__
+ #if defined(__EMSCRIPTEN__) || defined(__APPLE__)
   #define AliasExport(name)
  #else
   #define AliasExport(name)   __attribute__((alias(name))) __attribute__((visibility("default")))

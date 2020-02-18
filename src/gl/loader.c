@@ -1,6 +1,6 @@
 #include "loader.h"
 
-#ifdef __EMSCRIPTEN__
+#if defined(__EMSCRIPTEN__) || defined(__APPLE__)
 
 void *gles = (void*)(~(uintptr_t)0);
 void *egl = (void*)(~(uintptr_t)0);

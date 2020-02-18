@@ -473,7 +473,7 @@ void *copy_gl_array_bgra(void* dest, const void *ptr, GLint stride, GLsizei widt
 
     static const float d = 1.0f/255.0f;
     for (int i=skip; i<count; i++) {
-        #ifdef __ARM_NEON__
+        #if defined(__ARM_NEON__) && !defined(__APPLE__)
         int lsrc = *(int*)src;
         lsrc = (lsrc&0xff00ff00) | ((lsrc&0x00ff0000)>>16) | ((lsrc&0x000000ff)<<16);
         asm volatile (

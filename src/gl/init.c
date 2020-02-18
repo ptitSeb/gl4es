@@ -1,4 +1,4 @@
-#if !defined(ANDROID) && !defined(AMIGAOS4) && !defined(__EMSCRIPTEN__)
+#if !defined(ANDROID) && !defined(AMIGAOS4) && !defined(__EMSCRIPTEN__) && !defined(__APPLE__)
 #include <execinfo.h>
 #endif
 #include <stdio.h>
@@ -13,7 +13,7 @@
 #include "fpe_cache.h"
 #include "init.h"
 #include "envvars.h"
-#ifdef __EMSCRIPTEN__
+#if defined(__EMSCRIPTEN__) || defined(__APPLE__)
 #define NO_INIT_CONSTRUCTOR
 #endif
 
@@ -182,11 +182,11 @@ void initialize_gl4es() {
 #endif
     }
 
-#ifndef __EMSCRIPTEN__
+#if !defined(__EMSCRIPTEN__) && !defined(__APPLE__)
     load_libs();
 #endif
 
-#if (defined(NOEGL) && !defined(ANDROID)) || defined(__EMSCRIPTEN__)
+#if (defined(NOEGL) && !defined(ANDROID)) || defined(__EMSCRIPTEN__) || defined(__APPLE__)
     int gl4es_notest = 1;
 #else
     int gl4es_notest = IsEnvVarTrue("LIBGL_NOTEST");
@@ -208,7 +208,7 @@ void initialize_gl4es() {
 
     GetHardwareExtensions(gl4es_notest);
 
-#ifndef __EMSCRIPTEN__
+#if !defined(__EMSCRIPTEN__) && !defined(__APPLE__)
     if(globals4es.usegbm)
         LoadGBMFunctions();
     if(globals4es.usegbm && !(gbm && drm)) {
