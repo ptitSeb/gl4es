@@ -958,6 +958,8 @@ int isBuiltinMatrix(const char* name) {
 }
 
 const char* hasBuiltinAttrib(const char* vertexShader, int Att) {
+    if(!vertexShader) // can happens (like if the shader is a pure GLES2 one)
+      return NULL;
     // first search for the string
     const char* ret = NULL;
     int n = sizeof(builtin_attrib)/sizeof(builtin_attrib_t);
