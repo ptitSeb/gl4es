@@ -166,6 +166,10 @@ void gl4es_glBindProgramARB(GLenum target, GLuint program) {
                     old->shader = glshader;
                     // alloc memory for locals
                     old->prog_local_params = (float*)calloc(MAX_VTX_PROG_LOC_PARAMS*4, sizeof(float));
+                    old->max_loc = -1;
+                    old->max_env = -1;
+                    old->min_loc = MAX_VTX_PROG_LOC_PARAMS;
+                    old->min_env = MAX_VTX_PROG_ENV_PARAMS;
                 }
             } else {
                 noerrorShimNoPurge();
@@ -191,6 +195,10 @@ void gl4es_glBindProgramARB(GLenum target, GLuint program) {
                     old->shader = glshader;
                     // alloc memory for locals
                     old->prog_local_params = (float*)calloc(MAX_FRG_PROG_LOC_PARAMS*4, sizeof(float));
+                    old->max_loc = -1;
+                    old->max_env = -1;
+                    old->min_loc = MAX_FRG_PROG_LOC_PARAMS;
+                    old->min_env = MAX_FRG_PROG_ENV_PARAMS;
                 }
             } else {
                 noerrorShimNoPurge();

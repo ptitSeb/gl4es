@@ -17,6 +17,13 @@ typedef struct oldprogram_s {
     char*       string;
     shader_t*   shader;
     float*      prog_local_params;
+    // tracking of the shader uniforms
+    int         min_loc;
+    int         max_loc;
+    int*        locals;
+    int         min_env;
+    int         max_env;
+    int*        envs;
 } oldprogram_t;
 
 void InitOldProgramMap(glstate_t* glstate);
