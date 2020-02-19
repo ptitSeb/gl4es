@@ -81,6 +81,7 @@ void GetHardwareExtensions(int notest)
             hardext.pointsprite = 1;
             hardext.pointsize = 1;
             hardext.cubemap = 1;
+            hardext.maxdrawbuffers = 1;
 #ifdef AMIGAOS4
             hardext.glsl300es = 1;
 #endif
