@@ -164,7 +164,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                     t->src0_rgb = param;
                     if(glstate->fpe_state) {
                         int state = FPE_SRC_TEXTURE;
-                        if(t->src0_rgb>=GL_TEXTURE0 && t->src0_rgb<=GL_TEXTURE0+MAX_TEX) {
+                        if(t->src0_rgb>=GL_TEXTURE0 && t->src0_rgb<GL_TEXTURE0+MAX_TEX) {
                             state = FPE_SRC_TEXTURE0 + (t->src0_rgb-GL_TEXTURE0);
                         } else
                             switch(t->src0_rgb) {
@@ -193,7 +193,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                     t->src1_rgb = param;
                     if(glstate->fpe_state) {
                         int state = FPE_SRC_TEXTURE;
-                        if(t->src1_rgb>=GL_TEXTURE0 && t->src1_rgb<=GL_TEXTURE0+MAX_TEX) {
+                        if(t->src1_rgb>=GL_TEXTURE0 && t->src1_rgb<GL_TEXTURE0+MAX_TEX) {
                             state = FPE_SRC_TEXTURE0 + (t->src1_rgb-GL_TEXTURE0);
                         } else
                             switch(t->src1_rgb) {
@@ -222,7 +222,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                     t->src2_rgb = param;
                     if(glstate->fpe_state) {
                         int state = FPE_SRC_TEXTURE;
-                        if(t->src2_rgb>=GL_TEXTURE0 && t->src2_rgb<=GL_TEXTURE0+MAX_TEX) {
+                        if(t->src2_rgb>=GL_TEXTURE0 && t->src2_rgb<GL_TEXTURE0+MAX_TEX) {
                             state = FPE_SRC_TEXTURE0 + (t->src2_rgb-GL_TEXTURE0);
                         } else
                             switch(t->src2_rgb) {
@@ -253,7 +253,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                     t->src3_rgb = param;
                     if(glstate->fpe_state) {
                         int state = FPE_SRC_TEXTURE;
-                        if(param>=GL_TEXTURE0 && param<=GL_TEXTURE0+MAX_TEX) {
+                        if(param>=GL_TEXTURE0 && param<GL_TEXTURE0+MAX_TEX) {
                             state = FPE_SRC_TEXTURE0 + (param-GL_TEXTURE0);
                         } else
                             switch(t->src3_rgb) {
@@ -283,7 +283,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                     t->src0_alpha = param;
                     if(glstate->fpe_state) {
                         int state = FPE_SRC_TEXTURE;
-                        if(t->src0_alpha>=GL_TEXTURE0 && t->src0_alpha<=GL_TEXTURE0+MAX_TEX) {
+                        if(t->src0_alpha>=GL_TEXTURE0 && t->src0_alpha<GL_TEXTURE0+MAX_TEX) {
                             state = FPE_SRC_TEXTURE0 + (t->src0_alpha-GL_TEXTURE0);
                         } else
                             switch(t->src0_alpha) {
@@ -316,7 +316,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                     t->src1_alpha = param;
                     if(glstate->fpe_state) {
                         int state = FPE_SRC_TEXTURE;
-                        if(t->src1_alpha>=GL_TEXTURE0 && t->src1_alpha<=GL_TEXTURE0+MAX_TEX) {
+                        if(t->src1_alpha>=GL_TEXTURE0 && t->src1_alpha<GL_TEXTURE0+MAX_TEX) {
                             state = FPE_SRC_TEXTURE0 + (t->src1_alpha-GL_TEXTURE0);
                         } else
                             switch(t->src1_alpha) {
@@ -349,7 +349,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                     t->src2_alpha = param;
                     if(glstate->fpe_state) {
                         int state = FPE_SRC_TEXTURE;
-                        if(t->src2_alpha>=GL_TEXTURE0 && t->src2_alpha<=GL_TEXTURE0+MAX_TEX) {
+                        if(t->src2_alpha>=GL_TEXTURE0 && t->src2_alpha<GL_TEXTURE0+MAX_TEX) {
                             state = FPE_SRC_TEXTURE0 + (t->src2_alpha-GL_TEXTURE0);
                         } else
                             switch(t->src2_alpha) {
@@ -380,7 +380,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                     t->src3_alpha = param;
                     if(glstate->fpe_state) {
                         int state = FPE_SRC_TEXTURE;
-                        if(param>=GL_TEXTURE0 && param<=GL_TEXTURE0+MAX_TEX) {
+                        if(param>=GL_TEXTURE0 && param<GL_TEXTURE0+MAX_TEX) {
                             state = FPE_SRC_TEXTURE0 + (param-GL_TEXTURE0);
                         } else
                             switch(t->src3_alpha) {
