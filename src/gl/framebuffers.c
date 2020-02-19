@@ -1473,7 +1473,7 @@ void gl4es_setCurrentFBO() {
   gles_glBindFramebuffer(GL_FRAMEBUFFER, (glstate->fbo.current_fb->id)?glstate->fbo.current_fb->id:glstate->fbo.mainfbo_fbo);
 }
 
-// DrawBuffers functions are faked for now. Will be plugg'd when ES3.0 support is implemented
+// DrawBuffers functions are faked unless GL_EXT_draw_buffers is supported
 void gl4es_glDrawBuffers(GLsizei n, const GLenum *bufs) {
     DBG(printf("glDrawBuffers(%d, %p) [0]=%s\n", n, bufs, n?PrintEnum(bufs[0]):"nil");)
     if(hardext.drawbuffers) {
@@ -1486,7 +1486,6 @@ void gl4es_glDrawBuffers(GLsizei n, const GLenum *bufs) {
             return;
         }
     }
-    // simple copy for now...
     glstate->fbo.fbo_draw->n_draw = n;
     memcpy(glstate->fbo.fbo_draw->drawbuff, bufs, n*sizeof(GLenum));
     noerrorShim();
@@ -1496,7 +1495,6 @@ void gl4es_glNamedFramebufferDrawBuffers(GLuint framebuffer, GLsizei n, const GL
         errorShim(GL_INVALID_VALUE);
         return;
     }
-    // simple copy for now...
     glframebuffer_t* fb = find_framebuffer(framebuffer);
     if(hardext.drawbuffers) {
         GLuint oldf = glstate->fbo.fbo_draw->id;
@@ -1524,13 +1522,19 @@ void gl4es_glClearBufferiv(GLenum buffer, GLint drawbuffer, const GLint * value)
                 errorShim(GL_INVALID_VALUE);
                 return;
             } else {
-                // TODO: Select the buffer to clear, espcialy if GL_EXT_draw_buffers is supported!
                 GLfloat oldclear[4];
+                LOAD_GLES(glDrawBuffersEXT);
+                // select the buffer...
+                if(hardext.drawbuffers)
+                    gles_glDrawBuffersEXT(1, &drawbuffer);
                 gl4es_glGetFloatv(GL_COLOR_CLEAR_VALUE, oldclear);
                 // how to convert the value? Most FB will be 8bits / componant for now...
                 gl4es_glClearColor(value[0]/127.0f, value[1]/127.0f, value[2]/127.0f, value[3]/127.0f);
                 gl4es_glClear(GL_COLOR_BUFFER_BIT);
                 gl4es_glClearColor(oldclear[0], oldclear[1], oldclear[2], oldclear[3]);
+                // put back the draw buffers...
+                if(hardext.drawbuffers)
+                    gles_glDrawBuffersEXT(glstate->fbo.fbo_draw->n_draw, glstate->fbo.fbo_draw->drawbuff);
                 return;
             }
             break;
@@ -1564,11 +1568,18 @@ void gl4es_glClearBufferuiv(GLenum buffer, GLint drawbuffer, const GLuint * valu
                 return;
             } else {
                 GLfloat oldclear[4];
+                LOAD_GLES(glDrawBuffersEXT);
+                // select the buffer...
+                if(hardext.drawbuffers)
+                    gles_glDrawBuffersEXT(1, &drawbuffer);
                 gl4es_glGetFloatv(GL_COLOR_CLEAR_VALUE, oldclear);
                 // how to convert the value? Most FB will be 8bits / componant for now...
                 gl4es_glClearColor(value[0]/255.0f, value[1]/255.0f, value[2]/255.0f, value[3]/255.0f);
                 gl4es_glClear(GL_COLOR_BUFFER_BIT);
                 gl4es_glClearColor(oldclear[0], oldclear[1], oldclear[2], oldclear[3]);
+                // put back the draw buffers...
+                if(hardext.drawbuffers)
+                    gles_glDrawBuffersEXT(glstate->fbo.fbo_draw->n_draw, glstate->fbo.fbo_draw->drawbuff);
                 return;
             }
             break;
@@ -1590,11 +1601,18 @@ void gl4es_glClearBufferfv(GLenum buffer, GLint drawbuffer, const GLfloat * valu
                 return;
             } else {
                 GLfloat oldclear[4];
+                LOAD_GLES(glDrawBuffersEXT);
+                // select the buffer...
+                if(hardext.drawbuffers)
+                    gles_glDrawBuffersEXT(1, &drawbuffer);
                 gl4es_glGetFloatv(GL_COLOR_CLEAR_VALUE, oldclear);
                 // how to convert the value? Most FB will be 8bits / componant for now...
                 gl4es_glClearColor(value[0], value[1], value[2], value[3]);
                 gl4es_glClear(GL_COLOR_BUFFER_BIT);
                 gl4es_glClearColor(oldclear[0], oldclear[1], oldclear[2], oldclear[3]);
+                // put back the draw buffers...
+                if(hardext.drawbuffers)
+                    gles_glDrawBuffersEXT(glstate->fbo.fbo_draw->n_draw, glstate->fbo.fbo_draw->drawbuff);
                 return;
             }
             break;
