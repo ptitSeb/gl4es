@@ -432,12 +432,6 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
         return;
     }
 
-    // Ignore Color attachment 1 .. 9
-    if ((attachment>=GL_COLOR_ATTACHMENT0+1) && (attachment<=GL_COLOR_ATTACHMENT0+9)) {
-        errorShim(GL_INVALID_ENUM);
-        return;
-    }
-
     if( !(attachment>=GL_COLOR_ATTACHMENT0 && attachment<GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers)
      && attachment!=GL_DEPTH_ATTACHMENT 
      && attachment!=GL_STENCIL_ATTACHMENT 
@@ -1112,7 +1106,7 @@ void gl4es_glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachmen
         return;
     }
 
-    if( attachment!=GL_COLOR_ATTACHMENT0 
+    if( !(attachment>=GL_COLOR_ATTACHMENT0 && attachment<GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers)
      && attachment!=GL_DEPTH_ATTACHMENT 
      && attachment!=GL_STENCIL_ATTACHMENT 
      && attachment!=GL_DEPTH_STENCIL_ATTACHMENT) {
