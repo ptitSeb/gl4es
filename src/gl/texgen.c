@@ -55,20 +55,20 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
                 n = glstate->texture.active*3;
             }
             switch (coord) {
-                case GL_S: glstate->texgen[glstate->texture.active].S = param[0]; if(mode!=-1) { glstate->fpe_state->texgen_s_mode&=~(7<<n); glstate->fpe_state->texgen_s_mode|=(mode<<n); } break;
-                case GL_T: glstate->texgen[glstate->texture.active].T = param[0]; if(mode!=-1) { glstate->fpe_state->texgen_t_mode&=~(7<<n); glstate->fpe_state->texgen_t_mode|=(mode<<n); } break;
+                case GL_S: glstate->texgen[glstate->texture.active].S = param[0]; if(mode!=-1) { glstate->fpe_state->texgen_s_mode&=~(7L<<n); glstate->fpe_state->texgen_s_mode|=(((uint64_t)mode)<<n); } break;
+                case GL_T: glstate->texgen[glstate->texture.active].T = param[0]; if(mode!=-1) { glstate->fpe_state->texgen_t_mode&=~(7L<<n); glstate->fpe_state->texgen_t_mode|=(((uint64_t)mode)<<n); } break;
                 case GL_R: 
                     if(param[0]==GL_SPHERE_MAP) {
                         errorShim(GL_INVALID_ENUM);
                         return;
                     }
-                    glstate->texgen[glstate->texture.active].R = param[0]; if(mode!=-1) { glstate->fpe_state->texgen_r_mode&=~(7<<n); glstate->fpe_state->texgen_r_mode|=(mode<<n); } break;
+                    glstate->texgen[glstate->texture.active].R = param[0]; if(mode!=-1) { glstate->fpe_state->texgen_r_mode&=~(7L<<n); glstate->fpe_state->texgen_r_mode|=(((uint64_t)mode)<<n); } break;
                 case GL_Q: 
                     if(param[0]==GL_REFLECTION_MAP || param[0]==GL_NORMAL_MAP || param[0]==GL_SPHERE_MAP) {
                         errorShim(GL_INVALID_ENUM);
                         return;
                     }
-                    glstate->texgen[glstate->texture.active].Q = param[0]; if(mode!=-1) { glstate->fpe_state->texgen_q_mode&=~(7<<n); glstate->fpe_state->texgen_q_mode|=(mode<<n); } break;
+                    glstate->texgen[glstate->texture.active].Q = param[0]; if(mode!=-1) { glstate->fpe_state->texgen_q_mode&=~(7L<<n); glstate->fpe_state->texgen_q_mode|=(((uint64_t)mode)<<n); } break;
                 default:
                     errorShim(GL_INVALID_ENUM);
             }

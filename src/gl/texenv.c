@@ -78,8 +78,8 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
                             case GL_COMBINE: state=FPE_COMBINE; break;
                             case GL_COMBINE4: state=FPE_COMBINE4; break;
                         }
-                        glstate->fpe_state->texenv &= ~ (7<<(tmu*3));
-                        glstate->fpe_state->texenv |= state<<(tmu*3);
+                        glstate->fpe_state->texenv &= ~ (7L<<(tmu*3));
+                        glstate->fpe_state->texenv |= ((uint64_t)state)<<(tmu*3);
                     }
                     break;
                 case GL_COMBINE_RGB:

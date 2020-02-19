@@ -92,27 +92,27 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
         for (int i=0; i<MAX_TEX; i++) {
             if(((dest->textype>>(i*3))&7)==0) { // texture is off
                 dest->textmat &= ~(1<<i);
-                dest->texformat &= ~(7<<(i*3));
+                dest->texformat &= ~(7L<<(i*3));
                 dest->texadjust &= ~(1<<i);
                 dest->texgen_s &= ~(1<<i);
-                dest->texgen_s_mode &= ~(7<<(i*3));
+                dest->texgen_s_mode &= ~(7L<<(i*3));
                 dest->texgen_t &= ~(1<<i);
-                dest->texgen_t_mode &= ~(7<<(i*3));
+                dest->texgen_t_mode &= ~(7L<<(i*3));
                 dest->texgen_r &= ~(1<<i);
-                dest->texgen_r_mode &= ~(7<<(i*3));
+                dest->texgen_r_mode &= ~(7L<<(i*3));
                 dest->texgen_q &= ~(1<<i);
-                dest->texgen_q_mode &= ~(7<<(i*3));
+                dest->texgen_q_mode &= ~(7L<<(i*3));
                 dest->texrgbscale &= ~(1<<i);
                 dest->texalphascale &= ~(1<<i);
             } else {    // texture is on
                 if ((dest->texgen_s&(1<<i))==0)
-                    dest->texgen_s_mode &= ~(7<<(i*3));
+                    dest->texgen_s_mode &= ~(7L<<(i*3));
                 if ((dest->texgen_t&(1<<i))==0)
-                    dest->texgen_t_mode &= ~(7<<(i*3));
+                    dest->texgen_t_mode &= ~(7L<<(i*3));
                 if ((dest->texgen_r&(1<<i))==0)
-                    dest->texgen_r_mode &= ~(7<<(i*3));
+                    dest->texgen_r_mode &= ~(7L<<(i*3));
                 if ((dest->texgen_q&(1<<i))==0)
-                    dest->texgen_q_mode &= ~(7<<(i*3));
+                    dest->texgen_q_mode &= ~(7L<<(i*3));
             }
             if((((dest->texenv>>(i*3))&7) < FPE_COMBINE) || ((dest->textype>>(i*3)&7)==0)) {
                 dest->texcombine[i] = 0;
@@ -779,10 +779,10 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
     // update texture state for fpe only
     if(glstate->fpe_bound_changed && !glstate->glsl->program) {
         for(int i=0; i<glstate->fpe_bound_changed; i++) {
-            glstate->fpe_state->texformat &= ~(7<<(i*3));
+            glstate->fpe_state->texformat &= ~(7L<<(i*3));
             glstate->fpe_state->texadjust &= ~(1<<i);
             // disable texture unit, in that case (binded texture iconsts not valid)
-            glstate->fpe_state->textype &= ~(7<<(i*3));
+            glstate->fpe_state->textype &= ~(7L<<(i*3));
             int texunit = fpe_gettexture(i);
             gltexture_t* tex = (texunit==-1)?NULL:glstate->texture.bound[i][texunit];
             if(tex && tex->valid) {
@@ -798,10 +798,10 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                     else if(texunit==ENABLED_TEX3D) fmt = FPE_TEX_3D;
                     else fmt = FPE_TEX_2D;
                 }
-                glstate->fpe_state->texformat |= tex->fpe_format<<(i*3);
+                glstate->fpe_state->texformat |= ((uint64_t)tex->fpe_format)<<(i*3);
                 glstate->fpe_state->texadjust |= tex->adjust<<i;
                 if(texunit==ENABLED_TEXTURE_RECTANGLE) glstate->fpe_state->texadjust |= 1<<i;
-                glstate->fpe_state->textype |= fmt<<(i*3);
+                glstate->fpe_state->textype |= ((uint64_t)fmt)<<(i*3);
             }
         }
         glstate->fpe_bound_changed = 0;

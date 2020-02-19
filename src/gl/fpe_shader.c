@@ -113,8 +113,25 @@ int fpe_texenvSecondary(fpe_state_t* state) {
     return 0;   
 }
 
+char* fpe_packed64(uint64_t x, int s, int k) {
+    static char buff[8][65];
+    static int idx = 0;
+
+    idx&=7;
+    uint64_t mask = (1L<<k)-1L;
+
+    const char *hex = "0123456789ABCDEF";
+
+    int j=s/k;
+    buff[idx][j] = '\0';
+    for (int i=0; i<s; i+=k) {
+        buff[idx][--j] = hex[(x&mask)];
+        x>>=k;
+    }
+    return buff[idx++];
+}
 char* fpe_packed(int x, int s, int k) {
-    static char buff[8][30];
+    static char buff[8][33];
     static int idx = 0;
 
     idx&=7;
@@ -168,7 +185,7 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
 
     if(comments) {
         sprintf(buff, "// ** Vertex Shader **\n// ligthting=%d (twosided=%d, separate=%d, color_material=%d)\n// secondary=%d, planes=%s\n// texture=%s, point=%d\n",
-            lighting, twosided, light_separate, color_material, secondary, fpe_binary(planes, 6), fpe_packed(state->textype, 24, 3), point);
+            lighting, twosided, light_separate, color_material, secondary, fpe_binary(planes, 6), fpe_packed64(state->textype, 48, 3), point);
         ShadAppend(buff);
         headers+=CountLine(buff);
     }
@@ -524,13 +541,13 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         ShadAppend("vec4 tmp_tex;\n");
     for (int i=0; i<hardext.maxtex; i++) {
         int t = (state->textype>>(i*3))&0x7;
-        int mat = state->textmat&(1<<i)?1:0;
-        int adjust = state->texadjust&(1<<i)?1:0;
+        int mat = (state->textmat&(1<<i))?1:0;
+        int adjust = (state->texadjust&(1<<i))?1:0;
         int tg[4];
-        tg[0] = state->texgen_s&(1<<i)?1:0;
-        tg[1] = state->texgen_t&(1<<i)?1:0;
-        tg[2] = state->texgen_r&(1<<i)?1:0;
-        tg[3] = state->texgen_q&(1<<i)?1:0;
+        tg[0] = (state->texgen_s&(1<<i))?1:0;
+        tg[1] = (state->texgen_t&(1<<i))?1:0;
+        tg[2] = (state->texgen_r&(1<<i))?1:0;
+        tg[3] = (state->texgen_q&(1<<i))?1:0;
         int ntc = texnsize[t-1];
         if(t) {
             if(comments) {
@@ -540,10 +557,10 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             char texcoord[50];
             if (tg[0] || tg[1] || tg[2] || tg[3]) {
                 // One or more texgen is active
-                if(tg[0]) tg[0] = (state->texgen_s_mode>>(i*3)&7); else tg[0] = FPE_TG_NONE;
-                if(tg[1]) tg[1] = (state->texgen_t_mode>>(i*3)&7); else tg[1] = FPE_TG_NONE;
-                if(tg[2]) tg[2] = (state->texgen_r_mode>>(i*3)&7); else tg[2] = FPE_TG_NONE;
-                if(tg[3]) tg[3] = (state->texgen_q_mode>>(i*3)&7); else tg[3] = FPE_TG_NONE;
+                if(tg[0]) tg[0] = ((state->texgen_s_mode>>(i*3))&7); else tg[0] = FPE_TG_NONE;
+                if(tg[1]) tg[1] = ((state->texgen_t_mode>>(i*3))&7); else tg[1] = FPE_TG_NONE;
+                if(tg[2]) tg[2] = ((state->texgen_r_mode>>(i*3))&7); else tg[2] = FPE_TG_NONE;
+                if(tg[3]) tg[3] = ((state->texgen_q_mode>>(i*3))&7); else tg[3] = FPE_TG_NONE;
                 if(comments) {
                     sprintf(buff, "//  texgen %d / %d / %d / %d\n", tg[0], tg[1], tg[2], tg[3]);
                     ShadAppend(buff);
@@ -764,7 +781,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     }
     
     if(comments) {
-        sprintf(buff, "// ** Fragment Shader **\n// lighting=%d, alpha=%d, secondary=%d, planes=%s, textype=%s, texformat=%s point=%d\n", lighting, alpha_test, secondary, fpe_binary(planes, 6), fpe_packed(state->textype, 24, 3), fpe_packed(state->texformat, 24, 3), point);
+        sprintf(buff, "// ** Fragment Shader **\n// lighting=%d, alpha=%d, secondary=%d, planes=%s, textype=%s, texformat=%s point=%d\n", lighting, alpha_test, secondary, fpe_binary(planes, 6), fpe_packed64(state->textype, 48, 3), fpe_packed64(state->texformat, 48, 3), point);
         ShadAppend(buff);
         headers+=CountLine(buff);
     }
