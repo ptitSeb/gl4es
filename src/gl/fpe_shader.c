@@ -85,15 +85,16 @@ const char* fpe_texenvSrc(int src, int tmu, int twosided) {
 int fpe_texenvSecondary(fpe_state_t* state) {
     // check if one of the texenv need secondary color...
     for (int i=0; i<hardext.maxtex; i++) {
-        int t = (state->textype>>(i*3))&0x7;
+        int t = state->texture[i].textype;
         if(t) {
-            int texenv = (state->texenv>>(i*3))&0x07;
+            int texenv = state->texenv[i].texenv;
             if(texenv==FPE_COMBINE) {
                 int combine_rgb = state->texcombine[i]&0xf;
                 int src_r[3];
-                for (int j=0; j<3; j++) {
-                    src_r[j] = state->texsrcrgb[i][j];
-                }
+                src_r[0] = state->texenv[i].texsrcrgb0;
+                src_r[1] = state->texenv[i].texsrcrgb1;
+                src_r[2] = state->texenv[i].texsrcrgb2;
+                src_r[3] = state->texenv[i].texsrcrgb3;
                 if(combine_rgb==FPE_CR_DOT3_RGBA) {
                         src_r[2] = -1;
                 } else {
@@ -177,6 +178,15 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     int need_lightproduct[2][MAX_LIGHT] = {0};
     int cm_front_nullexp = state->cm_front_nullexp;
     int cm_back_nullexp = state->cm_back_nullexp;
+    int texgens = 0;
+    int texmats = 0;
+
+    for (int i=0; i<hardext.maxtex; ++i) {
+        if(state->texgen[i].texgen_s || state->texgen[i].texgen_t || state->texgen[i].texgen_r || state->texgen[i].texgen_q)
+            texgens = 1;
+        if(state->texture[i].texmat)
+            texmats = 1;
+    }
 
     strcpy(shad, fpeshader_signature);
 
@@ -184,8 +194,8 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     DBG(comments=1-comments;)   // When DEBUG is activated, the effect of LIBGL_COMMENTS is reversed
 
     if(comments) {
-        sprintf(buff, "// ** Vertex Shader **\n// ligthting=%d (twosided=%d, separate=%d, color_material=%d)\n// secondary=%d, planes=%s\n// texture=%s, point=%d\n",
-            lighting, twosided, light_separate, color_material, secondary, fpe_binary(planes, 6), fpe_packed64(state->textype, 48, 3), point);
+        sprintf(buff, "// ** Vertex Shader **\n// ligthting=%d (twosided=%d, separate=%d, color_material=%d)\n// secondary=%d, planes=%s\n// point=%d\n",
+            lighting, twosided, light_separate, color_material, secondary, fpe_binary(planes, 6), point);
         ShadAppend(buff);
         headers+=CountLine(buff);
     }
@@ -321,12 +331,12 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     }
     // textures coordinates
     for (int i=0; i<hardext.maxtex; i++) {
-        int t = (state->textype>>(i*3))&0x7;
+        int t = state->texture[i].textype;
         if(t) {
             sprintf(buff, "varying %s _gl4es_TexCoord_%d;\n", texvecsize[t-1], i);
             ShadAppend(buff);
             headers++;
-            if(state->textmat&(1<<i)) {
+            if(state->texture[i].texmat) {
                 sprintf(buff, "uniform highp mat4 _gl4es_TextureMatrix_%d;\n", i);
                 ShadAppend(buff);
                 headers++;
@@ -533,21 +543,21 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     // calculate texture coordinates
     if(comments)
         ShadAppend("// texturing\n");
-    if(state->texgen_s || state->texgen_t || state->texgen_r || state->texgen_q)
+    if(texgens)
         ShadAppend("vec4 tmp_tcoor;\n");
     int spheremap = 0;
     int reflectmap = 0;
-    if(state->textmat)
+    if(texmats)
         ShadAppend("vec4 tmp_tex;\n");
     for (int i=0; i<hardext.maxtex; i++) {
-        int t = (state->textype>>(i*3))&0x7;
-        int mat = (state->textmat&(1<<i))?1:0;
-        int adjust = (state->texadjust&(1<<i))?1:0;
+        int t = state->texture[i].textype;
+        int mat = state->texture[i].texmat;
+        int adjust = state->texture[i].texadjust;
         int tg[4];
-        tg[0] = (state->texgen_s&(1<<i))?1:0;
-        tg[1] = (state->texgen_t&(1<<i))?1:0;
-        tg[2] = (state->texgen_r&(1<<i))?1:0;
-        tg[3] = (state->texgen_q&(1<<i))?1:0;
+        tg[0] = state->texgen[i].texgen_s;
+        tg[1] = state->texgen[i].texgen_t;
+        tg[2] = state->texgen[i].texgen_r;
+        tg[3] = state->texgen[i].texgen_q;
         int ntc = texnsize[t-1];
         if(t) {
             if(comments) {
@@ -557,10 +567,10 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
             char texcoord[50];
             if (tg[0] || tg[1] || tg[2] || tg[3]) {
                 // One or more texgen is active
-                if(tg[0]) tg[0] = ((state->texgen_s_mode>>(i*3))&7); else tg[0] = FPE_TG_NONE;
-                if(tg[1]) tg[1] = ((state->texgen_t_mode>>(i*3))&7); else tg[1] = FPE_TG_NONE;
-                if(tg[2]) tg[2] = ((state->texgen_r_mode>>(i*3))&7); else tg[2] = FPE_TG_NONE;
-                if(tg[3]) tg[3] = ((state->texgen_q_mode>>(i*3))&7); else tg[3] = FPE_TG_NONE;
+                if(tg[0]) tg[0] = state->texgen[i].texgen_s_mode; else tg[0] = FPE_TG_NONE;
+                if(tg[1]) tg[1] = state->texgen[i].texgen_t_mode; else tg[1] = FPE_TG_NONE;
+                if(tg[2]) tg[2] = state->texgen[i].texgen_r_mode; else tg[2] = FPE_TG_NONE;
+                if(tg[3]) tg[3] = state->texgen[i].texgen_q_mode; else tg[3] = FPE_TG_NONE;
                 if(comments) {
                     sprintf(buff, "//  texgen %d / %d / %d / %d\n", tg[0], tg[1], tg[2], tg[3]);
                     ShadAppend(buff);
@@ -764,24 +774,28 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     int pointsprite_coord = state->pointsprite_coord;
     int pointsprite_upper = state->pointsprite_upper;
     int texenv_combine = 0;
+    int texturing = 0;
     char buff[1024];
+
 
     strcpy(shad, fpeshader_signature);
 
-    // check texture streaming
+    // check texture streaming and texturing
     {
         int need_stream = 0;
         for (int i=0; i<hardext.maxtex; i++) {
-            const int t = (state->textype>>(i*3))&0x7;
+            const int t = state->texture[i].textype;
             if(t==FPE_TEX_STRM)
                 need_stream = 1;
+            if(t)
+                ++texturing;
         }
         if(need_stream)
             ShadAppend("#extension GL_IMG_texture_stream2 : enable\n");
     }
     
     if(comments) {
-        sprintf(buff, "// ** Fragment Shader **\n// lighting=%d, alpha=%d, secondary=%d, planes=%s, textype=%s, texformat=%s point=%d\n", lighting, alpha_test, secondary, fpe_binary(planes, 6), fpe_packed64(state->textype, 48, 3), fpe_packed64(state->texformat, 48, 3), point);
+        sprintf(buff, "// ** Fragment Shader **\n// lighting=%d, alpha=%d, secondary=%d, planes=%s, texturing=%d point=%d\n", lighting, alpha_test, secondary, fpe_binary(planes, 6), texturing, point);
         ShadAppend(buff);
         headers+=CountLine(buff);
     }
@@ -829,7 +843,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     }*/
     // textures coordinates
     for (int i=0; i<hardext.maxtex; i++) {
-        int t = (state->textype>>(i*3))&0x7;
+        int t = state->texture[i].textype;
         if(point && !pointsprite) t=0;
         if(t) {
             sprintf(buff, "varying %s _gl4es_TexCoord_%d;\n", texvecsize[t-1], i);
@@ -838,16 +852,16 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
             ShadAppend(buff);
             headers++;
 
-            int texenv = (state->texenv>>(i*3))&0x07;
+            int texenv = state->texenv[i].texenv;
             if (texenv>=FPE_COMBINE) {
                 int n = 1+texenv-FPE_COMBINE;
                 if(n>texenv_combine) texenv_combine=n;
-                if((state->texrgbscale>>i)&1) {
+                if(state->texenv[i].texrgbscale) {
                     sprintf(buff, "uniform float _gl4es_TexEnvRGBScale_%d;\n", i);
                     ShadAppend(buff);
                     headers++;
                 }
-                if((state->texalphascale>>i)&1) {
+                if(state->texenv[i].texalphascale) {
                     sprintf(buff, "uniform float _gl4es_TexEnvAlphaScale_%d;\n", i);
                     ShadAppend(buff);
                     headers++;
@@ -882,10 +896,10 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     ShadAppend(buff);
 
     //*** apply textures
-    if(state->textype && (!point || pointsprite) ) {
+    if(texturing && (!point || pointsprite) ) {
         // fetch textures first
         for (int i=0; i<hardext.maxtex; i++) {
-            int t = (state->textype>>(i*3))&0x7;
+            int t = state->texture[i].textype;
             if(t) {
                 if(point && pointsprite && pointsprite_coord) {
                     if(pointsprite_upper)
@@ -907,10 +921,10 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         }
         // fetch textures first
         for (int i=0; i<hardext.maxtex; i++) {
-            int t = (state->textype>>(i*3))&0x7;
+            int t = state->texture[i].textype;
             if(t) {
-                int texenv = (state->texenv>>(i*3))&0x07;
-                int texformat = (state->texformat>>(i*3))&0x07;
+                int texenv = state->texenv[i].texenv;
+                int texformat = state->texture[i].texformat;
                 if(comments) {
                     sprintf(buff, "// Texture %d active: %X, texenv=%X, format=%X\n", i, t, texenv, texformat);
                     ShadAppend(buff);
@@ -994,12 +1008,22 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                             int combine_alpha = (state->texcombine[i]>>4)&0xf;
                             int src_r[4], op_r[4];
                             int src_a[4], op_a[4];
-                            for (int j=0; j<4; j++) {
-                                src_a[j] = state->texsrcalpha[i][j];
-                                op_a[j] = (state->texopalpha[j]>>i)&1;
-                                src_r[j] = state->texsrcrgb[i][j];
-                                op_r[j] = (state->texoprgb[j]>>(i*2))&3;
-                            }
+                                src_a[0] = state->texenv[i].texsrcalpha0;
+                                op_a[0] = state->texenv[i].texopalpha0;
+                                src_r[0] = state->texenv[i].texsrcrgb0;
+                                op_r[0] = state->texenv[i].texoprgb0;
+                                src_a[1] = state->texenv[i].texsrcalpha1;
+                                op_a[1] = state->texenv[i].texopalpha1;
+                                src_r[1] = state->texenv[i].texsrcrgb1;
+                                op_r[1] = state->texenv[i].texoprgb1;
+                                src_a[2] = state->texenv[i].texsrcalpha2;
+                                op_a[2] = state->texenv[i].texopalpha2;
+                                src_r[2] = state->texenv[i].texsrcrgb2;
+                                op_r[2] = state->texenv[i].texoprgb2;
+                                src_a[3] = state->texenv[i].texsrcalpha3;
+                                op_a[3] = state->texenv[i].texopalpha3;
+                                src_r[3] = state->texenv[i].texsrcrgb3;
+                                op_r[3] = state->texenv[i].texoprgb3;
                             if(combine_rgb==FPE_CR_DOT3_RGBA) {
                                     src_a[0] = src_a[1] = src_a[2] = -1;
                                     op_a[0] = op_a[1] = op_a[2] = -1;
@@ -1208,15 +1232,15 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
                                         break;
                                 }
                             }
-                            if(((state->texrgbscale>>i)&1) && ((state->texalphascale>>i)&1)) {
+                            if((state->texenv[i].texrgbscale) && (state->texenv[i].texalphascale)) {
                                 sprintf(buff, "fColor *= _gl4es_TexEnvRGBScale_%d;\n", i);
                                 ShadAppend(buff);
                             } else {
-                                if((state->texrgbscale>>i)&1) {
+                                if(state->texenv[i].texrgbscale) {
                                     sprintf(buff, "fColor.rgb *= _gl4es_TexEnvRGBScale_%d;\n", i);
                                     ShadAppend(buff);
                                 }
-                                if((state->texalphascale>>i)&1) {
+                                if(state->texenv[i].texalphascale) {
                                     sprintf(buff, "fColor.a *= _gl4es_TexEnvAlphaScale_%d;\n", i);
                                     ShadAppend(buff);
                                 }

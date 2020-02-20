@@ -67,67 +67,51 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
         }
     }
     // texturing
-    if(!fixed || !dest->textype) {
-        dest->textmat = 0;
-        dest->texenv = 0;
-        memset(dest->texcombine, 0, sizeof(dest->texcombine));
-        memset(dest->texsrcrgb, 0, sizeof(dest->texsrcrgb));
-        memset(dest->texsrcalpha, 0, sizeof(dest->texsrcalpha));
-        memset(dest->texoprgb, 0, sizeof(dest->texoprgb));
-        memset(dest->texopalpha, 0, sizeof(dest->texopalpha));
-        dest->texgen_s = 0;
-        dest->texgen_s_mode = 0;
-        dest->texgen_t = 0;
-        dest->texgen_t_mode = 0;
-        dest->texgen_r = 0;
-        dest->texgen_r_mode = 0;
-        dest->texgen_q = 0;
-        dest->texgen_q_mode = 0;
-        dest->texformat = 0;
-        dest->texadjust = 0;
-        dest->texrgbscale = 0;
-        dest->texalphascale = 0;
-    } else {
-        // individual textures
-        for (int i=0; i<MAX_TEX; i++) {
-            if(((dest->textype>>(i*3))&7)==0) { // texture is off
-                dest->textmat &= ~(1<<i);
-                dest->texformat &= ~(7L<<(i*3));
-                dest->texadjust &= ~(1<<i);
-                dest->texgen_s &= ~(1<<i);
-                dest->texgen_s_mode &= ~(7L<<(i*3));
-                dest->texgen_t &= ~(1<<i);
-                dest->texgen_t_mode &= ~(7L<<(i*3));
-                dest->texgen_r &= ~(1<<i);
-                dest->texgen_r_mode &= ~(7L<<(i*3));
-                dest->texgen_q &= ~(1<<i);
-                dest->texgen_q_mode &= ~(7L<<(i*3));
-                dest->texrgbscale &= ~(1<<i);
-                dest->texalphascale &= ~(1<<i);
-            } else {    // texture is on
-                if ((dest->texgen_s&(1<<i))==0)
-                    dest->texgen_s_mode &= ~(7L<<(i*3));
-                if ((dest->texgen_t&(1<<i))==0)
-                    dest->texgen_t_mode &= ~(7L<<(i*3));
-                if ((dest->texgen_r&(1<<i))==0)
-                    dest->texgen_r_mode &= ~(7L<<(i*3));
-                if ((dest->texgen_q&(1<<i))==0)
-                    dest->texgen_q_mode &= ~(7L<<(i*3));
-            }
-            if((((dest->texenv>>(i*3))&7) < FPE_COMBINE) || ((dest->textype>>(i*3)&7)==0)) {
-                dest->texcombine[i] = 0;
-                for (int j=0; j<3; j++) {
-                    dest->texsrcrgb[i][j] = 0;
-                    dest->texsrcalpha[i][j] = 0;
-                    dest->texoprgb[j] &= ~(0x3<<(i*2));
-                    dest->texopalpha[j] &= ~(0x1<<i);
-                }
-            } else if(((dest->texenv>>(i*3))&7) != FPE_COMBINE4) {
-                dest->texsrcrgb[i][3] = 0;
-                dest->texsrcalpha[i][3] = 0;
-                dest->texoprgb[3] &= ~(0x3<<(i*2));
-                dest->texopalpha[3] &= ~(0x1<<i);
-            }
+    // individual textures
+    for (int i=0; i<MAX_TEX; i++) {
+        if(dest->texture[i].textype==0) { // texture is off
+            dest->texture[i].texmat = 0;
+            dest->texture[i].texformat = 0;
+            dest->texture[i].texadjust = 0;
+            dest->texgen[i].texgen_s = 0;
+            dest->texgen[i].texgen_s_mode = 0;
+            dest->texgen[i].texgen_t = 0;
+            dest->texgen[i].texgen_t_mode = 0;
+            dest->texgen[i].texgen_r = 0;
+            dest->texgen[i].texgen_r_mode = 0;
+            dest->texgen[i].texgen_q = 0;
+            dest->texgen[i].texgen_q_mode = 0;
+            dest->texenv[i].texrgbscale = 0;
+            dest->texenv[i].texalphascale = 0;
+        } else {    // texture is on
+            if (dest->texgen[i].texgen_s==0)
+                dest->texgen[i].texgen_s_mode = 0;
+            if (dest->texgen[i].texgen_t==0)
+                dest->texgen[i].texgen_t_mode = 0;
+            if (dest->texgen[i].texgen_r==0)
+                dest->texgen[i].texgen_r_mode = 0;
+            if (dest->texgen[i].texgen_q==0)
+                dest->texgen[i].texgen_q_mode = 0;
+        }
+        if((dest->texenv[i].texenv < FPE_COMBINE) || (dest->texture[i].textype==0)) {
+            dest->texcombine[i] = 0;
+            dest->texenv[i].texsrcrgb0 = 0;
+            dest->texenv[i].texsrcalpha0 = 0;
+            dest->texenv[i].texoprgb0 = 0;
+            dest->texenv[i].texopalpha0 = 0;
+            dest->texenv[i].texsrcrgb1 = 0;
+            dest->texenv[i].texsrcalpha1 = 0;
+            dest->texenv[i].texoprgb1 = 0;
+            dest->texenv[i].texopalpha1 = 0;
+            dest->texenv[i].texsrcrgb2 = 0;
+            dest->texenv[i].texsrcalpha2 = 0;
+            dest->texenv[i].texoprgb2 = 0;
+            dest->texenv[i].texopalpha2 = 0;
+        } else if(dest->texenv[i].texenv != FPE_COMBINE4) {
+            dest->texenv[i].texsrcrgb3 = 0;
+            dest->texenv[i].texsrcalpha3 = 0;
+            dest->texenv[i].texoprgb3 = 0;
+            dest->texenv[i].texopalpha3 = 0;
         }
     }
     if(dest->fog && dest->fogsource==FPE_FOG_SRC_COORD)
@@ -150,15 +134,17 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
         dest->fragment_prg_id = 0;
 
     if(!fixed) {
-        dest->textmat = 0;
-        dest->texadjust = 0;
+        for(int i=0; i<MAX_TEX; ++i) {
+            dest->texture[i].texmat = 0;
+            dest->texture[i].texadjust = 0;
+            dest->texture[i].textype = 0;
+        }
         dest->plane = 0;   // Should handled this?
         dest->colorsum = 0;
         dest->normalize = 0;
         dest->rescaling = 0;
 
         dest->lighting = 0;
-        dest->textype = 0;
         dest->fog = 0;
         dest->point = 0;
 
@@ -779,10 +765,10 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
     // update texture state for fpe only
     if(glstate->fpe_bound_changed && !glstate->glsl->program) {
         for(int i=0; i<glstate->fpe_bound_changed; i++) {
-            glstate->fpe_state->texformat &= ~(7L<<(i*3));
-            glstate->fpe_state->texadjust &= ~(1<<i);
+            glstate->fpe_state->texture[i].texformat = 0;
+            glstate->fpe_state->texture[i].texadjust = 0;
             // disable texture unit, in that case (binded texture iconsts not valid)
-            glstate->fpe_state->textype &= ~(7L<<(i*3));
+            glstate->fpe_state->texture[i].textype = 0;
             int texunit = fpe_gettexture(i);
             gltexture_t* tex = (texunit==-1)?NULL:glstate->texture.bound[i][texunit];
             if(tex && tex->valid) {
@@ -798,10 +784,10 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                     else if(texunit==ENABLED_TEX3D) fmt = FPE_TEX_3D;
                     else fmt = FPE_TEX_2D;
                 }
-                glstate->fpe_state->texformat |= ((uint64_t)tex->fpe_format)<<(i*3);
-                glstate->fpe_state->texadjust |= tex->adjust<<i;
-                if(texunit==ENABLED_TEXTURE_RECTANGLE) glstate->fpe_state->texadjust |= 1<<i;
-                glstate->fpe_state->textype |= ((uint64_t)fmt)<<(i*3);
+                glstate->fpe_state->texture[i].texformat = tex->fpe_format;
+                glstate->fpe_state->texture[i].texadjust = tex->adjust;
+                if(texunit==ENABLED_TEXTURE_RECTANGLE) glstate->fpe_state->texture[i].texadjust = 1;
+                glstate->fpe_state->texture[i].textype = fmt;
             }
         }
         glstate->fpe_bound_changed = 0;

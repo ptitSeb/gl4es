@@ -33,10 +33,7 @@ static void fpe_changetex(int n)
 #define generate_changetexgen(C) \
 static void fpe_changetexgen_##C(int n, bool enable) \
 { \
-    if(enable) \
-        glstate->fpe_state->texgen_##C |= 1<<n; \
-    else \
-        glstate->fpe_state->texgen_##C &= ~(1<<n); \
+    glstate->fpe_state->texgen[n].texgen_##C = enable?1:0; \
 }
 generate_changetexgen(s)
 generate_changetexgen(t)
