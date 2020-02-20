@@ -240,6 +240,10 @@ const GLubyte *gl4es_glGetString(GLenum name) {
         case GL_PROGRAM_ERROR_STRING_ARB:
             return (GLubyte*)glstate->glsl->error_msg;
         default:
+            if(name&0x10000) {
+                LOAD_GLES(glGetString);
+                return gles_glGetString(name-0x10000);
+            }
 			errorShim(GL_INVALID_ENUM);
             return (GLubyte*)"";
     }
