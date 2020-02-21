@@ -16,7 +16,10 @@ typedef struct oldprogram_s {
     GLenum      type;
     char*       string;
     shader_t*   shader;
+    int         max_local_params;
     float*      prog_local_params;
+    int         max_env_params;
+    float*      prog_env_params;    // link to global array
     // tracking of the shader uniforms
     int         min_loc;
     int         max_loc;
