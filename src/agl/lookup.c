@@ -5,8 +5,8 @@
 #include "../gl/gl_lookup.h"
 
 #include "agl.h"
-#include "glx.h"
-#include "hardext.h"
+#include "../glx/glx.h"
+#include "../glx/hardext.h"
 
 void aglStub(void *x, ...) {
     return;
