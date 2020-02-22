@@ -1,3 +1,4 @@
+#include "../gl/attributes.h"
 #include "../gl/wrap/gl4es.h"
 #include "../gl/wrap/stub.h"
 #include "../gl/directstate.h"
@@ -11,8 +12,6 @@
 #include "../gl/oldprogram.h"
 #include "glx.h"
 #include "hardext.h"
-
-#define EXPORT __attribute__((visibility("default")))
 
 //#define DEBUG_ADDRESS
 

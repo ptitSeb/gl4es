@@ -1,11 +1,21 @@
 #ifndef _GL4ES_ATTRIBUTES_H_
 #define _GL4ES_ATTRIBUTES_H_
 
+#ifndef EXPORT
+ #if defined(__EMSCRIPTEN__) || defined(__APPLE__)
+   #define EXPORT
+ #elif defined(STATICLIB)
+   #define EXPORT
+ #else
+   #define EXPORT __attribute__((visibility("default")))
+ #endif
+#endif // EXPORT
+
 #ifndef AliasExport
  #if defined(__EMSCRIPTEN__) || defined(__APPLE__)
   #define AliasExport(name)
  #else
-  #define AliasExport(name)   __attribute__((alias(name))) __attribute__((visibility("default")))
+  #define AliasExport(name)   __attribute__((alias(name))) EXPORT
  #endif
 #endif // AliasExport
 

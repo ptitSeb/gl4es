@@ -1,6 +1,7 @@
 #include "gl4es.h"
+#include "attributes.h"
 
-#define GLAPI __attribute__((visibility("default")))
+#define GLAPI EXPORT
 #define APIENTRY
 #define STUB errorShim(GL_INVALID_VALUE);
 

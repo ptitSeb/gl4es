@@ -43,6 +43,10 @@ if(NOT DEFAULT_ES)
     endif()
 endif()
 
+if(STATICLIB)
+    add_definitions(-DSTATICLIB)
+endif(STATICLIB)
+
 # Raspberry PI
 if(BCMHOST)
     include_directories(/opt/vc/include /opt/vc/include/interface/vcos/pthreads /opt/vc/include/interface/vmcs_host/linux)
