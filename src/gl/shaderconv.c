@@ -884,12 +884,19 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
           sprintf(d, "_gl4es_TexCoord_%d", k);
           Tmp = InplaceReplace(Tmp, &tmpsize, d2, d);
         }
+        // check if texture is there
+        sprintf(d2, "_gl4es_TexCoord_%d", k);
+        if(strstr(Tmp, d2))
+          need->need_texs |= (1<<k);
       }
     } else {
       sprintf(d, gl4es_texcoordSource, ntex+1);
       Tmp = InplaceInsert(GetLine(Tmp, headline), d, Tmp, &tmpsize);
       headline+=CountLine(d);
       Tmp = InplaceReplace(Tmp, &tmpsize, "gl_TexCoord", "_gl4es_TexCoord");
+      // set textures as all ntex used
+      for (int k=0; k<ntex+1; k++)
+        need->need_texs |= (1<<k);
     }
   }
   if(strstr(Tmp, "gl_MaxTextureUnits")) {
