@@ -64,6 +64,7 @@ void GetHardwareExtensions(int notest)
     hardext.maxsize = 2048;
     hardext.maxlights = 8;
     hardext.maxplanes = 6;
+    hardext.maxdrawbuffers = 1;
 
     hardext.esversion = globals4es.es;
     if(notest) 
@@ -74,10 +75,15 @@ void GetHardwareExtensions(int notest)
         if(hardext.esversion==2) {
             hardext.maxteximage = 4;
             hardext.maxvarying = 8;
-            hardext.maxtex = 4;
-            hardext.maxvattrib = 8;
+            hardext.maxtex = 8;
+            hardext.maxvattrib = 16;
             hardext.npot = 1;
             hardext.fbo = 1; 
+            hardext.blendcolor = 1;
+            hardext.blendsub = 1;
+            hardext.blendfunc = 1;
+            hardext.blendeq = 1;
+            hardext.mirrored = 1;
             hardext.pointsprite = 1;
             hardext.pointsize = 1;
             hardext.cubemap = 1;
