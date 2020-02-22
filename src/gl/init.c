@@ -186,7 +186,7 @@ void initialize_gl4es() {
     load_libs();
 #endif
 
-#if (defined(NOEGL) && !defined(ANDROID)) || defined(__EMSCRIPTEN__) || defined(__APPLE__)
+#if (defined(NOEGL) && !defined(ANDROID) && !defined(__APPLE__)) || defined(__EMSCRIPTEN__)
     int gl4es_notest = 1;
 #else
     int gl4es_notest = IsEnvVarTrue("LIBGL_NOTEST");
