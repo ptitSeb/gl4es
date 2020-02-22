@@ -21,6 +21,7 @@ SET(GL_SRC
     gl/fpe_cache.c
     gl/fpe_shader.c
     gl/framebuffers.c
+    gl/gl_lookup.c
     gl/getter.c
     gl/gl4es.c
     gl/glstate.c
@@ -82,6 +83,7 @@ SET(GL_H
     gl/fpe.h
     gl/fpe_shader.h
     gl/framebuffers.h
+    gl/gl_lookup.h
     gl/gles.h
     gl/gl4es.h
     gl/glstate.h
@@ -171,7 +173,7 @@ if(AMIGAOS4)
         glx/hardext.c
         glx/gbm.c
         glx/glx.c
-        glx/lookup.c
+        agl/lookup.c
         agl/amigaos.c
         agl/agl.c
     )

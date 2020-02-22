@@ -34,6 +34,7 @@ LOCAL_SRC_FILES := \
 	src/gl/fpe_cache.c \
 	src/gl/fpe_shader.c \
 	src/gl/framebuffers.c \
+	src/gl/gl_lookup.c \
 	src/gl/getter.c \
 	src/gl/gl4es.c \
 	src/gl/glstate.c \
