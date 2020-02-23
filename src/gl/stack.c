@@ -314,7 +314,7 @@ void gl4es_glPushClientAttrib(GLbitfield mask) {
         for (a=0; a<hardext.maxtex; a++) {
            cur->tex_enable[a] = glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].enabled;
         }
-        memcpy(&(cur->pointers), &glstate->vao->vertexattrib, sizeof(glstate->vao->vertexattrib));
+        memcpy(cur->vertexattrib, glstate->vao->vertexattrib, sizeof(glstate->vao->vertexattrib));
         cur->client = glstate->texture.client;
     }
 
@@ -658,7 +658,7 @@ void gl4es_glPopClientAttrib() {
 		   }
         }
 
-        memcpy(&glstate->vao->vertexattrib, &(cur->pointers), sizeof(glstate->vao->vertexattrib));
+        memcpy(glstate->vao->vertexattrib, cur->vertexattrib, sizeof(glstate->vao->vertexattrib));
 		if (glstate->texture.client != cur->client) gl4es_glClientActiveTexture(GL_TEXTURE0+cur->client);
     }
 
