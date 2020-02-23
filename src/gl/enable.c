@@ -43,7 +43,7 @@ generate_changetexgen(q)
 
 void change_vao_texcoord(int tmu, bool enable) 
 {
-    glstate->vao->pointers[ATT_MULTITEXCOORD0+tmu].enabled = enable;
+    glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+tmu].enabled = enable;
     if(enable) {
         if(glstate->vao->maxtex<tmu+1) glstate->vao->maxtex=tmu+1;
     } else {
@@ -153,13 +153,13 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         // Secondary color
         GOFPE(GL_COLOR_SUM, color_sum, glstate->fpe_state->colorsum = enable);
         //cannot use clientGO_proxyFPE here, has the ClientArray are really enabled / disabled elsewhere in fact (inside glDraw or list_draw)
-        clientGO(GL_SECONDARY_COLOR_ARRAY, pointers[ATT_SECONDARY].enabled);
-        clientGO(GL_FOG_COORD_ARRAY, pointers[ATT_FOGCOORD].enabled);
+        clientGO(GL_SECONDARY_COLOR_ARRAY, vertexattrib[ATT_SECONDARY].enabled);
+        clientGO(GL_FOG_COORD_ARRAY, vertexattrib[ATT_FOGCOORD].enabled);
 	
         // for glDrawArrays
-        clientGO(GL_VERTEX_ARRAY, pointers[ATT_VERTEX].enabled);
-        clientGO(GL_NORMAL_ARRAY, pointers[ATT_NORMAL].enabled);
-        clientGO(GL_COLOR_ARRAY, pointers[ATT_COLOR].enabled);
+        clientGO(GL_VERTEX_ARRAY, vertexattrib[ATT_VERTEX].enabled);
+        clientGO(GL_NORMAL_ARRAY, vertexattrib[ATT_NORMAL].enabled);
+        clientGO(GL_COLOR_ARRAY, vertexattrib[ATT_COLOR].enabled);
         case GL_TEXTURE_COORD_ARRAY: change_vao_texcoord(glstate->texture.client, enable); break;
 
         // map eval
@@ -370,16 +370,16 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
         isenabled(GL_LINE_SMOOTH, line_smooth);
         isenabled(GL_POLYGON_OFFSET_FILL, polyfill_offset);
         isenabled(GL_COLOR_LOGIC_OP, color_logic_op);
-        clientisenabled(GL_SECONDARY_COLOR_ARRAY, pointers[ATT_SECONDARY].enabled);
-        clientisenabled(GL_FOG_COORD_ARRAY, pointers[ATT_FOGCOORD].enabled);
+        clientisenabled(GL_SECONDARY_COLOR_ARRAY, vertexattrib[ATT_SECONDARY].enabled);
+        clientisenabled(GL_FOG_COORD_ARRAY, vertexattrib[ATT_FOGCOORD].enabled);
         case GL_TEXTURE_1D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX1D);
         case GL_TEXTURE_2D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX2D);
         case GL_TEXTURE_3D: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_TEX3D);
         case GL_TEXTURE_CUBE_MAP: return glstate->enable.texture[glstate->texture.active]&(1<<ENABLED_CUBE_MAP);
-        clientisenabled(GL_VERTEX_ARRAY, pointers[ATT_VERTEX].enabled);
-        clientisenabled(GL_NORMAL_ARRAY, pointers[ATT_NORMAL].enabled);
-        clientisenabled(GL_COLOR_ARRAY, pointers[ATT_COLOR].enabled);
-        clientisenabled(GL_TEXTURE_COORD_ARRAY, pointers[ATT_MULTITEXCOORD0+glstate->texture.client].enabled);
+        clientisenabled(GL_VERTEX_ARRAY, vertexattrib[ATT_VERTEX].enabled);
+        clientisenabled(GL_NORMAL_ARRAY, vertexattrib[ATT_NORMAL].enabled);
+        clientisenabled(GL_COLOR_ARRAY, vertexattrib[ATT_COLOR].enabled);
+        clientisenabled(GL_TEXTURE_COORD_ARRAY, vertexattrib[ATT_MULTITEXCOORD0+glstate->texture.client].enabled);
         isenabled(GL_NORMALIZE, normalize);
         isenabled(GL_RESCALE_NORMAL, normal_rescale);
         isenabled(GL_MAP1_COLOR_4, map1_color4);

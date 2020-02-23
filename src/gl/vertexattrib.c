@@ -45,8 +45,8 @@ void gl4es_glEnableVertexAttribArray(GLuint index) {
         errorShim(GL_INVALID_VALUE);
         return;
     }
-    glstate->vao->vertexattrib[index].vaarray = 1;
-    glstate->glesva.wanted[index].vaarray = 1;
+    glstate->vao->vertexattrib[index].enabled = 1;
+    glstate->glesva.wanted[index].enabled = 1;
 }
 void gl4es_glDisableVertexAttribArray(GLuint index) {
     DBG(printf("glDisableVertexAttrib(%d)\n", index);)
@@ -56,8 +56,8 @@ void gl4es_glDisableVertexAttribArray(GLuint index) {
         errorShim(GL_INVALID_VALUE);
         return;
     }
-    glstate->vao->vertexattrib[index].vaarray = 0;
-    glstate->glesva.wanted[index].vaarray = 0;
+    glstate->vao->vertexattrib[index].enabled = 0;
+    glstate->glesva.wanted[index].enabled = 0;
 }
 
 // TODO: move the sending of the data to the Hardware when drawing, to cache change of state
@@ -98,7 +98,7 @@ void gl4es_glGetVertexAttrib##suffix##v(GLuint index, GLenum pname, Type *params
             *params=(glstate->vao->vertexattrib[index].buffer)?glstate->vao->vertexattrib[index].buffer->buffer:0; \
             return; \
         case GL_VERTEX_ATTRIB_ARRAY_ENABLED: \
-            *params=(glstate->vao->vertexattrib[index].vaarray)?1:0; \
+            *params=(glstate->vao->vertexattrib[index].enabled)?1:0; \
             return; \
         case GL_VERTEX_ATTRIB_ARRAY_SIZE: \
             *params=glstate->vao->vertexattrib[index].size; \

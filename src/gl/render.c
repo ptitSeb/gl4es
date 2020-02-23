@@ -246,7 +246,7 @@ static void FASTMATH ZMinMax(GLfloat *zmin, GLfloat *zmax, GLfloat *vtx) {
 }
 
 
-void select_glDrawArrays(const pointer_state_t* vtx, GLenum mode, GLuint first, GLuint count) {
+void select_glDrawArrays(const vertexattrib_t* vtx, GLenum mode, GLuint first, GLuint count) {
 	if (count == 0) return;
 	if (vtx->pointer == NULL) return;
 	if (glstate->selectbuf.buffer == NULL) return;
@@ -337,7 +337,7 @@ void select_glDrawArrays(const pointer_state_t* vtx, GLenum mode, GLuint first, 
 	#undef FOUND
 }
 
-void select_glDrawElements(const pointer_state_t* vtx, GLenum mode, GLuint count, GLenum type, GLvoid * indices) {
+void select_glDrawElements(const vertexattrib_t* vtx, GLenum mode, GLuint count, GLenum type, GLvoid * indices) {
 	if (count == 0) return;
 	if (vtx->pointer == NULL) return;
 

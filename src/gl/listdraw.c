@@ -739,7 +739,7 @@ void draw_renderlist(renderlist_t *list) {
 
         if (indices) {
             if (glstate->render_mode == GL_SELECT) {
-                pointer_state_t vtx;
+                vertexattrib_t vtx = {0};
                 vtx.pointer = list->vert;
                 vtx.type = GL_FLOAT;
                 vtx.size = 4;
@@ -785,7 +785,7 @@ void draw_renderlist(renderlist_t *list) {
             }
         } else {
             if (glstate->render_mode == GL_SELECT) {	
-                pointer_state_t vtx;
+                vertexattrib_t vtx = {0};
                 vtx.pointer = list->vert;
                 vtx.type = GL_FLOAT;
                 vtx.size = 4;

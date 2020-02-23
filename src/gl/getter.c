@@ -29,7 +29,7 @@ void gl4es_glGetPointerv(GLenum pname, GLvoid* *params) {
     noerrorShim();
     switch(pname) {
         case GL_COLOR_ARRAY_POINTER:
-            *params = (void*)glstate->vao->pointers[ATT_COLOR].pointer;
+            *params = (void*)glstate->vao->vertexattrib[ATT_COLOR].pointer;
             break;
         case GL_EDGE_FLAG_ARRAY_POINTER:
             *params = NULL;
@@ -40,22 +40,22 @@ void gl4es_glGetPointerv(GLenum pname, GLvoid* *params) {
         case GL_INDEX_ARRAY_POINTER:
             *params = NULL;
         case GL_NORMAL_ARRAY_POINTER:
-            *params = (void*)glstate->vao->pointers[ATT_NORMAL].pointer;
+            *params = (void*)glstate->vao->vertexattrib[ATT_NORMAL].pointer;
             break;
         case GL_TEXTURE_COORD_ARRAY_POINTER:
-            *params = (void*)glstate->vao->pointers[ATT_MULTITEXCOORD0+glstate->texture.client].pointer;
+            *params = (void*)glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+glstate->texture.client].pointer;
             break;
         case GL_SELECTION_BUFFER_POINTER:
             *params = glstate->selectbuf.buffer;
             break;
         case GL_VERTEX_ARRAY_POINTER :
-            *params = (void*)glstate->vao->pointers[ATT_VERTEX].pointer;
+            *params = (void*)glstate->vao->vertexattrib[ATT_VERTEX].pointer;
             break;
         case GL_FOG_COORD_ARRAY:
-            *params = (void*)glstate->vao->pointers[ATT_FOGCOORD].pointer;
+            *params = (void*)glstate->vao->vertexattrib[ATT_FOGCOORD].pointer;
             break;
         case GL_SECONDARY_COLOR_ARRAY:
-            *params = (void*)glstate->vao->pointers[ATT_SECONDARY].pointer;
+            *params = (void*)glstate->vao->vertexattrib[ATT_SECONDARY].pointer;
             break;
     default:
             errorShim(GL_INVALID_ENUM);

@@ -171,7 +171,7 @@ typedef struct _glclientstack_t {
     GLboolean normal_enable;
     GLboolean secondary_enable;
     GLboolean fog_enable;
-    pointer_state_t pointers[NB_VA];
+    vertexattrib_t pointers[NB_VA];
     unsigned int len;
     unsigned int cap;
 } glclientstack_t;

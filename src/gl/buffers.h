@@ -65,16 +65,8 @@ GLboolean glUnmapBufferARB(GLenum target);
 void glGetBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data);
 void glGetBufferPointervARB(GLenum target, GLenum pname, GLvoid ** params);
 
-// Pointer..... ******
-typedef struct {
-    GLint size;
-    GLenum type;
-    GLsizei stride;
-    const GLvoid *pointer;
-    GLboolean enabled;
-    GLuint real_buffer;
-    const GLvoid* real_pointer;
-} pointer_state_t;
+// Pointer..... ****** => map them in vertexattrib (even with GLES1.1). So no more pointer_state_t, use vertexattrib_t
+// and map .enabled to .vaarray
 
 // This map correspond to ARB_vertex_program map
 typedef enum {
@@ -109,19 +101,13 @@ typedef enum {
 // glLockArrays should lock all arrays, but Quake3 do change values on Color and Textures UV, so limit Lock to 3D" Coords arrays
 #define NB_LOCKVA (ATT_NORMAL+1)
 
-typedef struct {
-    GLfloat *ptr;
-    pointer_state_t state;
-    GLboolean enabled;
-} pointer_cache_t;
-
 // Vertex Attrib.. ***
 typedef struct {
     GLint           size;
     GLenum          type;
     GLsizei         stride;
     const GLvoid*   pointer;
-    GLboolean       vaarray;
+    GLboolean       enabled;
     GLboolean       normalized;
     glbuffer_t      *buffer;    // reference buffer
     GLfloat         current[4];
@@ -130,11 +116,15 @@ typedef struct {
     const GLvoid*   real_pointer;   // the pointer related to real VBO
 } vertexattrib_t;
 
+typedef struct {
+    GLfloat *ptr;
+    vertexattrib_t state;
+    GLboolean enabled;
+} pointer_cache_t;
+
 // VAO ****************
 typedef struct {
     GLuint           array;
-    // pointer state
-    pointer_state_t  pointers[NB_VA];
     // buffer state
     glbuffer_t *vertex;
     glbuffer_t *elements;

@@ -113,7 +113,7 @@ int inline tex_setup_needchange(GLuint itarget) {
         return 1;
     return 0;
 }
-void tex_setup_texcoord(GLuint len, int changes, GLuint itarget, pointer_state_t* ptr) {
+void tex_setup_texcoord(GLuint len, int changes, GLuint itarget, vertexattrib_t* ptr) {
     LOAD_GLES_FPE(glTexCoordPointer);
     GLuint texunit = glstate->texture.client;
     
