@@ -73,7 +73,7 @@ void *gl4es_glXGetProcAddress(const char *name) {
     return gl4es_GetProcAddress(name);
 }
 #ifdef AMIGAOS4
-void* aglGetProcAddress(const char* name) AliasExport("gl4es_glXGetProcAddress");
+//void* aglGetProcAddress(const char* name) AliasExport("gl4es_glXGetProcAddress");
 #else
 void* glXGetProcAddress(const char* name) AliasExport("gl4es_glXGetProcAddress");
 void* glXGetProcAddressARB(const char* name) AliasExport("gl4es_glXGetProcAddress");
