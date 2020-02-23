@@ -148,60 +148,76 @@ int list2VBO(renderlist_t* list)
 
     return 2;
 }
+typedef struct save_vbo_s {
+    GLuint          real_buffer;
+    const GLvoid*   real_pointer;
+} save_vbo_t;
 
-void listActiveVBO(renderlist_t* list) {
+void listActiveVBO(renderlist_t* list, save_vbo_t* saved) {
     if(list->vert) {
-        glstate->fpe_client.vert.real_buffer = list->vbo_array;
-        glstate->fpe_client.vert.real_pointer = list->vbo_vert;
+        saved[ATT_VERTEX].real_buffer = glstate->vao->vertexattrib[ATT_VERTEX].real_buffer;
+        saved[ATT_VERTEX].real_pointer = glstate->vao->vertexattrib[ATT_VERTEX].real_pointer;
+        glstate->vao->vertexattrib[ATT_VERTEX].real_buffer = list->vbo_array;
+        glstate->vao->vertexattrib[ATT_VERTEX].real_pointer = list->vbo_vert;
     }
     if(list->color) {
-        glstate->fpe_client.color.real_buffer = list->vbo_array;
-        glstate->fpe_client.color.real_pointer = list->vbo_color;
+        saved[ATT_COLOR].real_buffer = glstate->vao->vertexattrib[ATT_COLOR].real_buffer;
+        saved[ATT_COLOR].real_pointer = glstate->vao->vertexattrib[ATT_COLOR].real_pointer;
+        glstate->vao->vertexattrib[ATT_COLOR].real_buffer = list->vbo_array;
+        glstate->vao->vertexattrib[ATT_COLOR].real_pointer = list->vbo_color;
     }
     if(list->secondary) {
-        glstate->fpe_client.secondary.real_buffer = list->vbo_array;
-        glstate->fpe_client.secondary.real_pointer = list->vbo_secondary;
+        saved[ATT_SECONDARY].real_buffer = glstate->vao->vertexattrib[ATT_SECONDARY].real_buffer;
+        saved[ATT_SECONDARY].real_pointer = glstate->vao->vertexattrib[ATT_SECONDARY].real_pointer;
+        glstate->vao->vertexattrib[ATT_SECONDARY].real_buffer = list->vbo_array;
+        glstate->vao->vertexattrib[ATT_SECONDARY].real_pointer = list->vbo_secondary;
     }
     if(list->fogcoord) {
-        glstate->fpe_client.fog.real_buffer = list->vbo_array;
-        glstate->fpe_client.fog.real_pointer = list->vbo_fogcoord;
+        saved[ATT_FOGCOORD].real_buffer = glstate->vao->vertexattrib[ATT_FOGCOORD].real_buffer;
+        saved[ATT_FOGCOORD].real_pointer = glstate->vao->vertexattrib[ATT_FOGCOORD].real_pointer;
+        glstate->vao->vertexattrib[ATT_FOGCOORD].real_buffer = list->vbo_array;
+        glstate->vao->vertexattrib[ATT_FOGCOORD].real_pointer = list->vbo_fogcoord;
     }
     if(list->normal) {
-        glstate->fpe_client.normal.real_buffer = list->vbo_array;
-        glstate->fpe_client.normal.real_pointer = list->vbo_normal;
+        saved[ATT_NORMAL].real_buffer = glstate->vao->vertexattrib[ATT_NORMAL].real_buffer;
+        saved[ATT_NORMAL].real_pointer = glstate->vao->vertexattrib[ATT_NORMAL].real_pointer;
+        glstate->vao->vertexattrib[ATT_NORMAL].real_buffer = list->vbo_array;
+        glstate->vao->vertexattrib[ATT_NORMAL].real_pointer = list->vbo_normal;
     }
     for (int a=0; a<list->maxtex; ++a) {
         if(list->tex[a]) {
-            glstate->fpe_client.tex[a].real_buffer = list->vbo_array;
-            glstate->fpe_client.tex[a].real_pointer = list->vbo_tex[a];
+            saved[ATT_MULTITEXCOORD0+a].real_buffer = glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].real_buffer;
+            saved[ATT_MULTITEXCOORD0+a].real_pointer = glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].real_pointer;
+            glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].real_buffer = list->vbo_array;
+            glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].real_pointer = list->vbo_tex[a];
         }
     }
 }
-void listInactiveVBO(renderlist_t* list) {
+void listInactiveVBO(renderlist_t* list, save_vbo_t* saved) {
     if(list->vert) {
-        glstate->fpe_client.vert.real_buffer = 0;
-        glstate->fpe_client.vert.real_pointer = NULL;
+        glstate->vao->vertexattrib[ATT_VERTEX].real_buffer = saved[ATT_VERTEX].real_buffer;
+        glstate->vao->vertexattrib[ATT_VERTEX].real_pointer = saved[ATT_VERTEX].real_pointer;
     }
     if(list->color) {
-        glstate->fpe_client.color.real_buffer = 0;
-        glstate->fpe_client.color.real_pointer = NULL;
+        glstate->vao->vertexattrib[ATT_COLOR].real_buffer = saved[ATT_COLOR].real_buffer;
+        glstate->vao->vertexattrib[ATT_COLOR].real_pointer = saved[ATT_COLOR].real_pointer;
     }
     if(list->secondary) {
-        glstate->fpe_client.secondary.real_buffer = 0;
-        glstate->fpe_client.secondary.real_pointer = NULL;
+        glstate->vao->vertexattrib[ATT_SECONDARY].real_buffer = saved[ATT_SECONDARY].real_buffer;
+        glstate->vao->vertexattrib[ATT_SECONDARY].real_pointer = saved[ATT_SECONDARY].real_pointer;
     }
     if(list->fogcoord) {
-        glstate->fpe_client.fog.real_buffer = 0;
-        glstate->fpe_client.fog.real_pointer = NULL;
+        glstate->vao->vertexattrib[ATT_FOGCOORD].real_buffer = saved[ATT_FOGCOORD].real_buffer;
+        glstate->vao->vertexattrib[ATT_FOGCOORD].real_pointer = saved[ATT_FOGCOORD].real_pointer;
     }
     if(list->normal) {
-        glstate->fpe_client.normal.real_buffer = 0;
-        glstate->fpe_client.normal.real_pointer = NULL;
+        glstate->vao->vertexattrib[ATT_NORMAL].real_buffer = saved[ATT_NORMAL].real_buffer;
+        glstate->vao->vertexattrib[ATT_NORMAL].real_pointer = saved[ATT_NORMAL].real_pointer;
     }
     for (int a=0; a<list->maxtex; ++a) {
         if(list->tex[a]) {
-            glstate->fpe_client.tex[a].real_buffer = 0;
-            glstate->fpe_client.tex[a].real_pointer = NULL;
+            glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].real_buffer = saved[ATT_MULTITEXCOORD0+a].real_buffer;
+            glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].real_pointer = saved[ATT_MULTITEXCOORD0+a].real_pointer;
         }
     }
 }
@@ -725,8 +741,9 @@ void draw_renderlist(renderlist_t *list) {
                 // evaluated, seems good to go !
                 use_vbo_array = list2VBO(list);
         }
+        save_vbo_t saved[NB_VA];
         if(use_vbo_array==2)
-            listActiveVBO(list);
+            listActiveVBO(list, saved);
         if(list->use_vbo_array != use_vbo_array)
             list->use_vbo_array = use_vbo_array;
         
@@ -815,7 +832,7 @@ void draw_renderlist(renderlist_t *list) {
         if(list->use_vbo_indices != use_vbo_indices)
             list->use_vbo_indices = use_vbo_indices;
         if(use_vbo_array==2)
-            listInactiveVBO(list);
+            listInactiveVBO(list, saved);
 
         #define TEXTURE(A) if (cur_tex!=A) {gl4es_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
         if(hardext.esversion==1)

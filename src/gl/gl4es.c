@@ -50,7 +50,6 @@ int adjust_vertices(GLenum mode, int nb) {
     if(glstate->vao->vertexattrib[t].real_buffer && glstate->vao->locked_mapped[t]) {    \
         glstate->vao->vertexattrib[t].real_buffer = 0; \
         glstate->vao->locked_mapped[t] = 0; \
-        getFPEVA(t)->real_buffer = 0;              \
     }
 
 void gl4es_glVertexPointer(GLint size, GLenum type,
@@ -647,32 +646,6 @@ void gl4es_glUnlockArrays() {
 }
 void glUnlockArraysEXT() AliasExport("gl4es_glUnlockArrays");
 
-vertexattrib_t* getFPEVA(int i) {
-    switch (i)
-    {
-    case ATT_VERTEX:
-        return &glstate->fpe_client.vert;
-    case ATT_COLOR:
-        return &glstate->fpe_client.color;
-    case ATT_NORMAL:
-        return &glstate->fpe_client.normal;
-    case ATT_FOGCOORD:
-        return &glstate->fpe_client.fog;
-    case ATT_SECONDARY:
-        return &glstate->fpe_client.secondary;
-    case ATT_MULTITEXCOORD0:
-    case ATT_MULTITEXCOORD1:
-    case ATT_MULTITEXCOORD2:
-    case ATT_MULTITEXCOORD3:
-    case ATT_MULTITEXCOORD4:
-    case ATT_MULTITEXCOORD5:
-    case ATT_MULTITEXCOORD6:
-    case ATT_MULTITEXCOORD7:
-        return &glstate->fpe_client.tex[i-ATT_MULTITEXCOORD0];
-    }
-    return NULL;
-}
-
 void ToBuffer(int first, int count) {
     // this is hacky. Only the fpe VA should be treated here (but then, the consistancy check is a bit more difficult to do)
     if(count<13)
@@ -727,9 +700,6 @@ void ToBuffer(int first, int count) {
                 glstate->vao->vertexattrib[i].real_pointer = (void*)(p-master - first*stride);
                 glstate->vao->vertexattrib[i].real_buffer = glstate->scratch_vertex;
                 glstate->vao->locked_mapped[i] = 1;
-                vertexattrib_t* fpe_p = getFPEVA(i);
-                fpe_p->real_buffer = glstate->scratch_vertex;
-                fpe_p->real_pointer = glstate->vao->vertexattrib[i].real_pointer;
             }
         }
     }
@@ -743,9 +713,7 @@ void UnBuffer()
     for (int i=0; i<NB_VA; i++)
         if(glstate->vao->locked_mapped[i]) {
             glstate->vao->vertexattrib[i].real_buffer = 0;
-            vertexattrib_t* fpe_p = getFPEVA(i);
-            fpe_p->real_buffer = 0;
-            fpe_p->real_pointer = NULL;
+            glstate->vao->vertexattrib[i].real_pointer = NULL;
             glstate->vao->locked_mapped[i] = 0;
         }
 }

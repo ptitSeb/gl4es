@@ -259,13 +259,6 @@ typedef struct {
     fog_array,
     tex_coord_array[MAX_TEX];
 
-    vertexattrib_t vert;
-    vertexattrib_t normal;
-    vertexattrib_t color;
-    vertexattrib_t secondary;
-    vertexattrib_t fog;
-    vertexattrib_t tex[MAX_TEX];
-
     char*           shadersource; // scrach buffer for fpe shader construction
     int             shadersize;
 } fpestatus_t;
