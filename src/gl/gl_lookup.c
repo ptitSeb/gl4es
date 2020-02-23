@@ -13,7 +13,7 @@
 #define STUB_FCT gl4es_Stub
 #include "gl_lookup.h"
 
-#include "hardext.h"
+#include "../glx/hardext.h"
 
 void gl4es_Stub(void *x, ...) {
     return;
