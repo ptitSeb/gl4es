@@ -123,7 +123,7 @@ static GLXContext fbContext = NULL;
 static GLuint current_fb = 0;
 
 #endif //NOX11
-void gl4es_getMainFBSize(GLint* width, GLint* height) {
+void glx_getMainFBSize(GLint* width, GLint* height) {
 #if !defined(NOX11) && !defined(NOEGL) && !defined(ANDROID)
     // noegl, no updating of framebuffer size
     DBG(printf("gl4es_getMainFBSize() %dx%d -> ", *width, *height);)
@@ -493,6 +493,8 @@ static void init_liveinfo() {
 void glx_init() {
     // init map_drawable
     int ret;
+    if( !gl4es_getMainFBSize )
+        gl4es_getMainFBSize = glx_getMainFBSize;
     MapDrawable = kh_init(mapdrawable);
     kh_put(mapdrawable, MapDrawable, 1, &ret);
     kh_del(mapdrawable, MapDrawable, 1);

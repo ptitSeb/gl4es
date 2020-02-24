@@ -1376,7 +1376,7 @@ void gl4es_glFramebufferTextureLayer(	GLenum target, GLenum attachment, GLuint t
     gl4es_glFramebufferTexture2D(target, attachment, GL_TEXTURE_2D, texture,	level); // Force Texture2D, ignore layer (should track?)...
 }
 
-void gl4es_getMainFBSize(GLint* width, GLint* height);
+void (*gl4es_getMainFBSize)(GLint* width, GLint* height);
 
 void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) {
     // mask will be ignored
@@ -1439,7 +1439,8 @@ void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
         fbowidth = glstate->fbo.mainfbo_width;
         fboheight = glstate->fbo.mainfbo_height;
         if(glstate->fbo.mainfbo_width!=dstX1 || glstate->fbo.mainfbo_height!=dstY1) {
-            gl4es_getMainFBSize(&glstate->fbo.mainfbo_width, &glstate->fbo.mainfbo_height);
+            if (gl4es_getMainFBSize)
+                gl4es_getMainFBSize(&glstate->fbo.mainfbo_width, &glstate->fbo.mainfbo_height);
         }
     } else {
         fbowidth  = glstate->fbo.fbo_draw->width;
