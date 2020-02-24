@@ -53,6 +53,14 @@ void glx_init();
 
 static int inited = 0;
 
+void set_getmainfbsize(void (*new_getMainFBSize)(int* w, int* h)) {
+    gl4es_getMainFBSize = (void*)new_getMainFBSize;
+}
+
+void set_getprocaddress(void *(*new_proc_address)(const char *)) {
+    gles_getProcAddress = new_proc_address;
+}
+
 #ifdef NO_INIT_CONSTRUCTOR
 __attribute__((visibility("default")))
 #else
@@ -187,7 +195,7 @@ void initialize_gl4es() {
 #endif
 
 #if (defined(NOEGL) && !defined(ANDROID) && !defined(__APPLE__)) || defined(__EMSCRIPTEN__)
-    int gl4es_notest = 1;
+    int gl4es_notest = !gles_getProcAddress;
 #else
     int gl4es_notest = IsEnvVarTrue("LIBGL_NOTEST");
 #endif
@@ -208,7 +216,7 @@ void initialize_gl4es() {
 
     GetHardwareExtensions(gl4es_notest);
 
-#if !defined(__EMSCRIPTEN__) && !defined(__APPLE__)
+#if !defined(NO_LOADER)
     if(globals4es.usegbm)
         LoadGBMFunctions();
     if(globals4es.usegbm && !(gbm && drm)) {
