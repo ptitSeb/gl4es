@@ -42,7 +42,7 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
     switch(pname) {
         case GL_TEXTURE_GEN_MODE: {
             int mode = -1;
-            int n;
+            int n = glstate->texture.active;
             if(glstate->fpe_state) {
                 int p = param[0];
                 switch (p) {
@@ -52,23 +52,22 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
                     case GL_NORMAL_MAP: mode = FPE_TG_NORMALMAP; break;
                     case GL_REFLECTION_MAP: mode = FPE_TG_REFLECMAP; break;
                 }
-                n = glstate->texture.active*3;
             }
             switch (coord) {
-                case GL_S: glstate->texgen[glstate->texture.active].S = param[0]; if(mode!=-1) { glstate->fpe_state->texgen[n].texgen_s_mode=mode; } break;
-                case GL_T: glstate->texgen[glstate->texture.active].T = param[0]; if(mode!=-1) { glstate->fpe_state->texgen[n].texgen_t_mode=mode; } break;
+                case GL_S: glstate->texgen[n].S = param[0]; if(mode!=-1) { glstate->fpe_state->texgen[n].texgen_s_mode=mode; } break;
+                case GL_T: glstate->texgen[n].T = param[0]; if(mode!=-1) { glstate->fpe_state->texgen[n].texgen_t_mode=mode; } break;
                 case GL_R: 
                     if(param[0]==GL_SPHERE_MAP) {
                         errorShim(GL_INVALID_ENUM);
                         return;
                     }
-                    glstate->texgen[glstate->texture.active].R = param[0]; if(mode!=-1) { glstate->fpe_state->texgen[n].texgen_r_mode=mode; } break;
+                    glstate->texgen[n].R = param[0]; if(mode!=-1) { glstate->fpe_state->texgen[n].texgen_r_mode=mode; } break;
                 case GL_Q: 
                     if(param[0]==GL_REFLECTION_MAP || param[0]==GL_NORMAL_MAP || param[0]==GL_SPHERE_MAP) {
                         errorShim(GL_INVALID_ENUM);
                         return;
                     }
-                    glstate->texgen[glstate->texture.active].Q = param[0]; if(mode!=-1) { glstate->fpe_state->texgen[n].texgen_q_mode=mode; } break;
+                    glstate->texgen[n].Q = param[0]; if(mode!=-1) { glstate->fpe_state->texgen[n].texgen_q_mode=mode; } break;
                 default:
                     errorShim(GL_INVALID_ENUM);
             }
