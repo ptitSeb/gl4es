@@ -1304,7 +1304,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         if(fogsource==FPE_FOG_SRC_COORD)
             strcpy(fogsrc, "FogSrc");
         else switch(fogdist) {
-            case FPE_FOG_DIST_RADIAL: strcpy(fogsrc, "length(FogScr)"); break;
+            case FPE_FOG_DIST_RADIAL: strcpy(fogsrc, "length(FogSrc)"); break;
             case FPE_FOG_DIST_PLANE: strcpy(fogsrc, "FogSrc"); break;
             default: strcpy(fogsrc, "abs(FogSrc)");
         }
