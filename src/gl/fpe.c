@@ -67,67 +67,51 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
         }
     }
     // texturing
-    if(!fixed || !dest->textype) {
-        dest->textmat = 0;
-        dest->texenv = 0;
-        memset(dest->texcombine, 0, sizeof(dest->texcombine));
-        memset(dest->texsrcrgb, 0, sizeof(dest->texsrcrgb));
-        memset(dest->texsrcalpha, 0, sizeof(dest->texsrcalpha));
-        memset(dest->texoprgb, 0, sizeof(dest->texoprgb));
-        memset(dest->texopalpha, 0, sizeof(dest->texopalpha));
-        dest->texgen_s = 0;
-        dest->texgen_s_mode = 0;
-        dest->texgen_t = 0;
-        dest->texgen_t_mode = 0;
-        dest->texgen_r = 0;
-        dest->texgen_r_mode = 0;
-        dest->texgen_q = 0;
-        dest->texgen_q_mode = 0;
-        dest->texformat = 0;
-        dest->texadjust = 0;
-        dest->texrgbscale = 0;
-        dest->texalphascale = 0;
-    } else {
-        // individual textures
-        for (int i=0; i<MAX_TEX; i++) {
-            if(((dest->textype>>(i*3))&7)==0) { // texture is off
-                dest->textmat &= ~(1<<i);
-                dest->texformat &= ~(7<<(i*3));
-                dest->texadjust &= ~(1<<i);
-                dest->texgen_s &= ~(1<<i);
-                dest->texgen_s_mode &= ~(7<<(i*3));
-                dest->texgen_t &= ~(1<<i);
-                dest->texgen_t_mode &= ~(7<<(i*3));
-                dest->texgen_r &= ~(1<<i);
-                dest->texgen_r_mode &= ~(7<<(i*3));
-                dest->texgen_q &= ~(1<<i);
-                dest->texgen_q_mode &= ~(7<<(i*3));
-                dest->texrgbscale &= ~(1<<i);
-                dest->texalphascale &= ~(1<<i);
-            } else {    // texture is on
-                if ((dest->texgen_s&(1<<i))==0)
-                    dest->texgen_s_mode &= ~(7<<(i*3));
-                if ((dest->texgen_t&(1<<i))==0)
-                    dest->texgen_t_mode &= ~(7<<(i*3));
-                if ((dest->texgen_r&(1<<i))==0)
-                    dest->texgen_r_mode &= ~(7<<(i*3));
-                if ((dest->texgen_q&(1<<i))==0)
-                    dest->texgen_q_mode &= ~(7<<(i*3));
-            }
-            if((((dest->texenv>>(i*3))&7) < FPE_COMBINE) || ((dest->textype>>(i*3)&7)==0)) {
-                dest->texcombine[i] = 0;
-                for (int j=0; j<3; j++) {
-                    dest->texsrcrgb[i][j] = 0;
-                    dest->texsrcalpha[i][j] = 0;
-                    dest->texoprgb[j] &= ~(0x3<<(i*2));
-                    dest->texopalpha[j] &= ~(0x1<<i);
-                }
-            } else if(((dest->texenv>>(i*3))&7) != FPE_COMBINE4) {
-                dest->texsrcrgb[i][3] = 0;
-                dest->texsrcalpha[i][3] = 0;
-                dest->texoprgb[3] &= ~(0x3<<(i*2));
-                dest->texopalpha[3] &= ~(0x1<<i);
-            }
+    // individual textures
+    for (int i=0; i<MAX_TEX; i++) {
+        if(dest->texture[i].textype==0) { // texture is off
+            dest->texture[i].texmat = 0;
+            dest->texture[i].texformat = 0;
+            dest->texture[i].texadjust = 0;
+            dest->texgen[i].texgen_s = 0;
+            dest->texgen[i].texgen_s_mode = 0;
+            dest->texgen[i].texgen_t = 0;
+            dest->texgen[i].texgen_t_mode = 0;
+            dest->texgen[i].texgen_r = 0;
+            dest->texgen[i].texgen_r_mode = 0;
+            dest->texgen[i].texgen_q = 0;
+            dest->texgen[i].texgen_q_mode = 0;
+            dest->texenv[i].texrgbscale = 0;
+            dest->texenv[i].texalphascale = 0;
+        } else {    // texture is on
+            if (dest->texgen[i].texgen_s==0)
+                dest->texgen[i].texgen_s_mode = 0;
+            if (dest->texgen[i].texgen_t==0)
+                dest->texgen[i].texgen_t_mode = 0;
+            if (dest->texgen[i].texgen_r==0)
+                dest->texgen[i].texgen_r_mode = 0;
+            if (dest->texgen[i].texgen_q==0)
+                dest->texgen[i].texgen_q_mode = 0;
+        }
+        if((dest->texenv[i].texenv < FPE_COMBINE) || (dest->texture[i].textype==0)) {
+            dest->texcombine[i] = 0;
+            dest->texenv[i].texsrcrgb0 = 0;
+            dest->texenv[i].texsrcalpha0 = 0;
+            dest->texenv[i].texoprgb0 = 0;
+            dest->texenv[i].texopalpha0 = 0;
+            dest->texenv[i].texsrcrgb1 = 0;
+            dest->texenv[i].texsrcalpha1 = 0;
+            dest->texenv[i].texoprgb1 = 0;
+            dest->texenv[i].texopalpha1 = 0;
+            dest->texenv[i].texsrcrgb2 = 0;
+            dest->texenv[i].texsrcalpha2 = 0;
+            dest->texenv[i].texoprgb2 = 0;
+            dest->texenv[i].texopalpha2 = 0;
+        } else if(dest->texenv[i].texenv != FPE_COMBINE4) {
+            dest->texenv[i].texsrcrgb3 = 0;
+            dest->texenv[i].texsrcalpha3 = 0;
+            dest->texenv[i].texoprgb3 = 0;
+            dest->texenv[i].texopalpha3 = 0;
         }
     }
     if(dest->fog && dest->fogsource==FPE_FOG_SRC_COORD)
@@ -150,15 +134,17 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
         dest->fragment_prg_id = 0;
 
     if(!fixed) {
-        dest->textmat = 0;
-        dest->texadjust = 0;
+        for(int i=0; i<MAX_TEX; ++i) {
+            dest->texture[i].texmat = 0;
+            dest->texture[i].texadjust = 0;
+            dest->texture[i].textype = 0;
+        }
         dest->plane = 0;   // Should handled this?
         dest->colorsum = 0;
         dest->normalize = 0;
         dest->rescaling = 0;
 
         dest->lighting = 0;
-        dest->textype = 0;
         dest->fog = 0;
         dest->point = 0;
 
@@ -425,62 +411,54 @@ void fpe_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLflo
 
 void fpe_glSecondaryColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
     DBG(printf("fpe_glSecondaryColorPointer(%d, %s, %d, %p)\n", size, PrintEnum(type), stride, pointer);)
-    glstate->fpe_client.secondary.size = size;
-    glstate->fpe_client.secondary.type = type;
-    glstate->fpe_client.secondary.stride = stride;
-    glstate->fpe_client.secondary.pointer = pointer;
-    if(pointer==glstate->vao->pointers[ATT_SECONDARY].pointer) {
-        glstate->fpe_client.secondary.real_buffer = glstate->vao->pointers[ATT_SECONDARY].real_buffer;
-        glstate->fpe_client.secondary.real_pointer = glstate->vao->pointers[ATT_SECONDARY].real_pointer;
-    } else {
-        glstate->fpe_client.secondary.real_buffer = 0;
-        glstate->fpe_client.secondary.real_pointer = 0;
-    }
+    if(pointer==glstate->vao->vertexattrib[ATT_SECONDARY].pointer)
+        return;
+    glstate->vao->vertexattrib[ATT_SECONDARY].size = size;
+    glstate->vao->vertexattrib[ATT_SECONDARY].type = type;
+    glstate->vao->vertexattrib[ATT_SECONDARY].stride = stride;
+    glstate->vao->vertexattrib[ATT_SECONDARY].pointer = pointer;
+    glstate->vao->vertexattrib[ATT_SECONDARY].divisor = 0;
+    glstate->vao->vertexattrib[ATT_SECONDARY].real_buffer = 0;
+    glstate->vao->vertexattrib[ATT_SECONDARY].real_pointer = 0;
 }
 
 void fpe_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
     DBG(printf("fpe_glVertexPointer(%d, %s, %d, %p)\n", size, PrintEnum(type), stride, pointer);)
-    glstate->fpe_client.vert.size = size;
-    glstate->fpe_client.vert.type = type;
-    glstate->fpe_client.vert.stride = stride;
-    glstate->fpe_client.vert.pointer = pointer;
-    if(pointer==glstate->vao->pointers[ATT_VERTEX].pointer) {
-        glstate->fpe_client.vert.real_buffer = glstate->vao->pointers[ATT_VERTEX].real_buffer;
-        glstate->fpe_client.vert.real_pointer = glstate->vao->pointers[ATT_VERTEX].real_pointer;
-    } else {
-        glstate->fpe_client.vert.real_buffer = 0;
-        glstate->fpe_client.vert.real_pointer = 0;
-    }
+    if(pointer==glstate->vao->vertexattrib[ATT_VERTEX].pointer)
+        return;
+    glstate->vao->vertexattrib[ATT_VERTEX].size = size;
+    glstate->vao->vertexattrib[ATT_VERTEX].type = type;
+    glstate->vao->vertexattrib[ATT_VERTEX].stride = stride;
+    glstate->vao->vertexattrib[ATT_VERTEX].pointer = pointer;
+    glstate->vao->vertexattrib[ATT_VERTEX].divisor = 0;
+    glstate->vao->vertexattrib[ATT_VERTEX].real_buffer = 0;
+    glstate->vao->vertexattrib[ATT_VERTEX].real_pointer = 0;
 }
 
 void fpe_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
     DBG(printf("fpe_glColorPointer(%d, %s, %d, %p)\n", size, PrintEnum(type), stride, pointer);)
-    glstate->fpe_client.color.size = size;
-    glstate->fpe_client.color.type = type;
-    glstate->fpe_client.color.stride = stride;
-    glstate->fpe_client.color.pointer = pointer;
-    if(pointer==glstate->vao->pointers[ATT_COLOR].pointer) {
-        glstate->fpe_client.color.real_buffer = glstate->vao->pointers[ATT_COLOR].real_buffer;
-        glstate->fpe_client.color.real_pointer = glstate->vao->pointers[ATT_COLOR].real_pointer;
-    } else {
-        glstate->fpe_client.color.real_buffer = 0;
-        glstate->fpe_client.color.real_pointer = 0;
-    }
+    if(pointer==glstate->vao->vertexattrib[ATT_COLOR].pointer)
+        return;
+    glstate->vao->vertexattrib[ATT_COLOR].size = size;
+    glstate->vao->vertexattrib[ATT_COLOR].type = type;
+    glstate->vao->vertexattrib[ATT_COLOR].stride = stride;
+    glstate->vao->vertexattrib[ATT_COLOR].pointer = pointer;
+    glstate->vao->vertexattrib[ATT_COLOR].divisor = 0;
+    glstate->vao->vertexattrib[ATT_COLOR].real_buffer = 0;
+    glstate->vao->vertexattrib[ATT_COLOR].real_pointer = 0;
 }
 
 void fpe_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
     DBG(printf("fpe_glNormalPointer(%s, %d, %p)\n", PrintEnum(type), stride, pointer);)
-    glstate->fpe_client.normal.size = 3;
-    glstate->fpe_client.normal.type = type;
-    glstate->fpe_client.normal.stride = stride;
-    glstate->fpe_client.normal.pointer = pointer;
-    if(pointer==glstate->vao->pointers[ATT_NORMAL].pointer) {
-        glstate->fpe_client.normal.real_buffer = glstate->vao->pointers[ATT_NORMAL].real_buffer;
-        glstate->fpe_client.normal.real_pointer = glstate->vao->pointers[ATT_NORMAL].real_pointer;
-    } else {
-        glstate->fpe_client.normal.real_buffer = 0;
-        glstate->fpe_client.normal.real_pointer = 0;
-    }
+    if(pointer==glstate->vao->vertexattrib[ATT_NORMAL].pointer)
+        return;
+    glstate->vao->vertexattrib[ATT_NORMAL].size = 3;
+    glstate->vao->vertexattrib[ATT_NORMAL].type = type;
+    glstate->vao->vertexattrib[ATT_NORMAL].stride = stride;
+    glstate->vao->vertexattrib[ATT_NORMAL].pointer = pointer;
+    glstate->vao->vertexattrib[ATT_NORMAL].divisor = 0;
+    glstate->vao->vertexattrib[ATT_NORMAL].real_buffer = 0;
+    glstate->vao->vertexattrib[ATT_NORMAL].real_pointer = 0;
 }
 
 void fpe_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -489,32 +467,28 @@ void fpe_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid
 
 void fpe_glTexCoordPointerTMU(GLint size, GLenum type, GLsizei stride, const GLvoid *pointer, int TMU) {
     DBG(printf("fpe_glTexCoordPointer(%d, %s, %d, %p) on tmu=%d\n", size, PrintEnum(type), stride, pointer, TMU);)
-    glstate->fpe_client.tex[TMU].size = size;
-    glstate->fpe_client.tex[TMU].type = type;
-    glstate->fpe_client.tex[TMU].stride = stride;
-    glstate->fpe_client.tex[TMU].pointer = pointer;
-    if(pointer==glstate->vao->pointers[ATT_MULTITEXCOORD0+TMU].pointer) {
-        glstate->fpe_client.tex[TMU].real_buffer = glstate->vao->pointers[ATT_MULTITEXCOORD0+TMU].real_buffer;
-        glstate->fpe_client.tex[TMU].real_pointer = glstate->vao->pointers[ATT_MULTITEXCOORD0+TMU].real_pointer;
-    } else {
-        glstate->fpe_client.tex[TMU].real_buffer = 0;
-        glstate->fpe_client.tex[TMU].real_pointer = 0;
-    }
+    if(pointer==glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+TMU].pointer)
+        return;
+    glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+TMU].size = size;
+    glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+TMU].type = type;
+    glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+TMU].stride = stride;
+    glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+TMU].pointer = pointer;
+    glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+TMU].divisor = 0;
+    glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+TMU].real_buffer = 0;
+    glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+TMU].real_pointer = 0;
 }
 
 void fpe_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
     DBG(printf("fpe_glFogPointer(%s, %d, %p)\n", PrintEnum(type), stride, pointer);)
-    glstate->fpe_client.fog.size = 1;
-    glstate->fpe_client.fog.type = type;
-    glstate->fpe_client.fog.stride = stride;
-    glstate->fpe_client.fog.pointer = pointer;
-    if(pointer==glstate->vao->pointers[ATT_FOGCOORD].pointer) {
-        glstate->fpe_client.fog.real_buffer = glstate->vao->pointers[ATT_FOGCOORD].real_buffer;
-        glstate->fpe_client.fog.real_pointer = glstate->vao->pointers[ATT_FOGCOORD].real_pointer;
-    } else {
-        glstate->fpe_client.fog.real_buffer = 0;
-        glstate->fpe_client.fog.real_pointer = 0;
-    }
+    if(pointer==glstate->vao->vertexattrib[ATT_FOGCOORD].pointer)
+        return;
+    glstate->vao->vertexattrib[ATT_FOGCOORD].size = 1;
+    glstate->vao->vertexattrib[ATT_FOGCOORD].type = type;
+    glstate->vao->vertexattrib[ATT_FOGCOORD].stride = stride;
+    glstate->vao->vertexattrib[ATT_FOGCOORD].pointer = pointer;
+    glstate->vao->vertexattrib[ATT_FOGCOORD].divisor = 0;
+    glstate->vao->vertexattrib[ATT_FOGCOORD].real_buffer = 0;
+    glstate->vao->vertexattrib[ATT_FOGCOORD].real_pointer = 0;
 }
 
 void fpe_glEnable(GLenum cap) {
@@ -572,7 +546,7 @@ void fpe_glDrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsizei 
         {
             vertexattrib_t *v = &glstate->glesva.vertexattrib[i];
             vertexattrib_t *w = (glprogram->has_builtin_attrib)?(&glstate->gleshard->wanted[i]):(&glstate->glesva.wanted[i]);
-            if(w->divisor && w->vaarray) {
+            if(w->divisor && w->enabled) {
                 char* current = (char*)((uintptr_t)w->pointer + ((w->buffer)?(uintptr_t)w->buffer->data:0));
                 int stride=w->stride;
                 if(!stride) stride=gl_sizeof(w->type)*w->size;
@@ -632,7 +606,7 @@ void fpe_glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const 
         {
             vertexattrib_t *v = &glstate->glesva.vertexattrib[i];
             vertexattrib_t *w = (glprogram->has_builtin_attrib)?(&glstate->gleshard->wanted[i]):(&glstate->glesva.wanted[i]);
-            if(w->divisor && w->vaarray) {
+            if(w->divisor && w->enabled) {
                 char* current = (char*)((uintptr_t)w->pointer + ((w->buffer)?(uintptr_t)w->buffer->data:0));
                 int stride=w->stride;
                 if(!stride) stride=gl_sizeof(w->type)*w->size;
@@ -779,10 +753,10 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
     // update texture state for fpe only
     if(glstate->fpe_bound_changed && !glstate->glsl->program) {
         for(int i=0; i<glstate->fpe_bound_changed; i++) {
-            glstate->fpe_state->texformat &= ~(7<<(i*3));
-            glstate->fpe_state->texadjust &= ~(1<<i);
+            glstate->fpe_state->texture[i].texformat = 0;
+            glstate->fpe_state->texture[i].texadjust = 0;
             // disable texture unit, in that case (binded texture iconsts not valid)
-            glstate->fpe_state->textype &= ~(7<<(i*3));
+            glstate->fpe_state->texture[i].textype = 0;
             int texunit = fpe_gettexture(i);
             gltexture_t* tex = (texunit==-1)?NULL:glstate->texture.bound[i][texunit];
             if(tex && tex->valid) {
@@ -798,10 +772,10 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                     else if(texunit==ENABLED_TEX3D) fmt = FPE_TEX_3D;
                     else fmt = FPE_TEX_2D;
                 }
-                glstate->fpe_state->texformat |= tex->fpe_format<<(i*3);
-                glstate->fpe_state->texadjust |= tex->adjust<<i;
-                if(texunit==ENABLED_TEXTURE_RECTANGLE) glstate->fpe_state->texadjust |= 1<<i;
-                glstate->fpe_state->textype |= fmt<<(i*3);
+                glstate->fpe_state->texture[i].texformat = tex->fpe_format;
+                glstate->fpe_state->texture[i].texadjust = tex->adjust;
+                if(texunit==ENABLED_TEXTURE_RECTANGLE) glstate->fpe_state->texture[i].texadjust = 1;
+                glstate->fpe_state->texture[i].textype = fmt;
             }
         }
         glstate->fpe_bound_changed = 0;
@@ -886,9 +860,9 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         id = glprogram->builtin_attrib[ATT_VERTEX];
         if(id!=-1) {
             vertexattrib_t *w = &glstate->gleshard->wanted[id];
-            pointer_state_t *p = &glstate->fpe_client.vert;
-            w->vaarray = glstate->fpe_client.vertex_array;
-            if(w->vaarray) {
+            vertexattrib_t *p = &glstate->vao->vertexattrib[ATT_VERTEX];
+            w->enabled = glstate->fpe_client.vertex_array;
+            if(w->enabled) {
                 w->size = p->size;
                 w->type = p->type;
                 w->normalized = GL_FALSE;//(p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
@@ -905,9 +879,9 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         id = glprogram->builtin_attrib[ATT_COLOR];
         if(id!=-1) {
             vertexattrib_t *w = &glstate->gleshard->wanted[id];
-            pointer_state_t *p = &glstate->fpe_client.color;
-            w->vaarray = glstate->fpe_client.color_array;
-            if(w->vaarray) {
+            vertexattrib_t *p = &glstate->vao->vertexattrib[ATT_COLOR];
+            w->enabled = glstate->fpe_client.color_array;
+            if(w->enabled) {
                 w->size = p->size;
                 w->type = p->type;
                 w->normalized = (p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
@@ -924,9 +898,9 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         id = glprogram->builtin_attrib[ATT_SECONDARY];
         if(id!=-1) {
             vertexattrib_t *w = &glstate->gleshard->wanted[id];
-            pointer_state_t *p = &glstate->fpe_client.secondary;
-            w->vaarray = glstate->fpe_client.secondary_array;
-            if(w->vaarray) {
+            vertexattrib_t *p = &glstate->vao->vertexattrib[ATT_SECONDARY];
+            w->enabled = glstate->fpe_client.secondary_array;
+            if(w->enabled) {
                 w->size = p->size;
                 w->type = p->type;
                 w->normalized = (p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
@@ -943,9 +917,9 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         id = glprogram->builtin_attrib[ATT_FOGCOORD];
         if(id!=-1) {
             vertexattrib_t *w = &glstate->gleshard->wanted[id];
-            pointer_state_t *p = &glstate->fpe_client.fog;
-            w->vaarray = glstate->fpe_client.fog_array;
-            if(w->vaarray) {
+            vertexattrib_t *p = &glstate->vao->vertexattrib[ATT_FOGCOORD];
+            w->enabled = glstate->fpe_client.fog_array;
+            if(w->enabled) {
                 w->size = p->size;
                 w->type = p->type;
                 w->normalized = (p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
@@ -964,9 +938,9 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
             id = glprogram->builtin_attrib[ATT_MULTITEXCOORD0+tex];
             if(id!=-1) {
                 vertexattrib_t *w = &glstate->gleshard->wanted[id];
-                pointer_state_t *p = &glstate->fpe_client.tex[tex];
-                w->vaarray = glstate->fpe_client.tex_coord_array[tex];
-                if(w->vaarray) {
+                vertexattrib_t *p = &glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+tex];
+                w->enabled = glstate->fpe_client.tex_coord_array[tex];
+                if(w->enabled) {
                     w->size = p->size;
                     w->type = p->type;
                     w->normalized = GL_FALSE;//(p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
@@ -984,9 +958,9 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         id = glprogram->builtin_attrib[ATT_NORMAL];
         if(id!=-1) {
             vertexattrib_t *w = &glstate->gleshard->wanted[id];
-            pointer_state_t *p = &glstate->fpe_client.normal;
-            w->vaarray = glstate->fpe_client.normal_array;
-            if(w->vaarray) {
+            vertexattrib_t *p = &glstate->vao->vertexattrib[ATT_NORMAL];
+            w->enabled = glstate->fpe_client.normal_array;
+            if(w->enabled) {
                 w->size = p->size;
                 w->type = p->type;
                 w->normalized = GL_FALSE;//(p->type==GL_FLOAT)?GL_FALSE:GL_TRUE;
@@ -1249,17 +1223,17 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         vertexattrib_t *w = (glprogram->has_builtin_attrib)?(&glstate->gleshard->wanted[i]):(&glstate->glesva.wanted[i]);
         int dirty = 0;
         // enable / disable Array if needed
-        if(v->vaarray != w->vaarray || (v->vaarray && w->divisor)) {
+        if(v->enabled != w->enabled || (v->enabled && w->divisor)) {
             dirty = 1;
-            v->vaarray = (w->divisor)?0:w->vaarray;
-            DBG(printf("VertexAttribArray[%d]:%s, divisor=%d\n", i, (w->vaarray)?"Enable":"Disable", w->divisor);)
-            if(v->vaarray)
+            v->enabled = (w->divisor)?0:w->enabled;
+            DBG(printf("VertexAttribArray[%d]:%s, divisor=%d\n", i, (w->enabled)?"Enable":"Disable", w->divisor);)
+            if(v->enabled)
                 gles_glEnableVertexAttribArray(i);
             else
                 gles_glDisableVertexAttribArray(i);
         }
         // check if new value has to be sent to hardware
-        if(v->vaarray) {
+        if(v->enabled) {
             // array case
             void * ptr = (void*)((uintptr_t)w->pointer + ((w->buffer)?(uintptr_t)w->buffer->data:0));
             if(dirty || v->size!=w->size || v->type!=w->type || v->normalized!=w->normalized 
@@ -1316,7 +1290,7 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
             // single value case
             char* current = (char*)w->current;
             GLfloat tmp[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-            if(w->divisor && w->vaarray) {
+            if(w->divisor && w->enabled) {
                 current = (char*)((uintptr_t)w->pointer + ((w->buffer)?(uintptr_t)w->buffer->data:0));
                 int stride=w->stride;
                 if(!stride) stride=gl_sizeof(w->type)*w->size;
@@ -1352,8 +1326,8 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
     } else {
         // disable VAArray, to be on the safe side
         vertexattrib_t *v = &glstate->glesva.vertexattrib[i];
-        if(v->vaarray) {
-            v->vaarray = 0;
+        if(v->enabled) {
+            v->enabled = 0;
             DBG(printf("VertexAttribArray[%d]:%s\n", i, "Disable");)
             gles_glDisableVertexAttribArray(i);
         }
@@ -1374,11 +1348,11 @@ void realize_blitenv(int alpha) {
     for(int i=0; i<hardext.maxvattrib; i++) {
         vertexattrib_t *v = &glstate->glesva.vertexattrib[i];
         // enable / disable Array if needed
-        if(v->vaarray != ((i<2)?1:0)) {
+        if(v->enabled != ((i<2)?1:0)) {
             LOAD_GLES2(glEnableVertexAttribArray)
             LOAD_GLES2(glDisableVertexAttribArray);
-            v->vaarray = ((i<2)?1:0);
-            if(v->vaarray)
+            v->enabled = ((i<2)?1:0);
+            if(v->enabled)
                 gles_glEnableVertexAttribArray(i);
             else
                 gles_glDisableVertexAttribArray(i);

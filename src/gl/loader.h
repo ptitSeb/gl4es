@@ -83,18 +83,14 @@ typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLC
 #include <string.h>
 
 #include "../glx/hardext.h"
-
+extern void *(*gles_getProcAddress)(const char *name);
+void (*gl4es_getMainFBSize)(GLint* width, GLint* height);
+void *proc_address(void *lib, const char *name);
 // will become references to dlopen'd gles and egl
 extern void *gles, *egl, *bcm_host, *vcos, *gbm, *drm;
-#ifdef AMIGAOS4
-#define proc_address(lib, name) os4GetProcAddress(name)
-#elif defined(__EMSCRIPTEN__)
-void *emscripten_GetProcAddress(const char *name);
-#define proc_address(lib, name) emscripten_GetProcAddress(name)
-#else // AMIGAOS4
-#define proc_address(lib, name) dlsym(lib, name)
-void *open_lib(const char **names, const char *override);
-#endif // AMIGAOS4
+#if defined __APPLE__ || defined __EMSCRIPTEN__
+#define NO_LOADER
+#endif
 
 #define WARN_NULL(name) if (name == NULL) LOGD("warning, " #name " is NULL\n");
 

@@ -113,7 +113,7 @@ int inline tex_setup_needchange(GLuint itarget) {
         return 1;
     return 0;
 }
-void tex_setup_texcoord(GLuint len, int changes, GLuint itarget, pointer_state_t* ptr) {
+void tex_setup_texcoord(GLuint len, int changes, GLuint itarget, vertexattrib_t* ptr) {
     LOAD_GLES_FPE(glTexCoordPointer);
     GLuint texunit = glstate->texture.client;
     
@@ -880,7 +880,7 @@ static GLint proxy_intformat = 0;
 
 int wrap_npot(GLenum wrap) {
     switch(wrap) {
-        case 0: return 1;   // default is ok (should not, it's GL_REPEAT)
+        case 0: return (globals4es.defaultwrap)?1:0;
         case GL_CLAMP:
         case GL_CLAMP_TO_EDGE:
         case GL_CLAMP_TO_BORDER:
@@ -1330,8 +1330,13 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 bound->wrap_t = bound->wrap_s = GL_CLAMP_TO_EDGE;
             } else if (!wrap_npot(bound->wrap_s) || !wrap_npot(bound->wrap_t)) {
                 // resize to npot boundaries (not ideal if the wrap value is change after upload of the texture)
-                nwidth =  npot(width);
-                nheight = npot(height);
+                if(level==0 || bound->width==0) {
+                    nwidth =  npot(width);
+                    nheight = npot(height);
+                } else {
+                    nwidth =  npot(nlevel(bound->width, level));
+                    nheight = npot(nlevel(bound->height, level));
+                }
                 float ratiox, ratioy;
                 ratiox = ((float)nwidth)/width;
                 ratioy = ((float)nheight)/height;

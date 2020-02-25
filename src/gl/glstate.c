@@ -337,12 +337,12 @@ void* NewGLState(void* shared_glstate, int es2only) {
         // some default are not 0...
         for (int i=0; i<MAX_TEX; i++) {
             //TexEnv Combine that are not 0
-            glstate->fpe_state->texsrcrgb[i][1] = FPE_SRC_PREVIOUS;
-            glstate->fpe_state->texsrcalpha[i][1] = FPE_SRC_PREVIOUS;
-            glstate->fpe_state->texsrcrgb[i][2] = FPE_SRC_CONSTANT;
-            glstate->fpe_state->texsrcalpha[i][2] = FPE_SRC_CONSTANT;
-            glstate->fpe_state->texoprgb[0] |= FPE_OP_SRCCOLOR<<(i*2);
-            glstate->fpe_state->texoprgb[1] |= FPE_OP_SRCCOLOR<<(i*2);
+            glstate->fpe_state->texenv[i].texsrcrgb1 = FPE_SRC_PREVIOUS;
+            glstate->fpe_state->texenv[i].texsrcalpha1 = FPE_SRC_PREVIOUS;
+            glstate->fpe_state->texenv[i].texsrcrgb2 = FPE_SRC_CONSTANT;
+            glstate->fpe_state->texenv[i].texsrcalpha2 = FPE_SRC_CONSTANT;
+            glstate->fpe_state->texenv[i].texoprgb0 = FPE_OP_SRCCOLOR;
+            glstate->fpe_state->texenv[i].texoprgb1 = FPE_OP_SRCCOLOR;
         }            
     }
 

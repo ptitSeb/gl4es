@@ -1,23 +1,38 @@
 #include "loader.h"
 
-#if defined(__EMSCRIPTEN__) || defined(__APPLE__)
+
+
+#if defined NO_LOADER
 
 void *gles = (void*)(~(uintptr_t)0);
 void *egl = (void*)(~(uintptr_t)0);
-
+void *open_lib(const char **names, const char *override) {
+    return (void*)(~(uintptr_t)0);
+}
 void load_libs() {
 }
 
-#else
+#elif defined AMIGAOS4
+#include "../agl/amigaos.h"
+void *gles;
+void load_libs() {
+    os4OpenLib(&gles);
+}
 
+void *open_lib(const char **names, const char *override) {
+    return (void*)(~(uintptr_t)0);
+}
+
+
+#else
+// PATH_MAX
+#ifdef __linux__
+#include <linux/limits.h>
+#else
+#include <limits.h>
+#endif
 #include "logs.h"
 #include "init.h"
-#ifdef AMIGAOS4
-#include "../agl/amigaos.h"
-#include <limits.h>
-#else
-#include <linux/limits.h>
-#endif
 #include "envvars.h"
 
 void *gles = NULL, *egl = NULL, *bcm_host = NULL, *vcos = NULL, *gbm = NULL, *drm = NULL;
@@ -31,7 +46,7 @@ static const char *gbm_lib[] = {
     NULL
 };
 #endif
-#ifndef AMIGAOS4
+
 static const char *path_prefix[] = {
     "",
     "/opt/vc/lib/",
@@ -53,7 +68,7 @@ static const char *lib_ext[] = {
 };
 
 static const char *gles2_lib[] = {
-    #if defined(BCMHOST) && !defined(ANDROID)
+    #if defined(BCMHOST)
     "libbrcmGLESv2",
     #endif
     "libGLESv2_CM",
@@ -62,7 +77,7 @@ static const char *gles2_lib[] = {
 };
 
 static const char *gles_lib[] = {
-    #if defined(BCMHOST) && !defined(ANDROID)
+    #if defined(BCMHOST)
     "libbrcmGLESv1_CM",
     #endif
     "libGLESv1_CM",
@@ -71,7 +86,7 @@ static const char *gles_lib[] = {
 };
 
 static const char *egl_lib[] = {
-    #if defined(BCMHOST) && !defined(ANDROID)
+    #if defined(BCMHOST)
     "libbrcmEGL",
     #endif
     "libEGL",
@@ -84,6 +99,7 @@ void *open_lib(const char **names, const char *override) {
     char path_name[PATH_MAX + 1];
     int flags = RTLD_LOCAL | RTLD_NOW;
 #ifdef RTLD_DEEPBIND
+    // note: breaks address sanitizer
     flags |= RTLD_DEEPBIND;
 #endif
     if (override) {
@@ -141,11 +157,26 @@ void load_libs() {
     drm = open_lib(drm_lib, drm_override);
 #endif
 }
-#else
-void load_libs() {
-    os4OpenLib(&gles);
-}
-#endif //AMIGAOS4
-
 #endif
 
+// user-defined getProcAddress
+void *(*gles_getProcAddress)(const char *name);
+
+void *proc_address(void *lib, const char *name) {
+    if (gles_getProcAddress)
+        return gles_getProcAddress(name);
+#ifdef AMIGAOS64
+    return os4GetProcAddress(name);
+#elif defined __EMSCRIPTEN__
+    void *emscripten_GetProcAddress(const char *name);
+    emscripten_GetProcAddress(name);
+#elif defined __APPLE__
+    // apple code seems to use RTLD_NEXT which is usually ((void*)-1)
+    // remove if it not needed
+    return dlsym((void*)(~(uintptr_t)0), name);
+#elif !defined NO_LOADER
+    return dlsym(lib, name);
+#else
+    return NULL;
+#endif
+}

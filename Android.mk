@@ -34,6 +34,7 @@ LOCAL_SRC_FILES := \
 	src/gl/fpe_cache.c \
 	src/gl/fpe_shader.c \
 	src/gl/framebuffers.c \
+	src/gl/gl_lookup.c \
 	src/gl/getter.c \
 	src/gl/gl4es.c \
 	src/gl/glstate.c \
@@ -79,13 +80,15 @@ LOCAL_SRC_FILES := \
 	src/glx/gbm.c \
 	src/glx/streaming.c \
 
-LOCAL_CFLAGS += -g -std=c99 -funwind-tables -O3 -DBCMHOST -fvisibility=hidden -include include/android_debug.h
+LOCAL_CFLAGS += -g -std=c99 -funwind-tables -O3 -fvisibility=hidden -include include/android_debug.h
 LOCAL_CFLAGS += -DNOX11
 LOCAL_CFLAGS += -DNO_GBM
 #LOCAL_CFLAGS += -DNO_INIT_CONSTRUCTOR
 #LOCAL_CFLAGS += -DDEFAULT_ES=2
 
 LOCAL_LDLIBS := -ldl -llog
+#building as a static lib
 
+LOCAL_CFLAGS += -DSTATICLIB
 include $(BUILD_STATIC_LIBRARY)
 

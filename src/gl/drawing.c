@@ -13,9 +13,9 @@
 static GLboolean is_cache_compatible(GLsizei count) {
     #define T2(AA, A, B) \
     if(glstate->vao->AA!=glstate->vao->B.enabled) return GL_FALSE; \
-    if(glstate->vao->B.enabled && memcmp(&glstate->vao->pointers[A], &glstate->vao->B.state, sizeof(pointer_state_t))) return GL_FALSE;
-    #define TEST(A,B) T2(pointers[A].enabled, A, B)
-    #define TESTA(A,B,I) T2(pointers[A+i].enabled, A+i, B[i])
+    if(glstate->vao->B.enabled && memcmp(&glstate->vao->vertexattrib[A], &glstate->vao->B.state, sizeof(vertexattrib_t))) return GL_FALSE;
+    #define TEST(A,B) T2(vertexattrib[A].enabled, A, B)
+    #define TESTA(A,B,I) T2(vertexattrib[A+i].enabled, A+i, B[i])
 
     if(glstate->vao == glstate->defaultvao) return GL_FALSE;
     if(count > glstate->vao->cache_count) return GL_FALSE;
@@ -36,8 +36,8 @@ static GLboolean is_cache_compatible(GLsizei count) {
 static GLboolean is_list_compatible(renderlist_t* list) {
     #define T2(AA, A, B) \
     if(glstate->vao->AA!=(list->B!=NULL)) return GL_FALSE;
-    #define TEST(A,B) T2(pointers[A].enabled, A, B)
-    #define TESTA(A,B,I) T2(pointers[A+i].enabled, A+i, B[i])
+    #define TEST(A,B) T2(vertexattrib[A].enabled, A, B)
+    #define TESTA(A,B,I) T2(vertexattrib[A+i].enabled, A+i, B[i])
 
     if(list->post_color && !list->color) return GL_FALSE;
     if(list->post_normal && !list->normal) return GL_FALSE;
@@ -91,8 +91,8 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
             list->shared_arrays = glstate->vao->shared_arrays = (int*)malloc(sizeof(int));
             *glstate->vao->shared_arrays = 2; // already shared between glstate & list
             #define G2(AA, A, B) \
-            glstate->vao->B.enabled = glstate->vao->pointers[AA].enabled; \
-            if (glstate->vao->B.enabled) memcpy(&glstate->vao->B.state, &glstate->vao->pointers[A], sizeof(pointer_state_t));
+            glstate->vao->B.enabled = glstate->vao->vertexattrib[AA].enabled; \
+            if (glstate->vao->B.enabled) memcpy(&glstate->vao->B.state, &glstate->vao->vertexattrib[A], sizeof(vertexattrib_t));
             #define GO(A,B) G2(A, A, B)
             #define GOA(A,B,I) G2(A+i, A+i, B[i])
             GO(ATT_VERTEX, vert)
@@ -108,62 +108,62 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
             #undef GO
             #undef G2
         }
-        if (glstate->vao->pointers[ATT_VERTEX].enabled) {
+        if (glstate->vao->vertexattrib[ATT_VERTEX].enabled) {
             if(glstate->vao->shared_arrays) {
-                glstate->vao->vert.ptr = copy_gl_pointer_tex(&glstate->vao->pointers[ATT_VERTEX], 4, 0, count);
+                glstate->vao->vert.ptr = copy_gl_pointer_tex(&glstate->vao->vertexattrib[ATT_VERTEX], 4, 0, count);
                 list->vert = glstate->vao->vert.ptr + 4*skip;
             } else
-                list->vert = copy_gl_pointer_tex(&glstate->vao->pointers[ATT_VERTEX], 4, skip, count);
+                list->vert = copy_gl_pointer_tex(&glstate->vao->vertexattrib[ATT_VERTEX], 4, skip, count);
         }
-        if (glstate->vao->pointers[ATT_COLOR].enabled) {
+        if (glstate->vao->vertexattrib[ATT_COLOR].enabled) {
             if(glstate->vao->shared_arrays) {
-                if(glstate->vao->pointers[ATT_COLOR].size==GL_BGRA)
-                    glstate->vao->color.ptr = copy_gl_pointer_color_bgra(glstate->vao->pointers[ATT_COLOR].pointer, glstate->vao->pointers[ATT_COLOR].stride, 4, 0, count);
+                if(glstate->vao->vertexattrib[ATT_COLOR].size==GL_BGRA)
+                    glstate->vao->color.ptr = copy_gl_pointer_color_bgra(glstate->vao->vertexattrib[ATT_COLOR].pointer, glstate->vao->vertexattrib[ATT_COLOR].stride, 4, 0, count);
                 else
-                    glstate->vao->color.ptr = copy_gl_pointer_color(&glstate->vao->pointers[ATT_COLOR], 4, 0, count);
+                    glstate->vao->color.ptr = copy_gl_pointer_color(&glstate->vao->vertexattrib[ATT_COLOR], 4, 0, count);
                 list->color = glstate->vao->color.ptr + 4*skip;
             } else {
-                if(glstate->vao->pointers[ATT_COLOR].size==GL_BGRA)
-                    list->color = copy_gl_pointer_color_bgra(glstate->vao->pointers[ATT_COLOR].pointer, glstate->vao->pointers[ATT_COLOR].stride, 4, skip, count);
+                if(glstate->vao->vertexattrib[ATT_COLOR].size==GL_BGRA)
+                    list->color = copy_gl_pointer_color_bgra(glstate->vao->vertexattrib[ATT_COLOR].pointer, glstate->vao->vertexattrib[ATT_COLOR].stride, 4, skip, count);
                 else
-                    list->color = copy_gl_pointer_color(&glstate->vao->pointers[ATT_COLOR], 4, skip, count);
+                    list->color = copy_gl_pointer_color(&glstate->vao->vertexattrib[ATT_COLOR], 4, skip, count);
             }
         }
-        if (glstate->vao->pointers[ATT_SECONDARY].enabled/* && glstate->enable.color_array*/) {
+        if (glstate->vao->vertexattrib[ATT_SECONDARY].enabled/* && glstate->enable.color_array*/) {
             if(glstate->vao->shared_arrays) {
-                if(glstate->vao->pointers[ATT_SECONDARY].size==GL_BGRA)
-                    glstate->vao->secondary.ptr = copy_gl_pointer_color_bgra(glstate->vao->pointers[ATT_SECONDARY].pointer, glstate->vao->pointers[ATT_SECONDARY].stride, 4, 0, count);
+                if(glstate->vao->vertexattrib[ATT_SECONDARY].size==GL_BGRA)
+                    glstate->vao->secondary.ptr = copy_gl_pointer_color_bgra(glstate->vao->vertexattrib[ATT_SECONDARY].pointer, glstate->vao->vertexattrib[ATT_SECONDARY].stride, 4, 0, count);
                 else
-                    glstate->vao->secondary.ptr = copy_gl_pointer(&glstate->vao->pointers[ATT_SECONDARY], 4, 0, count);		// alpha chanel is always 0 for secondary...
+                    glstate->vao->secondary.ptr = copy_gl_pointer(&glstate->vao->vertexattrib[ATT_SECONDARY], 4, 0, count);		// alpha chanel is always 0 for secondary...
                     list->secondary = glstate->vao->secondary.ptr + 4*skip;
             } else {
-                if(glstate->vao->pointers[ATT_SECONDARY].size==GL_BGRA)
-                    list->secondary = copy_gl_pointer_color_bgra(glstate->vao->pointers[ATT_SECONDARY].pointer, glstate->vao->pointers[ATT_SECONDARY].stride, 4, skip, count);
+                if(glstate->vao->vertexattrib[ATT_SECONDARY].size==GL_BGRA)
+                    list->secondary = copy_gl_pointer_color_bgra(glstate->vao->vertexattrib[ATT_SECONDARY].pointer, glstate->vao->vertexattrib[ATT_SECONDARY].stride, 4, skip, count);
                 else
-                    list->secondary = copy_gl_pointer(&glstate->vao->pointers[ATT_SECONDARY], 4, skip, count);		// alpha chanel is always 0 for secondary...
+                    list->secondary = copy_gl_pointer(&glstate->vao->vertexattrib[ATT_SECONDARY], 4, skip, count);		// alpha chanel is always 0 for secondary...
             }
         }
-        if (glstate->vao->pointers[ATT_NORMAL].enabled) {
+        if (glstate->vao->vertexattrib[ATT_NORMAL].enabled) {
             if(glstate->vao->shared_arrays) {
-                glstate->vao->normal.ptr = copy_gl_pointer_raw(&glstate->vao->pointers[ATT_NORMAL], 3, 0, count);
+                glstate->vao->normal.ptr = copy_gl_pointer_raw(&glstate->vao->vertexattrib[ATT_NORMAL], 3, 0, count);
                 list->normal = glstate->vao->normal.ptr + 3*skip;
             } else
-                list->normal = copy_gl_pointer_raw(&glstate->vao->pointers[ATT_NORMAL], 3, skip, count);
+                list->normal = copy_gl_pointer_raw(&glstate->vao->vertexattrib[ATT_NORMAL], 3, skip, count);
         }
-        if (glstate->vao->pointers[ATT_FOGCOORD].enabled) {
+        if (glstate->vao->vertexattrib[ATT_FOGCOORD].enabled) {
             if(glstate->vao->shared_arrays) {
-                glstate->vao->fog.ptr = copy_gl_pointer_raw(&glstate->vao->pointers[ATT_FOGCOORD], 1, 0, count);
+                glstate->vao->fog.ptr = copy_gl_pointer_raw(&glstate->vao->vertexattrib[ATT_FOGCOORD], 1, 0, count);
                 list->fogcoord = glstate->vao->fog.ptr + 1*skip;
             } else
-                list->fogcoord = copy_gl_pointer_raw(&glstate->vao->pointers[ATT_FOGCOORD], 1, skip, count);
+                list->fogcoord = copy_gl_pointer_raw(&glstate->vao->vertexattrib[ATT_FOGCOORD], 1, skip, count);
         }
         for (int i=0; i<glstate->vao->maxtex; i++) {
-            if (glstate->vao->pointers[ATT_MULTITEXCOORD0+i].enabled) {
+            if (glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+i].enabled) {
                 if(glstate->vao->shared_arrays) {
-                    glstate->vao->tex[i].ptr = copy_gl_pointer_tex(&glstate->vao->pointers[ATT_MULTITEXCOORD0+i], 4, 0, count);
+                    glstate->vao->tex[i].ptr = copy_gl_pointer_tex(&glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+i], 4, 0, count);
                     list->tex[i] = glstate->vao->tex[i].ptr + 4*skip;
                 } else
-                    list->tex[i] = copy_gl_pointer_tex(&glstate->vao->pointers[ATT_MULTITEXCOORD0+i], 4, skip, count);
+                    list->tex[i] = copy_gl_pointer_tex(&glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+i], 4, skip, count);
             }
         }
     }
@@ -199,22 +199,22 @@ static renderlist_t *arrays_add_renderlist(renderlist_t *a, GLenum mode,
         for (int i=0; i<a->maxtex; i++)
             if (a->tex[i]) memcpy(a->tex[i]+a->len*4, glstate->vao->tex[i].ptr+skip*4, len_b*4*sizeof(GLfloat));
     } else {
-        if (a->vert) copy_gl_pointer_tex_noalloc(a->vert+a->len*4, &glstate->vao->pointers[ATT_VERTEX], 4, skip, count);
-        if (a->normal) copy_gl_pointer_raw_noalloc(a->normal+a->len*3, &glstate->vao->pointers[ATT_NORMAL], 3, skip, count);
+        if (a->vert) copy_gl_pointer_tex_noalloc(a->vert+a->len*4, &glstate->vao->vertexattrib[ATT_VERTEX], 4, skip, count);
+        if (a->normal) copy_gl_pointer_raw_noalloc(a->normal+a->len*3, &glstate->vao->vertexattrib[ATT_NORMAL], 3, skip, count);
         if (a->color) {
-            if(glstate->vao->pointers[ATT_COLOR].size==GL_BGRA)
-                copy_gl_pointer_color_bgra_noalloc(a->color+a->len*4, glstate->vao->pointers[ATT_COLOR].pointer, glstate->vao->pointers[ATT_COLOR].stride, 4, skip, count);
+            if(glstate->vao->vertexattrib[ATT_COLOR].size==GL_BGRA)
+                copy_gl_pointer_color_bgra_noalloc(a->color+a->len*4, glstate->vao->vertexattrib[ATT_COLOR].pointer, glstate->vao->vertexattrib[ATT_COLOR].stride, 4, skip, count);
             else
-                copy_gl_pointer_color_noalloc(a->color+a->len*4, &glstate->vao->pointers[ATT_COLOR], 4, skip, count);
+                copy_gl_pointer_color_noalloc(a->color+a->len*4, &glstate->vao->vertexattrib[ATT_COLOR], 4, skip, count);
         }
         if (a->secondary)
-            if(glstate->vao->pointers[ATT_SECONDARY].size==GL_BGRA)
-                copy_gl_pointer_color_bgra_noalloc(a->secondary+a->len*4, glstate->vao->pointers[ATT_SECONDARY].pointer, glstate->vao->pointers[ATT_SECONDARY].stride, 4, skip, count);
+            if(glstate->vao->vertexattrib[ATT_SECONDARY].size==GL_BGRA)
+                copy_gl_pointer_color_bgra_noalloc(a->secondary+a->len*4, glstate->vao->vertexattrib[ATT_SECONDARY].pointer, glstate->vao->vertexattrib[ATT_SECONDARY].stride, 4, skip, count);
             else
-                copy_gl_pointer_noalloc(a->secondary+a->len*4, &glstate->vao->pointers[ATT_SECONDARY], 4, skip, count);		// alpha chanel is always 0 for secondary...
-        if (a->fogcoord) copy_gl_pointer_raw_noalloc(a->fogcoord+a->len*1, &glstate->vao->pointers[ATT_FOGCOORD], 1, skip, count);
+                copy_gl_pointer_noalloc(a->secondary+a->len*4, &glstate->vao->vertexattrib[ATT_SECONDARY], 4, skip, count);		// alpha chanel is always 0 for secondary...
+        if (a->fogcoord) copy_gl_pointer_raw_noalloc(a->fogcoord+a->len*1, &glstate->vao->vertexattrib[ATT_FOGCOORD], 1, skip, count);
         for (int i=0; i<a->maxtex; i++)
-            if (a->tex[i]) copy_gl_pointer_tex_noalloc(a->tex[i]+a->len*4, &glstate->vao->pointers[ATT_MULTITEXCOORD0+i], 4, skip, count);
+            if (a->tex[i]) copy_gl_pointer_tex_noalloc(a->tex[i]+a->len*4, &glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+i], 4, skip, count);
     }
     // indices
     int old_ilenb = ilen_b;
@@ -243,20 +243,20 @@ static inline bool should_intercept_render(GLenum mode) {
         if (glstate->enable.texture[aa]) {
             if ((hardext.esversion==1) && ((glstate->enable.texgen_s[aa] || glstate->enable.texgen_t[aa] || glstate->enable.texgen_r[aa] || glstate->enable.texgen_q[aa])))
                 return true;
-            if ((!glstate->vao->pointers[ATT_MULTITEXCOORD0+aa].enabled) && !(mode==GL_POINT && glstate->texture.pscoordreplace[aa]))
+            if ((!glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+aa].enabled) && !(mode==GL_POINT && glstate->texture.pscoordreplace[aa]))
                 return true;
-            if ((glstate->vao->pointers[ATT_MULTITEXCOORD0+aa].enabled) && (glstate->vao->pointers[ATT_MULTITEXCOORD0+aa].size == 1))
+            if ((glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+aa].enabled) && (glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+aa].size == 1))
                 return true;
         }
     }
     if(glstate->polygon_mode == GL_LINE && mode>=GL_TRIANGLES)
         return true;
-    if ((hardext.esversion==1) && ((glstate->vao->pointers[ATT_SECONDARY].enabled) && (glstate->vao->pointers[ATT_COLOR].enabled)))
+    if ((hardext.esversion==1) && ((glstate->vao->vertexattrib[ATT_SECONDARY].enabled) && (glstate->vao->vertexattrib[ATT_COLOR].enabled)))
         return true;
-    if ((hardext.esversion==1) && (glstate->vao->pointers[ATT_COLOR].enabled && (glstate->vao->pointers[ATT_COLOR].size != 4)))
+    if ((hardext.esversion==1) && (glstate->vao->vertexattrib[ATT_COLOR].enabled && (glstate->vao->vertexattrib[ATT_COLOR].size != 4)))
         return true;
     return (
-        (glstate->vao->pointers[ATT_VERTEX].enabled && ! valid_vertex_type(glstate->vao->pointers[ATT_VERTEX].type)) ||
+        (glstate->vao->vertexattrib[ATT_VERTEX].enabled && ! valid_vertex_type(glstate->vao->vertexattrib[ATT_VERTEX].type)) ||
         (mode == GL_LINES && glstate->enable.line_stipple) ||
         /*(mode == GL_QUADS) ||*/ (glstate->list.active && !glstate->list.pending)
     );
@@ -290,9 +290,9 @@ static void glDrawElementsCommon(GLenum mode, GLint first, GLsizei count, GLuint
     LOAD_GLES_FPE(glDisableClientState);
     LOAD_GLES_FPE(glMultiTexCoord4f);
 #define client_state(A, B, C) \
-        if(glstate->vao->pointers[A].enabled != glstate->clientstate[A]) {   \
+        if(glstate->vao->vertexattrib[A].enabled != glstate->clientstate[A]) {   \
             C                                               \
-            glstate->clientstate[A] = glstate->vao->pointers[A].enabled;     \
+            glstate->clientstate[A] = glstate->vao->vertexattrib[A].enabled;     \
             if(glstate->clientstate[A])                     \
                 gles_glEnableClientState(B);                \
             else                                            \
@@ -350,9 +350,9 @@ if(count>500000) return;
     if (glstate->render_mode == GL_SELECT) {
         // TODO handling uint indices
         if(!sindices && !iindices)
-            select_glDrawArrays(&glstate->vao->pointers[ATT_VERTEX], mode, first, count);
+            select_glDrawArrays(&glstate->vao->vertexattrib[ATT_VERTEX], mode, first, count);
         else
-            select_glDrawElements(&glstate->vao->pointers[ATT_VERTEX], mode, count, sindices?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, sindices?((void*)sindices):((void*)iindices));
+            select_glDrawElements(&glstate->vao->vertexattrib[ATT_VERTEX], mode, count, sindices?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, sindices?((void*)sindices):((void*)iindices));
     } else {
         GLuint old_tex = glstate->texture.client;
         
@@ -360,8 +360,8 @@ if(count>500000) return;
 
         #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
 
-        pointer_state_t *p;
-        #define GetP(A) (&glstate->vao->pointers[A])
+        vertexattrib_t *p;
+        #define GetP(A) (&glstate->vao->vertexattrib[A])
         // secondary color and color sizef != 4 are "intercepted" and draw using a list, unless usin ES>1.1
         client_state(ATT_COLOR, GL_COLOR_ARRAY, );
         p = GetP(ATT_COLOR);

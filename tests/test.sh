@@ -8,7 +8,9 @@ export LIBGL_SILENTSTUB=1
 export LIBGL_NOBANNER=1
 
 tar xf ../traces/$1.tgz
-apitrace dump-images --calls="$2" $1.trace >/dev/null
+apitrace dump-images --calls="$2" $1.trace 2>&1 >/dev/null
+exit_status=$?
+test $exit_status -ne 0 && echo "Test returned a non-zero status $exit_status (segmentation fault?)"
 rm $1.trace
 
 if [[ -f $1.$2.png ]]

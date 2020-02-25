@@ -41,6 +41,18 @@ It's better to define the CMake Build type, preferably `RelWithDebInfo`, that de
 
     An Android.mk is provided that should compile with an NDK
 
+*iOS*
+---
+
+```
+mkdir build
+cd build
+cmake .. -G Xcode -DCMAKE_TOOLCHAIN_FILE={where ios.toolchain.cmake is located} -DNOX11=ON -DNOEGL=ON -DSTATICLIB=ON -DPLATFORM=OS
+cmake --build . --config Release --target GL
+```
+
+Use with [ios-cmake](https://github.com/leetal/ios-cmake) 
+
 *Custom build*
 ---
 
@@ -110,3 +122,7 @@ To try the GLES2 backend, you can compile gl4es with ES2 by default (so you don'
 In your code, call `void initialize_gl4es()` as soon as possible after loading GL4ES, and before using any GL function.
 
 Use `-s FULL_ES2=1 -I[directory where GL4ES source code is located]/gl4es/include -lGL` when compiling your program for Emscripten.
+
+## iOS
+
+In your code, call `void initialize_gl4es()` as soon as possible after loading GLES context, and before using any GL function. If you use EAGLContext, call it immediately after `[EAGLContext setCurrentContext:context]`.

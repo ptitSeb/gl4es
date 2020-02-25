@@ -19,6 +19,8 @@ option(STATICLIB "Set to ON to build a static version of gl4es" ${STATICLIB})
 option(GBM "Set to ON to not build GBM interface" ${GBM})
 option(USE_CCACHE "Set to ON to use ccache if present in the system" ${USE_CCACHE})
 option(USE_CLOCK "Set to ON to use clock_gettime instead of gttimeofday for LIBGL_FPS" ${USE_CLOCK})
+option(NO_LOADER "disable library loader (useful for static library with NOEGL, NOX11, use include/gl4esinit.h)" ${NO_LOADER})
+option(NO_INIT_CONSTRUCTOR "disable automatic initialization (useful for static library, use include/gl4esinit.h)" ${NO_INIT_CONSTRUCTOR})
 
 # Pandora
 if(PANDORA)
@@ -42,6 +44,10 @@ if(NOT DEFAULT_ES)
         set(DEFAULT_ES 2)
     endif()
 endif()
+
+if(STATICLIB)
+    add_definitions(-DSTATICLIB)
+endif(STATICLIB)
 
 # Raspberry PI
 if(BCMHOST)
@@ -101,6 +107,14 @@ endif()
 #NOX11
 if(USE_CLOCK)
     add_definitions(-DUSE_CLOCK)
+endif()
+
+if(NO_LOADER)
+    add_definitions(-DNO_LOADER)
+endif()
+
+if(NO_INIT_CONSTRUCTOR)
+    add_definitions(-DNO_INIT_CONSTRUCTOR)
 endif()
 
 #DEFAULT_ES=2

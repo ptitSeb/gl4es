@@ -87,11 +87,6 @@ int buffer_target(GLenum target) {
 
 void rebind_real_buff_arrays(int old_buffer, int new_buffer) {
     for (int j = 0; j < hardext.maxvattrib; j++) {
-        if (glstate->vao->pointers[j].real_buffer == old_buffer) {
-            glstate->vao->pointers[j].real_buffer = new_buffer;
-            if(!new_buffer)
-                glstate->vao->pointers[j].real_pointer = 0;
-        }
         if (glstate->vao->vertexattrib[j].real_buffer == old_buffer) {
             glstate->vao->vertexattrib[j].real_buffer = new_buffer;
             if(!new_buffer)

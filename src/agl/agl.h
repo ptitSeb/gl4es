@@ -18,7 +18,7 @@
 #ifndef OGLES2_OGLES2_DEFS_H
 // it would be better to have an include with only the CreateContextTags enum difed, to avoid conflict
 //  of other typedef with full OpenGL header file...
-#include <ogles2/ogles2_defs.h>
+//#include <ogles2/ogles2_defs.h>
 #endif
 
 void* aglCreateContext(ULONG * errcode, struct TagItem * tags);

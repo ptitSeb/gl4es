@@ -21,6 +21,7 @@ SET(GL_SRC
     gl/fpe_cache.c
     gl/fpe_shader.c
     gl/framebuffers.c
+    gl/gl_lookup.c
     gl/getter.c
     gl/gl4es.c
     gl/glstate.c
@@ -82,6 +83,7 @@ SET(GL_H
     gl/fpe.h
     gl/fpe_shader.h
     gl/framebuffers.h
+    gl/gl_lookup.h
     gl/gles.h
     gl/gl4es.h
     gl/glstate.h
@@ -124,7 +126,7 @@ SET(GL_H
 
 set_source_files_properties(gl/build_info.c PROPERTIES OBJECT_OUTPUTS "dummy.c")
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND NOT NO_LOADER)
     include_directories(glx)
 #    aux_source_directory(glx GLX_SOURCES)
 #    list(APPEND GL_SOURCES ${GLX_SOURCES})
@@ -148,30 +150,19 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         glx/utils.h
     )
 else()
+    include_directories(glx)
+    list(APPEND GL_SRC
+        glx/hardext.c
+    )
     message(STATUS "Not on Linux: building without GLX support.")
-endif()
-
-if(${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
-    include_directories(glx)
-    list(APPEND GL_SRC
-        glx/hardext.c
-    )
-endif()
-
-if(APPLE)
-    include_directories(glx)
-    list(APPEND GL_SRC
-        glx/hardext.c
-    )
 endif()
 
 if(AMIGAOS4)
     include_directories(agl)
     list(APPEND GL_SRC
-        glx/hardext.c
         glx/gbm.c
         glx/glx.c
-        glx/lookup.c
+        agl/lookup.c
         agl/amigaos.c
         agl/agl.c
     )

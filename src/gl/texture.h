@@ -223,7 +223,7 @@ void gl4es_glMultiTexCoord2f( GLenum target, GLfloat s, GLfloat t );
 GLboolean gl4es_glIsTexture( GLuint texture );
 
 int  tex_setup_needchange(GLuint itarget);
-void tex_setup_texcoord(GLuint len, int changes, GLuint texture, pointer_state_t* ptr);
+void tex_setup_texcoord(GLuint len, int changes, GLuint texture, vertexattrib_t* ptr);
 
 int wrap_npot(GLenum wrap);
 int minmag_npot(GLenum mag);
