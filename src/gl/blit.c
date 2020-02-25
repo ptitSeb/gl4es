@@ -67,8 +67,6 @@ void gl4es_blitTexture_gles1(GLuint texture,
         // then draw it
         gles_glDrawTexf(x+dx, y+dy, 0.0f, width, height);
     } else {
-        LOAD_GLES(glEnableClientState);
-        LOAD_GLES(glDisableClientState);
         LOAD_GLES(glVertexPointer);
         LOAD_GLES(glTexCoordPointer);
         LOAD_GLES(glDrawArrays);
@@ -110,33 +108,18 @@ void gl4es_blitTexture_gles1(GLuint texture,
         if(customvp)
             pushViewport(0,0,vpwidth, vpheight);
         
-        if(!glstate->clientstate[ATT_VERTEX]) 
-        {
-            gles_glEnableClientState(GL_VERTEX_ARRAY);
-            glstate->clientstate[ATT_VERTEX] = 1;
-        }
+        fpe_glEnableClientState(GL_VERTEX_ARRAY);
         gles_glVertexPointer(2, GL_FLOAT, 0, blit_vert);
-        if(!glstate->clientstate[ATT_MULTITEXCOORD0]) 
-        {
-            gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glstate->clientstate[ATT_MULTITEXCOORD0] = 1;
-        }
+        fpe_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         gles_glTexCoordPointer(2, GL_FLOAT, 0, blit_tex);
         for (int a=1; a <hardext.maxtex; a++)
-            if(glstate->clientstate[ATT_MULTITEXCOORD0+a]) {
+            if(glstate->gleshard->vertexattrib[ATT_MULTITEXCOORD0+a].enabled) {
                 gles_glClientActiveTexture(GL_TEXTURE0 + a);
-                gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-                glstate->clientstate[ATT_MULTITEXCOORD0+a] = 0;
-                gles_glClientActiveTexture(GL_TEXTURE0);
+                fpe_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
             }
-        if(glstate->clientstate[ATT_COLOR]) {
-            gles_glDisableClientState(GL_COLOR_ARRAY);
-            glstate->clientstate[ATT_COLOR] = 0;
-        }
-        if(glstate->clientstate[ATT_NORMAL]) {
-            gles_glDisableClientState(GL_NORMAL_ARRAY);
-            glstate->clientstate[ATT_NORMAL] = 0;
-        }
+        gles_glClientActiveTexture(GL_TEXTURE0);
+        fpe_glDisableClientState(GL_COLOR_ARRAY);
+        fpe_glDisableClientState(GL_NORMAL_ARRAY);
         gles_glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
         if(customvp)

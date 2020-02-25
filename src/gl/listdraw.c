@@ -356,8 +356,6 @@ void draw_renderlist(renderlist_t *list) {
     LOAD_GLES_FPE(glTexCoordPointer);
     LOAD_GLES_FPE(glEnable);
     LOAD_GLES_FPE(glDisable);
-    LOAD_GLES_FPE(glEnableClientState);
-    LOAD_GLES_FPE(glDisableClientState);
     LOAD_GLES2(glBindBuffer);
     gl4es_glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
 
@@ -517,29 +515,17 @@ void draw_renderlist(renderlist_t *list) {
             use_vbo_indices = 1;
         }
         if (list->vert) {
-            if(!glstate->clientstate[ATT_VERTEX]) {
-                gles_glEnableClientState(GL_VERTEX_ARRAY);
-                glstate->clientstate[ATT_VERTEX] = 1;
-            }
+            fpe_glEnableClientState(GL_VERTEX_ARRAY);
             gles_glVertexPointer(4, GL_FLOAT, list->vert_stride, list->vert);
         } else {
-            if(glstate->clientstate[ATT_VERTEX]) {
-                gles_glDisableClientState(GL_VERTEX_ARRAY);
-                glstate->clientstate[ATT_VERTEX] = false;
-            }
+            fpe_glDisableClientState(GL_VERTEX_ARRAY);
         }
 
         if (list->normal) {
-            if(!glstate->clientstate[ATT_NORMAL]) {
-                gles_glEnableClientState(GL_NORMAL_ARRAY);
-                glstate->clientstate[ATT_NORMAL] = 1;
-            }
+            fpe_glEnableClientState(GL_NORMAL_ARRAY);
             gles_glNormalPointer(GL_FLOAT, list->normal_stride, list->normal);
         } else {
-            if(glstate->clientstate[ATT_NORMAL]) {
-                gles_glDisableClientState(GL_NORMAL_ARRAY);
-                glstate->clientstate[ATT_NORMAL] = 0;
-            }
+            fpe_glDisableClientState(GL_NORMAL_ARRAY);
         }
     
         indices = list->indices;
@@ -547,10 +533,7 @@ void draw_renderlist(renderlist_t *list) {
         if(glstate->raster.bm_drawing)
             bitmap_flush();
         if (list->color) {
-            if(!glstate->clientstate[ATT_COLOR]) {
-                gles_glEnableClientState(GL_COLOR_ARRAY);
-                glstate->clientstate[ATT_COLOR] = 1;
-            }
+            fpe_glEnableClientState(GL_COLOR_ARRAY);
             if (glstate->enable.color_sum && (list->secondary) && hardext.esversion==1 && !list->use_glstate) {
                 if(!list->final_colors) {
                     list->final_colors=(GLfloat*)malloc(list->len * 4 * sizeof(GLfloat));
@@ -571,37 +554,22 @@ void draw_renderlist(renderlist_t *list) {
                 gles_glColorPointer(4, GL_FLOAT, list->color_stride, list->color);
             }
         } else {
-            if(glstate->clientstate[ATT_COLOR]) {
-                gles_glDisableClientState(GL_COLOR_ARRAY);
-                glstate->clientstate[ATT_COLOR] = 0;
-            }
+            fpe_glDisableClientState(GL_COLOR_ARRAY);
         }
         if(hardext.esversion > 1) {
             // secondary color only on ES2+
             if (glstate->enable.color_sum && (list->secondary)) {
-                if(!glstate->clientstate[ATT_SECONDARY]) {
-                    gles_glEnableClientState(GL_SECONDARY_COLOR_ARRAY);
-                    glstate->clientstate[ATT_SECONDARY] = 1;
-                }
+                fpe_glEnableClientState(GL_SECONDARY_COLOR_ARRAY);
                 fpe_glSecondaryColorPointer(4, GL_FLOAT, list->secondary_stride, list->secondary);
             } else {
-                if(glstate->clientstate[ATT_SECONDARY]) {
-                    fpe_glDisableClientState(GL_SECONDARY_COLOR_ARRAY);
-                    glstate->clientstate[ATT_SECONDARY] = 0;
-                }
+                fpe_glDisableClientState(GL_SECONDARY_COLOR_ARRAY);
             }
             // fog coord only on ES2+
             if ((glstate->fog.coord_src==GL_FOG_COORD) && (list->fogcoord)) {
-                if(!glstate->clientstate[ATT_FOGCOORD]) {
-                    gles_glEnableClientState(GL_FOG_COORD_ARRAY);
-                    glstate->clientstate[ATT_FOGCOORD] = 1;
-                }
+                fpe_glEnableClientState(GL_FOG_COORD_ARRAY);
                 fpe_glFogCoordPointer(GL_FLOAT, list->fogcoord_stride, list->fogcoord);
             } else {
-                if(glstate->clientstate[ATT_FOGCOORD]) {
-                    fpe_glDisableClientState(GL_FOG_COORD_ARRAY);
-                    glstate->clientstate[ATT_FOGCOORD] = 0;
-                }
+                fpe_glDisableClientState(GL_FOG_COORD_ARRAY);
             }
         }
         #define TEXTURE(A) if (cur_tex!=A) {gl4es_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
@@ -688,16 +656,12 @@ void draw_renderlist(renderlist_t *list) {
                 }
                 if ((list->tex[a] || (use_texgen[a] && !needclean[a]))/* && glstate->enable.texture[a]*/) {
                     TEXTURE(a);
-                    if(!glstate->clientstate[ATT_MULTITEXCOORD0+a]) {
-                        gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-                        glstate->clientstate[ATT_MULTITEXCOORD0+a] = 1;
-                    }
+                    fpe_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
                     gles_glTexCoordPointer(4, GL_FLOAT, (use_texgen[a])?0:list->tex_stride[a], (use_texgen[a])?glstate->texgened[a]:list->tex[a]);
                 } else {
-                    if (glstate->clientstate[ATT_MULTITEXCOORD0+a]) {
+                    if (glstate->gleshard->vertexattrib[ATT_MULTITEXCOORD0+a].enabled || (hardext.esversion!=1)) {   // optim for ES1.1 to avoid useless texture switch
                         TEXTURE(a);
-                        gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-                        glstate->clientstate[ATT_MULTITEXCOORD0+a] = 0;
+                        fpe_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
                     } 
 //else if (!glstate->enable.texgen_s[a] && glstate->enable.texture[a]) printf("LIBGL: texture[%i] without TexCoord, mode=0x%04X (init=0x%04X), listlen=%i\n", a, list->mode, list->mode_init, list->len);
                     
@@ -714,17 +678,11 @@ void draw_renderlist(renderlist_t *list) {
             for (int a=0; a<hardext.maxtex; a++) {
                 if(list->tex[a]) {
                     TEXTURE(a);
-                    if(!glstate->clientstate[ATT_MULTITEXCOORD0+a]) {
-                        gles_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-                        glstate->clientstate[ATT_MULTITEXCOORD0+a] = 1;
-                    }
+                    fpe_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
                     gles_glTexCoordPointer(4, GL_FLOAT, list->tex_stride[a], list->tex[a]);
                 } else {
-                    if (glstate->clientstate[ATT_MULTITEXCOORD0+a]) {
-                        TEXTURE(a);
-                        gles_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-                        glstate->clientstate[ATT_MULTITEXCOORD0+a] = 0;
-                    } 
+                    TEXTURE(a);
+                    fpe_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
                 }
             }
         }
@@ -759,6 +717,7 @@ void draw_renderlist(renderlist_t *list) {
                 vertexattrib_t vtx = {0};
                 vtx.pointer = list->vert;
                 vtx.type = GL_FLOAT;
+                vtx.normalized = GL_FALSE;
                 vtx.size = 4;
                 vtx.stride = 0;
                 select_glDrawElements(&vtx, list->mode, list->ilen, GL_UNSIGNED_SHORT, indices);
@@ -782,7 +741,7 @@ void draw_renderlist(renderlist_t *list) {
                         LOAD_GLES2(glBufferData);
                         gles_glGenBuffers(1, &list->vbo_indices);
                         gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, list->vbo_indices);
-                        gles_glBufferData(GL_ELEMENT_ARRAY_BUFFER, list->ilen*2, indices, GL_STATIC_DRAW);
+                        gles_glBufferData(GL_ELEMENT_ARRAY_BUFFER, list->ilen*sizeof(GL_UNSIGNED_SHORT), indices, GL_STATIC_DRAW);
                         use_vbo_indices = 2;
                         vbo_indices = 1;
                     } else if(use_vbo_indices==2) {
@@ -806,6 +765,7 @@ void draw_renderlist(renderlist_t *list) {
                 vtx.pointer = list->vert;
                 vtx.type = GL_FLOAT;
                 vtx.size = 4;
+                vtx.normalized = GL_FALSE;
                 vtx.stride = 0;
                 select_glDrawArrays(&vtx, list->mode, 0, list->len);
             } else {

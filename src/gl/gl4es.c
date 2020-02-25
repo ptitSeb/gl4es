@@ -43,9 +43,10 @@ int adjust_vertices(GLenum mode, int nb) {
 }
 
 #undef client_state
-#define clone_gl_pointer(t, s)\
+#define clone_gl_pointer(t, s, n)\
     t.size = s; t.type = type; t.stride = stride; t.pointer = pointer + (uintptr_t)((glstate->vao->vertex)?glstate->vao->vertex->data:0);\
-    t.real_buffer=(glstate->vao->vertex)?glstate->vao->vertex->real_buffer:0; t.real_pointer=(glstate->vao->vertex)?pointer:0
+    t.real_buffer=(glstate->vao->vertex)?glstate->vao->vertex->real_buffer:0; t.real_pointer=(glstate->vao->vertex)?pointer:0;   \
+    t.normalized=n; t.divisor=0
 #define break_lockarrays(t)\
     if(glstate->vao->vertexattrib[t].real_buffer && glstate->vao->locked_mapped[t]) {    \
         glstate->vao->vertexattrib[t].real_buffer = 0; \
@@ -60,7 +61,7 @@ void gl4es_glVertexPointer(GLint size, GLenum type,
     }
     noerrorShimNoPurge();
     break_lockarrays(ATT_VERTEX);
-    clone_gl_pointer(glstate->vao->vertexattrib[ATT_VERTEX], size);
+    clone_gl_pointer(glstate->vao->vertexattrib[ATT_VERTEX], size, GL_FALSE);
 }
 void gl4es_glColorPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
@@ -70,12 +71,12 @@ void gl4es_glColorPointer(GLint size, GLenum type,
     }
     noerrorShimNoPurge();
     break_lockarrays(ATT_COLOR);
-    clone_gl_pointer(glstate->vao->vertexattrib[ATT_COLOR], size);
+    clone_gl_pointer(glstate->vao->vertexattrib[ATT_COLOR], size, (type==GL_FLOAT)?GL_FALSE:GL_TRUE);
 }
 void gl4es_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
     noerrorShimNoPurge();
     break_lockarrays(ATT_NORMAL);
-    clone_gl_pointer(glstate->vao->vertexattrib[ATT_NORMAL], 3);
+    clone_gl_pointer(glstate->vao->vertexattrib[ATT_NORMAL], 3, GL_FALSE);
 }
 void gl4es_glTexCoordPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
@@ -85,7 +86,7 @@ void gl4es_glTexCoordPointer(GLint size, GLenum type,
     }
     noerrorShimNoPurge();
     break_lockarrays(ATT_MULTITEXCOORD0+glstate->texture.client);
-    clone_gl_pointer(glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+glstate->texture.client], size);
+    clone_gl_pointer(glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+glstate->texture.client], size, GL_FALSE);
 }
 void gl4es_glSecondaryColorPointer(GLint size, GLenum type, 
 					GLsizei stride, const GLvoid *pointer) {
@@ -94,7 +95,7 @@ void gl4es_glSecondaryColorPointer(GLint size, GLenum type,
 		return;		// Size must be 3...
     }
     break_lockarrays(ATT_SECONDARY);
-    clone_gl_pointer(glstate->vao->vertexattrib[ATT_SECONDARY], size);
+    clone_gl_pointer(glstate->vao->vertexattrib[ATT_SECONDARY], size, (type==GL_FLOAT)?GL_FALSE:GL_TRUE);
     noerrorShimNoPurge();
 }
 void gl4es_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
@@ -103,7 +104,7 @@ void gl4es_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer)
         stride = 0; // mistake found in some version of openglide...
     }
     break_lockarrays(ATT_FOGCOORD);
-    clone_gl_pointer(glstate->vao->vertexattrib[ATT_FOGCOORD], 1);
+    clone_gl_pointer(glstate->vao->vertexattrib[ATT_FOGCOORD], 1, (type==GL_FLOAT)?GL_FALSE:GL_TRUE);
     noerrorShimNoPurge();
 }
 

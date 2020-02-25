@@ -478,7 +478,7 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             *params=glstate->fog.coord_src;
             break;
         case GL_CURRENT_FOG_COORD:
-            *params=glstate->fogcoord;
+            *params=glstate->fogcoord[0];
             break;
         case GL_STENCIL_FUNC:
             *params=glstate->stencil.func[0];

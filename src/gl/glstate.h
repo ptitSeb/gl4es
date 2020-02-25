@@ -19,12 +19,6 @@ typedef struct glstate_s {
     texgen_state_t      texgen[MAX_TEX];
     texenv_state_t      texenv[MAX_TEX];
     texture_state_t     texture;
-    GLfloat             vertex[4];
-    GLfloat             color[4];
-    GLfloat             secondary[4];
-    GLfloat             texcoord[MAX_TEX][4];
-    GLfloat             normal[3];
-    GLfloat             fogcoord;
     GLboolean           colormask[4];
     int	                render_mode;
     int                 polygon_mode;
@@ -47,10 +41,16 @@ typedef struct glstate_s {
     glvao_t             *vao;
     glbuffer_t          *defaultvbo; 
     glvao_t             *defaultvao;
+    GLfloat             vavalue[MAX_VATTRIB][4];    // the "static" value of a VA
+    GLfloat             *vertex;                    // shortcut to actual vavalue...
+    GLfloat             *color;
+    GLfloat             *secondary;
+    GLfloat             *texcoord[MAX_TEX];
+    GLfloat             *normal;
+    GLfloat             *fogcoord;                  // last shortcut
     int                 shim_error;
     GLenum              last_error;
     GLint               vp[4];
-    GLboolean           clientstate[NB_VA];
     khash_t(queries)    *queries;       // shared
     glstack_t           *stack;
     glclientstack_t     *clientStack;
@@ -84,8 +84,7 @@ typedef struct glstate_s {
     fpe_fpe_t           *fpe;
     fpestatus_t         fpe_client;
     fpe_cache_t         *fpe_cache;
-    gleshard_s_t        *gleshard;          //shared
-    gleshard_ns_t       glesva;
+    gleshard_t          *gleshard;          //shared
     glesblit_t          *blit;
     fbo_t               fbo;
     int                 fbowidth, fboheight;    // initial size (usefull only on LIBGL_FB=1 or 2)

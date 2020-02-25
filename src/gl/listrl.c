@@ -11,12 +11,12 @@ static inline void rlVertexCommon(renderlist_t *list, int idx, int l) {
         resize_renderlist(list);
         if (!list->vert)    list->vert = glstate->merger_master;
         if (list->normal)   memcpy(list->normal + idx, list->lastNormal, sizeof(GLfloat) * 3);
-        if (list->fogcoord) memcpy(list->fogcoord + idx, &glstate->fogcoord, sizeof(GLfloat) * 1);
+        if (list->fogcoord) memcpy(list->fogcoord + idx, glstate->fogcoord, sizeof(GLfloat) * 1);
     } else {
         if (!list->vert)    list->vert = alloc_sublist(4, list->cap); 
         else                resize_renderlist(list);
         if (list->normal)   memcpy(list->normal + (l * 3), list->lastNormal, sizeof(GLfloat) * 3);
-        if (list->fogcoord) memcpy(list->fogcoord + (l * 1), &glstate->fogcoord, sizeof(GLfloat) * 1);
+        if (list->fogcoord) memcpy(list->fogcoord + (l * 1), glstate->fogcoord, sizeof(GLfloat) * 1);
     }
     // common part
     if (list->color)    memcpy(list->color + idx, list->lastColors, sizeof(GLfloat) * 4);
@@ -369,11 +369,11 @@ void FASTMATH rlFogCoordf(renderlist_t *list, GLfloat coord) {
         // catch up
         GLfloat *fog = list->fogcoord;
         for (int i = 0; i < list->len; i++) {
-            memcpy(fog, &glstate->fogcoord, sizeof(GLfloat) * 1);
+            memcpy(fog, glstate->fogcoord, sizeof(GLfloat) * 1);
             fog+=stride;
         }
     }
-    glstate->fogcoord = coord;
+    glstate->fogcoord[0] = coord;
 }
 
 void rlActiveTexture(renderlist_t *list, GLenum texture ) {

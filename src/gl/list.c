@@ -29,7 +29,7 @@ renderlist_t *alloc_renderlist() {
     memcpy(list->lastNormal, glstate->normal, 3*sizeof(GLfloat));
     memcpy(list->lastSecondaryColors, glstate->secondary, 3*sizeof(GLfloat));
     memcpy(list->lastColors, glstate->color, 4*sizeof(GLfloat));
-    memcpy(&list->lastFogCoord, &glstate->fogcoord, 1*sizeof(GLfloat));
+    memcpy(&list->lastFogCoord, glstate->fogcoord, 1*sizeof(GLfloat));
 
     list->instanceCount = 1;
 

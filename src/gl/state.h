@@ -233,13 +233,9 @@ typedef struct {
     GLuint          program;
     program_t       *glprogram;
     GLuint          active; // active texture (is it shared?)
-    vertexattrib_t  wanted[MAX_VATTRIB];
-} gleshard_s_t;
-
-typedef struct {
     vertexattrib_t  vertexattrib[MAX_VATTRIB];
-    vertexattrib_t  *wanted;    // will point directly to current VAO wanted
-} gleshard_ns_t;
+    GLfloat         vavalue[MAX_VATTRIB][4];
+} gleshard_t;
 
 typedef struct {
     GLuint          vertexshader;
@@ -252,13 +248,6 @@ typedef struct {
 } glesblit_t;
 
 typedef struct {
-    GLboolean  secondary_array,
-    color_array,
-    normal_array,
-    vertex_array,
-    fog_array,
-    tex_coord_array[MAX_TEX];
-
     char*           shadersource; // scrach buffer for fpe shader construction
     int             shadersize;
 } fpestatus_t;

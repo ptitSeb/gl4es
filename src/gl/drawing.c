@@ -286,19 +286,16 @@ static void glDrawElementsCommon(GLenum mode, GLint first, GLsizei count, GLuint
     LOAD_GLES_FPE(glTexCoordPointer);
     LOAD_GLES_FPE(glEnable);
     LOAD_GLES_FPE(glDisable);
-    LOAD_GLES_FPE(glEnableClientState);
-    LOAD_GLES_FPE(glDisableClientState);
     LOAD_GLES_FPE(glMultiTexCoord4f);
 #define client_state(A, B, C) \
-        if(glstate->vao->vertexattrib[A].enabled != glstate->clientstate[A]) {   \
+        if((glstate->vao->vertexattrib[A].enabled != glstate->gleshard->vertexattrib[A].enabled) || (hardext.esversion!=1)) {   \
             C                                               \
-            glstate->clientstate[A] = glstate->vao->vertexattrib[A].enabled;     \
-            if(glstate->clientstate[A])                     \
-                gles_glEnableClientState(B);                \
+            if(glstate->vao->vertexattrib[A].enabled)       \
+                fpe_glEnableClientState(B);                 \
             else                                            \
-                gles_glDisableClientState(B);               \
+                fpe_glDisableClientState(B);                \
         }
-#if 1
+#if 0
 // FEZ draw the stars (intro menu and the ones visible by night)
 // by drawing a huge list of 500k+ triangles!
 // it's a bit too much for mobile hardware, so it can be simply disabled here
@@ -362,7 +359,7 @@ if(count>500000) return;
 
         vertexattrib_t *p;
         #define GetP(A) (&glstate->vao->vertexattrib[A])
-        // secondary color and color sizef != 4 are "intercepted" and draw using a list, unless usin ES>1.1
+        // secondary color and color sizef != 4 are "intercepted" and draw using a list, unless using ES>1.1
         client_state(ATT_COLOR, GL_COLOR_ARRAY, );
         p = GetP(ATT_COLOR);
         if (p->enabled)
@@ -399,7 +396,7 @@ if(count>500000) return;
                     tex_setup_texcoord(len, changes, itarget, p);
                 } else
                     gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
-            } else if (glstate->clientstate[ATT_MULTITEXCOORD0+aa] && hardext.esversion!=1) {
+            } else if (glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+aa].enabled && hardext.esversion!=1) {
                 // special case on GL2, Tex disable but CoordArray enabled...
                 TEXTURE(aa);
                 int changes = tex_setup_needchange(ENABLED_TEX2D);

@@ -301,8 +301,7 @@ void gl4es_glEnableClientState(GLenum cap) {
     // should flush for now... to be optimized later!
     /*if (glstate->list.active && !glstate->list.compiling && !glstate->list.pending)
         gl4es_flush();*/
-    LOAD_GLES_FPE(glEnableClientState);
-    proxy_glEnable(cap, true, gles_glEnableClientState);
+    proxy_glEnable(cap, true, fpe_glEnableClientState);
 }
 void glEnableClientState(GLenum cap) AliasExport("gl4es_glEnableClientState");
 
@@ -311,8 +310,7 @@ void gl4es_glDisableClientState(GLenum cap) {
     // should flush for now... to be optimized later!
     /*if (glstate->list.active && !glstate->list.compiling && !glstate->list.pending)
         gl4es_flush();*/
-    LOAD_GLES_FPE(glDisableClientState);
-    proxy_glEnable(cap, false, gles_glDisableClientState);
+    proxy_glEnable(cap, false, fpe_glDisableClientState);
 }
 void glDisableClientState(GLenum cap) AliasExport("gl4es_glDisableClientState");
 

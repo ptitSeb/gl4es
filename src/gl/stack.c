@@ -1,11 +1,21 @@
+#include <stdio.h>
+
 #include "stack.h"
 
 #include "../glx/hardext.h"
 #include "wrap/gl4es.h"
 #include "matrix.h"
+#include "debug.h"
+
+//#define DEBUG
+#ifdef DEBUG
+#define DBG(a) a
+#else
+#define DBG(a)
+#endif
 
 void gl4es_glPushAttrib(GLbitfield mask) {
-    //printf("glPushAttrib(0x%04X)\n", mask);
+    DBG(printf("glPushAttrib(0x%04X)\n", mask);)
     realize_textures();
     noerrorShim();
     if (glstate->list.active)
@@ -280,6 +290,7 @@ void gl4es_glPushAttrib(GLbitfield mask) {
 }
 
 void gl4es_glPushClientAttrib(GLbitfield mask) {
+    DBG(printf("glPushClientAttrib(0x%04X)\n", mask);)
     noerrorShim();
     if (glstate->clientStack == NULL) {
         glstate->clientStack = (glclientstack_t *)malloc(STACK_SIZE * sizeof(glclientstack_t));
@@ -305,15 +316,6 @@ void gl4es_glPushClientAttrib(GLbitfield mask) {
     }
 
     if (mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
-        cur->vert_enable = glstate->vao->vertexattrib[ATT_VERTEX].enabled;
-        cur->color_enable = glstate->vao->vertexattrib[ATT_COLOR].enabled;
-        cur->secondary_enable = glstate->vao->vertexattrib[ATT_SECONDARY].enabled;
-        cur->normal_enable = glstate->vao->vertexattrib[ATT_NORMAL].enabled;
-        cur->fog_enable = glstate->vao->vertexattrib[ATT_FOGCOORD].enabled;
-        int a;
-        for (a=0; a<hardext.maxtex; a++) {
-           cur->tex_enable[a] = glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].enabled;
-        }
         memcpy(cur->vertexattrib, glstate->vao->vertexattrib, sizeof(glstate->vao->vertexattrib));
         cur->client = glstate->texture.client;
     }
@@ -333,7 +335,7 @@ void gl4es_glPushClientAttrib(GLbitfield mask) {
 #define v4(c) v3(c), c[3]
 
 void gl4es_glPopAttrib() {
-//printf("glPopAttrib()\n");
+DBG(printf("glPopAttrib()\n");)
     noerrorShim();
     if (glstate->list.active)
         if (glstate->list.compiling) {
@@ -617,6 +619,7 @@ void gl4es_glPopAttrib() {
     else gl4es_glDisableClientState(pname)
 
 void gl4es_glPopClientAttrib() {
+    DBG(printf("glPopClientAttrib()\n");)
     noerrorShim();
 	//LOAD_GLES(glVertexPointer);
 	//LOAD_GLES(glColorPointer);
@@ -641,23 +644,6 @@ void gl4es_glPopClientAttrib() {
     }
 
     if (cur->mask & GL_CLIENT_VERTEX_ARRAY_BIT) {
-		if (glstate->vao->vertexattrib[ATT_VERTEX].enabled != cur->vert_enable)
-			enable_disable(GL_VERTEX_ARRAY, cur->vert_enable);
-		if (glstate->vao->vertexattrib[ATT_NORMAL].enabled != cur->normal_enable)
-			enable_disable(GL_NORMAL_ARRAY, cur->normal_enable);
-		if (glstate->vao->vertexattrib[ATT_COLOR].enabled != cur->color_enable)
-			enable_disable(GL_COLOR_ARRAY, cur->color_enable);
-		if (glstate->vao->vertexattrib[ATT_SECONDARY].enabled != cur->secondary_enable)
-			enable_disable(GL_SECONDARY_COLOR_ARRAY, cur->secondary_enable);
-		if (glstate->vao->vertexattrib[ATT_FOGCOORD].enabled != cur->fog_enable)
-			enable_disable(GL_COLOR_ARRAY, cur->fog_enable);
-        for (int a=0; a<hardext.maxtex; a++) {
-		   if (glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].enabled != cur->tex_enable[a]) {
-			   gl4es_glClientActiveTexture(GL_TEXTURE0+a);
-			   enable_disable(GL_TEXTURE_COORD_ARRAY, cur->tex_enable[a]);
-		   }
-        }
-
         memcpy(glstate->vao->vertexattrib, cur->vertexattrib, sizeof(glstate->vao->vertexattrib));
 		if (glstate->texture.client != cur->client) gl4es_glClientActiveTexture(GL_TEXTURE0+cur->client);
     }

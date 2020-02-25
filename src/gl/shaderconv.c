@@ -28,6 +28,14 @@ const builtin_attrib_t builtin_attrib[] = {
     {"gl_MultiTexCoord5", "_gl4es_MultiTexCoord5", "vec4", "highp", ATT_MULTITEXCOORD5},
     {"gl_MultiTexCoord6", "_gl4es_MultiTexCoord6", "vec4", "highp", ATT_MULTITEXCOORD6},
     {"gl_MultiTexCoord7", "_gl4es_MultiTexCoord7", "vec4", "highp", ATT_MULTITEXCOORD7},
+    {"gl_MultiTexCoord8", "_gl4es_MultiTexCoord8", "vec4", "highp", ATT_MULTITEXCOORD8},
+    {"gl_MultiTexCoord9", "_gl4es_MultiTexCoord9", "vec4", "highp", ATT_MULTITEXCOORD9},
+    {"gl_MultiTexCoord10", "_gl4es_MultiTexCoord10", "vec4", "highp", ATT_MULTITEXCOORD10},
+    {"gl_MultiTexCoord11", "_gl4es_MultiTexCoord11", "vec4", "highp", ATT_MULTITEXCOORD11},
+    {"gl_MultiTexCoord12", "_gl4es_MultiTexCoord12", "vec4", "highp", ATT_MULTITEXCOORD12},
+    {"gl_MultiTexCoord13", "_gl4es_MultiTexCoord13", "vec4", "highp", ATT_MULTITEXCOORD13},
+    {"gl_MultiTexCoord14", "_gl4es_MultiTexCoord14", "vec4", "highp", ATT_MULTITEXCOORD14},
+    {"gl_MultiTexCoord15", "_gl4es_MultiTexCoord15", "vec4", "highp", ATT_MULTITEXCOORD15},
     {"gl_SecondaryColor", "_gl4es_SecondaryColor", "vec4", "lowp", ATT_SECONDARY},
     {"gl_Normal", "_gl4es_Normal", "vec3", "highp", ATT_NORMAL},
     {"gl_FogCoord", "_gl4es_FogCoord", "float", "highp", ATT_FOGCOORD}
@@ -63,6 +71,14 @@ const builtin_matrix_t builtin_matrix[] = {
     {"gl_TextureMatrix_5", "_gl4es_TextureMatrix_5", "mat4", 0, MAT_T5},
     {"gl_TextureMatrix_6", "_gl4es_TextureMatrix_6", "mat4", 0, MAT_T6},
     {"gl_TextureMatrix_7", "_gl4es_TextureMatrix_7", "mat4", 0, MAT_T7},
+    {"gl_TextureMatrix_8", "_gl4es_TextureMatrix_8", "mat4", 0, MAT_T8},
+    {"gl_TextureMatrix_9", "_gl4es_TextureMatrix_9", "mat4", 0, MAT_T9},
+    {"gl_TextureMatrix_10", "_gl4es_TextureMatrix_10", "mat4", 0, MAT_T10},
+    {"gl_TextureMatrix_11", "_gl4es_TextureMatrix_11", "mat4", 0, MAT_T11},
+    {"gl_TextureMatrix_12", "_gl4es_TextureMatrix_12", "mat4", 0, MAT_T12},
+    {"gl_TextureMatrix_13", "_gl4es_TextureMatrix_13", "mat4", 0, MAT_T13},
+    {"gl_TextureMatrix_14", "_gl4es_TextureMatrix_14", "mat4", 0, MAT_T14},
+    {"gl_TextureMatrix_15", "_gl4es_TextureMatrix_15", "mat4", 0, MAT_T15},
     // regular texture matrix
     {"gl_TextureMatrixInverseTranspose", "_gl4es_ITTextureMatrix", "mat4", 1, MAT_T0_IT},
     {"gl_TextureMatrixInverse", "_gl4es_ITextureMatrix", "mat4", 1, MAT_T0_I},
@@ -435,25 +451,27 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     Tmp = InplaceInsert(GetLine(Tmp, 1), useEXTDrawBuffers, Tmp, &tmpsize);
   }
   // if some functions are used, add some int/float alternative
-  if(strstr(Tmp, "pow(") || strstr(Tmp, "pow (")) {
-      Tmp = InplaceInsert(GetLine(Tmp, headline), HackAltPow, Tmp, &tmpsize);
-  }
-  if(strstr(Tmp, "max(") || strstr(Tmp, "max (")) {
-      Tmp = InplaceInsert(GetLine(Tmp, headline), HackAltMax, Tmp, &tmpsize);
-  }
-  if(strstr(Tmp, "min(") || strstr(Tmp, "min (")) {
-      Tmp = InplaceInsert(GetLine(Tmp, headline), HackAltMin, Tmp, &tmpsize);
-  }
-  if(strstr(Tmp, "clamp(") || strstr(Tmp, "clamp (")) {
-      Tmp = InplaceInsert(GetLine(Tmp, headline), HackAltClamp, Tmp, &tmpsize);
-  }
-  if(strstr(Tmp, "mod(") || strstr(Tmp, "mod (")) {
-      Tmp = InplaceInsert(GetLine(Tmp, headline), HackAltMod, Tmp, &tmpsize);
-  }
-  if(!isVertex && (strstr(Tmp, "texture2DLod(") || strstr(Tmp, "texture2DLod ("))) {
-      Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod(", "_gl4es_texture2DLod(");
-      Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod (", "_gl4es_texture2DLod (");
-      Tmp = InplaceInsert(GetLine(Tmp, headline), texture2DLodAlt, Tmp, &tmpsize);
+  if(!fpeShader) {
+    if(strstr(Tmp, "pow(") || strstr(Tmp, "pow (")) {
+        Tmp = InplaceInsert(GetLine(Tmp, headline), HackAltPow, Tmp, &tmpsize);
+    }
+    if(strstr(Tmp, "max(") || strstr(Tmp, "max (")) {
+        Tmp = InplaceInsert(GetLine(Tmp, headline), HackAltMax, Tmp, &tmpsize);
+    }
+    if(strstr(Tmp, "min(") || strstr(Tmp, "min (")) {
+        Tmp = InplaceInsert(GetLine(Tmp, headline), HackAltMin, Tmp, &tmpsize);
+    }
+    if(strstr(Tmp, "clamp(") || strstr(Tmp, "clamp (")) {
+        Tmp = InplaceInsert(GetLine(Tmp, headline), HackAltClamp, Tmp, &tmpsize);
+    }
+    if(strstr(Tmp, "mod(") || strstr(Tmp, "mod (")) {
+        Tmp = InplaceInsert(GetLine(Tmp, headline), HackAltMod, Tmp, &tmpsize);
+    }
+    if(!isVertex && (strstr(Tmp, "texture2DLod(") || strstr(Tmp, "texture2DLod ("))) {
+        Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod(", "_gl4es_texture2DLod(");
+        Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod (", "_gl4es_texture2DLod (");
+        Tmp = InplaceInsert(GetLine(Tmp, headline), texture2DLodAlt, Tmp, &tmpsize);
+    }
   }
     // now check to remove trailling "f" after float, as it's not supported too
   newptr = Tmp;

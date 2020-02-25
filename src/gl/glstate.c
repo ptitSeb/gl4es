@@ -87,6 +87,19 @@ void* NewGLState(void* shared_glstate, int es2only) {
 
         glstate->defaultvbo = copy_state->defaultvbo;
     }
+    // set all VAValue to default
+    GLfloat vadefault[] = {0.0f, 0.0f, 0.0f, 1.0f};
+    for (int i=0; i<MAX_VATTRIB; ++i)
+        memcpy(glstate->vavalue[i], vadefault, sizeof(vadefault));
+    // set shortcut
+    glstate->vertex = glstate->vavalue[ATT_VERTEX];
+    glstate->color = glstate->vavalue[ATT_COLOR];
+    glstate->secondary = glstate->vavalue[ATT_SECONDARY];
+    glstate->normal = glstate->vavalue[ATT_NORMAL];
+    glstate->fogcoord = glstate->vavalue[ATT_FOGCOORD];
+    for (int i=0; i<MAX_TEX; ++i)
+        glstate->texcoord[i] = glstate->vavalue[ATT_MULTITEXCOORD0+i];
+    // set specifics default
 	GLfloat white[] = {1.0f, 1.0f, 1.0f, 1.0f};
 	memcpy(glstate->color, white, sizeof(GLfloat)*4);
 	glstate->last_error = GL_NO_ERROR;
@@ -142,12 +155,11 @@ void* NewGLState(void* shared_glstate, int es2only) {
     {
         glstate->glsl = (glsl_t*)malloc(sizeof(glsl_t));
         memset(glstate->glsl, 0, sizeof(glsl_t));
-        glstate->gleshard = (gleshard_s_t*)calloc(1, sizeof(gleshard_s_t));
+        glstate->gleshard = (gleshard_t*)calloc(1, sizeof(gleshard_t));
         InitOldProgramMap(glstate);
     }
     // Bind defaults...
     glstate->vao = glstate->defaultvao;
-    glstate->glesva.wanted = glstate->defaultvao->vertexattrib;
 
     //raster & viewport
     glstate->raster.raster_zoomx=1.0f;

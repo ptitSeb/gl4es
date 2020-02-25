@@ -165,12 +165,6 @@ typedef struct _glclientstack_t {
 
     // GL_CLIENT_VERTEX_ARRAY_BIT
 	GLuint client;
-    GLboolean vert_enable;
-    GLboolean color_enable;
-    GLboolean tex_enable[MAX_TEX];
-    GLboolean normal_enable;
-    GLboolean secondary_enable;
-    GLboolean fog_enable;
     vertexattrib_t vertexattrib[MAX_VATTRIB];
     unsigned int len;
     unsigned int cap;

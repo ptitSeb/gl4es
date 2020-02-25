@@ -35,7 +35,6 @@ void gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolea
     v->stride = stride;
     v->pointer = pointer;
     v->buffer = glstate->vao->vertex;
-    memcpy(&glstate->glesva.wanted[index], v, sizeof(vertexattrib_t));
 }
 void gl4es_glEnableVertexAttribArray(GLuint index) {
     DBG(printf("glEnableVertexAttrib(%d)\n", index);)
@@ -46,7 +45,6 @@ void gl4es_glEnableVertexAttribArray(GLuint index) {
         return;
     }
     glstate->vao->vertexattrib[index].enabled = 1;
-    glstate->glesva.wanted[index].enabled = 1;
 }
 void gl4es_glDisableVertexAttribArray(GLuint index) {
     DBG(printf("glDisableVertexAttrib(%d)\n", index);)
@@ -57,7 +55,6 @@ void gl4es_glDisableVertexAttribArray(GLuint index) {
         return;
     }
     glstate->vao->vertexattrib[index].enabled = 0;
-    glstate->glesva.wanted[index].enabled = 0;
 }
 
 // TODO: move the sending of the data to the Hardware when drawing, to cache change of state
@@ -77,12 +74,11 @@ void gl4es_glVertexAttrib4fv(GLuint index, const GLfloat *v) {
         return;
     }
     // test if changed
-    if(memcmp(glstate->vao->vertexattrib[index].current, v, 4*sizeof(GLfloat))==0) {
+    if(memcmp(glstate->vavalue[index], v, 4*sizeof(GLfloat))==0) {
         noerrorShim();
         return;
     }
-    memcpy(glstate->vao->vertexattrib[index].current, v, 4*sizeof(GLfloat));
-    memcpy(glstate->glesva.wanted[index].current, v, 4*sizeof(GLfloat));
+    memcpy(glstate->vavalue[index], v, 4*sizeof(GLfloat));
 }
 
 #define GetVertexAttrib(suffix, Type, factor) \
@@ -113,8 +109,12 @@ void gl4es_glGetVertexAttrib##suffix##v(GLuint index, GLenum pname, Type *params
             *params=glstate->vao->vertexattrib[index].normalized; \
             return; \
         case GL_CURRENT_VERTEX_ATTRIB: \
-            for (int i=0; i<4; i++) \
-                *params=glstate->vao->vertexattrib[index].current[i]*factor; \
+            if(glstate->vao->vertexattrib[index].normalized) \
+                for (int i=0; i<4; i++) \
+                    *params=glstate->vavalue[index][i]*factor; \
+            else    \
+                for (int i=0; i<4; i++) \
+                    *params=glstate->vavalue[index][i]; \
             return; \
         case GL_VERTEX_ATTRIB_ARRAY_DIVISOR: \
             *params=glstate->vao->vertexattrib[index].divisor; \
@@ -151,7 +151,6 @@ void gl4es_glVertexAttribDivisor(GLuint index, GLuint divisor) {
         return;
     }
     glstate->vao->vertexattrib[index].divisor = divisor;
-    glstate->glesva.wanted[index].divisor = divisor;
 }
 
 void glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer) AliasExport("gl4es_glVertexAttribPointer");

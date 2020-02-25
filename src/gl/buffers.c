@@ -757,9 +757,6 @@ void gl4es_glBindVertexArray(GLuint array) {
         }
         glstate->vao = glvao;
     }
-    // TODO: find a better way to do that, to many useless copying stuff
-    if(glstate->fpe_state)
-        glstate->glesva.wanted = glstate->vao->vertexattrib;
 
     noerrorShim();
 }
@@ -829,7 +826,6 @@ void VaoInit(glvao_t *vao) {
     for (int i=0; i<hardext.maxvattrib; i++) {
         vao->vertexattrib[i].size = 4;
         vao->vertexattrib[i].type = GL_FLOAT;
-        vao->vertexattrib[i].current[3] = 1.0f;
     }
 }
 

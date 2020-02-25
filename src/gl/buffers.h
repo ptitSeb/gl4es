@@ -107,19 +107,18 @@ typedef struct {
     GLenum          type;
     GLsizei         stride;
     const GLvoid*   pointer;
-    GLboolean       enabled;
-    GLboolean       normalized;
+    int             enabled;
+    int             normalized;
     glbuffer_t      *buffer;    // reference buffer
-    GLfloat         current[4];
     GLint           divisor;
     GLuint          real_buffer;    // If there is a real VBO binded
     const GLvoid*   real_pointer;   // the pointer related to real VBO
 } vertexattrib_t;
 
 typedef struct {
-    GLfloat *ptr;
+    GLfloat        *ptr;
     vertexattrib_t state;
-    GLboolean enabled;
+    int            enabled;
 } pointer_cache_t;
 
 // VAO ****************
@@ -134,7 +133,7 @@ typedef struct {
     int       locked;
     GLsizei   count;
     GLint     first;
-    GLboolean locked_mapped[NB_VA];
+    int       locked_mapped[NB_VA];
 
     int maxtex; // upper limit enabled tex_coord
     // VAO optimisation: keep a shared copy of the digested datas (unless the vao is the default one)

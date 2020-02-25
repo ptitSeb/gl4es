@@ -97,7 +97,7 @@ void gl4es_glFogCoordf(GLfloat coord) {
         noerrorShim();
     }
     // change the state last thing
-    glstate->fogcoord = coord;
+    glstate->fogcoord[0] = coord;
 }
 
 
