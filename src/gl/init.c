@@ -216,7 +216,7 @@ void initialize_gl4es() {
 
     GetHardwareExtensions(gl4es_notest);
 
-#if !defined(NO_LOADER)
+#if !defined(NO_LOADER) && !defined(NO_GBM)
     if(globals4es.usegbm)
         LoadGBMFunctions();
     if(globals4es.usegbm && !(gbm && drm)) {

@@ -165,7 +165,7 @@ void *(*gles_getProcAddress)(const char *name);
 void *proc_address(void *lib, const char *name) {
     if (gles_getProcAddress)
         return gles_getProcAddress(name);
-#ifdef AMIGAOS64
+#ifdef AMIGAOS4
     return os4GetProcAddress(name);
 #elif defined __EMSCRIPTEN__
     void *emscripten_GetProcAddress(const char *name);
