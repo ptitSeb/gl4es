@@ -226,6 +226,11 @@ Ignore BGRA Texture hardware extension
  * 0 : Default, use BGRA extension if possible
  * 1 : Ignore BGRA extension, even if supported by GLES hardware
 
+##### LIBGL_NOTEXRECT
+Don't expose Texture rectangle extension (GL_ARB_texture_rectangle)
+ * 0 : Default, the extension is listed
+ * 1 : Don't expose the extension (it's not supported in shaders yet)
+
 ##### LIBGL_NOHIGHP
 Usage of highp precision in fragment shader (ES2 backend only)
  * 0 : Default, use highp if available

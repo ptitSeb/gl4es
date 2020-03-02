@@ -30,6 +30,7 @@ typedef struct _globals4es {
  int noerror;
  int npot;
  int defaultwrap;
+ int notexrect;
  int queries;
  int silentstub;
  int glx_surface_srgb;

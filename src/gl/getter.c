@@ -110,13 +110,14 @@ void BuildExtensionsList() {
                 "GL_EXT_texture_object "
                 "GL_EXT_polygon_offset "
                 "GL_GL4ES_hint "
-                "GL_ARB_texture_rectangle "
                 "GL_ARB_draw_elements_base_vertex "
                 "GL_EXT_draw_elements_base_vertex "
                 "GL_ARB_map_buffer_range "
                 "GL_NV_blend_square "
 //                "GL_EXT_blend_logic_op "
 				);
+        if(!globals4es.notexrect)
+            strcat(glstate->extensions, "GL_ARB_texture_rectangle ");
         if(globals4es.vabgra)
             strcat(glstate->extensions, "GL_ARB_vertex_array_bgra ");
 		if(globals4es.npot>=1)

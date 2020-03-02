@@ -136,6 +136,7 @@ void initialize_gl4es() {
 #endif
     env(LIBGL_NOBGRA, globals4es.nobgra, "Ignore BGRA texture capability");
     env(LIBGL_ARBPROGRAM, globals4es.arb_program, "Export (WIP!) ARB Program extensions");
+    env(LIBGL_NOTEXRECT, globals4es.notexrect, "Don't export Text Rectangle extension");
 
 		globals4es.es=ReturnEnvVarInt("LIBGL_ES");
     switch(globals4es.es) {
