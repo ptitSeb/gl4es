@@ -224,9 +224,11 @@ void initialize_gl4es() {
         SHUT_LOGD("cannot use GBM, disabling\n");
         globals4es.usegbm = 0;  // should do some smarter fallback?
     }
-    glx_init();
 #else
     globals4es.usegbm = 0;
+#endif
+#if !defined(NOX11)
+    glx_init();
 #endif
 
     gl_init();
