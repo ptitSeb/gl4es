@@ -398,6 +398,10 @@ void initialize_gl4es() {
     }
     env(LIBGL_NOTEXMAT, globals4es.texmat, "Don't handle Texture Matrice internaly");
     env(LIBGL_NOVAOCACHE, globals4es.novaocache, "Don't use VAO cache");
+    if(IsEnvVarTrue("LIBGL_NOINTOVLHACK")) {
+        globals4es.nointovlhack = 1;
+        SHUT_LOGD("No hack in shader converter to define overloaded function with int\n");
+    }
     
     int env_begin_end;
     if(GetEnvVarInt("LIBGL_BEGINEND",&env_begin_end,0)) {

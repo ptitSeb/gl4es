@@ -341,3 +341,9 @@ Usage of VBO in certain cases. Only for GLES2+. The 2 and 3 mode are experimenta
 Don't expose GLX_EXT_create_context_es2_profile extension
 * 0 : Extension is there
 * 1 : Don't expose the extension: for SDL2, use it with SDL_VIDEO_GL_DRIVER and SDL_VIDEO_EGL_DRIVER to use GLESv2 driver directly
+
+##### LIBGL_NOINTOVLHACK
+Disable the hack in shader converter to define overloaded function with int
+* 0 : Default: use the hack
+* 1 : Don't use it (some drive / PVRCapture don't like it much).
+

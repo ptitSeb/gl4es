@@ -67,6 +67,7 @@ typedef struct _globals4es {
  int dbgshaderconv;
  int nopsa;
  int noes2;
+ int nointovlhack;
  #ifndef NO_GBM
  char drmcard[50];
  #endif

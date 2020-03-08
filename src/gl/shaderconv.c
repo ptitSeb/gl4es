@@ -451,7 +451,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     Tmp = InplaceInsert(GetLine(Tmp, 1), useEXTDrawBuffers, Tmp, &tmpsize);
   }
   // if some functions are used, add some int/float alternative
-  if(!fpeShader) {
+  if(!fpeShader && !globals4es.nointovlhack) {
     if(strstr(Tmp, "pow(") || strstr(Tmp, "pow (")) {
         Tmp = InplaceInsert(GetLine(Tmp, headline), HackAltPow, Tmp, &tmpsize);
     }
