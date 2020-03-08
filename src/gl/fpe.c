@@ -1243,7 +1243,7 @@ void realize_blitenv(int alpha) {
     }
     // set VertexAttrib if needed
     for(int i=0; i<hardext.maxvattrib; i++) {
-        vertexattrib_t *v = &glstate->vao->vertexattrib[i];
+        vertexattrib_t *v = &glstate->gleshard->vertexattrib[i];
         // enable / disable Array if needed
         if(v->enabled != ((i<2)?1:0)) {
             LOAD_GLES2(glEnableVertexAttribArray)

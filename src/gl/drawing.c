@@ -354,60 +354,49 @@ if(count>500000) return;
         GLuint old_tex = glstate->texture.client;
         
         realize_textures();
+        if(hardext.esversion==1) {
 
-        #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
+            #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
 
-        vertexattrib_t *p;
-        #define GetP(A) (&glstate->vao->vertexattrib[A])
-        // secondary color and color sizef != 4 are "intercepted" and draw using a list, unless using ES>1.1
-        client_state(ATT_COLOR, GL_COLOR_ARRAY, );
-        p = GetP(ATT_COLOR);
-        if (p->enabled)
-            gles_glColorPointer(p->size, p->type, p->stride, p->pointer);
-        if(hardext.esversion>1) {
-            client_state(ATT_SECONDARY, GL_SECONDARY_COLOR_ARRAY, );
-            p = GetP(ATT_SECONDARY);
+            vertexattrib_t *p;
+            #define GetP(A) (&glstate->vao->vertexattrib[A])
+            // secondary color and color sizef != 4 are "intercepted" and draw using a list, unless using ES>1.1
+            client_state(ATT_COLOR, GL_COLOR_ARRAY, );
+            p = GetP(ATT_COLOR);
             if (p->enabled)
-                fpe_glSecondaryColorPointer(p->size, p->type, p->stride, p->pointer);
-        }
-        client_state(ATT_NORMAL, GL_NORMAL_ARRAY, );
-        p = GetP(ATT_NORMAL);
-        if (p->enabled)
-            gles_glNormalPointer(p->type, p->stride, p->pointer);
-        client_state(ATT_VERTEX, GL_VERTEX_ARRAY, );
-        p = GetP(ATT_VERTEX);
-        if (p->enabled)
-            gles_glVertexPointer(p->size, p->type, p->stride, p->pointer);
-        for (int aa=0; aa<hardext.maxtex; aa++) {
-            client_state(ATT_MULTITEXCOORD0+aa, GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
-            p = GetP(ATT_MULTITEXCOORD0+aa);
-            // get 1st enabled target
-            const GLint itarget = get_target(glstate->enable.texture[aa]);
-            if (itarget>=0) {
-                if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
-                    gl4es_glActiveTexture(GL_TEXTURE0+aa);
-                    realize_active();
-                    gles_glEnable(GL_TEXTURE_2D);
+                gles_glColorPointer(p->size, p->type, p->stride, p->pointer);
+            client_state(ATT_NORMAL, GL_NORMAL_ARRAY, );
+            p = GetP(ATT_NORMAL);
+            if (p->enabled)
+                gles_glNormalPointer(p->type, p->stride, p->pointer);
+            client_state(ATT_VERTEX, GL_VERTEX_ARRAY, );
+            p = GetP(ATT_VERTEX);
+            if (p->enabled)
+                gles_glVertexPointer(p->size, p->type, p->stride, p->pointer);
+            for (int aa=0; aa<hardext.maxtex; aa++) {
+                client_state(ATT_MULTITEXCOORD0+aa, GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
+                p = GetP(ATT_MULTITEXCOORD0+aa);
+                // get 1st enabled target
+                const GLint itarget = get_target(glstate->enable.texture[aa]);
+                if (itarget>=0) {
+                    if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
+                        gl4es_glActiveTexture(GL_TEXTURE0+aa);
+                        realize_active();
+                        gles_glEnable(GL_TEXTURE_2D);
+                    }
+                    if (p->enabled) {
+                        TEXTURE(aa);
+                        int changes = tex_setup_needchange(itarget);
+                        if(changes && !len) len = len_indices(sindices, iindices, count);
+                        tex_setup_texcoord(len, changes, itarget, p);
+                    } else
+                        gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
                 }
-                if (p->enabled) {
-                    TEXTURE(aa);
-                    int changes = tex_setup_needchange(itarget);
-                    if(changes && !len) len = len_indices(sindices, iindices, count);
-                    tex_setup_texcoord(len, changes, itarget, p);
-                } else
-                    gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
-            } else if (glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+aa].enabled && hardext.esversion!=1) {
-                // special case on GL2, Tex disable but CoordArray enabled...
-                TEXTURE(aa);
-                int changes = tex_setup_needchange(ENABLED_TEX2D);
-                if(changes && !len) len = len_indices(sindices, iindices, count);
-                tex_setup_texcoord(len, changes, ENABLED_TEX2D, p);
             }
+            #undef GetP
+            if (glstate->texture.client!=old_tex)
+                TEXTURE(old_tex);
         }
-        #undef GetP
-        if (glstate->texture.client!=old_tex)
-            TEXTURE(old_tex);
-
         // check if arrays are locked and can be put in a VBO
         if(hardext.esversion>1 && globals4es.usevbo==2 && glstate->vao->locked==1) {
             // can now browse all enabled VA, and put the corresponding data in a VBO
