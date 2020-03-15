@@ -140,7 +140,7 @@ static int init_drm_and_gbm()
             /* it's connected, let's use this! */
             break;
         }
-        drmModeFreeConnector(connector);
+        gbmdrm_drmModeFreeConnector(connector);
         connector = NULL;
     }
     if (!connector) {
