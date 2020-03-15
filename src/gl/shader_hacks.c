@@ -1,68 +1,53 @@
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include "string_utils.h"
 
 
 static const char* gl4es_hacks[] = {
-// this is for Psychonauts (using LIBGL_GL=21)
-"#version 120\n"
-"vec4 ps_r0;\n"
-"vec4 ps_t0 = gl_TexCoord[0];\n",
-
-"#version 120\n"
-"vec4 ps_r0;\n"
-"#define ps_t0 gl_TexCoord[0]\n",
-
-// this is for Psychonauts (using LIBGL_GL=20)
-"#version 110\n"
-"vec4 ps_r0;\n"
-"vec4 ps_t0 = gl_TexCoord[0];\n",
-
-"#version 110\n"
-"vec4 ps_r0;\n"
-"#define ps_t0 gl_TexCoord[0]\n",
-
 // this is for Guacamelee (yep, there is a lot of hacks, only int -> float conversions)
+// 1
 "float edgeGlow = step ( 0.2 , pow ( clamp ( ( dot ( vec2 ( 1 * sign ( v_texcoord3 . z ) , 1 ) , normalize ( quadCoord . xy - 0.5 ) ) - 0.4 + depth * 2.0 ) , 0.0  , 1.0  ) , 25 ) ) ;",
 "float edgeGlow = step ( 0.2 , pow ( clamp ( ( dot ( vec2 ( 1.0 * sign ( v_texcoord3 . z ) , 1.0 ) , normalize ( quadCoord . xy - 0.5 ) ) - 0.4 + depth * 2.0 ) , 0.0  , 1.0  ) , 25.0 ) ) ;",
-
+// 2
 "float litfire = max ( dot ( normalize ( drops1 . rgb ) , normalize ( vec3 ( - 1 , 0 , pow ( max ( 1.0 - ocoord . x , 0.0 ) , 9 ) ) ) ) , 0 ) ;",
 "float litfire = max ( dot ( normalize ( drops1 . rgb ) , normalize ( vec3 ( - 1.0 , 0.0 , pow ( max ( 1.0 - ocoord . x , 0.0 ) , 9.0 ) ) ) ) , 0.0 ) ;",
-
+// 3
 "if ( ( normalizedDepth ) < 0.0  ) discard ; ;\nif ( depth < 0 )",
 "if ( ( normalizedDepth ) < 0.0  ) discard ; ;\nif ( depth < 0.0 )",
-
+// 4
 "gl_FragColor . rgba += glowHit ;\nif ( depth < 0 )",
 "gl_FragColor . rgba += glowHit ;\nif ( depth < 0.0 )",
-
+// 5
 "gl_FragColor . a *= pow ( clamp ( ( depth + 1 ) , 0.0  , 1.0  ) , 70 ) ;",
 "gl_FragColor . a *= pow ( clamp ( ( depth + 1.0 ) , 0.0  , 1.0  ) , 70.0 ) ;",
-
+// 6
 "if ( floor ( in_texcoord0 . y ) != 0 )",
 "if ( floor ( in_texcoord0 . y ) != 0.0 )",
-
+// 7
 "if ( in_position0 . y < 0 )",
 "if ( in_position0 . y < 0.0 )",
-
+// 8
 "if ( in_position0 . x < 0 )",
 "if ( in_position0 . x < 0.0 )",
-
+// 9
 "branchB . y = 0 ;",
 "branchB . y = 0.0 ;",
-
+// 10
 "branchB . x = 0 ;",
 "branchB . x = 0.0 ;",
 
 // this is for Battle Block Theater
+// 1
 "   if(texColor.w == 0)\n       gl_FragColor = texColor;",
 "   if(texColor.w == 0.0)\n       gl_FragColor = texColor;",
-
+// 2
 "if(dist1 > 0)       {           float lightVal = (1-dist1) * light1Luminosity;",
 "if(dist1 > 0.0)       {           float lightVal = (1.0-dist1) * light1Luminosity;",
-
+// 3
 "float lightVal = 0;",
 "float lightVal = 0.0;",
-
+// 4
 "       if(dist1 > 0)\n"
 "       {\n"
 "			if(dist1 > 1)\n"
@@ -71,22 +56,21 @@ static const char* gl4es_hacks[] = {
 "       {\n"
 "			if(dist1 > 1.0)\n"
 "				dist1 = 1.0;\n",
-
-
+// 5
 "lightVal += (1-dist1) * light1Luminosity;",
 "lightVal += (1.0-dist1) * light1Luminosity;",
-
+// 6
 "lightVal += (1-dist1) * light2Luminosity;",
 "lightVal += (1.0-dist1) * light2Luminosity;",
-
+// 7
 "lightVal += (1-dist1) * light3Luminosity;",
 "lightVal += (1.0-dist1) * light3Luminosity;",
-
+// 8
 "if(lightVal > 1)\n"
 "			lightVal = 1;",
 "if(lightVal > 1.0)\n"
 "			lightVal = 1.0;",
-
+// 9
 "if(lightVal > 1)\n"
 "           lightVal = 1;", // space and tabs make a difference...
 "if(lightVal > 1.0)\n"
@@ -220,6 +204,33 @@ static const char* gl4es_hacks_1[] = {
 "float vTime = 0.9 - saturate( (Time - AnimationTime) * 16.0 );",
 };
 
+// For Psychonauts
+static const char* gl4es_sign_2[] = {
+"vec4 ps_t3 = gl_TexCoord[3];",
+"vec4 ps_t2 = gl_TexCoord[2];",
+"vec4 ps_t1 = gl_TexCoord[1];",
+"vec4 ps_t0 = gl_TexCoord[0];",
+};
+
+static const char* gl4es_sign_2_main = 
+"void main()\n"
+"{\n";
+
+
+static const char* gl4es_hacks_2_1[] = {
+"vec4 ps_t3;",
+"vec4 ps_t2;",
+"vec4 ps_t1;",
+"vec4 ps_t0;",
+};
+
+static const char* gl4es_hacks_2_2[] = {
+"\tps_t3 = gl_TexCoord[3];",
+"\tps_t2 = gl_TexCoord[2];",
+"\tps_t1 = gl_TexCoord[1];",
+"\tps_t0 = gl_TexCoord[0];",
+};
+
 static char* ShaderHacks_1(char* shader, char* Tmp, int* tmpsize)
 {
     // check for all signature first
@@ -235,12 +246,36 @@ static char* ShaderHacks_1(char* shader, char* Tmp, int* tmpsize)
     return Tmp;
 }
 
+static char* ShaderHacks_2_1(char* shader, char* Tmp, int* tmpsize, int i)
+{
+    char* p = strstr(Tmp, gl4es_sign_2[i]);
+    if(!p) return Tmp;  // not found
+    char* m = strstr(Tmp, gl4es_sign_2_main);
+    if(!m) return Tmp;  // main signature not found
+    if((uintptr_t)p > (uintptr_t)m) return Tmp; // main is before, aborting...
+    // ok, instance found, insert main line...
+    if(Tmp==shader) {Tmp = malloc(*tmpsize); strcpy(Tmp, shader); m = strstr(Tmp, gl4es_sign_2_main);}   // hacking!
+    m += strlen(gl4es_sign_2_main);
+    Tmp = InplaceInsert(m, gl4es_hacks_2_2[i], Tmp, tmpsize);
+    Tmp = InplaceReplaceSimple(Tmp, tmpsize, gl4es_sign_2[i], gl4es_hacks_2_1[i]);
+    return Tmp;
+}
+
+static char* ShaderHacks_2(char* shader, char* Tmp, int* tmpsize)
+{
+    // check for each signature
+    for (int i=0; i<sizeof(gl4es_sign_2)/sizeof(gl4es_sign_2[0]); i++)
+        Tmp = ShaderHacks_2_1(shader, Tmp, tmpsize, i);
+    return Tmp;
+}
+
 char* ShaderHacks(char* shader)
 {
     char* Tmp = shader;
     int tmpsize = strlen(Tmp)+10;
     // specific hacks
     Tmp = ShaderHacks_1(shader, Tmp, &tmpsize);
+    Tmp = ShaderHacks_2(shader, Tmp, &tmpsize);
     // generic
     for (int i=0; i<sizeof(gl4es_hacks)/sizeof(gl4es_hacks[0]); i+=2)
         if(strstr(Tmp, gl4es_hacks[i])) {
