@@ -707,7 +707,7 @@ GLenum swizzle_internalformat(GLenum *internalformat, GLenum format, GLenum type
             sret = GL_RGBA;
             break;
         case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
-        case GL_COMPRESSED_SRGB_S3TC_DXT1_EXT:  // should ube sRGB...
+        case GL_COMPRESSED_SRGB_S3TC_DXT1_EXT:  // should be sRGB...
             ret = GL_COMPRESSED_RGB;
             sret = GL_RGB;
             break;
@@ -1099,6 +1099,9 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     }
     if(level>0 && (bound->npot && globals4es.forcenpot))
         return;         // no mipmap...
+    if (level==0 || !bound->valid) {
+        bound->wanted_internal = internalformat;    // save it before transformation
+    }
     GLenum new_format = swizzle_internalformat(&internalformat, format, type);
     if (level==0 || !bound->valid) {
         bound->orig_internal = internalformat;
@@ -2333,6 +2336,9 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
                 if (bound->compressed)
                     (*params) = bound->internalformat;
                 else {
+                    if(bound->wanted_internal==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT)
+                        *params = bound->wanted_internal;
+                    else
                     if((bound->orig_internal==GL_COMPRESSED_RGB) || (bound->orig_internal==GL_COMPRESSED_RGBA)) {
                         if(bound->orig_internal==GL_COMPRESSED_RGB)
                             *(params) = GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
@@ -2377,7 +2383,7 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
                 int w = nlevel((bound->width>>level),2); //DXT works on 4x4 blocks...
                 int h = nlevel((bound->height>>level),2);
                 w<<=2; h<<=2;
-                if (bound->orig_internal==GL_COMPRESSED_RGB) //DXT1, 64bits (i.e. size=8) for a 4x4 block
+                if (bound->orig_internal==GL_COMPRESSED_RGB || bound->wanted_internal==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT) //DXT1, 64bits (i.e. size=8) for a 4x4 block
                     (*params) = (w*h)/2;
                 else    //DXT5, 64+64 (i.e. size = 16) for a 4x4 block
                     (*params) = w*h;
@@ -3026,6 +3032,9 @@ void gl4es_glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img) {
     int h = nlevel(height,2); h<<=2;
 
     int alpha = (bound->orig_internal==GL_COMPRESSED_RGBA)?1:0;
+    int dxt1 = (bound->wanted_internal==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT || bound->wanted_internal==GL_COMPRESSED_RGB_S3TC_DXT1_EXT)?1:0;   // Add SRGB variant?
+
+    int ralpha = (alpha && !dxt1)?1:0;
 
     glbuffer_t *unpack = glstate->vao->unpack;
     glbuffer_t *pack = glstate->vao->pack;
@@ -3046,11 +3055,16 @@ void gl4es_glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img) {
                 if(x+(i%4)<width && y+(i/4)<height)
                     col = src[x+(i%4)+(y+(i/4))*width];
                 tmp[i] = col;
+                if(alpha && dxt1) {
+                    // change transparent to RGB = 0
+                    for (int i=0; i<16; ++i)
+                        if(tmp[i]&0xff000000!=0xff000000)
+                            tmp[i] = 0;
+                }
             }
-            stb_compress_dxt_block((unsigned char*)datab, (const unsigned char*)tmp, alpha, STB_DXT_NORMAL);
-            datab+=8*(alpha+1);
+            stb_compress_dxt_block((unsigned char*)datab, (const unsigned char*)tmp, ralpha, STB_DXT_NORMAL);
+            datab+=8*(ralpha+1);
     }
-
     free(src);
 
     glstate->vao->unpack = unpack;

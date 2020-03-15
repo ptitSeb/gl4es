@@ -110,6 +110,7 @@ typedef struct {
     GLsizei nheight;
     GLenum  format;
     GLenum  type;
+    GLenum  wanted_internal;
     GLenum  orig_internal;
     GLenum  internalformat;
     GLenum  inter_format, inter_type;
