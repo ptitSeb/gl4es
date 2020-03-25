@@ -2064,7 +2064,7 @@ void gl4es_glXUseXFont(Font font, int first, int count, int listBase) {
 	GLubyte *bm;
 	Display *dpy;
 	Window win;
-    if (globals4es.usefb) {
+    if (0/*globals4es.usefb*/) {
         dpy = g_display;
         win = RootWindow(dpy, XDefaultScreen(dpy));
     } else {
