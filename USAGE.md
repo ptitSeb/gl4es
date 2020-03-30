@@ -11,6 +11,11 @@ Controls the Framebuffer output
  * 2 : Use Framebuffer, but also an intermediary FBO
  * 3 : Use PBuffer, allowing x11 (and windowed) rendering even if driver doesn't support it 
 
+##### LIBGL_FBONOALPHA
+In case of LIBGL_FB=2, control if FBO is RGBA or RGB
+ * 0 : Default, use RGBA
+ * 1 : Use RGB for FBO
+
 ##### LIBGL_ES
 Controls the version of GLES to use
  * 0 : Default, using GLES 2.0 backend (unless built with DEFAULT_ES 1) (not on Pandora, still GLES 1.1 backend by default)

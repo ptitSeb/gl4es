@@ -1242,8 +1242,8 @@ void createMainFBO(int width, int height) {
         gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     }
-    gles_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
-					0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    gles_glTexImage2D(GL_TEXTURE_2D, 0, globals4es.fbo_noalpha?GL_RGB:GL_RGBA, width, height,
+					0, globals4es.fbo_noalpha?GL_RGB:GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	gles_glBindTexture(GL_TEXTURE_2D, 0);
     // create the render buffers
     if(createIt) {

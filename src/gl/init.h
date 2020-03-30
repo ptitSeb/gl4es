@@ -68,6 +68,7 @@ typedef struct _globals4es {
  int nopsa;
  int noes2;
  int nointovlhack;
+ int fbo_noalpha;
  #ifndef NO_GBM
  char drmcard[50];
  #endif
