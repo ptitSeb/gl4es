@@ -347,9 +347,10 @@ void GetHardwareExtensions(int notest)
         if(hardext.aniso)
             SHUT_LOGD("Max Anisotropic filtering: %d\n", hardext.aniso);
     }
-    hardext.maxdrawbuffers = 1;
     if(hardext.drawbuffers)
         gles_glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS_EXT,&hardext.maxdrawbuffers);
+    if(hardext.maxdrawbuffers<1)
+        hardext.maxdrawbuffers = 1;
     if(hardext.maxdrawbuffers>MAX_DRAW_BUFFERS)
         hardext.maxdrawbuffers=MAX_DRAW_BUFFERS;
     SHUT_LOGD("Max Draw buffers: %d\n", hardext.maxdrawbuffers);

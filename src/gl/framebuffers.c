@@ -432,7 +432,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
         return;
     }
 
-    if( !(attachment>=GL_COLOR_ATTACHMENT0 && attachment<GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers)
+    if( !(attachment>=GL_COLOR_ATTACHMENT0 && attachment<(GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers))
      && attachment!=GL_DEPTH_ATTACHMENT 
      && attachment!=GL_STENCIL_ATTACHMENT 
      && attachment!=GL_DEPTH_STENCIL_ATTACHMENT) {
@@ -552,7 +552,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
 
     SetAttachment(fb, attachment, textarget, tex?tex->texture:texture, level);
 
-    if(attachment>=GL_COLOR_ATTACHMENT0 && attachment<GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers && tex) {
+    if(attachment>=GL_COLOR_ATTACHMENT0 && attachment<(GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers) && tex) {
         int oldactive = glstate->texture.active;
         gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];
         GLuint oldtex = bound->glname;
@@ -838,13 +838,7 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
         return;
     }
 
-    // Ignore Color attachment 1 .. 9
-    if ((attachment>=GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers) && (attachment<GL_COLOR_ATTACHMENT15)) {
-        errorShim(GL_INVALID_ENUM);
-        return;
-    }
-
-    if( !(attachment>=GL_COLOR_ATTACHMENT0 && attachment<GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers)
+    if( !(attachment>=GL_COLOR_ATTACHMENT0 && attachment<(GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers))
      && attachment!=GL_DEPTH_ATTACHMENT 
      && attachment!=GL_STENCIL_ATTACHMENT 
      && attachment!=GL_DEPTH_STENCIL_ATTACHMENT) {
@@ -859,7 +853,7 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
         return;
     }
 
-    if (attachment >= GL_COLOR_ATTACHMENT0 && (attachment < GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers) && globals4es.fboforcetex) {
+    if (attachment >= GL_COLOR_ATTACHMENT0 && (attachment < (GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers)) && globals4es.fboforcetex) {
         if(rend->renderbuffer) {
             // drop the renderbuffer attachement and create a texture instead...
             int oldactive = glstate->texture.active;
@@ -1106,7 +1100,7 @@ void gl4es_glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachmen
         return;
     }
 
-    if( !(attachment>=GL_COLOR_ATTACHMENT0 && attachment<GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers)
+    if( !(attachment>=GL_COLOR_ATTACHMENT0 && attachment<(GL_COLOR_ATTACHMENT0+hardext.maxdrawbuffers))
      && attachment!=GL_DEPTH_ATTACHMENT 
      && attachment!=GL_STENCIL_ATTACHMENT 
      && attachment!=GL_DEPTH_STENCIL_ATTACHMENT) {
