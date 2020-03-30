@@ -2709,8 +2709,25 @@ void gl4es_glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,
         || (bound->format==glstate->fbo.current_fb->read_format && bound->type==glstate->fbo.current_fb->read_type));
 
     if (copytex) {
+        GLenum fmt;
+        switch(internalformat) {
+            case GL_ALPHA:
+            case GL_ALPHA8:
+                fmt = GL_ALPHA; break;
+            case GL_LUMINANCE:
+            case GL_LUMINANCE8:
+                fmt = GL_LUMINANCE; break;
+            case GL_LUMINANCE_ALPHA:
+            case GL_LUMINANCE8_ALPHA8:
+                fmt = GL_LUMINANCE_ALPHA; break;
+            case GL_RGB:
+            case 3:
+                fmt = GL_RGB; break;
+            default:
+                fmt = GL_RGBA;
+        }
         LOAD_GLES(glCopyTexImage2D);
-        gles_glCopyTexImage2D(target, level, GL_RGB, x, y, width, height, border);
+        gles_glCopyTexImage2D(target, level, fmt, x, y, width, height, border);
     } else {
         void* tmp = malloc(width*height*4);
         gl4es_glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
