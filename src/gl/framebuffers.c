@@ -482,9 +482,13 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 need_change += 2;
                 tex->type = GL_UNSIGNED_BYTE;
             }
+            if(tex->format==GL_BGRA && (globals4es.nobgra || !hardext.bgra8888)) {
+                if(need_change<2) need_change += 2;
+                tex->format = GL_RGBA;
+            }
             if(need_change) {
                 // check if POT size is asked
-                LOGD("Recreate a texture for a FBO (%s%s%s)\n", (need_change&1)?"POT":"", (need_change==3)?" & ":"", (need_change&2)?"Float":"");
+                LOGD("Recreate a texture for a FBO (%s%s%s)\n", (need_change&1)?"POT":"", (need_change==3)?" & ":"", (need_change&2)?"Format/Type":"");
                 if(need_change&1) {
                     twidth = tex->nwidth = npot(tex->nwidth);
                     theight = tex->nheight = npot(tex->nheight);
