@@ -1744,7 +1744,7 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                     break;
                 case GLX_X_VISUAL_TYPE:
                     tmp = attrib_list[i++];
-                    if(!(globals4es.usepbuffer || globals4es.usefb || globals4es.usefbo)) {
+                    if(!(globals4es.usepbuffer || globals4es.usefb || globals4es.usefbo || globals4es.glxnative)) {
                         attr[cur++] = EGL_NATIVE_VISUAL_TYPE;
                         attr[cur++] = tmp;
                     } // re-enabled, seems to be needed now on ODROID...

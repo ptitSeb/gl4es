@@ -613,6 +613,7 @@ void initialize_gl4es() {
     if(globals4es.glxrecycle) {
         SHUT_LOGD("glX Will try to recycle EGL Surface\n");
     }
+    env(LIBGL_GLXNATIVE, globals4es.glxnative, "Don't filter GLXConfig with GLX_X_NATIVE_TYPE");
 #endif
     char cwd[1024];
     if (getcwd(cwd, sizeof(cwd))!= NULL)
