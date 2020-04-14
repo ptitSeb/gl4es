@@ -11,7 +11,7 @@ PackRGBA order.
 
 ---
 
-Copyright (c) 2012, Matthäus G. "Anteru" Chajdas (http://anteru.net)
+Copyright (c) 2012, Matthï¿½us G. "Anteru" Chajdas (http://anteru.net)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in 
@@ -63,6 +63,7 @@ static uint32_t PackRGBA (uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 static void DecompressBlockDXT1Internal (const uint8_t* block,
 	uint32_t* output,
 	uint32_t outputStride,
+	int transparent0, int* simpleAlpha, int *complexAlpha,
 	const uint8_t* alphaValues)
 {
 	uint32_t temp, code;
@@ -116,7 +117,12 @@ static void DecompressBlockDXT1Internal (const uint8_t* block,
 					finalColor = PackRGBA((r0+2*r1)/3, (g0+2*g1)/3, (b0+2*b1)/3, alpha);
 					break;
 				}
-
+				if(transparent0 && finalColor==0xff000000)
+					finalColor = 0;
+				if((finalColor>>24)==0x0)
+					*simpleAlpha = 1;
+				if((finalColor>>24)<0xff)
+					*complexAlpha = 0;
 				output [j*outputStride + i] = finalColor;
 			}
 		}
@@ -163,6 +169,7 @@ uint32_t *image:				pointer to image where the decompressed pixel data should be
 */ 
 void DecompressBlockDXT1(uint32_t x, uint32_t y, uint32_t width,
 	const uint8_t* blockStorage,
+	int transparent0, int* simpleAlpha, int *complexAlpha,
 	uint32_t* image)
 {
 	static const uint8_t const_alpha [] = {
@@ -173,7 +180,7 @@ void DecompressBlockDXT1(uint32_t x, uint32_t y, uint32_t width,
 	};
 
 	DecompressBlockDXT1Internal (blockStorage,
-		image + x + (y * width), width, const_alpha);
+		image + x + (y * width), width, transparent0, simpleAlpha, complexAlpha, const_alpha);
 }
 
 /*
@@ -186,7 +193,9 @@ const uint8_t *blockStorage:	pointer to the block to decompress.
 uint32_t *image:				pointer to image where the decompressed pixel data should be stored.
 */ 
 void DecompressBlockDXT5(uint32_t x, uint32_t y, uint32_t width,
-	const uint8_t* blockStorage, uint32_t* image)
+	const uint8_t* blockStorage,
+	int transparent0, int* simpleAlpha, int *complexAlpha,
+	uint32_t* image)
 {
 	uint8_t alpha0, alpha1;
 	const uint8_t* bits;
@@ -278,6 +287,9 @@ void DecompressBlockDXT5(uint32_t x, uint32_t y, uint32_t width,
 				break;
 			}
 
+			if(finalAlpha==0) *simpleAlpha = 1;
+			if(finalAlpha<0xff) *complexAlpha = 1;
+
 			image [i + x + (width* (y+j))] = finalColor; 
 		}
 	}
@@ -294,6 +306,7 @@ uint32_t *image:				pointer to image where the decompressed pixel data should be
 */ 
 void DecompressBlockDXT3(uint32_t x, uint32_t y, uint32_t width,
 	const uint8_t* blockStorage,
+	int transparent0, int* simpleAlpha, int *complexAlpha,
 	uint32_t* image)
 {
 	int i;
@@ -312,7 +325,7 @@ void DecompressBlockDXT3(uint32_t x, uint32_t y, uint32_t width,
 	}
 
 	DecompressBlockDXT1Internal (blockStorage,
-		image + x + (y * width), width, alphaValues);
+		image + x + (y * width), width, transparent0, simpleAlpha, complexAlpha, alphaValues);
 }
 
 // Texture DXT1 / DXT5 compression
