@@ -35,6 +35,13 @@ void gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolea
     v->stride = stride;
     v->pointer = pointer;
     v->buffer = glstate->vao->vertex;
+    if( v->buffer ) {
+		v->real_buffer = v->buffer->real_buffer;
+		v->real_pointer = pointer;
+	} else {
+        v->real_buffer = 0;
+        v->real_pointer = 0;
+    }
 }
 void gl4es_glEnableVertexAttribArray(GLuint index) {
     DBG(printf("glEnableVertexAttrib(%d)\n", index);)
