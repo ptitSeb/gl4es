@@ -3,7 +3,7 @@
 GL4ES - OpenGL for GLES Hardware
 ====
 
-![gl4es build status](https://api.travis-ci.org/ptitSeb/gl4es.png "gl4es build status") [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=LU8Y2T62ZWFHU)
+![gl4es build status](https://api.travis-ci.org/ptitSeb/gl4es.png "gl4es build status")
 
 This is a library provide OpenGL 2.x functionality for GLES2.0 accelerated Hardware (and of course also support OpenGL 1.5 function, sometimes better then when using GLES 1.1 backend)
 There is also support for GLES 1.1 Hardware, emulating OpenGL 1.5, and some OpenGL 2.x+ extensions.
