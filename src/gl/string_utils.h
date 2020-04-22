@@ -1,7 +1,7 @@
 #ifndef _GL4ES_STRING_UTILS_H_
 #define _GL4ES_STRING_UTILS_H_
 
-const char* AllSeparators;
+extern const char* AllSeparators;
 
 int CountString(char* pBuffer, const char* S);
 char* ResizeIfNeeded(char* pBuffer, int *size, int addsize);

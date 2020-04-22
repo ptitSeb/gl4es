@@ -84,7 +84,7 @@ typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLC
 
 #include "../glx/hardext.h"
 extern void *(*gles_getProcAddress)(const char *name);
-void (*gl4es_getMainFBSize)(GLint* width, GLint* height);
+extern void (*gl4es_getMainFBSize)(GLint* width, GLint* height);
 void *proc_address(void *lib, const char *name);
 // will become references to dlopen'd gles and egl
 extern void *gles, *egl, *bcm_host, *vcos, *gbm, *drm;

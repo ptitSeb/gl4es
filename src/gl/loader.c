@@ -1,6 +1,6 @@
 #include "loader.h"
 
-
+void (*gl4es_getMainFBSize)(GLint* width, GLint* height);
 
 #if defined NO_LOADER
 
