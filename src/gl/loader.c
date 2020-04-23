@@ -1,6 +1,6 @@
 #include "loader.h"
 
-
+void (*gl4es_getMainFBSize)(GLint* width, GLint* height);
 
 #if defined NO_LOADER
 
@@ -169,7 +169,7 @@ void *proc_address(void *lib, const char *name) {
     return os4GetProcAddress(name);
 #elif defined __EMSCRIPTEN__
     void *emscripten_GetProcAddress(const char *name);
-    emscripten_GetProcAddress(name);
+    return emscripten_GetProcAddress(name);
 #elif defined __APPLE__
     // apple code seems to use RTLD_NEXT which is usually ((void*)-1)
     // remove if it not needed

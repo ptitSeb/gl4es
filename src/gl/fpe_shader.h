@@ -3,7 +3,7 @@
 
 #include "fpe.h"
 
-const char* fpeshader_signature;
+extern const char* fpeshader_signature;
 
 const char* const* fpe_VertexShader(fpe_state_t *state);
 const char* const* fpe_FragmentShader(fpe_state_t *state);
