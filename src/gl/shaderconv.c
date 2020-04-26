@@ -525,6 +525,127 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     newptr++;
   }
   Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FragDepth", (hardext.fragdepth)?"gl_FragDepthEXT":"fakeFragDepth");
+  // builtin attribs
+  if(isVertex) {
+      // check for builtin OpenGL attributes...
+      int n = sizeof(builtin_attrib)/sizeof(builtin_attrib_t);
+      for (int i=0; i<n; i++) {
+          if(strstr(Tmp, builtin_attrib[i].glname)) {
+              // ok, this attribute is used
+              // replace gl_name by _gl4es_ one
+              Tmp = InplaceReplace(Tmp, &tmpsize, builtin_attrib[i].glname, builtin_attrib[i].name);
+              // insert a declaration of it
+              char def[100];
+              sprintf(def, "attribute %s %s %s;\n", builtin_attrib[i].prec, builtin_attrib[i].type, builtin_attrib[i].name);
+              Tmp = InplaceInsert(GetLine(Tmp, headline++), def, Tmp, &tmpsize);
+          }
+      }
+  }
+  // builtin varying
+  int nvarying = 0;
+  if(strstr(Tmp, "gl_Color") || need->need_color) {
+    if(need->need_color<1) need->need_color = 1;
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_Color", (need->need_color==1)?"gl_FrontColor":"(gl_FrontFacing?gl_FrontColor:gl_BackColor)");
+  }
+  if(strstr(Tmp, "gl_FrontColor") || need->need_color) {
+    if(need->need_color<1) need->need_color = 1;
+    nvarying+=1;
+    Tmp = InplaceInsert(GetLine(Tmp, headline), gl4es_frontColorSource, Tmp, &tmpsize);
+    headline+=CountLine(gl4es_frontColorSource);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FrontColor", "_gl4es_FrontColor");
+  }
+  if(strstr(Tmp, "gl_BackColor") || (need->need_color==2)) {
+    need->need_color = 2;
+    nvarying+=1;
+    Tmp = InplaceInsert(GetLine(Tmp, headline), gl4es_backColorSource, Tmp, &tmpsize);
+    headline+=CountLine(gl4es_backColorSource);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_BackColor", "_gl4es_BackColor");
+  }
+  if(strstr(Tmp, "gl_SecondaryColor") || need->need_secondary) {
+    if(need->need_secondary<1) need->need_secondary = 1;
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_SecondaryColor", (need->need_secondary==1)?"gl_FrontSecondaryColor":"(gl_FrontFacing?gl_FrontSecondaryColor:gl_BackSecondaryColor)");
+  }
+  if(strstr(Tmp, "gl_FrontSecondaryColor") || need->need_secondary) {
+    if(need->need_secondary<1) need->need_secondary = 1;
+    nvarying+=1;
+    Tmp = InplaceInsert(GetLine(Tmp, headline), gl4es_frontSecondaryColorSource, Tmp, &tmpsize);
+    headline+=CountLine(gl4es_frontSecondaryColorSource);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FrontSecondaryColor", "_gl4es_FrontSecondaryColor");
+  }
+  if(strstr(Tmp, "gl_BackSecondaryColor") || (need->need_secondary==2)) {
+    need->need_secondary = 2;
+    nvarying+=1;
+    Tmp = InplaceInsert(GetLine(Tmp, headline), gl4es_backSecondaryColorSource, Tmp, &tmpsize);
+    headline+=CountLine(gl4es_backSecondaryColorSource);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_BackSecondaryColor", "_gl4es_BackSecondaryColor");
+  }
+  if(strstr(Tmp, "gl_FogFragCoord") || need->need_fogcoord) {
+    need->need_fogcoord = 1;
+    nvarying+=1;
+    Tmp = InplaceInsert(GetLine(Tmp, headline), gl4es_fogcoordSource, Tmp, &tmpsize);
+    headline+=CountLine(gl4es_fogcoordSource);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FogFragCoord", "_gl4es_FogFragCoord");
+  }
+  // Get the max_texunit and the calc notexarray
+  if(strstr(Tmp, "gl_TexCoord") || need->need_texcoord!=-1) {
+    int ntex = need->need_texcoord;
+    // Try to determine max gl_TexCoord used
+    char* p = Tmp;
+    int notexarray_ok = 1;
+    while((p=strstr(p, gl_TexCoordSource))) {
+      p+=strlen(gl_TexCoordSource);
+      if(*p>='0' && *p<='9') {
+        int n = (*p) - '0';
+        if(p[1]>='0' && p[1]<='9')
+          n = n*10 + (p[1] - '0');
+        if (ntex<n) ntex = n;
+      } else 
+        notexarray_ok=0;
+    }
+    // if failed to determine, take max...
+    if (ntex==-1) ntex = hardext.maxtex;
+    // check constraint, and switch to notexarray if needed
+    if (!notexarray && ntex+nvarying>hardext.maxvarying && !need->need_clean && notexarray_ok) {
+      notexarray = 1;
+      need->need_notexarray = 1;
+    }
+    // prefer notexarray...
+    if(!isVertex && notexarray_ok && !need->need_clean) {
+      notexarray = 1;
+      need->need_notexarray = 1;
+    }
+    // check constaints
+    if (!notexarray && ntex+nvarying>hardext.maxvarying) ntex = hardext.maxvarying - nvarying;
+    need->need_texcoord = ntex;
+    char d[100];
+    if(notexarray) {
+      for (int k=0; k<ntex+1; k++) {
+        char d2[100];
+        sprintf(d2, "gl_TexCoord[%d]", k);
+        if(strstr(Tmp, d2)) {
+          sprintf(d, gl4es_texcoordSourceAlt, k);
+          Tmp = InplaceInsert(GetLine(Tmp, headline), d, Tmp, &tmpsize);
+          headline+=CountLine(d);
+          sprintf(d, "_gl4es_TexCoord_%d", k);
+          Tmp = InplaceReplace(Tmp, &tmpsize, d2, d);
+        }
+        // check if texture is there
+        sprintf(d2, "_gl4es_TexCoord_%d", k);
+        if(strstr(Tmp, d2))
+          need->need_texs |= (1<<k);
+      }
+    } else {
+      sprintf(d, gl4es_texcoordSource, ntex+1);
+      Tmp = InplaceInsert(GetLine(Tmp, headline), d, Tmp, &tmpsize);
+      headline+=CountLine(d);
+      Tmp = InplaceReplace(Tmp, &tmpsize, "gl_TexCoord", "_gl4es_TexCoord");
+      // set textures as all ntex used
+      for (int k=0; k<ntex+1; k++)
+        need->need_texs |= (1<<k);
+    }
+  }
+
+  // builtin matrices work
   {
     // check for ftransform function
     if(isVertex) {
@@ -558,7 +679,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
       }
         
       // if failed to determine, take max...
-      if (ntex==-1) ntex = hardext.maxtex; else ++ntex;
+      if (ntex==-1) ntex = need->need_texcoord; else ++ntex;
       // change gl_TextureMatrix[X] to gl_TextureMatrix_X if notexrray
       if(notexarray) {
         for (int k=0; k<ntex+1; k++) {
@@ -627,41 +748,6 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
         ++p;
     }
   }*/
-  // checking "#extension" keyword, and clean up some...
-  /*{
-    char* p = strstr(Tmp, "#extension");  // should test this is #first character in the line
-    while(p) {
-      char *p2 = NextStr(StrNext(Tmp, "#extension"));
-      char *p3 = NextBlank(p2);
-      char keyw[50];
-      if(p3-p2<50) {
-        strncpy(keyw, p2, p3-p2);
-        // now, checking the keywords...
-        if(strcmp(keyw, "GL_ARB_draw_instanced")==0) {
-          // ok, this one is safe to ignore... Not even checking what state is asked
-          p3 = NextLine(p);
-          while (p!=p3) *(p++)=' '; // blank the line....
-        }
-      }
-      // all done
-      p = strstr(p+1, "#extension");
-    }
-  }*/ // done in preproc now
-  if(isVertex) {
-      // check for builtin OpenGL attributes...
-      int n = sizeof(builtin_attrib)/sizeof(builtin_attrib_t);
-      for (int i=0; i<n; i++) {
-          if(strstr(Tmp, builtin_attrib[i].glname)) {
-              // ok, this attribute is used
-              // replace gl_name by _gl4es_ one
-              Tmp = InplaceReplace(Tmp, &tmpsize, builtin_attrib[i].glname, builtin_attrib[i].name);
-              // insert a declaration of it
-              char def[100];
-              sprintf(def, "attribute %s %s %s;\n", builtin_attrib[i].prec, builtin_attrib[i].type, builtin_attrib[i].name);
-              Tmp = InplaceInsert(GetLine(Tmp, headline++), def, Tmp, &tmpsize);
-          }
-      }
-  }
   // cleaning up the "centroid" keyword...
   if(strstr(Tmp, "centroid"))
   {
@@ -815,108 +901,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     headline+=CountLine(gl4es_texgenobjSource[3]);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ObjectPlaneQ", "_gl4es_ObjectPlaneQ");
   }
-  // builtin varying
-  int nvarying = 0;
-  if(strstr(Tmp, "gl_Color") || need->need_color) {
-    if(need->need_color<1) need->need_color = 1;
-    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_Color", (need->need_color==1)?"gl_FrontColor":"(gl_FrontFacing?gl_FrontColor:gl_BackColor)");
-  }
-  if(strstr(Tmp, "gl_FrontColor") || need->need_color) {
-    if(need->need_color<1) need->need_color = 1;
-    nvarying+=1;
-    Tmp = InplaceInsert(GetLine(Tmp, headline), gl4es_frontColorSource, Tmp, &tmpsize);
-    headline+=CountLine(gl4es_frontColorSource);
-    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FrontColor", "_gl4es_FrontColor");
-  }
-  if(strstr(Tmp, "gl_BackColor") || (need->need_color==2)) {
-    need->need_color = 2;
-    nvarying+=1;
-    Tmp = InplaceInsert(GetLine(Tmp, headline), gl4es_backColorSource, Tmp, &tmpsize);
-    headline+=CountLine(gl4es_backColorSource);
-    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_BackColor", "_gl4es_BackColor");
-  }
-  if(strstr(Tmp, "gl_SecondaryColor") || need->need_secondary) {
-    if(need->need_secondary<1) need->need_secondary = 1;
-    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_SecondaryColor", (need->need_secondary==1)?"gl_FrontSecondaryColor":"(gl_FrontFacing?gl_FrontSecondaryColor:gl_BackSecondaryColor)");
-  }
-  if(strstr(Tmp, "gl_FrontSecondaryColor") || need->need_secondary) {
-    if(need->need_secondary<1) need->need_secondary = 1;
-    nvarying+=1;
-    Tmp = InplaceInsert(GetLine(Tmp, headline), gl4es_frontSecondaryColorSource, Tmp, &tmpsize);
-    headline+=CountLine(gl4es_frontSecondaryColorSource);
-    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FrontSecondaryColor", "_gl4es_FrontSecondaryColor");
-  }
-  if(strstr(Tmp, "gl_BackSecondaryColor") || (need->need_secondary==2)) {
-    need->need_secondary = 2;
-    nvarying+=1;
-    Tmp = InplaceInsert(GetLine(Tmp, headline), gl4es_backSecondaryColorSource, Tmp, &tmpsize);
-    headline+=CountLine(gl4es_backSecondaryColorSource);
-    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_BackSecondaryColor", "_gl4es_BackSecondaryColor");
-  }
-  if(strstr(Tmp, "gl_FogFragCoord") || need->need_fogcoord) {
-    need->need_fogcoord = 1;
-    nvarying+=1;
-    Tmp = InplaceInsert(GetLine(Tmp, headline), gl4es_fogcoordSource, Tmp, &tmpsize);
-    headline+=CountLine(gl4es_fogcoordSource);
-    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FogFragCoord", "_gl4es_FogFragCoord");
-  }
-  if(strstr(Tmp, "gl_TexCoord") || need->need_texcoord!=-1) {
-    int ntex = need->need_texcoord;
-    // Try to determine max gl_TexCoord used
-    char* p = Tmp;
-    int notexarray_ok = 1;
-    while((p=strstr(p, gl_TexCoordSource))) {
-      p+=strlen(gl_TexCoordSource);
-      if(*p>='0' && *p<='9') {
-        int n = (*p) - '0';
-        if(p[1]>='0' && p[1]<='9')
-          n = n*10 + (p[1] - '0');
-        if (ntex<n) ntex = n;
-      } else 
-        notexarray_ok=0;
-    }
-    // if failed to determine, take max...
-    if (ntex==-1) ntex = hardext.maxtex;
-    // check constraint, and switch to notexarray if needed
-    if (!notexarray && ntex+nvarying>hardext.maxvarying && !need->need_clean && notexarray_ok) {
-      notexarray = 1;
-      need->need_notexarray = 1;
-    }
-    // prefer notexarray...
-    if(!isVertex && notexarray_ok && !need->need_clean) {
-      notexarray = 1;
-      need->need_notexarray = 1;
-    }
-    // check constaints
-    if (!notexarray && ntex+nvarying>hardext.maxvarying) ntex = hardext.maxvarying - nvarying;
-    need->need_texcoord = ntex;
-    char d[100];
-    if(notexarray) {
-      for (int k=0; k<ntex+1; k++) {
-        char d2[100];
-        sprintf(d2, "gl_TexCoord[%d]", k);
-        if(strstr(Tmp, d2)) {
-          sprintf(d, gl4es_texcoordSourceAlt, k);
-          Tmp = InplaceInsert(GetLine(Tmp, headline), d, Tmp, &tmpsize);
-          headline+=CountLine(d);
-          sprintf(d, "_gl4es_TexCoord_%d", k);
-          Tmp = InplaceReplace(Tmp, &tmpsize, d2, d);
-        }
-        // check if texture is there
-        sprintf(d2, "_gl4es_TexCoord_%d", k);
-        if(strstr(Tmp, d2))
-          need->need_texs |= (1<<k);
-      }
-    } else {
-      sprintf(d, gl4es_texcoordSource, ntex+1);
-      Tmp = InplaceInsert(GetLine(Tmp, headline), d, Tmp, &tmpsize);
-      headline+=CountLine(d);
-      Tmp = InplaceReplace(Tmp, &tmpsize, "gl_TexCoord", "_gl4es_TexCoord");
-      // set textures as all ntex used
-      for (int k=0; k<ntex+1; k++)
-        need->need_texs |= (1<<k);
-    }
-  }
+
   if(strstr(Tmp, "gl_MaxTextureUnits")) {
     Tmp = InplaceInsert(GetLine(Tmp, 2), gl4es_MaxTextureUnitsSource, Tmp, &tmpsize);
     headline+=CountLine(gl4es_MaxTextureUnitsSource);
@@ -970,10 +955,15 @@ int isBuiltinMatrix(const char* name) {
     for (int i=0; i<n && ret==-1; i++) {
         if (strncmp(builtin_matrix[i].name, name, strlen(builtin_matrix[i].name))==0) {
             int l=strlen(builtin_matrix[i].name);
-            if(strlen(name)==l || (strlen(name)==l+3 && name[l]=='[' && builtin_matrix[i].texarray)) {
+            if(strlen(name)==l 
+            || (strlen(name)==l+3 && name[l]=='[' && builtin_matrix[i].texarray)
+            || (strlen(name)==l+4 && name[l]=='[' && builtin_matrix[i].texarray)
+            ) {
                 ret=builtin_matrix[i].matrix;
                 if(builtin_matrix[i].texarray) {
                     int n = name[l+1] - '0';
+                    if(name[l+2]>='0' && name[l+2]<='9')
+                      n = n*10 + name[l+2]-'0';
                     ret+=n*4;
                 }
             }
