@@ -2911,6 +2911,19 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
             if(srgb)
                 pixel_srgb_inplace(pixels, width, height);
             // automaticaly reduce the pixel size
+            if(type!=GL_UNSIGNED_BYTE) {
+                // packed, recheck status of alpha & complex alpha...
+                if(simpleAlpha && !complexAlpha) {
+                    format = GL_RGBA;
+                    type = GL_UNSIGNED_SHORT_5_5_5_1;
+                } else if(complexAlpha) {
+                    format = GL_RGBA;
+                    type = GL_UNSIGNED_SHORT_4_4_4_4;
+                } else {
+                    format = GL_RGB;
+                    type = GL_UNSIGNED_SHORT_5_6_5;
+                }
+            }
             half=pixels;
             if(!globals4es.nodownsampling && !globals4es.avoid16bits) {
                 if (!pixel_convert(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0, glstate->texture.unpack_align)) {
@@ -2923,19 +2936,6 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
         gl4es_glGetIntegerv(GL_UNPACK_ALIGNMENT, &oldalign);
         if (oldalign!=1) 
             gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        if(type!=GL_UNSIGNED_BYTE) {
-            // packed, recheck status of alpha & complex alpha...
-            if(simpleAlpha && !complexAlpha) {
-                format = GL_RGBA;
-                type = GL_UNSIGNED_SHORT_5_5_5_1;
-            } else if(complexAlpha) {
-                format = GL_RGBA;
-                type = GL_UNSIGNED_SHORT_4_4_4_4;
-            } else {
-                format = GL_RGB;
-                type = GL_UNSIGNED_SHORT_5_6_5;
-            }
-        }
         gl4es_glTexImage2D(rtarget, level, (simpleAlpha||complexAlpha)?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB, width, height, border, format, type, half);
         // re-update bounded texture info
         bound->alpha = (simpleAlpha||complexAlpha)?1:0;
