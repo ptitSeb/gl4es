@@ -277,9 +277,6 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_AUX_BUFFERS:
             *params = 0;
             break;
-        case GL_MAX_DRAW_BUFFERS_ARB:   // fake...
-            *params = 1;
-            break;
         case GL_MAX_TEXTURE_UNITS:
             *params = hardext.maxtex;
             break;
@@ -446,6 +443,12 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
                 errorShim(GL_INVALID_ENUM);
             break;
         case GL_MAX_COLOR_ATTACHMENTS:
+            if(hardext.fbo)
+                *params=hardext.maxcolorattach;
+            else
+                *params=0;
+            break;
+        case GL_MAX_DRAW_BUFFERS_ARB:
             if(hardext.fbo)
                 *params=hardext.maxdrawbuffers;
             else

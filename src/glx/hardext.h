@@ -45,7 +45,8 @@ typedef struct _hardext {
     int maxvattrib;     // GL_MAX_VERTEX_ATTRIBS (or 0 if not using es2)
     int maxteximage;    // GL_MAX_TEXTURE_IMAGE_UNITS for es2
     int maxvarying;     // GL_MAX_VARYING_VECTORS for es2
-    int maxdrawbuffers; // GL_MAX_COLOR_ATTACHMENTS_EXT or 1 if GL_EXT_draw_buffers not supported
+    int maxcolorattach; // GL_MAX_COLOR_ATTACHMENTS_EXT or 1 if GL_EXT_draw_buffers not supported
+    int maxdrawbuffers; // GL_MAX_DRAW_BUFFERS_EXT or 1 if GL_EXT_draw_buffers not supported
     int highp;          // GL_OES_fragment_precision_high
     int fragdepth;      // GL_EXT_frag_depth
     int derivatives;    // GL_OES_standard_derivatives

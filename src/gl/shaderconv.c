@@ -447,7 +447,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     headline++;
   }
   // check if draw_buffers may be used (no fallback here :( )
-  if(hardext.drawbuffers==1 && strstr(pBuffer, "gl_FragData[")) {
+  if(hardext.maxdrawbuffers>1 && strstr(pBuffer, "gl_FragData[")) {
     Tmp = InplaceInsert(GetLine(Tmp, 1), useEXTDrawBuffers, Tmp, &tmpsize);
   }
   // if some functions are used, add some int/float alternative
