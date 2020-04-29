@@ -208,8 +208,8 @@ Merge of subsequent glBegin/glEnd blocks (will be non-effective if BATCH mode is
 
 ##### LIBGL_AVOID16BITS
 Try to avoid 16bits textures
- * 0 : Default, use 16bits texture if it can avoid a convertion or for DXTc textures
- * 1 : Use 32bits texture unless specifically requested (using internalformat)
+ * 0 : Default on ImgTec hardware, use 16bits texture if it can avoid a convertion or for DXTc textures
+ * 1 : Default on all other hardware, Use 32bits texture unless specifically requested (using internalformat)
 
 ##### LIBGL_AVOID24BITS
 Try to avoid 24bits textures (i.e. GL_RGB)
