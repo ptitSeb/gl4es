@@ -91,6 +91,9 @@ typedef struct glstate_s {
     depth_state_t       depth;
     face_state_t        face;
     GLint               instanceID;
+    GLint               proxy_width;
+    GLint               proxy_height;
+    GLint               proxy_intformat;
     // scratch array
     int                 scratch_alloc;
     void*               scratch;

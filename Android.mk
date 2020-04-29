@@ -68,6 +68,10 @@ LOCAL_SRC_FILES := \
 	src/gl/texenv.c \
 	src/gl/texgen.c \
 	src/gl/texture.c \
+	src/gl/texture_compressed.c \
+	src/gl/texture_params.c \
+	src/gl/texture_read.c \
+	src/gl/texture_3d.c \
 	src/gl/uniform.c \
 	src/gl/vertexattrib.c \
 	src/gl/wrap/gl4eswraps.c \

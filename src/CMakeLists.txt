@@ -55,6 +55,10 @@ SET(GL_SRC
     gl/texenv.c
     gl/texgen.c
     gl/texture.c
+    gl/texture_compressed.c
+    gl/texture_params.c
+    gl/texture_read.c
+    gl/texture_3d.c
     gl/uniform.c
     gl/vertexattrib.c
 	gl/wrap/gl4eswraps.c
