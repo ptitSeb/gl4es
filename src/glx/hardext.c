@@ -178,7 +178,7 @@ void GetHardwareExtensions(int notest)
     egl_eglChooseConfig(eglDisplay, configAttribs, pbufConfigs, 1, &configsFound);
 #ifndef NO_GBM
     const char* eglExts = egl_eglQueryString(EGL_NO_DISPLAY, EGL_EXTENSIONS);
-    if(eglExts && strstr(eglExts, "EGL_KHR_platform_gbm")) {
+    if(eglExts && strstr(eglExts, "EGL_KHR_platform_gbm ")) {
         SHUT_LOGD("GBM Surfaces supported%s\n", globals4es.usegbm?" and used":"");
         hardext.gbm = 1;
     }
@@ -222,14 +222,14 @@ void GetHardwareExtensions(int notest)
     // Parse them!
     #define S(A, B, C) if(strstr(Exts, A)) { hardext.B = 1; SHUT_LOGD("Extension %s detected%s",A, C?" and used\n":"\n"); } 
     if(hardext.esversion>1) hardext.npot = 1;
-    if(strstr(Exts, "GL_APPLE_texture_2D_limited_npot")) hardext.npot = 1;
-    if(strstr(Exts, "GL_IMG_texture_npot")) hardext.npot = 1; // it should enable mipmap (so hardext.npot=2), but mipmap (so level > 0) needs to be POT-sized?!!
-    if(strstr(Exts, "GL_ARB_texture_non_power_of_two") || strstr(Exts, "GL_OES_texture_npot")) hardext.npot = 3;
+    if(strstr(Exts, "GL_APPLE_texture_2D_limited_npot ")) hardext.npot = 1;
+    if(strstr(Exts, "GL_IMG_texture_npot ")) hardext.npot = 1; // it should enable mipmap (so hardext.npot=2), but mipmap (so level > 0) needs to be POT-sized?!!
+    if(strstr(Exts, "GL_ARB_texture_non_power_of_two ") || strstr(Exts, "GL_OES_texture_npot ")) hardext.npot = 3;
     if(hardext.npot>0) {
         SHUT_LOGD("Hardware %s NPOT detected and used\n", hardext.npot==3?"Full":(hardext.npot==2?"Limited+Mipmap":"Limited"));
     }
-    S("GL_EXT_blend_minmax", blendminmax, 1);
-    S("GL_EXT_draw_buffers", drawbuffers, 1);
+    S("GL_EXT_blend_minmax ", blendminmax, 1);
+    S("GL_EXT_draw_buffers ", drawbuffers, 1);
     /*if(hardext.blendcolor==0) {
         // try by just loading the function
         LOAD_GLES_OR_OES(glBlendColor);
@@ -239,15 +239,15 @@ void GetHardwareExtensions(int notest)
 	    }
     }*/ // I don't think this is correct
     if(hardext.esversion<2) {
-        S("GL_OES_framebuffer_object", fbo, 1);
-        S("GL_OES_point_sprite", pointsprite, 1); 
-        S("GL_OES_point_size_array", pointsize, 0);
-        S("GL_OES_texture_cube_map", cubemap, 1);
-        S("GL_EXT_blend_color", blendcolor, 1);
-        S("GL_OES_blend_subtract", blendsub, 1);
-        S("GL_OES_blend_func_separate", blendfunc, 1);
-        S("GL_OES_blend_equation_separate", blendeq, 1);
-        S("GL_OES_texture_mirrored_repeat", mirrored, 1);  
+        S("GL_OES_framebuffer_object ", fbo, 1);
+        S("GL_OES_point_sprite ", pointsprite, 1); 
+        S("GL_OES_point_size_array ", pointsize, 0);
+        S("GL_OES_texture_cube_map ", cubemap, 1);
+        S("GL_EXT_blend_color ", blendcolor, 1);
+        S("GL_OES_blend_subtract ", blendsub, 1);
+        S("GL_OES_blend_func_separate ", blendfunc, 1);
+        S("GL_OES_blend_equation_separate ", blendeq, 1);
+        S("GL_OES_texture_mirrored_repeat ", mirrored, 1);  
     } else {
         hardext.fbo = 1; 
         SHUT_LOGD("FBO are in core, and so used\n");
@@ -266,31 +266,31 @@ void GetHardwareExtensions(int notest)
         SHUT_LOGD("Texture Mirrored Repeat is in core, and so used\n");
         hardext.mirrored = 1;
     }
-    S("GL_OES_mapbuffer", mapbuffer, 0);
-    S("GL_OES_element_index_uint", elementuint, 1);
-    S("GL_OES_packed_depth_stencil", depthstencil, 1);
-    S("GL_OES_depth24", depth24, 1);
-    S("GL_OES_rgb8_rgba8", rgba8, 1);
-    S("GL_EXT_multi_draw_arrays", multidraw, 0);
+    S("GL_OES_mapbuffer ", mapbuffer, 0);
+    S("GL_OES_element_index_uint ", elementuint, 1);
+    S("GL_OES_packed_depth_stencil ", depthstencil, 1);
+    S("GL_OES_depth24 ", depth24, 1);
+    S("GL_OES_rgb8_rgba8 ", rgba8, 1);
+    S("GL_EXT_multi_draw_arrays ", multidraw, 0);
     if(!globals4es.nobgra) {
-        S("GL_EXT_texture_format_BGRA8888", bgra8888, 1);
+        S("GL_EXT_texture_format_BGRA8888 ", bgra8888, 1);
     }
     if(!globals4es.nodepthtex) {
-        S("GL_OES_depth_texture", depthtex, 1);
-        S("GL_OES_texture_stencil8", stenciltex, 1);
+        S("GL_OES_depth_texture ", depthtex, 1);
+        S("GL_OES_texture_stencil8 ", stenciltex, 1);
     }
-    S("GL_OES_draw_texture", drawtex, 1);
-    S("GL_EXT_texture_rg", rgtex, 1);
+    S("GL_OES_draw_texture ", drawtex, 1);
+    S("GL_EXT_texture_rg ", rgtex, 1);
     if(globals4es.floattex) {
-        S("GL_OES_texture_float", floattex, 1);
-        S("GL_OES_texture_half_float", halffloattex, 1);
-        S("GL_EXT_color_buffer_float", floatfbo, 1);
-        S("GL_EXT_color_buffer_half_float", halffloatfbo, 1);
+        S("GL_OES_texture_float ", floattex, 1);
+        S("GL_OES_texture_half_float ", halffloattex, 1);
+        S("GL_EXT_color_buffer_float ", floatfbo, 1);
+        S("GL_EXT_color_buffer_half_float ", halffloatfbo, 1);
     }
 
     if (hardext.esversion>1) {
         if(!globals4es.nohighp) {
-            S("GL_OES_fragment_precision_high", highp, 1);
+            S("GL_OES_fragment_precision_high ", highp, 1);
             if(!hardext.highp) {
                 // check if highp is supported anyway
                 LOAD_GLES2(glGetShaderPrecisionFormat);
@@ -305,11 +305,11 @@ void GetHardwareExtensions(int notest)
                 }
             }
         }
-        S("GL_EXT_frag_depth", fragdepth, 1);
+        S("GL_EXT_frag_depth ", fragdepth, 1);
         gles_glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &hardext.maxvattrib);
         SHUT_LOGD("Max vertex attrib: %d\n", hardext.maxvattrib);
-        S("GL_OES_standard_derivatives", derivatives, 1);
-        S("GL_OES_get_program", prgbinary, 1);
+        S("GL_OES_standard_derivatives ", derivatives, 1);
+        S("GL_OES_get_program ", prgbinary, 1);
         if(hardext.prgbinary) {
             gles_glGetIntegerv(GL_NUM_PROGRAM_BINARY_FORMATS_OES, &hardext.prgbin_n);
             SHUT_LOGD("Number of supported Program Binary Format: %d\n", hardext.prgbin_n);
@@ -339,7 +339,7 @@ void GetHardwareExtensions(int notest)
     if(hardext.maxlights>MAX_LIGHT) hardext.maxlights=MAX_LIGHT;                // caping lights too
     if(hardext.maxplanes>MAX_CLIP_PLANES) hardext.maxplanes=MAX_CLIP_PLANES;    // caping planes, even 6 should be the max supported anyway
     SHUT_LOGD("Texture Units: %d/%d (hardware: %d), Max lights: %d, Max planes: %d\n", hardext.maxtex, hardext.maxteximage, hardmaxtex, hardext.maxlights, hardext.maxplanes);
-    S("GL_EXT_texture_filter_anisotropic", aniso, 1);
+    S("GL_EXT_texture_filter_anisotropic ", aniso, 1);
     if(hardext.aniso) {
         gles_glGetIntegerv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &hardext.aniso);
         if(gles_glGetError()!=GL_NO_ERROR)
