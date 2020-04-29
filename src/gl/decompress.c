@@ -122,7 +122,7 @@ static void DecompressBlockDXT1Internal (const uint8_t* block,
 				if((finalColor>>24)==0x0)
 					*simpleAlpha = 1;
 				if((finalColor>>24)<0xff)
-					*complexAlpha = 0;
+					*complexAlpha = 1;
 				output [j*outputStride + i] = finalColor;
 			}
 		}
