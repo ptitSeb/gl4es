@@ -1689,71 +1689,6 @@ void gl4es_glTexSubImage1D(GLenum target, GLint level, GLint xoffset,
                     width, 1, format, type, data);
 }
 
-void gl4es_glPixelStorei(GLenum pname, GLint param) {
-    DBG(printf("glPixelStorei(%s, %d)\n", PrintEnum(pname), param);)
-    // TODO: add to glGetIntegerv?
-
-    LOAD_GLES(glPixelStorei);
-    noerrorShim();
-    switch (pname) {
-        case GL_UNPACK_ROW_LENGTH:
-            glstate->texture.unpack_row_length = param;
-            return;
-        case GL_UNPACK_SKIP_PIXELS:
-            glstate->texture.unpack_skip_pixels = param;
-            return;
-        case GL_UNPACK_SKIP_ROWS:
-            glstate->texture.unpack_skip_rows = param;
-            return;
-        case GL_UNPACK_LSB_FIRST:
-            glstate->texture.unpack_lsb_first = param;
-            return;
-        case GL_UNPACK_IMAGE_HEIGHT:
-            glstate->texture.unpack_image_height = param;
-            return;
-        case GL_UNPACK_SWAP_BYTES:
-        case GL_PACK_SWAP_BYTES:
-            // Fake... TODO?
-            //glstate->texture.unpack_lsb_first = param;
-            return;
-        case GL_PACK_ROW_LENGTH:
-            glstate->texture.pack_row_length = param;
-            return;
-        case GL_PACK_SKIP_PIXELS:
-            glstate->texture.pack_skip_pixels = param;
-            return;
-        case GL_PACK_SKIP_ROWS:
-            glstate->texture.pack_skip_rows = param;
-            return;
-        case GL_PACK_LSB_FIRST:
-            glstate->texture.pack_lsb_first = param;
-            return;
-        case GL_PACK_IMAGE_HEIGHT:
-            glstate->texture.pack_image_height = param;
-            return;
-        case GL_PACK_ALIGNMENT:
-            if(glstate->texture.pack_align==param)
-                return;
-            if (param!=1 && param!=2 && param!=4 && param!=8) {
-                errorShim(GL_INVALID_VALUE);
-                return;
-            }
-            glstate->texture.pack_align=param;
-            break;
-        case GL_UNPACK_ALIGNMENT:
-            if(glstate->texture.unpack_align==param)
-                return;
-            if (param!=1 && param!=2 && param!=4 && param!=8) {
-                errorShim(GL_INVALID_VALUE);
-                return;
-            }
-            glstate->texture.unpack_align=param;
-            break;
-    }
-    errorGL();
-    gles_glPixelStorei(pname, param);
-}
-
 GLboolean gl4es_glIsTexture(GLuint texture) {
     DBG(printf("glIsTexture(%d):", texture);)
     if(!glstate) {DBG(printf("GL_FALSE\n");) return GL_FALSE;}
@@ -1788,7 +1723,18 @@ void gl4es_glTexStorage2D(GLenum target, GLsizei levels, GLenum internalformat, 
 {
     // (could be implemented in GLES3.0)
     DBG(printf("glTexStorage2D(%s, %d, %s, %d, %d)\n", PrintEnum(target), levels, PrintEnum(internalformat), width, height);)
-    gl4es_glTexImage2D(target, 0, internalformat, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    if((internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_S3TC_DXT1_EXT) 
+     && !globals4es.avoid16bits)
+        gl4es_glTexImage2D(target, 0, internalformat, width, height, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, NULL);
+    else if(((internalformat==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT)) 
+     && !globals4es.avoid16bits)
+        gl4es_glTexImage2D(target, 0, internalformat, width, height, 0, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1, NULL);
+    else if((internalformat==GL_COMPRESSED_RGBA_S3TC_DXT3_EXT || internalformat==GL_COMPRESSED_RGBA_S3TC_DXT5_EXT 
+          || internalformat==GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT || internalformat==GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT) 
+     && !globals4es.avoid16bits)
+        gl4es_glTexImage2D(target, 0, internalformat, width, height, 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, NULL);
+    else
+        gl4es_glTexImage2D(target, 0, internalformat, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 }
 
 
@@ -1798,7 +1744,6 @@ void glTexImage1D(GLenum target, GLint level, GLint internalFormat, GLsizei widt
 void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *data) AliasExport("gl4es_glTexSubImage2D");
 void glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid *data) AliasExport("gl4es_glTexSubImage1D");
 GLboolean glIsTexture( GLuint texture ) AliasExport("gl4es_glIsTexture");
-void glPixelStorei(GLenum pname, GLint param) AliasExport("gl4es_glPixelStorei");
 
 // TexStorage
 void glTexStorage1D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width) AliasExport("gl4es_glTexStorage1D");

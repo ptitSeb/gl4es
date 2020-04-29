@@ -117,11 +117,11 @@ static void DecompressBlockDXT1Internal (const uint8_t* block,
 					finalColor = PackRGBA((r0+2*r1)/3, (g0+2*g1)/3, (b0+2*b1)/3, alpha);
 					break;
 				}
-				if(transparent0 && finalColor==0xff000000)
+				if(transparent0 && (finalColor==0xff000000))
 					finalColor = 0;
-				if((finalColor>>24)==0x0)
+				if(alpha==0x0)
 					*simpleAlpha = 1;
-				if((finalColor>>24)<0xff)
+				else if(alpha<0xff)
 					*complexAlpha = 1;
 				output [j*outputStride + i] = finalColor;
 			}
@@ -151,6 +151,13 @@ static void DecompressBlockDXT1Internal (const uint8_t* block,
 					finalColor = PackRGBA(0, 0, 0, alpha);
 					break;
 				}
+
+				if(transparent0 && (finalColor==0xff000000))
+					finalColor = 0;
+				if(alpha==0x0)
+					*simpleAlpha = 1;
+				else if(alpha<0xff)
+					*complexAlpha = 1;
 
 				output [j*outputStride + i] = finalColor;
 			}
@@ -288,7 +295,7 @@ void DecompressBlockDXT5(uint32_t x, uint32_t y, uint32_t width,
 			}
 
 			if(finalAlpha==0) *simpleAlpha = 1;
-			if(finalAlpha<0xff) *complexAlpha = 1;
+			else if(finalAlpha<0xff) *complexAlpha = 1;
 
 			image [i + x + (width* (y+j))] = finalColor; 
 		}

@@ -164,7 +164,7 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
     if (isDXTc(internalformat)) {
         GLvoid *pixels, *half;
         pixels = half = NULL;
-        bound->alpha = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_S3TC_DXT1_EXT)?false:true;
+        bound->alpha = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_S3TC_DXT1_EXT)?0:1;
         if(globals4es.nodownsampling==1) {  // will be removed soon, avoid16bits is better
             format = GL_RGBA;
             type = GL_UNSIGNED_BYTE;
@@ -186,7 +186,7 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
         int complexAlpha = 0;
         int transparent0 = (internalformat==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT)?1:0;
         if (datab) {
-            if (width<4 || height<4) {	// can happens :(
+            if ((width&3) || (height&3)) {	// can happens :(
                 GLvoid *tmp;
                 GLsizei nw=width;
                 GLsizei nh=height;
@@ -211,7 +211,7 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
                     if(simpleAlpha && !complexAlpha) {
                         format = GL_RGBA;
                         type = GL_UNSIGNED_SHORT_5_5_5_1;
-                    } else if(complexAlpha) {
+                    } else if(complexAlpha || simpleAlpha) {
                         format = GL_RGBA;
                         type = GL_UNSIGNED_SHORT_4_4_4_4;
                     } else {
@@ -229,11 +229,10 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
         gl4es_glGetIntegerv(GL_UNPACK_ALIGNMENT, &oldalign);
         if (oldalign!=1) 
             gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        gl4es_glTexImage2D(rtarget, level, (simpleAlpha||complexAlpha)?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB, width, height, border, format, type, half);
-        // re-update bounded texture info
+        DBG(printf(" => internalformat=%s (Alpha=%d/%d), %dx%d %s/%s\n\n", PrintEnum((simpleAlpha||complexAlpha)?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB), simpleAlpha, complexAlpha, width, height, PrintEnum(format), PrintEnum(type));)
+        gl4es_glTexImage2D(target, level, (simpleAlpha||complexAlpha)?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB, width, height, border, format, type, half);
+        // re-update bounded texture info, but not format and type
         bound->alpha = (simpleAlpha||complexAlpha)?1:0;
-        bound->format = format;
-        bound->type = type;
         bound->compressed = true;
         bound->internalformat = internalformat;
         bound->valid = 1;
@@ -290,7 +289,7 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
     if (isDXTc(format)) {
         int srgb = isDXTcSRGB(format);
         GLvoid *pixels;
-        if (width<4 || height<4) {	// can happens :(
+        if ((width&3) || (height&3)) {	// can happens :(
             GLvoid *tmp;
             GLsizei nw=width;
             GLsizei nh=height;
@@ -316,10 +315,8 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
         gl4es_glTexSubImage2D(target, level, xoffset/2, yoffset/2, width/2, height/2, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, half);
         if (oldalign!=1) gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, oldalign);
         #else
-        GLenum format = bound->format;
-        GLenum type = bound->type;
-        pixel_convert(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0, glstate->texture.unpack_align);
-        gl4es_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, half);
+        DBG(printf(" [%d] => (Alpha=%d/%d), %dx%d %s/%s\n\n", bound->glname, simpleAlpha, complexAlpha, width, height, PrintEnum(bound->format), PrintEnum(bound->type));)
+        gl4es_glTexSubImage2D(target, level, xoffset, yoffset, width, height, GL_RGBA, GL_UNSIGNED_BYTE, half);
         #endif
         if (half!=pixels)
             free(half);

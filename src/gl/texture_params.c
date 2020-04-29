@@ -699,6 +699,71 @@ void gl4es_glClientActiveTexture( GLenum texture ) {
     errorGL();
 }
 
+void gl4es_glPixelStorei(GLenum pname, GLint param) {
+    DBG(printf("glPixelStorei(%s, %d)\n", PrintEnum(pname), param);)
+    // TODO: add to glGetIntegerv?
+
+    LOAD_GLES(glPixelStorei);
+    noerrorShim();
+    switch (pname) {
+        case GL_UNPACK_ROW_LENGTH:
+            glstate->texture.unpack_row_length = param;
+            return;
+        case GL_UNPACK_SKIP_PIXELS:
+            glstate->texture.unpack_skip_pixels = param;
+            return;
+        case GL_UNPACK_SKIP_ROWS:
+            glstate->texture.unpack_skip_rows = param;
+            return;
+        case GL_UNPACK_LSB_FIRST:
+            glstate->texture.unpack_lsb_first = param;
+            return;
+        case GL_UNPACK_IMAGE_HEIGHT:
+            glstate->texture.unpack_image_height = param;
+            return;
+        case GL_UNPACK_SWAP_BYTES:
+        case GL_PACK_SWAP_BYTES:
+            // Fake... TODO?
+            //glstate->texture.unpack_lsb_first = param;
+            return;
+        case GL_PACK_ROW_LENGTH:
+            glstate->texture.pack_row_length = param;
+            return;
+        case GL_PACK_SKIP_PIXELS:
+            glstate->texture.pack_skip_pixels = param;
+            return;
+        case GL_PACK_SKIP_ROWS:
+            glstate->texture.pack_skip_rows = param;
+            return;
+        case GL_PACK_LSB_FIRST:
+            glstate->texture.pack_lsb_first = param;
+            return;
+        case GL_PACK_IMAGE_HEIGHT:
+            glstate->texture.pack_image_height = param;
+            return;
+        case GL_PACK_ALIGNMENT:
+            if(glstate->texture.pack_align==param)
+                return;
+            if (param!=1 && param!=2 && param!=4 && param!=8) {
+                errorShim(GL_INVALID_VALUE);
+                return;
+            }
+            glstate->texture.pack_align=param;
+            break;
+        case GL_UNPACK_ALIGNMENT:
+            if(glstate->texture.unpack_align==param)
+                return;
+            if (param!=1 && param!=2 && param!=4 && param!=8) {
+                errorShim(GL_INVALID_VALUE);
+                return;
+            }
+            glstate->texture.unpack_align=param;
+            break;
+    }
+    errorGL();
+    gles_glPixelStorei(pname, param);
+}
+
 // bind the correct texture on Tex2D or TEXCUBE mapper...
 void realize_bound(int TMU, GLenum target) {
     realize_active();
@@ -839,6 +904,7 @@ void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *p
 GLboolean glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *residences) AliasExport("gl4es_glAreTexturesResident");
 void glActiveTexture( GLenum texture ) AliasExport("gl4es_glActiveTexture");
 void glClientActiveTexture( GLenum texture ) AliasExport("gl4es_glClientActiveTexture");
+void glPixelStorei(GLenum pname, GLint param) AliasExport("gl4es_glPixelStorei");
 
 //ARB mapper
 void glActiveTextureARB(GLenum texture) AliasExport("gl4es_glActiveTexture");
