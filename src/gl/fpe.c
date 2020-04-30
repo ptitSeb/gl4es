@@ -139,7 +139,6 @@ void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
             dest->texture[i].texadjust = 0;
             dest->texture[i].textype = 0;
         }
-        dest->plane = 0;   // Should handled this?
         dest->colorsum = 0;
         dest->normalize = 0;
         dest->rescaling = 0;

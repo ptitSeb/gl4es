@@ -1336,12 +1336,45 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
 
 const char* const* fpe_CustomVertexShader(const char* initial, fpe_state_t* state)
 {
+    int planes = state->plane;
+    char buff[1024];
     if(!shad_cap) shad_cap = 1024;
     if(!shad) shad = (char*)malloc(shad_cap);
-    // nothing here yet...
+    int headline = 3; // version and 2 precision lines
 
     strcpy(shad, "");
     ShadAppend(initial);
+
+    if(planes) {
+        // wrap real main...
+        shad = InplaceReplace(shad, &shad_cap, "main", "_gl4es_main");
+    }
+
+    if(planes) {
+        for (int i=0; i<hardext.maxplanes; i++) {
+            if((planes>>i)&1) {
+                sprintf(buff, "uniform highp vec4 _gl4es_ClipPlane_%d;\n", i);
+                ShadAppend(buff);
+                ++headline;
+                sprintf(buff, "varying mediump float clippedvertex_%d;\n", i);
+                ShadAppend(buff);
+                ++headline;
+            }
+        }
+    }
+    // let's start
+    if(strstr(shad, "_gl4es_main")) {
+        ShadAppend("\nvoid main() {\n");
+        ShadAppend("_gl4es_main();\n}");
+        if(planes) {
+            for (int i=0; i<hardext.maxplanes; i++) {
+                if((planes>>i)&1) {
+                    sprintf(buff, "clippedvertex_%d = dot(vertex, _gl4es_ClipPlane_%d);\n", i, i);
+                    ShadAppend(buff);
+                }
+            }
+        }
+    }
 
     return (const char* const*)&shad;
 }
@@ -1350,6 +1383,7 @@ const char* const* fpe_CustomFragmentShader(const char* initial, fpe_state_t* st
     if(!shad_cap) shad_cap = 1024;
     if(!shad) shad = (char*)malloc(shad_cap);
 
+    int planes = state->plane;
     int alpha_test = state->alphatest;
     int alpha_func = state->alphafunc;
     char buff[1024];
@@ -1358,8 +1392,7 @@ const char* const* fpe_CustomFragmentShader(const char* initial, fpe_state_t* st
     strcpy(shad, "");
     ShadAppend(initial);
 
-    // only alpha_test trigger a custom custom shader for now
-    if(alpha_test) {
+    if(alpha_test || planes) {
         // wrap real main...
         shad = InplaceReplace(shad, &shad_cap, "main", "_gl4es_main");
     }
@@ -1367,6 +1400,20 @@ const char* const* fpe_CustomFragmentShader(const char* initial, fpe_state_t* st
     if(strstr(shad, "_gl4es_main")) {
         ShadAppend("void main() {\n");
         ShadAppend(" _gl4es_main();\n");
+        //*** Plane Culling
+        if(planes) {
+            ShadAppend("if((");
+            int k=0;
+            for (int i=0; i<hardext.maxplanes; i++) {
+                if((planes>>i)&1) {
+                    //sprintf(buff, "%smin(0., dot(clipvertex, gl_ClipPlane[%d]))", k?"+":"",  i);
+                    sprintf(buff, "%smin(0., clippedvertex_%d)", k?"+":"",  i);
+                    ShadAppend(buff);
+                    k=1;
+                }
+            }
+            ShadAppend(")<0.) discard;\n");
+        }
 
         //*** Alpha Test
         if(alpha_test) {
