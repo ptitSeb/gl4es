@@ -1345,11 +1345,7 @@ const char* const* fpe_CustomVertexShader(const char* initial, fpe_state_t* stat
     strcpy(shad, "");
     ShadAppend(initial);
 
-    if(planes) {
-        // wrap real main...
-        shad = InplaceReplace(shad, &shad_cap, "main", "_gl4es_main");
-    }
-
+    // add some uniform and varying
     if(planes) {
         for (int i=0; i<hardext.maxplanes; i++) {
             if((planes>>i)&1) {
@@ -1362,10 +1358,17 @@ const char* const* fpe_CustomVertexShader(const char* initial, fpe_state_t* stat
             }
         }
     }
+    // wrap main if needed
+    if(planes) {
+        // wrap real main...
+        shad = InplaceReplace(shad, &shad_cap, "main(", "_gl4es_main(");
+        shad = InplaceReplace(shad, &shad_cap, "main (", "_gl4es_main (");
+    }
+
     // let's start
     if(strstr(shad, "_gl4es_main")) {
         ShadAppend("\nvoid main() {\n");
-        ShadAppend("_gl4es_main();\n}");
+        ShadAppend("_gl4es_main();");
         if(planes) {
             for (int i=0; i<hardext.maxplanes; i++) {
                 if((planes>>i)&1) {
@@ -1374,6 +1377,7 @@ const char* const* fpe_CustomVertexShader(const char* initial, fpe_state_t* stat
                 }
             }
         }
+        ShadAppend("}");
     }
 
     return (const char* const*)&shad;
@@ -1392,9 +1396,19 @@ const char* const* fpe_CustomFragmentShader(const char* initial, fpe_state_t* st
     strcpy(shad, "");
     ShadAppend(initial);
 
+    // add some varying
+    if(planes) {
+        for (int i=0; i<hardext.maxplanes; i++) {
+            if((planes>>i)&1) {
+                sprintf(buff, "varying mediump float clippedvertex_%d;\n", i);
+                ShadAppend(buff);
+            }
+        }
+    }
     if(alpha_test || planes) {
         // wrap real main...
-        shad = InplaceReplace(shad, &shad_cap, "main", "_gl4es_main");
+        shad = InplaceReplace(shad, &shad_cap, "main(", "_gl4es_main(");
+        shad = InplaceReplace(shad, &shad_cap, "main (", "_gl4es_main (");
     }
     int is_fragcolor = (strstr(shad, "gl_FragColor")!=NULL)?1:0;
     if(strstr(shad, "_gl4es_main")) {
