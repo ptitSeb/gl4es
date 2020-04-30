@@ -1638,7 +1638,7 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
     // first build a table of EGL attributes
     int attr[50];
     int cur = 0;
-    int cr = 0, cg = 0, cb = 0, ca = 0;
+    int cr = 0, cg = 0, cb = 0, ca = 0, vt = 0;
     int tmp;
     int drawable_set = 0;
     int doublebuffer = 2;
@@ -1746,6 +1746,7 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                     tmp = attrib_list[i++];
                     if(!(globals4es.usepbuffer || globals4es.usefb || globals4es.usefbo || globals4es.glxnative)) {
                         attr[cur++] = EGL_NATIVE_VISUAL_TYPE;
+                        vt = cur;
                         attr[cur++] = tmp;
                     } // re-enabled, seems to be needed now on ODROID...
                     DBG(printf("FBConfig visual type=%d\n", tmp);)
@@ -1808,6 +1809,11 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                 egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
         }
 #endif
+        if((*count==0) && (vt) && (attr[vt]!=-1)) {
+            DBG(printf("glXChooseFBConfig found 0 config with VisualType, trying without\n");)
+            attr[vt] = -1;  //EGL_DONT_CARE
+            egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
+        }
         if(*count==0) {  // NO Config found....
             DBG(printf("glXChooseFBConfig found 0 config\n");)
             return NULL;
