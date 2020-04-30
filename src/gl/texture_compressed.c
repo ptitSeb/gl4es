@@ -142,7 +142,7 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
     realize_bound(glstate->texture.active, target);
 
     gltexture_t* bound = glstate->texture.bound[glstate->texture.active][itarget]; 
-    DBG(printf("glCompressedTexImage2D on target=%s with size(%i,%i), internalformat=%s, imagesize=%i, upackbuffer=%p data=%p\n", PrintEnum(target), width, height, PrintEnum(internalformat), imageSize, glstate->vao->unpack?glstate->vao->unpack->data:0, data);)
+    DBG(printf("glCompressedTexImage2D on target=%s, level=%d with size(%i,%i), internalformat=%s, imagesize=%i, upackbuffer=%p data=%p\n", PrintEnum(target), level, width, height, PrintEnum(internalformat), imageSize, glstate->vao->unpack?glstate->vao->unpack->data:0, data);)
     // hack...
     if (internalformat==GL_RGBA8)
         internalformat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
@@ -150,6 +150,11 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
     if ((width<=0) || (height<=0)) {
         noerrorShim();
         return; // nothing to do...
+    }
+
+    if(level && (globals4es.automipmap==3)) {
+        noerrorShim();
+        return; //nothing, mipmap ignored...
     }
     
     glbuffer_t *unpack = glstate->vao->unpack;
@@ -180,6 +185,11 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
                 type = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_S3TC_DXT1_EXT)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_SHORT_4_4_4_4;
                 #endif
             }
+        }
+        if(level && bound->valid) {
+            // don't mix type/format along mipmap...
+            format = bound->format;
+            type = bound->type;
         }
         int srgb = isDXTcSRGB(internalformat);
         int simpleAlpha = 0;
@@ -218,6 +228,11 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
                         format = GL_RGB;
                         type = GL_UNSIGNED_SHORT_5_6_5;
                     }
+                }
+                if(level && bound->valid) {
+                    // don't mix type/format along mipmap...
+                    format = bound->format;
+                    type = bound->type;
                 }
                 if (!pixel_convert(pixels, &half, width, height, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0, glstate->texture.unpack_align)) {
                     format = GL_RGBA;
@@ -269,13 +284,7 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
     realize_bound(glstate->texture.active, target);
 
     gltexture_t *bound = glstate->texture.bound[glstate->texture.active][itarget];
-    if (level != 0) {
-        noerrorShim();
-        //TODO
-        //printf("STUBBED glCompressedTexSubImage2D with level=%i\n", level);
-        return;
-    }
-    DBG(printf("glCompressedTexSubImage2D with unpack_row_length(%i), size(%i,%i), pos(%i,%i) and skip={%i,%i}, internalformat=%s, imagesize=%i, data=%p\n", glstate->texture.unpack_row_length, width, height, xoffset, yoffset, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), imageSize, data);)
+    DBG(printf("glCompressedTexSubImage2D with unpack_row_length(%i), level=%d, size(%i,%i), pos(%i,%i) and skip={%i,%i}, internalformat=%s, imagesize=%i, data=%p\n", glstate->texture.unpack_row_length, level, width, height, xoffset, yoffset, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), imageSize, data);)
     glbuffer_t *unpack = glstate->vao->unpack;
     glstate->vao->unpack = NULL;
     GLvoid *datab = (GLvoid*)data;
