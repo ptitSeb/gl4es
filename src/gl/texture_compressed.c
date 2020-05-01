@@ -377,7 +377,7 @@ void gl4es_glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img) {
                 if(alpha && dxt1) {
                     // change transparent to RGB = 0
                     for (int i=0; i<16; ++i)
-                        if(tmp[i]&0xff000000!=0xff000000)
+                        if((tmp[i]&0xff000000)!=0xff000000)
                             tmp[i] = 0;
                 }
             }
