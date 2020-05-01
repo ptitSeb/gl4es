@@ -98,7 +98,7 @@ int fpe_texenvSecondary(fpe_state_t* state) {
             int texenv = state->texenv[i].texenv;
             if(texenv==FPE_COMBINE) {
                 int combine_rgb = state->texcombine[i]&0xf;
-                int src_r[3];
+                int src_r[4];
                 src_r[0] = state->texenv[i].texsrcrgb0;
                 src_r[1] = state->texenv[i].texsrcrgb1;
                 src_r[2] = state->texenv[i].texsrcrgb2;
