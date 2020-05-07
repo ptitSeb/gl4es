@@ -1310,7 +1310,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 bound->adjustxy[0] = (float)width / nwidth;
                 bound->adjustxy[1] = (float)height / nheight;
             }
-            bound->compressed = false;
+            bound->compressed = 0;
             bound->valid = 1;
         }
 

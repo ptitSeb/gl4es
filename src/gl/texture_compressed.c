@@ -71,6 +71,20 @@ GLboolean isNotCompressed(GLenum format) {
     return false;
 }
 
+GLenum compressedMinMipmap(GLenum param)
+{
+    switch(param) {
+        case GL_NEAREST_MIPMAP_NEAREST:
+        case GL_NEAREST_MIPMAP_LINEAR:
+            return GL_NEAREST;
+        case GL_LINEAR_MIPMAP_NEAREST:
+        case GL_LINEAR_MIPMAP_LINEAR:
+            return GL_LINEAR;
+        default:
+            return param;
+    }
+}
+
 GLvoid *uncompressDXTc(GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, int transparent0, int* simpleAlpha, int* complexAlpha, const GLvoid *data) {
     // uncompress a DXTc image
     // get pixel size of uncompressed image => fixed RGBA
@@ -138,6 +152,11 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
     }
     FLUSH_BEGINEND;
 
+    if(level) {
+        // disabling mipmap entirely for compressed textures
+        noerrorShim();
+        return;
+    }
     // actualy bound if targetting shared TEX2D
     realize_bound(glstate->texture.active, target);
 
@@ -248,7 +267,7 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
         gl4es_glTexImage2D(target, level, (simpleAlpha||complexAlpha)?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB, width, height, border, format, type, half);
         // re-update bounded texture info, but not format and type
         bound->alpha = (simpleAlpha||complexAlpha)?1:0;
-        bound->compressed = true;
+        bound->compressed = 1;
         bound->internalformat = internalformat;
         bound->valid = 1;
         if (oldalign!=1) 
@@ -259,16 +278,20 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
             free(pixels);
     } else {
         LOAD_GLES(glCompressedTexImage2D);
-        bound->alpha = true;
+        bound->alpha = 1;
         bound->format = internalformat;
         bound->type = GL_UNSIGNED_BYTE;
         bound->internalformat = internalformat;
-        bound->compressed = true;
+        bound->compressed = 1;
         bound->valid = 1;
         if (glstate->fpe_state && glstate->fpe_bound_changed < glstate->texture.active+1)
             glstate->fpe_bound_changed = glstate->texture.active+1;
         gles_glCompressedTexImage2D(rtarget, level, internalformat, width, height, border, imageSize, datab);
         errorGL();
+    }
+    GLenum new_min = compressedMinMipmap(bound->min_filter);
+    if(new_min!=bound->min_filter) {
+        gl4es_glTexParameteri(target, GL_TEXTURE_MIN_FILTER, new_min);
     }
     glstate->vao->unpack = unpack;
 }
@@ -280,11 +303,16 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
     const GLuint itarget = what_target(target);
     FLUSH_BEGINEND;
 
+    if(level) {
+        // disabling mipmap entirely for compressed textures
+        noerrorShim();
+        return;
+    }
     // actualy bound if targetting shared TEX2D
     realize_bound(glstate->texture.active, target);
 
     gltexture_t *bound = glstate->texture.bound[glstate->texture.active][itarget];
-    DBG(printf("glCompressedTexSubImage2D with unpack_row_length(%i), level=%d, size(%i,%i), pos(%i,%i) and skip={%i,%i}, internalformat=%s, imagesize=%i, data=%p\n", glstate->texture.unpack_row_length, level, width, height, xoffset, yoffset, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), imageSize, data);)
+    DBG(printf("glCompressedTexSubImage2D with unpack_row_length(%i), level=%d, size(%i,%i), pos(%i,%i) and skip={%i,%i}, internalformat=%s, imagesize=%i, data=%p, bound=%p, bound:%s/%s\n", glstate->texture.unpack_row_length, level, width, height, xoffset, yoffset, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), imageSize, data, bound, bound?PrintEnum(bound->format):"nil", bound?PrintEnum(bound->type):"nil");)
     glbuffer_t *unpack = glstate->vao->unpack;
     glstate->vao->unpack = NULL;
     GLvoid *datab = (GLvoid*)data;
