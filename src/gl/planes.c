@@ -15,7 +15,7 @@ void gl4es_glClipPlanef(GLenum plane, const GLfloat *equation)
         the vertex is in with respect to that clipping plane. Otherwise, it is out.
     */
     PUSH_IF_COMPILING(glClipPlanef);    //TODO: fix that, equation is an array and should be copied before beeing put in the stack
-    if(plane<GL_CLIP_PLANE0 || plane>=GL_CLIP_PLANE0+hardext.maxplanes) {
+    if((plane<GL_CLIP_PLANE0) || (plane>=GL_CLIP_PLANE0+hardext.maxplanes)) {
         errorShim(GL_INVALID_ENUM);
         return;
     }

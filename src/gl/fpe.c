@@ -251,7 +251,7 @@ program_t* fpe_CustomShader(program_t* glprogram, fpe_state_t* state)
     if(fpe->glprogram==NULL) {
         GLint status;
         fpe->vert = gl4es_glCreateShader(GL_VERTEX_SHADER);
-        gl4es_glShaderSource(fpe->vert, 1, fpe_CustomVertexShader(glprogram->last_vert->converted, state), NULL);
+        gl4es_glShaderSource(fpe->vert, 1, fpe_CustomVertexShader(glprogram->last_vert->source, state), NULL);
         gl4es_glCompileShader(fpe->vert);
         gl4es_glGetShaderiv(fpe->vert, GL_COMPILE_STATUS, &status);
         if(status!=GL_TRUE) {
@@ -261,7 +261,7 @@ program_t* fpe_CustomShader(program_t* glprogram, fpe_state_t* state)
             return glprogram;   // fallback to non-customized custom program..
         }
         fpe->frag = gl4es_glCreateShader(GL_FRAGMENT_SHADER);
-        gl4es_glShaderSource(fpe->frag, 1, fpe_CustomFragmentShader(glprogram->last_frag->converted, state), NULL);
+        gl4es_glShaderSource(fpe->frag, 1, fpe_CustomFragmentShader(glprogram->last_frag->source, state), NULL);
         gl4es_glCompileShader(fpe->frag);
         gl4es_glGetShaderiv(fpe->frag, GL_COMPILE_STATUS, &status);
         if(status!=GL_TRUE) {

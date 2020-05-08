@@ -1361,8 +1361,7 @@ const char* const* fpe_CustomVertexShader(const char* initial, fpe_state_t* stat
     // wrap main if needed
     if(planes) {
         // wrap real main...
-        shad = InplaceReplace(shad, &shad_cap, "main(", "_gl4es_main(");
-        shad = InplaceReplace(shad, &shad_cap, "main (", "_gl4es_main (");
+        shad = InplaceReplace(shad, &shad_cap, "main", "_gl4es_main");
     }
 
     // let's start
@@ -1372,7 +1371,7 @@ const char* const* fpe_CustomVertexShader(const char* initial, fpe_state_t* stat
         if(planes) {
             for (int i=0; i<hardext.maxplanes; i++) {
                 if((planes>>i)&1) {
-                    sprintf(buff, "clippedvertex_%d = dot(vertex, _gl4es_ClipPlane_%d);\n", i, i);
+                    sprintf(buff, "clippedvertex_%d = dot(gl_ModelViewMatrix * gl_Vertex, _gl4es_ClipPlane_%d);\n", i, i);
                     ShadAppend(buff);
                 }
             }
@@ -1407,8 +1406,7 @@ const char* const* fpe_CustomFragmentShader(const char* initial, fpe_state_t* st
     }
     if(alpha_test || planes) {
         // wrap real main...
-        shad = InplaceReplace(shad, &shad_cap, "main(", "_gl4es_main(");
-        shad = InplaceReplace(shad, &shad_cap, "main (", "_gl4es_main (");
+        shad = InplaceReplace(shad, &shad_cap, "main", "_gl4es_main");
     }
     int is_fragcolor = (strstr(shad, "gl_FragColor")!=NULL)?1:0;
     if(strstr(shad, "_gl4es_main")) {
