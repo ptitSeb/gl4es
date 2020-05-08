@@ -116,7 +116,7 @@ DBG(printf("glMatrixMode(%s), list=%p\n", PrintEnum(mode), glstate->list.active)
 	}
 	PUSH_IF_COMPILING(glMatrixMode);
 
-	if(!(mode==GL_MODELVIEW || mode==GL_PROJECTION || mode==GL_TEXTURE || (mode>=GL_MATRIX0_ARB && mode<GL_MATRIX0_ARB+MAX_ARB_MATRIX))) {
+	if(!((mode==GL_MODELVIEW) || (mode==GL_PROJECTION) || (mode==GL_TEXTURE) || (mode>=GL_MATRIX0_ARB && mode<(GL_MATRIX0_ARB+MAX_ARB_MATRIX)))) {
 		errorShim(GL_INVALID_ENUM);
 		return;
 	}
@@ -233,7 +233,7 @@ DBG(printf("glLoadMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 		glstate->normal_matrix_dirty = glstate->inv_mv_matrix_dirty = 1;
 	if(glstate->matrix_mode==GL_MODELVIEW || glstate->matrix_mode==GL_PROJECTION)
 		glstate->mvp_matrix_dirty = 1;
-	else if(glstate->fpe_state)
+	else if((glstate->matrix_mode==GL_TEXTURE) && glstate->fpe_state)
 		set_fpe_textureidentity();
     if(send_to_hardware()) {
 		LOAD_GLES(glLoadMatrixf);
