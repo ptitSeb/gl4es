@@ -680,8 +680,19 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
         
       // if failed to determine, take max...
       if (ntex==-1) ntex = need->need_texcoord; else ++ntex;
-      // change gl_TextureMatrix[X] to gl_TextureMatrix_X if notexrray
-      if(notexarray) {
+      // change gl_TextureMatrix[X] to gl_TextureMatrix_X if possible
+      int change_textmat = notexarray;
+      if(!change_textmat) {
+        change_textmat = 1;
+        char* p = Tmp;
+        while(change_textmat && (p=strstr(p, "gl_TextureMatrix["))) {
+          p += strlen("gl_TextureMatrix[");
+          while((*p)>='0' && (*p)<='9') ++p;
+          if((*p)!=']')
+            change_textmat = 0;
+        }
+      }
+      if(change_textmat) {
         for (int k=0; k<ntex+1; k++) {
           char d[100];
           char d2[100];
