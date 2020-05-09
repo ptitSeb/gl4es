@@ -527,6 +527,11 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FragDepth", (hardext.fragdepth)?"gl_FragDepthEXT":"fakeFragDepth");
   // builtin attribs
   if(isVertex) {
+      // check for ftransform function
+      if(strstr(Tmp, "ftransform(")) {
+        Tmp = InplaceInsert(GetLine(Tmp, headline), gl4es_ftransformSource, Tmp, &tmpsize);
+        // don't increment headline count, as all variying and attributes should be created before
+      }
       // check for builtin OpenGL attributes...
       int n = sizeof(builtin_attrib)/sizeof(builtin_attrib_t);
       for (int i=0; i<n; i++) {
@@ -647,13 +652,6 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 
   // builtin matrices work
   {
-    // check for ftransform function
-    if(isVertex) {
-      if(strstr(Tmp, "ftransform(")) {
-        Tmp = InplaceInsert(GetLine(Tmp, headline), gl4es_ftransformSource, Tmp, &tmpsize);
-        // don't increment headline count, as all variying and attributes should be created before
-      }
-    }
     if(strstr(Tmp, "transpose(") || strstr(Tmp, "transpose ") || strstr(Tmp, "transpose\t")) {
       Tmp = InplaceInsert(GetLine(Tmp, headline), gl4es_transpose, Tmp, &tmpsize);
       InplaceReplace(Tmp, &tmpsize, "transpose", "gl4es_transpose");
