@@ -224,6 +224,7 @@ void GoUniformiv(program_t *glprogram, GLint location, int size, int count, cons
     k = kh_get(uniformlist, glprogram->uniform, location);
     if (k==kh_end(glprogram->uniform)) {
         errorShim(GL_INVALID_OPERATION);
+        return;
     }
     m = kh_value(glprogram->uniform, k);
     if(size != n_uniform(m->type) || !is_uniform_int(m->type)  || count>m->size) {
