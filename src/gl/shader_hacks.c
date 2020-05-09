@@ -168,6 +168,9 @@ static const char* gl4es_hacks[] = {
 "attribute vec4 _Un_AttrTexCoord7;\n"
 "#define Un_AttrTexCoord7 _Un_AttrTexCoord7\n",
 
+// for IcewindDale
+"uniform highp \tvec2 \t\tuTcScale;",
+"uniform mediump vec2 \t\tuTcScale;",
 };
 
 // For Stellaris
