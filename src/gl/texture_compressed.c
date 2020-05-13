@@ -32,6 +32,18 @@ static int inline nlevel(int size, int level) {
     return size;
 }
 
+// return the max level for that WxH size
+static int inline maxlevel(int w, int h) {
+    int mlevel = 0;
+    while(w!=1 && h!=1) {
+        w>>=1; h>>=1; 
+        if(!w) w=1;
+        if(!h) h=1;
+        ++mlevel;
+    }
+    return mlevel;
+}
+
 GLboolean isDXTc(GLenum format) {
     switch (format) {
         case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
@@ -152,11 +164,6 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
     }
     FLUSH_BEGINEND;
 
-    if(level) {
-        // disabling mipmap entirely for compressed textures
-        noerrorShim();
-        return;
-    }
     // actualy bound if targetting shared TEX2D
     realize_bound(glstate->texture.active, target);
 
@@ -289,13 +296,10 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
         gles_glCompressedTexImage2D(rtarget, level, internalformat, width, height, border, imageSize, datab);
         errorGL();
     }
-    if(bound->mipmap_auto==0) {
-        GLenum new_min = compressedMinMipmap(bound->min_filter);
-        if(new_min!=bound->min_filter) {
-            LOAD_GLES(glTexParameteri);
-            gles_glTexParameteri(target, GL_TEXTURE_MIN_FILTER, new_min);
-            bound->mipmap_need = 0;
-        }
+    // check level to set a max_level if needed
+    if(level && bound->valid && !bound->max_level) {
+        int mlevel = maxlevel(bound->width, bound->height);
+        bound->max_level = mlevel - 3;  // 3 last level are not done with S3TC
     }
     glstate->vao->unpack = unpack;
 }
@@ -307,11 +311,6 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
     const GLuint itarget = what_target(target);
     FLUSH_BEGINEND;
 
-    if(level) {
-        // disabling mipmap entirely for compressed textures
-        noerrorShim();
-        return;
-    }
     // actualy bound if targetting shared TEX2D
     realize_bound(glstate->texture.active, target);
 

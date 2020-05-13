@@ -49,6 +49,18 @@ static int inline nlevel(int size, int level) {
     return size;
 }
 
+// return the max level for that WxH size
+static int inline maxlevel(int w, int h) {
+    int mlevel = 0;
+    while(w!=1 && h!=1) {
+        w>>=1; h>>=1; 
+        if(!w) w=1;
+        if(!h) h=1;
+        ++mlevel;
+    }
+    return mlevel;
+}
+
 static int is_fake_compressed_rgb(GLenum internalformat)
 {
     if(internalformat==GL_COMPRESSED_RGB) return 1;
@@ -1723,18 +1735,32 @@ void gl4es_glTexStorage2D(GLenum target, GLsizei levels, GLenum internalformat, 
 {
     // (could be implemented in GLES3.0)
     DBG(printf("glTexStorage2D(%s, %d, %s, %d, %d)\n", PrintEnum(target), levels, PrintEnum(internalformat), width, height);)
+    if(!levels) {
+        noerrorShim();
+        return;
+    }
     if((internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_S3TC_DXT1_EXT) 
      && !globals4es.avoid16bits)
-        gl4es_glTexImage2D(target, 0, internalformat, width, height, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, NULL);
+        for (int i=0; i<levels; ++i)
+            gl4es_glTexImage2D(target, i, internalformat, nlevel(width, i), nlevel(height, i), 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, NULL);
     else if(((internalformat==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT)) 
      && !globals4es.avoid16bits)
-        gl4es_glTexImage2D(target, 0, internalformat, width, height, 0, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1, NULL);
+        for (int i=0; i<levels; ++i)
+            gl4es_glTexImage2D(target, i, internalformat, nlevel(width, i), nlevel(height, i), 0, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1, NULL);
     else if((internalformat==GL_COMPRESSED_RGBA_S3TC_DXT3_EXT || internalformat==GL_COMPRESSED_RGBA_S3TC_DXT5_EXT 
           || internalformat==GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT || internalformat==GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT) 
      && !globals4es.avoid16bits)
-        gl4es_glTexImage2D(target, 0, internalformat, width, height, 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, NULL);
+        for (int i=0; i<levels; ++i)
+            gl4es_glTexImage2D(target, i, internalformat, nlevel(width, i), nlevel(height, i), 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, NULL);
     else
-        gl4es_glTexImage2D(target, 0, internalformat, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        for (int i=0; i<levels; ++i)
+            gl4es_glTexImage2D(target, i, internalformat, nlevel(width, i), nlevel(height, i), 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+    int mlevel = maxlevel(width, height);
+    if(mlevel>levels) {
+        gltexture_t *bound = gl4es_getCurrentTexture(target);
+        bound->max_level = levels;
+    }
 }
 
 
