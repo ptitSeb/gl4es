@@ -242,7 +242,7 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
         case GL_LINEAR_MIPMAP_NEAREST:
         case GL_LINEAR_MIPMAP_LINEAR:
             texture->mipmap_need = true;
-            if ((globals4es.automipmap==3) || ((globals4es.automipmap==1) && (texture->mipmap_auto==0)) || (texture->compressed))
+            if ((globals4es.automipmap==3) || ((globals4es.automipmap==1) && (texture->mipmap_auto==0)) || (texture->compressed && texture->mipmap_auto==0))
             switch (param) {
                 case GL_NEAREST_MIPMAP_NEAREST:
                 case GL_NEAREST_MIPMAP_LINEAR:
