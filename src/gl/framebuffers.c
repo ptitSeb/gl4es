@@ -1081,8 +1081,10 @@ void gl4es_glGenerateMipmap(GLenum target) {
     DBG(printf("glGenerateMipmap(%s)\n", PrintEnum(target));)
     LOAD_GLES2_OR_OES(glGenerateMipmap);
     
+    const GLuint rtarget = map_tex_target(target);
+    realize_bound(glstate->texture.active, target);
+    gltexture_t *bound = gl4es_getCurrentTexture(target);
     if(globals4es.forcenpot && hardext.npot==1) {
-        gltexture_t *bound = gl4es_getCurrentTexture(target);
         if(bound->npot) {
             noerrorShim();
             return; // no need to generate mipmap, mipmap is disabled here
@@ -1091,13 +1093,10 @@ void gl4es_glGenerateMipmap(GLenum target) {
 
     errorGL();
     if(globals4es.automipmap != 3) {
-        realize_bound(glstate->texture.active, target);
-        gles_glGenerateMipmap(target);
-        const GLint itarget = what_target(target);
-        const GLuint rtarget = map_tex_target(target);
-        gltexture_t *texture = glstate->texture.bound[glstate->texture.active][itarget];
-        if(texture->wanted_min != texture->min_filter)  // mainly for S3TC textures...
-            gl4es_glTexParameteri(target, GL_TEXTURE_MIN_FILTER, texture->wanted_min);
+        gles_glGenerateMipmap(rtarget);
+        bound->mipmap_auto = 1;
+        if(bound->wanted_min != bound->min_filter)  // mainly for S3TC textures...
+            gl4es_glTexParameteri(target, GL_TEXTURE_MIN_FILTER, bound->wanted_min);
     }
 }
 
