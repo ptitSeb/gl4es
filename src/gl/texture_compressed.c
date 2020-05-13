@@ -292,7 +292,9 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
     if(bound->mipmap_auto==0) {
         GLenum new_min = compressedMinMipmap(bound->min_filter);
         if(new_min!=bound->min_filter) {
-            gl4es_glTexParameteri(target, GL_TEXTURE_MIN_FILTER, new_min);
+            LOAD_GLES(glTexParameteri);
+            gles_glTexParameteri(target, GL_TEXTURE_MIN_FILTER, new_min);
+            bound->mipmap_need = 0;
         }
     }
     glstate->vao->unpack = unpack;

@@ -236,13 +236,15 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
     switch (pname) {
     case GL_TEXTURE_MIN_FILTER:
     case GL_TEXTURE_MAG_FILTER:
+        if (pname==GL_TEXTURE_MIN_FILTER) { texture->wanted_min = param; }
+        if (pname==GL_TEXTURE_MAG_FILTER) { texture->wanted_mag = param; }
         switch (param) {
         case GL_NEAREST_MIPMAP_NEAREST:
         case GL_NEAREST_MIPMAP_LINEAR:
         case GL_LINEAR_MIPMAP_NEAREST:
         case GL_LINEAR_MIPMAP_LINEAR:
             texture->mipmap_need = true;
-            if ((globals4es.automipmap==3) || ((globals4es.automipmap==1) && (texture->mipmap_auto==0)) || (texture->compressed && texture->mipmap_auto==0))
+            if ((globals4es.automipmap==3) || ((globals4es.automipmap==1) && (texture->mipmap_auto==0)) || (texture->compressed && (texture->mipmap_auto==0)))
             switch (param) {
                 case GL_NEAREST_MIPMAP_NEAREST:
                 case GL_NEAREST_MIPMAP_LINEAR:
@@ -313,13 +315,15 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
         if(texture->mipmap_auto == ((param)?1:0))
             return; // same value...
         texture->mipmap_auto = (param)?1:0;
-        if(hardext.esversion>1) {
+        if(hardext.esversion>1 && param) {
             if(texture->valid) {
-                // force regeneration, if posssible
+                // force regeneration, if possible
                 FLUSH_BEGINEND;
                 realize_bound(glstate->texture.active, target);
                 LOAD_GLES2_OR_OES(glGenerateMipmap);
                 gl4es_glGenerateMipmap(rtarget);
+                if(texture->wanted_min != texture->min_filter)
+                    gl4es_glTexParameteri(target, GL_TEXTURE_MIN_FILTER, texture->wanted_min);
             }
             return;
         }
@@ -501,8 +505,8 @@ void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
             tex->base_level = -1;
             tex->max_level = -1;
             tex->alpha = true;
-            tex->min_filter = GL_NEAREST_MIPMAP_LINEAR; //(globals4es.automipmap==1)?GL_NEAREST_MIPMAP_LINEAR:GL_LINEAR;
-            tex->mag_filter = GL_LINEAR;
+            tex->wanted_min = tex->min_filter = GL_NEAREST_MIPMAP_LINEAR; //(globals4es.automipmap==1)?GL_NEAREST_MIPMAP_LINEAR:GL_LINEAR;
+            tex->wanted_mag = tex->mag_filter = GL_LINEAR;
             tex->wrap_s = tex->wrap_t = (globals4es.defaultwrap?0:GL_REPEAT);
             tex->fpe_format = FPE_TEX_RGBA;
             tex->format = GL_RGBA;
@@ -647,6 +651,12 @@ void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GL
                 (*params) = GL_REPEAT;
             else
                 (*params) = bound->wrap_t?bound->wrap_t:GL_REPEAT;
+            break;
+        case GL_TEXTURE_MIN_FILTER:
+            *params = bound->wanted_min;
+            break;
+        case GL_TEXTURE_MAG_FILTER:
+            *params = bound->wanted_mag;
             break;
         case GL_TEXTURE_COMPARE_MODE:
                 (*params) = bound->compare;  // GL_NONE is 0x0

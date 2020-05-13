@@ -119,7 +119,9 @@ typedef struct {
     GLboolean mipmap_need;
     GLboolean mipmap_done;
 	GLenum min_filter;
+    GLenum wanted_min;
 	GLenum mag_filter;
+    GLenum wanted_mag;
     GLenum wrap_s;
     GLenum wrap_t;
     GLenum compare;
