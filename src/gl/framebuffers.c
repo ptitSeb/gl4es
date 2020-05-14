@@ -604,7 +604,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 tex->format = GL_DEPTH_COMPONENT;
                 if(tex->type!=GL_UNSIGNED_INT && tex->type!=GL_UNSIGNED_SHORT && tex->type!=GL_FLOAT) tex->type = (hardext.depth24)?GL_UNSIGNED_INT:GL_UNSIGNED_SHORT;
                 tex->fpe_format = FPE_TEX_DEPTH;
-                realize_textures();
+                realize_textures(0);
                 int oldactive = glstate->texture.active;
                 if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
                 gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];
@@ -646,7 +646,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                 if(tex->format==GL_DEPTH_ATTACHMENT) {
                     //TODO: need to create a new texture, as the depth one is probably used
                     gl4es_glGenTextures(1, &texture);
-                    realize_textures();
+                    realize_textures(0);
                     int oldactive = glstate->texture.active;
                     if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
                     gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];
@@ -669,7 +669,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
                     tex->format = GL_STENCIL_INDEX8;
                     if(tex->type!=GL_UNSIGNED_BYTE && tex->type!=GL_UNSIGNED_SHORT && tex->type!=GL_FLOAT) tex->type = GL_UNSIGNED_BYTE;
                     tex->fpe_format = FPE_TEX_DEPTH;
-                    realize_textures();
+                    realize_textures(0);
                     int oldactive = glstate->texture.active;
                     if(oldactive) gles_glActiveTexture(GL_TEXTURE0);
                     gltexture_t *bound = glstate->texture.bound[0/*glstate->texture.active*/][ENABLED_TEX2D];

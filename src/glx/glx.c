@@ -1365,7 +1365,7 @@ void gl4es_glXSwapBuffers(Display *display,
     DBG(printf("\rglXSwapBuffers(%p, %p) ", display, (void*)drawable);)
     LOAD_EGL(eglSwapBuffers);
     // TODO: what if active context is not on the drawable?
-    realize_textures();
+    realize_textures(0);
     if (glstate->list.active){
         gl4es_flush();
     }

@@ -235,7 +235,7 @@ GLenum minmag_float(GLenum filt);
 GLboolean isDXTc(GLenum format);
 
 void realize_bound(int TMU, GLenum target);
-void realize_textures();
+void realize_textures(int drawing);
 void realize_active();
 
 #endif // _GL4ES_TEXTURE_H_

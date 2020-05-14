@@ -832,7 +832,7 @@ void realize_active() {
     gles_glActiveTexture(GL_TEXTURE0 + glstate->gleshard->active);
 }
 
-void realize_textures() {
+void realize_textures(int drawing) {
     LOAD_GLES(glEnable);
     LOAD_GLES(glDisable);
     LOAD_GLES(glBindTexture);
@@ -899,6 +899,13 @@ void realize_textures() {
             // bound...
             gles_glBindTexture(GL_TEXTURE_2D, t);
             glstate->actual_tex2d[i] = t;
+            // check, if drawing, if mipmap needs some special care...
+            if(drawing && tex->mipmap_need && !tex->mipmap_done) {
+                LOAD_GLES2_OR_OES(glGenerateMipmap);
+                gles_glGenerateMipmap(GL_TEXTURE_2D);
+                tex->mipmap_done = 1;
+                tex->mipmap_auto = 1;
+            }
         }
     }
     glstate->bound_changed = 0;

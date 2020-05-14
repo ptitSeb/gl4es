@@ -990,7 +990,7 @@ extern void BlitEmulatedPixmap();
 void gl4es_glFlush() {
 	LOAD_GLES(glFlush);
     
-    realize_textures();
+    realize_textures(0);
     FLUSH_BEGINEND;
     if (glstate->raster.bm_drawing) bitmap_flush();
     
@@ -1007,7 +1007,7 @@ void glFlush() AliasExport("gl4es_glFlush");
 void gl4es_glFinish() {
 	LOAD_GLES(glFinish);
     
-    realize_textures();
+    realize_textures(0);
     FLUSH_BEGINEND;
     if (glstate->raster.bm_drawing) bitmap_flush();
     

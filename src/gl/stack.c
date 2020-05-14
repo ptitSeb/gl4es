@@ -16,7 +16,7 @@
 
 void gl4es_glPushAttrib(GLbitfield mask) {
     DBG(printf("glPushAttrib(0x%04X)\n", mask);)
-    realize_textures();
+    realize_textures(0);
     noerrorShim();
     if (glstate->list.active)
         if (glstate->list.compiling) {

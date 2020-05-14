@@ -690,7 +690,7 @@ void draw_renderlist(renderlist_t *list) {
         #undef RS
         #undef TEXTURE
 
-        realize_textures();
+        realize_textures(1);
 
         if(use_vbo_array==0) {
             if((glstate->render_mode == GL_SELECT) || (glstate->polygon_mode == GL_LINE) || (glstate->polygon_mode == GL_POINT))

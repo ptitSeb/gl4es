@@ -1452,7 +1452,13 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         } else {
             if (pixels)
                 gl4es_glTexSubImage2D(rtarget, level, 0, 0, width, height, format, type, pixels);	// (should never happens) updload the 1st data...
-            }
+        }
+        if(bound->mipmap_need && !bound->mipmap_done) {
+            if(bound->mipmap_auto)
+                bound->mipmap_done = 1;
+            if(level == maxlevel(bound->width, bound->height))
+                bound->mipmap_done = 1;
+        }
     }
     if ((target==GL_TEXTURE_2D) && globals4es.texcopydata && ((globals4es.texstream && !bound->streamed) || !globals4es.texstream)) {
         if (bound->data) 

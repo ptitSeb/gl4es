@@ -353,7 +353,7 @@ if(count>500000) return;
     } else {
         GLuint old_tex = glstate->texture.client;
         
-        realize_textures();
+        realize_textures(1);
         if(hardext.esversion==1) {
 
             #define TEXTURE(A) gl4es_glClientActiveTexture(A+GL_TEXTURE0);
