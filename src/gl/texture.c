@@ -52,7 +52,7 @@ static int inline nlevel(int size, int level) {
 // return the max level for that WxH size
 static int inline maxlevel(int w, int h) {
     int mlevel = 0;
-    while(w!=1 && h!=1) {
+    while(w!=1 || h!=1) {
         w>>=1; h>>=1; 
         if(!w) w=1;
         if(!h) h=1;
@@ -1328,7 +1328,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
 
         int callgeneratemipmap = 0;
         if (!(globals4es.texstream && bound->streamed)) {
-            if ((target!=GL_TEXTURE_RECTANGLE_ARB) && (globals4es.automipmap!=3) && (bound->mipmap_need || bound->mipmap_auto) && !(bound->npot && hardext.npot<2)) {
+            if ((target!=GL_TEXTURE_RECTANGLE_ARB) && (globals4es.automipmap!=3) && (bound->mipmap_need || bound->mipmap_auto) && !(bound->npot && hardext.npot<2) && (bound->max_level==-1)) {
                 if(hardext.esversion<2)
                     gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
                 else
@@ -1602,14 +1602,13 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
     }
 
     int callgeneratemipmap = 0;
-    if (level==0 && bound->mipmap_need && (!bound->mipmap_auto || hardext.esversion>1) && (globals4es.automipmap!=3) && (!globals4es.texstream || (globals4es.texstream && !bound->streamed)))
+    if ((target!=GL_TEXTURE_RECTANGLE_ARB) && (globals4es.automipmap!=3) && (bound->mipmap_need || bound->mipmap_auto) && !(bound->npot && hardext.npot<2) && (bound->max_level==-1)) {
         if(hardext.esversion<2) {
-            // ES2 doesn't have this
-        //    gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE ); // not sure the usefullness of this call
-        } else {
+            //gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
+        } else
             callgeneratemipmap = 1;
-        }
-
+    }
+    
     if (globals4es.texstream && bound->streamed) {
 /*	// copy the texture to the buffer
     void* tmp = GetStreamingBuffer(bound->streamingID);
@@ -1754,9 +1753,11 @@ void gl4es_glTexStorage2D(GLenum target, GLsizei levels, GLenum internalformat, 
 
 
     int mlevel = maxlevel(width, height);
-    if(mlevel>levels) {
+    if(mlevel>levels-1) {
         gltexture_t *bound = gl4es_getCurrentTexture(target);
-        bound->max_level = levels;
+        bound->max_level = levels-1;
+        if(levels>1 && globals4es.automipmap!=3)
+            bound->mipmap_need = 1;
     }
 
     if((internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_S3TC_DXT1_EXT) 

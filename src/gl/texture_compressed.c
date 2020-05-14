@@ -35,7 +35,7 @@ static int inline nlevel(int size, int level) {
 // return the max level for that WxH size
 static int inline maxlevel(int w, int h) {
     int mlevel = 0;
-    while(w!=1 && h!=1) {
+    while(w!=1 || h!=1) {
         w>>=1; h>>=1; 
         if(!w) w=1;
         if(!h) h=1;
