@@ -1792,7 +1792,7 @@ void gl4es_glTexStorage2D(GLenum target, GLsizei levels, GLenum internalformat, 
         // no mipmap will be uploaded, but they will be calculated from level 0
         bound->mipmap_need = 1;
         bound->mipmap_auto = 1;
-        for (int i=1; i<mlevel; ++i)
+        for (int i=1; i<=mlevel; ++i)
             gl4es_glTexImage2D(target, i, internalformat, nlevel(width, i), nlevel(height, i), 0, bound->format, bound->type, NULL);
         noerrorShim();
         return;
