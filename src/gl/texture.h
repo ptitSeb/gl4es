@@ -232,6 +232,7 @@ int wrap_npot(GLenum wrap);
 int minmag_npot(GLenum mag);
 GLenum minmag_forcenpot(GLenum filt);
 GLenum minmag_float(GLenum filt);
+GLboolean isDXTc(GLenum format);
 
 void realize_bound(int TMU, GLenum target);
 void realize_textures();

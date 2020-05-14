@@ -1025,7 +1025,10 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     int mipwidth = width << level;
     int mipheight = height << level;
     int shrink = 0;
-    bound->shrink = shrink = get_shrinklevel(width, height, level);
+    if(!bound->valid)
+        bound->shrink = shrink = get_shrinklevel(width, height, level);
+    else
+        shrink = bound->shrink;
 
     if(((width>>shrink)==0) && ((height>>shrink)==0)) return;   // nothing to do
     if (datab) {
@@ -1076,12 +1079,25 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                         if(!newwidth) newwidth=1;
                         if(!newheight) newheight=1;
                     }
-                    ratiox = newwidth/((float)mipwidth);
-                    ratioy = newheight/((float)mipheight);
-                    bound->ratiox = ratiox;
-                    bound->ratioy = ratioy;
-                    bound->useratio = 1;
-                    pixel_scale(pixels, &out, width, height, newwidth, newheight, format, type);
+                    if(level && bound->valid) {
+                        // don't recalculate ratio...
+                        ratiox = bound->ratiox;
+                        ratioy = bound->ratioy;
+                    } else {
+                        ratiox = newwidth/((float)mipwidth);
+                        ratioy = newheight/((float)mipheight);
+                    }
+                    newwidth = width * ratiox;
+                    newheight = height * ratioy;
+                    if(ratiox==0.5f && ratioy==0.5f && npot(width)==width && npot(height)==height) {
+                        // prefer the fast and clean way first
+                        pixel_halfscale(pixels, &out, width, height, format, type);
+                    } else {
+                        bound->ratiox = ratiox;
+                        bound->ratioy = ratioy;
+                        bound->useratio = 1;
+                        pixel_scale(pixels, &out, width, height, newwidth, newheight, format, type);
+                    }
                     if (out != pixels && pixels!=datab)
                         free(pixels);
                     pixels = out;
@@ -1091,16 +1107,19 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 }
                 break;
             default:
-                bound->ratiox = bound->ratioy = 1.0f;
+                if(!bound->valid)
+                    bound->ratiox = bound->ratioy = 1.0f;
                 while(shrink) {
                     int toshrink = (shrink>1)?2:1;
                     GLvoid *out = pixels;
                     if(toshrink==1) {
                         pixel_halfscale(pixels, &out, width, height, format, type);
-                        bound->ratiox *= 0.5f; bound->ratioy *= 0.5f;
+                        if(!bound->valid)
+                            bound->ratiox *= 0.5f; bound->ratioy *= 0.5f;
                     } else {
                         pixel_quarterscale(pixels, &out, width, height, format, type);
-                        bound->ratiox *= 0.25f; bound->ratioy *= 0.25f;
+                        if(!bound->valid)
+                            bound->ratiox *= 0.25f; bound->ratioy *= 0.25f;
                     }
                     if (out != pixels && pixels!=datab)
                         free(pixels);
@@ -1495,7 +1514,9 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
             }
             else
                 bound->mipmap_need = 1;
-    }
+    } else
+    if(level && bound->mipmap_auto)
+        return;
 
     if ((glstate->texture.unpack_row_length && glstate->texture.unpack_row_length != width) || glstate->texture.unpack_skip_pixels || glstate->texture.unpack_skip_rows) {
         int imgWidth, pixelSize, dstWidth;
@@ -1602,7 +1623,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
     }
 
     int callgeneratemipmap = 0;
-    if ((target!=GL_TEXTURE_RECTANGLE_ARB) && (globals4es.automipmap!=3) && (bound->mipmap_need || bound->mipmap_auto) && !(bound->npot && hardext.npot<2) && (bound->max_level==-1)) {
+    if ((target!=GL_TEXTURE_RECTANGLE_ARB) && (bound->mipmap_need || bound->mipmap_auto)) {
         if(hardext.esversion<2) {
             //gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
         } else
@@ -1644,7 +1665,14 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
                 free(ndata);
         }
         // check if max_level is set... and calculate higher level mipmap
-        if(((((bound->max_level == level) && (level || bound->mipmap_need)) && (globals4es.automipmap!=3) && (bound->mipmap_need!=0)) || (callgeneratemipmap && level==0)) && !(bound->max_level==bound->base_level && bound->base_level==0)) {
+        int genmipmap = 0;
+        if(((bound->max_level == level) && (level || bound->mipmap_need)))
+            genmipmap = 1;
+        if(callgeneratemipmap && (level==0) || (level==bound->max_level))
+            genmipmap = 1;
+        if((bound->max_level==bound->base_level) && (bound->base_level==0))
+            genmipmap = 0;
+        if(genmipmap && (globals4es.automipmap!=3)) {
             int leveln = level, nw = width, nh = height, xx=xoffset, yy=yoffset;
             void *ndata = pixels;
             while(nw!=1 || nh!=1) {
@@ -1753,30 +1781,27 @@ void gl4es_glTexStorage2D(GLenum target, GLsizei levels, GLenum internalformat, 
 
 
     int mlevel = maxlevel(width, height);
+    gltexture_t *bound = gl4es_getCurrentTexture(target);
+    if(levels>1 && isDXTc(internalformat)) {
+        // no mipmap will be uploaded, but they will be calculated from level 0
+        bound->mipmap_need = 1;
+        bound->mipmap_auto = 1;
+        for (int i=1; i<mlevel; ++i)
+            gl4es_glTexImage2D(target, i, internalformat, nlevel(width, i), nlevel(height, i), 0, bound->format, bound->type, NULL);
+        noerrorShim();
+        return;
+    }
+    // no more compressed format here...
     if(mlevel>levels-1) {
-        gltexture_t *bound = gl4es_getCurrentTexture(target);
         bound->max_level = levels-1;
         if(levels>1 && globals4es.automipmap!=3)
             bound->mipmap_need = 1;
     }
 
-    if((internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_S3TC_DXT1_EXT) 
-     && !globals4es.avoid16bits)
-        for (int i=1; i<levels; ++i)
-            gl4es_glTexImage2D(target, i, internalformat, nlevel(width, i), nlevel(height, i), 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, NULL);
-    else if(((internalformat==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT)) 
-     && !globals4es.avoid16bits)
-        for (int i=1; i<levels; ++i)
-            gl4es_glTexImage2D(target, i, internalformat, nlevel(width, i), nlevel(height, i), 0, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1, NULL);
-    else if((internalformat==GL_COMPRESSED_RGBA_S3TC_DXT3_EXT || internalformat==GL_COMPRESSED_RGBA_S3TC_DXT5_EXT 
-          || internalformat==GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT || internalformat==GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT) 
-     && !globals4es.avoid16bits)
-        for (int i=1; i<levels; ++i)
-            gl4es_glTexImage2D(target, i, internalformat, nlevel(width, i), nlevel(height, i), 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, NULL);
-    else
-        for (int i=1; i<levels; ++i)
-            gl4es_glTexImage2D(target, i, internalformat, nlevel(width, i), nlevel(height, i), 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    for (int i=1; i<levels; ++i)
+        gl4es_glTexImage2D(target, i, internalformat, nlevel(width, i), nlevel(height, i), 0, bound->format, bound->type, NULL);
 
+    noerrorShim();
 }
 
 

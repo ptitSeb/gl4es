@@ -193,6 +193,8 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
     GLenum type = GL_UNSIGNED_BYTE;
         
     if (isDXTc(internalformat)) {
+        if(level && bound->mipmap_auto==1)
+            return; // nothing to do
         GLvoid *pixels, *half;
         pixels = half = NULL;
         bound->alpha = (internalformat==GL_COMPRESSED_RGB_S3TC_DXT1_EXT || internalformat==GL_COMPRESSED_SRGB_S3TC_DXT1_EXT)?0:1;
@@ -277,6 +279,33 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
         bound->compressed = 1;
         bound->internalformat = internalformat;
         bound->valid = 1;
+        if(level) {
+            // not automipmap yet? then set it...
+            bound->mipmap_need = 1;
+            // and upload higher level here...
+            int leveln = level, nww=width, nhh=height;
+            void *ndata = pixels;
+            while(nww!=1 || nhh!=1) {
+                GLvoid *out = ndata;
+                if(half) {  // half can be null if no data...
+                    pixel_halfscale(ndata, &out, nww, nhh, GL_RGBA, GL_UNSIGNED_BYTE);
+                    if (out != ndata && ndata!=pixels)
+                        free(ndata);
+                    ndata = out;
+                }
+                nww = nlevel(nww, 1);
+                nhh = nlevel(nhh, 1);
+                if(half)
+                    pixel_convert(ndata, &out, nww, nhh, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0, 1);
+                ++leveln;
+                gl4es_glTexImage2D(target, leveln, (simpleAlpha||complexAlpha)?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB, nww, nhh, border,
+                                format, type, out);
+                if(out!=ndata)
+                    free(out);
+            }
+            bound->mipmap_auto = 1;
+        }
+
         if (oldalign!=1) 
             gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, oldalign);
         if (half!=pixels)
@@ -295,11 +324,6 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
             glstate->fpe_bound_changed = glstate->texture.active+1;
         gles_glCompressedTexImage2D(rtarget, level, internalformat, width, height, border, imageSize, datab);
         errorGL();
-    }
-    // check level to set a max_level if needed
-    if(level && bound->valid && !bound->max_level) {
-        int mlevel = maxlevel(bound->width, bound->height);
-        bound->max_level = mlevel - 3;  // 3 last level are not done with S3TC
     }
     glstate->vao->unpack = unpack;
 }
@@ -327,6 +351,10 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
     int complexAlpha = 0;
     int transparent0 = (format==GL_COMPRESSED_RGBA_S3TC_DXT1_EXT || format==GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT)?1:0;
     if (isDXTc(format)) {
+        if(level) {
+            noerrorShim();
+            return;
+        }
         int srgb = isDXTcSRGB(format);
         GLvoid *pixels;
         if ((width&3) || (height&3)) {	// can happens :(
