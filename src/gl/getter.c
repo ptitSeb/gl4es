@@ -642,8 +642,12 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_DRAW_BUFFER:
             *params=GL_FRONT;
             break;
-        case GL_FRAMEBUFFER_BINDING:
-            *params=glstate->fbo.current_fb->id;
+        case GL_READ_FRAMEBUFFER_BINDING:
+            *params=glstate->fbo.fbo_read->id;
+            break;
+        //case GL_FRAMEBUFFER_BINDING:
+        case GL_DRAW_FRAMEBUFFER_BINDING:
+            *params=glstate->fbo.fbo_draw->id;
             break;
         // shader stuff
         case GL_CURRENT_PROGRAM:
