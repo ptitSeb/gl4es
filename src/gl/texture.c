@@ -194,9 +194,10 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                              GLenum *format, GLenum *type,
                              GLenum intermediaryformat, GLenum internalformat,
                              const GLvoid *data, gltexture_t *bound) {
-    bool convert = false;
+    int convert = 0;
     GLenum dest_format = GL_RGBA;
     GLenum dest_type = GL_UNSIGNED_BYTE;
+    int check = 1;
     // compressed format are not handled here, so mask them....
     if (is_fake_compressed_rgb(intermediaryformat)) intermediaryformat=GL_RGB;
     if (is_fake_compressed_rgba(intermediaryformat)) intermediaryformat=GL_RGBA;
@@ -207,7 +208,8 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
 
     if(*format != intermediaryformat || intermediaryformat!=internalformat) {
         internal2format_type(intermediaryformat, &dest_format, &dest_type);
-        convert = true;
+        convert = 1;
+        check = 0;
     } else {
         if((*type)==GL_HALF_FLOAT) (*type) = GL_HALF_FLOAT_OES;    //the define is different between GL and GLES...
         switch (*format) {
@@ -215,14 +217,14 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
             case GL_RED:
                 if(!hardext.rgtex) {
                     dest_format = GL_RGB;
-                    convert = true;
+                    convert = 1;
                 } else
                     dest_format = GL_RED;
                 break;
             case GL_RG:
                 if(!hardext.rgtex) {
                     dest_format = GL_RGB;
-                    convert = true;
+                    convert = 1;
                 } else
                     dest_format = GL_RG;
                 break;
@@ -233,13 +235,17 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 break;
             case GL_LUMINANCE16F:
                 dest_format = GL_LUMINANCE;
-                if(hardext.halffloattex)
+                if(hardext.halffloattex) {
                     dest_type = GL_HALF_FLOAT_OES;
+                    check = 0;
+                }
                 break;
             case GL_LUMINANCE32F:
                 dest_format = GL_LUMINANCE;
-                if(hardext.floattex)
+                if(hardext.floattex) {
                     dest_type = GL_FLOAT;
+                    check = 0;
+                }
                 break;
             case GL_RGB:
                 dest_format = GL_RGB;
@@ -251,20 +257,24 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 break;
             case GL_ALPHA16F:
                 dest_format = GL_ALPHA;
-                if(hardext.halffloattex)
+                if(hardext.halffloattex) {
                     dest_type = GL_HALF_FLOAT_OES;
+                    check = 0;
+                }
                 break;
             case GL_ALPHA32F:
                 dest_format = GL_ALPHA;
-                if(hardext.floattex)
+                if(hardext.floattex) {
                     dest_type = GL_FLOAT;
+                    check = 0;
+                }
                 break;
             case GL_RGBA:
                 break;
             case GL_LUMINANCE8_ALPHA8:
             case GL_COMPRESSED_LUMINANCE_ALPHA:
                 if(globals4es.nolumalpha)
-                    convert = true;
+                    convert = 1;
                 else {
                     dest_format = GL_LUMINANCE_ALPHA;
                     *format = GL_LUMINANCE_ALPHA;
@@ -272,32 +282,37 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 break;
             case GL_LUMINANCE_ALPHA:
                 if(globals4es.nolumalpha)
-                    convert = true;
+                    convert = 1;
                 else
                     dest_format = GL_LUMINANCE_ALPHA;
                 break;
             case GL_LUMINANCE_ALPHA16F:
                 if(globals4es.nolumalpha)
-                    convert = true;
+                    convert = 1;
                 else
                     dest_format = GL_LUMINANCE_ALPHA;
-                if(hardext.halffloattex)
+                if(hardext.halffloattex) {
                     dest_type = GL_HALF_FLOAT_OES;
+                    check = 0;
+                }
                 break;
             case GL_LUMINANCE_ALPHA32F:
                 if(globals4es.nolumalpha)
-                    convert = true;
+                    convert = 1;
                 else
                     dest_format = GL_LUMINANCE_ALPHA;
-                if(hardext.floattex)
+                if(hardext.floattex) {
                     dest_type = GL_FLOAT;
+                    check = 0;
+                }
                 break;
             // vvvvv all this are internal formats, so it should not happens
             case GL_RGB5:
             case GL_RGB565:
                 dest_format = GL_RGB;
                 dest_type = GL_UNSIGNED_SHORT_5_6_5;
-                convert = true;
+                convert = 1;
+                check = 0;
                 break;
             case GL_RGB8:
                 dest_format = GL_RGB;
@@ -307,6 +322,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 dest_format = GL_RGBA;
                 dest_type = GL_UNSIGNED_SHORT_4_4_4_4;
                 *format = GL_RGBA;
+                check = 0;
                 break;
             case GL_RGBA8:
                 dest_format = GL_RGBA;
@@ -317,7 +333,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                     dest_format = GL_BGRA;
                     *format = GL_BGRA;
                 } else {
-                    convert = true;
+                    convert = 1;
                     if(hardext.bgra8888 && 
                     #ifdef __BIG_ENDIAN__
                         (*type==GL_UNSIGNED_INT_8_8_8_8_REV)
@@ -326,6 +342,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                     #endif
                     )
                         *format = GL_BGRA;    //only type needs conversion
+                        check = 0;
                 }
                 break;
             case GL_DEPTH24_STENCIL8:
@@ -333,7 +350,8 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 if(hardext.depthtex && hardext.depthstencil) {
                     *format = dest_format = GL_DEPTH_STENCIL;
                     dest_type = GL_UNSIGNED_INT_24_8;
-                } else convert = true;
+                    check = 0;
+                } else convert = 1;
                 break;
             case GL_DEPTH_COMPONENT:
             case GL_DEPTH_COMPONENT16:
@@ -341,55 +359,57 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 if(hardext.depthtex) {
                     if(dest_type==GL_UNSIGNED_BYTE) {
                         dest_type=(*format==GL_DEPTH_COMPONENT32)?GL_UNSIGNED_INT:GL_UNSIGNED_SHORT;
-                        convert = true;
+                        convert = 1;
                     }
                     *format = dest_format = GL_DEPTH_COMPONENT;
+                    check = 0;
                 } else
-                    convert = true;
+                    convert = 1;
                 break;
             case GL_STENCIL_INDEX8:
                 if(hardext.stenciltex)
                     *format = dest_format = GL_STENCIL_INDEX8;
                 else
-                    convert = true;
+                    convert = 1;
                 break;
             default:
-                convert = true;
+                convert = 1;
                 break;
         }
+        if(check)
         switch (*type) {
             case GL_UNSIGNED_SHORT_4_4_4_4_REV:
                 if(dest_format==GL_RGBA)
                     dest_type = GL_UNSIGNED_SHORT_4_4_4_4;
-                convert = true;
+                convert = 1;
                 break;
             case GL_UNSIGNED_SHORT_4_4_4_4:
                 if(dest_format==GL_RGBA)
                     dest_type = GL_UNSIGNED_SHORT_4_4_4_4;
                 else
-                    convert = true;
+                    convert = 1;
                 break;
             case GL_UNSIGNED_SHORT_1_5_5_5_REV:
                 if(dest_format==GL_RGBA)
                     dest_type = GL_UNSIGNED_SHORT_5_5_5_1;
-                convert = true;
+                convert = 1;
                 break;
             case GL_UNSIGNED_SHORT_5_5_5_1:
                 if(dest_format==GL_RGBA)
                     dest_type = GL_UNSIGNED_SHORT_5_5_5_1;
                 else
-                    convert = true;
+                    convert = 1;
                 break;
             case GL_UNSIGNED_SHORT_5_6_5_REV:
                 if (dest_format==GL_RGB)
                     dest_type = GL_UNSIGNED_SHORT_5_6_5;
-                convert = true;
+                convert = 1;
                 break;
             case GL_UNSIGNED_SHORT_5_6_5:
                 if (dest_format==GL_RGB)
                     dest_type = GL_UNSIGNED_SHORT_5_6_5;
                 else
-                    convert = true;
+                    convert = 1;
                 break;
             #ifdef __BIG_ENDIAN__
             case GL_UNSIGNED_INT_8_8_8_8:
@@ -401,7 +421,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
             case GL_UNSIGNED_BYTE:
                 if(dest_format==GL_RGB && globals4es.avoid24bits) {
                     dest_format = GL_RGBA;
-                    convert = true;
+                    convert = 1;
                 }
                 break;
             #ifdef __BIG_ENDIAN__
@@ -410,31 +430,31 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
             case GL_UNSIGNED_INT_8_8_8_8:
             #endif
                 dest_type = GL_UNSIGNED_BYTE;
-                convert = true;
+                convert = 1;
                 break;
             case GL_UNSIGNED_INT_24_8:
                 if(hardext.depthtex && hardext.depthstencil) {
                     dest_type = GL_UNSIGNED_INT_24_8;
                 } else {
                     *type = GL_UNSIGNED_BYTE;   // will probably do nothing good!
-                    convert = true;
+                    convert = 1;
                 }
                 break;
             case GL_FLOAT:
                 if(hardext.floattex)
                     dest_type = GL_FLOAT;
                 else
-                    convert = true;
+                    convert = 1;
                 break;
             case GL_HALF_FLOAT:
             case GL_HALF_FLOAT_OES:
                 if(hardext.halffloattex)
                     dest_type = GL_HALF_FLOAT_OES;
                 else
-                    convert = true;
+                    convert = 1;
                 break;
             default:
-                convert = true;
+                convert = 1;
                 break;
         }
     }
