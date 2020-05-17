@@ -171,6 +171,14 @@ static const char* gl4es_hacks[] = {
 // for IcewindDale
 "uniform highp \tvec2 \t\tuTcScale;",
 "uniform mediump vec2 \t\tuTcScale;",
+
+// for OpenMW
+"uniform bool simpleWater = false;",
+"uniform bool simpleWater;",
+
+// for Lethal League
+"uniform vec4 Color = vec4(1.0, 1.0, 1.0, 1.0);",
+"uniform vec4 Color;",
 };
 
 // For Stellaris
