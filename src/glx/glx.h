@@ -159,6 +159,7 @@ struct __GLXContextRec {
     XID xid;
 	EGLSurface eglSurface;
 	EGLConfig eglConfigs[64];
+    int eglConfigsCount;
     int eglconfigIdx;
 	EGLContext eglContext;
     int samples;

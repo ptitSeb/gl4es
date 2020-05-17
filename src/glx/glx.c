@@ -649,8 +649,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
     LOAD_EGL(eglChooseConfig);
     LOAD_EGL(eglQueryString);
     
-    GLXContext fake = malloc(sizeof(struct __GLXContextRec));
-	memset(fake, 0, sizeof(struct __GLXContextRec));
+    GLXContext fake = calloc(1, sizeof(struct __GLXContextRec));
 
     // make an egl context here...
     EGLBoolean result;
@@ -676,13 +675,12 @@ GLXContext gl4es_glXCreateContext(Display *display,
         }
     }
 
-    int configsFound;
-	result = egl_eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 30, &configsFound);
-    if(configsFound && globals4es.usegbm)
-        fake->eglconfigIdx = FindGBMConfig(eglDisplay, fake->eglConfigs, configsFound);
+	result = egl_eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 64, &fake->eglConfigsCount);
+    if(fake->eglConfigsCount && globals4es.usegbm)
+        fake->eglconfigIdx = FindGBMConfig(eglDisplay, fake->eglConfigs, fake->eglConfigsCount);
 
     CheckEGLErrors();
-    if (result != EGL_TRUE || configsFound == 0) {
+    if (result != EGL_TRUE || fake->eglConfigsCount == 0) {
         DBG(printf(" => %p\n", NULL);)
         LOGE("No EGL configs found (depth=%d, stencil=%d).\n", depthBits, glxfbconfig->stencilBits);
         CheckEGLErrors();
@@ -760,6 +758,8 @@ GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBCon
     fake->es2only = globales2;
     fake->shared = (shareList)?shareList->glstate:NULL;
     fake->eglConfigs[0] = pbufConfigs[0];
+    fake->eglConfigsCount = 1;
+    fake->eglconfigIdx = 0;
 
 	fake->eglContext = egl_eglCreateContext(eglDisplay, fake->eglConfigs[0], shared, (hardext.esversion==1)?egl_context_attrib:egl_context_attrib_es2);
 
@@ -847,13 +847,14 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
             }
         }
 
-        int configsFound;
-        result = egl_eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 30, &configsFound);
-        if(configsFound && globals4es.usegbm)
-            fake->eglconfigIdx = FindGBMConfig(eglDisplay, fake->eglConfigs, configsFound);
+        result = egl_eglChooseConfig(eglDisplay, configAttribs, fake->eglConfigs, 64, &fake->eglConfigsCount);
+        if(fake->eglConfigsCount && globals4es.usegbm)
+            fake->eglconfigIdx = FindGBMConfig(eglDisplay, fake->eglConfigs, fake->eglConfigsCount);
+        else
+            fake->eglconfigIdx = 0;
 
         CheckEGLErrors();
-        if (result != EGL_TRUE || configsFound == 0) {
+        if (result != EGL_TRUE || fake->eglConfigsCount == 0) {
             LOGE("No EGL configs found.\n");
             return fake;
         }
@@ -1745,9 +1746,11 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                 case GLX_X_VISUAL_TYPE:
                     tmp = attrib_list[i++];
                     if(!(globals4es.usepbuffer || globals4es.usefb || globals4es.usefbo || globals4es.glxnative)) {
-                        attr[cur++] = EGL_NATIVE_VISUAL_TYPE;
-                        vt = cur;
-                        attr[cur++] = tmp;
+                        if(tmp!=GLX_TRUE_COLOR) { //GLX_TRUE_COLOR is ok, don't add it to the list
+                            attr[cur++] = EGL_NATIVE_VISUAL_TYPE;
+                            vt = cur;
+                            attr[cur++] = tmp;
+                        }
                     } // re-enabled, seems to be needed now on ODROID...
                     DBG(printf("FBConfig visual type=%d\n", tmp);)
                     break;
@@ -1809,11 +1812,11 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                 egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
         }
 #endif
-        if((*count==0) && (vt) && (attr[vt]!=-1)) {
+        /*if((*count==0) && (vt) && (attr[vt]!=-1)) {
             DBG(printf("glXChooseFBConfig found 0 config with VisualType, trying without\n");)
             attr[vt] = -1;  //EGL_DONT_CARE
             egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
-        }
+        }*/
         if(*count==0) {  // NO Config found....
             DBG(printf("glXChooseFBConfig found 0 config\n");)
             return NULL;
