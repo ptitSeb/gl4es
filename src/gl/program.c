@@ -9,6 +9,7 @@
 #include "glstate.h"
 #include "loader.h"
 #include "shaderconv.h"
+#include "fpe_shader.h"
 
 //#define DEBUG
 #ifdef DEBUG
@@ -741,6 +742,18 @@ void gl4es_glLinkProgram(GLuint program) {
     // first get the compatible need
     for (int i=0; i<glprogram->attach_size; i++) {
         accumShaderNeeds(glprogram->attach[i], &needs);
+    }
+    // now check if vertex shader is missing
+    int has_vertex = glprogram->last_vert?1:0;
+    // and create one if needed!
+    if(!has_vertex) {
+        glprogram->default_need = (shaderconv_need_t*)malloc(sizeof(shaderconv_need_t));
+        memcpy(glprogram->default_need, &needs, sizeof(shaderconv_need_t));
+        glprogram->default_vertex = 1;
+        GLenum vtx = gl4es_glCreateShader(GL_VERTEX_SHADER);
+        gl4es_glShaderSource(vtx, 1, fpe_VertexShader(&needs, NULL), NULL);
+        gl4es_glCompileShader(vtx);
+        gl4es_glAttachShader(glprogram->id, vtx);
     }
     int compatible = 1;
     // now is everyone ok?

@@ -161,15 +161,18 @@ char* fpe_binary(int x, int s) {
 }
     
 
-const char* const* fpe_VertexShader(fpe_state_t *state) {
+const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state) {
     // vertex is first called, so 1st time init is only here
     if(!shad_cap) shad_cap = 1024;
     if(!shad) shad = (char*)malloc(shad_cap);
+    // state can be NULL, so provide a 0 default
+    fpe_state_t default_state = {0};
+    if(!state) state = &default_state;
     int lighting = state->lighting;
     int twosided = state->twosided && lighting;
     int light_separate = state->light_separate && lighting;
-    int secondary = (state->colorsum && !(lighting && light_separate)) || fpe_texenvSecondary(state);
-    int fog = state->fog;
+    int secondary = (state->colorsum && !(lighting && light_separate)) || fpe_texenvSecondary(state) || (need && need->need_secondary);
+    int fog = state->fog || (need && need->need_fogcoord);
     int fogsource = state->fogsource;
     int fogdist = state->fogdist;
     int fogmode = state->fogmode;
@@ -202,13 +205,20 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     DBG(comments=1-comments;)   // When DEBUG is activated, the effect of LIBGL_COMMENTS is reversed
 
     if(comments) {
-        sprintf(buff, "// ** Vertex Shader **\n// ligthting=%d (twosided=%d, separate=%d, color_material=%d)\n// secondary=%d, planes=%s\n// point=%d\n",
-            lighting, twosided, light_separate, color_material, secondary, fpe_binary(planes, 6), point);
+        sprintf(buff, "// ** Vertex Shader **\n// ligthting=%d (twosided=%d, separate=%d, color_material=%d)\n// secondary=%d, planes=%s\n// point=%d%s\n",
+            lighting, twosided, light_separate, color_material, secondary, fpe_binary(planes, 6), point, need?" with need":"");
         ShadAppend(buff);
         headers+=CountLine(buff);
+        if(need) {
+            sprintf(buff, "// need: color=%d, texs=%s, fogcoord=%d\n", need->need_color, fpe_binary(need->need_texs, 16), need->need_fogcoord);
+            ShadAppend(buff);
+            headers+=CountLine(buff);
+        }
     }
-    ShadAppend("varying vec4 Color;\n");  // might be unused...
-    headers++;
+    if(!need || (need && need->need_color)) {
+        ShadAppend("varying vec4 Color;\n");  // might be unused...
+        headers++;
+    }
     if(planes) {
         for (int i=0; i<hardext.maxplanes; i++) {
             if((planes>>i)&1) {
@@ -340,6 +350,8 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     // textures coordinates
     for (int i=0; i<hardext.maxtex; i++) {
         int t = state->texture[i].textype;
+        if(need)
+            t = (need->need_texs&(1<<i))?1:0;
         if(t) {
             sprintf(buff, "varying %s _gl4es_TexCoord_%d;\n", texvecsize[t-1], i);
             ShadAppend(buff);
@@ -369,7 +381,8 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
     ShadAppend("gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n");
     // initial Color / lighting calculation
     if(!lighting) {
-        ShadAppend("Color = gl_Color;\n");
+        if(!need || (need && need->need_color))
+            ShadAppend("Color = gl_Color;\n");
         if(secondary) {
             ShadAppend("SecColor = gl_SecondaryColor;\n");
         }
@@ -559,6 +572,8 @@ const char* const* fpe_VertexShader(fpe_state_t *state) {
         ShadAppend("vec4 tmp_tex;\n");
     for (int i=0; i<hardext.maxtex; i++) {
         int t = state->texture[i].textype;
+        if(need && (need->need_texs&(1<<i)) && t==0)
+            t = 1;
         int mat = state->texture[i].texmat;
         int adjust = state->texture[i].texadjust;
         int tg[4];

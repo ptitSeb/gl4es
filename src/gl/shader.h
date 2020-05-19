@@ -5,7 +5,7 @@
 #include "gles.h"
 #include "oldprogram.h"
 
-typedef struct {
+typedef struct shaderconv_need_s {
     int         need_color;      // front and back
     int         need_secondary;  //  same
     int         need_fogcoord;

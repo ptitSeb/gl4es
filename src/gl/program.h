@@ -15,7 +15,8 @@ typedef struct {
 } attribloc_t;
 KHASH_MAP_DECLARE_INT(attribloclist, attribloc_t *);
 
-typedef struct shader_s shader_t;
+typedef struct shader_s             shader_t;
+typedef struct shaderconv_need_s    shaderconv_need_t;
 
 typedef enum {
     MAT_MV = 0,
@@ -210,6 +211,9 @@ typedef struct {
     GLuint          *attach;
     shader_t        *last_vert;
     shader_t        *last_frag;
+    int             default_vertex;
+    int             default_fragment;
+    shaderconv_need_t *default_need;    // filled only if default_vertex or default_fragment is used
     int             va_size[MAX_VATTRIB];
     khash_t(attribloclist)     *attribloc;
     khash_t(uniformlist) *uniform;

@@ -192,23 +192,28 @@ void gl4es_glShaderSource(GLuint shader, GLsizei count, const GLchar * const *st
     GO(mvmatrix)    \
     GO(mvpmatrix)   \
     GO(notexarray)  \
-    GO(clean)
+    GO(clean)       \
+    GO2(texs)
 
 void accumShaderNeeds(GLuint shader, shaderconv_need_t *need) {
     CHECK_SHADER(void, shader)
     if(!glshader->converted) 
         return;
     #define GO(A) if(need->need_##A < glshader->need.need_##A) need->need_##A = glshader->need.need_##A;
+    #define GO2(A) need->need_##A |= glshader->need.need_##A;
     SUPER()
     #undef GO
+    #undef GO2
 }
 int isShaderCompatible(GLuint shader, shaderconv_need_t *need) {
     CHECK_SHADER(int, shader)
     if(!glshader->converted)
         return 0;
     #define GO(A) if(need->need_##A > glshader->need.need_##A) return 0;
+    #define GO2(A) if(need->need_##A & glshader->need.need_##A) return 0;
     SUPER()
     #undef GO
+    #undef GO2
     return 1;
 }
 #undef SUPER
