@@ -1103,6 +1103,19 @@ Bool gl4es_glXMakeCurrent(Display *display,
         DBG(printf("Same context and drawable, doing nothing\n");)
         return true;
     }
+    if (glxContext && glxContext->drawable==drawable && glxContext->eglSurface && !context->eglSurface && 
+         ((glxContext->shared==context->shared && glxContext->shared) || glxContext == context->shared || context == glxContext->shared)) {
+
+        context->eglSurface = glxContext->eglSurface;   // lets hope eglContexts are compatible
+        if(!glxContext->shared_eglsurface)
+            glxContext->shared_eglsurface = (int*)calloc(1, sizeof(int));
+        context->shared_eglsurface = glxContext->shared_eglsurface;
+        (*glxContext->shared_eglsurface)++;
+        if(!context->glstate)
+            context->glstate = NewGLState(context->shared, context->es2only);
+        DBG(printf("Same drawable and compatible context: sharing everything...\n");)
+
+    }
     if(context && glxContext && context->drawable==drawable && context->eglSurface==eglSurface) {
         gl4es_saveCurrentFBO();
         glxContext = context;
