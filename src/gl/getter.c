@@ -424,6 +424,21 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_MAX_LIST_NESTING:
             *params=64;	// fake, no limit in fact
             break;
+        case GL_TEXTURE_BINDING_1D:
+            *params=glstate->texture.bound[glstate->texture.active][ENABLED_TEX1D]?glstate->texture.bound[glstate->texture.active][ENABLED_TEX1D]->glname:0;
+            break;
+        case GL_TEXTURE_BINDING_2D:
+            *params=glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]?glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D]->glname:0;
+            break;
+        case GL_TEXTURE_BINDING_3D:
+            *params=glstate->texture.bound[glstate->texture.active][ENABLED_TEX3D]?glstate->texture.bound[glstate->texture.active][ENABLED_TEX3D]->glname:0;
+            break;
+        case GL_TEXTURE_BINDING_RECTANGLE_ARB:
+            *params=glstate->texture.bound[glstate->texture.active][ENABLED_TEXTURE_RECTANGLE]?glstate->texture.bound[glstate->texture.active][ENABLED_TEXTURE_RECTANGLE]->glname:0;
+            break;
+        case GL_TEXTURE_BINDING_CUBE_MAP:
+            *params=glstate->texture.bound[glstate->texture.active][ENABLED_CUBE_MAP]?glstate->texture.bound[glstate->texture.active][ENABLED_CUBE_MAP]->glname:0;
+            break;
         case  GL_ARRAY_BUFFER_BINDING:
             *params=(glstate->vao->vertex)?glstate->vao->vertex->buffer:0;
             break;
