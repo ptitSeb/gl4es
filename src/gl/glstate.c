@@ -75,7 +75,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
         glstate->actual_tex2d = copy_state->actual_tex2d;
         glstate->texture.list = copy_state->texture.list;
         glstate->glsl = copy_state->glsl;
-        glstate->gleshard = copy_state->gleshard;
+        //glstate->gleshard = copy_state->gleshard; // Not shared (at least not the VA)
         glstate->buffers = copy_state->buffers;
         glstate->queries = copy_state->queries;
         glstate->fpe_cache = copy_state->fpe_cache;
@@ -151,11 +151,11 @@ void* NewGLState(void* shared_glstate, int es2only) {
         glstate->actual_tex2d = (GLuint*)calloc(MAX_TEX, sizeof(GLuint));
     }
     // glsl
+    glstate->gleshard = (gleshard_t*)calloc(1, sizeof(gleshard_t)); // Not shared!
     if(!shared_glstate)
     {
         glstate->glsl = (glsl_t*)malloc(sizeof(glsl_t));
         memset(glstate->glsl, 0, sizeof(glsl_t));
-        glstate->gleshard = (gleshard_t*)calloc(1, sizeof(gleshard_t));
         InitOldProgramMap(glstate);
     }
     // Bind defaults...
@@ -551,11 +551,11 @@ void DeleteGLState(void* oldstate) {
     if(!state->shared_cnt) {
         FreeOldProgramMap(state);
         free(state->glsl);
-        free(state->gleshard);
         if(state->fpe_cache) {
             fpe_Dispose(state);
         }
     }
+    free(state->gleshard);  // Not shared!
     // get extensions
     if(state->extensions)
         free(state->extensions);
