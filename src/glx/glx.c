@@ -1104,20 +1104,20 @@ Bool gl4es_glXMakeCurrent(Display *display,
         return true;
     }
     if(context && glxContext && context->drawable==drawable && context->eglSurface==eglSurface) {
+        gl4es_saveCurrentFBO();
+        glxContext = context;
+        ActivateGLState(context->glstate);
+        gl4es_restoreCurrentFBO();
+
         DBG(printf(" => True\n");)
         //same context, all is done bye (only one context per surface anyway in EGL, iirc)
-        DBG(printf("Same Surface and Drawable, doing nothing\n");)
+        DBG(printf("Same Surface and Drawable, doing (almost) nothing\n");)
         return true;
     }
-    if(globals4es.fbomakecurrent && glxContext && glxContext->glstate) {
-       current_fb = gl4es_getCurrentFBO();
-       if(current_fb) {
-            if(hardext.vendor&VEND_ARM)
-                gl4es_glFinish(); //MALI seems to need a flush commandbefore unbinding the Framebuffer here
-            LOAD_GLES2_OR_OES(glBindFramebuffer);
-            gles_glBindFramebuffer(GL_FRAMEBUFFER, 0);
-       }
-    }
+
+    if(glxContext && glxContext->glstate)
+        gl4es_saveCurrentFBO();
+
     if(context) {
         if(context->drawable==drawable && context->eglSurface) {
             // same-same, recycling...
@@ -1341,8 +1341,9 @@ Bool gl4es_glXMakeCurrent(Display *display,
                 // create the main_fbo...
                 createMainFBO(g_width, g_height);
             }
-            if(globals4es.fbomakecurrent && gl4es_getCurrentFBO())
-                gl4es_setCurrentFBO();
+            
+            gl4es_restoreCurrentFBO();
+
              // finished
             DBG(printf(" => True (glstate=%p)\n", context?context->glstate:NULL);)
             return true;

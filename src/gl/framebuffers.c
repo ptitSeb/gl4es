@@ -1679,6 +1679,31 @@ void gl4es_glClearNamedFramebufferfi(GLuint framebuffer, GLenum buffer, GLint dr
     gl4es_glBindFramebuffer(target, oldf);
 }
 
+void gl4es_saveCurrentFBO()
+{
+    // this, in fact, bind FBO to 0 if it wasn't
+    GLuint framebuffer = (glstate->fbo.current_fb)?glstate->fbo.current_fb->id:0;
+    if(framebuffer==0)
+        framebuffer = glstate->fbo.mainfbo_fbo;
+    if(framebuffer) {
+        LOAD_GLES2_OR_OES(glBindFramebuffer);
+        if(hardext.vendor&VEND_ARM)
+            gl4es_glFinish(); //MALI seems to need a flush commandbefore unbinding the Framebuffer here
+        gles_glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+}
+
+void gl4es_restoreCurrentFBO()
+{
+    // Bind back current FBO if it wasn't 0
+    GLuint framebuffer = (glstate->fbo.current_fb)?glstate->fbo.current_fb->id:0;
+    if(framebuffer==0)
+        framebuffer = glstate->fbo.mainfbo_fbo;
+    if(framebuffer) {
+        LOAD_GLES2_OR_OES(glBindFramebuffer);
+        gles_glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+    }
+}
 
 // direct wrapper
 

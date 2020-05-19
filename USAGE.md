@@ -252,11 +252,6 @@ Hack to define default WRAP mode for texture
 * 1 : Default wrap mode is GL_CLAMP_TO_EDGE: default on limited NPOT or non-NPOT hardware
 * 2 : Default wrap mode is GL_CLAMP_TO_EDGE, enforced (not advised)
 
-##### LIBGL_FBOMAKECURRENT
-Workaround for FBO and glXMakeCurrent (force unbind/bind FBO when changing context)
-* 0 : Disabled (Default on most configuration)
-* 1 : Enabled (Default if Vendor is ARM or if using LIBGL_FB 1 and 2)
-
 ##### LIBL_FBOUNBIND
 Workaround on FBO where a binded texture is used for drawing
 * 0 : Disabled (Default for all other configuration)

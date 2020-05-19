@@ -52,4 +52,7 @@ void readfboEnd();
 GLuint gl4es_getCurrentFBO();
 void gl4es_setCurrentFBO();
 
+void gl4es_saveCurrentFBO();
+void gl4es_restoreCurrentFBO();
+
 #endif // _GL4ES_FRAMEBUFFERS_H_
