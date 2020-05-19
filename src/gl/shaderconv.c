@@ -18,27 +18,51 @@ typedef struct {
 } builtin_attrib_t;
 
 const builtin_attrib_t builtin_attrib[] = {
-    {"gl_Vertex", "_gl4es_Vertex", "vec4", "highp", ATT_VERTEX},
-    {"gl_Color", "_gl4es_Color", "vec4", "lowp", ATT_COLOR},
-    {"gl_MultiTexCoord0", "_gl4es_MultiTexCoord0", "vec4", "highp", ATT_MULTITEXCOORD0},
-    {"gl_MultiTexCoord1", "_gl4es_MultiTexCoord1", "vec4", "highp", ATT_MULTITEXCOORD1},
-    {"gl_MultiTexCoord2", "_gl4es_MultiTexCoord2", "vec4", "highp", ATT_MULTITEXCOORD2},
-    {"gl_MultiTexCoord3", "_gl4es_MultiTexCoord3", "vec4", "highp", ATT_MULTITEXCOORD3},
-    {"gl_MultiTexCoord4", "_gl4es_MultiTexCoord4", "vec4", "highp", ATT_MULTITEXCOORD4},
-    {"gl_MultiTexCoord5", "_gl4es_MultiTexCoord5", "vec4", "highp", ATT_MULTITEXCOORD5},
-    {"gl_MultiTexCoord6", "_gl4es_MultiTexCoord6", "vec4", "highp", ATT_MULTITEXCOORD6},
-    {"gl_MultiTexCoord7", "_gl4es_MultiTexCoord7", "vec4", "highp", ATT_MULTITEXCOORD7},
-    {"gl_MultiTexCoord8", "_gl4es_MultiTexCoord8", "vec4", "highp", ATT_MULTITEXCOORD8},
-    {"gl_MultiTexCoord9", "_gl4es_MultiTexCoord9", "vec4", "highp", ATT_MULTITEXCOORD9},
-    {"gl_MultiTexCoord10", "_gl4es_MultiTexCoord10", "vec4", "highp", ATT_MULTITEXCOORD10},
-    {"gl_MultiTexCoord11", "_gl4es_MultiTexCoord11", "vec4", "highp", ATT_MULTITEXCOORD11},
-    {"gl_MultiTexCoord12", "_gl4es_MultiTexCoord12", "vec4", "highp", ATT_MULTITEXCOORD12},
-    {"gl_MultiTexCoord13", "_gl4es_MultiTexCoord13", "vec4", "highp", ATT_MULTITEXCOORD13},
-    {"gl_MultiTexCoord14", "_gl4es_MultiTexCoord14", "vec4", "highp", ATT_MULTITEXCOORD14},
-    {"gl_MultiTexCoord15", "_gl4es_MultiTexCoord15", "vec4", "highp", ATT_MULTITEXCOORD15},
-    {"gl_SecondaryColor", "_gl4es_SecondaryColor", "vec4", "lowp", ATT_SECONDARY},
-    {"gl_Normal", "_gl4es_Normal", "vec3", "highp", ATT_NORMAL},
-    {"gl_FogCoord", "_gl4es_FogCoord", "float", "highp", ATT_FOGCOORD}
+    {"gl_Vertex", "_gl4es_Vertex", "vec4", "highp", ARB_VERTEX},
+    {"gl_Color", "_gl4es_Color", "vec4", "lowp", ARB_COLOR},
+    {"gl_MultiTexCoord0", "_gl4es_MultiTexCoord0", "vec4", "highp", ARB_MULTITEXCOORD0},
+    {"gl_MultiTexCoord1", "_gl4es_MultiTexCoord1", "vec4", "highp", ARB_MULTITEXCOORD1},
+    {"gl_MultiTexCoord2", "_gl4es_MultiTexCoord2", "vec4", "highp", ARB_MULTITEXCOORD2},
+    {"gl_MultiTexCoord3", "_gl4es_MultiTexCoord3", "vec4", "highp", ARB_MULTITEXCOORD3},
+    {"gl_MultiTexCoord4", "_gl4es_MultiTexCoord4", "vec4", "highp", ARB_MULTITEXCOORD4},
+    {"gl_MultiTexCoord5", "_gl4es_MultiTexCoord5", "vec4", "highp", ARB_MULTITEXCOORD5},
+    {"gl_MultiTexCoord6", "_gl4es_MultiTexCoord6", "vec4", "highp", ARB_MULTITEXCOORD6},
+    {"gl_MultiTexCoord7", "_gl4es_MultiTexCoord7", "vec4", "highp", ARB_MULTITEXCOORD7},
+    {"gl_MultiTexCoord8", "_gl4es_MultiTexCoord8", "vec4", "highp", ARB_MULTITEXCOORD8},
+    {"gl_MultiTexCoord9", "_gl4es_MultiTexCoord9", "vec4", "highp", ARB_MULTITEXCOORD9},
+    {"gl_MultiTexCoord10", "_gl4es_MultiTexCoord10", "vec4", "highp", ARB_MULTITEXCOORD10},
+    {"gl_MultiTexCoord11", "_gl4es_MultiTexCoord11", "vec4", "highp", ARB_MULTITEXCOORD11},
+    {"gl_MultiTexCoord12", "_gl4es_MultiTexCoord12", "vec4", "highp", ARB_MULTITEXCOORD12},
+    {"gl_MultiTexCoord13", "_gl4es_MultiTexCoord13", "vec4", "highp", ARB_MULTITEXCOORD13},
+    {"gl_MultiTexCoord14", "_gl4es_MultiTexCoord14", "vec4", "highp", ARB_MULTITEXCOORD14},
+    {"gl_MultiTexCoord15", "_gl4es_MultiTexCoord15", "vec4", "highp", ARB_MULTITEXCOORD15},
+    {"gl_SecondaryColor", "_gl4es_SecondaryColor", "vec4", "lowp", ARB_SECONDARY},
+    {"gl_Normal", "_gl4es_Normal", "vec3", "highp", ARB_NORMAL},
+    {"gl_FogCoord", "_gl4es_FogCoord", "float", "highp", ARB_FOGCOORD}
+};
+
+const builtin_attrib_t builtin_attrib_compressed[] = {
+    {"gl_Vertex", "_gl4es_Vertex", "vec4", "highp", COMP_VERTEX},
+    {"gl_Color", "_gl4es_Color", "vec4", "lowp", COMP_COLOR},
+    {"gl_MultiTexCoord0", "_gl4es_MultiTexCoord0", "vec4", "highp", COMP_MULTITEXCOORD0},
+    {"gl_MultiTexCoord1", "_gl4es_MultiTexCoord1", "vec4", "highp", COMP_MULTITEXCOORD1},
+    {"gl_MultiTexCoord2", "_gl4es_MultiTexCoord2", "vec4", "highp", COMP_MULTITEXCOORD2},
+    {"gl_MultiTexCoord3", "_gl4es_MultiTexCoord3", "vec4", "highp", COMP_MULTITEXCOORD3},
+    {"gl_MultiTexCoord4", "_gl4es_MultiTexCoord4", "vec4", "highp", COMP_MULTITEXCOORD4},
+    {"gl_MultiTexCoord5", "_gl4es_MultiTexCoord5", "vec4", "highp", COMP_MULTITEXCOORD5},
+    {"gl_MultiTexCoord6", "_gl4es_MultiTexCoord6", "vec4", "highp", COMP_MULTITEXCOORD6},
+    {"gl_MultiTexCoord7", "_gl4es_MultiTexCoord7", "vec4", "highp", COMP_MULTITEXCOORD7},
+    {"gl_MultiTexCoord8", "_gl4es_MultiTexCoord8", "vec4", "highp", COMP_MULTITEXCOORD8},
+    {"gl_MultiTexCoord9", "_gl4es_MultiTexCoord9", "vec4", "highp", COMP_MULTITEXCOORD9},
+    {"gl_MultiTexCoord10", "_gl4es_MultiTexCoord10", "vec4", "highp", COMP_MULTITEXCOORD10},
+    {"gl_MultiTexCoord11", "_gl4es_MultiTexCoord11", "vec4", "highp", COMP_MULTITEXCOORD11},
+    {"gl_MultiTexCoord12", "_gl4es_MultiTexCoord12", "vec4", "highp", COMP_MULTITEXCOORD12},
+    {"gl_MultiTexCoord13", "_gl4es_MultiTexCoord13", "vec4", "highp", COMP_MULTITEXCOORD13},
+    {"gl_MultiTexCoord14", "_gl4es_MultiTexCoord14", "vec4", "highp", COMP_MULTITEXCOORD14},
+    {"gl_MultiTexCoord15", "_gl4es_MultiTexCoord15", "vec4", "highp", COMP_MULTITEXCOORD15},
+    {"gl_SecondaryColor", "_gl4es_SecondaryColor", "vec4", "lowp", COMP_SECONDARY},
+    {"gl_Normal", "_gl4es_Normal", "vec3", "highp", COMP_NORMAL},
+    {"gl_FogCoord", "_gl4es_FogCoord", "float", "highp", COMP_FOGCOORD}
 };
 
 typedef struct {
@@ -986,10 +1010,18 @@ const char* hasBuiltinAttrib(const char* vertexShader, int Att) {
       return NULL;
     // first search for the string
     const char* ret = NULL;
-    int n = sizeof(builtin_attrib)/sizeof(builtin_attrib_t);
-    for (int i=0; i<n && !ret; i++) {
-        if (builtin_attrib[i].attrib == Att)
-            ret = builtin_attrib[i].name;
+    if(hardext.maxvattrib>8) {
+      int n = sizeof(builtin_attrib)/sizeof(builtin_attrib_t);
+      for (int i=0; i<n && !ret; i++) {
+          if (builtin_attrib[i].attrib == Att)
+              ret = builtin_attrib[i].name;
+      }
+    } else {
+      int n = sizeof(builtin_attrib_compressed)/sizeof(builtin_attrib_t);
+      for (int i=0; i<n && !ret; i++) {
+          if (builtin_attrib_compressed[i].attrib == Att)
+              ret = builtin_attrib_compressed[i].name;
+      }
     }
     if (!ret)
       return NULL;
