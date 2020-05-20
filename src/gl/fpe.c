@@ -36,6 +36,103 @@ void fpe_Dispose(glstate_t *glstate) {
     glstate->fpe_cache = NULL;
 }
 
+void fpe_ReleventState_DefaultVertex(fpe_state_t *dest, fpe_state_t *src, shaderconv_need_t* need)
+{
+    // filter out some non relevent state (like texture stuff if texture is disabled)
+    memcpy(dest, src, sizeof(fpe_state_t));
+    // alpha test
+    if(!dest->alphatest) {
+        dest->alphafunc = FPE_ALWAYS;
+    }
+    // lighting
+    if(!dest->lighting) {
+        dest->light = 0;
+        dest->light_cutoff180 = 0;
+        dest->light_direction = 0;
+        dest->twosided = 0;
+        dest->color_material = 0;
+        dest->cm_front_mode = 0;
+        dest->cm_back_mode = 0;
+        dest->cm_front_nullexp = 0;
+        dest->cm_back_nullexp = 0;
+        dest->light_separate = 0;
+        dest->light_localviewer = 0;
+    } else {
+        // indiviual lights
+        for (int i=0; i<8; i++) {
+            if(((dest->light>>i)&1)==0) {
+                dest->light_cutoff180 &= ~(1<<i);
+                dest->light_direction &= ~(1<<i);
+            }            
+        }
+    }
+    // texturing
+    // individual textures
+    for (int i=0; i<MAX_TEX; i++) {
+        if(!(need->need_texs&(1<<i))) { // texture is off
+            dest->texture[i].texmat = 0;
+            dest->texture[i].texformat = 0;
+            dest->texture[i].texadjust = 0;
+            dest->texgen[i].texgen_s = 0;
+            dest->texgen[i].texgen_s_mode = 0;
+            dest->texgen[i].texgen_t = 0;
+            dest->texgen[i].texgen_t_mode = 0;
+            dest->texgen[i].texgen_r = 0;
+            dest->texgen[i].texgen_r_mode = 0;
+            dest->texgen[i].texgen_q = 0;
+            dest->texgen[i].texgen_q_mode = 0;
+            dest->texenv[i].texrgbscale = 0;
+            dest->texenv[i].texalphascale = 0;
+        } else {    // texture is on
+            if (dest->texgen[i].texgen_s==0)
+                dest->texgen[i].texgen_s_mode = 0;
+            if (dest->texgen[i].texgen_t==0)
+                dest->texgen[i].texgen_t_mode = 0;
+            if (dest->texgen[i].texgen_r==0)
+                dest->texgen[i].texgen_r_mode = 0;
+            if (dest->texgen[i].texgen_q==0)
+                dest->texgen[i].texgen_q_mode = 0;
+        }
+        if((dest->texenv[i].texenv < FPE_COMBINE) || (dest->texture[i].textype==0)) {
+            dest->texcombine[i] = 0;
+            dest->texenv[i].texsrcrgb0 = 0;
+            dest->texenv[i].texsrcalpha0 = 0;
+            dest->texenv[i].texoprgb0 = 0;
+            dest->texenv[i].texopalpha0 = 0;
+            dest->texenv[i].texsrcrgb1 = 0;
+            dest->texenv[i].texsrcalpha1 = 0;
+            dest->texenv[i].texoprgb1 = 0;
+            dest->texenv[i].texopalpha1 = 0;
+            dest->texenv[i].texsrcrgb2 = 0;
+            dest->texenv[i].texsrcalpha2 = 0;
+            dest->texenv[i].texoprgb2 = 0;
+            dest->texenv[i].texopalpha2 = 0;
+        } else if(dest->texenv[i].texenv != FPE_COMBINE4) {
+            dest->texenv[i].texsrcrgb3 = 0;
+            dest->texenv[i].texsrcalpha3 = 0;
+            dest->texenv[i].texoprgb3 = 0;
+            dest->texenv[i].texopalpha3 = 0;
+        }
+    }
+    if(dest->fog && dest->fogsource==FPE_FOG_SRC_COORD)
+        dest->fogdist = 0;
+    if(!need->need_fogcoord) {
+        dest->fogmode = 0;
+        dest->fogsource = 0;
+        dest->fogdist = 0;
+    }
+    if(!dest->point)
+        dest->pointsprite = 0;
+    if(!dest->pointsprite) {
+        dest->pointsprite_upper = 0;
+        dest->pointsprite_coord = 0;
+    }
+    // ARB_vertex_program and ARB_fragment_program
+    dest->vertex_prg_id = 0;    // it's a default vertex program...
+    if(!dest->fragment_prg_enable)
+        dest->fragment_prg_id = 0;
+}
+
 void fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int fixed)
 {
     // filter out some non relevent state (like texture stuff if texture is disabled)
@@ -287,6 +384,84 @@ program_t* fpe_CustomShader(program_t* glprogram, fpe_state_t* state)
             char buff[1000];
             gl4es_glGetProgramInfoLog(fpe->prog, 1000, NULL, buff);
             printf("LIBGL: FPE Custom Program link failed: %s\n", buff);
+            return glprogram;   // fallback to non-customized custom program..
+        }
+        // now find the program
+        khint_t k_program;
+        {
+            int ret;
+            khash_t(programlist) *programs = glstate->glsl->programs;
+            k_program = kh_get(programlist, programs, fpe->prog);
+            if (k_program != kh_end(programs))
+                fpe->glprogram = kh_value(programs, k_program);
+        }
+        // adjust the uniforms to point to father cache...
+        {
+            khash_t(uniformlist) *father_uniforms = glprogram->uniform;
+            khash_t(uniformlist) *uniforms = fpe->glprogram->uniform;
+            uniform_t *m, *n;
+            khint_t k;
+            kh_foreach(uniforms, k, m,
+                if(!m->builtin) {
+                    n = findUniform(father_uniforms, m->name);
+                    if(n) {
+                        m->parent_offs = n->cache_offs;
+                        m->parent_size = n->cache_size;
+                    }
+                }
+            )
+        }
+        // all done
+        DBG(printf("creating FPE Custom Program : %d(%p)\n", fpe->prog, fpe->glprogram);)
+    }
+
+    return fpe->glprogram;
+}
+
+program_t* fpe_CustomShader_DefaultVertex(program_t* glprogram, fpe_state_t* state_vertex)
+{
+    // state is not empty and glprogram already has some cache (it may be empty, but kh'thingy is initialized)
+    // TODO: what if program is composed of more then 1 vertex or fragment shader?
+    fpe_fpe_t *fpe = fpe_GetCache((fpe_cache_t*)glprogram->fpe_cache, state_vertex, 0);
+    if(fpe->glprogram==NULL) {
+        GLint status;
+        fpe->vert = gl4es_glCreateShader(GL_VERTEX_SHADER);
+        gl4es_glShaderSource(fpe->vert, 1, fpe_VertexShader(glprogram->default_need, state_vertex), NULL);
+        gl4es_glCompileShader(fpe->vert);
+        gl4es_glGetShaderiv(fpe->vert, GL_COMPILE_STATUS, &status);
+        if(status!=GL_TRUE) {
+            char buff[1000];
+            gl4es_glGetShaderInfoLog(fpe->vert, 1000, NULL, buff);
+            printf("LIBGL: FPE Default Vertex shader compile failed: %s\n", buff);
+            return glprogram;   // fallback to non-customized custom program..
+        }
+        fpe->frag = gl4es_glCreateShader(GL_FRAGMENT_SHADER);
+        gl4es_glShaderSource(fpe->frag, 1, fpe_CustomFragmentShader(glprogram->last_frag->source, state_vertex), NULL);
+        gl4es_glCompileShader(fpe->frag);
+        gl4es_glGetShaderiv(fpe->frag, GL_COMPILE_STATUS, &status);
+        if(status!=GL_TRUE) {
+            char buff[1000];
+            gl4es_glGetShaderInfoLog(fpe->frag, 1000, NULL, buff);
+            printf("LIBGL: FPE Custom Fragment shader compile failed: %s\n", buff);
+            return glprogram;   // fallback to non-customized custom program..
+        }
+        fpe->prog = gl4es_glCreateProgram();
+        gl4es_glAttachShader(fpe->prog, fpe->vert);
+        gl4es_glAttachShader(fpe->prog, fpe->frag);
+        // re-run the BindAttribLocation if any
+        {
+            attribloc_t *al;
+            LOAD_GLES2(glBindAttribLocation);   // using real one to avoid overwriting of attribloc...
+            kh_foreach_value(glprogram->attribloc, al,
+                gles_glBindAttribLocation(fpe->prog, al->index, al->name);
+            );
+        }
+        gl4es_glLinkProgram(fpe->prog);
+        gl4es_glGetProgramiv(fpe->prog, GL_LINK_STATUS, &status);
+        if(status!=GL_TRUE) {
+            char buff[1000];
+            gl4es_glGetProgramInfoLog(fpe->prog, 1000, NULL, buff);
+            printf("LIBGL: FPE Custom Program with Default Vertex link failed: %s\n", buff);
             return glprogram;   // fallback to non-customized custom program..
         }
         // now find the program
@@ -808,7 +983,14 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         fpe_ReleventState(&state, glstate->fpe_state, 0);
         GLuint program = glstate->glsl->program;
         program_t *glprogram = glstate->glsl->glprogram;
-        if(!fpe_IsEmpty(&state))
+        if(glprogram->default_vertex) {
+            fpe_state_t vertex_state;
+            fpe_ReleventState_DefaultVertex(&vertex_state, glstate->fpe_state, glprogram->default_need);
+            if(!glprogram->fpe_cache)
+                glprogram->fpe_cache = fpe_NewCache();
+            glprogram = fpe_CustomShader_DefaultVertex(glprogram, &vertex_state);    // fetch from cache if exist or create it
+            program = glprogram->id;
+        } else if(!fpe_IsEmpty(&state))
         {
             // need to create a new program for that...
             DBG(printf("GLSL program %d need customization => ", program);)
