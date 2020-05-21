@@ -268,8 +268,11 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
         gl4es_glGetIntegerv(GL_UNPACK_ALIGNMENT, &oldalign);
         if (oldalign!=1) 
             gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        DBG(printf(" => internalformat=%s (Alpha=%d/%d), %dx%d %s/%s\n\n", PrintEnum((simpleAlpha||complexAlpha)?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB), simpleAlpha, complexAlpha, width, height, PrintEnum(format), PrintEnum(type));)
-        gl4es_glTexImage2D(target, level, (simpleAlpha||complexAlpha)?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB, width, height, border, format, type, half);
+        GLenum new_intformat = (simpleAlpha||complexAlpha)?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB;
+        if(level && bound && bound->valid)
+            new_intformat = (bound->format==GL_RGB)?GL_COMPRESSED_RGB:GL_COMPRESSED_RGBA;
+        DBG(printf(" => internalformat=%s (Alpha=%d/%d), %dx%d %s/%s\n\n", PrintEnum(new_intformat), simpleAlpha, complexAlpha, width, height, PrintEnum(format), PrintEnum(type));)
+        gl4es_glTexImage2D(target, level, new_intformat, width, height, border, format, type, half);
         // re-update bounded texture info, but not format and type
         bound->alpha = (simpleAlpha||complexAlpha)?1:0;
         bound->compressed = 1;
@@ -294,8 +297,7 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
                 if(half)
                     pixel_convert(ndata, &out, nww, nhh, GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0, 1);
                 ++leveln;
-                gl4es_glTexImage2D(target, leveln, (simpleAlpha||complexAlpha)?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB, nww, nhh, border,
-                                format, type, out);
+                gl4es_glTexImage2D(target, leveln, new_intformat, nww, nhh, border, format, type, out);
                 if(out!=ndata)
                     free(out);
             }
