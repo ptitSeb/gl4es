@@ -328,9 +328,20 @@ static int get_config_default(Display *display, int attribute, int *value) {
             *value = GLX_RGBA_TYPE;
             break;
         case GLX_VISUAL_ID:
-            *value = gl4es_glXGetVisualFromFBConfig(display, NULL)->visualid;
-            //gl4es_glXChooseVisual(display, 0, NULL)->visualid;
-            //*value = 1;
+            {
+                XVisualInfo xvinfo = {0};
+                xvinfo.depth = glx_default_depth;
+                xvinfo.class = TrueColor;
+                int n;
+                XVisualInfo *visuals = XGetVisualInfo(display, VisualDepthMask|VisualClassMask, &xvinfo, &n);
+                if (!n) {
+                    LOGD("Warning, get_config_default: XGetVisualInfo gives 0 VisualInfo for %d depth and TrueColor class\n", glx_default_depth);
+                    *value = 0;
+                } else {
+                    *value = visuals[0].visualid;
+                    XFree(visuals);
+                }
+            }
             break;
         case GLX_FBCONFIG_ID:
             *value = 0;
@@ -1039,13 +1050,16 @@ XVisualInfo *gl4es_glXChooseVisual(Display *display,
 */  // this makes window of TokiTory transparent...
 #endif
 
-    XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
-    if (!XMatchVisualInfo(display, screen, glx_default_depth, vis_class, visual)) {
-        LOGE("XMatchVisualInfo failed in glXChooseVisual\n");
+    XVisualInfo xvinfo = {0};
+    xvinfo.depth = glx_default_depth;
+    xvinfo.class = TrueColor;
+    int n;
+    XVisualInfo *visuals = XGetVisualInfo(display, VisualDepthMask|VisualClassMask, &xvinfo, &n);
+    if (!n) {
+        LOGD("Warning, gl4es_glXChooseVisual: XGetVisualInfo gives 0 VisualInfo for %d depth and TrueColor class\n", glx_default_depth);
         return NULL;
     }
 
-    
     // create and store the glxConfig that goes with thoses attributes
     int count = 1;
     GLXFBConfig * confs = NULL;
@@ -1057,10 +1071,10 @@ XVisualInfo *gl4es_glXChooseVisual(Display *display,
         DBG(printf("glXChooseVisual return %p (because no Config found)\n", NULL);)
         return NULL;
     }
-    AddFBVisual(visual, confs);
+    AddFBVisual(visuals, confs);
 
-    DBG(printf("glXChooseVisual return %p\n", visual);)
-    return visual;
+    DBG(printf("glXChooseVisual return %p\n", visuals);)
+    return visuals;
 }
 
 /*
@@ -1613,8 +1627,8 @@ GLXFBConfig * fillGLXFBConfig(EGLConfig *eglConfigs, int count, int withDB, Disp
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_MAX_PBUFFER_HEIGHT, &configs[j]->maxPbufferHeight);
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_MAX_PBUFFER_PIXELS, &configs[j]->maxPbufferPixels);
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_NATIVE_VISUAL_ID, &configs[j]->associatedVisualId);
-        if(!configs[j]->associatedVisualId) {
-            // why???
+        if(!configs[j]->associatedVisualId || globals4es.usefb || globals4es.usefbo || globals4es.usepbuffer) {
+            // when using some FB driver, lets take a default VisualID, as the one from the EGLConfig is probably not the correct one
             glx_default_depth = XDefaultDepth(display, 0);
             XVisualInfo xvinfo = {0};
             xvinfo.depth = glx_default_depth;
@@ -1622,7 +1636,7 @@ GLXFBConfig * fillGLXFBConfig(EGLConfig *eglConfigs, int count, int withDB, Disp
             int n;
             XVisualInfo *visuals = XGetVisualInfo(display, VisualDepthMask|VisualClassMask, &xvinfo, &n);
             if (!n) {
-                LOGD("Warning, XGetVisualInfo gives 0 VisualInfo for %d depth and TrueColor class\n", glx_default_depth);
+                LOGD("Warning, fillGLXFBConfig: XGetVisualInfo gives 0 VisualInfo for %d depth and TrueColor class\n", glx_default_depth);
                 configs[j]->associatedVisualId = 0;
             } else {
                 configs[j]->associatedVisualId = visuals[0].visualid;
@@ -1999,7 +2013,7 @@ XVisualInfo *gl4es_glXGetVisualFromFBConfig(Display *display, GLXFBConfig config
     int n;
     XVisualInfo *visuals = XGetVisualInfo(display, VisualDepthMask|VisualClassMask, &xvinfo, &n);
     if (!n) {
-        LOGD("Warning, XGetVisualInfo gives 0 VisualInfo for %d depth and TrueColor class\n", glx_default_depth);
+        LOGD("Warning, gl4es_glXGetVisualFromFBConfig: XGetVisualInfo gives 0 VisualInfo for %d depth and TrueColor class\n", glx_default_depth);
         return NULL;
     }
     return visuals;
