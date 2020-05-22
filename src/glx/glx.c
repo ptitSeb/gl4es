@@ -1616,9 +1616,18 @@ GLXFBConfig * fillGLXFBConfig(EGLConfig *eglConfigs, int count, int withDB, Disp
         if(!configs[j]->associatedVisualId) {
             // why???
             glx_default_depth = XDefaultDepth(display, 0);
-            XVisualInfo visual;// = (XVisualInfo *)malloc(sizeof(XVisualInfo));
-            XMatchVisualInfo(display, 0, glx_default_depth, TrueColor, &visual);
-            configs[j]->associatedVisualId = visual.visualid;
+            XVisualInfo xvinfo = {0};
+            xvinfo.depth = glx_default_depth;
+            xvinfo.class = TrueColor;
+            int n;
+            XVisualInfo *visuals = XGetVisualInfo(display, VisualDepthMask|VisualClassMask, &xvinfo, &n);
+            if (!n) {
+                LOGD("Warning, XGetVisualInfo gives 0 VisualInfo for %d depth and TrueColor class\n", glx_default_depth);
+                configs[j]->associatedVisualId = 0;
+            } else {
+                configs[j]->associatedVisualId = visuals[0].visualid;
+                XFree(visuals);
+            }
         }
         configs[j]->doubleBufferMode = (withDB==2)?(j%2):withDB;
         configs[j]->id = eglConfigs[i];
@@ -1943,10 +1952,7 @@ int gl4es_glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribu
             *value = GLX_RGBA_BIT;
             break;
         case GLX_VISUAL_ID:
-            //*value = gl4es_glXGetVisualFromFBConfig(display, NULL)->visualid;
-            //*value = gl4es_glXChooseVisual(display, 0, NULL)->visualid;
             *value = config->associatedVisualId;
-            //*value = 1;
             break;
         case GLX_FBCONFIG_ID:
             *value = (int)(uintptr_t)config->id;
@@ -1984,10 +1990,19 @@ XVisualInfo *gl4es_glXGetVisualFromFBConfig(Display *display, GLXFBConfig config
     }*/
     if (glx_default_depth==0)
         glx_default_depth = XDefaultDepth(display, 0);
-    XVisualInfo *visual = (XVisualInfo *)malloc(sizeof(XVisualInfo));
-    XMatchVisualInfo(display, 0, glx_default_depth, TrueColor, visual);
-    // maybe should use XGetVisualInfo(...) with config->associatedVisualId ?
-    return visual;
+
+    XVisualInfo xvinfo = {0};
+    xvinfo.depth = glx_default_depth;
+    xvinfo.class = TrueColor;
+    //TODO: add more filter in here?
+
+    int n;
+    XVisualInfo *visuals = XGetVisualInfo(display, VisualDepthMask|VisualClassMask, &xvinfo, &n);
+    if (!n) {
+        LOGD("Warning, XGetVisualInfo gives 0 VisualInfo for %d depth and TrueColor class\n", glx_default_depth);
+        return NULL;
+    }
+    return visuals;
 }
 
 GLXContext gl4es_glXCreateNewContext(Display *display, GLXFBConfig config,
