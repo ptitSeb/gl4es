@@ -1220,7 +1220,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
 
                     addPixBuffer(display, eglSurf, eglConfig, Width, Height, eglContext, drawable, depth, 2);
                     context->eglSurface = eglSurf;
-                    if(context->eglContext) {
+                    if(context->eglContext && context->eglContext!=eglContext) {
                         // remove old context before putting PBuffer specific one
                         LOAD_EGL(eglDestroyContext);
                         egl_eglDestroyContext(eglDisplay, context->eglContext);
@@ -2051,13 +2051,17 @@ void gl4es_glXSwapInterval(int interval) {
     swapinterval = interval;
 #else
     if(glxContext) {
-        LOAD_EGL(eglSwapInterval);
-        egl_eglSwapInterval(eglDisplay, swapinterval);
-        CheckEGLErrors();
-        if(interval<minswap || interval>maxswap) {
-            SHUT_LOGE("Warning, Swap Interval %d is out of possible values %d, %d\n", interval, minswap, maxswap);
-        } else
-            swapinterval = interval;
+        if(globals4es.usepbuffer) {
+            DBG(printf("Ignoring glXSwapInterval(%d) on PBuffer surface\n", interval);)
+        } else {
+            LOAD_EGL(eglSwapInterval);
+            egl_eglSwapInterval(eglDisplay, swapinterval);
+            CheckEGLErrors();
+            if(interval<minswap || interval>maxswap) {
+                SHUT_LOGE("Warning, Swap Interval %d is out of possible values %d, %d\n", interval, minswap, maxswap);
+            } else
+                swapinterval = interval;
+        }
     } else {
         DBG(printf("LIBGL: glXSwapInterval called before Context is current.\n");)
         swapinterval = interval;
