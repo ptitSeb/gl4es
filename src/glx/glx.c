@@ -2053,6 +2053,7 @@ void gl4es_glXSwapInterval(int interval) {
     if(glxContext) {
         if(globals4es.usepbuffer) {
             DBG(printf("Ignoring glXSwapInterval(%d) on PBuffer surface\n", interval);)
+            swapinterval = 0;
         } else {
             LOAD_EGL(eglSwapInterval);
             egl_eglSwapInterval(eglDisplay, swapinterval);
