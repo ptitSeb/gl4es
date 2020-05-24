@@ -290,6 +290,7 @@ void GetHardwareExtensions(int notest)
 
     if (hardext.esversion>1) {
         if(!globals4es.nohighp) {
+            S("GL_EXT_shader_texture_lod", shaderlod, 1);
             S("GL_OES_fragment_precision_high ", highp, 1);
             if(!hardext.highp) {
                 // check if highp is supported anyway

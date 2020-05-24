@@ -365,6 +365,15 @@ static const char* texture2DLodAlt =
 " return texture2D(sampler, coord);\n"
 "}\n";
 
+static const char* texture2DProjLodAlt =
+"vec4 _gl4es_texture2DProjLod(sampler2D sampler, vec3 coord, float lod) {\n"
+" return texture2DProj(sampler, coord);\n"
+"}\n"
+"vec4 _gl4es_texture2DProjLod(sampler2D sampler, vec4 coord, float lod) {\n"
+" return texture2DProj(sampler, coord);\n"
+"}\n";
+
+
 static const char* useEXTDrawBuffers =
 "#extension GL_EXT_draw_buffers : enable\n";
 
@@ -491,10 +500,25 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     if(strstr(Tmp, "mod(") || strstr(Tmp, "mod (")) {
         Tmp = InplaceInsert(GetLine(Tmp, headline), HackAltMod, Tmp, &tmpsize);
     }
-    if(!isVertex && (strstr(Tmp, "texture2DLod(") || strstr(Tmp, "texture2DLod ("))) {
-        Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod(", "_gl4es_texture2DLod(");
-        Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod (", "_gl4es_texture2DLod (");
-        Tmp = InplaceInsert(GetLine(Tmp, headline), texture2DLodAlt, Tmp, &tmpsize);
+    if(!isVertex && hardext.shaderlod && (FindString(Tmp, "texture2DLod") || FindString(Tmp, "texture2DProjLod"))) {
+        const char* GLESUseShaderLod = "#extension GL_EXT_shader_texture_lod : enable\n";
+        Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShaderLod, Tmp, &tmpsize);
+    }
+    if(!isVertex && (FindString(Tmp, "texture2DLod"))) {
+        if(hardext.shaderlod) {
+          Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod", "texture2DLodExt");
+        } else {
+          Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod", "_gl4es_texture2DLod");
+          Tmp = InplaceInsert(GetLine(Tmp, headline), texture2DLodAlt, Tmp, &tmpsize);
+        }
+    }
+    if(!isVertex && (FindString(Tmp, "texture2DProjLod"))) {
+        if(hardext.shaderlod) {
+          Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DProjLod", "texture2DProjLodExt");
+        } else {
+          Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DProjLod", "_gl4es_texture2DProjLod");
+          Tmp = InplaceInsert(GetLine(Tmp, headline), texture2DProjLodAlt, Tmp, &tmpsize);
+        }
     }
   }
     // now check to remove trailling "f" after float, as it's not supported too

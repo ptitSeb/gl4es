@@ -3,6 +3,7 @@
 
 extern const char* AllSeparators;
 
+int FindString(char* pBuffer, const char* S);
 int CountString(char* pBuffer, const char* S);
 char* ResizeIfNeeded(char* pBuffer, int *size, int addsize);
 char* InplaceReplace(char* pBuffer, int* size, const char* S, const char* D);
@@ -10,7 +11,6 @@ char* Append(char* pBuffer, int* size, const char* S);
 char* InplaceInsert(char* pBuffer, const char* S, char* master, int* size);
 char* GetLine(char* pBuffer, int num);
 int CountLine(const char* pBuffer);
-int CountString(char* pBuffer, const char* S);
 char* StrNext(char *pBuffer, const char* S); // mostly as strstr, but go after the substring if found
 //"blank" (space, tab, cr, lf,":", ",", ";", ".", "/")
 char* NextStr(char* pBuffer);   // go to next non "blank"
