@@ -56,7 +56,7 @@ static void free_texture(gltexture_t *tex)
 
 void* NewGLState(void* shared_glstate, int es2only) {
     glstate_t *glstate = (shared_glstate!=DEFAULT_STATE)?((glstate_t*)calloc(1, sizeof(glstate_t))):&default_glstate;
-#ifdef AMIGAOS4
+#if defined(AMIGAOS4) || defined(__EMSCRIPTEN__)
     int def = 0;
     if(shared_glstate==DEFAULT_STATE)
         def = 1;
@@ -372,13 +372,13 @@ void* NewGLState(void* shared_glstate, int es2only) {
     }
 
     // Grab ViewPort & Scissor
-    LOAD_GLES(glGetIntegerv);
-#ifdef AMIGAOS4
+#if defined(AMIGAOS4) || defined(__EMSCRIPTEN__)
     if(!def) {// if it's default_glstate, then there is probably no glcontext...
 #endif
+    LOAD_GLES(glGetIntegerv);
     gles_glGetIntegerv(GL_VIEWPORT, (GLint*)&glstate->raster.viewport);
     gles_glGetIntegerv(GL_SCISSOR_BOX, (GLint*)&glstate->raster.scissor);
-#ifdef AMIGAOS4
+#if defined(AMIGAOS4) || defined(__EMSCRIPTEN__)
     }
 #endif
     // FBO
@@ -418,13 +418,14 @@ void* NewGLState(void* shared_glstate, int es2only) {
     // Get the per/context hardware values
     glstate->readf = GL_RGBA;
     glstate->readt = GL_UNSIGNED_BYTE;
-#ifdef AMIGAOS4
+#if defined(AMIGAOS4) || defined(__EMSCRIPTEN__)
     if(!def) // if it's default_glstate, then there is probably no glcontext...
     {
+    LOAD_GLES(glGetIntegerv);
 #endif
     gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, &glstate->readf);
     gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, &glstate->readt);
-#ifdef AMIGAOS4
+#if defined(AMIGAOS4) || defined(__EMSCRIPTEN__)
     }
 #endif
     //printf("LIBGL: Implementation Read is %s/%s\n", PrintEnum(glstate->readf), PrintEnum(glstate->readt));
@@ -586,7 +587,7 @@ void ActivateGLState(void* new_glstate) {
     glstate_t *newstate = (new_glstate)?(glstate_t*)new_glstate:&default_glstate;
     if(glstate == newstate) return;  // same state, nothing to do
     // check if viewport is correct
-#ifdef AMIGAOS4
+#if defined(AMIGAOS4) || defined(__EMSCRIPTEN__)
     if(glstate || newstate!=&default_glstate) // avoid getting gles info with no context
 #endif
     if(new_glstate && (newstate->raster.viewport.width==0 || newstate->raster.viewport.height==0)) {
