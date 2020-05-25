@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 2.8)
 
 project(gl4es LANGUAGES C)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 
 link_directories(${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
@@ -132,7 +132,7 @@ if(USE_CCACHE)
     endif()
 endif()
 
-link_directories(${CMAKE_BINARY_DIR}/lib)
+link_directories(${CMAKE_SOURCE_DIR}/lib)
 add_definitions(-std=gnu11 -funwind-tables -fvisibility=hidden)
 
 if (CMAKE_CC_COMPILER_ID MATCHES "Clang" OR CMAKE_SYSTEM_NAME MATCHES "Emscripten")
