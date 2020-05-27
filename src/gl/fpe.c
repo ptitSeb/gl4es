@@ -1736,7 +1736,10 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     }
     if(strncmp(name, texenvcolor_code, strlen(texenvcolor_code))==0) {
         // it a TexEnvColor! grab it's number
-        int n = name[strlen(texenvcolor_code)]-'0';   // only 8 Textures max, so this works
+        int l = strlen(texenvcolor_code);
+        int n = name[l]-'0';
+        if(name[l+1]>='0' && name[l+1]<='9')
+            n = n*10 + name[l+1]-'0';
         if(n>=0 && n<hardext.maxtex) {
             glprogram->builtin_texenvcolor[n] = id;
             glprogram->has_builtin_texenv = 1;
@@ -1756,7 +1759,10 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
             sprintf(tmp, texgeneye_code, texgenCoords[i]);
             if(strncmp(name, tmp, strlen(tmp))==0) {
                 // it a TexGen Eye Plane! grab it's number
-                int n = name[strlen(tmp)]-'0';   // only 8 Textures max, so this works
+                int l = strlen(tmp);
+                int n = name[l]-'0';
+                if(name[l+1]>='0' && name[l+1]<='9')
+                    n = n*10 + name[l+1]-'0';
                 if(n>=0 && n<hardext.maxtex) {
                     glprogram->builtin_eye[i][n] = id;
                     glprogram->has_builtin_texgen = 1;
@@ -1766,7 +1772,10 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
             sprintf(tmp, texgeneye_fpe_code, texgenCoords[i]);
             if(strncmp(name, tmp, strlen(tmp))==0) {
                 // it a TexGen Eye Plane! grab it's number
-                int n = name[strlen(tmp)]-'0';   // only 8 Textures max, so this works
+                int l = strlen(tmp);
+                int n = name[l]-'0';
+                if(name[l+1]>='0' && name[l+1]<='9')
+                    n = n*10 + name[l+1]-'0';
                 if(n>=0 && n<hardext.maxtex) {
                     glprogram->builtin_eye[i][n] = id;
                     glprogram->has_builtin_texgen = 1;
@@ -1789,7 +1798,10 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
             sprintf(tmp, texgenobj_code, texgenCoords[i]);
             if(strncmp(name, tmp, strlen(tmp))==0) {
                 // it a TexGen Object Plane! grab it's number
-                int n = name[strlen(tmp)]-'0';   // only 8 Textures max, so this works
+                int l = strlen(tmp);
+                int n = name[l]-'0';
+                if(name[l+1]>='0' && name[l+1]<='9')
+                    n = n*10 + name[l+1]-'0';
                 if(n>=0 && n<hardext.maxtex) {
                     glprogram->builtin_obj[i][n] = id;
                     glprogram->has_builtin_texgen = 1;
@@ -1799,7 +1811,10 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
             sprintf(tmp, texgenobj_fpe_code, texgenCoords[i]);
             if(strncmp(name, tmp, strlen(tmp))==0) {
                 // it a TexGen Object Plane! grab it's number
-                int n = name[strlen(tmp)]-'0';   // only 8 Textures max, so this works
+                int l = strlen(tmp);
+                int n = name[l]-'0';
+                if(name[l+1]>='0' && name[l+1]<='9')
+                    n = n*10 + name[l+1]-'0';
                 if(n>=0 && n<hardext.maxtex) {
                     glprogram->builtin_obj[i][n] = id;
                     glprogram->has_builtin_texgen = 1;
@@ -1826,7 +1841,10 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     // texture sampler
     if(strncmp(name, fpetexSampler_code, strlen(fpetexSampler_code))==0) {
         // it a Texture Sampler! grab it's number
-        int n = name[strlen(fpetexSampler_code)]-'0';   // only 8 Textures max, so this works
+        int l = strlen(fpetexSampler_code);
+        int n = name[l]-'0';
+        if(name[l+1]>='0' && name[l+1]<='9')
+            n = n*10 + name[l+1]-'0';
         if(n>=0 && n<hardext.maxtex) {
             glprogram->builtin_texsampler[n] = id;
             glprogram->has_builtin_texsampler = 1;
@@ -1836,7 +1854,10 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     // texture env color
     if(strncmp(name, texenvcolor_fpe_code, strlen(texenvcolor_fpe_code))==0) {
         // it a Texture env color
-        int n = name[strlen(texenvcolor_fpe_code)]-'0';   // only 8 Textures max, so this works
+        int l = strlen(texenvcolor_fpe_code);
+        int n = name[l]-'0';
+        if(name[l+1]>='0' && name[l+1]<='9')
+            n = n*10 + name[l+1]-'0';
         if(n>=0 && n<hardext.maxtex) {
             glprogram->builtin_texenvcolor[n] = id;
             glprogram->has_builtin_texenv = 1;
@@ -1846,7 +1867,10 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     // texture env rgb/alpha scale
     if(strncmp(name, fpetexenvRGBScale_code, strlen(fpetexenvRGBScale_code))==0) {
         // it a Texture env color
-        int n = name[strlen(fpetexenvRGBScale_code)]-'0';   // only 8 Textures max, so this works
+        int l = strlen(fpetexenvRGBScale_code);
+        int n = name[l]-'0';
+        if(name[l+1]>='0' && name[l+1]<='9')
+            n = n*10 + name[l+1]-'0';
         if(n>=0 && n<hardext.maxtex) {
             glprogram->builtin_texenvrgbscale[n] = id;
             glprogram->has_builtin_texenv = 1;
@@ -1855,7 +1879,10 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     }
     if(strncmp(name, fpetexenvAlphaScale_code, strlen(fpetexenvAlphaScale_code))==0) {
         // it a Texture env color
-        int n = name[strlen(fpetexenvAlphaScale_code)]-'0';   // only 8 Textures max, so this works
+        int l = strlen(fpetexenvAlphaScale_code);
+        int n = name[l]-'0';
+        if(name[l+1]>='0' && name[l+1]<='9')
+            n = n*10 + name[l+1]-'0';
         if(n>=0 && n<hardext.maxtex) {
             glprogram->builtin_texenvalphascale[n] = id;
             glprogram->has_builtin_texenv = 1;
@@ -1864,7 +1891,10 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     }
     if(strncmp(name, fpetexAdjust_code, strlen(fpetexAdjust_code))==0) {
         // it a Texture env color
-        int n = name[strlen(fpetexAdjust_code)]-'0';   // only 8 Textures max, so this works
+        int l = strlen(fpetexAdjust_code);
+        int n = name[l]-'0';
+        if(name[l+1]>='0' && name[l+1]<='9')
+            n = n*10 + name[l+1]-'0';
         if(n>=0 && n<hardext.maxtex) {
             glprogram->builtin_texadjust[n] = id;
             glprogram->has_builtin_texadjust = 1;
