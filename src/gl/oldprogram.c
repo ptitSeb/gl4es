@@ -4,7 +4,9 @@
 #include "glstate.h"
 #include "loader.h"
 #include "oldprogram.h"
+#include "shaderconv.h"
 #include "vertexattrib.h"
+#include "arbconverter.h"
 
 // Implement "Old program" handling: so ARB_vertex_program and ARB_fragment_program extensions
 // the core of this is a conversion between ARB ASM-like syntax to GLSL, then using regular functions
@@ -99,12 +101,15 @@ void gl4es_glDisableVertexAttribArrayARB(GLuint index);
 
 void gl4es_glProgramStringARB(GLenum target, GLenum format, GLsizei len, const GLvoid *string) {
     oldprogram_t* old = NULL;
+    int vertex;
     switch(target) {
         case GL_VERTEX_PROGRAM_ARB:
             old = glstate->glsl->vtx_prog;
+            vertex = 1;
             break;
         case GL_FRAGMENT_PROGRAM_ARB:
             old = glstate->glsl->frg_prog;
+            vertex = 0;
             break;
         default:
             errorShim(GL_INVALID_VALUE);
@@ -117,15 +122,19 @@ void gl4es_glProgramStringARB(GLenum target, GLenum format, GLsizei len, const G
     if(old->string)
         free(old->string);
     // grab the new program
-    old->string = calloc(1, len);
+    old->string = calloc(1, len + 1);
     memcpy(old->string, string, len);
     // Convert to GLSL
-    // for now, no coversion yet, so just abbort with a generic error!
-    if(glstate->glsl->error_msg)
-        free(glstate->glsl->error_msg);
-    glstate->glsl->error_msg = strdup("Error: ARB Asm not supported yet!");
-    glstate->glsl->error_ptr = 0;
-    errorShim(GL_INVALID_OPERATION);
+    old->shader->source = gl4es_convertARB(old->string, vertex, glstate->glsl);
+    if (!old->shader->source) {
+        errorShim(GL_INVALID_OPERATION);
+        return;
+    }
+    old->shader->converted = ConvertShader(old->shader->source, vertex, NULL);
+    if (!old->shader->converted) {
+        errorShim(GL_INVALID_OPERATION);
+        return;
+    }
 }
 
 void gl4es_glBindProgramARB(GLenum target, GLuint program) {

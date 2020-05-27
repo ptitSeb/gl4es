@@ -135,7 +135,6 @@ void initialize_gl4es() {
 		}
 #endif
     env(LIBGL_NOBGRA, globals4es.nobgra, "Ignore BGRA texture capability");
-    env(LIBGL_ARBPROGRAM, globals4es.arb_program, "Export (WIP!) ARB Program extensions");
     env(LIBGL_NOTEXRECT, globals4es.notexrect, "Don't export Text Rectangle extension");
     if(globals4es.usefbo) {
       env(LIBGL_FBONOALPHA, globals4es.fbo_noalpha, "Main FBO have no alpha channel");

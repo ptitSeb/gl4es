@@ -63,7 +63,6 @@ typedef struct _globals4es {
  int floattex;
  int glxrecycle;
  int noclean;
- int arb_program;
  int dbgshaderconv;
  int nopsa;
  int noes2;
