@@ -252,7 +252,17 @@ typedef struct {
     GLint                           builtin_texadjust[MAX_TEX];
     int                             has_builtin_texadjust;
     texunit_t                       texunits[MAX_TEX];
-    void*                           fpe_cache;  // that will be an fpe_cache_t*
+    // ARB_shaders (oldprograms) uniforms
+    int                             has_vtx_progenv;
+    GLint                           vtx_progenv[MAX_VTX_PROG_ENV_PARAMS];
+    int                             has_vtx_progloc;
+    GLint                           vtx_progloc[MAX_VTX_PROG_LOC_PARAMS];
+    int                             has_frg_progenv;
+    GLint                           frg_progenv[MAX_FRG_PROG_ENV_PARAMS];
+    int                             has_frg_progloc;
+    GLint                           frg_progloc[MAX_FRG_PROG_LOC_PARAMS];
+    // that will be an fpe_cache_t*
+    void*                           fpe_cache;
 } program_t;
 
 KHASH_MAP_DECLARE_INT(programlist, program_t *);

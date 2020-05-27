@@ -377,6 +377,9 @@ static const char* texture2DProjLodAlt =
 static const char* useEXTDrawBuffers =
 "#extension GL_EXT_draw_buffers : enable\n";
 
+static const char* gl_ProgramEnv  = "gl_ProgramEnv";
+static const char* gl_ProgramLocal= "gl_ProgramLocal";
+
 
 char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 {
@@ -978,6 +981,87 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     ++ncv;
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ClipVertex", CV);
   }
+  //oldprogram uniforms...
+  if(FindString(Tmp, gl_ProgramEnv)) {
+    // check if array can be removed
+    int maxind = -1;
+    int noarray_ok = 1;
+    char* p = Tmp;
+    while(noarray_ok && (p=FindString(p, gl_ProgramEnv))) {
+      p+=strlen(gl_ProgramEnv);
+      if(*p>='0' && *p<='9') {
+        int n = (*p) - '0';
+        if(p[1]>='0' && p[1]<='9')
+          n = n*10 + (p[1] - '0');
+        if (maxind<n) maxind = n;
+      } else 
+        noarray_ok=0;
+    }
+    if(noarray_ok) {
+      // ok, so change array to single...
+      char F[60], T[60], U[300];
+      for(int i=0; i<=maxind; ++i) {
+        sprintf(F, "%s[%d]", gl_ProgramEnv, i);
+        sprintf(T, "_gl4es_%s_ProgramEnv_%d", isVertex?"Vertex":"Fragment", i);
+        Tmp = InplaceReplace(Tmp, &tmpsize, F, T);
+        if(FindString(Tmp, T)) {
+          // add the uniform declaration if needed
+          sprintf(U, "uniform vec4 %s;\n", T);
+          Tmp = InplaceInsert(GetLine(Tmp, headline), U, Tmp, &tmpsize);
+          headline += 1;
+        }
+      }
+    } else {
+      // need the full array...
+      char T[60], U[300];
+      sprintf(T, "_gl4es_%s_ProgramEnv", isVertex?"Vertex":"Fragment");
+      sprintf(U, "uniform vec4 %s[%d];\n", T, isVertex?MAX_VTX_PROG_ENV_PARAMS:MAX_FRG_PROG_ENV_PARAMS);
+      Tmp = InplaceInsert(GetLine(Tmp, headline), U, Tmp, &tmpsize);
+      headline += 1;
+      Tmp = InplaceReplace(Tmp, &tmpsize, gl_ProgramEnv, T);
+    }
+  }
+  if(FindString(Tmp, gl_ProgramLocal)) {
+    // check if array can be removed
+    int maxind = -1;
+    int noarray_ok = 1;
+    char* p = Tmp;
+    while(noarray_ok && (p=FindString(p, gl_ProgramLocal))) {
+      p+=strlen(gl_ProgramLocal);
+      if(*p>='0' && *p<='9') {
+        int n = (*p) - '0';
+        if(p[1]>='0' && p[1]<='9')
+          n = n*10 + (p[1] - '0');
+        if (maxind<n) maxind = n;
+      } else 
+        noarray_ok=0;
+    }
+    if(noarray_ok) {
+      // ok, so change array to single...
+      char F[60], T[60], U[300];
+      for(int i=0; i<=maxind; ++i) {
+        sprintf(F, "%s[%d]", gl_ProgramLocal, i);
+        sprintf(T, "_gl4es_%s_ProgramLocal_%d", isVertex?"Vertex":"Fragment", i);
+        Tmp = InplaceReplace(Tmp, &tmpsize, F, T);
+        if(FindString(Tmp, T)) {
+          // add the uniform declaration if needed
+          sprintf(U, "uniform vec4 %s;\n", T);
+          Tmp = InplaceInsert(GetLine(Tmp, headline), U, Tmp, &tmpsize);
+          headline += 1;
+        }
+      }
+    } else {
+      // need the full array...
+      char T[60], U[300];
+      sprintf(T, "_gl4es_%s_ProgramLocal", isVertex?"Vertex":"Fragment");
+      sprintf(U, "uniform vec4 %s[%d];\n", T, isVertex?MAX_VTX_PROG_LOC_PARAMS:MAX_FRG_PROG_LOC_PARAMS);
+      Tmp = InplaceInsert(GetLine(Tmp, headline), U, Tmp, &tmpsize);
+      headline += 1;
+      Tmp = InplaceReplace(Tmp, &tmpsize, gl_ProgramLocal, T);
+    }
+  }
+  // non-square matrix handling
+  // the square one first
   if(strstr(Tmp, "mat2x2")) {
     // better to use #define ?
     Tmp = InplaceReplace(Tmp, &tmpsize, "mat2x2", "mat2");

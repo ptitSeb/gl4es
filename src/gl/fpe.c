@@ -1290,8 +1290,27 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                 GoUniformfv(glprogram, glprogram->builtin_texadjust[i], 2, 1, tex->adjustxy);
         }
     }
-    
-
+    // oldprograms
+    if(glprogram->last_vert && glprogram->last_vert->old) {
+        if(glprogram->has_vtx_progenv) {
+            for (int i=0; i<MAX_VTX_PROG_ENV_PARAMS; ++i)
+                GoUniformfv(glprogram, glprogram->vtx_progenv[i], 4, 1, glstate->glsl->vtx_env_params+i*4);
+        }
+        if(glprogram->has_vtx_progloc) {
+            for (int i=0; i<MAX_VTX_PROG_LOC_PARAMS; ++i)
+                GoUniformfv(glprogram, glprogram->vtx_progloc[i], 4, 1, glprogram->last_vert->old->prog_local_params+i*4);
+        }
+    }
+    if(glprogram->last_frag && glprogram->last_frag->old) {
+        if(glprogram->has_frg_progenv) {
+            for (int i=0; i<MAX_FRG_PROG_ENV_PARAMS; ++i)
+                GoUniformfv(glprogram, glprogram->frg_progenv[i], 4, 1, glstate->glsl->frg_env_params+i*4);
+        }
+        if(glprogram->has_frg_progloc) {
+            for (int i=0; i<MAX_FRG_PROG_LOC_PARAMS; ++i)
+                GoUniformfv(glprogram, glprogram->frg_progloc[i], 4, 1, glprogram->last_frag->old->prog_local_params+i*4);
+        }
+    }
     // set VertexAttrib if needed
     GLuint old_buffer = 0;
     for(int i=0; i<hardext.maxvattrib; i++) 
@@ -1524,6 +1543,15 @@ void builtin_Init(program_t *glprogram) {
     // initialise emulated builtin attrib to -1
     for (int i=0; i<ATT_MAX; i++)
         glprogram->builtin_attrib[i] = -1;
+    // oldprograms
+    for (int i=0; i<MAX_VTX_PROG_ENV_PARAMS; ++i)
+        glprogram->vtx_progenv[i] = -1;
+    for (int i=0; i<MAX_VTX_PROG_LOC_PARAMS; ++i)
+        glprogram->vtx_progloc[i] = -1;
+    for (int i=0; i<MAX_FRG_PROG_ENV_PARAMS; ++i)
+        glprogram->frg_progenv[i] = -1;
+    for (int i=0; i<MAX_FRG_PROG_LOC_PARAMS; ++i)
+        glprogram->frg_progloc[i] = -1;
 }
 
 const char* gl4es_code = "_gl4es_";
@@ -1563,6 +1591,14 @@ const char* fpetexenvRGBScale_code = "_gl4es_TexEnvRGBScale_";
 const char* fpetexenvAlphaScale_code = "_gl4es_TexEnvAlphaScale_";
 const char* fpetexAdjust_code = "_gl4es_TexAdjust_";
 const char* fog_code = "_gl4es_Fog.";
+const char* vtx_progenv_noa = "_gles_Vertex_ProgramEnv_";
+const char* vtx_progenv_arr = "_gles_Vertex_ProgramEnv[";
+const char* vtx_progloc_noa = "_gles_Vertex_ProgramLocal_";
+const char* vtx_progloc_arr = "_gles_Vertex_ProgramLocal[";
+const char* frg_progenv_noa = "_gles_Fragment_ProgramEnv_";
+const char* frg_progenv_arr = "_gles_Fragment_ProgramEnv[";
+const char* frg_progloc_noa = "_gles_Fragment_ProgramLocal_";
+const char* frg_progloc_arr = "_gles_Fragment_ProgramLocal[";
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     if(strncmp(name, gl4es_code, strlen(gl4es_code)))
         return 0;   // doesn't start with "_gl4es_", no need to look further
@@ -1835,7 +1871,83 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
             return 1;
         }
     }
-    
+    // oldprogram
+    if(strncmp(name, vtx_progenv_arr, strlen(vtx_progenv_arr))==0) {
+        int l = strlen(vtx_progenv_arr);
+        int n = name[l]-'0';
+        if(name[l+1]>='0' && name[l+1]<='9')
+            n = n*10 + name[l+1]-'0';
+        glprogram->has_vtx_progenv = 1;
+        for (int i=0; i<n; ++i)
+            glprogram->vtx_progenv[i] = id+i;
+        return 1;
+    }
+    if(strncmp(name, vtx_progenv_noa, strlen(vtx_progenv_noa))==0) {
+        int l = strlen(vtx_progenv_noa);
+        int n = name[l]-'0';
+        if(name[l+1]>='0' && name[l+1]<='9')
+            n = n*10 + name[l+1]-'0';
+        glprogram->has_vtx_progenv = 1;
+        glprogram->vtx_progenv[n] = id;
+        return 1;
+    }
+    if(strncmp(name, vtx_progloc_arr, strlen(vtx_progloc_arr))==0) {
+        int l = strlen(vtx_progloc_arr);
+        int n = name[l]-'0';
+        if(name[l+1]>='0' && name[l+1]<='9')
+            n = n*10 + name[l+1]-'0';
+        glprogram->has_vtx_progloc = 1;
+        for (int i=0; i<n; ++i)
+            glprogram->vtx_progloc[i] = id+i;
+        return 1;
+    }
+    if(strncmp(name, vtx_progloc_noa, strlen(vtx_progloc_noa))==0) {
+        int l = strlen(vtx_progloc_noa);
+        int n = name[l]-'0';
+        if(name[l+1]>='0' && name[l+1]<='9')
+            n = n*10 + name[l+1]-'0';
+        glprogram->has_vtx_progloc = 1;
+        glprogram->vtx_progloc[n] = id;
+        return 1;
+    }
+    if(strncmp(name, frg_progenv_arr, strlen(frg_progenv_arr))==0) {
+        int l = strlen(frg_progenv_arr);
+        int n = name[l]-'0';
+        if(name[l+1]>='0' && name[l+1]<='9')
+            n = n*10 + name[l+1]-'0';
+        glprogram->has_frg_progenv = 1;
+        for (int i=0; i<n; ++i)
+            glprogram->frg_progenv[i] = id+i;
+        return 1;
+    }
+    if(strncmp(name, frg_progenv_noa, strlen(frg_progenv_noa))==0) {
+        int l = strlen(frg_progenv_noa);
+        int n = name[l]-'0';
+        if(name[l+1]>='0' && name[l+1]<='9')
+            n = n*10 + name[l+1]-'0';
+        glprogram->has_frg_progenv = 1;
+        glprogram->frg_progenv[n] = id;
+        return 1;
+    }
+    if(strncmp(name, frg_progloc_arr, strlen(frg_progloc_arr))==0) {
+        int l = strlen(frg_progloc_arr);
+        int n = name[l]-'0';
+        if(name[l+1]>='0' && name[l+1]<='9')
+            n = n*10 + name[l+1]-'0';
+        glprogram->has_frg_progloc = 1;
+        for (int i=0; i<n; ++i)
+            glprogram->frg_progloc[i] = id+i;
+        return 1;
+    }
+    if(strncmp(name, frg_progloc_noa, strlen(frg_progloc_noa))==0) {
+        int l = strlen(frg_progloc_noa);
+        int n = name[l]-'0';
+        if(name[l+1]>='0' && name[l+1]<='9')
+            n = n*10 + name[l+1]-'0';
+        glprogram->has_frg_progloc = 1;
+        glprogram->frg_progloc[n] = id;
+        return 1;
+    }
 
     return 0;
 }
