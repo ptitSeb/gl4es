@@ -3,7 +3,7 @@
 
 extern const char* AllSeparators;
 
-int FindString(char* pBuffer, const char* S);
+char* FindString(char* pBuffer, const char* S);
 int CountString(char* pBuffer, const char* S);
 char* ResizeIfNeeded(char* pBuffer, int *size, int addsize);
 char* InplaceReplace(char* pBuffer, int* size, const char* S, const char* D);

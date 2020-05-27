@@ -80,7 +80,7 @@ int CountString(char* pBuffer, const char* S)
     return n;
 }
 
-int FindString(char* pBuffer, const char* S)
+char* FindString(char* pBuffer, const char* S)
 {
     char* p = pBuffer;
     int lS = strlen(S);
@@ -89,10 +89,10 @@ int FindString(char* pBuffer, const char* S)
         // found an occurence of S
         // check if good to count, strchr also found '\0' :)
         if(strchr(AllSeparators, p[lS])!=NULL && (p==pBuffer || strchr(AllSeparators, p[-1])!=NULL))
-            return 1;
+            return p;
         p+=lS;
     }
-    return 0;
+    return NULL;
 }
 
 char* ResizeIfNeeded(char* pBuffer, int *size, int addsize) {
