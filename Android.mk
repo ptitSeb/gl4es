@@ -15,6 +15,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_C_INCLUDES) -DBCMHOST
 
 LOCAL_SRC_FILES := \
+	src/gl/arbconverter.c \
 	src/gl/array.c \
 	src/gl/blend.c \
 	src/gl/blit.c \
