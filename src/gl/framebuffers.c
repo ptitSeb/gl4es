@@ -1422,6 +1422,7 @@ void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
         srcY1-=srcY0; srcY0=0.f;
         gl4es_glBindTexture(GL_TEXTURE_2D, old->texture);
     }
+    GLenum glname = texture;
     if(texture==glstate->fbo.mainfbo_tex) {
         nwidth = glstate->fbo.mainfbo_nwidth;
         nheight = glstate->fbo.mainfbo_nheight;
@@ -1430,6 +1431,7 @@ void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
         if(tex) {
             nwidth = tex->nwidth;
             nheight = tex->nheight;
+            glname = tex->glname;
         } else {
             // not good if here!
             nwidth = srcX1;
@@ -1456,7 +1458,7 @@ void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
     GLint vp[4];
     memcpy(vp, &glstate->raster.viewport, sizeof(vp));
     gl4es_glViewport(0, 0, fbowidth, fboheight);
-    gl4es_blitTexture(texture, srcX0, srcY0, srcW, srcH, nwidth, nheight, zoomx, zoomy, 0, 0, dstX0, dstY0, BLIT_OPAQUE);
+    gl4es_blitTexture(glname, srcX0, srcY0, srcW, srcH, nwidth, nheight, zoomx, zoomy, 0, 0, dstX0, dstY0, BLIT_OPAQUE);
     gl4es_glViewport(vp[0], vp[1], vp[2], vp[3]);
     if(created) {
         gl4es_glDeleteTextures(1, &texture);
