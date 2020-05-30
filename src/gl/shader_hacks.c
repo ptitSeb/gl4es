@@ -3,182 +3,258 @@
 #include <stdint.h>
 #include "string_utils.h"
 
+typedef struct hack_s {
+    char* sign;
+    int   n;
+    char* next[5];
+} hack_t;
 
-static const char* gl4es_hacks[] = {
+static const hack_t gl4es_hacks[] = {
 // this is for Guacamelee (yep, there is a lot of hacks, only int -> float conversions)
 // 1
-"float edgeGlow = step ( 0.2 , pow ( clamp ( ( dot ( vec2 ( 1 * sign ( v_texcoord3 . z ) , 1 ) , normalize ( quadCoord . xy - 0.5 ) ) - 0.4 + depth * 2.0 ) , 0.0  , 1.0  ) , 25 ) ) ;",
-"float edgeGlow = step ( 0.2 , pow ( clamp ( ( dot ( vec2 ( 1.0 * sign ( v_texcoord3 . z ) , 1.0 ) , normalize ( quadCoord . xy - 0.5 ) ) - 0.4 + depth * 2.0 ) , 0.0  , 1.0  ) , 25.0 ) ) ;",
+{"float edgeGlow = step ( 0.2 , pow ( clamp ( ( dot ( vec2 ( 1 * sign ( v_texcoord3 . z ) , 1 ) , normalize ( quadCoord . xy - 0.5 ) ) - 0.4 + depth * 2.0 ) , 0.0  , 1.0  ) , 25 ) ) ;",
+1,
+{"float edgeGlow = step ( 0.2 , pow ( clamp ( ( dot ( vec2 ( 1.0 * sign ( v_texcoord3 . z ) , 1.0 ) , normalize ( quadCoord . xy - 0.5 ) ) - 0.4 + depth * 2.0 ) , 0.0  , 1.0  ) , 25.0 ) ) ;"}},
 // 2
-"float litfire = max ( dot ( normalize ( drops1 . rgb ) , normalize ( vec3 ( - 1 , 0 , pow ( max ( 1.0 - ocoord . x , 0.0 ) , 9 ) ) ) ) , 0 ) ;",
-"float litfire = max ( dot ( normalize ( drops1 . rgb ) , normalize ( vec3 ( - 1.0 , 0.0 , pow ( max ( 1.0 - ocoord . x , 0.0 ) , 9.0 ) ) ) ) , 0.0 ) ;",
+{"float litfire = max ( dot ( normalize ( drops1 . rgb ) , normalize ( vec3 ( - 1 , 0 , pow ( max ( 1.0 - ocoord . x , 0.0 ) , 9 ) ) ) ) , 0 ) ;",
+1,
+{"float litfire = max ( dot ( normalize ( drops1 . rgb ) , normalize ( vec3 ( - 1.0 , 0.0 , pow ( max ( 1.0 - ocoord . x , 0.0 ) , 9.0 ) ) ) ) , 0.0 ) ;"}},
 // 3
-"if ( ( normalizedDepth ) < 0.0  ) discard ; ;\nif ( depth < 0 )",
-"if ( ( normalizedDepth ) < 0.0  ) discard ; ;\nif ( depth < 0.0 )",
+{"if ( ( normalizedDepth ) < 0.0  ) discard ; ;\nif ( depth < 0 )",
+1,
+{"if ( ( normalizedDepth ) < 0.0  ) discard ; ;\nif ( depth < 0.0 )"}},
 // 4
-"gl_FragColor . rgba += glowHit ;\nif ( depth < 0 )",
-"gl_FragColor . rgba += glowHit ;\nif ( depth < 0.0 )",
+{"gl_FragColor . rgba += glowHit ;\nif ( depth < 0 )",
+1,
+{"gl_FragColor . rgba += glowHit ;\nif ( depth < 0.0 )"}},
 // 5
-"gl_FragColor . a *= pow ( clamp ( ( depth + 1 ) , 0.0  , 1.0  ) , 70 ) ;",
-"gl_FragColor . a *= pow ( clamp ( ( depth + 1.0 ) , 0.0  , 1.0  ) , 70.0 ) ;",
+{"gl_FragColor . a *= pow ( clamp ( ( depth + 1 ) , 0.0  , 1.0  ) , 70 ) ;",
+1,
+{"gl_FragColor . a *= pow ( clamp ( ( depth + 1.0 ) , 0.0  , 1.0  ) , 70.0 ) ;"}},
 // 6
-"if ( floor ( in_texcoord0 . y ) != 0 )",
-"if ( floor ( in_texcoord0 . y ) != 0.0 )",
+{"if ( floor ( in_texcoord0 . y ) != 0 )",
+1,
+{"if ( floor ( in_texcoord0 . y ) != 0.0 )"}},
 // 7
-"if ( in_position0 . y < 0 )",
-"if ( in_position0 . y < 0.0 )",
+{"if ( in_position0 . y < 0 )",
+1,
+{"if ( in_position0 . y < 0.0 )"}},
 // 8
-"if ( in_position0 . x < 0 )",
-"if ( in_position0 . x < 0.0 )",
+{"if ( in_position0 . x < 0 )",
+1,
+{"if ( in_position0 . x < 0.0 )"}},
 // 9
-"branchB . y = 0 ;",
-"branchB . y = 0.0 ;",
+{"branchB . y = 0 ;",
+1,
+{"branchB . y = 0.0 ;"}},
 // 10
-"branchB . x = 0 ;",
-"branchB . x = 0.0 ;",
+{"branchB . x = 0 ;",
+1,
+{"branchB . x = 0.0 ;"}},
 
 // this is for Battle Block Theater
 // 1
-"   if(texColor.w == 0)\n       gl_FragColor = texColor;",
-"   if(texColor.w == 0.0)\n       gl_FragColor = texColor;",
+{"   if(texColor.w == 0)\n       gl_FragColor = texColor;",
+1,
+{"   if(texColor.w == 0.0)\n       gl_FragColor = texColor;"}},
 // 2
-"if(dist1 > 0)       {           float lightVal = (1-dist1) * light1Luminosity;",
-"if(dist1 > 0.0)       {           float lightVal = (1.0-dist1) * light1Luminosity;",
+{"if(dist1 > 0)       {           float lightVal = (1-dist1) * light1Luminosity;",
+1,
+{"if(dist1 > 0.0)       {           float lightVal = (1.0-dist1) * light1Luminosity;"}},
 // 3
-"float lightVal = 0;",
-"float lightVal = 0.0;",
+{"float lightVal = 0;",
+1,
+{"float lightVal = 0.0;"}},
 // 4
-"       if(dist1 > 0)\n"
+{"       if(dist1 > 0)\n"
 "       {\n"
 "			if(dist1 > 1)\n"
 "				dist1 = 1;\n",
+1,{
 "       if(dist1 > 0.0)\n"
 "       {\n"
 "			if(dist1 > 1.0)\n"
-"				dist1 = 1.0;\n",
+"				dist1 = 1.0;\n"}},
 // 5
-"lightVal += (1-dist1) * light1Luminosity;",
-"lightVal += (1.0-dist1) * light1Luminosity;",
+{"lightVal += (1-dist1) * light1Luminosity;",
+1,{"lightVal += (1.0-dist1) * light1Luminosity;"}},
 // 6
-"lightVal += (1-dist1) * light2Luminosity;",
-"lightVal += (1.0-dist1) * light2Luminosity;",
+{"lightVal += (1-dist1) * light2Luminosity;",
+1,{"lightVal += (1.0-dist1) * light2Luminosity;"}},
 // 7
-"lightVal += (1-dist1) * light3Luminosity;",
-"lightVal += (1.0-dist1) * light3Luminosity;",
+{"lightVal += (1-dist1) * light3Luminosity;",
+1,{"lightVal += (1.0-dist1) * light3Luminosity;"}},
 // 8
-"if(lightVal > 1)\n"
+{"if(lightVal > 1)\n"
 "			lightVal = 1;",
+1,{
 "if(lightVal > 1.0)\n"
-"			lightVal = 1.0;",
+"			lightVal = 1.0;"}},
 // 9
-"if(lightVal > 1)\n"
+{"if(lightVal > 1)\n"
 "           lightVal = 1;", // space and tabs make a difference...
+1,{
 "if(lightVal > 1.0)\n"
-"           lightVal = 1.0;",
+"           lightVal = 1.0;"}},
 
 // For Night of the Zombie / Irrlicht 1.9.0
-"gl_FragColor = (sample*(1-grayScaleFactor)) + (gray*grayScaleFactor);",
-"gl_FragColor = (sample*(1.0-grayScaleFactor)) + (gray*grayScaleFactor);",
+{"gl_FragColor = (sample*(1-grayScaleFactor)) + (gray*grayScaleFactor);",
+1,{"gl_FragColor = (sample*(1.0-grayScaleFactor)) + (gray*grayScaleFactor);"}},
 
 // For Knytt Underground
-"vec2 val = texture_coordinate1+coeff*2*(i/float(iterations-1.0) - 0.5);",
-"vec2 val = texture_coordinate1+coeff*2.0*(float(i)/float(iterations-1) - 0.5);",
+{"vec2 val = texture_coordinate1+coeff*2*(i/float(iterations-1.0) - 0.5);",
+1,{"vec2 val = texture_coordinate1+coeff*2.0*(float(i)/float(iterations-1) - 0.5);"}},
 
-"    b /= iterations;",
-"    b /= float(iterations);",
+{"    b /= iterations;",
+1,{"    b /= float(iterations);"}},
 
 // For Antichamber
-"attribute vec4 _Un_AttrPosition0;\n"
+{"attribute vec4 _Un_AttrPosition0;\n"
 "vec4 Un_AttrPosition0 = _Un_AttrPosition0;\n",
-"attribute vec4 _Un_AttrPosition0;\n"
-"#define Un_AttrPosition0 _Un_AttrPosition0\n",
+1, {"attribute vec4 _Un_AttrPosition0;\n"
+"#define Un_AttrPosition0 _Un_AttrPosition0\n"}},
 
-"attribute vec4 _Un_AttrColor0;\n"
+{"attribute vec4 _Un_AttrColor0;\n"
 "vec4 Un_AttrColor0 = _Un_AttrColor0;\n",
-"attribute vec4 _Un_AttrColor0;\n"
-"#define Un_AttrColor0 _Un_AttrColor0\n",
+1, {"attribute vec4 _Un_AttrColor0;\n"
+"#define Un_AttrColor0 _Un_AttrColor0\n"}},
 
-"attribute vec4 _Un_AttrColor1;\n"
+{"attribute vec4 _Un_AttrColor1;\n"
 "vec4 Un_AttrColor1 = _Un_AttrColor1;\n",
-"attribute vec4 _Un_AttrColor1;\n"
-"#define Un_AttrColor1 _Un_AttrColor1\n",
+1, {"attribute vec4 _Un_AttrColor1;\n"
+"#define Un_AttrColor1 _Un_AttrColor1\n"}},
 
-"attribute vec4 _Un_AttrTangent0;\n"
+{"attribute vec4 _Un_AttrTangent0;\n"
 "vec4 Un_AttrTangent0 = _Un_AttrTangent0;\n",
-"attribute vec4 _Un_AttrTangent0;\n"
-"#define Un_AttrTangent0 _Un_AttrTangent0\n",
+1, {"attribute vec4 _Un_AttrTangent0;\n"
+"#define Un_AttrTangent0 _Un_AttrTangent0\n"}},
 
-"attribute vec4 _Un_AttrNormal0;\n"
+{"attribute vec4 _Un_AttrNormal0;\n"
 "vec4 Un_AttrNormal0 = _Un_AttrNormal0;\n",
-"attribute vec4 _Un_AttrNormal0;\n"
-"#define Un_AttrNormal0 _Un_AttrNormal0\n",
+1, {"attribute vec4 _Un_AttrNormal0;\n"
+"#define Un_AttrNormal0 _Un_AttrNormal0\n"}},
 
-"attribute vec4 _Un_AttrBlendIndices0;\n"
+{"attribute vec4 _Un_AttrBlendIndices0;\n"
 "vec4 Un_AttrBlendIndices0 = _Un_AttrBlendIndices0;\n",
-"attribute vec4 _Un_AttrBlendIndices0;\n"
-"#define Un_AttrBlendIndices0 _Un_AttrBlendIndices0\n",
+1, {"attribute vec4 _Un_AttrBlendIndices0;\n"
+"#define Un_AttrBlendIndices0 _Un_AttrBlendIndices0\n"}},
 
-"attribute vec4 _Un_AttrBlendWeight0;\n"
+{"attribute vec4 _Un_AttrBlendWeight0;\n"
 "vec4 Un_AttrBlendWeight0 = _Un_AttrBlendWeight0;\n",
-"attribute vec4 _Un_AttrBlendWeight0;\n"
-"#define Un_AttrBlendWeight0 _Un_AttrBlendWeight0\n",
+1, {"attribute vec4 _Un_AttrBlendWeight0;\n"
+"#define Un_AttrBlendWeight0 _Un_AttrBlendWeight0\n"}},
 
-"attribute vec4 _Un_AttrBinormal0;\n"
+{"attribute vec4 _Un_AttrBinormal0;\n"
 "vec4 Un_AttrBinormal0 = _Un_AttrBinormal0;\n",
-"attribute vec4 _Un_AttrBinormal0;\n"
-"#define Un_AttrBinormal0 _Un_AttrBinormal0\n",
+1, {"attribute vec4 _Un_AttrBinormal0;\n"
+"#define Un_AttrBinormal0 _Un_AttrBinormal0\n"}},
 
-"attribute vec4 _Un_AttrTexCoord0;\n"
+{"attribute vec4 _Un_AttrTexCoord0;\n"
 "vec4 Un_AttrTexCoord0 = _Un_AttrTexCoord0;\n",
-"attribute vec4 _Un_AttrTexCoord0;\n"
-"#define Un_AttrTexCoord0 _Un_AttrTexCoord0\n",
+1, {"attribute vec4 _Un_AttrTexCoord0;\n"
+"#define Un_AttrTexCoord0 _Un_AttrTexCoord0\n"}},
 
-"attribute vec4 _Un_AttrTexCoord1;\n"
+{"attribute vec4 _Un_AttrTexCoord1;\n"
 "vec4 Un_AttrTexCoord1 = _Un_AttrTexCoord1;\n",
-"attribute vec4 _Un_AttrTexCoord1;\n"
-"#define Un_AttrTexCoord1 _Un_AttrTexCoord1\n",
+1, {"attribute vec4 _Un_AttrTexCoord1;\n"
+"#define Un_AttrTexCoord1 _Un_AttrTexCoord1\n"}},
 
-"attribute vec4 _Un_AttrTexCoord2;\n"
+{"attribute vec4 _Un_AttrTexCoord2;\n"
 "vec4 Un_AttrTexCoord2 = _Un_AttrTexCoord2;\n",
-"attribute vec4 _Un_AttrTexCoord2;\n"
-"#define Un_AttrTexCoord2 _Un_AttrTexCoord2\n",
+1, {"attribute vec4 _Un_AttrTexCoord2;\n"
+"#define Un_AttrTexCoord2 _Un_AttrTexCoord2\n"}},
 
-"attribute vec4 _Un_AttrTexCoord3;\n"
+{"attribute vec4 _Un_AttrTexCoord3;\n"
 "vec4 Un_AttrTexCoord3 = _Un_AttrTexCoord3;\n",
-"attribute vec4 _Un_AttrTexCoord3;\n"
-"#define Un_AttrTexCoord3 _Un_AttrTexCoord3\n",
+1, {"attribute vec4 _Un_AttrTexCoord3;\n"
+"#define Un_AttrTexCoord3 _Un_AttrTexCoord3\n"}},
 
-"attribute vec4 _Un_AttrTexCoord4;\n"
+{"attribute vec4 _Un_AttrTexCoord4;\n"
 "vec4 Un_AttrTexCoord4 = _Un_AttrTexCoord4;\n",
-"attribute vec4 _Un_AttrTexCoord4;\n"
-"#define Un_AttrTexCoord4 _Un_AttrTexCoord4\n",
+1, {"attribute vec4 _Un_AttrTexCoord4;\n"
+"#define Un_AttrTexCoord4 _Un_AttrTexCoord4\n"}},
 
-"attribute vec4 _Un_AttrTexCoord5;\n"
+{"attribute vec4 _Un_AttrTexCoord5;\n"
 "vec4 Un_AttrTexCoord5 = _Un_AttrTexCoord5;\n",
-"attribute vec4 _Un_AttrTexCoord5;\n"
-"#define Un_AttrTexCoord5 _Un_AttrTexCoord5\n",
+1, {"attribute vec4 _Un_AttrTexCoord5;\n"
+"#define Un_AttrTexCoord5 _Un_AttrTexCoord5\n"}},
 
-"attribute vec4 _Un_AttrTexCoord6;\n"
+{"attribute vec4 _Un_AttrTexCoord6;\n"
 "vec4 Un_AttrTexCoord6 = _Un_AttrTexCoord6;\n",
-"attribute vec4 _Un_AttrTexCoord6;\n"
-"#define Un_AttrTexCoord6 _Un_AttrTexCoord6\n",
+1, {"attribute vec4 _Un_AttrTexCoord6;\n"
+"#define Un_AttrTexCoord6 _Un_AttrTexCoord6\n"}},
 
-"attribute vec4 _Un_AttrTexCoord7;\n"
+{"attribute vec4 _Un_AttrTexCoord7;\n"
 "vec4 Un_AttrTexCoord7 = _Un_AttrTexCoord7;\n",
-"attribute vec4 _Un_AttrTexCoord7;\n"
-"#define Un_AttrTexCoord7 _Un_AttrTexCoord7\n",
+1, {"attribute vec4 _Un_AttrTexCoord7;\n"
+"#define Un_AttrTexCoord7 _Un_AttrTexCoord7\n"}},
 
 // for IcewindDale
-"uniform highp \tvec2 \t\tuTcScale;",
-"uniform mediump vec2 \t\tuTcScale;",
+{"uniform highp \tvec2 \t\tuTcScale;",
+1, {"uniform mediump vec2 \t\tuTcScale;"}},
 
 // for OpenMW
-"uniform bool simpleWater = false;",
-"uniform bool simpleWater;",
+{"uniform bool simpleWater = false;",
+1, {"uniform bool simpleWater;"}},
 
 // for Lethal League
-"uniform vec4 Color = vec4(1.0, 1.0, 1.0, 1.0);",
-"uniform vec4 Color;",
+{"uniform vec4 Color = vec4(1.0, 1.0, 1.0, 1.0);",
+1, {"uniform vec4 Color;"}},
+
+// for ioQuake3
+{"float c[5] = float[5](1.0, 0.9238795325, 0.7071067812, 0.3826834324, 0.0);",
+1, {"float c[5]; c[0]=1.0; c[1]=0.9238795325; c[2]=0.7071067812; c[3]=0.3826834324; c[4]=0.0;"}},
+
+{"float c[7] = float[7](1.0, 0.9659258263, 0.8660254038, 0.7071067812, 0.5, 0.2588190451, 0.0);",
+1, {"float c[7]; c[0]=1.0; c[1]=0.9659258263; c[2]=0.8660254038; c[3]=0.7071067812; c[4]=0.5; c[5]=0.2588190451; c[6]=0.0;"}},
+
+{"float scale = 2.0 / r_shadowMapSize;",
+1, {"float scale = 2.0 / float(r_shadowMapSize);"}},
+
+{"vec2 poissonDisc[9] = vec2[9](\n"
+"vec2(-0.7055767, 0.196515),    vec2(0.3524343, -0.7791386),\n"
+"vec2(0.2391056, 0.9189604),    vec2(-0.07580382, -0.09224417),\n"
+"vec2(0.5784913, -0.002528916), vec2(0.192888, 0.4064181),\n"
+"vec2(-0.6335801, -0.5247476),  vec2(-0.5579782, 0.7491854),\n"
+"vec2(0.7320465, 0.6317794)\n"
+");\n",
+3, {
+"vec2 poissonDisc[9];\n",
+
+"void main()\n"
+"{\n",
+"void main()\n"
+"{\n"
+"poissonDisc[0] = vec2(-0.7055767, 0.196515);  poissonDisc[1] = vec2(0.3524343, -0.7791386);\n"
+"poissonDisc[2] = vec2(0.2391056, 0.9189604);  poissonDisc[3] = vec2(-0.07580382, -0.09224417);\n"
+"poissonDisc[4] = vec2(0.5784913, -0.002528916);poissonDisc[5]= vec2(0.192888, 0.4064181);\n"
+"poissonDisc[6] = vec2(-0.6335801, -0.5247476);poissonDisc[7] = vec2(-0.5579782, 0.7491854);\n"
+"poissonDisc[8] = vec2(0.7320465, 0.6317794);\n"
+}},
+
+{"float result = 0;",
+1, {"float result = 0.0;"}},
+
+{"//float gauss[5] = float[5](0.30, 0.23, 0.097, 0.024, 0.0033);\n"
+"float gauss[4] = float[4](0.40, 0.24, 0.054, 0.0044);\n"
+"//float gauss[3] = float[3](0.60, 0.19, 0.0066);\n"
+"#define GAUSS_SIZE 4\n",
+3, {
+"//float gauss[5] = float[5](0.30, 0.23, 0.097, 0.024, 0.0033);\n"
+"float gauss[4];\n"
+"//float gauss[3] = float[3](0.60, 0.19, 0.0066);\n"
+"#define GAUSS_SIZE 4\n",
+
+"void main()\n"
+"{\n",
+"void main()\n"
+"{\n"
+"        gauss[0]=0.40; gauss[1]=0.24; gauss[2]=0.054; gauss[3]=0.0044;\n"
+}},
+
+{"vec2 offset = direction * j;",
+1,{"vec2 offset = direction * float(j);"}},
+
 };
 
 // For Stellaris
@@ -288,10 +364,16 @@ char* ShaderHacks(char* shader)
     Tmp = ShaderHacks_1(shader, Tmp, &tmpsize);
     Tmp = ShaderHacks_2(shader, Tmp, &tmpsize);
     // generic
-    for (int i=0; i<sizeof(gl4es_hacks)/sizeof(gl4es_hacks[0]); i+=2)
-        if(strstr(Tmp, gl4es_hacks[i])) {
+    for (int i=0; i<sizeof(gl4es_hacks)/sizeof(gl4es_hacks[0]); ++i) {
+        char* f = gl4es_hacks[i].sign;
+        int n = gl4es_hacks[i].n;
+        if(strstr(Tmp, f)) {
             if(Tmp==shader) {Tmp = malloc(tmpsize); strcpy(Tmp, shader);}   // hacking!
-            Tmp = InplaceReplaceSimple(Tmp, &tmpsize, gl4es_hacks[i], gl4es_hacks[i+1]);
+            for (int j=0; j<n; j+=2) {
+                if(j) f = gl4es_hacks[i].next[j-1];
+                Tmp = InplaceReplaceSimple(Tmp, &tmpsize, f, gl4es_hacks[i].next[j]);
+            }
         }
+    }
     return Tmp;
 }
