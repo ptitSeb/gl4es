@@ -581,11 +581,12 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts,
 
                 // fallback for #ifdef GL_ES, write the line back...
                 case 399:
+                    if(oldp)
                     {
                         int l = p - oldp;
                         memcpy(tok.str, oldp, l);
                         tok.str[l]='\0';
-                        oldp = 0;
+                        oldp = NULL;
                     }
                     status = (tok.type==TK_NEWLINE)?0:1;
                     break;
