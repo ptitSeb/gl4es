@@ -970,7 +970,7 @@ void *gl4es_GetProcAddress(const char *name) {
     _EXT(glClampColor);
 
     //GL_ARB_vertex_program
-    if(hardext.esversion>1 && globals4es.arb_program) {
+    if(hardext.esversion>1) {
         _EX(glProgramStringARB);
         _EX(glBindProgramARB);
         _EX(glDeleteProgramsARB);

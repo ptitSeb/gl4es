@@ -213,7 +213,7 @@ typedef struct {
 	GLfloat	*stack;
 } matrixstack_t;
 
-typedef struct {
+typedef struct glsl_s {
     float                  vtx_env_params[MAX_VTX_PROG_ENV_PARAMS*4];  // ARB_vertex_program Program Env Parameters
     float                  frg_env_params[MAX_FRG_PROG_ENV_PARAMS*4];  // ARB_fragment_program Program Env Parameters
     khash_t(shaderlist)    *shaders;

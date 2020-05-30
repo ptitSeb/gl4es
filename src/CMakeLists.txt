@@ -2,6 +2,7 @@ include_directories(util)
 
 #file(GLOB_RECURSE GL_SOURCES gl/*.c)
 SET(GL_SRC
+    gl/arbconverter.c
     gl/array.c
     gl/blit.c
     gl/blend.c
@@ -69,6 +70,7 @@ SET(GL_SRC
 
 SET(GL_H
     ../version.h
+    gl/arbconverter.h
     gl/array.h
     gl/blend.h
     gl/blit.h

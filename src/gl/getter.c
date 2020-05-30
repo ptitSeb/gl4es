@@ -189,12 +189,10 @@ void BuildExtensionsList() {
                 "GL_ARB_draw_instanced "
                 "GL_ARB_instanced_arrays "
                 );
-        }
-        if(globals4es.arb_program) {
             strcat(glstate->extensions,
-            "GL_ARB_vertex_program "
-            "GL_ARB_fragment_program "
-            );
+                "GL_ARB_vertex_program "
+                "GL_ARB_fragment_program "
+                );
         }
         if(hardext.prgbin_n) {
             strcat(glstate->extensions,

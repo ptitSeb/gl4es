@@ -993,4 +993,3 @@ GLvoid glGetInfoLogARB(GLhandleARB obj, GLsizei maxLength, GLsizei *length, GLch
 GLvoid glGetAttachedObjectsARB(GLhandleARB containerObj, GLsizei maxCount, GLsizei *count, GLhandleARB *obj) AliasExport("gl4es_glGetAttachedObjects");
 GLint glGetUniformLocationARB(GLhandleARB programObj, const GLcharARB *name) AliasExport("gl4es_glGetUniformLocation");
 GLvoid glGetActiveUniformARB(GLhandleARB programObj, GLuint index, GLsizei maxLength, GLsizei *length, GLint *size, GLenum *type, GLcharARB *name) AliasExport("gl4es_glGetActiveUniform");
-
