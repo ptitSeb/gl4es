@@ -5,6 +5,9 @@
 #include "arbhelper.h"
 #include "state.h"
 
+// ARBCONV_DBG_RE - resolve* error ArbConverter debug logs
+#define ARBCONV_DBG_RE(...) printf(__VA_ARGS__);
+
 #define IS_SWIZZLE(str) (((str)[0] >= 'w') && ((str)[0] <= 'z') && \
  (((str)[1] == '\0') || (((str)[1] >= 'w') && ((str)[1] <= 'z') && \
  (((str)[2] == '\0') || (((str)[2] >= 'w') && ((str)[2] <= 'z') && \
@@ -255,14 +258,14 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 	char *tok = popFIFO((sArray*)newVar);
 	
 	if (!tok) {
-		ARBCONV_DBG_RE(printf("Failed to get attrib: (tok NULL)\n");)
+		ARBCONV_DBG_RE("Failed to get attrib: (tok NULL)\n")
 		return 1;
 	} else if (vertex && !strcmp(tok, "vertex")) {
 		free(tok);
 		tok = popFIFO((sArray*)newVar);
 		
 		if (!tok) {
-			ARBCONV_DBG_RE(printf("Failed to get attrib: vertex(tok NULL)\n");)
+			ARBCONV_DBG_RE("Failed to get attrib: vertex(tok NULL)\n")
 			return 1;
 		} else if (!strcmp(tok, "position")) {
 			// vertex.position => gl_Vertex
@@ -296,7 +299,7 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 				pushArray((sArray*)&newVar->var->init, strdup("gl_SecondaryColor"));
 				newVar->var->init.strings_total_len = 17;
 			} else {
-				ARBCONV_DBG_RE(printf("Failed to get attrib: vertex.color.%s\n", tok);)
+				ARBCONV_DBG_RE("Failed to get attrib: vertex.color.%s\n", tok)
 				free(tok);
 				return 1;
 			}
@@ -321,7 +324,7 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 					free(tex);
 					newVar->var->init.strings_total_len = bufLen;
 				} else {
-					ARBCONV_DBG_RE(printf("Failed to get param: vertex.texcoord.%s\n", tok);)
+					ARBCONV_DBG_RE("Failed to get param: vertex.texcoord.%s\n", tok)
 					free(tok);
 					return 1;
 				}
@@ -330,7 +333,7 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 				newVar->var->init.strings_total_len = 17;
 			}
 		} else {
-			ARBCONV_DBG_RE(printf("Failed to get attrib: vertex.%s\n", tok);)
+			ARBCONV_DBG_RE("Failed to get attrib: vertex.%s\n", tok)
 			free(tok);
 			return 1;
 		}
@@ -339,7 +342,7 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 		tok = popFIFO((sArray*)newVar);
 		
 		if (!tok) {
-			ARBCONV_DBG_RE(printf("Failed to get attrib: fragment(tok NULL)\n");)
+			ARBCONV_DBG_RE("Failed to get attrib: fragment(tok NULL)\n")
 			return 1;
 		} else if (!strcmp(tok, "color")) {
 			free(tok);
@@ -363,7 +366,7 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 				pushArray((sArray*)&newVar->var->init, strdup("gl_SecondaryColor"));
 				newVar->var->init.strings_total_len = 17;
 			} else {
-				ARBCONV_DBG_RE(printf("Failed to get attrib: fragment.color.%s\n", tok);)
+				ARBCONV_DBG_RE("Failed to get attrib: fragment.color.%s\n", tok)
 				free(tok);
 				return 1;
 			}
@@ -383,7 +386,7 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 					free(tex);
 					newVar->var->init.strings_total_len = bufLen;
 				} else {
-					ARBCONV_DBG_RE(printf("Failed to get param: fragment.texcoord.%s\n", tok);)
+					ARBCONV_DBG_RE("Failed to get param: fragment.texcoord.%s\n", tok)
 					free(tok);
 					return 1;
 				}
@@ -397,21 +400,21 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 			pushArray((sArray*)&newVar->var->init, strdup("vec4(gl_FogFragCoord, 0., 0., 1.)"));
 			newVar->var->init.strings_total_len = 33;
 		} else if (!strcmp(tok, "position")) {
-			// fragment.position => gl_Position
+			// fragment.position => gl_FragCoord
 			free(tok);
-			pushArray((sArray*)&newVar->var->init, strdup("gl_Position"));
-			newVar->var->init.strings_total_len = 11;
+			pushArray((sArray*)&newVar->var->init, strdup("gl_FragCoord"));
+			newVar->var->init.strings_total_len = 12;
 		} else {
-			ARBCONV_DBG_RE(printf("Failed to get attrib: fragment.%s\n", tok);)
+			ARBCONV_DBG_RE("Failed to get attrib: fragment.%s\n", tok)
 			free(tok);
 			return 1;
 		}
 	} else {
-		ARBCONV_DBG_RE(printf("Failed to get attrib: %s\n", tok);)
+		ARBCONV_DBG_RE("Failed to get attrib: %s\n", tok)
 		free(tok);
 		return 1;
 	}
-	/* TODO:
+	/* TODO: (* todo, V done, X unsupported)
 	 V "vertex" "." "position"
 	 X "vertex" "." "weight" <vtxOptWeightNum>
 	 V "vertex" "." "normal"
@@ -430,7 +433,7 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 	 V "fragment" "." "texcoord"
 	 V "fragment" "." "texcoord" "[" <texCoordNum> "]"
 	 V "fragment" "." "fogcoord"
-	 W "fragment" "." "position"
+	 V "fragment" "." "position"
 	 */
 	
 	return 0;
@@ -439,14 +442,14 @@ int resolveOutput(sCurStatus_NewVar *newVar, int vertex) {
 	char *tok = popFIFO((sArray*)newVar);
 	
 	if (!tok) {
-		ARBCONV_DBG_RE(printf("Failed to get output: (tok NULL)\n");)
+		ARBCONV_DBG_RE("Failed to get output: (tok NULL)\n")
 		return 1;
 	} else if (vertex && !strcmp(tok, "result")) {
 		free(tok);
 		tok = popFIFO((sArray*)newVar);
 		
 		if (!tok) {
-			ARBCONV_DBG_RE(printf("Failed to get output: result(tok NULL)\n");)
+			ARBCONV_DBG_RE("Failed to get output: result(tok NULL)\n")
 			return 1;
 		} else if (!strcmp(tok, "position")) {
 			// result.position => gl_Position
@@ -485,7 +488,7 @@ int resolveOutput(sCurStatus_NewVar *newVar, int vertex) {
 					pushArray((sArray*)&newVar->var->init, strdup("gl_FrontSecondaryColor"));
 					newVar->var->init.strings_total_len = 22;
 				} else {
-					ARBCONV_DBG_RE(printf("Failed to get output: result.color.front.%s\n", tok);)
+					ARBCONV_DBG_RE("Failed to get output: result.color.front.%s\n", tok)
 					free(tok);
 					return 1;
 				}
@@ -510,7 +513,7 @@ int resolveOutput(sCurStatus_NewVar *newVar, int vertex) {
 					pushArray((sArray*)&newVar->var->init, strdup("gl_BackSecondaryColor"));
 					newVar->var->init.strings_total_len = 21;
 				} else {
-					ARBCONV_DBG_RE(printf("Failed to get output: result.color.back.%s\n", tok);)
+					ARBCONV_DBG_RE("Failed to get output: result.color.back.%s\n", tok)
 					free(tok);
 					return 1;
 				}
@@ -525,7 +528,7 @@ int resolveOutput(sCurStatus_NewVar *newVar, int vertex) {
 				pushArray((sArray*)&newVar->var->init, strdup("gl_FrontSecondaryColor"));
 				newVar->var->init.strings_total_len = 22;
 			} else {
-				ARBCONV_DBG_RE(printf("Failed to get output: result.color.%s\n", tok);)
+				ARBCONV_DBG_RE("Failed to get output: result.color.%s\n", tok)
 				free(tok);
 				return 1;
 			}
@@ -556,7 +559,7 @@ int resolveOutput(sCurStatus_NewVar *newVar, int vertex) {
 					free(tex);
 					newVar->var->init.strings_total_len = bufLen;
 				} else {
-					ARBCONV_DBG_RE(printf("Failed to get param: result.texcoord.%s\n", tok);)
+					ARBCONV_DBG_RE("Failed to get param: result.texcoord.%s\n", tok)
 					free(tok);
 					return 1;
 				}
@@ -565,7 +568,7 @@ int resolveOutput(sCurStatus_NewVar *newVar, int vertex) {
 				newVar->var->init.strings_total_len = 14;
 			}
 		} else {
-			ARBCONV_DBG_RE(printf("Failed to get output: result.%s\n", tok);)
+			ARBCONV_DBG_RE("Failed to get output: result.%s\n", tok)
 			free(tok);
 			return 1;
 		}
@@ -574,7 +577,7 @@ int resolveOutput(sCurStatus_NewVar *newVar, int vertex) {
 		tok = popFIFO((sArray*)newVar);
 		
 		if (!tok) {
-			ARBCONV_DBG_RE(printf("Failed to get output: result(tok NULL)\n");)
+			ARBCONV_DBG_RE("Failed to get output: result(tok NULL)\n")
 			return 1;
 		} else if (!strcmp(tok, "color")) {
 			// result.color => gl_FragColor
@@ -587,16 +590,16 @@ int resolveOutput(sCurStatus_NewVar *newVar, int vertex) {
 			pushArray((sArray*)&newVar->var->init, strdup("gl_FragDepth"));
 			newVar->var->init.strings_total_len = 12;
 		} else {
-			ARBCONV_DBG_RE(printf("Failed to get output: result.%s\n", tok);)
+			ARBCONV_DBG_RE("Failed to get output: result.%s\n", tok)
 			free(tok);
 			return 1;
 		}
 	} else {
-		ARBCONV_DBG_RE(printf("Failed to get output: %s\n", tok);)
+		ARBCONV_DBG_RE("Failed to get output: %s\n", tok)
 		free(tok);
 		return 1;
 	}
-	/* TODO:
+	/* TODO: (V done)
 	 V "result" "." "position"
 	 V "result" "." "color"
 	 V "result" "." "color" "." "primary"
@@ -632,14 +635,14 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	
 	char *tok = popFIFO((sArray*)newVar);
 	if (!tok) {
-		ARBCONV_DBG_RE(printf("Failed to get param: (tok NULL)\n");)
+		ARBCONV_DBG_RE("Failed to get param: (tok NULL)\n")
 		return NULL;
 	} else if (!strcmp(tok, "state")) {
 		free(tok);
 		tok = popFIFO((sArray*)newVar);
 		
 		if (!tok) {
-			ARBCONV_DBG_RE(printf("Failed to get param: state.(tok NULL)\n");)
+			ARBCONV_DBG_RE("Failed to get param: state.(tok NULL)\n")
 			return NULL;
 		} else if (!strcmp(tok, "material")) {
 			size_t propLen;
@@ -648,7 +651,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 			free(tok);
 			tok = popFIFO((sArray*)newVar);
 			if (!tok) {
-				ARBCONV_DBG_RE(printf("Failed to get param: state.material(tok NULL)\n");)
+				ARBCONV_DBG_RE("Failed to get param: state.material(tok NULL)\n")
 				return NULL;
 			} else if (!strcmp(tok, "front")) {
 				free(tok);
@@ -666,7 +669,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 			}
 			
 			if (!tok) {
-				ARBCONV_DBG_RE(printf("Failed to get param: [%s].(tok NULL)\n", matrixName);)
+				ARBCONV_DBG_RE("Failed to get param: [%s].(tok NULL)\n", matrixName)
 				return NULL;
 			} else if (!strcmp(tok, "ambient")) {
 				free(tok);
@@ -693,7 +696,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 				r[1] = NULL;
 				return r;
 			} else {
-				ARBCONV_DBG_RE(printf("Failed to get param: [%s].%s\n", matrixName, tok);)
+				ARBCONV_DBG_RE("Failed to get param: [%s].%s\n", matrixName, tok)
 				free(tok);
 				return NULL;
 			}
@@ -712,14 +715,14 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 				
 				if ((sln[0] >= '0') && (sln[0] <= '9')) {
 					if (newVar->strParts[0][0] != ']') {
-						ARBCONV_DBG_RE(printf("Failed to get param: state.light[%s(not ])\n", sln);)
+						ARBCONV_DBG_RE("Failed to get param: state.light[%s(not ])\n", sln)
 						return NULL;
 					}
 					free(popFIFO((sArray*)newVar));
 					
 					tok = popFIFO((sArray*)newVar);
 					if (!tok) {
-						ARBCONV_DBG_RE(printf("Failed to get param: state.light[%s](tok NULL)\n", sln);)
+						ARBCONV_DBG_RE("Failed to get param: state.light[%s](tok NULL)\n", sln)
 						return NULL;
 					} else if (!strcmp(tok, "ambient")) {
 						free(tok);
@@ -754,13 +757,13 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 						free(tok);
 						tok = popFIFO((sArray*)newVar);
 						if (!tok) {
-							ARBCONV_DBG_RE(printf("Failed to get param: state.light[%s].spot(tok NULL)\n", sln);)
+							ARBCONV_DBG_RE("Failed to get param: state.light[%s].spot(tok NULL)\n", sln)
 							return NULL;
 						} else if (!strcmp(tok, "direction")) {
 							mtxNameLen = 9;
 							matrixName = "spotDirection";
 						} else {
-							ARBCONV_DBG_RE(printf("Failed to get param: state.light[%s].spot.%s\n", sln, tok);)
+							ARBCONV_DBG_RE("Failed to get param: state.light[%s].spot.%s\n", sln, tok)
 							free(tok);
 							return NULL;
 						}
@@ -769,7 +772,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 						mtxNameLen = 10;
 						matrixName = "halfVector";
 					} else {
-						ARBCONV_DBG_RE(printf("Failed to get param: state.light[%s].%s\n", sln, tok);)
+						ARBCONV_DBG_RE("Failed to get param: state.light[%s].%s\n", sln, tok)
 						free(tok);
 						return NULL;
 					}
@@ -782,19 +785,19 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 					r[1] = NULL;
 					return r;
 				} else {
-					ARBCONV_DBG_RE(printf("Failed to get param: state.light.%s\n", sln);)
+					ARBCONV_DBG_RE("Failed to get param: state.light.%s\n", sln)
 					free(sln);
 					return NULL;
 				}
 			} else {
-				ARBCONV_DBG_RE(printf("Failed to get param: state.light(not [)\n");)
+				ARBCONV_DBG_RE("Failed to get param: state.light(not [)\n")
 				return NULL;
 			}
 		} else if (!strcmp(tok, "lightmodel")) {
 			free(tok);
 			tok = popFIFO((sArray*)newVar);
 			if (!tok) {
-				ARBCONV_DBG_RE(printf("Failed to get param: state.lightmodel(tok NULL)\n");)
+				ARBCONV_DBG_RE("Failed to get param: state.lightmodel(tok NULL)\n")
 				return NULL;
 			} else if (!strcmp(tok, "ambient")) {
 				free(tok);
@@ -812,7 +815,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 				free(tok);
 				tok = popFIFO((sArray*)newVar);
 				if (!tok) {
-					ARBCONV_DBG_RE(printf("Failed to get param: state.lightmodel.front(tok NULL)\n");)
+					ARBCONV_DBG_RE("Failed to get param: state.lightmodel.front(tok NULL)\n")
 					return NULL;
 				} else if (!strcmp(tok, "scenecolor")) {
 					free(tok);
@@ -821,7 +824,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 					r[1] = NULL;
 					return r;
 				} else {
-					ARBCONV_DBG_RE(printf("Failed to get param: state.lightmodel.front.%s\n", tok);)
+					ARBCONV_DBG_RE("Failed to get param: state.lightmodel.front.%s\n", tok)
 					free(tok);
 					return NULL;
 				}
@@ -829,7 +832,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 				free(tok);
 				tok = popFIFO((sArray*)newVar);
 				if (!tok) {
-					ARBCONV_DBG_RE(printf("Failed to get param: state.lightmodel.back(tok NULL)\n");)
+					ARBCONV_DBG_RE("Failed to get param: state.lightmodel.back(tok NULL)\n")
 					return NULL;
 				} else if (!strcmp(tok, "scenecolor")) {
 					free(tok);
@@ -838,12 +841,12 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 					r[1] = NULL;
 					return r;
 				} else {
-					ARBCONV_DBG_RE(printf("Failed to get param: state.lightmodel.back.%s\n", tok);)
+					ARBCONV_DBG_RE("Failed to get param: state.lightmodel.back.%s\n", tok)
 					free(tok);
 					return NULL;
 				}
 			} else {
-				ARBCONV_DBG_RE(printf("Failed to get param: state.lightmodel.%s\n", tok);)
+				ARBCONV_DBG_RE("Failed to get param: state.lightmodel.%s\n", tok)
 				free(tok);
 				return NULL;
 			}
@@ -858,14 +861,14 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 					const char *prop;
 					
 					if (newVar->strParts[0][0] != ']') {
-						ARBCONV_DBG_RE(printf("Failed to get param: state.lightprod[%s(not ])\n", sln);)
+						ARBCONV_DBG_RE("Failed to get param: state.lightprod[%s(not ])\n", sln)
 						return NULL;
 					}
 					
 					free(popFIFO((sArray*)newVar));
 					tok = popFIFO((sArray*)newVar);
 					if (!tok) {
-						ARBCONV_DBG_RE(printf("Failed to get param: state.material(tok NULL)\n");)
+						ARBCONV_DBG_RE("Failed to get param: state.material(tok NULL)\n")
 						return NULL;
 					} else if (!strcmp(tok, "front")) {
 						free(tok);
@@ -883,7 +886,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 					}
 					
 					if (!tok) {
-						ARBCONV_DBG_RE(printf("Failed to get param: [%s][%s](tok NULL)\n", matrixName, sln);)
+						ARBCONV_DBG_RE("Failed to get param: [%s][%s](tok NULL)\n", matrixName, sln)
 						return NULL;
 					} else if (!strcmp(tok, "ambient")) {
 						free(tok);
@@ -898,7 +901,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 						propLen = 8;
 						prop = "specular";
 					} else {
-						ARBCONV_DBG_RE(printf("Failed to get param: [%s][%s].%s\n", matrixName, sln, tok);)
+						ARBCONV_DBG_RE("Failed to get param: [%s][%s].%s\n", matrixName, sln, tok)
 						free(tok);
 						return NULL;
 					}
@@ -910,12 +913,12 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 					r[1] = NULL;
 					return r;
 				} else {
-					ARBCONV_DBG_RE(printf("Failed to get param: state.lightprod.%s\n", sln);)
+					ARBCONV_DBG_RE("Failed to get param: state.lightprod.%s\n", sln)
 					free(sln);
 					return NULL;
 				}
 			} else {
-				ARBCONV_DBG_RE(printf("Failed to get param: state.lightprod(not [)\n");)
+				ARBCONV_DBG_RE("Failed to get param: state.lightprod(not [)\n")
 				return NULL;
 			}
 		} else if (!strcmp(tok, "matrix")) {
@@ -925,7 +928,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 			tok = popFIFO((sArray*)newVar);
 			
 			if (!tok) {
-				ARBCONV_DBG_RE(printf("Failed to get param: state.matrix(tok NULL)\n");)
+				ARBCONV_DBG_RE("Failed to get param: state.matrix(tok NULL)\n")
 				return NULL;
 			} else if (!strcmp(tok, "modelview")) {
 				free(tok);
@@ -941,7 +944,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 								mvmtx = mvmtx * 10 + *numPtr - '0';
 							}
 						} else {
-							ARBCONV_DBG_RE(printf("Failed to get param: state.modelview[(NaN)\n");)
+							ARBCONV_DBG_RE("Failed to get param: state.modelview[(NaN)\n")
 							free(tok);
 							return NULL;
 						}
@@ -949,14 +952,15 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 						
 						tok = popFIFO((sArray*)newVar);
 						if (tok[0] != ']') {
-							ARBCONV_DBG_RE(printf("Failed to get param: state.modelview[%d(not ])\n", mvmtx);)
+							ARBCONV_DBG_RE("Failed to get param: state.modelview[%d(not ])\n", mvmtx)
 							free(tok);
 							return NULL;
 						}
 						free(tok);
 						
 						if (mvmtx != 0) {
-							ARBCONV_DBG_RE(printf("Failed to get param: state.modelview[%d(!=0)]\n", mvmtx);)
+							ARBCONV_DBG_RE("Failed to get param: state.modelview[%d(!=0)]\n", mvmtx)
+							return NULL;
 						}
 					}
 					
@@ -1002,7 +1006,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 								end = start;
 							}
 						} else {
-							ARBCONV_DBG_RE(printf("Failed to get param: [%s].%s\n", matrixName, tok);)
+							ARBCONV_DBG_RE("Failed to get param: [%s].%s\n", matrixName, tok)
 							free(tok);
 							return NULL;
 						}
@@ -1066,13 +1070,13 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 							
 							tok = popFIFO((sArray*)newVar);
 							if (tok[0] != ']') {
-								ARBCONV_DBG_RE(printf("Failed to get param: [%s].row[%d..%d(not ])\n", matrixName, start, end);)
+								ARBCONV_DBG_RE("Failed to get param: [%s].row[%d..%d(not ])\n", matrixName, start, end)
 								free(tok);
 								return NULL;
 							}
 							free(tok);
 						} else {
-							ARBCONV_DBG_RE(printf("Failed to get param: [%s].%s\n", matrixName, tok);)
+							ARBCONV_DBG_RE("Failed to get param: [%s].%s\n", matrixName, tok)
 							free(tok);
 							return NULL;
 						}
@@ -1081,13 +1085,99 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 					matrixName = "gl_ModelViewProjectionMatrix";
 					mtxNameLen = 28;
 				}
+			} else if (!strcmp(tok, "texture")) {
+				free(tok);
+				if (newVar->strLen && !IS_NEW_STR_OR_SWIZZLE(newVar->strParts[0], type)) {
+					int mvmtx = 0;
+					int mvmtxsz = 0;
+					if (newVar->strParts[0][0] == '[') {
+						free(popFIFO((sArray*)newVar));
+						tok = popFIFO((sArray*)newVar);
+						if ((tok[0] >= '0') && (tok[0] <= '9')) {
+							for (char *numPtr = tok; *numPtr; ++numPtr) {
+								++mvmtxsz;
+								mvmtx = mvmtx * 10 + *numPtr - '0';
+							}
+						} else {
+							ARBCONV_DBG_RE("Failed to get param: state.texture[(NaN)\n")
+							free(tok);
+							return NULL;
+						}
+						free(tok);
+						
+						tok = popFIFO((sArray*)newVar);
+						if (tok[0] != ']') {
+							ARBCONV_DBG_RE("Failed to get param: state.texture[%d(not ])\n", mvmtx)
+							free(tok);
+							return NULL;
+						}
+						free(tok);
+					}
+					
+					if (!strcmp(newVar->strParts[0], "invtrans")) {
+						free(popFIFO((sArray*)newVar));
+						matrixName = "gl_TextureMatrixInverseTranspose";
+						mtxNameLen = 32;
+					} else if (!strcmp(newVar->strParts[0], "inverse")) {
+						free(popFIFO((sArray*)newVar));
+						matrixName = "gl_TextureMatrixInverse";
+						mtxNameLen = 23;
+					} else if (!strcmp(newVar->strParts[0], "transpose")) {
+						free(popFIFO((sArray*)newVar));
+						matrixName = "gl_TextureMatrixTranspose";
+						mtxNameLen = 25;
+					} else {
+						matrixName = "gl_TextureMatrix";
+						mtxNameLen = 16;
+					}
+					
+					if (newVar->strLen && !IS_NEW_STR_OR_SWIZZLE(newVar->strParts[0], type)) {
+						tok = popFIFO((sArray*)newVar);
+						if (!strcmp(tok, "row")
+						 && newVar->strLen && (newVar->strParts[0][0] >= '0') && (newVar->strParts[0][0] <= '9')) {
+							free(tok);
+							tok = popFIFO((sArray*)newVar);
+							for (char *numPtr = tok; *numPtr; ++numPtr) {
+								start = start * 10 + *numPtr - '0';
+							}
+							free(tok);
+							
+							if ((newVar->strLen >= 3) && (newVar->strParts[0][0] == '.')
+							 && (newVar->strParts[0][1] == '.')
+							 && (newVar->strParts[1][0] >= '0') && (newVar->strParts[1][0] <= '9')) {
+								end = 0;
+								free(popFIFO((sArray*)newVar));
+								tok = popFIFO((sArray*)newVar);
+								for (char *numPtr = tok; *numPtr; ++numPtr) {
+									end = end * 10 + *numPtr - '0';
+								}
+								free(tok);
+							} else {
+								end = start;
+							}
+						} else {
+							ARBCONV_DBG_RE("Failed to get param: [%s].%s\n", matrixName, tok)
+							free(tok);
+							return NULL;
+						}
+					}
+					
+					if (mvmtxsz && mvmtx) {
+						mtxNameLen += 2 + mvmtxsz;
+						matrixNameMallocd = malloc((mtxNameLen + 1) * sizeof(char));
+						sprintf(matrixNameMallocd, "%s", matrixName);
+					}
+				} else {
+					matrixName = "gl_TextureMatrix";
+					mtxNameLen = 16;
+				}
 			} else {
-				ARBCONV_DBG_RE(printf("Failed to get param: state.matrix.%s\n", tok);)
+				ARBCONV_DBG_RE("Failed to get param: state.matrix.%s\n", tok)
 				free(tok);
 				return NULL;
 			}
 		} else {
-			ARBCONV_DBG_RE(printf("Failed to get param: state.%s\n", tok);)
+			ARBCONV_DBG_RE("Failed to get param: state.%s\n", tok)
 			free(tok);
 			return NULL;
 		}
@@ -1097,7 +1187,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 		tok = popFIFO((sArray*)newVar);
 		
 		if (!tok) {
-			ARBCONV_DBG_RE(printf("Failed to get param: program(tok NULL)\n");)
+			ARBCONV_DBG_RE("Failed to get param: program(tok NULL)\n")
 			return NULL;
 		} else if (!strcmp(tok, "env")) {
 			matrixName = "gl_ProgramEnv";
@@ -1108,7 +1198,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 			tok = popFIFO((sArray*)newVar);
 			
 			if (!tok) {
-				ARBCONV_DBG_RE(printf("Failed to get param: program.env(tok NULL)\n");)
+				ARBCONV_DBG_RE("Failed to get param: program.env(tok NULL)\n")
 				return NULL;
 			} else if (tok[0] == '[') {
 				free(tok);
@@ -1134,18 +1224,18 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 					
 					tok = popFIFO((sArray*)newVar);
 					if (tok[0] != ']') {
-						ARBCONV_DBG_RE(printf("Failed to get param: program.env[%d..%d(not ])\n", start, end);)
+						ARBCONV_DBG_RE("Failed to get param: program.env[%d..%d(not ])\n", start, end)
 						free(tok);
 						return NULL;
 					}
 					free(tok);
 				} else {
-					ARBCONV_DBG_RE(printf("Failed to get param: program.env[%s\n", tok);)
+					ARBCONV_DBG_RE("Failed to get param: program.env[%s\n", tok)
 					free(tok);
 					return NULL;
 				}
 			} else {
-				ARBCONV_DBG_RE(printf("Failed to get param: program.env.%s\n", tok);)
+				ARBCONV_DBG_RE("Failed to get param: program.env.%s\n", tok)
 				free(tok);
 				return NULL;
 			}
@@ -1158,7 +1248,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 			tok = popFIFO((sArray*)newVar);
 			
 			if (!tok) {
-				ARBCONV_DBG_RE(printf("Failed to get param: program.local(tok NULL)\n");)
+				ARBCONV_DBG_RE("Failed to get param: program.local(tok NULL)\n")
 				return NULL;
 			} else if (tok[0] == '[') {
 				free(tok);
@@ -1184,23 +1274,23 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 					
 					tok = popFIFO((sArray*)newVar);
 					if (tok[0] != ']') {
-						ARBCONV_DBG_RE(printf("Failed to get param: program.local[%d..%d(not ])\n", start, end);)
+						ARBCONV_DBG_RE("Failed to get param: program.local[%d..%d(not ])\n", start, end)
 						free(tok);
 						return NULL;
 					}
 					free(tok);
 				} else {
-					ARBCONV_DBG_RE(printf("Failed to get param: program.local[%s\n", tok);)
+					ARBCONV_DBG_RE("Failed to get param: program.local[%s\n", tok)
 					free(tok);
 					return NULL;
 				}
 			} else {
-				ARBCONV_DBG_RE(printf("Failed to get param: program.local.%s\n", tok);)
+				ARBCONV_DBG_RE("Failed to get param: program.local.%s\n", tok)
 				free(tok);
 				return NULL;
 			}
 		} else {
-			ARBCONV_DBG_RE(printf("Failed to get param: program.%s\n", tok);)
+			ARBCONV_DBG_RE("Failed to get param: program.%s\n", tok)
 			free(tok);
 			return NULL;
 		}
@@ -1289,15 +1379,14 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 		} while (tok && (pseudoSt.status != ST_ERROR) && (pseudoSt.curToken != TOK_RBRACE));
 		free(tok);
 		if (pseudoSt.status == ST_ERROR) {
-			ARBCONV_DBG_RE(printf("Failed to get param: %s tok (%s))\n",
-			 TOKEN2STR(pseudoSt.curToken), pseudoSt.outputString);)
+			ARBCONV_DBG_RE("Failed to get param: %s tok (%s))\n", TOKEN2STR(pseudoSt.curToken), pseudoSt.outputString)
 			free(pseudoSt.outputString);
 			return NULL;
 		}
 		
 		if (appendString(&pseudoSt, ")", 1)) {
 			free(pseudoSt.outputString);
-			ARBCONV_DBG_RE(printf("Failed to get param: not enough memory?\n");)
+			ARBCONV_DBG_RE("Failed to get param: not enough memory?\n")
 			return NULL;
 		}
 		
@@ -1306,11 +1395,11 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 		r[1] = NULL;
 		return r;
 	} else {
-		ARBCONV_DBG_RE(printf("Failed to get param: %s\n", tok);)
+		ARBCONV_DBG_RE("Failed to get param: %s\n", tok)
 		free(tok);
 		return NULL;
 	}
-	/* TODO:
+	/* TODO: (* todo, V done, ! todo but only in vertex/fragment shaders, ? todo?)
 	 * <paramSingleItemDecl>
 	 \ V "state" "." "material" "." "ambient"
 	 \ V "state" "." "material" "." "diffuse"
@@ -1384,14 +1473,14 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	 \ V "state" "." "matrix" "." "mvp" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ V "state" "." "matrix" "." "mvp" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ V "state" "." "matrix" "." "mvp" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
@@ -1481,14 +1570,14 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	 \ V "state" "." "matrix" "." "mvp" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ V "state" "." "matrix" "." "mvp" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ V "state" "." "matrix" "." "mvp" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
@@ -1578,14 +1667,14 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	 \ V "state" "." "matrix" "." "mvp" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ V "state" "." "matrix" "." "mvp" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ V "state" "." "matrix" "." "mvp" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
@@ -1626,22 +1715,22 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	 \ V "state" "." "matrix" "." "mvp" "." "inverse" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
 	 \ V "state" "." "matrix" "." "mvp" "." "transpose" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
 	 \ V "state" "." "matrix" "." "mvp" "." "invtrans" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture"
-	 \ ? "state" "." "matrix" "." "texture" "." "inverse"
-	 \ ? "state" "." "matrix" "." "texture" "." "transpose"
-	 \ ? "state" "." "matrix" "." "texture" "." "invtrans"
-	 \ ? "state" "." "matrix" "." "texture" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "inverse" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "transpose" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "invtrans" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture"
+	 \ V "state" "." "matrix" "." "texture" "." "inverse"
+	 \ V "state" "." "matrix" "." "texture" "." "transpose"
+	 \ V "state" "." "matrix" "." "texture" "." "invtrans"
+	 \ V "state" "." "matrix" "." "texture" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "inverse" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "transpose" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "invtrans" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "inverse"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "transpose"
@@ -1756,14 +1845,14 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	 \ V "state" "." "matrix" "." "mvp" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ V "state" "." "matrix" "." "mvp" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ V "state" "." "matrix" "." "mvp" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
@@ -1837,14 +1926,14 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	 \ V "state" "." "matrix" "." "mvp" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ V "state" "." "matrix" "." "mvp" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ V "state" "." "matrix" "." "mvp" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
@@ -1918,14 +2007,14 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	 \ V "state" "." "matrix" "." "mvp" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ V "state" "." "matrix" "." "mvp" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ V "state" "." "matrix" "." "mvp" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> "]"
@@ -1966,22 +2055,22 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	 \ V "state" "." "matrix" "." "mvp" "." "inverse" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
 	 \ V "state" "." "matrix" "." "mvp" "." "transpose" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
 	 \ V "state" "." "matrix" "." "mvp" "." "invtrans" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture"
-	 \ ? "state" "." "matrix" "." "texture" "." "inverse"
-	 \ ? "state" "." "matrix" "." "texture" "." "transpose"
-	 \ ? "state" "." "matrix" "." "texture" "." "invtrans"
-	 \ ? "state" "." "matrix" "." "texture" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "inverse" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "transpose" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "." "invtrans" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
-	 \ ? "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture"
+	 \ V "state" "." "matrix" "." "texture" "." "inverse"
+	 \ V "state" "." "matrix" "." "texture" "." "transpose"
+	 \ V "state" "." "matrix" "." "texture" "." "invtrans"
+	 \ V "state" "." "matrix" "." "texture" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "inverse" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "transpose" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "." "invtrans" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "inverse" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "transpose" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
+	 \ V "state" "." "matrix" "." "texture" "[" <texCoordNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> ".." <stateMatrixRowNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "inverse"
 	 \ ? "state" "." "matrix" "." "palette" "[" <statePaletteMatNum> "]" "." "transpose"
@@ -2043,14 +2132,14 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	
 	if (isMatrix) {
 		if ((start > end) || ((end > 3) && refuseEndGE4)) {
-			ARBCONV_DBG_RE(printf("Failed to get param: [%s] (se)\n", matrixNameMallocd?matrixNameMallocd:matrixName);)
+			ARBCONV_DBG_RE("Failed to get param: [%s] (se)\n", matrixNameMallocd?matrixNameMallocd:matrixName)
 			if (matrixNameMallocd) free(matrixNameMallocd);
 			return NULL;
 		}
 		
 		if (((type == 0) || (type == 1)) && (start != end)) {
 			// type = 0 and 1 are paramSingleItem*
-			ARBCONV_DBG_RE(printf("Failed to get param: [%s] (t)\n", matrixNameMallocd?matrixNameMallocd:matrixName);)
+			ARBCONV_DBG_RE("Failed to get param: [%s] (t)\n", matrixNameMallocd?matrixNameMallocd:matrixName)
 			if (matrixNameMallocd) free(matrixNameMallocd);
 			return NULL;
 		}
