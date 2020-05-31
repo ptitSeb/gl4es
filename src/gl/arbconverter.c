@@ -1,7 +1,6 @@
 #include "arbconverter.h"
 
 #include <stddef.h>
-#include <stdio.h>
 
 // MAX_TEX
 #include "state.h"
@@ -52,6 +51,8 @@ char* gl4es_convertARB(const char* const code, int vertex, glsl_t *glsl) {
 	}
 	
 	codeStart += 10;
+	
+	ARBCONV_DBG_HEAVY(printf("Generating code for:\n%s\n", codeStart);)
 	
 	sCurStatus curStatus;
 	initStatus(&curStatus, codeStart);

@@ -619,7 +619,7 @@ int resolveOutput(sCurStatus_NewVar *newVar, int vertex) {
 	return 0;
 }
 
-char *resolveParam(sCurStatus_NewVar *newVar, int vertex, int type, size_t *outLen) {
+char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	(void)vertex;
 	
 	const char *matrixName = NULL;
@@ -628,7 +628,7 @@ char *resolveParam(sCurStatus_NewVar *newVar, int vertex, int type, size_t *outL
 	int start = 0;
 	int end = 3;
 	int isMatrix = 0;
-	int refuseEndGT4 = 1;
+	int refuseEndGE4 = 1;
 	
 	char *tok = popFIFO((sArray*)newVar);
 	if (!tok) {
@@ -686,20 +686,24 @@ char *resolveParam(sCurStatus_NewVar *newVar, int vertex, int type, size_t *outL
 				prop = "emission";
 			} else if (!strcmp(tok, "shininess")) {
 				free(tok);
-				*outLen = mtxNameLen + 16;
-				matrixNameMallocd = (char*)malloc((*outLen + 1) * sizeof(char));
+				matrixNameMallocd = (char*)malloc((mtxNameLen + 17) * sizeof(char));
 				sprintf(matrixNameMallocd, "vec4(%s.shininess)", matrixName);
-				return matrixNameMallocd;
+				char **r = (char**)calloc(2, sizeof(char*));
+				r[0] = matrixNameMallocd;
+				r[1] = NULL;
+				return r;
 			} else {
 				ARBCONV_DBG_RE(printf("Failed to get param: [%s].%s\n", matrixName, tok);)
 				free(tok);
 				return NULL;
 			}
 			
-			*outLen = mtxNameLen + propLen + 1;
-			matrixNameMallocd = (char*)malloc((*outLen + 1) * sizeof(char));
+			matrixNameMallocd = (char*)malloc((mtxNameLen + propLen + 2) * sizeof(char));
 			sprintf(matrixNameMallocd, "%s.%s", matrixName, prop);
-			return matrixNameMallocd;
+			char **r = (char**)calloc(2, sizeof(char*));
+			r[0] = matrixNameMallocd;
+			r[1] = NULL;
+			return r;
 		} else if (!strcmp(tok, "light")) {
 			free(tok);
 			if (newVar->strParts[0][0] == '[') {
@@ -735,15 +739,17 @@ char *resolveParam(sCurStatus_NewVar *newVar, int vertex, int type, size_t *outL
 						matrixName = "position";
 					} else if (!strcmp(tok, "attenuation")) {
 						free(tok);
-						*outLen = 148 + 4 * strlen(sln);
-						matrixNameMallocd = (char*)malloc((*outLen + 1) * sizeof(char));
+						matrixNameMallocd = (char*)malloc((4 * strlen(sln) + 149) * sizeof(char));
 						sprintf(
 							matrixNameMallocd,
 							"vec4(gl_LightSource[%s].constantAttenuation, gl_LightSource[%s].linearAttenuation, "
 							"gl_LightSource[%s].quadraticAttenuation, gl_LightSource[%s].spotExponent)",
 							sln, sln, sln, sln
 						);
-						return matrixNameMallocd;
+						char **r = (char**)calloc(2, sizeof(char*));
+						r[0] = matrixNameMallocd;
+						r[1] = NULL;
+						return r;
 					} else if (!strcmp(tok, "spot")) {
 						free(tok);
 						tok = popFIFO((sArray*)newVar);
@@ -768,11 +774,13 @@ char *resolveParam(sCurStatus_NewVar *newVar, int vertex, int type, size_t *outL
 						return NULL;
 					}
 					
-					*outLen = mtxNameLen + 17 + strlen(sln);
-					matrixNameMallocd = (char*)malloc((*outLen + 1) * sizeof(char));
+					matrixNameMallocd = (char*)malloc((mtxNameLen + strlen(sln) + 8) * sizeof(char));
 					sprintf(matrixNameMallocd, "gl_LightSource[%s].%s", sln, matrixName);
 					free(sln);
-					return matrixNameMallocd;
+					char **r = (char**)calloc(2, sizeof(char*));
+					r[0] = matrixNameMallocd;
+					r[1] = NULL;
+					return r;
 				} else {
 					ARBCONV_DBG_RE(printf("Failed to get param: state.light.%s\n", sln);)
 					free(sln);
@@ -790,12 +798,16 @@ char *resolveParam(sCurStatus_NewVar *newVar, int vertex, int type, size_t *outL
 				return NULL;
 			} else if (!strcmp(tok, "ambient")) {
 				free(tok);
-				*outLen = 21;
-				return "gl_LightModel.ambient";
+				char **r = (char**)calloc(2, sizeof(char*));
+				r[0] = strdup("gl_LightModel.ambient");
+				r[1] = NULL;
+				return r;
 			} else if (!strcmp(tok, "scenecolor")) {
 				free(tok);
-				*outLen = 36;
-				return "gl_FrontLightModelProduct.sceneColor";
+				char **r = (char**)calloc(2, sizeof(char*));
+				r[0] = strdup("gl_FrontLightModelProduct.sceneColor");
+				r[1] = NULL;
+				return r;
 			} else if (!strcmp(tok, "front")) {
 				free(tok);
 				tok = popFIFO((sArray*)newVar);
@@ -804,8 +816,10 @@ char *resolveParam(sCurStatus_NewVar *newVar, int vertex, int type, size_t *outL
 					return NULL;
 				} else if (!strcmp(tok, "scenecolor")) {
 					free(tok);
-					*outLen = 36;
-					return "gl_FrontLightModelProduct.sceneColor";
+					char **r = (char**)calloc(2, sizeof(char*));
+					r[0] = strdup("gl_FrontLightModelProduct.sceneColor");
+					r[1] = NULL;
+					return r;
 				} else {
 					ARBCONV_DBG_RE(printf("Failed to get param: state.lightmodel.front.%s\n", tok);)
 					free(tok);
@@ -819,8 +833,10 @@ char *resolveParam(sCurStatus_NewVar *newVar, int vertex, int type, size_t *outL
 					return NULL;
 				} else if (!strcmp(tok, "scenecolor")) {
 					free(tok);
-					*outLen = 36;
-					return "gl_BackLightModelProduct.sceneColor";
+					char **r = (char**)calloc(2, sizeof(char*));
+					r[0] = strdup("gl_BackLightModelProduct.sceneColor");
+					r[1] = NULL;
+					return r;
 				} else {
 					ARBCONV_DBG_RE(printf("Failed to get param: state.lightmodel.back.%s\n", tok);)
 					free(tok);
@@ -887,11 +903,12 @@ char *resolveParam(sCurStatus_NewVar *newVar, int vertex, int type, size_t *outL
 						return NULL;
 					}
 					
-					*outLen = mtxNameLen + propLen + 3 + strlen(sln);
-					matrixNameMallocd = (char*)malloc((*outLen + 1) * sizeof(char));
 					sprintf(matrixNameMallocd, "%s[%s].%s", matrixName, sln, prop);
 					free(sln);
-					return matrixNameMallocd;
+					char **r = (char**)calloc(2, sizeof(char*));;
+					r[0] = matrixNameMallocd;
+					r[1] = NULL;
+					return r;
 				} else {
 					ARBCONV_DBG_RE(printf("Failed to get param: state.lightprod.%s\n", sln);)
 					free(sln);
@@ -1075,7 +1092,7 @@ char *resolveParam(sCurStatus_NewVar *newVar, int vertex, int type, size_t *outL
 			return NULL;
 		}
 	} else if (!strcmp(tok, "program")) {
-		refuseEndGT4 = 0;
+		refuseEndGE4 = 0;
 		free(tok);
 		tok = popFIFO((sArray*)newVar);
 		
@@ -1225,7 +1242,6 @@ char *resolveParam(sCurStatus_NewVar *newVar, int vertex, int type, size_t *outL
 				}
 				
 				if (appendString(&pseudoSt, tok, (size_t)-1)) {
-					free(tok);
 					pseudoSt.status = ST_ERROR;
 					continue;
 				}
@@ -1285,8 +1301,10 @@ char *resolveParam(sCurStatus_NewVar *newVar, int vertex, int type, size_t *outL
 			return NULL;
 		}
 		
-		*outLen = pseudoSt.outLen;
-		return pseudoSt.outputString;
+		char **r = (char**)calloc(2, sizeof(char*));
+		r[0] = pseudoSt.outputString;
+		r[1] = NULL;
+		return r;
 	} else {
 		ARBCONV_DBG_RE(printf("Failed to get param: %s\n", tok);)
 		free(tok);
@@ -2024,7 +2042,7 @@ char *resolveParam(sCurStatus_NewVar *newVar, int vertex, int type, size_t *outL
 	 */
 	
 	if (isMatrix) {
-		if ((start > end) || ((end > 3) && refuseEndGT4)) {
+		if ((start > end) || ((end > 3) && refuseEndGE4)) {
 			ARBCONV_DBG_RE(printf("Failed to get param: [%s] (se)\n", matrixNameMallocd?matrixNameMallocd:matrixName);)
 			if (matrixNameMallocd) free(matrixNameMallocd);
 			return NULL;
@@ -2040,23 +2058,14 @@ char *resolveParam(sCurStatus_NewVar *newVar, int vertex, int type, size_t *outL
 		if (matrixNameMallocd) {
 			matrixName = matrixNameMallocd;
 		}
-		*outLen = (mtxNameLen + 4) * (end - start + 1) - 2;
-		size_t maxLen = mtxNameLen + 5;
+		
+		char **ret = (char**)calloc(end - start + 2, sizeof(char*));
 		for (int i = start; i <= end; ++i) {
-			++*outLen;
-			for (int j = i / 10; j; j /= 10) ++*outLen;
+			char *buf = (char*)calloc(mtxNameLen + 13, sizeof(char)); // Assume 32-bit array = 11 digits max
+			sprintf(buf, "%s[%d]", matrixName, i);
+			ret[i - start] = buf;
 		}
-		for (int j = end / 10; j; j /= 10) ++maxLen;
-		
-		char *ret = (char*)malloc((*outLen + 1) * sizeof(char));
-		sprintf(ret, "%s[%d]", matrixName, start);
-		
-		char *buf = (char*)malloc((maxLen + 1) * sizeof(char));
-		for (int i = start + 1; i <= end; ++i) {
-			sprintf(buf, ", %s[%d]", matrixName, i);
-			strcat(ret, buf);
-		}
-		free(buf);
+		ret[end - start + 1] = NULL;
 		
 		if (matrixNameMallocd) {
 			free(matrixNameMallocd);
@@ -2065,7 +2074,7 @@ char *resolveParam(sCurStatus_NewVar *newVar, int vertex, int type, size_t *outL
 		return ret;
 	}
 	
-	return (char*)0xFFFFFFFFU; // Unreachable
+	return (char**)0xFFFFFFFFU; // Unreachable
 }
 
 #define FAIL(str) curStatusPtr->status = ST_ERROR; if (glsl->error_msg) free(glsl->error_msg); \
@@ -2559,12 +2568,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, glsl_t *glsl) {
 					FAIL("No parameter given");
 				}
 				
-				char *param = resolveParam(
-					&curStatusPtr->curValue.newVar,
-					vertex,
-					0,
-					&curStatusPtr->curValue.newVar.var->init.strings_total_len
-				);
+				char **param = resolveParam(&curStatusPtr->curValue.newVar, vertex, 0);
 				
 				if (!param) {
 					FAIL("Not a valid param");
@@ -2575,7 +2579,10 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, glsl_t *glsl) {
 					FAIL("Not a valid single param");
 				}
 				
-				pushArray((sArray*)&curStatusPtr->curValue.newVar.var->init, param);
+				for (char **parm = param; *parm; ++parm) {
+					pushArray((sArray*)&curStatusPtr->curValue.newVar.var->init, *parm);
+				}
+				free(param);
 				
 				int ret;
 				khint_t varIdx = kh_put(
@@ -2736,21 +2743,24 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, glsl_t *glsl) {
 					FAIL("No param given");
 				}
 				
+				// Unknown total length... (and useless info anyway)
 				curStatusPtr->curValue.newVar.var->init.strings_total_len = 0;
 				do {
 					// Remove the comma
 					free(popFIFO((sArray*)&curStatusPtr->curValue.newVar));
 					
-					size_t strsz;
-					char *param = resolveParam(&curStatusPtr->curValue.newVar, vertex, 2, &strsz);
+					char **param = resolveParam(&curStatusPtr->curValue.newVar, vertex, 2);
 					// If param is not resolved, fail
 					if (!param) {
 						curStatusPtr->status = ST_ERROR;
 						break;
 					}
 					
-					pushArray((sArray*)&curStatusPtr->curValue.newVar.var->init, param);
-					curStatusPtr->curValue.newVar.var->init.strings_total_len += strsz + 2;
+					for (char **parm = param; *parm; ++parm) {
+						ARBCONV_DBG_HEAVY(printf("Resolved param %p: ", *parm);fflush(stdout);printf("%s\n", *parm);)
+						pushArray((sArray*)&curStatusPtr->curValue.newVar.var->init, *parm);
+					}
+					free(param);
 					
 					// Repeat until list empty OR not a comma
 				} while (curStatusPtr->curValue.newVar.strLen
@@ -3138,12 +3148,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, glsl_t *glsl) {
 				} else {
 					curStatusPtr->_fixedNewVar.var = createVariable(VARTYPE_CONST);
 					
-					char *resolved = resolveParam(
-						&curStatusPtr->_fixedNewVar,
-						vertex,
-						1,
-						&curStatusPtr->_fixedNewVar.var->init.strings_total_len
-					);
+					char **resolved = resolveParam(&curStatusPtr->_fixedNewVar, vertex, 1);
 					
 					if (!resolved) {
 						deleteVariable(&curStatusPtr->_fixedNewVar.var);
@@ -3151,7 +3156,10 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, glsl_t *glsl) {
 					}
 					failure = 0;
 					
-					pushArray((sArray*)&curVarPtr->var->init, resolved);
+					for (char **resvd = resolved; *resvd; ++resvd) {
+						pushArray((sArray*)&curVarPtr->var->init, *resvd);
+					}
+					free(resolved);
 				}
 				
 				if (failure) {
