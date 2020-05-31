@@ -17,6 +17,9 @@
 #define DBG(a)
 #endif
 
+static const char PSA_SIGN[] = "GL4ES PrecompiledShaderArchive";
+#define CACHE_VERSION 110
+
 static kh_inline khint_t _hash_fpe(fpe_state_t *p)
 {
     const char* s = (const char*)p;
@@ -88,9 +91,6 @@ typedef struct gl4es_psa_s {
 
 static gl4es_psa_t *psa = NULL;
 static char *psa_name = NULL;
-
-static const char PSA_SIGN[] = "GL4ES PrecompiledShaderArchive";
-#define CACHE_VERSION 110
 
 void fpe_readPSA()
 {

@@ -268,6 +268,83 @@ uniform_t* findUniform(khash_t(uniformlist) *uniforms, const char* name)
     return NULL;
 
 }
+// ********* Old Program binding Handling *********
+void fpe_oldprogram(fpe_state_t* state) {
+    LOAD_GLES2(glGetShaderInfoLog);
+    LOAD_GLES2(glGetProgramInfoLog);
+    GLint status;
+    // There is an old program (either vtx or frg or both)
+    oldprogram_t* old_vtx = getOldProgram(state->vertex_prg_id);
+    oldprogram_t* old_frg = getOldProgram(state->fragment_prg_id);
+    if(state->vertex_prg_id) {
+        glstate->fpe->vert = gl4es_glCreateShader(GL_VERTEX_SHADER);
+        gl4es_glShaderSource(glstate->fpe->vert, 1, fpe_CustomVertexShader(old_vtx->shader->source, state), NULL);
+        gl4es_glCompileShader(glstate->fpe->vert);
+        gl4es_glGetShaderiv(glstate->fpe->vert, GL_COMPILE_STATUS, &status);
+        if(status!=GL_TRUE) {
+            char buff[1000];
+            gles_glGetShaderInfoLog(glstate->fpe->vert, 1000, NULL, buff);
+            if(globals4es.logshader)
+                printf("LIBGL: FPE ARB Vertex program compile failed: ARB source is\n%s\n=======\nGLSL source is\n%s\nError is: %s\n", old_vtx->string, old_vtx->shader->source, buff);
+            else
+                printf("LIBGL: FPE ARB Vertex program compile failed: %s\n", buff);
+        }
+        getShader(glstate->fpe->vert)->old = old_vtx;
+        gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->vert);
+    }
+    if(state->fragment_prg_id) {
+        glstate->fpe->frag = gl4es_glCreateShader(GL_FRAGMENT_SHADER);
+        gl4es_glShaderSource(glstate->fpe->frag, 1, fpe_CustomFragmentShader(old_frg->shader->source, state), NULL);
+        gl4es_glCompileShader(glstate->fpe->frag);
+        gl4es_glGetShaderiv(glstate->fpe->frag, GL_COMPILE_STATUS, &status);
+        if(status!=GL_TRUE) {
+            char buff[1000];
+            gles_glGetShaderInfoLog(glstate->fpe->frag, 1000, NULL, buff);
+            if(globals4es.logshader)
+                printf("LIBGL: FPE ARB Fragment program compile failed: ARB source is\n%s\n=======\nGLSL source is\n%s\nError is: %s\n", old_frg->string, old_frg->shader->source, buff);
+            else
+                printf("LIBGL: FPE ARB Fragment program compile failed: %s\n", buff);
+        }
+        getShader(glstate->fpe->frag)->old = old_frg;
+        gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->frag);
+    }
+    if(!state->vertex_prg_id) {
+        // use fragment need to build default vertex shader
+        GLint status;
+        glstate->fpe->vert = gl4es_glCreateShader(GL_VERTEX_SHADER);
+        gl4es_glShaderSource(glstate->fpe->vert, 1, fpe_VertexShader(&old_frg->shader->need, state), NULL);
+        gl4es_glCompileShader(glstate->fpe->vert);
+        gl4es_glGetShaderiv(glstate->fpe->vert, GL_COMPILE_STATUS, &status);
+        if(status!=GL_TRUE) {
+            char buff[1000];
+            gl4es_glGetShaderInfoLog(glstate->fpe->vert, 1000, NULL, buff);
+            printf("LIBGL: FPE ARB Default Vertex program compile failed: %s\n", buff);
+        }
+        gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->vert);
+    }
+    if(!state->fragment_prg_id) {
+        // use vertex need to build default fragment shader
+        GLint status;
+        glstate->fpe->vert = gl4es_glCreateShader(GL_FRAGMENT_SHADER);
+        gl4es_glShaderSource(glstate->fpe->frag, 1, fpe_FragmentShader(&old_vtx->shader->need, state), NULL);
+        gl4es_glCompileShader(glstate->fpe->frag);
+        gl4es_glGetShaderiv(glstate->fpe->frag, GL_COMPILE_STATUS, &status);
+        if(status!=GL_TRUE) {
+            char buff[1000];
+            gl4es_glGetShaderInfoLog(glstate->fpe->frag, 1000, NULL, buff);
+            printf("LIBGL: FPE ARB Default Fragment program compile failed: %s\n", buff);
+        }
+        gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->frag);
+    }
+    // Ok, and now link the program
+    gl4es_glLinkProgram(glstate->fpe->prog);
+    gl4es_glGetProgramiv(glstate->fpe->prog, GL_LINK_STATUS, &status);
+    if(status!=GL_TRUE) {
+        char buff[1000];
+        gles_glGetProgramInfoLog(glstate->fpe->prog, 1000, NULL, buff);
+        printf("LIBGL: FPE ARB Program link failed: %s\n", buff);
+    }
+}
 
 // ********* Shader stuffs handling *********
 void fpe_program(int ispoint) {
@@ -283,47 +360,51 @@ void fpe_program(int ispoint) {
         DBG(int from_psa = 1;)
         if(fpe_GetProgramPSA(glstate->fpe->prog, &state)==0) {
             DBG(from_psa = 0;)
-            LOAD_GLES2(glGetShaderInfoLog);
-            LOAD_GLES2(glGetProgramInfoLog);
-            GLint status;
-            glstate->fpe->vert = gl4es_glCreateShader(GL_VERTEX_SHADER);
-            gl4es_glShaderSource(glstate->fpe->vert, 1, fpe_VertexShader(NULL, glstate->fpe_state), NULL);
-            gl4es_glCompileShader(glstate->fpe->vert);
-            gl4es_glGetShaderiv(glstate->fpe->vert, GL_COMPILE_STATUS, &status);
-            if(status!=GL_TRUE) {
-                char buff[1000];
-                gles_glGetShaderInfoLog(glstate->fpe->vert, 1000, NULL, buff);
-                if(globals4es.logshader)
-                    printf("LIBGL: FPE Vertex shader compile failed: source is\n%s\n\nError is: %s\n", fpe_VertexShader(NULL, glstate->fpe_state)[0], buff);
-                else
-                    printf("LIBGL: FPE Vertex shader compile failed: %s\n", buff);
-            }
-            glstate->fpe->frag = gl4es_glCreateShader(GL_FRAGMENT_SHADER);
-            gl4es_glShaderSource(glstate->fpe->frag, 1, fpe_FragmentShader(glstate->fpe_state), NULL);
-            gl4es_glCompileShader(glstate->fpe->frag);
-            gl4es_glGetShaderiv(glstate->fpe->frag, GL_COMPILE_STATUS, &status);
-            if(status!=GL_TRUE) {
-                char buff[1000];
-                gles_glGetShaderInfoLog(glstate->fpe->frag, 1000, NULL, buff);
-                if(globals4es.logshader)
-                    printf("LIBGL: FPE Fragment shader compile failed: source is\n%s\n\nError is: %s\n", fpe_FragmentShader(glstate->fpe_state)[0], buff);
-                else
-                    printf("LIBGL: FPE Fragment shader compile failed: %s\n", buff);
-            }
-            // program is already created
-            gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->vert);
-            gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->frag);
-            gl4es_glLinkProgram(glstate->fpe->prog);
-            gl4es_glGetProgramiv(glstate->fpe->prog, GL_LINK_STATUS, &status);
-            if(status!=GL_TRUE) {
-                char buff[1000];
-                gles_glGetProgramInfoLog(glstate->fpe->prog, 1000, NULL, buff);
-                if(globals4es.logshader) {
-                    printf("LIBGL: FPE Program link failed: source of vertex shader is\n%s\n\n", fpe_VertexShader(NULL, glstate->fpe_state)[0]);
-                    printf("source of fragment shader is \n%s\n\nError is: %s\n", fpe_FragmentShader(glstate->fpe_state)[0], buff);
-                } else
-                    printf("LIBGL: FPE Program link failed: %s\n", buff);
+            if(state.vertex_prg_id || state.fragment_prg_id) {
+                fpe_oldprogram(&state);
             } else {
+                LOAD_GLES2(glGetShaderInfoLog);
+                LOAD_GLES2(glGetProgramInfoLog);
+                GLint status;
+                // no old program, using regular FPE
+                glstate->fpe->vert = gl4es_glCreateShader(GL_VERTEX_SHADER);
+                gl4es_glShaderSource(glstate->fpe->vert, 1, fpe_VertexShader(NULL, glstate->fpe_state), NULL);
+                gl4es_glCompileShader(glstate->fpe->vert);
+                gl4es_glGetShaderiv(glstate->fpe->vert, GL_COMPILE_STATUS, &status);
+                if(status!=GL_TRUE) {
+                    char buff[1000];
+                    gles_glGetShaderInfoLog(glstate->fpe->vert, 1000, NULL, buff);
+                    if(globals4es.logshader)
+                        printf("LIBGL: FPE Vertex shader compile failed: source is\n%s\n\nError is: %s\n", fpe_VertexShader(NULL, glstate->fpe_state)[0], buff);
+                    else
+                        printf("LIBGL: FPE Vertex shader compile failed: %s\n", buff);
+                }
+                glstate->fpe->frag = gl4es_glCreateShader(GL_FRAGMENT_SHADER);
+                gl4es_glShaderSource(glstate->fpe->frag, 1, fpe_FragmentShader(NULL, glstate->fpe_state), NULL);
+                gl4es_glCompileShader(glstate->fpe->frag);
+                gl4es_glGetShaderiv(glstate->fpe->frag, GL_COMPILE_STATUS, &status);
+                if(status!=GL_TRUE) {
+                    char buff[1000];
+                    gles_glGetShaderInfoLog(glstate->fpe->frag, 1000, NULL, buff);
+                    if(globals4es.logshader)
+                        printf("LIBGL: FPE Fragment shader compile failed: source is\n%s\n\nError is: %s\n", fpe_FragmentShader(NULL, glstate->fpe_state)[0], buff);
+                    else
+                        printf("LIBGL: FPE Fragment shader compile failed: %s\n", buff);
+                }
+                // program is already created
+                gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->vert);
+                gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->frag);
+                gl4es_glLinkProgram(glstate->fpe->prog);
+                gl4es_glGetProgramiv(glstate->fpe->prog, GL_LINK_STATUS, &status);
+                if(status!=GL_TRUE) {
+                    char buff[1000];
+                    gles_glGetProgramInfoLog(glstate->fpe->prog, 1000, NULL, buff);
+                    if(globals4es.logshader) {
+                        printf("LIBGL: FPE Program link failed: source of vertex shader is\n%s\n\n", fpe_VertexShader(NULL, glstate->fpe_state)[0]);
+                        printf("source of fragment shader is \n%s\n\nError is: %s\n", fpe_FragmentShader(NULL, glstate->fpe_state)[0], buff);
+                    } else
+                        printf("LIBGL: FPE Program link failed: %s\n", buff);
+                }
                 fpe_AddProgramPSA(glstate->fpe->prog, &state);
             }
         }
@@ -1310,6 +1391,16 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
             for (int i=0; i<MAX_FRG_PROG_LOC_PARAMS; ++i)
                 GoUniformfv(glprogram, glprogram->frg_progloc[i], 4, 1, glprogram->last_frag->old->prog_local_params+i*4);
         }
+        #define GO(A)   \
+        if(glprogram->has_samplers ## A) {                                      \
+            for (int i=0; i<MAX_TEX; ++i)                                       \
+                GoUniformiv(glprogram, glprogram->samplers ## A [i], 1, 1, &i); \
+        }
+        GO(1d)
+        GO(2d)
+        GO(3d)
+        GO(Cube)
+        #undef GO
     }
     // set VertexAttrib if needed
     GLuint old_buffer = 0;
@@ -1552,6 +1643,8 @@ void builtin_Init(program_t *glprogram) {
         glprogram->frg_progenv[i] = -1;
     for (int i=0; i<MAX_FRG_PROG_LOC_PARAMS; ++i)
         glprogram->frg_progloc[i] = -1;
+    for (int i=0; i<MAX_TEX; ++i)
+        glprogram->samplers1d[i] = glprogram->samplers2d[i] = glprogram->samplers3d[i] = glprogram->samplersCube[i] = -1;
 }
 
 const char* gl4es_code = "_gl4es_";
@@ -1591,14 +1684,18 @@ const char* fpetexenvRGBScale_code = "_gl4es_TexEnvRGBScale_";
 const char* fpetexenvAlphaScale_code = "_gl4es_TexEnvAlphaScale_";
 const char* fpetexAdjust_code = "_gl4es_TexAdjust_";
 const char* fog_code = "_gl4es_Fog.";
-const char* vtx_progenv_noa = "_gles_Vertex_ProgramEnv_";
-const char* vtx_progenv_arr = "_gles_Vertex_ProgramEnv[";
-const char* vtx_progloc_noa = "_gles_Vertex_ProgramLocal_";
-const char* vtx_progloc_arr = "_gles_Vertex_ProgramLocal[";
-const char* frg_progenv_noa = "_gles_Fragment_ProgramEnv_";
-const char* frg_progenv_arr = "_gles_Fragment_ProgramEnv[";
-const char* frg_progloc_noa = "_gles_Fragment_ProgramLocal_";
-const char* frg_progloc_arr = "_gles_Fragment_ProgramLocal[";
+const char* vtx_progenv_noa = "_gl4es_Vertex_ProgramEnv_";
+const char* vtx_progenv_arr = "_gl4es_Vertex_ProgramEnv[";
+const char* vtx_progloc_noa = "_gl4es_Vertex_ProgramLocal_";
+const char* vtx_progloc_arr = "_gl4es_Vertex_ProgramLocal[";
+const char* frg_progenv_noa = "_gl4es_Fragment_ProgramEnv_";
+const char* frg_progenv_arr = "_gl4es_Fragment_ProgramEnv[";
+const char* frg_progloc_noa = "_gl4es_Fragment_ProgramLocal_";
+const char* frg_progloc_arr = "_gl4es_Fragment_ProgramLocal[";
+const char* samplers1d_noa = "_gl4es_Sampler1D_";
+const char* samplers2d_noa = "_gl4es_Sampler2D_";
+const char* samplers3d_noa = "_gl4es_Sampler3D_";
+const char* samplersCube_noa = "_gl4es_SamplerCube_";
 int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     if(strncmp(name, gl4es_code, strlen(gl4es_code)))
         return 0;   // doesn't start with "_gl4es_", no need to look further
@@ -1978,6 +2075,21 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
         glprogram->frg_progloc[n] = id;
         return 1;
     }
+    #define GO(A)   \
+    if(strncmp(name, samplers ## A ## _noa, strlen(samplers ## A ## _noa))==0) {    \
+        int l = strlen(samplers ## A ## _noa);                                      \
+        int n = name[l]-'0';                                                        \
+        if(name[l+1]>='0' && name[l+1]<='9')                                        \
+            n = n*10 + name[l+1]-'0';                                               \
+        glprogram->has_samplers ## A = 1;                                           \
+        glprogram->samplers ## A [n] = id;                                          \
+        return 1;                                                                   \
+    }
+    GO(1d)
+    GO(2d)
+    GO(3d)
+    GO(Cube)
+    #undef GO
 
     return 0;
 }

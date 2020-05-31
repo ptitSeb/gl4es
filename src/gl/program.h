@@ -261,6 +261,14 @@ typedef struct {
     GLint                           frg_progenv[MAX_FRG_PROG_ENV_PARAMS];
     int                             has_frg_progloc;
     GLint                           frg_progloc[MAX_FRG_PROG_LOC_PARAMS];
+    int                             has_samplers1d;
+    GLint                           samplers1d[MAX_TEX];
+    int                             has_samplers2d;
+    GLint                           samplers2d[MAX_TEX];
+    int                             has_samplers3d;
+    GLint                           samplers3d[MAX_TEX];
+    int                             has_samplersCube;
+    GLint                           samplersCube[MAX_TEX];
     // that will be an fpe_cache_t*
     void*                           fpe_cache;
 } program_t;

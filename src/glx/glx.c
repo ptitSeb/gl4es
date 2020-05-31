@@ -2759,11 +2759,21 @@ void BlitEmulatedPixmap() {
             sz += Width*Height*4;
         }
 #endif
-        buff->frame = XCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, malloc(sz), Width, Height, (Depth==16)?16:32, 0);
+        frame = buff->frame = XCreateImage(dpy, NULL /*visual*/, Depth, ZPixmap, 0, malloc(sz), Width, Height, (Depth==16)?16:32, 0);
     }
 
     if (!frame) {
         return;
+    }
+    static int direct_copy = 1;
+    if(direct_copy) {
+        LOAD_EGL(eglCopyBuffers);
+        if(!egl_eglCopyBuffers(eglDisplay, buff->Surface, (EGLNativePixmapType)frame)) {
+            LOGE("Cannot use eglCopyBuffers, disabling it's use: ");
+            CheckEGLErrors();
+            direct_copy = 0;
+        } else
+            return;
     }
     uintptr_t pix=(uintptr_t)frame->data;
 

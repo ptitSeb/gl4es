@@ -47,12 +47,27 @@ void FreeOldProgramMap(glstate_t* glstate)
 }
 
 GLuint getUniqueProgramID(GLuint last) {
+    // avoid recycling prog id (that may messup FPE Cache)
+    static GLuint upper = 0;
+    if(last>upper) last = upper;
     khint_t k;
     do {
         ++last;
         k = kh_get(oldprograms, glstate->glsl->oldprograms, last);
     } while(k!=kh_end(glstate->glsl->oldprograms));
+    upper = last;
     return last;
+}
+
+oldprogram_t* getOldProgram(GLuint program)
+{
+    kh_oldprograms_t * oldprograms = glstate->glsl->oldprograms;
+    if(program) {
+        khint_t k = kh_get(oldprograms, oldprograms, program);
+        if(k != kh_end(oldprograms))
+            return kh_value(oldprograms, k);
+    }
+    return NULL;
 }
 
 
@@ -144,7 +159,7 @@ void gl4es_glBindProgramARB(GLenum target, GLuint program) {
     if(program) {
         k = kh_get(oldprograms, oldprograms, program);
         if(k == kh_end(oldprograms)) {
-            // if program as not be generated it's fine, crete a new one on-the-fly
+            // if program as not be generated it's fine, create a new one on-the-fly
             int ret;
             k = kh_put(oldprograms, oldprograms, program, &ret);
             old = kh_value(oldprograms, k) =(oldprogram_t*)calloc(1, sizeof(oldprogram_t));

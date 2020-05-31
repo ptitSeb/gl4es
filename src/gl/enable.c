@@ -185,6 +185,8 @@ static void proxy_glEnable(GLenum cap, bool enable, void (*next)(GLenum)) {
         // ARB_vertex_program
         proxy_GOFPE(GL_VERTEX_PROGRAM_ARB, vertex_arb, glstate->fpe_state->vertex_prg_enable=enable);
         GONF(GL_VERTEX_PROGRAM_TWO_SIDE_ARB, vertex_two_side_arb);
+        // ARB_fragment_program
+        proxy_GOFPE(GL_FRAGMENT_PROGRAM_ARB, fragment_arb, glstate->fpe_state->fragment_prg_enable=enable);
         
         // Texture 1D and 3D
         case GL_TEXTURE_1D:

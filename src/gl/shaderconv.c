@@ -380,6 +380,19 @@ static const char* useEXTDrawBuffers =
 static const char* gl_ProgramEnv  = "gl_ProgramEnv";
 static const char* gl_ProgramLocal= "gl_ProgramLocal";
 
+static const char* gl_Samplers1D = "gl_Sampler1D_";
+static const char* gl_Samplers2D = "gl_Sampler2D_";
+static const char* gl_Samplers3D = "gl_Sampler3D_";
+static const char* gl_SamplersCube = "gl_SamplerCube_";
+static const char* gl4es_Samplers1D = "_gl4es_Sampler1D_";
+static const char* gl4es_Samplers2D = "_gl4es_Sampler2D_";
+static const char* gl4es_Samplers3D = "_gl4es_Sampler3D_";
+static const char* gl4es_SamplersCube = "_gl4es_SamplerCube_";
+static const char* gl4es_Samplers1D_uniform = "uniform sampler2D _gl4es_Sampler1D_";
+static const char* gl4es_Samplers2D_uniform = "uniform sampler2D _gl4es_Sampler2D_";
+static const char* gl4es_Samplers3D_uniform = "uniform sampler2D _gl4es_Sampler3D_";
+static const char* gl4es_SamplersCube_uniform = "uniform samplerCube _gl4es_SamplerCube_";
+
 
 char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 {
@@ -989,12 +1002,16 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     char* p = Tmp;
     while(noarray_ok && (p=FindString(p, gl_ProgramEnv))) {
       p+=strlen(gl_ProgramEnv);
-      if(*p>='0' && *p<='9') {
-        int n = (*p) - '0';
-        if(p[1]>='0' && p[1]<='9')
-          n = n*10 + (p[1] - '0');
-        if (maxind<n) maxind = n;
-      } else 
+      if(*p=='[') {
+        ++p;
+        if(*p>='0' && *p<='9') {
+          int n = (*p) - '0';
+          if(p[1]>='0' && p[1]<='9')
+            n = n*10 + (p[1] - '0');
+          if (maxind<n) maxind = n;
+        } else 
+          noarray_ok=0;
+      } else
         noarray_ok=0;
     }
     if(noarray_ok) {
@@ -1028,12 +1045,16 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     char* p = Tmp;
     while(noarray_ok && (p=FindString(p, gl_ProgramLocal))) {
       p+=strlen(gl_ProgramLocal);
-      if(*p>='0' && *p<='9') {
-        int n = (*p) - '0';
-        if(p[1]>='0' && p[1]<='9')
-          n = n*10 + (p[1] - '0');
-        if (maxind<n) maxind = n;
-      } else 
+      if(*p=='[') {
+        ++p;
+        if(*p>='0' && *p<='9') {
+          int n = (*p) - '0';
+          if(p[1]>='0' && p[1]<='9')
+            n = n*10 + (p[1] - '0');
+          if (maxind<n) maxind = n;
+        } else 
+          noarray_ok=0;
+      } else
         noarray_ok=0;
     }
     if(noarray_ok) {
@@ -1060,6 +1081,26 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
       Tmp = InplaceReplace(Tmp, &tmpsize, gl_ProgramLocal, T);
     }
   }
+  #define GO(A) \
+  if(strstr(Tmp, gl_Samplers ## A)) {                                   \
+    char S[60], D[60], U[60];                                           \
+    for(int i=0; i<MAX_TEX; ++i) {                                      \
+      sprintf(S, "%s%d", gl_Samplers ## A, i);                          \
+      if(FindString(Tmp, S)) {                                          \
+        sprintf(D, "%s%d", gl4es_Samplers ## A, i);                     \
+        sprintf(U, "%s%d;\n", gl4es_Samplers ## A ## _uniform, i);      \
+        Tmp = InplaceReplace(Tmp, &tmpsize, S, D);                      \
+        Tmp = InplaceInsert(GetLine(Tmp, headline), U, Tmp, &tmpsize);  \
+        headline += 1;                                                  \
+      }                                                                 \
+    }                                                                   \
+  }
+  GO(1D)
+  GO(2D)
+  GO(3D)
+  GO(Cube)
+  #undef GO
+
   // non-square matrix handling
   // the square one first
   if(strstr(Tmp, "mat2x2")) {

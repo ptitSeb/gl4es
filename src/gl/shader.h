@@ -48,6 +48,7 @@ void gl4es_glReleaseShaderCompiler(void);
 void accumShaderNeeds(GLuint shader, shaderconv_need_t *need);
 int isShaderCompatible(GLuint shader, shaderconv_need_t *need);
 void redoShader(GLuint shader, shaderconv_need_t *need);
+shader_t *getShader(GLuint shader);
 
 #define CHECK_SHADER(type, shader) \
     if(!shader) { \

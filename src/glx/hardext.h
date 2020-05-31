@@ -52,6 +52,9 @@ typedef struct _hardext {
     int derivatives;    // GL_OES_standard_derivatives
     int shaderlod;      // GL_EXT_shader_texture_lod
     int gbm;            // EGL_KHR_platform_gbm
+    int khr_pixmap;     // EGL_KHR_image_pixmap
+    int khr_texture_2d; // EGL_KHR_gl_texture_2D_image
+    int khr_renderbuffer; // EGL_KHR_gl_renderbuffer_image
     int vendor;         // which vendor (to apply workaround)
     int eglnoalpha;     // EGL surface doesn't seems to have any alpha channel (auto detect)
     int prgbinary;      // GL_OES_get_program extension

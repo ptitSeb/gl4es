@@ -278,6 +278,18 @@ GLboolean gl4es_glIsShader(GLuint shader) {
     return (glshader)?GL_TRUE:GL_FALSE;
 }
 
+shader_t *getShader(GLuint shader) {
+    khint_t k;
+    {
+        int ret;
+        khash_t(shaderlist) *shaders = glstate->glsl->shaders;
+        k = kh_get(shaderlist, shaders, shader);
+        if (k != kh_end(shaders))
+            return kh_value(shaders, k);
+    }
+    return NULL;
+}
+
 static const char* GLES_NoGLSLSupport = "No Shader support with current backend";
 
 void gl4es_glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei *length, GLchar *infoLog) {

@@ -779,7 +779,7 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
     return (const char* const*)&shad;
 }
 
-const char* const* fpe_FragmentShader(fpe_state_t *state) {
+const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *state) {
     int headers = 0;
     int lighting = state->lighting;
     int twosided = state->twosided && lighting;
@@ -787,7 +787,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
     int secondary = (state->colorsum && !(lighting && light_separate)) || fpe_texenvSecondary(state);
     int alpha_test = state->alphatest;
     int alpha_func = state->alphafunc;
-    int fog = state->fog;
+    int fog = state->fog || (need && need->need_fogcoord);
     int fogsource = state->fogsource;
     int fogmode = state->fogmode;
     int fogdist = state->fogdist;
@@ -945,6 +945,7 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         // fetch textures first
         for (int i=0; i<hardext.maxtex; i++) {
             int t = state->texture[i].textype;
+
             if(t) {
                 int texenv = state->texenv[i].texenv;
                 int texformat = state->texture[i].texformat;

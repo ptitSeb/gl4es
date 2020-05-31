@@ -32,6 +32,8 @@ typedef struct oldprogram_s {
 void InitOldProgramMap(glstate_t* glstate);
 void FreeOldProgramMap(glstate_t* glstate);
 
+oldprogram_t* getOldProgram(GLuint id);
+
 // ARB_vertex_program
 // VertexAttrib are the same as ARB_vertex_shader
 

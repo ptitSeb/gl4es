@@ -391,6 +391,18 @@ void GetHardwareExtensions(int notest)
         SHUT_LOGD("sRGB surface supported\n");
         hardext.srgb = 1;
     }
+    if(strstr(egl_eglQueryString(eglDisplay, EGL_EXTENSIONS), "EGL_KHR_image_pixmap")) {
+        SHUT_LOGD("EGLImage from Pixmap supported\n");
+        hardext.khr_pixmap = 1;
+    }
+    if(strstr(egl_eglQueryString(eglDisplay, EGL_EXTENSIONS), "EGL_KHR_gl_texture_2D_image")) {
+        SHUT_LOGD("EGLImage to Texture2D supported\n");
+        hardext.khr_texture_2d = 1;
+    }
+    if(strstr(egl_eglQueryString(eglDisplay, EGL_EXTENSIONS), "EGL_KHR_gl_renderbuffer_image")) {
+        SHUT_LOGD("EGLImage to RenderBuffer supported\n");
+        hardext.khr_renderbuffer = 1;
+    }
 
     // End, cleanup
     egl_eglMakeCurrent(eglDisplay, 0, 0, EGL_NO_CONTEXT);
