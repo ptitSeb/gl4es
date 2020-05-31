@@ -75,8 +75,9 @@ void generateVariablePre(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sVa
 	APPEND_OUTPUT(";\n", 2)
 }
 void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sInstruction *instPtr) {
-// Data access and output
+	// Data access and output
 #define SWIZ(i, s) instPtr->vars[i].swizzle[s]
+#define SWIZORX(i, s) SWIZ(i, s) ? SWIZ(i, s) : (s + 1)
 #define PUSH_SWIZZLE(s) \
 		switch (s) {               \
 		case SWIZ_X:               \
@@ -117,7 +118,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 			}                                                                                              \
 		}                                                                                                  \
 		if (curStatusPtr->status == ST_ERROR) {                                                            \
-			return;                                                                                      \
+			return;                                                                                        \
 		}
 #define ASSERT_VECTSRC(i) \
 		if ((instPtr->vars[i].var->type != VARTYPE_TEMP) && (instPtr->vars[i].var->type != VARTYPE_ATTRIB) \
@@ -175,12 +176,56 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		}
 	
 	// Misc pushing
-#define PUSH_DSTMASK(i) \
-		if (SWIZ(i, 0) != SWIZ_NONE) {                                       \
-			APPEND_OUTPUT(".", 1)                                            \
-			for (int sw = 0; (sw < 4) && (SWIZ(i, sw) != SWIZ_NONE); ++sw) { \
-				PUSH_SWIZZLE(SWIZ(i, sw))                                    \
-			}                                                                \
+/* Append a DeSTination MASK (i is destination index, b is base swizzle vector or destination) */
+#define PUSH_DSTMASK(i, b) \
+		if (((b == i) || (SWIZ(b, 0) == SWIZ_NONE)) && (SWIZ(i, 0) != SWIZ_NONE)) {      \
+			APPEND_OUTPUT(".", 1)                                                        \
+			for (int sw = 0; (sw < 4) && (SWIZ(i, sw) != SWIZ_NONE); ++sw) {             \
+				PUSH_SWIZZLE(SWIZ(i, sw))                                                \
+			}                                                                            \
+		} else if ((b != i) && (SWIZ(b, 0) != SWIZ_NONE) && (SWIZ(i, 0) == SWIZ_NONE)) { \
+			APPEND_OUTPUT(".", 1) /* b is a vector */                                    \
+			if (SWIZ(b, 1) == SWIZ_NONE) {                                               \
+				PUSH_SWIZZLE(SWIZ(b, 0))                                                 \
+				PUSH_SWIZZLE(SWIZ(b, 0))                                                 \
+				PUSH_SWIZZLE(SWIZ(b, 0))                                                 \
+				PUSH_SWIZZLE(SWIZ(b, 0))                                                 \
+			} else {                                                                     \
+				PUSH_SWIZZLE(SWIZ(b, 0))                                                 \
+				PUSH_SWIZZLE(SWIZ(b, 1))                                                 \
+				PUSH_SWIZZLE(SWIZ(b, 2))                                                 \
+				PUSH_SWIZZLE(SWIZ(b, 3))                                                 \
+			}                                                                            \
+		} else if ((b != i) && (SWIZ(b, 0) != SWIZ_NONE)) {                              \
+			APPEND_OUTPUT(".", 1) /* b is a vector */                                    \
+			if (SWIZ(b, 1) == SWIZ_NONE) {                                               \
+				for (int sw = 0; (sw < 4) && (SWIZ(i, sw) != SWIZ_NONE); ++sw) {         \
+					PUSH_SWIZZLE(SWIZ(b, 0))                                             \
+				}                                                                        \
+			} else {                                                                     \
+				for (int sw = 0; (sw < 4) && (SWIZ(i, sw) != SWIZ_NONE); ++sw) {         \
+					PUSH_SWIZZLE(SWIZ(b, SWIZ(i, sw) - 1))                               \
+				}                                                                        \
+			}                                                                            \
+		}
+#define PUSH_DESTLEN(i) \
+		for (dstSwizLen = 0; (dstSwizLen < 4) && (SWIZ(i, dstSwizLen) != SWIZ_NONE); ++dstSwizLen) ; \
+		switch (dstSwizLen) {                                                                        \
+		case 1:                                                                                      \
+			APPEND_OUTPUT("(", 1)                                                                    \
+			break;                                                                                   \
+		case 2:                                                                                      \
+			APPEND_OUTPUT("vec2(", 5)                                                                \
+			break;                                                                                   \
+		case 3:                                                                                      \
+			APPEND_OUTPUT("vec3(", 5)                                                                \
+			break;                                                                                   \
+		case 0:                                                                                      \
+		case 4:                                                                                      \
+			APPEND_OUTPUT("vec4(", 5)                                                                \
+			break;                                                                                   \
+		default:                                                                                     \
+			FAIL("Invalid destination swizzle length");                                              \
 		}
 #define PUSH_VARNAME(i) \
 		if (instPtr->vars[i].sign == -1) {                        \
@@ -212,10 +257,9 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		}
 	
 	// Instruction variable pushing
-	// TODO: MOV, LG2 and similar use only (a) specific component(s) (mask), optimize generated code
 #define PUSH_MASKDST(i) \
 		PUSH_VARNAME(i) \
-		PUSH_DSTMASK(i)
+		PUSH_DSTMASK(i, i)
 #define PUSH_VECTSRC(i) \
 		PUSH_VARNAME(i)                    \
 		if (SWIZ(i, 0) != SWIZ_NONE) {     \
@@ -244,13 +288,16 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 				PUSH_SWIZZLE(SWIZ(i, s))   \
 			}                              \
 		}
-#define PUSH_SCALSRC(i) \
-		PUSH_VARNAME(i)          \
-		APPEND_OUTPUT(".", 1)    \
-		PUSH_SWIZZLE(SWIZ(i, 0)) \
-		PUSH_SWIZZLE(SWIZ(i, 0)) \
-		PUSH_SWIZZLE(SWIZ(i, 0)) \
-		PUSH_SWIZZLE(SWIZ(i, 0))
+/* Append a SCALar SouRCe (i is index, d is extend/duplicate to vec4) */
+#define PUSH_SCALSRC(i, d) \
+		PUSH_VARNAME(i)              \
+		APPEND_OUTPUT(".", 1)        \
+		PUSH_SWIZZLE(SWIZ(i, 0))     \
+		if (d) {                     \
+			PUSH_SWIZZLE(SWIZ(i, 0)) \
+			PUSH_SWIZZLE(SWIZ(i, 0)) \
+			PUSH_SWIZZLE(SWIZ(i, 0)) \
+		}
 	
 	// Textures
 /* Append a VECTor SaMPler */
@@ -301,8 +348,10 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		}
 	
 	// Misc
-#define FINISH_INST \
-		PUSH_DSTMASK(0)         \
+#define FINISH_INST(dst) \
+		if (dst) {              \
+			PUSH_DSTMASK(0, 0)  \
+		}                       \
 		APPEND_OUTPUT(";\n", 2) \
 		break;
 	
@@ -314,22 +363,25 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
 		APPEND_OUTPUT("abs(", 4)
-		PUSH_VECTSRC(1)
+		PUSH_VARNAME(1)
+		PUSH_DSTMASK(0, 1)
 		APPEND_OUTPUT(")", 1)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_ADD:
 		INST_BINVEC
 		APPEND_OUTPUT("\t", 1)
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
-		PUSH_PRE_SAT(1)
-		PUSH_VECTSRC(1)
+		PUSH_PRE_SAT(0)
+		PUSH_VARNAME(1)
+		PUSH_DSTMASK(0, 1)
 		APPEND_OUTPUT(" + ", 3)
-		PUSH_VECTSRC(2)
-		PUSH_POSTSAT(1)
-		FINISH_INST
+		PUSH_VARNAME(2)
+		PUSH_DSTMASK(0, 2)
+		PUSH_POSTSAT(0)
+		FINISH_INST(0)
 		
 	case INST_ARL:
 		// TODO
@@ -359,6 +411,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		FINISH_INST
 		break; */
 		
+	int dstSwizLen;
 	case INST_CMP:
 		if (vertex) {
 			FAIL("Invalid instruction in vertex shader");
@@ -368,33 +421,68 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
-		APPEND_OUTPUT("vec4((", 6)
-		PUSH_VESRCCT(1, 0)
-		APPEND_OUTPUT(" < 0.) ? ", 9)
-		PUSH_VESRCCT(2, 0)
-		APPEND_OUTPUT(" : ", 3)
-		PUSH_VESRCCT(3, 0)
-		APPEND_OUTPUT(", (", 3)
-		PUSH_VESRCCT(1, 1)
-		APPEND_OUTPUT(" < 0.) ? ", 9)
-		PUSH_VESRCCT(2, 1)
-		APPEND_OUTPUT(" : ", 3)
-		PUSH_VESRCCT(3, 1)
-		APPEND_OUTPUT(", (", 3)
-		PUSH_VESRCCT(1, 2)
-		APPEND_OUTPUT(" < 0.) ? ", 9)
-		PUSH_VESRCCT(2, 2)
-		APPEND_OUTPUT(" : ", 3)
-		PUSH_VESRCCT(3, 2)
-		APPEND_OUTPUT(", (", 3)
-		PUSH_VESRCCT(1, 3)
-		APPEND_OUTPUT(" < 0.) ? ", 9)
-		PUSH_VESRCCT(2, 3)
-		APPEND_OUTPUT(" : ", 3)
-		PUSH_VESRCCT(3, 3)
+		PUSH_DESTLEN(0)
+		APPEND_OUTPUT("(", 1)
+		if (dstSwizLen == 0) {
+			PUSH_VESRCCT(1, 0)
+			APPEND_OUTPUT(" < 0.) ? ", 9)
+			PUSH_VESRCCT(2, 0)
+			APPEND_OUTPUT(" : ", 3)
+			PUSH_VESRCCT(3, 0)
+			APPEND_OUTPUT(", (", 3)
+			PUSH_VESRCCT(1, 1)
+			APPEND_OUTPUT(" < 0.) ? ", 9)
+			PUSH_VESRCCT(2, 1)
+			APPEND_OUTPUT(" : ", 3)
+			PUSH_VESRCCT(3, 1)
+			APPEND_OUTPUT(", (", 3)
+			PUSH_VESRCCT(1, 2)
+			APPEND_OUTPUT(" < 0.) ? ", 9)
+			PUSH_VESRCCT(2, 2)
+			APPEND_OUTPUT(" : ", 3)
+			PUSH_VESRCCT(3, 2)
+			APPEND_OUTPUT(", (", 3)
+			PUSH_VESRCCT(1, 3)
+			APPEND_OUTPUT(" < 0.) ? ", 9)
+			PUSH_VESRCCT(2, 3)
+			APPEND_OUTPUT(" : ", 3)
+			PUSH_VESRCCT(3, 3)
+		}
+		if (dstSwizLen >= 1) {
+			PUSH_VESRCCT(1, SWIZ(0, 0) - 1)
+			APPEND_OUTPUT(" < 0.) ? ", 9)
+			PUSH_VESRCCT(2, SWIZ(0, 0) - 1)
+			APPEND_OUTPUT(" : ", 3)
+			PUSH_VESRCCT(3, SWIZ(0, 0) - 1)
+		}
+		if (dstSwizLen >= 2) {
+			APPEND_OUTPUT(", (", 3)
+			PUSH_VESRCCT(1, SWIZ(0, 1) - 1)
+			APPEND_OUTPUT(" < 0.) ? ", 9)
+			PUSH_VESRCCT(2, SWIZ(0, 1) - 1)
+			APPEND_OUTPUT(" : ", 3)
+			PUSH_VESRCCT(3, SWIZ(0, 1) - 1)
+		}
+		if (dstSwizLen >= 3) {
+			APPEND_OUTPUT(", (", 3)
+			PUSH_VESRCCT(1, SWIZ(0, 2) - 1)
+			APPEND_OUTPUT(" < 0.) ? ", 9)
+			PUSH_VESRCCT(2, SWIZ(0, 2) - 1)
+			APPEND_OUTPUT(" : ", 3)
+			PUSH_VESRCCT(3, SWIZ(0, 2) - 1)
+		}
+		if (dstSwizLen >= 4) {
+			APPEND_OUTPUT(", (", 3)
+			PUSH_VESRCCT(1, SWIZ(0, 3) - 1)
+			APPEND_OUTPUT(" < 0.) ? ", 9)
+			PUSH_VESRCCT(2, SWIZ(0, 3) - 1)
+			APPEND_OUTPUT(" : ", 3)
+			PUSH_VESRCCT(3, SWIZ(0, 3) - 1)
+		}
 		APPEND_OUTPUT(")", 1)
+		
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_COS:
 		if (vertex) {
@@ -405,11 +493,12 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
-		APPEND_OUTPUT("vec4(cos(", 9)
-		PUSH_SCALSRC(1)
+		PUSH_DESTLEN(0)
+		APPEND_OUTPUT("cos(", 4)
+		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT("))", 2)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_DP3:
 		INST_BINVEC
@@ -417,13 +506,14 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
-		APPEND_OUTPUT("vec4(dot(", 9)
+		PUSH_DESTLEN(0)
+		APPEND_OUTPUT("dot(", 4)
 		PUSH_VECTSRC(1)
 		APPEND_OUTPUT(".xyz, ", 6)
 		PUSH_VECTSRC(2)
 		APPEND_OUTPUT(".xyz))", 6)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_DP4:
 		INST_BINVEC
@@ -431,13 +521,14 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
-		APPEND_OUTPUT("vec4(dot(", 9)
+		PUSH_DESTLEN(0)
+		APPEND_OUTPUT("dot(", 4)
 		PUSH_VECTSRC(1)
 		APPEND_OUTPUT(", ", 2)
 		PUSH_VECTSRC(2)
 		APPEND_OUTPUT("))", 2)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_DPH:
 		INST_BINVEC
@@ -445,13 +536,14 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
-		APPEND_OUTPUT("vec4(dot(", 9)
+		PUSH_DESTLEN(0)
+		APPEND_OUTPUT("dot(vec4(", 9)
 		PUSH_VECTSRC(1)
-		APPEND_OUTPUT(".xyz, ", 6)
+		APPEND_OUTPUT(".xyz, 1.), ", 11)
 		PUSH_VECTSRC(2)
 		APPEND_OUTPUT("))", 2)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_DST:
 		INST_BINVEC
@@ -469,7 +561,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_VESRCCT(2, 3)
 		APPEND_OUTPUT(")", 1)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(1)
 		
 	case INST_EX2: // "Exact"
 		INST_SCALAR
@@ -477,11 +569,12 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(1)
+		PUSH_DESTLEN(0)
 		APPEND_OUTPUT("exp2(", 5)
-		PUSH_SCALSRC(1)
-		APPEND_OUTPUT(")", 1)
+		PUSH_SCALSRC(1, 0)
+		APPEND_OUTPUT("))", 2)
 		PUSH_POSTSAT(1)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_EXP: // Approximate
 		if (!vertex) {
@@ -491,13 +584,13 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		APPEND_OUTPUT("\t", 1)
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = vec4(exp2(floor(", 19)
-		PUSH_SCALSRC(1)
+		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT(")), fract(", 10)
-		PUSH_SCALSRC(1)
+		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT("), exp2(", 8)
-		PUSH_SCALSRC(1)
+		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT("), 1.)", 6)
-		FINISH_INST
+		FINISH_INST(1)
 		
 	case INST_FLR:
 		INST_VECTOR
@@ -506,10 +599,11 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
 		APPEND_OUTPUT("floor(", 6)
-		PUSH_VECTSRC(1)
+		PUSH_VARNAME(1)
+		PUSH_DSTMASK(0, 1)
 		APPEND_OUTPUT(")", 1)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_FRC:
 		INST_VECTOR
@@ -518,16 +612,18 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
 		APPEND_OUTPUT("fract(", 6)
-		PUSH_VECTSRC(1)
+		PUSH_VARNAME(1)
+		PUSH_DSTMASK(0, 1)
 		APPEND_OUTPUT(")", 1)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_KIL:
 		if (vertex) {
 			FAIL("Invalid instruction in vertex shader");
 		}
 		ASSERT_COUNT(1)
+		ASSERT_VECTSRC(0)
 		APPEND_OUTPUT("\tif ((", 6)
 		PUSH_VESRCCT(0, 0)
 		APPEND_OUTPUT(" < 0.) || (", 11)
@@ -545,11 +641,12 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(1)
+		PUSH_DESTLEN(0)
 		APPEND_OUTPUT("log2(", 5)
-		PUSH_SCALSRC(1)
-		APPEND_OUTPUT(")", 1)
+		PUSH_SCALSRC(1, 0)
+		APPEND_OUTPUT("))", 2)
 		PUSH_POSTSAT(1)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_LIT:
 		INST_VECTOR
@@ -567,7 +664,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_VESRCCT(1, 3)
 		APPEND_OUTPUT(", -180., 180.)) : 0.0, 1.0)", 27)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(1)
 		
 	case INST_LOG: // Approximate
 		if (!vertex) {
@@ -577,15 +674,15 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		APPEND_OUTPUT("\t", 1)
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = vec4(floor(log2(abs(", 23)
-		PUSH_SCALSRC(1)
+		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT("))), abs(", 9)
-		PUSH_SCALSRC(1)
+		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT(") / exp2(floor(log2(abs(", 24)
-		PUSH_SCALSRC(1)
+		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT(")))), log2(abs(", 15)
-		PUSH_SCALSRC(1)
+		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT(")), 1.)", 7)
-		FINISH_INST
+		FINISH_INST(1)
 		
 	case INST_LRP:
 		if (vertex) {
@@ -598,13 +695,16 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_PRE_SAT(0)
 		APPEND_OUTPUT("mix(", 4)
 		PUSH_VECTSRC(3)
+		PUSH_DSTMASK(0, 3)
 		APPEND_OUTPUT(", ", 2)
 		PUSH_VECTSRC(2)
+		PUSH_DSTMASK(0, 2)
 		APPEND_OUTPUT(", ", 2)
 		PUSH_VECTSRC(1)
+		PUSH_DSTMASK(0, 1)
 		APPEND_OUTPUT(")", 1)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_MAD:
 		INST_TRIVEC
@@ -612,13 +712,16 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(1)
-		PUSH_VECTSRC(1)
+		PUSH_VARNAME(1)
+		PUSH_DSTMASK(0, 1)
 		APPEND_OUTPUT(" * ", 3)
-		PUSH_VECTSRC(2)
+		PUSH_VARNAME(2)
+		PUSH_DSTMASK(0, 2)
 		APPEND_OUTPUT(" + ", 3)
-		PUSH_VECTSRC(3)
+		PUSH_VARNAME(3)
+		PUSH_DSTMASK(0, 3)
 		PUSH_POSTSAT(1)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_MAX:
 		INST_BINVEC
@@ -628,11 +731,13 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_PRE_SAT(0)
 		APPEND_OUTPUT("max(", 4)
 		PUSH_VECTSRC(1)
+		PUSH_DSTMASK(0, 1)
 		APPEND_OUTPUT(", ", 2)
 		PUSH_VECTSRC(2)
+		PUSH_DSTMASK(0, 2)
 		APPEND_OUTPUT(")", 1)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_MIN:
 		INST_BINVEC
@@ -642,11 +747,13 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_PRE_SAT(0)
 		APPEND_OUTPUT("min(", 4)
 		PUSH_VECTSRC(1)
+		PUSH_DSTMASK(0, 1)
 		APPEND_OUTPUT(", ", 2)
 		PUSH_VECTSRC(2)
+		PUSH_DSTMASK(0, 2)
 		APPEND_OUTPUT(")", 1)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_MOV:
 		INST_VECTOR
@@ -654,21 +761,24 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
-		PUSH_VECTSRC(1)
+		PUSH_VARNAME(1)
+		PUSH_DSTMASK(0, 1)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_MUL:
 		INST_BINVEC
 		APPEND_OUTPUT("\t", 1)
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
-		PUSH_PRE_SAT(1)
-		PUSH_VECTSRC(1)
+		PUSH_PRE_SAT(0)
+		PUSH_VARNAME(1)
+		PUSH_DSTMASK(0, 1)
 		APPEND_OUTPUT(" * ", 3)
-		PUSH_VECTSRC(2)
-		PUSH_POSTSAT(1)
-		FINISH_INST
+		PUSH_VARNAME(2)
+		PUSH_DSTMASK(0, 2)
+		PUSH_POSTSAT(0)
+		FINISH_INST(0)
 		
 	case INST_POW:
 		INST_BINSCL
@@ -676,13 +786,14 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
+		PUSH_DESTLEN(0)
 		APPEND_OUTPUT("pow(", 4)
-		PUSH_SCALSRC(1)
+		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT(", ", 2)
-		PUSH_SCALSRC(2)
-		APPEND_OUTPUT(")", 1)
+		PUSH_SCALSRC(2, 0)
+		APPEND_OUTPUT("))", 2)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_RCP:
 		INST_SCALAR
@@ -690,11 +801,12 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
-		APPEND_OUTPUT("(1 / ", 5)
-		PUSH_SCALSRC(1)
+		PUSH_DESTLEN(0)
+		APPEND_OUTPUT("1 / ", 4)
+		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT(")", 1)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_RSQ:
 		INST_SCALAR
@@ -702,11 +814,12 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
-		APPEND_OUTPUT("(sqrt(1 / ", 10)
-		PUSH_SCALSRC(1)
+		PUSH_DESTLEN(0)
+		APPEND_OUTPUT("sqrt(1 / ", 9)
+		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT("))", 2)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(0)
 		
 	case INST_SCS:
 		if (vertex) {
@@ -718,12 +831,12 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
 		APPEND_OUTPUT("vec4(cos(", 9)
-		PUSH_SCALSRC(1)
+		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT("), sin(", 7)
-		PUSH_SCALSRC(1)
+		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT("), 0., 0.)", 10)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(1)
 		break;
 		
 	case INST_SGE:
@@ -747,7 +860,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		APPEND_OUTPUT(" >= ", 4)
 		PUSH_VESRCCT(2, 3)
 		APPEND_OUTPUT(") ? 1. : 0.)", 12)
-		FINISH_INST
+		FINISH_INST(1)
 		
 	case INST_SIN:
 		if (vertex) {
@@ -758,11 +871,12 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
-		APPEND_OUTPUT("vec4(sin(", 9)
-		PUSH_SCALSRC(1)
+		PUSH_DESTLEN(0)
+		APPEND_OUTPUT("sin(", 9)
+		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT("))", 2)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(0)
 		break;
 		
 	case INST_SLT:
@@ -786,19 +900,21 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		APPEND_OUTPUT(" < ", 3)
 		PUSH_VESRCCT(2, 3)
 		APPEND_OUTPUT(") ? 1. : 0.)", 12)
-		FINISH_INST
+		FINISH_INST(1)
 		
 	case INST_SUB:
 		INST_BINVEC
 		APPEND_OUTPUT("\t", 1)
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
-		PUSH_PRE_SAT(1)
-		PUSH_VECTSRC(1)
+		PUSH_PRE_SAT(0)
+		PUSH_VARNAME(1)
+		PUSH_DSTMASK(0, 1)
 		APPEND_OUTPUT(" - ", 3)
-		PUSH_VECTSRC(2)
-		PUSH_POSTSAT(1)
-		FINISH_INST
+		PUSH_VARNAME(2)
+		PUSH_DSTMASK(0, 2)
+		PUSH_POSTSAT(0)
+		FINISH_INST(0)
 		
 	case INST_SWZ:
 		// TODO
@@ -823,7 +939,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_VECTSMP(1, 3)
 		APPEND_OUTPUT(")", 1)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(1)
 		
 	case INST_TXB:
 		if (vertex) {
@@ -845,7 +961,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_VESRCCT(1, 3)
 		APPEND_OUTPUT(")", 1)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(1)
 		
 	case INST_TXP:
 		if (vertex) {
@@ -865,7 +981,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_VECTSRC(1)
 		APPEND_OUTPUT(")", 1)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(1)
 		
 	case INST_XPD:
 		INST_BINVEC
@@ -879,7 +995,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		PUSH_VECTSRC(2)
 		APPEND_OUTPUT(".xyz), 0.)", 10)
 		PUSH_POSTSAT(0)
-		FINISH_INST
+		FINISH_INST(1)
 		
 	case INST_UNK:
 		FAIL("Unknown instruction (unexpected fallthrough?)");

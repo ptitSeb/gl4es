@@ -15,8 +15,6 @@
 #define ARBCONV_DBG_LP(a) a
 // ARBCONV_DBG_AS - reassembly loop (2nd loop) ArbConverter debug logs
 #define ARBCONV_DBG_AS(a) a
-// ARBCONV_DBG_RE - resolve* error ArbConverter debug logs
-#define ARBCONV_DBG_RE(a) a
 // ARBCONV_DBG_HEAVY - heavy ArbConverter debug logs and operations (e.g. check for pointer correctness...)
 #define ARBCONV_DBG_HEAVY(a) a
 #else
@@ -26,8 +24,6 @@
 #define ARBCONV_DBG_LP(a)
 // ARBCONV_DBG_AS - reassembly loop (2nd loop) ArbConverter debug logs
 #define ARBCONV_DBG_AS(a)
-// ARBCONV_DBG_RE - param error ArbConverter debug logs
-#define ARBCONV_DBG_RE(a)
 // ARBCONV_DBG_HEAVY - heavy ArbConverter debug logs and operations (e.g. check for pointer correctness...)
 #define ARBCONV_DBG_HEAVY(a)
 #endif
@@ -130,8 +126,8 @@ eVariableType STR2VARTYPE(char *str);
 eInstruction STR2INST(char *str, int *sat);
 #define INSTTEX(i) (((i) == INST_TEX) || ((i) == INST_TXB) || ((i) == INST_TXP))
 
-#ifdef DEBUG
 #define ENUMVALUE2STR(v, e, v2) (v == e##v2) ? #v2 :
+#ifdef DEBUG
 #define VARTYPE2STR(vartype) ( \
 	ENUMVALUE2STR(vartype, VARTYPE_,ADDRESS) \
 	ENUMVALUE2STR(vartype, VARTYPE_,ATTRIB) \
@@ -173,6 +169,7 @@ eInstruction STR2INST(char *str, int *sat);
 	ENUMVALUE2STR(s, ST_,DONE) \
 	ENUMVALUE2STR(s, ST_,ERROR) \
 	"???")
+#endif
 #define TOKEN2STR(t) (\
 	ENUMVALUE2STR(t, TOK_,NULL) \
 	ENUMVALUE2STR(t, TOK_,WHITESPACE) \
@@ -194,7 +191,6 @@ eInstruction STR2INST(char *str, int *sat);
 	ENUMVALUE2STR(t, TOK_,END) \
 	ENUMVALUE2STR(t, TOK_,UNKNOWN) \
 	"???")
-#endif
 
 typedef struct _sVariableInit { // sArray manipulable
 	char   **strings;
