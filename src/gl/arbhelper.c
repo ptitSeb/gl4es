@@ -339,13 +339,15 @@ int appendString(sCurStatus *curStatusPtr, const char *str, size_t strLen) {
 		curStatusPtr->outputEnd += curStatusPtr->outputString - oldOut;
 	}
 	
-	ARBCONV_DBG_HEAVY(ARBCONV_DBG(printf(
-		"Appending to %p (%p + %ld = %p)\n",
+	ARBCONV_DBG_HEAVY(ARBCONV_DBG(
+	char *dup = malloc((strLen + 1) * sizeof(char)); memcpy(dup, str, strLen); dup[strLen] = '\0'; printf(
+		"Appending '%s' to %p (%p + %ld = %p)\n",
+		dup,
 		curStatusPtr->outputEnd,
 		curStatusPtr->outputString,
 		curStatusPtr->outLen,
 		curStatusPtr->outputString + curStatusPtr->outLen
-	);)
+	); free(dup);)
 	if (curStatusPtr->outputEnd != curStatusPtr->outputString + curStatusPtr->outLen) {
 		printf("\033[01;31mERROR!!!\033[m\n%s\n", str);
 		curStatusPtr->status = ST_ERROR;

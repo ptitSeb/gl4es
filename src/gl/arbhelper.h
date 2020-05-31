@@ -7,6 +7,8 @@
 
 //#define DEBUG
 #ifdef DEBUG
+#include <stdio.h>
+
 // ARBCONV_DBG - general ArbConverter debug logs
 #define ARBCONV_DBG(a) a
 // ARBCONV_DBG_LP - code loop ArbConverter debug logs
