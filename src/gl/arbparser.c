@@ -518,12 +518,12 @@ int resolveOutput(sCurStatus_NewVar *newVar, int vertex) {
 				// result.color.primary => gl_FrontColor
 				free(tok);
 				pushArray((sArray*)&newVar->var->init, strdup("gl_FrontColor"));
-				newVar->var->init.strings_total_len = 8;
+				newVar->var->init.strings_total_len = 13;
 			} else if (!strcmp(tok, "secondary")) {
-				// result.color.secondary => gl_SecondaryColor
+				// result.color.secondary => gl_FrontSecondaryColor
 				free(tok);
-				pushArray((sArray*)&newVar->var->init, strdup("gl_SecondaryColor"));
-				newVar->var->init.strings_total_len = 17;
+				pushArray((sArray*)&newVar->var->init, strdup("gl_FrontSecondaryColor"));
+				newVar->var->init.strings_total_len = 22;
 			} else {
 				ARBCONV_DBG_RE(printf("Failed to get output: result.color.%s\n", tok);)
 				free(tok);

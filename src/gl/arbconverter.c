@@ -171,22 +171,7 @@ char* gl4es_convertARB(const char* const code, int vertex, glsl_t *glsl) {
 		glsl->error_msg = strdup(str); continue
 #define curStatusPtr &curStatus
 	do {
-		APPEND_OUTPUT("#version 120\n", 13)
-		
-		if (!vertex) {
-			// sampler2DRect is not in the GLSL 1.20 specification and is a reserved keyword...
-			APPEND_OUTPUT(
-				"uniform sampler1D samplers1D[" MAX_TEX_STR "];\n"
-				"uniform sampler2D samplers2D[" MAX_TEX_STR "];\n"
-				"uniform sampler3D samplers3D[" MAX_TEX_STR "];\n"
-				"uniform samplerCube samplersCube[" MAX_TEX_STR "];\n"
-				/* "uniform sampler2DRect samplersRect[" MAX_TEX_STR "];\n" */,
-				/* 170 + 5 * MAX_TEX_STRLEN */
-				132 + 4 * MAX_TEX_STRLEN
-			)
-		}
-		
-		APPEND_OUTPUT("\nvoid main() {\n", 15)
+		APPEND_OUTPUT("#version 120\n\nvoid main() {\n", 28)
 		
 		for (; (varIdx < curStatus.variables.size) && (curStatus.status != ST_ERROR); ++varIdx) {
 			varPtr = curStatus.variables.vars[varIdx];

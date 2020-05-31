@@ -28,23 +28,37 @@ void generateVariablePre(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sVa
 		
 	case VARTYPE_PARAM_MULT:
 		APPEND_OUTPUT("[", 1)
-		if (varPtr->size > 0) {
-			char buf[11]; /* Assume 32-bits array address, should never overflow... */
-			sprintf(buf, "%d", varPtr->size);
-			APPEND_OUTPUT2(buf)
+		// if size is not defined, deduce size using varPtr->init
+		if (varPtr->size <= 0) {
+			varPtr->size = varPtr->init.strings_count;
 		}
-		APPEND_OUTPUT("]", 1)
-	
-		APPEND_OUTPUT(" = ", 3)
-		APPEND_OUTPUT("vec4[](", 7)
-		for (size_t i = 0; i < varPtr->init.strings_count; ++i) {
-			APPEND_OUTPUT2(varPtr->init.strings[i])
-			APPEND_OUTPUT(", ", 2)
+		char buf[11]; // Assume 32-bits array address, should never overflow...
+		sprintf(buf, "%d", varPtr->size);
+		APPEND_OUTPUT2(buf)
+		APPEND_OUTPUT("];\n", 3)
+		if (varPtr->init.strings_count <= 10) {
+			// Single-digit array, optimize by removing the sprintf
+			for (size_t i = 0; i < varPtr->init.strings_count; ++i) {
+				APPEND_OUTPUT("\t", 1)
+				APPEND_OUTPUT2(varPtr->names[0])
+				APPEND_OUTPUT("[", 1)
+				APPEND_OUTPUT("0123456789" + i, 1)
+				APPEND_OUTPUT("] = ", 4)
+				APPEND_OUTPUT2(varPtr->init.strings[i])
+				APPEND_OUTPUT(";\n", 2)
+			}
+		} else {
+			for (size_t i = 0; i < varPtr->init.strings_count; ++i) {
+				sprintf(buf, "%ld", i);
+				APPEND_OUTPUT("\t", 1)
+				APPEND_OUTPUT2(varPtr->names[0])
+				APPEND_OUTPUT("[", 1)
+				APPEND_OUTPUT2(buf)
+				APPEND_OUTPUT("] = ", 4)
+				APPEND_OUTPUT2(varPtr->init.strings[i])
+				APPEND_OUTPUT(";\n", 2)
+			}
 		}
-		--curStatusPtr->outputEnd;
-		--curStatusPtr->outLen;
-		++curStatusPtr->outLeft;
-		curStatusPtr->outputEnd[-1] = ')';
 		break;
 		
 	case VARTYPE_CONST:
@@ -258,7 +272,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		if (instPtr->vars[i].var->type != VARTYPE_TEXTURE) {        \
 			FAIL("Invalid variable type");                          \
 		}                                                           \
-		APPEND_OUTPUT("samplers", 8)                                \
+		APPEND_OUTPUT("gl_Sampler", 10)                             \
 		if (instPtr->vars[j].var == curStatusPtr->tex1D) {          \
 			APPEND_OUTPUT("1D", 2)                                  \
 		} else if (instPtr->vars[j].var == curStatusPtr->tex2D) {   \
@@ -270,9 +284,8 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		} else {                                                    \
 			FAIL("Invalid variable texture target");                \
 		}                                                           \
-		APPEND_OUTPUT("[", 1)                                       \
-		APPEND_OUTPUT2(instPtr->vars[i].var->names[0])              \
-		APPEND_OUTPUT("]", 1)
+		APPEND_OUTPUT("_", 1)                                       \
+		APPEND_OUTPUT2(instPtr->vars[i].var->names[0])
 /* Append a SAMPler FunCtioN */
 #define PUSH_SAMPFCN(i) \
 		if (instPtr->vars[i].var == curStatusPtr->tex1D) {          \
