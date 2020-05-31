@@ -257,7 +257,6 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		}
 	
 	// Instruction variable pushing
-	// TODO: MOV, LG2 and similar use only (a) specific component(s) (mask), optimize generated code
 #define PUSH_MASKDST(i) \
 		PUSH_VARNAME(i) \
 		PUSH_DSTMASK(i, i)
