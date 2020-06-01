@@ -1,6 +1,6 @@
 #include "arbhelper.h"
 
-#include "state.h"
+#include "../config.h"
 
 #define SIZE_THRESHOLD 0x80
 void *resize(void** obj, size_t* cap, size_t esize) {

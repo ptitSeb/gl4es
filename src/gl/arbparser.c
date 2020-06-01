@@ -4,7 +4,7 @@
 
 #include "arbhelper.h"
 // MAX_TEX
-#include "state.h"
+#include "../config.h"
 
 // ARBCONV_DBG_RE - resolve* error ArbConverter debug logs
 #define ARBCONV_DBG_RE(...) printf(__VA_ARGS__);

@@ -5,7 +5,6 @@
 #include <stdio.h>
 
 #include "arbhelper.h"
-#include "state.h"
 
 #define FAIL(str) curStatusPtr->status = ST_ERROR; if (*error_msg) free(*error_msg); \
 		*error_msg = strdup(str); return
