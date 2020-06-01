@@ -1,8 +1,13 @@
 #ifndef _GL_LOOKUP_H_
 #define _GL_LOOKUP_H_
 
+#ifdef DBG
+#define MAP(func_name, func) \
+    if (strcmp(name, func_name) == 0) {printf("%p (%s)\n", (void*)func, #func) ;return (void *)func;}
+#else
 #define MAP(func_name, func) \
     if (strcmp(name, func_name) == 0) return (void *)func;
+#endif
 
 #define EX(func_name) MAP(#func_name, func_name)
 
@@ -20,12 +25,20 @@
 #error STUB_FCT is not defined
 #endif
 
+#ifdef DBG
+#define STUB(func_name)                       \
+    if (strcmp(name, #func_name) == 0) {      \
+        printf("=> STUB\n");                  \
+        if(!globals4es.silentstub) LOGD("GL4ES stub: %s\n", #func_name); \
+        return (void *)STUB_FCT;              \
+    }
+#else
 #define STUB(func_name)                       \
     if (strcmp(name, #func_name) == 0) {      \
         if(!globals4es.silentstub) LOGD("GL4ES stub: %s\n", #func_name); \
         return (void *)STUB_FCT;              \
     }
-
+#endif
 
 void *gl4es_GetProcAddress(const char *name);
 

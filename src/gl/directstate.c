@@ -1,9 +1,19 @@
 #include "directstate.h"
 
+#include <stdio.h>
+
 #include "wrap/gl4es.h"
 #include "gles.h"
 #include "stack.h"
 #include "texgen.h"
+#include "debug.h"
+
+//#define DEBUG
+#ifdef DEBUG
+#define DBG(a) a
+#else
+#define DBG(a)
+#endif
 
 // Client State
 void gl4es_glClientAttribDefault(GLbitfield mask) {
@@ -344,7 +354,8 @@ void gl4es_glGetCompressedMultiTexImage(GLenum texunit, GLenum target, GLint lev
     text(glGetCompressedTexImage(target, level, img));
 }
 
-void gl4es_glEnableClientStateIndexedEXT(GLenum array, GLuint index) {
+void gl4es_glEnableClientStateIndexed(GLenum array, GLuint index) {
+    DBG(printf("glEnableClientStateIndexed(%s, %d)\n", PrintEnum(array), index);)
     if (array == GL_TEXTURE_COORD_ARRAY) {
         int old = glstate->texture.client;
         if(old!=index) gl4es_glClientActiveTexture(GL_TEXTURE0+index);
@@ -355,7 +366,9 @@ void gl4es_glEnableClientStateIndexedEXT(GLenum array, GLuint index) {
         errorShim(GL_INVALID_ENUM);
     }
 }
-void gl4es_glDisableClientStateIndexedEXT(GLenum array, GLuint index) {
+void gl4es_glEnableClientStatei(GLenum array, GLuint index) __attribute__((alias("gl4es_glEnableClientStateIndexed")));
+void gl4es_glDisableClientStateIndexed(GLenum array, GLuint index) {
+    DBG(printf("glDisableClientStateIndexed(%s, %d)\n", PrintEnum(array), index);)
     if (array == GL_TEXTURE_COORD_ARRAY) {
         int old = glstate->texture.client;
         if(old!=index) gl4es_glClientActiveTexture(GL_TEXTURE0+index);
@@ -366,9 +379,39 @@ void gl4es_glDisableClientStateIndexedEXT(GLenum array, GLuint index) {
         errorShim(GL_INVALID_ENUM);
     }
 }
+void gl4es_glDisableClientStatei(GLenum array, GLuint index) __attribute__((alias("gl4es_glDisableClientStateIndexed")));
+
+void gl4es_glEnableVertexArray(GLuint vaobj, GLenum array) {
+    DBG(printf("glEnableVertexArray(%d, %s)\n", vaobj, PrintEnum(array));)
+    GLuint old = glstate->vao->array;
+    gl4es_glBindVertexArray(vaobj);
+    gl4es_glEnableClientState(array);
+    gl4es_glBindVertexArray(old);
+}
+void gl4es_glDisableVertexArray(GLuint vaobj, GLenum array) {
+    DBG(printf("glDisableVertexArray(%d, %s)\n", vaobj, PrintEnum(array));)
+    GLuint old = glstate->vao->array;
+    gl4es_glBindVertexArray(vaobj);
+    gl4es_glDisableClientState(array);
+    gl4es_glBindVertexArray(old);
+}
+void gl4es_glEnableVertexArrayAttrib(GLuint vaobj, GLuint index) {
+    DBG(printf("glEnableVertexArrayAttrib(%d, %d)\n", vaobj, index);)
+    GLuint old = glstate->vao->array;
+    gl4es_glBindVertexArray(vaobj);
+    gl4es_glEnableVertexAttribArray(index);
+    gl4es_glBindVertexArray(old);
+}
+void gl4es_glDisableVertexArrayAttrib(GLuint vaobj, GLuint index) {
+    DBG(printf("glDisableVertexArrayAttrib(%d, %d)\n", vaobj, index);)
+    GLuint old = glstate->vao->array;
+    gl4es_glBindVertexArray(vaobj);
+    gl4es_glDisableVertexAttribArray(index);
+    gl4es_glBindVertexArray(old);
+}
 
 #define GETXXX(XXX, xxx) \
-void gl4es_glGet##XXX##IndexedvEXT(GLenum target, GLuint index, GL##xxx *data) { \
+void gl4es_glGet##XXX##Indexedv(GLenum target, GLuint index, GL##xxx *data) { \
     switch(target) { \
      case GL_PROGRAM_MATRIX_EXT: \
      case GL_TRANSPOSE_PROGRAM_MATRIX_EXT: \
@@ -445,7 +488,7 @@ GETXXX(Integer, int);
 GETXXX(Boolean, boolean);
 #undef GETXXX
 
-void gl4es_glGetPointerIndexedvEXT(GLenum pname, GLuint index, GLvoid **params) {
+void gl4es_glGetPointerIndexedv(GLenum pname, GLuint index, GLvoid **params) {
     int old = glstate->texture.client;
     if(old!=index) gl4es_glClientActiveTexture(index+GL_TEXTURE0);
     gl4es_glGetPointerv(pname, params);
@@ -453,21 +496,24 @@ void gl4es_glGetPointerIndexedvEXT(GLenum pname, GLuint index, GLvoid **params) 
     
 }
 
-void gl4es_glEnableIndexedEXT(GLenum cap, GLuint index) {
+void gl4es_glEnableIndexed(GLenum cap, GLuint index) {
+    DBG(printf("glEnableIndexed(%s, %d)\n", PrintEnum(cap), index);)
     int old = glstate->texture.active;
     if(old!=index) gl4es_glActiveTexture(index+GL_TEXTURE0);
     gl4es_glEnable(cap);
     if(old!=index) gl4es_glActiveTexture(old);
 }
 
-void gl4es_glDisableIndexedEXT(GLenum cap, GLuint index) {
+void gl4es_glDisableIndexed(GLenum cap, GLuint index) {
+    DBG(printf("glDisableIndexed(%s, %d)\n", PrintEnum(cap), index);)
     int old = glstate->texture.active;
     if(old!=index) gl4es_glActiveTexture(index+GL_TEXTURE0);
     gl4es_glDisable(cap);
     if(old!=index) gl4es_glActiveTexture(old);
 }
 
-GLboolean gl4es_glIsEnabledIndexedEXT(GLenum cap, GLuint index) {
+GLboolean gl4es_glIsEnabledIndexed(GLenum cap, GLuint index) {
+    DBG(printf("glIsEnabledIndexed(%s, %d)\n", PrintEnum(cap), index);)
     int old;
     GLboolean rv;
     switch(cap) {
@@ -588,15 +634,21 @@ void glMatrixLoadTransposefEXT(GLenum matrixMode, const GLfloat *m) AliasExport(
 void glMatrixLoadTransposedEXT(GLenum matrixMode, const GLdouble *m) AliasExport("gl4es_glMatrixLoadTransposed");
 void glMatrixMultTransposefEXT(GLenum matrixMode, const GLfloat *m) AliasExport("gl4es_glMatrixMultTransposef");
 void glMatrixMultTransposedEXT(GLenum matrixMode, const GLdouble *m) AliasExport("gl4es_glMatrixMultTransposed");
-void glEnableClientStateIndexedEXT(GLenum array, GLuint index) AliasExport("gl4es_glEnableClientStateIndexedEXT");
-void glDisableClientStateIndexedEXT(GLenum array, GLuint index) AliasExport("gl4es_glDisableClientStateIndexedEXT");
-void glGetPointerIndexedvEXT(GLenum pname, GLuint index, GLvoid **params) AliasExport("gl4es_glGetPointerIndexedvEXT");
-void glGetFloatIndexedvEXT(GLenum target, GLuint index, GLfloat *data) AliasExport("gl4es_glGetFloatIndexedvEXT");
-void glGetDoubleIndexedvEXT(GLenum target, GLuint index, GLdouble *data) AliasExport("gl4es_glGetDoubleIndexedvEXT");
-void glGetIntegerIndexedvEXT(GLenum target, GLuint index, GLint *data) AliasExport("gl4es_glGetIntegerIndexedvEXT");
-void glGetBooleanIndexedvEXT(GLenum target, GLuint index, GLboolean *data) AliasExport("gl4es_glGetBooleanIndexedvEXT");
-void glEnableIndexedEXT(GLenum cap, GLuint index) AliasExport("gl4es_glEnableIndexedEXT");
-void glDisableIndexedEXT(GLenum cap, GLuint index) AliasExport("gl4es_glDisableIndexedEXT");
-GLboolean glIsEnabledIndexedEXT(GLenum cap, GLuint index) AliasExport("gl4es_glIsEnabledIndexedEXT");
+void glEnableClientStateIndexedEXT(GLenum array, GLuint index) AliasExport("gl4es_glEnableClientStateIndexed");
+void glDisableClientStateIndexedEXT(GLenum array, GLuint index) AliasExport("gl4es_glDisableClientStateIndexed");
+void glEnableClientStateiEXT(GLenum array, GLuint index) AliasExport("gl4es_glEnableClientStateIndexed");
+void glDisableClientStateiEXT(GLenum array, GLuint index) AliasExport("gl4es_glDisableClientStateIndexed");
+void glEnableVertexArrayEXT(GLuint vaobj, GLenum array) AliasExport("gl4es_glEnableVertexArray");
+void glDisableVertexArrayEXT(GLuint vaobj, GLenum array) AliasExport("gl4es_glDisableVertexArray");
+void glEnableVertexArrayAttribEXT(GLuint vaobj, GLuint index) AliasExport("gl4es_glEnableVertexArrayAttrib");
+void glDisableVertexArrayAttribEXT(GLuint vaobj, GLuint index) AliasExport("gl4es_glDisableVertexArrayAttrib");
+void glGetPointerIndexedvEXT(GLenum pname, GLuint index, GLvoid **params) AliasExport("gl4es_glGetPointerIndexedv");
+void glGetFloatIndexedvEXT(GLenum target, GLuint index, GLfloat *data) AliasExport("gl4es_glGetFloatIndexedv");
+void glGetDoubleIndexedvEXT(GLenum target, GLuint index, GLdouble *data) AliasExport("gl4es_glGetDoubleIndexedv");
+void glGetIntegerIndexedvEXT(GLenum target, GLuint index, GLint *data) AliasExport("gl4es_glGetIntegerIndexedv");
+void glGetBooleanIndexedvEXT(GLenum target, GLuint index, GLboolean *data) AliasExport("gl4es_glGetBooleanIndexedv");
+void glEnableIndexedEXT(GLenum cap, GLuint index) AliasExport("gl4es_glEnableIndexed");
+void glDisableIndexedEXT(GLenum cap, GLuint index) AliasExport("gl4es_glDisableIndexed");
+GLboolean glIsEnabledIndexedEXT(GLenum cap, GLuint index) AliasExport("gl4es_glIsEnabledIndexed");
 #undef text
 #undef texc

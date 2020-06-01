@@ -162,7 +162,7 @@ void gl4es_glGetUniformiv(GLuint program, GLint location, GLint *params) {
 
 void GoUniformfv(program_t *glprogram, GLint location, int size, int count, const GLfloat *value)
 {
-    DBG(printf("GoUniformif(%p[%d], %d, %d, %d, %p) =>(%f...)\n", glprogram, glprogram->id, location, size, count, value, value[0]);)
+    DBG(printf("GoUniformfv(%p[%d], %d, %d, %d, %p) =>(%f...)\n", glprogram, glprogram->id, location, size, count, value, value[0]);)
     if(location==-1) {
         noerrorShim();
         return;

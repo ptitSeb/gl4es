@@ -10,16 +10,25 @@
 #include "texgen.h"
 #include "vertexattrib.h"
 #include "oldprogram.h"
-#define STUB_FCT gl4es_Stub
-#include "gl_lookup.h"
 
 #include "../glx/hardext.h"
+
+//#define DEBUG
+#ifdef DEBUG
+#define DBG(a) a
+#else
+#define DBG(a)
+#endif
+
+#define STUB_FCT gl4es_Stub
+#include "gl_lookup.h"
 
 void gl4es_Stub(void *x, ...) {
     return;
 }
 
 void *gl4es_GetProcAddress(const char *name) {
+    DBG(printf("glGetProcAddress(\"%s\")", name);)
     // generated gles wrappers
     #include "glesfuncs.inc"
 
@@ -541,16 +550,22 @@ void *gl4es_GetProcAddress(const char *name) {
     _EX(glMultiTexImage3D);
     _EX(glMultiTexSubImage3D);
     _EX(glCopyMultiTexSubImage3D);
-    _EX(glEnableClientStateIndexedEXT);
-    _EX(glDisableClientStateIndexedEXT);
-    _EX(glGetFloatIndexedvEXT);
-    _EX(glGetDoubleIndexedvEXT);
-    _EX(glGetIntegerIndexedvEXT);
-    _EX(glGetBooleanIndexedvEXT);
-    _EX(glGetPointerIndexedvEXT);
-    _EX(glEnableIndexedEXT);
-    _EX(glDisableIndexedEXT);
-    _EX(glIsEnabledIndexedEXT);
+    _EX(glEnableClientStateIndexed);
+    _EX(glDisableClientStateIndexed);
+    _EX(glEnableClientStatei);
+    _EX(glDisableClientStatei);
+    _EX(glEnableVertexArray);
+    _EX(glDisableVertexArray);
+    _EX(glEnableVertexArrayAttrib);
+    _EX(glDisableVertexArrayAttrib);
+    _EX(glGetFloatIndexedv);
+    _EX(glGetDoubleIndexedv);
+    _EX(glGetIntegerIndexedv);
+    _EX(glGetBooleanIndexedv);
+    _EX(glGetPointerIndexedv);
+    _EX(glEnableIndexed);
+    _EX(glDisableIndexed);
+    _EX(glIsEnabledIndexed);
     _EX(glCompressedTextureImage3D);
     _EX(glCompressedTextureImage2D);
     _EX(glCompressedTextureImage1D);
@@ -643,16 +658,22 @@ void *gl4es_GetProcAddress(const char *name) {
     _EXT(glMultiTexImage3D);
     _EXT(glMultiTexSubImage3D);
     _EXT(glCopyMultiTexSubImage3D);
-    _EXT(glEnableClientStateIndexedEXT);
-    _EXT(glDisableClientStateIndexedEXT);
-    _EXT(glGetFloatIndexedvEXT);
-    _EXT(glGetDoubleIndexedvEXT);
-    _EXT(glGetIntegerIndexedvEXT);
-    _EXT(glGetBooleanIndexedvEXT);
-    _EXT(glGetPointerIndexedvEXT);
-    _EXT(glEnableIndexedEXT);
-    _EXT(glDisableIndexedEXT);
-    _EXT(glIsEnabledIndexedEXT);
+    _EXT(glEnableClientStateIndexed);
+    _EXT(glDisableClientStateIndexed);
+    _EXT(glEnableClientStatei);
+    _EXT(glDisableClientStatei);
+    _EXT(glEnableVertexArray);
+    _EXT(glDisableVertexArray);
+    _EXT(glEnableVertexArrayAttrib);
+    _EXT(glDisableVertexArrayAttrib);
+    _EXT(glGetFloatIndexedv);
+    _EXT(glGetDoubleIndexedv);
+    _EXT(glGetIntegerIndexedv);
+    _EXT(glGetBooleanIndexedv);
+    _EXT(glGetPointerIndexedv);
+    _EXT(glEnableIndexed);
+    _EXT(glDisableIndexed);
+    _EXT(glIsEnabledIndexed);
     _EXT(glCompressedTextureImage3D);
     _EXT(glCompressedTextureImage2D);
     _EXT(glCompressedTextureImage1D);
@@ -991,7 +1012,7 @@ void *gl4es_GetProcAddress(const char *name) {
         _EX(glGetProgramStringARB);
         _EX(glIsProgramARB);
     }
-
+    DBG(printf("NULL\n");)
     if (!globals4es.silentstub) LOGD("GL4ES GetProcAddress: %s not found.\n", name);
     return NULL;
 }

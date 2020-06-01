@@ -1,4 +1,5 @@
 #include "line.h"
+#include <stdio.h>
 
 #include "debug.h"
 #include "gl4es.h"
