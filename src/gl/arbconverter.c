@@ -229,7 +229,7 @@ char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int
 				fflush(stdout);
 			)
 			
-			generateVariablePst(&curStatus, vertex, &*error_msg, varPtr);
+			generateVariablePst(&curStatus, vertex, error_msg, varPtr);
 		}
 		if (curStatus.status == ST_ERROR) {
 			--varIdx;
