@@ -132,6 +132,8 @@ const char* PrintEnum(GLenum what) {
         p(GL_DEPTH_COMPONENT);
         p(GL_DEPTH24_STENCIL8);
         p(GL_MAX_DRAW_BUFFERS_ARB);
+        p(GL_DRAW_FRAMEBUFFER_BINDING);
+        p(GL_READ_FRAMEBUFFER_BINDING);
         // VBO
         p(GL_STATIC_DRAW);
         p(GL_STREAM_DRAW);
@@ -239,6 +241,8 @@ const char* PrintEnum(GLenum what) {
         p(GL_BLEND_SRC);
         p(GL_BLEND_DST);
         p(GL_LOGIC_OP_MODE);
+        p(GL_SCISSOR_TEST);
+        p(GL_STENCIL_TEST);
         // uniform type
         p(GL_FLOAT_VEC2);
         p(GL_FLOAT_VEC3);
