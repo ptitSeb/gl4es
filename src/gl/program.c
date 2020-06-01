@@ -77,6 +77,7 @@ void gl4es_glBindAttribLocation(GLuint program, GLuint index, const GLchar *name
     // update name
     if(attribloc->name) free(attribloc->name);
     attribloc->name = strdup(name);
+    attribloc->glname = attribloc->name;
     // send to hardware
     LOAD_GLES2(glBindAttribLocation);
     if(gles_glBindAttribLocation) {
@@ -224,12 +225,12 @@ void gl4es_glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsi
             if(attribloc->real_index == index) {
                 if(type) *type = attribloc->type;
                 if(size) *size = attribloc->size;
-                if(length) *length = strlen(attribloc->name);
+                if(length) *length = strlen(attribloc->glname);
                 if(bufSize && name) {
-                    strncpy(name, attribloc->name, bufSize-1);
+                    strncpy(name, attribloc->glname, bufSize-1);
                     name[bufSize-1] = '\0';
                 }
-                DBG(printf("found, type=%s, size=%d, name=%s\n", PrintEnum(attribloc->type), attribloc->size, attribloc->name);)
+                DBG(printf("found, type=%s, size=%d, name=%s/%s\n", PrintEnum(attribloc->type), attribloc->size, attribloc->name, attribloc->glname);)
                 noerrorShim();
                 return;
             }
@@ -277,7 +278,7 @@ GLint gl4es_glGetAttribLocation(GLuint program, const GLchar *name) {
     if(glprogram->attribloc) {
         attribloc_t *m;
         kh_foreach_value(glprogram->attribloc, m,
-            if(strcmp(m->name, name)==0) {
+            if(strcmp(m->glname, name)==0) {
                 loc = m->index;
                 rloc = m->real_index;
             }
@@ -504,6 +505,7 @@ static void clear_program(program_t *glprogram)
         attribloc_t *m;
         khint_t k;
         khint_t ret;
+        //attribloc->glname must not be freed
         kh_foreach(glprogram->attribloc, k, m,
             free(m->name); free(m);
             kh_del(attribloclist, glprogram->attribloc, k);
@@ -638,6 +640,7 @@ static void fill_program(program_t *glprogram)
                 }
                 memset(glattribloc, 0, sizeof(attribloc_t));
                 glattribloc->name = strdup(name);
+                glattribloc->glname = builtinAttribGLName(glattribloc->name);
                 glattribloc->size = size;
                 glattribloc->type = type;
                 glattribloc->index = id;

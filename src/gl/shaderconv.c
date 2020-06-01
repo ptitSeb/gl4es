@@ -1192,3 +1192,21 @@ const char* hasBuiltinAttrib(const char* vertexShader, int Att) {
       return ret;
     return NULL;  // nope
 }
+
+const char* builtinAttribGLName(const char* name) {
+  // no need to check for compressed array here...
+  int n = sizeof(builtin_attrib)/sizeof(builtin_attrib_t);
+  for(int i=0; i<n; ++i)
+    if(!strcmp(name, builtin_attrib[i].name))
+      return builtin_attrib[i].glname;
+  return name;
+}
+
+const char* builtinAttribInternalName(const char* name) {
+  // no need to check for compressed array here...
+  int n = sizeof(builtin_attrib)/sizeof(builtin_attrib_t);
+  for(int i=0; i<n; ++i)
+    if(!strcmp(name, builtin_attrib[i].glname))
+      return builtin_attrib[i].name;
+  return name;
+}

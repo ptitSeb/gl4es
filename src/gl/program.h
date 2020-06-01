@@ -12,6 +12,7 @@ typedef struct {
     GLenum      type;
     int         size;
     char*       name;
+    const char* glname;
 } attribloc_t;
 KHASH_MAP_DECLARE_INT(attribloclist, attribloc_t *);
 
