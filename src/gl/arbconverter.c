@@ -2,17 +2,19 @@
 
 #include <stddef.h>
 
-// MAX_TEX
-#include "state.h"
 #include "arbgenerator.h"
 #include "arbhelper.h"
 #include "arbparser.h"
 #include "khash.h"
 
-char* gl4es_convertARB(const char* const code, int vertex, glsl_t *glsl) {
-	glsl->error_ptr = -1; // Reinit error pointer
+#define FAIL(str) curStatus.status = ST_ERROR; if (*error_msg) free(*error_msg); \
+		*error_msg = strdup(str); continue
+#define curStatusPtr &curStatus
+char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int *error_ptr) {
+	*error_ptr = -1; // Reinit error pointer
 	
 	const char *codeStart = code;
+	// Not sure this is really OK...
 	if ((codeStart[0] != '!') || (codeStart[1] != '!')) {
 		while (1) {
 			while ((*codeStart != '!') && (*codeStart != '\0')) {
@@ -20,10 +22,10 @@ char* gl4es_convertARB(const char* const code, int vertex, glsl_t *glsl) {
 			}
 			if (*codeStart == '\0') {
 				// Invalid start
-				if (glsl->error_msg)
-					free(glsl->error_msg);
-				glsl->error_msg = strdup("Invalid program start");
-				glsl->error_ptr = 0;
+				if (*error_msg)
+					free(*error_msg);
+				*error_msg = strdup("Invalid program start");
+				*error_ptr = 0;
 				return NULL;
 			}
 			if ((codeStart[0] == '!') && (codeStart[1] == '!')) {
@@ -34,18 +36,18 @@ char* gl4es_convertARB(const char* const code, int vertex, glsl_t *glsl) {
 	}
 	if (vertex) {
 		if (strncmp(codeStart, "!!ARBvp1.0", 10)) {
-			if (glsl->error_msg)
-				free(glsl->error_msg);
-			glsl->error_msg = strdup("Invalid program start");
-			glsl->error_ptr = codeStart - code;
+			if (*error_msg)
+				free(*error_msg);
+			*error_msg = strdup("Invalid program start");
+			*error_ptr = codeStart - code;
 			return NULL;
 		}
 	} else {
 		if (strncmp(codeStart, "!!ARBfp1.0", 10)) {
-			if (glsl->error_msg)
-				free(glsl->error_msg);
-			glsl->error_msg = strdup("Invalid program start");
-			glsl->error_ptr = codeStart - code;
+			if (*error_msg)
+				free(*error_msg);
+			*error_msg = strdup("Invalid program start");
+			*error_ptr = codeStart - code;
 			return NULL;
 		}
 	}
@@ -98,7 +100,7 @@ char* gl4es_convertARB(const char* const code, int vertex, glsl_t *glsl) {
 			fflush(stdout);
 		)
 		
-		parseToken(&curStatus, vertex, glsl);
+		parseToken(&curStatus, vertex, error_msg);
 		
 		readNextToken(&curStatus);
 	}
@@ -152,7 +154,7 @@ char* gl4es_convertARB(const char* const code, int vertex, glsl_t *glsl) {
 		}
 		printf("\n");)
 		
-		glsl->error_ptr = curStatus.codePtr - code;
+		*error_ptr = curStatus.codePtr - code;
 		
 		// We have errored, output NULL
 		freeStatus(&curStatus);
@@ -168,9 +170,6 @@ char* gl4es_convertARB(const char* const code, int vertex, glsl_t *glsl) {
 	size_t instIdx = (size_t)0;
 	sInstruction *instPtr;
 	
-#define FAIL(str) curStatus.status = ST_ERROR; if (glsl->error_msg) free(glsl->error_msg); \
-		glsl->error_msg = strdup(str); continue
-#define curStatusPtr &curStatus
 	do {
 		APPEND_OUTPUT("#version 120\n\nvoid main() {\n", 28)
 		
@@ -182,11 +181,11 @@ char* gl4es_convertARB(const char* const code, int vertex, glsl_t *glsl) {
 				fflush(stdout);
 			)
 			
-			generateVariablePre(&curStatus, vertex, glsl, varPtr);
+			generateVariablePre(&curStatus, vertex, error_msg, varPtr);
 		}
 		if (curStatus.status == ST_ERROR) {
 			--varIdx;
-			glsl->error_ptr = 1;
+			*error_ptr = 1;
 			break;
 		}
 		
@@ -213,11 +212,11 @@ char* gl4es_convertARB(const char* const code, int vertex, glsl_t *glsl) {
 				fflush(stdout);
 			)
 			
-			generateInstruction(&curStatus, vertex, glsl, instPtr);
+			generateInstruction(&curStatus, vertex, error_msg, instPtr);
 		}
 		if (curStatus.status == ST_ERROR) {
 			--instIdx;
-			glsl->error_ptr = curStatus.instructions.insts[instIdx]->codeLocation - code;
+			*error_ptr = curStatus.instructions.insts[instIdx]->codeLocation - code;
 			break;
 		}
 		
@@ -230,11 +229,11 @@ char* gl4es_convertARB(const char* const code, int vertex, glsl_t *glsl) {
 				fflush(stdout);
 			)
 			
-			generateVariablePst(&curStatus, vertex, glsl, varPtr);
+			generateVariablePst(&curStatus, vertex, error_msg, varPtr);
 		}
 		if (curStatus.status == ST_ERROR) {
 			--varIdx;
-			glsl->error_ptr = 2;
+			*error_ptr = 2;
 			break;
 		}
 		
@@ -286,11 +285,11 @@ char* gl4es_convertARB(const char* const code, int vertex, glsl_t *glsl) {
 		
 		printf("\nBuffered output:\n%s\n", curStatus.outputString);)
 		
-		if (glsl->error_ptr != -1) {
-			if (glsl->error_msg)
-				free(glsl->error_msg);
-			glsl->error_msg = strdup("Not enough memory(?)");
-			glsl->error_ptr = 0;
+		if (*error_ptr == -1) {
+			if (*error_msg)
+				free(*error_msg);
+			*error_msg = strdup("Not enough memory(?)");
+			*error_ptr = 0;
 		}
 		
 		// We have errored, output NULL

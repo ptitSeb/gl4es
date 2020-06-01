@@ -3,7 +3,8 @@
 #include <stdio.h>
 
 #include "arbhelper.h"
-#include "state.h"
+// MAX_TEX
+#include "../config.h"
 
 // ARBCONV_DBG_RE - resolve* error ArbConverter debug logs
 #define ARBCONV_DBG_RE(...) printf(__VA_ARGS__);
@@ -2166,9 +2167,9 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	return (char**)0xFFFFFFFFU; // Unreachable
 }
 
-#define FAIL(str) curStatusPtr->status = ST_ERROR; if (glsl->error_msg) free(glsl->error_msg); \
-		glsl->error_msg = strdup(str); return
-void parseToken(sCurStatus* curStatusPtr, int vertex, glsl_t *glsl) {
+#define FAIL(str) curStatusPtr->status = ST_ERROR; if (*error_msg) free(*error_msg); \
+		*error_msg = strdup(str); return
+void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg) {
 	if (((curStatusPtr->curToken == TOK_UNKNOWN) && (curStatusPtr->status != ST_LINE_COMMENT))
 		|| (curStatusPtr->curToken == TOK_NULL)) {
 		FAIL("Unknown token");

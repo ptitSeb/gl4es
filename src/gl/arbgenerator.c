@@ -5,11 +5,10 @@
 #include <stdio.h>
 
 #include "arbhelper.h"
-#include "state.h"
 
-#define FAIL(str) curStatusPtr->status = ST_ERROR; if (glsl->error_msg) free(glsl->error_msg); \
-		glsl->error_msg = strdup(str); return
-void generateVariablePre(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sVariable *varPtr) {
+#define FAIL(str) curStatusPtr->status = ST_ERROR; if (*error_msg) free(*error_msg); \
+		*error_msg = strdup(str); return
+void generateVariablePre(sCurStatus *curStatusPtr, int vertex, char **error_msg, sVariable *varPtr) {
 	if (varPtr->type == VARTYPE_CONST) {
 		return;
 	}
@@ -74,7 +73,7 @@ void generateVariablePre(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sVa
 	
 	APPEND_OUTPUT(";\n", 2)
 }
-void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sInstruction *instPtr) {
+void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg, sInstruction *instPtr) {
 	// Data access and output
 #define SWIZ(i, s) instPtr->vars[i].swizzle[s]
 #define SWIZORX(i, s) SWIZ(i, s) ? SWIZ(i, s) : (s + 1)
@@ -1026,7 +1025,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 #undef PUSH_SWIZZLE
 #undef SWIZ
 }
-void generateVariablePst(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sVariable *varPtr) {
+void generateVariablePst(sCurStatus *curStatusPtr, int vertex, char **error_msg, sVariable *varPtr) {
 	if (varPtr->type != VARTYPE_OUTPUT) {
 		return;
 	}

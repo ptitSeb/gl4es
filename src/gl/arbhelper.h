@@ -311,6 +311,5 @@ void freeStatus(sCurStatus* curStatus);
 
 int appendString(sCurStatus *curStatusPtr, const char *str, size_t strLen);
 
-typedef struct glsl_s glsl_t;
 
 #endif // _GL4ES_ARBHELPER_H_
