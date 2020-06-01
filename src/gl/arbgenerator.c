@@ -355,6 +355,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		APPEND_OUTPUT(";\n", 2) \
 		break;
 	
+	int dstSwizLen;
 	switch (instPtr->type) {
 	case INST_ABS:
 		INST_VECTOR
@@ -411,7 +412,6 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		FINISH_INST
 		break; */
 		
-	int dstSwizLen;
 	case INST_CMP:
 		if (vertex) {
 			FAIL("Invalid instruction in vertex shader");
@@ -640,12 +640,12 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sIn
 		APPEND_OUTPUT("\t", 1)
 		PUSH_MASKDST(0)
 		APPEND_OUTPUT(" = ", 3)
-		PUSH_PRE_SAT(1)
+		PUSH_PRE_SAT(0)
 		PUSH_DESTLEN(0)
 		APPEND_OUTPUT("log2(", 5)
 		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT("))", 2)
-		PUSH_POSTSAT(1)
+		PUSH_POSTSAT(0)
 		FINISH_INST(0)
 		
 	case INST_LIT:
