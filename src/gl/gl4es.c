@@ -17,6 +17,13 @@
 #include "loader.h"
 #include "matrix.h"
 
+//#define DEBUG
+#ifdef DEBUG
+#define DBG(a) a
+#else
+#define DBG(a)
+#endif
+
 int adjust_vertices(GLenum mode, int nb) {
     switch (mode) {
         case GL_POINTS:
@@ -55,6 +62,7 @@ int adjust_vertices(GLenum mode, int nb) {
 
 void gl4es_glVertexPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
+    DBG(printf("glVertexPointer(%d, %s, %d, %p)\n", size, PrintEnum(type), stride, pointer);)
     if(size<1 || size>4) {
         errorShim(GL_INVALID_VALUE);
 		return;
@@ -65,6 +73,7 @@ void gl4es_glVertexPointer(GLint size, GLenum type,
 }
 void gl4es_glColorPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
+    DBG((size>4)?printf("glColorPointer(%d, %s, %d, %p)\n", size, PrintEnum(type), stride, pointer):printf("glColorPointer(%s, %s, %d, %p)\n", PrintEnum(size), PrintEnum(type), stride, pointer);)
 	if (!((size>0 && size<=4) || (size==GL_BGRA && type==GL_UNSIGNED_BYTE))) {
         errorShim(GL_INVALID_VALUE);
 		return;
@@ -74,12 +83,14 @@ void gl4es_glColorPointer(GLint size, GLenum type,
     clone_gl_pointer(glstate->vao->vertexattrib[ATT_COLOR], size, (type==GL_FLOAT)?GL_FALSE:GL_TRUE);
 }
 void gl4es_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
+    DBG(printf("glNormalPointer(%s, %d, %p)\n", PrintEnum(type), stride, pointer);)
     noerrorShimNoPurge();
     break_lockarrays(ATT_NORMAL);
     clone_gl_pointer(glstate->vao->vertexattrib[ATT_NORMAL], 3, GL_FALSE);
 }
 void gl4es_glTexCoordPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
+    DBG(printf("glTexCoordPointer(%d, %s, %d, %p), texture.client=%d\n", size, PrintEnum(type), stride, pointer, glstate->texture.client);)
     if(size<1 || size>4) {
         errorShim(GL_INVALID_VALUE);
 		return;
@@ -90,6 +101,7 @@ void gl4es_glTexCoordPointer(GLint size, GLenum type,
 }
 void gl4es_glSecondaryColorPointer(GLint size, GLenum type, 
 					GLsizei stride, const GLvoid *pointer) {
+    DBG((size>4)?printf("glSecondaryColorPointer(%d, %s, %d, %p)\n", size, PrintEnum(type), stride, pointer):printf("glSecondaryColorPointer(%s, %s, %d, %p)\n", PrintEnum(size), PrintEnum(type), stride, pointer);)
 	if (!(size==3 || (size==GL_BGRA && type==GL_UNSIGNED_BYTE))) {
         errorShim(GL_INVALID_VALUE);
 		return;		// Size must be 3...
@@ -99,6 +111,7 @@ void gl4es_glSecondaryColorPointer(GLint size, GLenum type,
     noerrorShimNoPurge();
 }
 void gl4es_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
+    DBG(printf("glFogCoordPointer(%s, %d, %p)\n", PrintEnum(type), stride, pointer);)
     if(type==1 && stride==GL_FLOAT) {
         type = GL_FLOAT;
         stride = 0; // mistake found in some version of openglide...
@@ -121,6 +134,7 @@ void glFogCoordPointerEXT(GLenum type, GLsizei stride, const GLvoid *pointer) Al
 
 
 void gl4es_glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
+    DBG(printf("glInterleavedArrays(%s, %d, %p)\n", PrintEnum(format), stride, pointer);)
     uintptr_t ptr = (uintptr_t)pointer;
     // element lengths
     GLsizei tex=0, color=0, normal=0, vert=0;
