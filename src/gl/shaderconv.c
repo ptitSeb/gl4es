@@ -372,6 +372,10 @@ static const char* texture2DProjLodAlt =
 "vec4 _gl4es_texture2DProjLod(sampler2D sampler, vec4 coord, float lod) {\n"
 " return texture2DProj(sampler, coord);\n"
 "}\n";
+static const char* textureCubeLodAlt =
+"vec4 _gl4es_textureCubeLod(samplerCube sampler, vec3 coord, float lod) {\n"
+" return textureCube(sampler, coord);\n"
+"}\n";
 
 
 static const char* useEXTDrawBuffers =
@@ -516,7 +520,9 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     if(strstr(Tmp, "mod(") || strstr(Tmp, "mod (")) {
         Tmp = InplaceInsert(GetLine(Tmp, headline), HackAltMod, Tmp, &tmpsize);
     }
-    if(!isVertex && hardext.shaderlod && (FindString(Tmp, "texture2DLod") || FindString(Tmp, "texture2DProjLod"))) {
+    if(!isVertex && hardext.shaderlod && 
+      (FindString(Tmp, "texture2DLod") || FindString(Tmp, "texture2DProjLod") 
+    || FindString(Tmp, "textureCubeLod") )) {
         const char* GLESUseShaderLod = "#extension GL_EXT_shader_texture_lod : enable\n";
         Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShaderLod, Tmp, &tmpsize);
     }
@@ -534,6 +540,14 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
         } else {
           Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DProjLod", "_gl4es_texture2DProjLod");
           Tmp = InplaceInsert(GetLine(Tmp, headline), texture2DProjLodAlt, Tmp, &tmpsize);
+        }
+    }
+    if(!isVertex && (FindString(Tmp, "textureCubeLod"))) {
+        if(hardext.shaderlod) {
+          Tmp = InplaceReplace(Tmp, &tmpsize, "textureCubeLod", "textureCubeLodExt");
+        } else {
+          Tmp = InplaceReplace(Tmp, &tmpsize, "textureCubeLod", "_gl4es_textureCubeLod");
+          Tmp = InplaceInsert(GetLine(Tmp, headline), textureCubeLodAlt, Tmp, &tmpsize);
         }
     }
   }
