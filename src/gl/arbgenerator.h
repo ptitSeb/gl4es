@@ -11,8 +11,8 @@
 		}
 #define APPEND_OUTPUT2(str) APPEND_OUTPUT(str, (size_t)-1)
 
-void generateVariablePre(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sVariable *varPtr);
-void generateInstruction(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sInstruction *instPtr);
-void generateVariablePst(sCurStatus *curStatusPtr, int vertex, glsl_t *glsl, sVariable *varPtr);
+void generateVariablePre(sCurStatus *curStatusPtr, int vertex, char **error_msg, sVariable *varPtr);
+void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg, sInstruction *instPtr);
+void generateVariablePst(sCurStatus *curStatusPtr, int vertex, char **error_msg, sVariable *varPtr);
 
 #endif // _GL4ES_ARBGENERATOR_H_

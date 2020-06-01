@@ -6,6 +6,6 @@
 #include "arbhelper.h"
 
 eToken readNextToken(sCurStatus* curStatus);
-void parseToken(sCurStatus *curStatus, int vertex, glsl_t *glsl);
+void parseToken(sCurStatus *curStatus, int vertex, char **error_msg);
 
 #endif // _GL4ES_ARBPARSER_H_

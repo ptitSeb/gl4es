@@ -140,7 +140,7 @@ void gl4es_glProgramStringARB(GLenum target, GLenum format, GLsizei len, const G
     old->string = calloc(1, len + 1);
     memcpy(old->string, string, len);
     // Convert to GLSL
-    old->shader->source = gl4es_convertARB(old->string, vertex, glstate->glsl);
+    old->shader->source = gl4es_convertARB(old->string, vertex, &glstate->glsl->error_msg, &glstate->glsl->error_ptr);
     if (!old->shader->source) {
         errorShim(GL_INVALID_OPERATION);
         return;
