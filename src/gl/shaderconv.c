@@ -529,7 +529,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   }
   if(!isVertex && (FindString(Tmp, "texture2DLod"))) {
       if(hardext.shaderlod) {
-        Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod", "texture2DLodExt");
+        Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod", "texture2DLodEXT");
       } else {
         Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod", "_gl4es_texture2DLod");
         Tmp = InplaceInsert(GetLine(Tmp, headline), texture2DLodAlt, Tmp, &tmpsize);
@@ -537,7 +537,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   }
   if(!isVertex && (FindString(Tmp, "texture2DProjLod"))) {
       if(hardext.shaderlod) {
-        Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DProjLod", "texture2DProjLodExt");
+        Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DProjLod", "texture2DProjLodEXT");
       } else {
         Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DProjLod", "_gl4es_texture2DProjLod");
         Tmp = InplaceInsert(GetLine(Tmp, headline), texture2DProjLodAlt, Tmp, &tmpsize);
@@ -545,7 +545,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   }
   if(!isVertex && (FindString(Tmp, "textureCubeLod"))) {
       if(hardext.shaderlod) {
-        Tmp = InplaceReplace(Tmp, &tmpsize, "textureCubeLod", "textureCubeLodExt");
+        Tmp = InplaceReplace(Tmp, &tmpsize, "textureCubeLod", "textureCubeLodEXT");
       } else {
         Tmp = InplaceReplace(Tmp, &tmpsize, "textureCubeLod", "_gl4es_textureCubeLod");
         Tmp = InplaceInsert(GetLine(Tmp, headline), textureCubeLodAlt, Tmp, &tmpsize);
