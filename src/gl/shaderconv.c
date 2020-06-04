@@ -520,36 +520,36 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     if(strstr(Tmp, "mod(") || strstr(Tmp, "mod (")) {
         Tmp = InplaceInsert(GetLine(Tmp, headline), HackAltMod, Tmp, &tmpsize);
     }
-    if(!isVertex && hardext.shaderlod && 
-      (FindString(Tmp, "texture2DLod") || FindString(Tmp, "texture2DProjLod") 
-    || FindString(Tmp, "textureCubeLod") )) {
-        const char* GLESUseShaderLod = "#extension GL_EXT_shader_texture_lod : enable\n";
-        Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShaderLod, Tmp, &tmpsize);
-    }
-    if(!isVertex && (FindString(Tmp, "texture2DLod"))) {
-        if(hardext.shaderlod) {
-          Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod", "texture2DLodExt");
-        } else {
-          Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod", "_gl4es_texture2DLod");
-          Tmp = InplaceInsert(GetLine(Tmp, headline), texture2DLodAlt, Tmp, &tmpsize);
-        }
-    }
-    if(!isVertex && (FindString(Tmp, "texture2DProjLod"))) {
-        if(hardext.shaderlod) {
-          Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DProjLod", "texture2DProjLodExt");
-        } else {
-          Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DProjLod", "_gl4es_texture2DProjLod");
-          Tmp = InplaceInsert(GetLine(Tmp, headline), texture2DProjLodAlt, Tmp, &tmpsize);
-        }
-    }
-    if(!isVertex && (FindString(Tmp, "textureCubeLod"))) {
-        if(hardext.shaderlod) {
-          Tmp = InplaceReplace(Tmp, &tmpsize, "textureCubeLod", "textureCubeLodExt");
-        } else {
-          Tmp = InplaceReplace(Tmp, &tmpsize, "textureCubeLod", "_gl4es_textureCubeLod");
-          Tmp = InplaceInsert(GetLine(Tmp, headline), textureCubeLodAlt, Tmp, &tmpsize);
-        }
-    }
+  }
+  if(!isVertex && hardext.shaderlod && 
+    (FindString(Tmp, "texture2DLod") || FindString(Tmp, "texture2DProjLod") 
+  || FindString(Tmp, "textureCubeLod") )) {
+      const char* GLESUseShaderLod = "#extension GL_EXT_shader_texture_lod : enable\n";
+      Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShaderLod, Tmp, &tmpsize);
+  }
+  if(!isVertex && (FindString(Tmp, "texture2DLod"))) {
+      if(hardext.shaderlod) {
+        Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod", "texture2DLodExt");
+      } else {
+        Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod", "_gl4es_texture2DLod");
+        Tmp = InplaceInsert(GetLine(Tmp, headline), texture2DLodAlt, Tmp, &tmpsize);
+      }
+  }
+  if(!isVertex && (FindString(Tmp, "texture2DProjLod"))) {
+      if(hardext.shaderlod) {
+        Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DProjLod", "texture2DProjLodExt");
+      } else {
+        Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DProjLod", "_gl4es_texture2DProjLod");
+        Tmp = InplaceInsert(GetLine(Tmp, headline), texture2DProjLodAlt, Tmp, &tmpsize);
+      }
+  }
+  if(!isVertex && (FindString(Tmp, "textureCubeLod"))) {
+      if(hardext.shaderlod) {
+        Tmp = InplaceReplace(Tmp, &tmpsize, "textureCubeLod", "textureCubeLodExt");
+      } else {
+        Tmp = InplaceReplace(Tmp, &tmpsize, "textureCubeLod", "_gl4es_textureCubeLod");
+        Tmp = InplaceInsert(GetLine(Tmp, headline), textureCubeLodAlt, Tmp, &tmpsize);
+      }
   }
     // now check to remove trailling "f" after float, as it's not supported too
   newptr = Tmp;
