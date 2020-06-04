@@ -1,7 +1,7 @@
 #ifndef _GL_LOOKUP_H_
 #define _GL_LOOKUP_H_
 
-#ifdef DBG
+#ifdef DEBUG
 #define MAP(func_name, func) \
     if (strcmp(name, func_name) == 0) {printf("%p (%s)\n", (void*)func, #func) ;return (void *)func;}
 #else
@@ -25,7 +25,7 @@
 #error STUB_FCT is not defined
 #endif
 
-#ifdef DBG
+#ifdef DEBUG
 #define STUB(func_name)                       \
     if (strcmp(name, #func_name) == 0) {      \
         printf("=> STUB\n");                  \
