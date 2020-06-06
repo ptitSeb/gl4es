@@ -377,6 +377,23 @@ static const char* textureCubeLodAlt =
 " return textureCube(sampler, coord);\n"
 "}\n";
 
+static const char* texture2DGradAlt =
+"vec4 _gl4es_texture2DGrad(sampler2D sampler, vec2 coord, vec2 dPdx, vec2 dPdy) {\n"
+" return texture2D(sampler, coord);\n"
+"}\n";
+
+static const char* texture2DProjGradAlt =
+"vec4 _gl4es_texture2DProjGrad(sampler2D sampler, vec3 coord, vec2 dPdx, vec2 dPdy) {\n"
+" return texture2DProj(sampler, coord);\n"
+"}\n"
+"vec4 _gl4es_texture2DProjGrad(sampler2D sampler, vec4 coord, vec2 dPdx, vec2 dPdy) {\n"
+" return texture2DProj(sampler, coord);\n"
+"}\n";
+static const char* textureCubeGradAlt =
+"vec4 _gl4es_textureCubeGrad(samplerCube sampler, vec3 coord, vec2 dPdx, vec2 dPdy) {\n"
+" return textureCube(sampler, coord);\n"
+"}\n";
+
 
 static const char* useEXTDrawBuffers =
 "#extension GL_EXT_draw_buffers : enable\n";
@@ -523,7 +540,9 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   }
   if(!isVertex && hardext.shaderlod && 
     (FindString(Tmp, "texture2DLod") || FindString(Tmp, "texture2DProjLod") 
-  || FindString(Tmp, "textureCubeLod") )) {
+  || FindString(Tmp, "textureCubeLod") 
+  || FindString(Tmp, "texture2DGradARB") || FindString(Tmp, "texture2DProjGradARB")|| FindString(Tmp, "textureCubeGradARB") 
+  )) {
       const char* GLESUseShaderLod = "#extension GL_EXT_shader_texture_lod : enable\n";
       Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShaderLod, Tmp, &tmpsize);
   }
@@ -550,6 +569,31 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
       } else {
         Tmp = InplaceReplace(Tmp, &tmpsize, "textureCubeLod", "_gl4es_textureCubeLod");
         Tmp = InplaceInsert(GetLine(Tmp, headline), textureCubeLodAlt, Tmp, &tmpsize);
+      }
+  }
+  if(!isVertex && (FindString(Tmp, "texture2DGradARB"))) {
+      if(hardext.shaderlod) {
+        Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DGradARB", "texture2DGradEXT");
+      } else {
+        Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DGradARB", "_gl4es_texture2DGrad");
+        Tmp = InplaceInsert(GetLine(Tmp, headline), texture2DGradAlt, Tmp, &tmpsize);
+      }
+  }
+  if(!isVertex && (FindString(Tmp, "texture2DProjGradARB"))) {
+      if(hardext.shaderlod) {
+        Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DProjGradARB", "texture2DProjGradEXT");
+      } else {
+        Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DProjGradARB", "_gl4es_texture2DProjGrad");
+        Tmp = InplaceInsert(GetLine(Tmp, headline), texture2DProjGradAlt, Tmp, &tmpsize);
+      }
+  }
+  if(!isVertex && (FindString(Tmp, "textureCubeGradARB"))) {
+      if(hardext.shaderlod) {
+        if(!hardext.cubelod)
+          Tmp = InplaceReplace(Tmp, &tmpsize, "textureCubeGradARB", "textureCubeGradEXT");
+      } else {
+        Tmp = InplaceReplace(Tmp, &tmpsize, "textureCubeGradARB", "_gl4es_textureCubeGrad");
+        Tmp = InplaceInsert(GetLine(Tmp, headline), textureCubeGradAlt, Tmp, &tmpsize);
       }
   }
     // now check to remove trailling "f" after float, as it's not supported too
