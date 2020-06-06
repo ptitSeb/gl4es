@@ -16,6 +16,7 @@ void generateVariablePre(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 	APPEND_OUTPUT("\tvec4 ", 6)
 	APPEND_OUTPUT2(varPtr->names[0])
 	
+	int skipNL = 0;
 	switch (varPtr->type) {
 	case VARTYPE_ADDRESS:
 	case VARTYPE_ATTRIB:
@@ -26,6 +27,7 @@ void generateVariablePre(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		break;
 		
 	case VARTYPE_PARAM_MULT:
+		skipNL = 1;
 		APPEND_OUTPUT("[", 1)
 		// if size is not defined, deduce size using varPtr->init
 		if (varPtr->size <= 0) {
@@ -71,7 +73,9 @@ void generateVariablePre(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		FAIL("Invalid variable type (unintended fallthrough?)");
 	}
 	
-	APPEND_OUTPUT(";\n", 2)
+	if (!skipNL) {
+		APPEND_OUTPUT(";\n", 2)
+	}
 }
 void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg, sInstruction *instPtr) {
 	// Data access and output
@@ -801,7 +805,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
 		PUSH_DESTLEN(0)
-		APPEND_OUTPUT("1 / ", 4)
+		APPEND_OUTPUT("1.0 / ", 6)
 		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT(")", 1)
 		PUSH_POSTSAT(0)
@@ -814,7 +818,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
 		PUSH_DESTLEN(0)
-		APPEND_OUTPUT("sqrt(1 / ", 9)
+		APPEND_OUTPUT("inversesqrt(", 12)
 		PUSH_SCALSRC(1, 0)
 		APPEND_OUTPUT("))", 2)
 		PUSH_POSTSAT(0)
