@@ -352,3 +352,7 @@ Disable the filtering of GLXConfig by NATIVE_TYPE
 * 0 : Default, GLX_X_NATIVE_TYPE attribute are taken into account
 * 1 : Don't filter GLXConfig by GLX_X_NATIVE_TYPE
 
+##### LIBGL_NOSHADERLOD
+Disable GL_EXT_shader_texture_lod
+* 0 : Default, use the extension if present
+* 1 : Disable the use of the extension (using crude fallback)

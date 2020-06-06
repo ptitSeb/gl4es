@@ -67,6 +67,7 @@ typedef struct _globals4es {
  int nopsa;
  int noes2;
  int nointovlhack;
+ int noshaderlod;
  int fbo_noalpha;
  int glxnative;
  #ifndef NO_GBM

@@ -290,7 +290,6 @@ void GetHardwareExtensions(int notest)
 
     if (hardext.esversion>1) {
         if(!globals4es.nohighp) {
-            S("GL_EXT_shader_texture_lod", shaderlod, 1);
             S("GL_OES_fragment_precision_high ", highp, 1);
             if(!hardext.highp) {
                 // check if highp is supported anyway
@@ -306,6 +305,8 @@ void GetHardwareExtensions(int notest)
                 }
             }
         }
+        if(!globals4es.noshaderlod) 
+            S("GL_EXT_shader_texture_lod", shaderlod, 1);
         S("GL_EXT_frag_depth ", fragdepth, 1);
         gles_glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &hardext.maxvattrib);
         SHUT_LOGD("Max vertex attrib: %d\n", hardext.maxvattrib);

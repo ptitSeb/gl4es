@@ -404,6 +404,11 @@ void initialize_gl4es() {
         globals4es.nointovlhack = 1;
         SHUT_LOGD("No hack in shader converter to define overloaded function with int\n");
     }
+    if(IsEnvVarTrue("LIBGL_NOSHADERLOD")) {
+        globals4es.noshaderlod = 1;
+        SHUT_LOGD("No GL_EXT_shader_texture_lod used even if present\n");
+        hardext.shaderlod=0;
+    }
     
     int env_begin_end;
     if(GetEnvVarInt("LIBGL_BEGINEND",&env_begin_end,0)) {
