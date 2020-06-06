@@ -545,7 +545,8 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   }
   if(!isVertex && (FindString(Tmp, "textureCubeLod"))) {
       if(hardext.shaderlod) {
-        Tmp = InplaceReplace(Tmp, &tmpsize, "textureCubeLod", "textureCubeLodEXT");
+        if(!hardext.cubelod)
+          Tmp = InplaceReplace(Tmp, &tmpsize, "textureCubeLod", "textureCubeLodEXT");
       } else {
         Tmp = InplaceReplace(Tmp, &tmpsize, "textureCubeLod", "_gl4es_textureCubeLod");
         Tmp = InplaceInsert(GetLine(Tmp, headline), textureCubeLodAlt, Tmp, &tmpsize);

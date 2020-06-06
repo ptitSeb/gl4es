@@ -31,12 +31,12 @@ static int testGLSL(const char* version, int uniformLoc) {
         version,
         "\n"
         "layout(location = 0) in vec4 vecPos;\n",
-        uniformLoc?"layout(location = 0) uniform mat4 matPVP;\n":"uniform mat4 matPVP;\n",
+        uniformLoc?"layout(location = 0) uniform mat4 matMVP;\n":"uniform mat4 matMVP;\n",
         "void main() {\n"
         " gl_Position = matMVP * vecPos;\n"
         "}\n"
     };
-    gles_glShaderSource(shad, 2, shadTest, NULL);
+    gles_glShaderSource(shad, 4, shadTest, NULL);
     gles_glCompileShader(shad);
     GLint compiled;
     gles_glGetShaderiv(shad, GL_COMPILE_STATUS, &compiled);
@@ -48,6 +48,33 @@ static int testGLSL(const char* version, int uniformLoc) {
         printf("LIBGL: \"%s\" failed, message:\n%s\n", version, buff);
     }
     */
+    gles_glDeleteShader(shad);
+
+    return compiled;
+}
+
+static int testTextureCubeLod() {
+    LOAD_GLES2(glCreateShader);
+    LOAD_GLES2(glShaderSource);
+    LOAD_GLES2(glCompileShader);
+    LOAD_GLES2(glGetShaderiv);
+    LOAD_GLES2(glDeleteShader);
+
+    GLuint shad = gles_glCreateShader(GL_FRAGMENT_SHADER);
+    const char* shadTest[3] = {
+        "#version 100",
+        "\n"
+        "#extension GL_EXT_shader_texture_lod : enable\n"
+        "uniform samplerCube samCube;\n"
+        "varying mediump vec3 coordCube;\n",
+        "void main() {\n"
+        " gl_FragColor = textureCubeLod(samCube, coordCube, 0.0);\n"
+        "}\n"
+    };
+    gles_glShaderSource(shad, 3, shadTest, NULL);
+    gles_glCompileShader(shad);
+    GLint compiled;
+    gles_glGetShaderiv(shad, GL_COMPILE_STATUS, &compiled);
     gles_glDeleteShader(shad);
 
     return compiled;
@@ -307,6 +334,13 @@ void GetHardwareExtensions(int notest)
         }
         if(!globals4es.noshaderlod) 
             S("GL_EXT_shader_texture_lod", shaderlod, 1);
+        if(hardext.shaderlod) {
+            // test is textureCubeLod need EXT or not (seems to be a bug in some PVR driver)
+            if(testTextureCubeLod()) {
+                hardext.cubelod = 1;
+                SHUT_LOGD("textureCubeLod in fragment doesn't need trailing EXT\n");
+            }
+        }
         S("GL_EXT_frag_depth ", fragdepth, 1);
         gles_glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &hardext.maxvattrib);
         SHUT_LOGD("Max vertex attrib: %d\n", hardext.maxvattrib);

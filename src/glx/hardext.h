@@ -51,6 +51,7 @@ typedef struct _hardext {
     int fragdepth;      // GL_EXT_frag_depth
     int derivatives;    // GL_OES_standard_derivatives
     int shaderlod;      // GL_EXT_shader_texture_lod
+    int cubelod;        // textureCubeLod doesn't need "EXT" even with GL_EXT_shader_texture_lod
     int gbm;            // EGL_KHR_platform_gbm
     int khr_pixmap;     // EGL_KHR_image_pixmap
     int khr_texture_2d; // EGL_KHR_gl_texture_2D_image
