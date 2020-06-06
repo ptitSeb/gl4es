@@ -967,19 +967,19 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 					
 					if (!strcmp(newVar->strParts[0], "invtrans")) {
 						free(popFIFO((sArray*)newVar));
-						matrixName = "gl_ModelViewMatrixInverseTranspose";
-						mtxNameLen = 34;
-					} else if (!strcmp(newVar->strParts[0], "inverse")) {
-						free(popFIFO((sArray*)newVar));
 						matrixName = "gl_ModelViewMatrixInverse";
 						mtxNameLen = 25;
+					} else if (!strcmp(newVar->strParts[0], "inverse")) {
+						free(popFIFO((sArray*)newVar));
+						matrixName = "gl_ModelViewMatrixInverseTranspose";
+						mtxNameLen = 34;
 					} else if (!strcmp(newVar->strParts[0], "transpose")) {
 						free(popFIFO((sArray*)newVar));
-						matrixName = "gl_ModelViewMatrixTranspose";
-						mtxNameLen = 27;
-					} else {
 						matrixName = "gl_ModelViewMatrix";
 						mtxNameLen = 18;
+					} else {
+						matrixName = "gl_ModelViewMatrixTranspose";
+						mtxNameLen = 27;
 					}
 					
 					if (newVar->strLen && !IS_NEW_STR_OR_SWIZZLE(newVar->strParts[0], type)) {
@@ -1019,27 +1019,27 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 						sprintf(matrixNameMallocd, "%s", matrixName);
 					}
 				} else {
-					matrixName = "gl_ModelViewMatrix";
-					mtxNameLen = 18;
+					matrixName = "gl_ModelViewMatrixTranspose";
+					mtxNameLen = 27;
 				}
 			} else if (!strcmp(tok, "mvp")) {
 				free(tok);
 				if (newVar->strLen && !IS_NEW_STR_OR_SWIZZLE(newVar->strParts[0], type)) {
 					if (!strcmp(newVar->strParts[0], "invtrans")) {
 						free(popFIFO((sArray*)newVar));
-						matrixName = "gl_ModelViewProjectionMatrixInverseTranspose";
-						mtxNameLen = 44;
-					} else if (!strcmp(newVar->strParts[0], "inverse")) {
-						free(popFIFO((sArray*)newVar));
 						matrixName = "gl_ModelViewProjectionMatrixInverse";
 						mtxNameLen = 35;
+					} else if (!strcmp(newVar->strParts[0], "inverse")) {
+						free(popFIFO((sArray*)newVar));
+						matrixName = "gl_ModelViewProjectionMatrixInverseTranspose";
+						mtxNameLen = 44;
 					} else if (!strcmp(newVar->strParts[0], "transpose")) {
 						free(popFIFO((sArray*)newVar));
-						matrixName = "gl_ModelViewProjectionMatrixTranspose";
-						mtxNameLen = 37;
-					} else {
 						matrixName = "gl_ModelViewProjectionMatrix";
 						mtxNameLen = 28;
+					} else {
+						matrixName = "gl_ModelViewProjectionMatrixTranspose";
+						mtxNameLen = 37;
 					}
 					
 					if (newVar->strLen && !IS_NEW_STR_OR_SWIZZLE(newVar->strParts[0], type)) {
@@ -1083,8 +1083,8 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 						}
 					}
 				} else {
-					matrixName = "gl_ModelViewProjectionMatrix";
-					mtxNameLen = 28;
+					matrixName = "gl_ModelViewProjectionMatrixTranspose";
+					mtxNameLen = 37;
 				}
 			} else if (!strcmp(tok, "texture")) {
 				free(tok);
@@ -1117,19 +1117,19 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 					
 					if (!strcmp(newVar->strParts[0], "invtrans")) {
 						free(popFIFO((sArray*)newVar));
-						matrixName = "gl_TextureMatrixInverseTranspose";
-						mtxNameLen = 32;
-					} else if (!strcmp(newVar->strParts[0], "inverse")) {
-						free(popFIFO((sArray*)newVar));
 						matrixName = "gl_TextureMatrixInverse";
 						mtxNameLen = 23;
+					} else if (!strcmp(newVar->strParts[0], "inverse")) {
+						free(popFIFO((sArray*)newVar));
+						matrixName = "gl_TextureMatrixInverseTranspose";
+						mtxNameLen = 32;
 					} else if (!strcmp(newVar->strParts[0], "transpose")) {
 						free(popFIFO((sArray*)newVar));
-						matrixName = "gl_TextureMatrixTranspose";
-						mtxNameLen = 25;
-					} else {
 						matrixName = "gl_TextureMatrix";
 						mtxNameLen = 16;
+					} else {
+						matrixName = "gl_TextureMatrixTranspose";
+						mtxNameLen = 25;
 					}
 					
 					if (newVar->strLen && !IS_NEW_STR_OR_SWIZZLE(newVar->strParts[0], type)) {
@@ -1169,8 +1169,8 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 						sprintf(matrixNameMallocd, "%s", matrixName);
 					}
 				} else {
-					matrixName = "gl_TextureMatrix";
-					mtxNameLen = 16;
+					matrixName = "gl_TextureMatrixTranspose";
+					mtxNameLen = 25;
 				}
 			} else {
 				ARBCONV_DBG_RE("Failed to get param: state.matrix.%s\n", tok)
