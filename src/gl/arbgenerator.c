@@ -409,7 +409,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		PUSH_VARNAME(0)
 		APPEND_OUTPUT(".x = int(floor(", 15)
 		PUSH_SCALSRC(1, 0)
-		APPEND_OUTPUT("))", 1)
+		APPEND_OUTPUT("))", 2)
 		FINISH_INST(0)
 		
 	case INST_CMP:
