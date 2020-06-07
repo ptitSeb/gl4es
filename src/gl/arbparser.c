@@ -940,15 +940,14 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 					if (newVar->strParts[0][0] == '[') {
 						free(popFIFO((sArray*)newVar));
 						tok = popFIFO((sArray*)newVar);
-						if ((tok[0] >= '0') && (tok[0] <= '9')) {
-							for (char *numPtr = tok; *numPtr; ++numPtr) {
-								++mvmtxsz;
-								mvmtx = mvmtx * 10 + *numPtr - '0';
+						for (char *numPtr = tok; *numPtr; ++numPtr) {
+							if ((*numPtr < '0') || (*numPtr > '9')) {
+								ARBCONV_DBG_RE("Failed to get param: state.modelview[(NaN)\n")
+								free(tok);
+								return NULL;
 							}
-						} else {
-							ARBCONV_DBG_RE("Failed to get param: state.modelview[(NaN)\n")
-							free(tok);
-							return NULL;
+							++mvmtxsz;
+							mvmtx = mvmtx * 10 + *numPtr - '0';
 						}
 						free(tok);
 						
@@ -966,7 +965,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 						}
 					}
 					
-					if (!newVar->strLen) {
+					if (!newVar->strLen || IS_NEW_STR_OR_SWIZZLE(newVar->strParts[0], type)) {
 						matrixName = "gl_ModelViewMatrixTranspose";
 						mtxNameLen = 27;
 					} else if (!strcmp(newVar->strParts[0], "invtrans")) {
@@ -1118,7 +1117,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 						free(tok);
 					}
 					
-					if (!newVar->strLen) {
+					if (!newVar->strLen || IS_NEW_STR_OR_SWIZZLE(newVar->strParts[0], type)) {
 						matrixName = "gl_TextureMatrixTranspose";
 						mtxNameLen = 25;
 					} else if (!strcmp(newVar->strParts[0], "invtrans")) {
