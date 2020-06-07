@@ -14,7 +14,7 @@ typedef struct {
     const char* name;
     const char* type;
     const char* prec;
-    reserved_attrib_t attrib;
+    int attrib;
 } builtin_attrib_t;
 
 const builtin_attrib_t builtin_attrib[] = {
@@ -414,9 +414,20 @@ static const char* gl4es_Samplers2D_uniform = "uniform sampler2D _gl4es_Sampler2
 static const char* gl4es_Samplers3D_uniform = "uniform sampler2D _gl4es_Sampler3D_";
 static const char* gl4es_SamplersCube_uniform = "uniform samplerCube _gl4es_SamplerCube_";
 
+static const char* gl_VertexAttrib = "gl_VertexAttrib_";
+static const char* gl4es_VertexAttrib = "_gl4es_VertexAttrib_";
+
+char gl_VA[MAX_VATTRIB][32] = {0};
+char gl4es_VA[MAX_VATTRIB][32] = {0};
 
 char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 {
+  if(gl_VA[0][0]=='\0') {
+    for (int i=0; i<MAX_VATTRIB; ++i) {
+      sprintf(gl_VA[i], "%s%d", gl_VertexAttrib, i);
+      sprintf(gl4es_VA[i], "%s%d", gl4es_VertexAttrib, i);
+    }
+  }
   int fpeShader = (strstr(pEntry, fpeshader_signature)!=NULL)?1:0;
   int maskbefore = 4|(isVertex?1:2);
   int maskafter = 8|(isVertex?1:2);
@@ -667,6 +678,17 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
               sprintf(def, "attribute %s %s %s;\n", builtin_attrib[i].prec, builtin_attrib[i].type, builtin_attrib[i].name);
               Tmp = InplaceInsert(GetLine(Tmp, headline++), def, Tmp, &tmpsize);
           }
+      }
+      if(strstr(Tmp, gl_VertexAttrib)) {
+        // Generic VA from Old Programs
+        for (int i=0; i<MAX_VATTRIB; ++i) {
+          char A[100];
+          if(FindString(Tmp, gl_VA[i])) {
+            sprintf(A, "attribute highp vec4 %s%d;\n", gl4es_VertexAttrib, i);
+            Tmp = InplaceReplace(Tmp, &tmpsize, gl_VA[i], gl4es_VA[i]);
+            Tmp = InplaceInsert(GetLine(Tmp, headline++), A, Tmp, &tmpsize);
+          }
+        }
       }
   }
   // builtin varying
@@ -1235,7 +1257,11 @@ const char* hasBuiltinAttrib(const char* vertexShader, int Att) {
       return NULL;
     if(strstr(vertexShader, ret)) // it's here!
       return ret;
-    return NULL;  // nope
+    // check for old program generic vertex attribs
+    if(strstr(vertexShader, gl4es_VA[Att]))
+      return gl4es_VA[Att];
+    // nope
+    return NULL;
 }
 
 const char* builtinAttribGLName(const char* name) {
@@ -1244,6 +1270,13 @@ const char* builtinAttribGLName(const char* name) {
   for(int i=0; i<n; ++i)
     if(!strcmp(name, builtin_attrib[i].name))
       return builtin_attrib[i].glname;
+  if(strncmp(name, gl4es_VertexAttrib, strlen(gl4es_VertexAttrib))) {
+    int l = strlen(gl4es_VertexAttrib);
+    int n = 0;
+    while(name[l]>='0' && name[l]<='9')
+      n = n*10 + name[l++]-'0';
+    return gl_VA[n];
+  }
   return name;
 }
 
@@ -1253,5 +1286,12 @@ const char* builtinAttribInternalName(const char* name) {
   for(int i=0; i<n; ++i)
     if(!strcmp(name, builtin_attrib[i].glname))
       return builtin_attrib[i].name;
+  if(strncmp(name, gl_VertexAttrib, strlen(gl_VertexAttrib))) {
+    int l = strlen(gl_VertexAttrib);
+    int n = 0;
+    while(name[l]>='0' && name[l]<='9')
+      n = n*10 + name[l++]-'0';
+    return gl4es_VA[n];
+  }
   return name;
 }
