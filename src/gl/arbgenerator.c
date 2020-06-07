@@ -9,8 +9,6 @@
 #define FAIL(str) curStatusPtr->status = ST_ERROR; if (*error_msg) free(*error_msg); \
 		*error_msg = strdup(str); return
 void generateVariablePre(sCurStatus *curStatusPtr, int vertex, char **error_msg, sVariable *varPtr) {
-	(void)vertex;
-	
 	if (varPtr->type == VARTYPE_CONST) {
 		return;
 	} else if (varPtr->type == VARTYPE_ADDRESS) {
@@ -26,8 +24,17 @@ void generateVariablePre(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 	
 	int skipNL = 0;
 	switch (varPtr->type) {
-	case VARTYPE_ATTRIB:
 	case VARTYPE_OUTPUT:
+		if (!vertex && !strcmp(varPtr->init.strings[0], "gl_FogFragCoord")) {
+			// If we are setting from gl_FogFragCoord, then extend to vec4
+			APPEND_OUTPUT(" = vec4(", 8)
+			APPEND_OUTPUT(varPtr->init.strings[0], varPtr->init.strings_total_len)
+			APPEND_OUTPUT(")", 1)
+			break;
+		}
+		
+		/* FALLTHROUGH */
+	case VARTYPE_ATTRIB:
 	case VARTYPE_PARAM:
 		APPEND_OUTPUT(" = ", 3)
 		APPEND_OUTPUT(varPtr->init.strings[0], varPtr->init.strings_total_len)
@@ -267,8 +274,14 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 	
 	// Instruction variable pushing
 #define PUSH_MASKDST(i) \
-		PUSH_VARNAME(i) \
-		PUSH_DSTMASK(i, i)
+		PUSH_VARNAME(i)                                                         \
+		if (vertex || (instPtr->vars[0].var->type != VARTYPE_CONST)             \
+		 || strcmp(instPtr->vars[0].var->init.strings[0], "gl_FogFragCoord")) { \
+			/* If we are setting gl_FogFragCoord, do not put the '.x' */        \
+			PUSH_DSTMASK(i, i)                                                  \
+		} else {                                                                \
+			SWIZ(i, 0) = SWIZ_X;                                                \
+		}
 #define PUSH_VECTSRC(i) \
 		PUSH_VARNAME(i)                    \
 		if (SWIZ(i, 0) != SWIZ_NONE) {     \
@@ -1027,8 +1040,6 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 #undef SWIZ
 }
 void generateVariablePst(sCurStatus *curStatusPtr, int vertex, char **error_msg, sVariable *varPtr) {
-	(void)vertex;
-	
 	if (varPtr->type != VARTYPE_OUTPUT) {
 		return;
 	}
@@ -1037,5 +1048,9 @@ void generateVariablePst(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 	APPEND_OUTPUT(varPtr->init.strings[0], varPtr->init.strings_total_len)
 	APPEND_OUTPUT(" = ", 3)
 	APPEND_OUTPUT2(varPtr->names[0])
+	if (!vertex && !strcmp(varPtr->init.strings[0], "gl_FogFragCoord")) {
+		// If we are setting gl_FogFragCoord, then only take the x component
+		APPEND_OUTPUT(".x", 2)
+	}
 	APPEND_OUTPUT(";\n", 2)
 }
