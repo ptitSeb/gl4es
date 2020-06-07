@@ -320,8 +320,8 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 					size_t bufLen = 16 + strlen(tex);
 					char *buf = (char*)malloc((bufLen + 1) * sizeof(char));
 					sprintf(buf, "gl_MultiTexCoord%s", tex);
-					pushArray((sArray*)&newVar->var->init, buf);
 					free(tex);
+					pushArray((sArray*)&newVar->var->init, buf);
 					newVar->var->init.strings_total_len = bufLen;
 				} else {
 					ARBCONV_DBG_RE("Failed to get attrib: vertex.texcoord.%s\n", tok)
@@ -331,6 +331,28 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 			} else {
 				pushArray((sArray*)&newVar->var->init, strdup("gl_MultiTexCoord0"));
 				newVar->var->init.strings_total_len = 17;
+			}
+		} else if (!strcmp(tok, "attrib")) {
+			free(tok);
+			tok = popFIFO((sArray*)newVar);
+			if (!tok) {
+				ARBCONV_DBG_RE("Failed to get attrib: vertex.attrib(tok NULL)\n")
+				return 1;
+			} else if ((tok[0] == '[') && (newVar->strLen >= 2) && (newVar->strParts[1][0] == ']')
+			 && (newVar->strParts[0][0] >= '0') && (newVar->strParts[0][0] <= '9')) {
+				free(tok);
+				char *attr = popFIFO((sArray*)newVar);
+				free(popFIFO((sArray*)newVar));
+				size_t bufLen = 16 + strlen(attr);
+				char *buf = (char*)malloc((bufLen + 1) * sizeof(char));
+				sprintf(buf, "gl_VertexAttrib_%s", attr);
+				free(attr);
+				pushArray((sArray*)&newVar->var->init, buf);
+				newVar->var->init.strings_total_len = bufLen;
+			} else {
+				ARBCONV_DBG_RE("Failed to get attrib: vertex.attrib.%s\n", tok)
+				free(tok);
+				return 1;
 			}
 		} else {
 			ARBCONV_DBG_RE("Failed to get attrib: vertex.%s\n", tok)
@@ -425,7 +447,7 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 	 V "vertex" "." "texcoord"
 	 V "vertex" "." "texcoord" "[" <texCoordNum> "]"
 	 * "vertex" "." "matrixindex" "[" <vtxWeightNum> "]"
-	 * "vertex" "." "attrib" "[" <vtxAttribNum> "]"
+	 V "vertex" "." "attrib" "[" <vtxAttribNum> "]"
 	 * 
 	 V "fragment" "." "color"
 	 V "fragment" "." "color" "." "primary"
