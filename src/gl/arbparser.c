@@ -961,12 +961,15 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 						free(tok);
 						
 						if (mvmtx != 0) {
-							ARBCONV_DBG_RE("Failed to get param: state.modelview[%d(!=0)]\n", mvmtx)
+							ARBCONV_DBG_RE("Failed to get param: state.modelview[%d (!=0)]\n", mvmtx)
 							return NULL;
 						}
 					}
 					
-					if (!strcmp(newVar->strParts[0], "invtrans")) {
+					if (!newVar->strLen) {
+						matrixName = "gl_ModelViewMatrixTranspose";
+						mtxNameLen = 27;
+					} else if (!strcmp(newVar->strParts[0], "invtrans")) {
 						free(popFIFO((sArray*)newVar));
 						matrixName = "gl_ModelViewMatrixInverse";
 						mtxNameLen = 25;
@@ -1014,11 +1017,11 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 						}
 					}
 					
-					if (mvmtxsz && mvmtx) {
+					/* if (mvmtxsz && mvmtx) {
 						mtxNameLen += 2 + mvmtxsz;
 						matrixNameMallocd = malloc((mtxNameLen + 1) * sizeof(char));
 						sprintf(matrixNameMallocd, "%s", matrixName);
-					}
+					} */
 				} else {
 					matrixName = "gl_ModelViewMatrixTranspose";
 					mtxNameLen = 27;
@@ -1095,15 +1098,14 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 					if (newVar->strParts[0][0] == '[') {
 						free(popFIFO((sArray*)newVar));
 						tok = popFIFO((sArray*)newVar);
-						if ((tok[0] >= '0') && (tok[0] <= '9')) {
-							for (char *numPtr = tok; *numPtr; ++numPtr) {
-								++mvmtxsz;
-								mvmtx = mvmtx * 10 + *numPtr - '0';
+						for (char *numPtr = tok; *numPtr; ++numPtr) {
+							if ((*numPtr < '0') || (*numPtr > '9')) {
+								ARBCONV_DBG_RE("Failed to get param: state.texture[(NaN)\n")
+								free(tok);
+								return NULL;
 							}
-						} else {
-							ARBCONV_DBG_RE("Failed to get param: state.texture[(NaN)\n")
-							free(tok);
-							return NULL;
+							++mvmtxsz;
+							mvmtx = mvmtx * 10 + *numPtr - '0';
 						}
 						free(tok);
 						
@@ -1116,7 +1118,10 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 						free(tok);
 					}
 					
-					if (!strcmp(newVar->strParts[0], "invtrans")) {
+					if (!newVar->strLen) {
+						matrixName = "gl_TextureMatrixTranspose";
+						mtxNameLen = 25;
+					} else if (!strcmp(newVar->strParts[0], "invtrans")) {
 						free(popFIFO((sArray*)newVar));
 						matrixName = "gl_TextureMatrixInverse";
 						mtxNameLen = 23;
@@ -1164,11 +1169,9 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 						}
 					}
 					
-					if (mvmtxsz && mvmtx) {
-						mtxNameLen += 2 + mvmtxsz;
-						matrixNameMallocd = malloc((mtxNameLen + 1) * sizeof(char));
-						sprintf(matrixNameMallocd, "%s", matrixName);
-					}
+					mtxNameLen += 2 + (mvmtxsz ? mvmtxsz : 1);
+					matrixNameMallocd = malloc((mtxNameLen + 1) * sizeof(char));
+					sprintf(matrixNameMallocd, "%s[%d]", matrixName, mvmtx);
 				} else {
 					matrixName = "gl_TextureMatrixTranspose";
 					mtxNameLen = 25;
@@ -2436,8 +2439,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg) {
 					FAIL("Invalid state");
 				}
 				
-				char *tok = getToken(curStatusPtr);
-				pushArray((sArray*)&curStatusPtr->curValue.newVar, tok);
+				pushArray((sArray*)&curStatusPtr->curValue.newVar, getToken(curStatusPtr));
 				
 				curStatusPtr->curValue.newVar.state = 1;
 				
@@ -2500,8 +2502,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg) {
 					FAIL("Invalid state");
 				}
 				
-				char *tok = getToken(curStatusPtr);
-				pushArray((sArray*)&curStatusPtr->curValue.newVar, tok);
+				pushArray((sArray*)&curStatusPtr->curValue.newVar, getToken(curStatusPtr));
 				
 				curStatusPtr->curValue.newVar.state = 1;
 				
