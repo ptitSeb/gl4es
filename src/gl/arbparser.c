@@ -460,7 +460,7 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 	
 	return 0;
 }
-int resolveOutput(sCurStatus_NewVar *newVar, int vertex) {
+int resolveOutput(sCurStatus_NewVar *newVar, int vertex, int *hasFogFragCoord) {
 	char *tok = popFIFO((sArray*)newVar);
 	
 	if (!tok) {
@@ -557,8 +557,9 @@ int resolveOutput(sCurStatus_NewVar *newVar, int vertex) {
 		} else if (!strcmp(tok, "fogcoord")) {
 			// result.fogcoord => gl_FogFragCoord
 			free(tok);
-			pushArray((sArray*)&newVar->var->init, strdup("gl_FogFragCoord"));
-			newVar->var->init.strings_total_len = 15;
+			pushArray((sArray*)&newVar->var->init, strdup("gl_FogFragCoordTemp"));
+			*hasFogFragCoord = 1;
+			newVar->var->init.strings_total_len = 19;
 		} else if (!strcmp(tok, "pointsize")) {
 			// result.pointsize => gl_Point.size
 			free(tok);
@@ -2194,7 +2195,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 
 #define FAIL(str) curStatusPtr->status = ST_ERROR; if (*error_msg) free(*error_msg); \
 		*error_msg = strdup(str); return
-void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg) {
+void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *hasFogFragCoord) {
 	if (((curStatusPtr->curToken == TOK_UNKNOWN) && (curStatusPtr->status != ST_LINE_COMMENT))
 		|| (curStatusPtr->curToken == TOK_NULL)) {
 		FAIL("Unknown token");
@@ -2543,7 +2544,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg) {
 					FAIL("Invalid state");
 				}
 				
-				if (resolveOutput(&curStatusPtr->curValue.newVar, vertex)) {
+				if (resolveOutput(&curStatusPtr->curValue.newVar, vertex, hasFogFragCoord)) {
 					FAIL("Not a valid output");
 				}
 				
@@ -3448,7 +3449,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg) {
 					 || (!vertex && !strcmp(curStatusPtr->_fixedNewVar.strParts[0], "fragment"))) {
 						failure = resolveAttrib(&curStatusPtr->_fixedNewVar, vertex);
 					} else if (!strcmp(curStatusPtr->_fixedNewVar.strParts[0], "result")) {
-						failure = resolveOutput(&curStatusPtr->_fixedNewVar, vertex);
+						failure = resolveOutput(&curStatusPtr->_fixedNewVar, vertex, hasFogFragCoord);
 					} else {
 						char **resolved = resolveParam(&curStatusPtr->_fixedNewVar, vertex, 1);
 						

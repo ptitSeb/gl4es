@@ -267,7 +267,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 	
 	// Instruction variable pushing
 #define PUSH_MASKDST(i) \
-		PUSH_VARNAME(i) \
+		PUSH_VARNAME(i)    \
 		PUSH_DSTMASK(i, i)
 #define PUSH_VECTSRC(i) \
 		PUSH_VARNAME(i)                    \
