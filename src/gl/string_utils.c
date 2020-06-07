@@ -6,7 +6,6 @@
 
 const char* AllSeparators = " \t\n\r.,;()[]{}-<>+*/%&\\\"'^$=!:?";
 
-int CountString(char* pBuffer, const char* S);
 char* ResizeIfNeeded(char* pBuffer, int *size, int addsize);
 
 char* InplaceReplace(char* pBuffer, int* size, const char* S, const char* D)
@@ -64,9 +63,25 @@ int CountLine(const char* pBuffer)
     return n;
 }
 
-int CountString(char* pBuffer, const char* S)
+int GetLineFor(const char* pBuffer, const char* S)
 {
-    char* p = pBuffer;
+    int n=0;
+    const char* p = pBuffer;
+    const char* end = FindString(pBuffer, S);
+    if(!end)
+        return 0;
+    while((p=strstr(p, "\n"))) {
+        p+=strlen("\n");
+        n++;
+        if(p>=end)
+            return n;
+    }
+    return n;
+}
+
+int CountString(const char* pBuffer, const char* S)
+{
+    const char* p = pBuffer;
     int lS = strlen(S);
     int n = 0;
     while((p = strstr(p, S)))
@@ -80,7 +95,22 @@ int CountString(char* pBuffer, const char* S)
     return n;
 }
 
-char* FindString(char* pBuffer, const char* S)
+const char* FindString(const char* pBuffer, const char* S)
+{
+    const char* p = pBuffer;
+    int lS = strlen(S);
+    while((p = strstr(p, S)))
+    {
+        // found an occurence of S
+        // check if good to count, strchr also found '\0' :)
+        if(strchr(AllSeparators, p[lS])!=NULL && (p==pBuffer || strchr(AllSeparators, p[-1])!=NULL))
+            return p;
+        p+=lS;
+    }
+    return NULL;
+}
+
+char* FindStringNC(char* pBuffer, const char* S)
 {
     char* p = pBuffer;
     int lS = strlen(S);

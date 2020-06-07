@@ -1356,7 +1356,8 @@ const char* const* fpe_CustomVertexShader(const char* initial, fpe_state_t* stat
     char buff[1024];
     if(!shad_cap) shad_cap = 1024;
     if(!shad) shad = (char*)malloc(shad_cap);
-    int headline = 3; // version and 2 precision lines
+    int headline = GetLineFor(initial, "main");
+    if(headline) --headline;
 
     strcpy(shad, "");
     ShadAppend(initial);
@@ -1399,6 +1400,7 @@ const char* const* fpe_CustomVertexShader(const char* initial, fpe_state_t* stat
 }
 const char* const* fpe_CustomFragmentShader(const char* initial, fpe_state_t* state)
 {
+    // the shader is unconverted yet!
     if(!shad_cap) shad_cap = 1024;
     if(!shad) shad = (char*)malloc(shad_cap);
 
@@ -1406,7 +1408,8 @@ const char* const* fpe_CustomFragmentShader(const char* initial, fpe_state_t* st
     int alpha_test = state->alphatest;
     int alpha_func = state->alphafunc;
     char buff[1024];
-    int headline = 3; // version and 2 precision lines
+    int headline = GetLineFor(initial, "main");
+    if(headline) --headline;
 
     strcpy(shad, "");
     ShadAppend(initial);
@@ -1430,7 +1433,7 @@ const char* const* fpe_CustomFragmentShader(const char* initial, fpe_state_t* st
         ShadAppend(" _gl4es_main();\n");
         //*** Plane Culling
         if(planes) {
-            ShadAppend("if((");
+            ShadAppend(" if((");
             int k=0;
             for (int i=0; i<hardext.maxplanes; i++) {
                 if((planes>>i)&1) {
@@ -1461,7 +1464,7 @@ const char* const* fpe_CustomFragmentShader(const char* initial, fpe_state_t* st
                 // FPE_LESS FPE_EQUAL FPE_LEQUAL FPE_GREATER FPE_NOTEQUAL FPE_GEQUAL
                 // but need to negate the operator
                 const char* alpha_test_op[] = {">=","!=",">","<=","==","<"}; 
-                sprintf(buff, "if (floor(%s.a*255.) %s _gl4es_AlphaRef) discard;\n", is_fragcolor?"gl_FragColor":"gl_FragData[0]", alpha_test_op[alpha_func-FPE_LESS]);
+                sprintf(buff, " if (floor(%s.a*255.) %s _gl4es_AlphaRef) discard;\n", is_fragcolor?"gl_FragColor":"gl_FragData[0]", alpha_test_op[alpha_func-FPE_LESS]);
                 ShadAppend(buff);
             }
         }

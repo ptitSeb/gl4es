@@ -1081,7 +1081,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     int maxind = -1;
     int noarray_ok = 1;
     char* p = Tmp;
-    while(noarray_ok && (p=FindString(p, gl_ProgramEnv))) {
+    while(noarray_ok && (p=FindStringNC(p, gl_ProgramEnv))) {
       p+=strlen(gl_ProgramEnv);
       if(*p=='[') {
         ++p;
@@ -1124,7 +1124,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     int maxind = -1;
     int noarray_ok = 1;
     char* p = Tmp;
-    while(noarray_ok && (p=FindString(p, gl_ProgramLocal))) {
+    while(noarray_ok && (p=FindStringNC(p, gl_ProgramLocal))) {
       p+=strlen(gl_ProgramLocal);
       if(*p=='[') {
         ++p;
