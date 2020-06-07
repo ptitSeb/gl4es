@@ -13,6 +13,7 @@
 char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int *error_ptr) {
 	*error_ptr = -1; // Reinit error pointer
 	
+	int hasFogFragCoord = 0;
 	const char *codeStart = code;
 	// Not sure this is really OK...
 	if ((codeStart[0] != '!') || (codeStart[1] != '!')) {
@@ -100,7 +101,7 @@ char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int
 			fflush(stdout);
 		)
 		
-		parseToken(&curStatus, vertex, error_msg);
+		parseToken(&curStatus, vertex, error_msg, &hasFogFragCoord);
 		
 		readNextToken(&curStatus);
 	}
@@ -174,6 +175,9 @@ char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int
 		if (vertex) {
 			// Add a structure (for addresses) with only an 'x' component
 			APPEND_OUTPUT("#version 120\n\nstruct _structOnlyX { int x; };\n\nvoid main() {\n", 61)
+			if (hasFogFragCoord) {
+				APPEND_OUTPUT("\tvec4 gl_fogFragCoordTemp = vec4(gl_fogFragCoord);\n", 51)
+			}
 		} else {
 			// No address
 			APPEND_OUTPUT("#version 120\n\nvoid main() {\n", 28)
@@ -243,6 +247,9 @@ char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int
 			break;
 		}
 		
+		if (hasFogFragCoord) {
+			APPEND_OUTPUT("\tgl_fogFragCoord = gl_fogFragCoordTemp.x;\n", 42)
+		}
 		APPEND_OUTPUT("}\n", 2)
 	} while (0);
 	
