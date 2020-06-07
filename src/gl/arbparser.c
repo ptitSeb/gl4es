@@ -557,9 +557,9 @@ int resolveOutput(sCurStatus_NewVar *newVar, int vertex, int *hasFogFragCoord) {
 		} else if (!strcmp(tok, "fogcoord")) {
 			// result.fogcoord => gl_FogFragCoord
 			free(tok);
-			pushArray((sArray*)&newVar->var->init, strdup("gl_FogFragCoordTemp"));
 			*hasFogFragCoord = 1;
-			newVar->var->init.strings_total_len = 19;
+			pushArray((sArray*)&newVar->var->init, strdup("gl4es_FogFragCoordTemp"));
+			newVar->var->init.strings_total_len = 22;
 		} else if (!strcmp(tok, "pointsize")) {
 			// result.pointsize => gl_Point.size
 			free(tok);

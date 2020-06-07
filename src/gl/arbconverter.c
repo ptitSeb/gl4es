@@ -176,7 +176,7 @@ char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int
 			// Add a structure (for addresses) with only an 'x' component
 			APPEND_OUTPUT("#version 120\n\nstruct _structOnlyX { int x; };\n\nvoid main() {\n", 61)
 			if (hasFogFragCoord) {
-				APPEND_OUTPUT("\tvec4 gl_fogFragCoordTemp = vec4(gl_fogFragCoord);\n", 51)
+				APPEND_OUTPUT("\tvec4 gl4es_fogFragCoordTemp = vec4(gl_fogFragCoord);\n", 54)
 			}
 		} else {
 			// No address
@@ -248,7 +248,7 @@ char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int
 		}
 		
 		if (hasFogFragCoord) {
-			APPEND_OUTPUT("\tgl_fogFragCoord = gl_fogFragCoordTemp.x;\n", 42)
+			APPEND_OUTPUT("\tgl_fogFragCoord = gl4es_fogFragCoordTemp.x;\n", 45)
 		}
 		APPEND_OUTPUT("}\n", 2)
 	} while (0);
