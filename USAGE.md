@@ -345,7 +345,7 @@ Don't expose GLX_EXT_create_context_es2_profile extension
 ##### LIBGL_NOINTOVLHACK
 Disable the hack in shader converter to define overloaded function with int
 * 0 : Default: use the hack
-* 1 : Don't use it (some drive / PVRCapture don't like it much).
+* 1 : Don't use it (some driver / PVRCapture don't like it much).
 
 ##### LIBGL_GLXNATIVE
 Disable the filtering of GLXConfig by NATIVE_TYPE
