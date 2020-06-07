@@ -3588,6 +3588,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg) {
 		case TOK_END_OF_INST:
 			if (!strcmp(curStatusPtr->curValue.newOpt.optName, "ARB_precision_hint_fastest")) {
 				// Nothing to do
+			} else if (!strcmp(curStatusPtr->curValue.newOpt.optName, "ARB_fog_linear")) {
+				// To do?
 			} else {
 				FAIL("Unknown option");
 			}
