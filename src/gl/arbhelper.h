@@ -230,8 +230,8 @@ typedef struct _sInstruction {
 	struct _sInstruction_Vars {
 		sVariable *var;
 		
-		int32_t floatArrAddr;
-		int     sign;
+		char *floatArrAddr;
+		int  sign;
 		enum {
 			SWIZ_NONE = 0, SWIZ_X, SWIZ_Y, SWIZ_Z, SWIZ_W
 		} swizzle[4];

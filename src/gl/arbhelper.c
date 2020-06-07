@@ -2,19 +2,19 @@
 
 #include "../config.h"
 
-#define SIZE_THRESHOLD 0x80
+#define SIZE_THRESHOLD 0x40
 void *resize(void** obj, size_t* cap, size_t esize) {
 	size_t oldSize = *cap * esize;
 	size_t newSize;
 	if (oldSize >= SIZE_THRESHOLD) {
-		newSize = oldSize + SIZE_THRESHOLD;
+		newSize = oldSize + SIZE_THRESHOLD * esize;
 	} else {
 		newSize = oldSize * 2;
 	}
-	void *reloc = realloc(*obj, (*cap * 2) * esize);
+	void *reloc = realloc(*obj, newSize);
 	if (reloc) {
 		*obj = reloc;
-		*cap *= 2;
+		*cap = newSize;
 	}
 	return reloc;
 }
@@ -79,7 +79,7 @@ eInstruction STR2INST(char *str, int *sat) {
 	if ((((str[0] < 'A') || (str[0] > 'Z')) && ((str[0] < '0') || (str[0] > '9')))
 	 || (((str[1] < 'A') || (str[1] > 'Z')) && ((str[1] < '0') || (str[1] > '9')))
 	 || (((str[2] < 'A') || (str[2] > 'Z')) && ((str[2] < '0') || (str[2] > '9')))
-	 || ((str[3] != '\0') && !sat)) {
+	 || ((str[3] != '\0') && !*sat)) {
 		return INST_UNK;
 	}
 	
@@ -281,7 +281,13 @@ void initStatus(sCurStatus* curStatus, const char* code) {
 }
 
 void freeStatus(sCurStatus* curStatus) {
-	if (curStatus->valueType == TYPE_VARIABLE_DECL) {
+	if (curStatus->valueType == TYPE_INST_DECL) {
+		for (int i = 0; i < MAX_OPERANDS; ++i) {
+			if (curStatus->curValue.newInst.inst.vars[i].floatArrAddr) {
+				free(curStatus->curValue.newInst.inst.vars[i].floatArrAddr);
+			}
+		}
+	} else if (curStatus->valueType == TYPE_VARIABLE_DECL) {
 		char *strPtr;
 		while ((strPtr = (char*)popArray((sArray*)&curStatus->curValue.newVar))) {
 			free(strPtr);
@@ -316,6 +322,15 @@ void freeStatus(sCurStatus* curStatus) {
 	while ((varPtr = (sVariable*)popArray((sArray*)&curStatus->variables))) {
 		deleteVariable(&varPtr);
 	}
+	sInstruction *instPtr;
+	while ((instPtr = (sInstruction*)popArray((sArray*)&curStatus->instructions))) {
+		for (int i = 0; i < MAX_OPERANDS; ++i) {
+			if (instPtr->vars[i].floatArrAddr) {
+				free(instPtr->vars[i].floatArrAddr);
+			}
+		}
+		free(instPtr);
+	}
 	
 	freeArray((sArray*)&curStatus->variables);
 	freeArray((sArray*)&curStatus->instructions);
@@ -331,7 +346,11 @@ int appendString(sCurStatus *curStatusPtr, const char *str, size_t strLen) {
 	if (curStatusPtr->outLeft < strLen) {
 		char *oldOut = curStatusPtr->outputString;
 		while (curStatusPtr->outLeft < strLen) {
-			curStatusPtr->outLeft += curStatusPtr->outCap;
+			if (curStatusPtr->outCap >= SIZE_THRESHOLD) {
+				curStatusPtr->outLeft += SIZE_THRESHOLD * sizeof(char);
+			} else {
+				curStatusPtr->outLeft *= 2;
+			}
 			if (!resize((void**)&curStatusPtr->outputString, &curStatusPtr->outCap, sizeof(char))) {
 				return 1;
 			}
@@ -347,7 +366,7 @@ int appendString(sCurStatus *curStatusPtr, const char *str, size_t strLen) {
 		curStatusPtr->outputString,
 		curStatusPtr->outLen,
 		curStatusPtr->outputString + curStatusPtr->outLen
-	); free(dup);)
+	); free(dup); fflush(stdout);)
 	if (curStatusPtr->outputEnd != curStatusPtr->outputString + curStatusPtr->outLen) {
 		printf("\033[01;31mERROR!!!\033[m\n%s\n", str);
 		curStatusPtr->status = ST_ERROR;
