@@ -264,7 +264,6 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 	} else if (vertex && !strcmp(tok, "vertex")) {
 		free(tok);
 		tok = popFIFO((sArray*)newVar);
-		
 		if (!tok) {
 			ARBCONV_DBG_RE("Failed to get attrib: vertex(tok NULL)\n")
 			return 1;
@@ -325,7 +324,7 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 					free(tex);
 					newVar->var->init.strings_total_len = bufLen;
 				} else {
-					ARBCONV_DBG_RE("Failed to get param: vertex.texcoord.%s\n", tok)
+					ARBCONV_DBG_RE("Failed to get attrib: vertex.texcoord.%s\n", tok)
 					free(tok);
 					return 1;
 				}
@@ -387,7 +386,7 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 					free(tex);
 					newVar->var->init.strings_total_len = bufLen;
 				} else {
-					ARBCONV_DBG_RE("Failed to get param: fragment.texcoord.%s\n", tok)
+					ARBCONV_DBG_RE("Failed to get attrib: fragment.texcoord.%s\n", tok)
 					free(tok);
 					return 1;
 				}
@@ -560,7 +559,7 @@ int resolveOutput(sCurStatus_NewVar *newVar, int vertex) {
 					free(tex);
 					newVar->var->init.strings_total_len = bufLen;
 				} else {
-					ARBCONV_DBG_RE("Failed to get param: result.texcoord.%s\n", tok)
+					ARBCONV_DBG_RE("Failed to get output: result.texcoord.%s\n", tok)
 					free(tok);
 					return 1;
 				}
@@ -856,6 +855,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 			if (newVar->strParts[0][0] == '[') {
 				free(popFIFO((sArray*)newVar));
 				char *sln = popFIFO((sArray*)newVar);
+				size_t slnLen = strlen(sln);
 				
 				if ((sln[0] >= '0') && (sln[0] <= '9')) {
 					size_t propLen;
@@ -907,6 +907,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 						return NULL;
 					}
 					
+					matrixNameMallocd = (char*)malloc((mtxNameLen + slnLen + propLen + 4) * sizeof(char));
 					sprintf(matrixNameMallocd, "%s[%s].%s", matrixName, sln, prop);
 					free(sln);
 					char **r = (char**)calloc(2, sizeof(char*));;
@@ -2184,6 +2185,9 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg) {
 			eInstruction inst;
 			eVariableType vtype;
 			if ((inst = STR2INST(tok, &curStatusPtr->curValue.newInst.inst.saturated)) != INST_UNK) {
+				if (INSTTEX(inst) && vertex) {
+					FAIL("Texture instructions are only valid in fragment shaders");
+				}
 				if (vertex && curStatusPtr->curValue.newInst.inst.saturated) {
 					FAIL("Instruction cannot be saturated in ARB vertex shaders");
 				}
@@ -2194,7 +2198,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg) {
 				curStatusPtr->curValue.newInst.inst.type = inst;
 				for (int i = 0; i < MAX_OPERANDS; ++i) {
 					curStatusPtr->curValue.newInst.inst.vars[i].var = NULL;
-					curStatusPtr->curValue.newInst.inst.vars[i].floatArrAddr = -1;
+					curStatusPtr->curValue.newInst.inst.vars[i].floatArrAddr = NULL;
 					curStatusPtr->curValue.newInst.inst.vars[i].sign = 0;
 					curStatusPtr->curValue.newInst.inst.vars[i].swizzle[0] = SWIZ_NONE;
 					curStatusPtr->curValue.newInst.inst.vars[i].swizzle[1] = SWIZ_NONE;
@@ -2203,7 +2207,9 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg) {
 				}
 				curStatusPtr->curValue.newInst.inst.codeLocation = curStatusPtr->codePtr;
 			} else if ((vtype = STR2VARTYPE(tok)) != VARTYPE_UNK) {
-				if (vtype == VARTYPE_ALIAS) {
+				if ((vtype == VARTYPE_ADDRESS) && !vertex) {
+					FAIL("Addresses are only allowed in vertex shaders");
+				} else if (vtype == VARTYPE_ALIAS) {
 					curStatusPtr->status = ST_ALIAS;
 					curStatusPtr->valueType = TYPE_ALIAS_DECL;
 					curStatusPtr->curValue.string = NULL;
@@ -2976,103 +2982,203 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg) {
 		break;
 		
 	case ST_INSTRUCTION: {
+		// States
+#define STATE_START 0
+#define STATE_AFTER_SIGN 1
+#define STATE_AFTER_VALID 2
+#define STATE_AFTER_VALID_LSQBR_START 3
+#define STATE_AFTER_VALID_LSQBR_ADDR 4
+#define STATE_AFTER_VALID_LSQBR_ADOT 5
+#define STATE_AFTER_VALID_LSQBR_ADOK 6
+#define STATE_AFTER_VALID_LSQBR_SIGN 7
+#define STATE_AFTER_VALID_LSQBR_END 8
+#define STATE_AFTER_VALID_RSQBR 9
+#define STATE_AFTER_VALID_DOT 10
+#define STATE_AFTER_ELEMENT 11
+#define STATE_AFTER_DOT 12
+#define STATE_AFTER_TEXSPLINT 13
+#define STATE_AFTER_TEXSAMPLER 14
+#define STATE_AFTER_NUMBER 15
+#define STATE_LSQBR_START 16
+#define STATE_LSQBR_ADDR 17
+#define STATE_LSQBR_ADOT 18
+#define STATE_LSQBR_ADOK 19
+#define STATE_LSQBR_SIGN 20
+#define STATE_LSQBR_END 21
+#define STATE_AFTER_SWIZZLE -1
+		// Note: after thinking again, STATE_LSQBR_ADDR, STATE_LSQBR_ADOT, STATE_LSQBR_ADOK and
+		// STATE_LSQBR_SIGN shouldn't exist (no relative addressing when using implicit params)
+		
 		sInstruction_Vars *curVarPtr = &curStatusPtr->curValue.newInst.inst.vars[curStatusPtr->curValue.newInst.curArg];
+		int texSampler = INSTTEX(curStatusPtr->curValue.newInst.inst.type)
+				 && (curStatusPtr->curValue.newInst.curArg == 3);
 		switch (curStatusPtr->curToken) {
+		case TOK_WHITESPACE:
+		case TOK_NEWLINE:
+			switch (curStatusPtr->curValue.newInst.state) {
+			case STATE_AFTER_VALID_LSQBR_ADDR:
+			case STATE_AFTER_VALID_LSQBR_ADOT:
+			case STATE_AFTER_VALID_LSQBR_ADOK:
+			case STATE_AFTER_VALID_LSQBR_SIGN:
+			case STATE_LSQBR_ADDR:
+			case STATE_LSQBR_ADOT:
+			case STATE_LSQBR_ADOK:
+			case STATE_LSQBR_SIGN: {
+				char *faa = (char*)realloc(
+					curVarPtr->floatArrAddr,
+					(strlen(curVarPtr->floatArrAddr) + getTokenLength(curStatusPtr) + 1) * sizeof(char)
+				);
+				if (!faa) {
+					FAIL("Failed to realloc (out of memory?)");
+				}
+				copyToken(curStatusPtr, faa + strlen(faa));
+				curVarPtr->floatArrAddr = faa;
+				break;
+			}
+				
+			default:
+				break;
+			}
+			break;
+			
 		case TOK_SIGN:
-			if (curStatusPtr->curValue.newInst.state != 0) {
+			switch (curStatusPtr->curValue.newInst.state) {
+			case STATE_START:
+				curVarPtr->sign = curStatusPtr->tokInt ? 1 : -1;
+				curStatusPtr->curValue.newInst.state = STATE_AFTER_SIGN;
+				break;
+				
+			case STATE_AFTER_VALID_LSQBR_ADOK:
+			case STATE_LSQBR_ADOK: {
+				char *faa = (char*)realloc(
+					curVarPtr->floatArrAddr,
+					(strlen(curVarPtr->floatArrAddr) + getTokenLength(curStatusPtr) + 1) * sizeof(char)
+				);
+				if (!faa) {
+					FAIL("Failed to realloc (out of memory?)");
+				}
+				copyToken(curStatusPtr, faa + strlen(faa));
+				curVarPtr->floatArrAddr = faa;
+				++curStatusPtr->curValue.newInst.state;
+				break;
+			}
+				
+			default:
 				FAIL("Invalid state");
 			}
-			
-			curStatusPtr->curValue.newInst.state = 1;
-			curVarPtr->sign = curStatusPtr->tokInt ? 1 : -1;
-			
 			break;
 			
 		case TOK_INTEGER:
-			if (curStatusPtr->curValue.newInst.state <= 1) {
-				// Constant
+			switch (curStatusPtr->curValue.newInst.state) {
+			case STATE_START:
+				if (texSampler) {
+					if ((curStatusPtr->tokInt < 1) || (curStatusPtr->tokInt > 3)) {
+						FAIL("Invalid texture sampler");
+					}
+					curStatusPtr->curValue.newInst.state = STATE_AFTER_TEXSPLINT;
+				} else {
+					sVariable *cst = createVariable(VARTYPE_CONST);
+					pushArray((sArray*)&cst->init, getToken(curStatusPtr));
+					pushArray((sArray*)&curStatusPtr->variables, cst);
+					curVarPtr->var = cst;
+					curStatusPtr->curValue.newInst.state = STATE_AFTER_NUMBER;
+				}
+				break;
+				
+			case STATE_AFTER_VALID_LSQBR_START:
+				curVarPtr->floatArrAddr = getToken(curStatusPtr);
+				curStatusPtr->curValue.newInst.state = STATE_AFTER_VALID_LSQBR_END;
+				break;
+				
+			case STATE_LSQBR_START:
+				pushArray((sArray*)&curStatusPtr->_fixedNewVar, getToken(curStatusPtr));
+				curStatusPtr->curValue.newInst.state = STATE_LSQBR_END;
+				break;
+				
+			case STATE_AFTER_VALID_LSQBR_SIGN: {
+				char *faa = (char*)realloc(
+					curVarPtr->floatArrAddr,
+					(strlen(curVarPtr->floatArrAddr) + getTokenLength(curStatusPtr) + 1) * sizeof(char)
+				);
+				if (!faa) {
+					FAIL("Failed to realloc (out of memory?)");
+				}
+				copyToken(curStatusPtr, faa + strlen(faa));
+				curVarPtr->floatArrAddr = faa;
+				curStatusPtr->curValue.newInst.state = STATE_AFTER_VALID_LSQBR_END;
+				break;
+			}
+				
+			case STATE_LSQBR_SIGN:
+				pushArray((sArray*)&curStatusPtr->_fixedNewVar, getToken(curStatusPtr));
+				curStatusPtr->curValue.newInst.state = STATE_LSQBR_END;
+				break;
+				
+			default:
+				FAIL("Invalid state");
+			}
+			break;
+			
+		case TOK_FLOATCONST:
+			switch (curStatusPtr->curValue.newInst.state) {
+			case STATE_START: {
 				sVariable *cst = createVariable(VARTYPE_CONST);
 				pushArray((sArray*)&cst->init, getToken(curStatusPtr));
 				pushArray((sArray*)&curStatusPtr->variables, cst);
 				curVarPtr->var = cst;
+				curStatusPtr->curValue.newInst.state = STATE_AFTER_NUMBER;
+				break;
+			}
 				
-				curStatusPtr->curValue.newInst.state = 2;
-			} else if (curStatusPtr->curValue.newInst.state == 3) {
-				curVarPtr->floatArrAddr = curStatusPtr->tokInt;
-				curStatusPtr->curValue.newInst.state = 4;
-			} else if (curStatusPtr->curValue.newInst.state == 10) {
-				pushArray((sArray*)&curStatusPtr->_fixedNewVar, getToken(curStatusPtr));
-				curStatusPtr->curValue.newInst.state = 11;
-			} else {
+			default:
 				FAIL("Invalid state");
 			}
 			break;
 			
-		case TOK_FLOATCONST: {
-			if (curStatusPtr->curValue.newInst.state > 1) {
-				FAIL("Invalid state");
-			}
-			
-			sVariable *cst = createVariable(VARTYPE_CONST);
-			pushArray((sArray*)&cst->init, getToken(curStatusPtr));
-			pushArray((sArray*)&curStatusPtr->variables, cst);
-			curVarPtr->var = cst;
-			
-			curStatusPtr->curValue.newInst.state = 2;
-			break; }
-			
 		case TOK_IDENTIFIER: {
-			// Variable helper
 			char *tok = getToken(curStatusPtr);
 			
 			switch (curStatusPtr->curValue.newInst.state) {
-			case 0:
-			case 1: {
-				khint_t varIdx = kh_get(variables, curStatusPtr->varsMap, tok);
-				if (kh_truly_exist(curStatusPtr->varsMap, varIdx)) {
-					sVariable *var = kh_val(curStatusPtr->varsMap, varIdx);
-					
-					curVarPtr->var = var;
-					curStatusPtr->curValue.newInst.state = 2;
+			case STATE_START:
+				if (texSampler) {
+					if (getTokenLength(curStatusPtr) != 4) {
+						FAIL("Invalid texture sampler");
+					} else if (!strncmp(curStatusPtr->codePtr, "CUBE", 4)) {
+						curVarPtr->var = curStatusPtr->texCUBE;
+					} else if (!strncmp(curStatusPtr->codePtr, "RECT", 4)) {
+						curVarPtr->var = curStatusPtr->texRECT;
+					} else {
+						FAIL("Invalid texture sampler");
+					}
+					curStatusPtr->curValue.newInst.state = STATE_AFTER_TEXSAMPLER;
+					break;
+				}
+				
+				/* FALLTHROUGH */
+			case STATE_AFTER_SIGN: {
+				khint_t idx = kh_get(variables, curStatusPtr->varsMap, tok);
+				
+				if (kh_truly_exist(curStatusPtr->varsMap, idx)) {
+					curVarPtr->var = kh_val(curStatusPtr->varsMap, idx);
+					curStatusPtr->curValue.newInst.state = STATE_AFTER_VALID;
 				} else {
 					pushArray((sArray*)&curStatusPtr->_fixedNewVar, strdup(tok));
-					curStatusPtr->curValue.newInst.state = 9;
+					curStatusPtr->curValue.newInst.state = STATE_AFTER_ELEMENT;
 				}
+				break;
+			}
 				
-				break; }
-				
-			case 2:
-				if (!INSTTEX(curStatusPtr->curValue.newInst.inst.type) || (curStatusPtr->curValue.newInst.curArg != 3)) {
-					// Not a texture query, 4th argument instruction...
-					free(tok);
-					FAIL("Invalid state");
-				}
-				
-				// If there was no integer/float before (AKA, constant) fail
-				if (curStatusPtr->variables.vars[curStatusPtr->variables.size - 1] != curVarPtr->var) {
-					free(tok);
-					FAIL("Invalid state");
-				}
-				
-				// Transform into a type 9
-				pushArray((sArray*)&curStatusPtr->_fixedNewVar, strdup(curVarPtr->var->init.strings[0]));
+			case STATE_AFTER_DOT:
 				pushArray((sArray*)&curStatusPtr->_fixedNewVar, strdup(tok));
-				curStatusPtr->curValue.newInst.state = 9;
-				
-				// Identifier after a constant, so free allocated variable
-				sVariable *v = (sVariable*)popArray((sArray*)&curStatusPtr->variables);
-				deleteVariable(&v);
-				curVarPtr->var = NULL;
-				
+				curStatusPtr->curValue.newInst.state = STATE_AFTER_ELEMENT;
 				break;
 				
-			case 6: {
+			case STATE_AFTER_VALID_DOT: {
+				if (getTokenLength(curStatusPtr) > 4) {
+					FAIL("Swizzle too long");
+				}
 				int e = 0;
 				for (int i = 0; !e && (tok[i] != '\0'); ++i) {
-					if (i > 3) {
-						e = 1;
-						break;
-					}
 					switch (tok[i]) {
 					case 'r': case 'x':
 						curVarPtr->swizzle[i] = SWIZ_X;
@@ -3095,267 +3201,353 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg) {
 					FAIL("Invalid swizzle value");
 				}
 				
-				curStatusPtr->curValue.newInst.state = 7;
+				curStatusPtr->curValue.newInst.state = STATE_AFTER_SWIZZLE;
 				
 				break; }
 				
-			case 8:
-				pushArray((sArray*)&curStatusPtr->_fixedNewVar, strdup(tok));
-				curStatusPtr->curValue.newInst.state = 9;
-				break;
+			case STATE_AFTER_VALID_LSQBR_START:
+			case STATE_LSQBR_START: {
+				khint_t idx = kh_get(variables, curStatusPtr->varsMap, tok);
+				if (!kh_truly_exist(curStatusPtr->varsMap, idx)) {
+					free(tok);
+					FAIL("Invalid relative addressing (not a declared address)");
+				}
+				sVariable *var = kh_val(curStatusPtr->varsMap, idx);
+				if (var->type != VARTYPE_ADDRESS) {
+					free(tok);
+					FAIL("Invalid relative addressing (not an address)");
+				}
 				
+				curVarPtr->floatArrAddr = getToken(curStatusPtr);
+				++curStatusPtr->curValue.newInst.state;
+				break;
+			}
+				
+			case STATE_AFTER_VALID_LSQBR_ADOT:
+			case STATE_LSQBR_ADOT: {
+				if ((getTokenLength(curStatusPtr) != 1) || (tok[0] != 'x')) {
+					free(tok);
+					FAIL("Invalid address mask");
+				}
+				
+				char *faa = (char*)realloc(
+					curVarPtr->floatArrAddr,
+					(strlen(curVarPtr->floatArrAddr) + getTokenLength(curStatusPtr) + 1) * sizeof(char)
+				);
+				if (!faa) {
+					FAIL("Failed to realloc (out of memory?)");
+				}
+				copyToken(curStatusPtr, faa + strlen(faa));
+				curVarPtr->floatArrAddr = faa;
+				
+				++curStatusPtr->curValue.newInst.state;
+				break;
+			}
+				
+			case STATE_AFTER_TEXSPLINT:
+				if (texSampler) {
+					if ((getTokenLength(curStatusPtr) != 1) || strncmp(curStatusPtr->codePtr, "D", 1)) {
+						FAIL("Invalid texture sampler");
+					} else {
+						switch (curStatusPtr->tokInt) {
+						case 1:
+							curVarPtr->var = curStatusPtr->tex1D;
+							break;
+						case 2:
+							curVarPtr->var = curStatusPtr->tex2D;
+							break;
+						case 3:
+							curVarPtr->var = curStatusPtr->tex3D;
+							break;
+							
+						default:
+							FAIL("Invalid texture sampler (shouldn't happen here)");
+							break;
+						}
+					}
+					curStatusPtr->curValue.newInst.state = STATE_AFTER_TEXSAMPLER;
+					break;
+				}
+				
+				/* FALLTHROUGH */
 			default:
 				free(tok);
 				FAIL("Invalid state");
 			}
 			
 			free(tok);
-			
-			break; }
+			break;
+		}
 			
 		case TOK_POINT:
-			if (curStatusPtr->curValue.newInst.state == 9) {
-				curStatusPtr->curValue.newInst.state = 8;
-			} else if ((curStatusPtr->curValue.newInst.state == 2) || (curStatusPtr->curValue.newInst.state == 5)) {
-				curStatusPtr->curValue.newInst.state = 6;
-			} else {
+			switch (curStatusPtr->curValue.newInst.state) {
+			case STATE_AFTER_VALID:
+			case STATE_AFTER_VALID_RSQBR:
+				curStatusPtr->curValue.newInst.state = STATE_AFTER_VALID_DOT;
+				break;
+				
+			case STATE_AFTER_VALID_LSQBR_ADDR:
+			case STATE_LSQBR_ADDR: {
+				char *faa = (char*)realloc(
+					curVarPtr->floatArrAddr,
+					(strlen(curVarPtr->floatArrAddr) + getTokenLength(curStatusPtr) + 1) * sizeof(char)
+				);
+				if (!faa) {
+					FAIL("Failed to realloc (out of memory?)");
+				}
+				copyToken(curStatusPtr, faa + strlen(faa));
+				curVarPtr->floatArrAddr = faa;
+				
+				++curStatusPtr->curValue.newInst.state;
+				break;
+			}
+				
+			case STATE_AFTER_ELEMENT:
+				curStatusPtr->curValue.newInst.state = STATE_AFTER_DOT;
+				break;
+				
+			default:
 				FAIL("Invalid state");
 			}
-			break;
-			
-		case TOK_COMMA:
-		case TOK_END_OF_INST:
-			if ((curStatusPtr->curValue.newInst.state != 2) && (curStatusPtr->curValue.newInst.state != 5)
-				&& (curStatusPtr->curValue.newInst.state != 7) && (curStatusPtr->curValue.newInst.state != 9)) {
-				FAIL("Invalid state");
-			}
-			
-			if (curStatusPtr->curValue.newInst.state == 9) {
-				int failure;
-				
-				if (INSTTEX(curStatusPtr->curValue.newInst.inst.type)) {
-					int b = 0;
-					
-					switch (curStatusPtr->curValue.newInst.curArg) {
-					case 2:
-						if ((curStatusPtr->_fixedNewVar.strLen != 4) || (curStatusPtr->_fixedNewVar.strParts[1][0] != '[')
-							|| (curStatusPtr->_fixedNewVar.strParts[3][0] != ']')
-							|| strcmp(curStatusPtr->_fixedNewVar.strParts[0], "texture")) {
-							FAIL("Invalid texture instruction");
-						}
-						
-						unsigned int id = 0;
-						
-						char *idPtr = curStatusPtr->_fixedNewVar.strParts[2];
-						while ((*idPtr >= '0') && (*idPtr <= '9')) {
-							id = id * 10 + *idPtr - '0';
-							++idPtr;
-						}
-						if (*idPtr != '\0') {
-							FAIL("Invalid texture ID");
-						}
-						
-						if (id > MAX_TEX) {
-							FAIL("Invalid texture ID (ID too big)");
-						}
-						
-						if (!curStatusPtr->texVars[id]->size) {
-							pushArray((sArray*)curStatusPtr->texVars[id], strdup(curStatusPtr->_fixedNewVar.strParts[2]));
-						}
-						
-						curVarPtr->var = curStatusPtr->texVars[id];
-						
-						freeArray((sArray*)&curStatusPtr->_fixedNewVar);
-						initArray((sArray*)&curStatusPtr->_fixedNewVar);
-						
-						b = 1;
-						break;
-						
-					case 3:
-						if (curStatusPtr->_fixedNewVar.strLen == 1) {
-							if (!strcmp(curStatusPtr->_fixedNewVar.strParts[0], "CUBE")) {
-								curVarPtr->var = curStatusPtr->texCUBE;
-							} else if (!strcmp(curStatusPtr->_fixedNewVar.strParts[0], "RECT")) {
-								curVarPtr->var = curStatusPtr->texRECT;
-							} else {
-								FAIL("Invalid texture target");
-							}
-						} else if (curStatusPtr->_fixedNewVar.strLen == 2) {
-							if ((curStatusPtr->_fixedNewVar.strParts[1][0] != 'D')
-								|| (curStatusPtr->_fixedNewVar.strParts[1][1] != '\0')
-								|| (curStatusPtr->_fixedNewVar.strParts[0][1] != '\0')) {
-								FAIL("Invalid texture target");
-							}
-							if (curStatusPtr->_fixedNewVar.strParts[0][0] == '1') {
-								curVarPtr->var = curStatusPtr->tex1D;
-							} else if (curStatusPtr->_fixedNewVar.strParts[0][0] == '2') {
-								curVarPtr->var = curStatusPtr->tex2D;
-							} else if (curStatusPtr->_fixedNewVar.strParts[0][0] == '3') {
-								curVarPtr->var = curStatusPtr->tex3D;
-							} else {
-								FAIL("Invalid texture target");
-							}
-						} else {
-							FAIL("Invalid texture target");
-						}
-						
-						freeArray((sArray*)&curStatusPtr->_fixedNewVar);
-						initArray((sArray*)&curStatusPtr->_fixedNewVar);
-						
-						b = 1;
-						break;
-					}
-					
-					if (b) {
-						if (curStatusPtr->curToken == TOK_COMMA) {
-							curStatusPtr->curValue.newInst.state = 0;
-							++curStatusPtr->curValue.newInst.curArg;
-							if (curStatusPtr->curValue.newInst.curArg >= MAX_OPERANDS) {
-								FAIL("Too many operands");
-							}
-						} else {
-							pushArray(
-								(sArray*)&curStatusPtr->instructions,
-								copyInstruction(&curStatusPtr->curValue.newInst.inst)
-							);
-							curStatusPtr->valueType = TYPE_NONE;
-							curStatusPtr->status = ST_LINE_START;
-						}
-						
-						break;
-					}
-				}
-				
-				if ((vertex && !strcmp(curStatusPtr->_fixedNewVar.strParts[0], "vertex"))
-					|| (!vertex && !strcmp(curStatusPtr->_fixedNewVar.strParts[0], "fragment"))) {
-					curStatusPtr->_fixedNewVar.var = createVariable(VARTYPE_CONST);
-					
-					failure = resolveAttrib(&curStatusPtr->_fixedNewVar, vertex);
-				} else if (!strcmp(curStatusPtr->_fixedNewVar.strParts[0], "result")) {
-					curStatusPtr->_fixedNewVar.var = createVariable(VARTYPE_CONST);
-					
-					failure = resolveOutput(&curStatusPtr->_fixedNewVar, vertex);
-				} else {
-					curStatusPtr->_fixedNewVar.var = createVariable(VARTYPE_CONST);
-					
-					char **resolved = resolveParam(&curStatusPtr->_fixedNewVar, vertex, 1);
-					
-					if (!resolved) {
-						deleteVariable(&curStatusPtr->_fixedNewVar.var);
-						FAIL("Invalid value (implicit param?)");
-					}
-					failure = 0;
-					
-					for (char **resvd = resolved; *resvd; ++resvd) {
-						pushArray((sArray*)&curVarPtr->var->init, *resvd);
-					}
-					free(resolved);
-				}
-				
-				if (failure) {
-					deleteVariable(&curStatusPtr->_fixedNewVar.var);
-					FAIL("Invalid value (implicit attrib or output)");
-				}
-				
-				if (curStatusPtr->_fixedNewVar.strLen) {
-					if (!IS_SWIZZLE(curStatusPtr->_fixedNewVar.strParts[0]) || (curStatusPtr->_fixedNewVar.strLen > 1)) {
-						// Too many elements
-						deleteVariable(&curStatusPtr->_fixedNewVar.var);
-						FAIL("Invalid value");
-					}
-					
-					// Swizzle
-					int e = 0;
-					char *swiz = popArray((sArray*)&curStatusPtr->_fixedNewVar);
-					for (int i = 0; !e && (swiz[i] != '\0'); ++i) {
-						if (i > 3) {
-							e = 1;
-							break;
-						}
-						switch (swiz[i]) {
-						case 'r': case 'x':
-							curVarPtr->swizzle[i] = SWIZ_X;
-							break;
-						case 'g': case 'y':
-							curVarPtr->swizzle[i] = SWIZ_Y;
-							break;
-						case 'b': case 'z':
-							curVarPtr->swizzle[i] = SWIZ_Z;
-							break;
-						case 'a': case 'w':
-							curVarPtr->swizzle[i] = SWIZ_W;
-							break;
-						default:
-							e = 1; continue;
-						}
-					}
-					free(swiz);
-					if (e) {
-						deleteVariable(&curStatusPtr->_fixedNewVar.var);
-						FAIL("Invalid swizzle");
-					}
-				}
-				
-				pushArray((sArray*)&curStatusPtr->variables, curStatusPtr->_fixedNewVar.var);
-				curVarPtr->var = curStatusPtr->_fixedNewVar.var;
-				
-				freeArray((sArray*)&curStatusPtr->_fixedNewVar);
-				initArray((sArray*)&curStatusPtr->_fixedNewVar);
-				curStatusPtr->_fixedNewVar.var = NULL;
-			}
-			
-			if (curStatusPtr->curToken == TOK_COMMA) {
-				curStatusPtr->curValue.newInst.state = 0;
-				++curStatusPtr->curValue.newInst.curArg;
-				if (curStatusPtr->curValue.newInst.curArg >= MAX_OPERANDS) {
-					FAIL("Too many operands");
-				}
-			} else {
-				// Not a texture query instruction, since they are already took care of
-				if (INSTTEX(curStatusPtr->curValue.newInst.inst.type)) {
-					FAIL("Invalid texture instruction");
-				}
-				
-				pushArray((sArray*)&curStatusPtr->instructions, copyInstruction(&curStatusPtr->curValue.newInst.inst));
-				curStatusPtr->valueType = TYPE_NONE;
-				curStatusPtr->status = ST_LINE_START;
-			}
-			
 			break;
 			
 		case TOK_LSQBRACKET:
-			if ((curStatusPtr->curValue.newInst.state != 2) && (curStatusPtr->curValue.newInst.state != 9)) {
+			switch (curStatusPtr->curValue.newInst.state) {
+			case STATE_AFTER_VALID:
+				curStatusPtr->curValue.newInst.state = STATE_AFTER_VALID_LSQBR_START;
+				break;
+				
+			case STATE_AFTER_ELEMENT:
+				pushArray((sArray*)&curStatusPtr->_fixedNewVar, getToken(curStatusPtr));
+				curStatusPtr->curValue.newInst.state = STATE_LSQBR_START;
+				break;
+				
+			default:
 				FAIL("Invalid state");
 			}
-			
-			if (curStatusPtr->curValue.newInst.state == 9) {
-				pushArray((sArray*)&curStatusPtr->_fixedNewVar, getToken(curStatusPtr));
-			}
-			
-			++curStatusPtr->curValue.newInst.state;
-			
 			break;
 			
 		case TOK_RSQBRACKET:
-			if (curStatusPtr->curValue.newInst.state == 4) {
-				curStatusPtr->curValue.newInst.state = 5;
-			} else if (curStatusPtr->curValue.newInst.state == 11) {
+			switch (curStatusPtr->curValue.newInst.state) {
+			case STATE_AFTER_VALID_LSQBR_END:
+				curStatusPtr->curValue.newInst.state = STATE_AFTER_VALID_RSQBR;
+				break;
+				
+			case STATE_LSQBR_END:
 				pushArray((sArray*)&curStatusPtr->_fixedNewVar, getToken(curStatusPtr));
-				curStatusPtr->curValue.newInst.state = 9;
-			} else {
+				curStatusPtr->curValue.newInst.state = STATE_AFTER_ELEMENT;
+				break;
+				
+			default:
 				FAIL("Invalid state");
 			}
-			
 			break;
 			
-		case TOK_WHITESPACE:
-		case TOK_NEWLINE:
+		case TOK_LBRACE: /* TODO: { <signedFloat> *1-4 } */
+			switch (curStatusPtr->curValue.newInst.state) {
+			default:
+				FAIL("Invalid state");
+			}
+			break;
+			
+		case TOK_RBRACE: /* TODO: { <signedFloat> *1-4 } */
+			switch (curStatusPtr->curValue.newInst.state) {
+			default:
+				FAIL("Invalid state");
+			}
+			break;
+			
+		case TOK_END_OF_INST:
+			if (INSTTEX(curStatusPtr->curValue.newInst.inst.type)) {
+				if (curStatusPtr->curValue.newInst.curArg != 3) {
+					FAIL("Not enough arguments for texture instruction");
+				}
+				if (curStatusPtr->curValue.newInst.state != STATE_AFTER_TEXSAMPLER) {
+					FAIL("Invalid texture instruction");
+				}
+				
+				pushArray(
+					(sArray*)&curStatusPtr->instructions,
+					copyInstruction(&curStatusPtr->curValue.newInst.inst)
+				);
+				curStatusPtr->valueType = TYPE_NONE;
+				curStatusPtr->status = ST_LINE_START;
+				break;
+			}
+			
+			/* FALLTHROUGH */
+		case TOK_COMMA:
+			switch (curStatusPtr->curValue.newInst.state) {
+			case STATE_AFTER_ELEMENT:
+				if (INSTTEX(curStatusPtr->curValue.newInst.inst.type)
+				 && (curStatusPtr->curValue.newInst.curArg == 2)) {
+					if ((curStatusPtr->_fixedNewVar.strLen != 4) || (curStatusPtr->_fixedNewVar.strParts[1][0] != '[')
+					 || (curStatusPtr->_fixedNewVar.strParts[3][0] != ']')
+					 || strcmp(curStatusPtr->_fixedNewVar.strParts[0], "texture")) {
+						FAIL("Invalid texture instruction");
+					}
+					
+					unsigned int id = 0;
+					
+					char *idPtr = curStatusPtr->_fixedNewVar.strParts[2];
+					while ((*idPtr >= '0') && (*idPtr <= '9')) {
+						id = id * 10 + *idPtr - '0';
+						++idPtr;
+					}
+					if (*idPtr != '\0') {
+						FAIL("Invalid texture ID");
+					}
+					
+					if (id > MAX_TEX) {
+						FAIL("Invalid texture ID (ID too big)");
+					}
+					
+					if (!curStatusPtr->texVars[id]->size) {
+						pushArray((sArray*)curStatusPtr->texVars[id], strdup(curStatusPtr->_fixedNewVar.strParts[2]));
+					}
+					
+					curVarPtr->var = curStatusPtr->texVars[id];
+					
+					freeArray((sArray*)&curStatusPtr->_fixedNewVar);
+					initArray((sArray*)&curStatusPtr->_fixedNewVar);
+					
+					if (curStatusPtr->curToken != TOK_COMMA) {
+						FAIL("Invalid texture instruction");
+					}
+					
+					curStatusPtr->curValue.newInst.state = STATE_START;
+					++curStatusPtr->curValue.newInst.curArg;
+					break;
+				} else {
+					int failure;
+					curStatusPtr->_fixedNewVar.var = createVariable(VARTYPE_CONST);
+					
+					if ((vertex && !strcmp(curStatusPtr->_fixedNewVar.strParts[0], "vertex"))
+					 || (!vertex && !strcmp(curStatusPtr->_fixedNewVar.strParts[0], "fragment"))) {
+						failure = resolveAttrib(&curStatusPtr->_fixedNewVar, vertex);
+					} else if (!strcmp(curStatusPtr->_fixedNewVar.strParts[0], "result")) {
+						failure = resolveOutput(&curStatusPtr->_fixedNewVar, vertex);
+					} else {
+						char **resolved = resolveParam(&curStatusPtr->_fixedNewVar, vertex, 1);
+						
+						if (!resolved) {
+							deleteVariable(&curStatusPtr->_fixedNewVar.var);
+							FAIL("Invalid value (implicit param?)");
+						}
+						failure = 0;
+						
+						for (char **resvd = resolved; *resvd; ++resvd) {
+							pushArray((sArray*)&curStatusPtr->_fixedNewVar.var->init, *resvd);
+						}
+						free(resolved);
+					}
+					
+					if (failure) {
+						deleteVariable(&curStatusPtr->_fixedNewVar.var);
+						FAIL("Invalid value (implicit attrib or output)");
+					}
+					
+					if (curStatusPtr->_fixedNewVar.strLen) {
+						if (!IS_SWIZZLE(curStatusPtr->_fixedNewVar.strParts[0])
+						 || (curStatusPtr->_fixedNewVar.strLen > 1)) {
+							// Too many elements
+							deleteVariable(&curStatusPtr->_fixedNewVar.var);
+							FAIL("Invalid value");
+						}
+						
+						// Swizzle
+						int e = 0;
+						char *swiz = popArray((sArray*)&curStatusPtr->_fixedNewVar);
+						for (int i = 0; !e && (swiz[i] != '\0'); ++i) {
+							if (i > 3) {
+								e = 1;
+								break;
+							}
+							switch (swiz[i]) {
+							case 'r': case 'x':
+								curVarPtr->swizzle[i] = SWIZ_X;
+								break;
+							case 'g': case 'y':
+								curVarPtr->swizzle[i] = SWIZ_Y;
+								break;
+							case 'b': case 'z':
+								curVarPtr->swizzle[i] = SWIZ_Z;
+								break;
+							case 'a': case 'w':
+								curVarPtr->swizzle[i] = SWIZ_W;
+								break;
+							default:
+								e = 1; continue;
+							}
+						}
+						free(swiz);
+						if (e) {
+							deleteVariable(&curStatusPtr->_fixedNewVar.var);
+							FAIL("Invalid swizzle");
+						}
+					}
+					
+					pushArray((sArray*)&curStatusPtr->variables, curStatusPtr->_fixedNewVar.var);
+					curVarPtr->var = curStatusPtr->_fixedNewVar.var;
+					
+					freeArray((sArray*)&curStatusPtr->_fixedNewVar);
+					initArray((sArray*)&curStatusPtr->_fixedNewVar);
+					curStatusPtr->_fixedNewVar.var = NULL;
+				}
+				
+				/* FALLTHROUGH */
+			case STATE_AFTER_VALID:
+			case STATE_AFTER_VALID_RSQBR:
+			case STATE_AFTER_SWIZZLE:
+				if (curStatusPtr->curToken == TOK_COMMA) {
+					curStatusPtr->curValue.newInst.state = STATE_START;
+					++curStatusPtr->curValue.newInst.curArg;
+					if (curStatusPtr->curValue.newInst.curArg >= MAX_OPERANDS) {
+						FAIL("Too many operands");
+					}
+				} else {
+					if (INSTTEX(curStatusPtr->curValue.newInst.inst.type)) {
+						FAIL("Invalid texture instruction");
+					}
+					
+					pushArray(
+						(sArray*)&curStatusPtr->instructions,
+						copyInstruction(&curStatusPtr->curValue.newInst.inst)
+					);
+					curStatusPtr->valueType = TYPE_NONE;
+					curStatusPtr->status = ST_LINE_START;
+				}
+				
+				break;
+				
+			default:
+				FAIL("Invalid state");
+			}
 			break;
 			
 		default:
 			FAIL("Invalid token");
 		}
-		break; }
+		break;
+		
+#undef STATE_START
+#undef STATE_AFTER_SIGN
+#undef STATE_AFTER_VALID
+#undef STATE_AFTER_VALID_LSQBR
+#undef STATE_AFTER_VALID_LSQBRNUM
+#undef STATE_AFTER_VALID_RSQBR
+#undef STATE_AFTER_VALID_DOT
+#undef STATE_AFTER_ELEMENT
+#undef STATE_AFTER_DOT
+#undef STATE_AFTER_TEXSPLINT
+#undef STATE_AFTER_TEXSAMPLER
+#undef STATE_AFTER_NUMBER
+#undef STATE_LSQBR_START
+#undef STATE_LSQBR_ADDR
+#undef STATE_LSQBR_SIGN
+#undef STATE_LSQBR_END
+#undef STATE_AFTER_SWIZZLE
+	}
 		
 	case ST_OPTION:
 		switch (curStatusPtr->curToken) {

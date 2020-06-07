@@ -9,7 +9,15 @@
 #define FAIL(str) curStatusPtr->status = ST_ERROR; if (*error_msg) free(*error_msg); \
 		*error_msg = strdup(str); return
 void generateVariablePre(sCurStatus *curStatusPtr, int vertex, char **error_msg, sVariable *varPtr) {
+	(void)vertex;
+	
 	if (varPtr->type == VARTYPE_CONST) {
+		return;
+	} else if (varPtr->type == VARTYPE_ADDRESS) {
+		// To be on the safe side, use a struct with only an 'x' component
+		APPEND_OUTPUT("\t_structOnlyX ", 14)
+		APPEND_OUTPUT2(varPtr->names[0])
+		APPEND_OUTPUT(";\n", 2)
 		return;
 	}
 	
@@ -18,7 +26,6 @@ void generateVariablePre(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 	
 	int skipNL = 0;
 	switch (varPtr->type) {
-	case VARTYPE_ADDRESS:
 	case VARTYPE_ATTRIB:
 	case VARTYPE_OUTPUT:
 	case VARTYPE_PARAM:
@@ -66,6 +73,7 @@ void generateVariablePre(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 	case VARTYPE_TEMP:
 		break;
 		
+	case VARTYPE_ADDRESS:
 	case VARTYPE_ALIAS:
 	case VARTYPE_TEXTURE:
 	case VARTYPE_TEXTARGET:
@@ -112,7 +120,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		if (instPtr->vars[i].sign != 0) {                                                                  \
 			FAIL("Variable is not a valid masked destination register");                                   \
 		}                                                                                                  \
-		if (instPtr->vars[i].floatArrAddr != -1) {                                                         \
+		if (instPtr->vars[i].floatArrAddr != NULL) {                                                       \
 			FAIL("Variable is not a valid masked destination register");                                   \
 		}                                                                                                  \
 		for (int sw = 0; (sw < 3) && (SWIZ(i, sw + 1) != SWIZ_NONE); ++sw) {                               \
@@ -239,11 +247,9 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		} else {                                                  \
 			APPEND_OUTPUT2(instPtr->vars[i].var->names[0])        \
 		}                                                         \
-		if (instPtr->vars[i].floatArrAddr != -1) {                \
-			char buf[11];                                         \
-			sprintf(buf, "%d", instPtr->vars[i].floatArrAddr);    \
+		if (instPtr->vars[i].floatArrAddr != NULL) {              \
 			APPEND_OUTPUT("[", 1)                                 \
-			APPEND_OUTPUT2(buf)                                   \
+			APPEND_OUTPUT2(instPtr->vars[i].floatArrAddr)         \
 			APPEND_OUTPUT("]", 1)                                 \
 		}
 #define PUSH_PRE_SAT(p) \
@@ -388,32 +394,23 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		FINISH_INST(0)
 		
 	case INST_ARL:
-		// TODO
-		FAIL("ARBconv TODO: ARL");
-		break;
-		
-		/* Old version
-		if (!vertex) {
-			FAIL("Invalid instruction in fragment shaders");
-		}
 		ASSERT_COUNT(2)
+		if (!vertex) {
+			FAIL("Invalid instruction in fragment shader");
+		}
+		if (instPtr->vars[0].var->type != VARTYPE_ADDRESS) {
+			FAIL("Invalid ARL destination");
+		}
+		if ((SWIZ(0, 0) != SWIZ_X) || (SWIZ(0, 1) != SWIZ_NONE)) {
+			FAIL("Invalid address mask");
+		}
+		ASSERT_SCALSRC(1)
 		APPEND_OUTPUT("\t", 1)
-		PUSH_SCAL(0)
-		APPEND_OUTPUT(" = floor(", 9)
-		if (instPtr->vars[1].var->type != VARTYPE_ADDRESS) {
-			FAIL("Variable is not an address");
-		}
-		if ((SWIZ(1, 0) != SWIZ_X) || (SWIZ(1, 1) != SWIZ_NONE)) {
-			FAIL("Variable is not an address");
-		}
-		if (instPtr->vars[1].floatArrAddr != -1) {
-			FAIL("Variable is not an address");
-		}
-		APPEND_OUTPUT2(instPtr->vars[1].var->names[0])
-		APPEND_OUTPUT(".x", 2)
-		APPEND_OUTPUT(")", 1)
-		FINISH_INST
-		break; */
+		PUSH_VARNAME(0)
+		APPEND_OUTPUT(".x = int(floor(", 15)
+		PUSH_SCALSRC(1, 0)
+		APPEND_OUTPUT("))", 1)
+		FINISH_INST(0)
 		
 	case INST_CMP:
 		if (vertex) {
@@ -581,7 +578,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		
 	case INST_EXP: // Approximate
 		if (!vertex) {
-			FAIL("Invalid instruction in fragment shaders");
+			FAIL("Invalid instruction in fragment shader");
 		}
 		INST_SCALAR
 		APPEND_OUTPUT("\t", 1)
@@ -671,7 +668,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		
 	case INST_LOG: // Approximate
 		if (!vertex) {
-			FAIL("Invalid instruction in fragment shaders");
+			FAIL("Invalid instruction in fragment shader");
 		}
 		INST_SCALAR
 		APPEND_OUTPUT("\t", 1)
@@ -733,10 +730,10 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		APPEND_OUTPUT(" = ", 3)
 		PUSH_PRE_SAT(0)
 		APPEND_OUTPUT("max(", 4)
-		PUSH_VECTSRC(1)
+		PUSH_VARNAME(1)
 		PUSH_DSTMASK(0, 1)
 		APPEND_OUTPUT(", ", 2)
-		PUSH_VECTSRC(2)
+		PUSH_VARNAME(2)
 		PUSH_DSTMASK(0, 2)
 		APPEND_OUTPUT(")", 1)
 		PUSH_POSTSAT(0)
@@ -1030,6 +1027,8 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 #undef SWIZ
 }
 void generateVariablePst(sCurStatus *curStatusPtr, int vertex, char **error_msg, sVariable *varPtr) {
+	(void)vertex;
+	
 	if (varPtr->type != VARTYPE_OUTPUT) {
 		return;
 	}
