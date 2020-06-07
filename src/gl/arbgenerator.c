@@ -9,6 +9,8 @@
 #define FAIL(str) curStatusPtr->status = ST_ERROR; if (*error_msg) free(*error_msg); \
 		*error_msg = strdup(str); return
 void generateVariablePre(sCurStatus *curStatusPtr, int vertex, char **error_msg, sVariable *varPtr) {
+	(void)vertex;
+	
 	if (varPtr->type == VARTYPE_CONST) {
 		return;
 	} else if (varPtr->type == VARTYPE_ADDRESS) {
@@ -1025,6 +1027,8 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 #undef SWIZ
 }
 void generateVariablePst(sCurStatus *curStatusPtr, int vertex, char **error_msg, sVariable *varPtr) {
+	(void)vertex;
+	
 	if (varPtr->type != VARTYPE_OUTPUT) {
 		return;
 	}
