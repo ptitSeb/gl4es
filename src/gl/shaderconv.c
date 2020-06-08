@@ -1270,7 +1270,7 @@ const char* builtinAttribGLName(const char* name) {
   for(int i=0; i<n; ++i)
     if(!strcmp(name, builtin_attrib[i].name))
       return builtin_attrib[i].glname;
-  if(strncmp(name, gl4es_VertexAttrib, strlen(gl4es_VertexAttrib))) {
+  if(!strncmp(name, gl4es_VertexAttrib, strlen(gl4es_VertexAttrib))) {
     int l = strlen(gl4es_VertexAttrib);
     int n = 0;
     while(name[l]>='0' && name[l]<='9')
@@ -1286,7 +1286,7 @@ const char* builtinAttribInternalName(const char* name) {
   for(int i=0; i<n; ++i)
     if(!strcmp(name, builtin_attrib[i].glname))
       return builtin_attrib[i].name;
-  if(strncmp(name, gl_VertexAttrib, strlen(gl_VertexAttrib))) {
+  if(!strncmp(name, gl_VertexAttrib, strlen(gl_VertexAttrib))) {
     int l = strlen(gl_VertexAttrib);
     int n = 0;
     while(name[l]>='0' && name[l]<='9')
