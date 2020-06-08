@@ -276,8 +276,9 @@ void fpe_oldprogram(fpe_state_t* state) {
     // There is an old program (either vtx or frg or both)
     oldprogram_t* old_vtx = getOldProgram(state->vertex_prg_id);
     oldprogram_t* old_frg = getOldProgram(state->fragment_prg_id);
+
+    glstate->fpe->vert = gl4es_glCreateShader(GL_VERTEX_SHADER);
     if(state->vertex_prg_id) {
-        glstate->fpe->vert = gl4es_glCreateShader(GL_VERTEX_SHADER);
         gl4es_glShaderSource(glstate->fpe->vert, 1, fpe_CustomVertexShader(old_vtx->shader->source, state), NULL);
         gl4es_glCompileShader(glstate->fpe->vert);
         gl4es_glGetShaderiv(glstate->fpe->vert, GL_COMPILE_STATUS, &status);
@@ -290,10 +291,20 @@ void fpe_oldprogram(fpe_state_t* state) {
                 printf("LIBGL: FPE ARB Vertex program compile failed: %s\n", buff);
         }
         getShader(glstate->fpe->vert)->old = old_vtx;
-        gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->vert);
+    } else {
+        // use fragment need to build default vertex shader
+        gl4es_glShaderSource(glstate->fpe->vert, 1, fpe_VertexShader(&old_frg->shader->need, state), NULL);
+        gl4es_glCompileShader(glstate->fpe->vert);
+        gl4es_glGetShaderiv(glstate->fpe->vert, GL_COMPILE_STATUS, &status);
+        if(status!=GL_TRUE) {
+            char buff[1000];
+            gles_glGetShaderInfoLog(glstate->fpe->vert, 1000, NULL, buff);
+            printf("LIBGL: FPE ARB Default Vertex program compile failed: %s\n", buff);
+        }
     }
+    gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->vert);
+    glstate->fpe->frag = gl4es_glCreateShader(GL_FRAGMENT_SHADER);
     if(state->fragment_prg_id) {
-        glstate->fpe->frag = gl4es_glCreateShader(GL_FRAGMENT_SHADER);
         gl4es_glShaderSource(glstate->fpe->frag, 1, fpe_CustomFragmentShader(old_frg->shader->source, state), NULL);
         gl4es_glCompileShader(glstate->fpe->frag);
         gl4es_glGetShaderiv(glstate->fpe->frag, GL_COMPILE_STATUS, &status);
@@ -306,36 +317,18 @@ void fpe_oldprogram(fpe_state_t* state) {
                 printf("LIBGL: FPE ARB Fragment program compile failed: %s\n", buff);
         }
         getShader(glstate->fpe->frag)->old = old_frg;
-        gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->frag);
-    }
-    if(!state->vertex_prg_id) {
-        // use fragment need to build default vertex shader
-        GLint status;
-        glstate->fpe->vert = gl4es_glCreateShader(GL_VERTEX_SHADER);
-        gl4es_glShaderSource(glstate->fpe->vert, 1, fpe_VertexShader(&old_frg->shader->need, state), NULL);
-        gl4es_glCompileShader(glstate->fpe->vert);
-        gl4es_glGetShaderiv(glstate->fpe->vert, GL_COMPILE_STATUS, &status);
-        if(status!=GL_TRUE) {
-            char buff[1000];
-            gl4es_glGetShaderInfoLog(glstate->fpe->vert, 1000, NULL, buff);
-            printf("LIBGL: FPE ARB Default Vertex program compile failed: %s\n", buff);
-        }
-        gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->vert);
-    }
-    if(!state->fragment_prg_id) {
+    } else {
         // use vertex need to build default fragment shader
-        GLint status;
-        glstate->fpe->vert = gl4es_glCreateShader(GL_FRAGMENT_SHADER);
         gl4es_glShaderSource(glstate->fpe->frag, 1, fpe_FragmentShader(&old_vtx->shader->need, state), NULL);
         gl4es_glCompileShader(glstate->fpe->frag);
         gl4es_glGetShaderiv(glstate->fpe->frag, GL_COMPILE_STATUS, &status);
         if(status!=GL_TRUE) {
             char buff[1000];
-            gl4es_glGetShaderInfoLog(glstate->fpe->frag, 1000, NULL, buff);
+            gles_glGetShaderInfoLog(glstate->fpe->frag, 1000, NULL, buff);
             printf("LIBGL: FPE ARB Default Fragment program compile failed: %s\n", buff);
         }
-        gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->frag);
     }
+    gl4es_glAttachShader(glstate->fpe->prog, glstate->fpe->frag);
     // Ok, and now link the program
     gl4es_glLinkProgram(glstate->fpe->prog);
     gl4es_glGetProgramiv(glstate->fpe->prog, GL_LINK_STATUS, &status);
@@ -344,6 +337,7 @@ void fpe_oldprogram(fpe_state_t* state) {
         gles_glGetProgramInfoLog(glstate->fpe->prog, 1000, NULL, buff);
         printf("LIBGL: FPE ARB Program link failed: %s\n", buff);
     }
+    DBG(printf("Created program %d, with vertex=%d (old=%d) fragment=%d (old=%d), alpha=%d/%d\n", glstate->fpe->prog, glstate->fpe->vert, state->vertex_prg_id, glstate->fpe->frag, state->fragment_prg_id, state->alphatest, state->alphafunc);)
 }
 
 // ********* Shader stuffs handling *********
