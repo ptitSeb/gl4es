@@ -264,7 +264,7 @@ char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int
 			APPEND_OUTPUT(
 				"\tgl_FragColor.rgb = mix(gl_Fog.color.rgb, gl_Color.rgb, "
 				"clamp(exp(-(gl_Fog.density * gl_FogFragCoord)*(gl_Fog.density * gl_FogFragCoord)), 0., 1.)",
-				136
+				146
 			)
 			break;
 		case FOG_LINEAR:
