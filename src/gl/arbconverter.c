@@ -255,23 +255,23 @@ char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int
 			break;
 		case FOG_EXP:
 			APPEND_OUTPUT(
-				"\tgl_FragColor.rgb = mix(gl_Fog.color.rgb, gl_Color.rgb, "
-				"clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0., 1.)",
-				109
+				"\tgl_FragColor.rgb = mix(gl_Fog.color.rgb, gl_FragColor.rgb, "
+				"clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0., 1.));\n",
+				116
 			)
 			break;
 		case FOG_EXP2:
 			APPEND_OUTPUT(
-				"\tgl_FragColor.rgb = mix(gl_Fog.color.rgb, gl_Color.rgb, "
-				"clamp(exp(-(gl_Fog.density * gl_FogFragCoord)*(gl_Fog.density * gl_FogFragCoord)), 0., 1.)",
-				146
+				"\tgl_FragColor.rgb = mix(gl_Fog.color.rgb, gl_FragColor.rgb, "
+				"clamp(exp(-(gl_Fog.density * gl_FogFragCoord)*(gl_Fog.density * gl_FogFragCoord)), 0., 1.));\n",
+				153
 			)
 			break;
 		case FOG_LINEAR:
 			APPEND_OUTPUT(
-				"\tgl_FragColor.rgb = mix(gl_Fog.color.rgb, gl_Color.rgb, "
-				"clamp((gl_Fog.end - gl_FogFragCoord) * gl_Fog.scale, 0., 1.)",
-				116
+				"\tgl_FragColor.rgb = mix(gl_Fog.color.rgb, gl_FragColor.rgb, "
+				"clamp((gl_Fog.end - gl_FogFragCoord) * gl_Fog.scale, 0., 1.));\n",
+				123
 			)
 			break;
 		}
