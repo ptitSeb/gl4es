@@ -275,6 +275,7 @@ void initStatus(sCurStatus* curStatus, const char* code) {
 	curStatus->varsMap = kh_init(variables);
 	initArray((sArray*)&curStatus->variables);
 	initArray((sArray*)&curStatus->instructions);
+	curStatus->fogType = FOG_NONE;
 	
 	initArray((sArray*)&curStatus->_fixedNewVar);
 	curStatus->_fixedNewVar.var = NULL;
