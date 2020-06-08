@@ -632,7 +632,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		PUSH_VESRCCT(0, 2)
 		APPEND_OUTPUT(" < 0.) || (", 11)
 		PUSH_VESRCCT(0, 3)
-		APPEND_OUTPUT(" < 0.)) return;\n", 16);
+		APPEND_OUTPUT(" < 0.)) discard;\n", 16);
 		break;
 		
 	case INST_LG2: // "Exact"
