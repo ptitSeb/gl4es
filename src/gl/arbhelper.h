@@ -301,9 +301,10 @@ typedef struct _sCurStatus {
 	sVariable    *texCUBE;
 	sVariable    *texRECT;
 	
-	khash_t(variables)    *varsMap;
-	sVariables            variables;
-	sInstructions         instructions;
+	khash_t(variables) *varsMap;
+	sVariables         variables;
+	sInstructions      instructions;
+	enum { FOG_NONE, FOG_EXP, FOG_EXP2, FOG_LINEAR } fogType;
 } sCurStatus;
 
 void initStatus(sCurStatus* curStatus, const char* code);

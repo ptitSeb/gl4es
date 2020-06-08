@@ -250,6 +250,31 @@ char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int
 		if (hasFogFragCoord) {
 			APPEND_OUTPUT("\tgl_FogFragCoord = gl4es_FogFragCoordTemp.x;\n", 45)
 		}
+		switch (curStatus.fogType) {
+		case FOG_NONE:
+			break;
+		case FOG_EXP:
+			APPEND_OUTPUT(
+				"\tgl_FragColor.rgb = mix(gl_Fog.color.rgb, gl_Color.rgb, "
+				"clamp(exp(-gl_Fog.density * gl_FogFragCoord), 0., 1.)",
+				109
+			)
+			break;
+		case FOG_EXP2:
+			APPEND_OUTPUT(
+				"\tgl_FragColor.rgb = mix(gl_Fog.color.rgb, gl_Color.rgb, "
+				"clamp(exp(-(gl_Fog.density * gl_FogFragCoord)*(gl_Fog.density * gl_FogFragCoord)), 0., 1.)",
+				136
+			)
+			break;
+		case FOG_LINEAR:
+			APPEND_OUTPUT(
+				"\tgl_FragColor.rgb = mix(gl_Fog.color.rgb, gl_Color.rgb, "
+				"clamp((gl_Fog.end - gl_FogFragCoord) * gl_Fog.scale, 0., 1.)",
+				116
+			)
+			break;
+		}
 		APPEND_OUTPUT("}\n", 2)
 	} while (0);
 	

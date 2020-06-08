@@ -3589,8 +3589,21 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 		case TOK_END_OF_INST:
 			if (!strcmp(curStatusPtr->curValue.newOpt.optName, "ARB_precision_hint_fastest")) {
 				// Nothing to do
-			} else if (!strcmp(curStatusPtr->curValue.newOpt.optName, "ARB_fog_linear")) {
-				// To do?
+			} else if (!vertex && !strcmp(curStatusPtr->curValue.newOpt.optName, "ARB_fog_exp")) {
+				if (curStatusPtr->fogType != FOG_NONE) {
+					FAIL("Only one of ARB_fog_exp, ARB_fog_exp2 or ARB_fog_linear must be enabled in an ARB shader");
+				}
+				curStatusPtr->fogType = FOG_EXP;
+			} else if (!vertex && !strcmp(curStatusPtr->curValue.newOpt.optName, "ARB_fog_exp2")) {
+				if (curStatusPtr->fogType != FOG_NONE) {
+					FAIL("Only one of ARB_fog_exp, ARB_fog_exp2 or ARB_fog_linear must be enabled in an ARB shader");
+				}
+				curStatusPtr->fogType = FOG_EXP2;
+			} else if (!vertex && !strcmp(curStatusPtr->curValue.newOpt.optName, "ARB_fog_linear")) {
+				if (curStatusPtr->fogType != FOG_NONE) {
+					FAIL("Only one of ARB_fog_exp, ARB_fog_exp2 or ARB_fog_linear must be enabled in an ARB shader");
+				}
+				curStatusPtr->fogType = FOG_LINEAR;
 			} else {
 				FAIL("Unknown option");
 			}
