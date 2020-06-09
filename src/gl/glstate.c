@@ -54,6 +54,13 @@ static void free_texture(gltexture_t *tex)
     free(tex);
 }
 
+void CopyGLEShard(void* dst, const void* src)
+{
+    if(!dst || !src)
+        return;
+    memcpy(((glstate_t*)dst)->gleshard, ((const glstate_t*)src)->gleshard, sizeof(gleshard_t));
+}
+
 void* NewGLState(void* shared_glstate, int es2only) {
     glstate_t *glstate = (shared_glstate!=DEFAULT_STATE)?((glstate_t*)calloc(1, sizeof(glstate_t))):&default_glstate;
 #if defined(AMIGAOS4) || defined(__EMSCRIPTEN__)

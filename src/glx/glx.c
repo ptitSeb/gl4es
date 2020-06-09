@@ -252,6 +252,7 @@ int globales2 = 0;
 void* NewGLState(void* shared_glstate, int es2only);
 void DeleteGLState(void* oldstate);
 void ActivateGLState(void* new_glstate);
+void CopyGLEShard(void* dst, const void* src);
 
 typedef struct {
     int drawable;
@@ -1134,8 +1135,9 @@ Bool gl4es_glXMakeCurrent(Display *display,
     }
     if(context && glxContext && context->drawable==drawable && context->eglSurface==eglSurface) {
         gl4es_saveCurrentFBO();
-        glxContext = context;
+        CopyGLEShard(context->glstate, glxContext->glstate);
         ActivateGLState(context->glstate);
+        glxContext = context;
         gl4es_restoreCurrentFBO();
 
         DBG(printf(" => True\n");)
@@ -1144,8 +1146,11 @@ Bool gl4es_glXMakeCurrent(Display *display,
         return true;
     }
 
-    if(glxContext && glxContext->glstate)
+    void* old_glstate = NULL;
+    if(glxContext && glxContext->glstate) {
         gl4es_saveCurrentFBO();
+        old_glstate = glxContext->glstate;
+    }
 
     if(context) {
         if(context->drawable==drawable && context->eglSurface) {
