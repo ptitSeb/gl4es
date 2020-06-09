@@ -167,9 +167,12 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
     if(!shad) shad = (char*)malloc(shad_cap);
     // state can be NULL, so provide a 0 default
     fpe_state_t default_state = {0};
+    int is_default = !!need;
     if(!state) state = &default_state;
     int lighting = state->lighting;
     int twosided = state->twosided && lighting;
+    if(need && ((need->need_color>1) || (need->need_secondary>1)))
+        twosided = 1;
     int light_separate = state->light_separate && lighting;
     int secondary = (state->colorsum && !(lighting && light_separate)) || fpe_texenvSecondary(state) || (need && need->need_secondary);
     int fog = state->fog || (need && need->need_fogcoord);
@@ -215,7 +218,7 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
             headers+=CountLine(buff);
         }
     }
-    if(!need || (need && need->need_color)) {
+    if(!is_default) {
         ShadAppend("varying vec4 Color;\n");  // might be unused...
         headers++;
     }
@@ -315,16 +318,18 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
             }
         }
     }
-    if(twosided) {
-        ShadAppend("varying vec4 BackColor;\n");
-        headers++;
-    }
-    if(light_separate || secondary) {
-        ShadAppend("varying vec4 SecColor;\n");
-        headers++;
+    if(!is_default) {
         if(twosided) {
-            ShadAppend("varying vec4 SecBackColor;\n");
+            ShadAppend("varying vec4 BackColor;\n");
             headers++;
+        }
+        if(light_separate || secondary) {
+            ShadAppend("varying vec4 SecColor;\n");
+            headers++;
+            if(twosided) {
+                ShadAppend("varying vec4 SecBackColor;\n");
+                headers++;
+            }
         }
     }
     if(fog) {
@@ -381,15 +386,35 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
     ShadAppend("gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n");
     // initial Color / lighting calculation
     if(!lighting) {
-        if(!need || (need && need->need_color))
-            ShadAppend("Color = gl_Color;\n");
-        if(secondary) {
-            ShadAppend("SecColor = gl_SecondaryColor;\n");
+        if(is_default && need) {
+            if(need->need_color>=1)
+                ShadAppend("gl_FrontColor = gl_Color;\n");
+            if(need->need_color==2)
+                ShadAppend("gl_BackColor = gl_Color;\n");
+            if(need->need_secondary>=1)
+                ShadAppend("gl_FrontSecondaryColor = gl_SecondaryColor;\n");
+            if(need->need_secondary==2)
+                ShadAppend("gl_BackSecondaryColor = gl_SecondaryColor;\n");
+        } else {
+            if(!need || (need && need->need_color))
+                ShadAppend("Color = gl_Color;\n");
+            if(secondary) {
+                ShadAppend("SecColor = gl_SecondaryColor;\n");
+            }
         }
     } else {
         if(comments) {
             sprintf(buff, "// ColorMaterial On/Off=%d Front = %d Back = %d\n", color_material, state->cm_front_mode, state->cm_back_mode);
             ShadAppend(buff);
+        }
+        if(is_default && need) {
+            ShadAppend("vec4 Color;\n");
+            if(twosided)
+                ShadAppend("vec4 BackColor\n");
+            if(secondary)
+                ShadAppend("vec4 SecColor\n;");
+            if(secondary && twosided)
+                ShadAppend("vec4 SecBackColor\n");
         }
         // material emission
         char fm_emission[60], fm_ambient[60], fm_diffuse[60], fm_specular[60];
@@ -559,6 +584,16 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
             if(twosided) {
                 ShadAppend("SecBackColor.rgb = clamp(SecBackColor.rgb, 0., 1.);\n");
             }
+        }
+        if(is_default && need) {
+            if(need->need_color>0)
+                ShadAppend("gl_FrontColor = Color;\n");
+            if(need->need_color>1)
+                ShadAppend("gl_BackColor = BackColor;\n");
+            if(need->need_secondary>0)
+                ShadAppend("gl_FrontSecondaryColor = SecColor;\n");
+            if(need->need_secondary>1)
+                ShadAppend("gl_BackSecondaryColor = SecBackColor;\n");
         }
     }
     // calculate texture coordinates
