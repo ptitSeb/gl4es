@@ -54,9 +54,9 @@ GLboolean isDXTc(GLenum format) {
         case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT:
         case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT:
         case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT:
-            return true;
+            return 1;
     }
-    return false;
+    return 0;
 }
 
 GLboolean isDXTcSRGB(GLenum format) {
@@ -65,9 +65,22 @@ GLboolean isDXTcSRGB(GLenum format) {
         case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT:
         case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT:
         case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT:
-            return true;
+            return 1;
     }
-    return false;
+    return 0;
+}
+
+static GLboolean isDXTcAlpha(GLenum format) {
+    switch (format) {
+        case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
+        case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:
+        case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
+        case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT:
+        case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT:
+        case GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT:
+            return 1;
+    }
+    return 0;
 }
 
 GLboolean isNotCompressed(GLenum format) {
@@ -263,12 +276,16 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
                     type = GL_UNSIGNED_BYTE;
                 }
             }
+        } else {
+            if(isDXTcAlpha(internalformat)) {
+                simpleAlpha = complexAlpha = 1;
+            }
         }
         int oldalign;
         gl4es_glGetIntegerv(GL_UNPACK_ALIGNMENT, &oldalign);
         if (oldalign!=1) 
             gl4es_glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        GLenum new_intformat = (simpleAlpha||complexAlpha)?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB;
+        GLenum new_intformat = (format==GL_RGBA)?GL_COMPRESSED_RGBA:GL_COMPRESSED_RGB;
         if(level && bound && bound->valid)
             new_intformat = (bound->format==GL_RGB)?GL_COMPRESSED_RGB:GL_COMPRESSED_RGBA;
         DBG(printf(" => internalformat=%s (Alpha=%d/%d), %dx%d %s/%s\n\n", PrintEnum(new_intformat), simpleAlpha, complexAlpha, width, height, PrintEnum(format), PrintEnum(type));)
