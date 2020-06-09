@@ -803,22 +803,24 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
     } else {
         EGLint configAttribs[] = {
 #ifdef PANDORA
-            EGL_RED_SIZE, (config->drawableType)==GLX_PIXMAP_BIT?config->redBits:5,
-            EGL_GREEN_SIZE, (config->drawableType)==GLX_PIXMAP_BIT?config->greenBits:6,
-            EGL_BLUE_SIZE, (config->drawableType)==GLX_PIXMAP_BIT?config->blueBits:5,
-            EGL_ALPHA_SIZE, (config->drawableType)==GLX_PIXMAP_BIT?config->alphaBits:0,
+            EGL_RED_SIZE, (config->drawableType==GLX_PIXMAP_BIT)?config->redBits:5,
+            EGL_GREEN_SIZE, (config->drawableType==GLX_PIXMAP_BIT)?config->greenBits:6,
+            EGL_BLUE_SIZE, (config->drawableType==GLX_PIXMAP_BIT)?config->blueBits:5,
+            EGL_ALPHA_SIZE, (config->drawableType==GLX_PIXMAP_BIT)?config->alphaBits:0,
+            EGL_DEPTH_SIZE, (globals4es.usefb)?24:config->depthBits,
+            EGL_STENCIL_SIZE, (globals4es.usefb)?8:config->stencilBits,
 #else
             EGL_RED_SIZE, config->redBits,
             EGL_GREEN_SIZE, config->greenBits,
             EGL_BLUE_SIZE, config->blueBits,
             EGL_ALPHA_SIZE, (hardext.eglnoalpha)?0:config->alphaBits,
-#endif
             EGL_DEPTH_SIZE, config->depthBits,
             EGL_STENCIL_SIZE, config->stencilBits,
+#endif
             EGL_SAMPLES, config->multiSampleSize,
             EGL_SAMPLE_BUFFERS, config->nMultiSampleBuffers,
             EGL_RENDERABLE_TYPE, (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT,
-            EGL_SURFACE_TYPE, (config->drawableType==GLX_PIXMAP_BIT)?EGL_PIXMAP_BIT:EGL_WINDOW_BIT,
+            EGL_SURFACE_TYPE, globals4es.usepbuffer?EGL_PBUFFER_BIT:((config->drawableType==GLX_PIXMAP_BIT)?EGL_PIXMAP_BIT:(globals4es.usepbuffer?EGL_PBUFFER_BIT:(EGL_WINDOW_BIT | EGL_PBUFFER_BIT))),
             EGL_NONE
         };
         if (globals4es.usefb)
@@ -891,7 +893,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
         egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[fake->eglconfigIdx], EGL_SAMPLE_BUFFERS, &fake->samplebuffers);
         egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[fake->eglconfigIdx], EGL_MIN_SWAP_INTERVAL, &minswap);
         egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[fake->eglconfigIdx], EGL_MAX_SWAP_INTERVAL, &maxswap);
-        DBG(printf(" => return %p (context->shared=%p)\n", fake, fake->shared);)
+        DBG(printf(" => return %p (eglContext=%p, context->shared=%p)\n", fake, fake->eglContext, fake->shared);)
         return fake;
     }
 }
