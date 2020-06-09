@@ -877,6 +877,9 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         else if(internalformat==GL_RGB || internalformat==3 || internalformat==GL_RGB8)
             internalformat = GL_RGB5;
     }
+    // don't remove Alpha channel if it seems needed on internal compressed texture, even if asked...
+    if(internalformat==GL_COMPRESSED_RGB && format==GL_RGBA)
+        internalformat=GL_COMPRESSED_RGBA;
 
     if (rtarget == GL_PROXY_TEXTURE_2D) {
         int max1=hardext.maxsize;
