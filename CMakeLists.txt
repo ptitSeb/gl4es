@@ -9,6 +9,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 link_directories(${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 option(PANDORA "Set to ON if targeting an OpenPandora device" ${PANDORA})
+option(PYRA "Set to ON if targeting an Dragonbox Pyra device" ${PYRA})
 option(BCMHOST "Set to ON if targeting an RPi(2) device" ${BCMHOST})
 option(ODROID "Set to ON if targeting an ODroid device" ${ODROID})
 option(CHIP "Set to ON if targeting an C.H.I.P. device" ${CHIP})
@@ -48,6 +49,14 @@ endif()
 if(STATICLIB)
     add_definitions(-DSTATICLIB)
 endif(STATICLIB)
+
+# Pyra
+if(PYRA)
+    add_definitions(-DPYRA)
+    #add_definitions(-DTEXSTREAM)
+    add_definitions(-mcpu=cortex-a15 -mfpu=neon-vfpu4 -mfloat-abi=hard -ftree-vectorize -fsingle-precision-constant -ffast-math)
+    set(NO_GBM ON)
+endif()
 
 # Raspberry PI
 if(BCMHOST)

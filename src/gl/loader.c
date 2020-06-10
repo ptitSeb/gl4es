@@ -98,7 +98,7 @@ void *open_lib(const char **names, const char *override) {
 
     char path_name[PATH_MAX + 1];
     int flags = RTLD_LOCAL | RTLD_NOW;
-#ifdef RTLD_DEEPBIND
+#if defined(RTLD_DEEPBIND) && !defined(PYRA)
     // note: breaks address sanitizer
     flags |= RTLD_DEEPBIND;
 #endif
