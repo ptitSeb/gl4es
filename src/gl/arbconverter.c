@@ -57,7 +57,7 @@ char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int
 	
 	ARBCONV_DBG_HEAVY(printf("Generating code for:\n%s\n", codeStart);)
 	
-	sCurStatus curStatus;
+	sCurStatus curStatus = {0};
 	initStatus(&curStatus, codeStart);
 	readNextToken(&curStatus);
 	if (curStatus.curToken != TOK_NEWLINE) {
@@ -274,6 +274,9 @@ char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int
 				123
 			)
 			break;
+		}
+		if(curStatus.position_invariant) {
+			APPEND_OUTPUT2("\tgl_Position = ftransform();\n;")
 		}
 		APPEND_OUTPUT("}\n", 2)
 	} while (0);

@@ -3597,6 +3597,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 				curStatusPtr->fogType = FOG_EXP2;
 			} else if (!vertex && !strcmp(curStatusPtr->curValue.newOpt.optName, "ARB_fog_linear")) {
 				curStatusPtr->fogType = FOG_LINEAR;
+			} else if (vertex && !strcmp(curStatusPtr->curValue.newOpt.optName, "ARB_position_invariant")) {
+				curStatusPtr->position_invariant = 1;
 			} else {
 				FAIL("Unknown option");
 			}

@@ -305,6 +305,7 @@ typedef struct _sCurStatus {
 	sVariables         variables;
 	sInstructions      instructions;
 	enum { FOG_NONE, FOG_EXP, FOG_EXP2, FOG_LINEAR } fogType;
+	int			position_invariant;
 } sCurStatus;
 
 void initStatus(sCurStatus* curStatus, const char* code);
