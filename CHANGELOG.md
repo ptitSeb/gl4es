@@ -3,6 +3,18 @@ Version history
 ##### Current version
 * Fixed some regression, and foobillard++ is working fine now
 * Set default GL version to 2.1 (instead of 2.0) for GLES2.0 backend
+* Added ARB_vertex_program and ARB_fragment_program
+* Improved fpe with more compatibility fixes
+* Improved Handling of DXTc textures
+* Improve handling of partialy mipmap'd textures
+* Added PYRA Profile
+* Added support for Texture LOD access in Fragment Shaders
+* Increased maxumum Texture Unit support to 16 (from 8)
+* Added support for program without Vertex Shader
+* Some fixes for program that switch GLX Context frequently.
+* Fixes and improvements in fpe_shaders (less array access)
+* Added support for Clipping Plane in custom shaders (help OpenMW water reflexion)
+* Added support for multiple FBO attachement (if hardware support it)
 
 ##### v1.1.2
 * Improved a bit the merger (wich merge subsequent `glBegin(...)`/`glEnd()`) efficiency
