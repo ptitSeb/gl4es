@@ -161,11 +161,17 @@ void gl4es_glProgramStringARB(GLenum target, GLenum format, GLsizei len, const G
     if (!old->shader->source) {
         DBG(printf("Error with ARB->GLSL conversion\n");)
         errorShim(GL_INVALID_OPERATION);
+        if (glstate->glsl->error_msg) free(glstate->glsl->error_msg);
+        glstate->glsl->error_msg = strdup("Error with ARB->GLSL conversion");
+        glstate->glsl->error_ptr = 0;
         return;
     }
     if (!old->shader->converted) {
         DBG(printf("Error with GLSL->GLSL:ES conversion\n");)
         errorShim(GL_INVALID_OPERATION);
+        if (glstate->glsl->error_msg) free(glstate->glsl->error_msg);
+        glstate->glsl->error_msg = strdup("Error with GLSL->GLSL:ES conversion");
+        glstate->glsl->error_ptr = 0;
         return;
     }
     gl4es_glCompileShader(old->shader->id);
@@ -174,6 +180,9 @@ void gl4es_glProgramStringARB(GLenum target, GLenum format, GLsizei len, const G
     if(res!=GL_TRUE) {
         DBG(printf("Error with Compile shader\n");)
         errorShim(GL_INVALID_OPERATION);
+        if (glstate->glsl->error_msg) free(glstate->glsl->error_msg);
+        glstate->glsl->error_msg = strdup("Error with Compile shader");
+        glstate->glsl->error_ptr = 0;
         return;
     }
 }
