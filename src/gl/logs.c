@@ -24,7 +24,7 @@ void LogFPrintf(FILE *fp,const char *fmt,...)
 	#ifdef ANDROID
 	// also on logcat
 	__android_log_vprint(ANDROID_LOG_INFO, "LIBGL", fmt, args);
-	#else
+	#endif
 	vfprintf(fp,fmt,args);
 	va_end(args);
 }
