@@ -200,6 +200,15 @@ static const char* gl4es_FogParametersSource =
 "    mediump float scale;\n"   // Derived:   1.0 / (end - start) 
 "};\n"
 "uniform gl_FogParameters gl_Fog;\n";
+static const char* gl4es_FogParametersSourceHighp =
+"struct gl_FogParameters {\n"
+"    lowp vec4 color;\n"
+"    mediump float density;\n"
+"    highp   float start;\n"
+"    highp   float end;\n"
+"    highp   float scale;\n"   // Derived:   1.0 / (end - start) 
+"};\n"
+"uniform gl_FogParameters gl_Fog;\n";
 
 static const char* gl4es_texenvcolorSource =
 "uniform vec4 gl_TextureEnvColor[gl_MaxTextureUnits];\n";
@@ -1004,7 +1013,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_Point", "_gl4es_Point");
   if(strstr(Tmp, "gl_FogParameters") || strstr(Tmp, "gl_Fog"))
     {
-      Tmp = InplaceInsert(GetLine(Tmp, headline), gl4es_FogParametersSource, Tmp, &tmpsize);
+      Tmp = InplaceInsert(GetLine(Tmp, headline), hardext.highp?gl4es_FogParametersSourceHighp:gl4es_FogParametersSource, Tmp, &tmpsize);
       headline+=CountLine(gl4es_FogParametersSource);
       Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FogParameters", "_gl4es_FogParameters");
     }

@@ -1373,7 +1373,7 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
                 sprintf(buff, "%s float FogF = clamp(exp(-(gl_Fog.density * fog_c)*(gl_Fog.density * fog_c)), 0., 1.);\n", fogp);
                 break;
             case FPE_FOG_LINEAR:
-                sprintf(buff, "%s float FogF = clamp((gl_Fog.end - fog_c) / (gl_Fog.end - gl_Fog.start), 0., 1.);\n", fogp);
+                sprintf(buff, "%s float FogF = clamp((gl_Fog.end - fog_c) %s, 0., 1.);\n", fogp, hardext.highp?"* gl_Fog.scale":"/ (gl_Fog.end - gl_Fog.start)");
                 break;
         }
         ShadAppend(buff);
