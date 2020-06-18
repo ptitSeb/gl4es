@@ -1011,6 +1011,10 @@ void *gl4es_GetProcAddress(const char *name) {
         _EX(glGetProgramivARB);
         _EX(glGetProgramStringARB);
         _EX(glIsProgramARB);
+
+        // GL_EXT_program_parameters
+        _EX(glProgramEnvParameters4fvEXT)
+        _EX(glProgramLocalParameters4fvEXT)
     }
     DBG(printf("NULL\n");)
     if (!globals4es.silentstub) LOGD("GL4ES GetProcAddress: %s not found.\n", name);

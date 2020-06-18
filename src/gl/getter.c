@@ -201,6 +201,7 @@ void BuildExtensionsList() {
             strcat(glstate->extensions,
                 "GL_ARB_vertex_program "
                 "GL_ARB_fragment_program "
+                "GL_EXT_program_parameters "
                 );
         }
         if(hardext.prgbin_n) {

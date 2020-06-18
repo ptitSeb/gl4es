@@ -772,6 +772,58 @@ GLboolean gl4es_glIsProgramARB(GLuint program) {
     return (k==kh_end(glstate->glsl->oldprograms))?GL_FALSE:GL_TRUE;
 }
 
+
+void gl4es_glProgramEnvParameters4fvEXT(GLenum target, GLuint index, GLsizei count, const GLfloat *params)
+{
+    DBG(printf("glProgramEnvParameters4fvEXT(%s, %u, %i, %p)\n", PrintEnum(target), index, count, params);)
+    float *f = NULL;
+    int nmax = 0;
+    switch(target) {
+        case GL_VERTEX_PROGRAM_ARB:
+            f = glstate->glsl->vtx_env_params+index*4;
+            nmax = MAX_VTX_PROG_ENV_PARAMS;
+            break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            f = glstate->glsl->frg_env_params+index*4;
+            nmax = MAX_FRG_PROG_ENV_PARAMS;
+            break;
+        default:
+            errorShim(GL_INVALID_ENUM);
+    }
+    if(f && index+count<=nmax && count>=0) {
+        noerrorShimNoPurge();
+        memcpy(f, params, count*4*sizeof(float));
+    } else
+        errorShim(GL_INVALID_VALUE);
+}
+
+void gl4es_glProgramLocalParameters4fvEXT(GLenum target, GLuint index, GLsizei count, const GLfloat *params)
+{
+    DBG(printf("glProgramLocalParameters4fvEXT(%s, %u, %i, %p)\n", PrintEnum(target), index, count, params);)
+    float *f = NULL;
+    oldprogram_t *old = NULL;
+    switch(target) {
+        case GL_VERTEX_PROGRAM_ARB:
+            old = glstate->glsl->vtx_prog;
+            break;
+        case GL_FRAGMENT_PROGRAM_ARB:
+            old = glstate->glsl->frg_prog;
+            break;
+        default:
+            errorShim(GL_INVALID_ENUM);
+            return;
+    }
+    if(!old) {
+        errorShim(GL_INVALID_OPERATION);
+        return;
+    }
+    if(index+count<old->max_local_params && count>=0) {
+        noerrorShimNoPurge();
+        memcpy(old->prog_local_params+index*4, params, count*4*sizeof(float));
+    } else
+        errorShim(GL_INVALID_VALUE);
+}
+
 // Mappers for ARB_vertex_program
 void glProgramStringARB(GLenum target, GLenum format, GLsizei len, const GLvoid *string) AliasExport("gl4es_glProgramStringARB");
 void glBindProgramARB(GLenum target, GLuint program) AliasExport("gl4es_glBindProgramARB");
@@ -792,3 +844,6 @@ void glGetProgramLocalParameterfvARB(GLenum target, GLuint index, GLfloat *param
 void glGetProgramivARB(GLenum target, GLenum pname, GLint *params) AliasExport("gl4es_glGetProgramivARB");
 void glGetProgramStringARB(GLenum target, GLenum pname, GLvoid *string) AliasExport("gl4es_glGetProgramStringARB");
 GLboolean glIsProgramARB(GLuint program) AliasExport("gl4es_glIsProgramARB");
+
+void glProgramEnvParameters4fvEXT(GLenum target, GLuint index, GLsizei count, const GLfloat *params) AliasExport("gl4es_glProgramEnvParameters4fvEXT");
+void glProgramLocalParameters4fvEXT(GLenum target, GLuint index, GLsizei count, const GLfloat *params) AliasExport("gl4es_glProgramLocalParameters4fvEXT");

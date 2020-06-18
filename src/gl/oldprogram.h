@@ -73,6 +73,7 @@ void gl4es_glGetVertexAttribPointervARB(GLuint index, GLenum pname, GLvoid **poi
 
 GLboolean gl4es_glIsProgramARB(GLuint program);
 
-
+void gl4es_glProgramEnvParameters4fvEXT(GLenum target, GLuint index, GLsizei count, const GLfloat *params);
+void gl4es_glProgramLocalParameters4fvEXT(GLenum target, GLuint index, GLsizei count, const GLfloat *params);
 
 #endif //_GL4ES_OLD_PROGRAM_H_
