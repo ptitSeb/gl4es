@@ -209,4 +209,12 @@ else()
     if(CMAKE_SHARED_LIBRARY_SUFFIX MATCHES ".so")
         set_target_properties(GL PROPERTIES SUFFIX ".so.1")
     endif()
-endif()
+    install(TARGETS GL
+    LIBRARY
+      DESTINATION "/usr/lib/gl4es/"
+    )
+  install(DIRECTORY "include/"
+    DESTINATION "/usr/include/gl4es/"
+    )
+  endif()
+
