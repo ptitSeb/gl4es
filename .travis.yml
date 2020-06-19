@@ -1,6 +1,6 @@
 language: c
 sudo: false
-dist: trusty
+dist: buster
       
 compiler:
     - gcc
