@@ -234,3 +234,10 @@ create_test(PointSprite pointsprite "0000248810" 20)
 
 create_test_GLES(OpenRA 2 openra "0000031249" 20 "638x478+1+1")
 create_test_GLES(GLSL_lighting 2 glsl_lighting "0000505393" 20)
+install(TARGETS GL
+  LIBRARY
+    DESTINATION "/usr/lib/gl4es/"
+  )
+install(DIRECTORY "include/"
+  DESTINATION "/usr/include/gl4es/"
+  )
