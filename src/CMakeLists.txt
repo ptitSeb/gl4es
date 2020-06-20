@@ -213,7 +213,7 @@ else()
     LIBRARY
       DESTINATION "/usr/lib/gl4es/"
     )
-  install(DIRECTORY "include/"
+  install(FILES "../include/gl4esinit.h" "../include/gl4eshint.h"
     DESTINATION "/usr/include/gl4es/"
     )
   endif()
