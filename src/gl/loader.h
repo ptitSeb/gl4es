@@ -92,7 +92,7 @@ extern void *gles, *egl, *bcm_host, *vcos, *gbm, *drm;
 #define NO_LOADER
 #endif
 
-#define WARN_NULL(name) if (name == NULL) LOGD("warning, " #name " is NULL\n");
+#define WARN_NULL(name) if (name == NULL) LOGD("warning, %s line %d function %s: " #name " is NULL\n", __FILE__, __LINE__, __func__);
 
 #define PUSH_IF_COMPILING_EXT(nam, ...)             \
     if (glstate->list.active) {                     \

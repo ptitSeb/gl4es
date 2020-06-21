@@ -9,7 +9,7 @@
     {% if not func.void %}return {% endif %}{% block prefix %}wrap{% endblock %}_{{ func.name }}({{ func.args|args(0) }});
     {%- endblock %}
 }
-{{ func.return }} {{ func.name }}({{ func.args|args }}) __attribute__((alias("gl4es_{{ func.name }}"))) __attribute__((visibility("default")));
+{{ func.return }} {{ func.name }}({{ func.args|args }}) AliasExport("gl4es_{{ func.name }}");
 {% endblock %}
 {% endfor %}
 {% endblock %}

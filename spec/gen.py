@@ -95,6 +95,9 @@ def gen(files, template, guard_name, headers,
             if name.endswith('_OES_'):
                 loadlib = 'LOAD_GLES_OES'
                 name = name[:-5]
+            elif name.endswith('_EXT_'):
+                loadlib = 'LOAD_GLES_EXT'
+                name = name[:-5]
 
             args = [split_arg(arg) for arg in args if not arg == 'void']
             if any(arg.get('type') == 'unknown' for arg in args):

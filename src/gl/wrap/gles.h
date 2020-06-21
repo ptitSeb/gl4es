@@ -2351,13 +2351,13 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 #define glDrawArrays_PACKED PACKED_void_GLenum_GLint_GLsizei
 #define glDrawArrays_INDEXED INDEXED_void_GLenum_GLint_GLsizei
 #define glDrawArrays_FORMAT FORMAT_void_GLenum_GLint_GLsizei
-#define glDrawBuffersEXT_INDEX 55
-#define glDrawBuffersEXT_RETURN void
-#define glDrawBuffersEXT_ARG_NAMES n, bufs
-#define glDrawBuffersEXT_ARG_EXPAND GLsizei n, const GLenum * bufs
-#define glDrawBuffersEXT_PACKED PACKED_void_GLsizei_const_GLenum___GENPT__
-#define glDrawBuffersEXT_INDEXED INDEXED_void_GLsizei_const_GLenum___GENPT__
-#define glDrawBuffersEXT_FORMAT FORMAT_void_GLsizei_const_GLenum___GENPT__
+#define glDrawBuffers_INDEX 55
+#define glDrawBuffers_RETURN void
+#define glDrawBuffers_ARG_NAMES n, bufs
+#define glDrawBuffers_ARG_EXPAND GLsizei n, const GLenum * bufs
+#define glDrawBuffers_PACKED PACKED_void_GLsizei_const_GLenum___GENPT__
+#define glDrawBuffers_INDEXED INDEXED_void_GLsizei_const_GLenum___GENPT__
+#define glDrawBuffers_FORMAT FORMAT_void_GLsizei_const_GLenum___GENPT__
 #define glDrawElements_INDEX 56
 #define glDrawElements_RETURN void
 #define glDrawElements_ARG_NAMES mode, count, type, indices
@@ -3769,8 +3769,8 @@ void gl4es_glDisableVertexAttribArray(glDisableVertexAttribArray_ARG_EXPAND);
 typedef void (*glDisableVertexAttribArray_PTR)(glDisableVertexAttribArray_ARG_EXPAND);
 void gl4es_glDrawArrays(glDrawArrays_ARG_EXPAND);
 typedef void (*glDrawArrays_PTR)(glDrawArrays_ARG_EXPAND);
-void gl4es_glDrawBuffersEXT(glDrawBuffersEXT_ARG_EXPAND);
-typedef void (*glDrawBuffersEXT_PTR)(glDrawBuffersEXT_ARG_EXPAND);
+void gl4es_glDrawBuffers(glDrawBuffers_ARG_EXPAND);
+typedef void (*glDrawBuffers_PTR)(glDrawBuffers_ARG_EXPAND);
 void gl4es_glDrawElements(glDrawElements_ARG_EXPAND);
 typedef void (*glDrawElements_PTR)(glDrawElements_ARG_EXPAND);
 void gl4es_glDrawTexf(glDrawTexf_ARG_EXPAND);
@@ -4715,11 +4715,11 @@ typedef void (*glViewport_PTR)(glViewport_ARG_EXPAND);
     glPushCall((void *)packed_data); \
 }
 #endif
-#ifndef direct_glDrawBuffersEXT
-#define push_glDrawBuffersEXT(n, bufs) { \
-    glDrawBuffersEXT_PACKED *packed_data = malloc(sizeof(glDrawBuffersEXT_PACKED)); \
-    packed_data->format = glDrawBuffersEXT_FORMAT; \
-    packed_data->func = gl4es_glDrawBuffersEXT; \
+#ifndef direct_glDrawBuffers
+#define push_glDrawBuffers(n, bufs) { \
+    glDrawBuffers_PACKED *packed_data = malloc(sizeof(glDrawBuffers_PACKED)); \
+    packed_data->format = glDrawBuffers_FORMAT; \
+    packed_data->func = gl4es_glDrawBuffers; \
     packed_data->args.a1 = (GLsizei)n; \
     packed_data->args.a2 = (GLenum *)bufs; \
     glPushCall((void *)packed_data); \

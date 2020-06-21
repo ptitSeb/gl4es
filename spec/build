@@ -5,9 +5,10 @@ base=../src/
 if [ -e yml/gles-1.1-full.yml ]; then rm yml/gles-1.1-full.yml ;fi
 touch yml/gles-1.1-full.yml
 cat yml/*-1.1.yml >> yml/gles-1.1-full.yml
-gles1=$(ls -1 yml/*-1.1-full.yml | tr '\n' ',' | sed -e 's/,$//')
-gles=$(ls -1 yml/*es-1.1.yml | tr '\n' ',' | sed -e 's/,$//')
-glext=$(ls -1 yml/*ext-1.1.yml | tr '\n' ',' | sed -e 's/,$//')
+#gles1=$(ls -1 yml/*-1.1-full.yml | tr '\n' ',' | sed -e 's/,$//')
+#gles=$(ls -1 yml/*es-1.1.yml | tr '\n' ',' | sed -e 's/,$//')
+#glext=$(ls -1 yml/*ext-1.1.yml | tr '\n' ',' | sed -e 's/,$//')
+gles1="yml/gles-1.1-full.yml"
 
 #./gen.py "$gles" gleswrap.c.j2 gleswrap.c gles.h > "$base/gl/wrap/gles.c"
 #./gen.py "$glext" glextwrap.c.j2 glextwrap.c gles.h > "$base/gl/wrap/glesext.c"

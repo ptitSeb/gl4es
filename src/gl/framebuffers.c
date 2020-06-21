@@ -1481,8 +1481,8 @@ void gl4es_setCurrentFBO() {
 void gl4es_glDrawBuffers(GLsizei n, const GLenum *bufs) {
     DBG(printf("glDrawBuffers(%d, %p) [0]=%s\n", n, bufs, n?PrintEnum(bufs[0]):"nil");)
     if(hardext.drawbuffers) {
-        LOAD_GLES(glDrawBuffersEXT);
-        gles_glDrawBuffersEXT(n, bufs);
+        LOAD_GLES_EXT(glDrawBuffers);
+        gles_glDrawBuffers(n, bufs);
         errorGL();
     } else {
         if(n<0 || n>hardext.maxdrawbuffers) {
@@ -1503,8 +1503,8 @@ void gl4es_glNamedFramebufferDrawBuffers(GLuint framebuffer, GLsizei n, const GL
     if(hardext.drawbuffers) {
         GLuint oldf = glstate->fbo.fbo_draw->id;
         gl4es_glBindFramebuffer(GL_DRAW_FRAMEBUFFER, fb->id);
-        LOAD_GLES(glDrawBuffersEXT);
-        gles_glDrawBuffersEXT(n, bufs);
+        LOAD_GLES_EXT(glDrawBuffers);
+        gles_glDrawBuffers(n, bufs);
         errorGL();
         gl4es_glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldf);
     }
@@ -1527,10 +1527,10 @@ void gl4es_glClearBufferiv(GLenum buffer, GLint drawbuffer, const GLint * value)
                 return;
             } else {
                 GLfloat oldclear[4];
-                LOAD_GLES(glDrawBuffersEXT);
+                LOAD_GLES_EXT(glDrawBuffers);
                 // select the buffer...
                 if(hardext.drawbuffers)
-                    gles_glDrawBuffersEXT(1, &drawbuffer);
+                    gles_glDrawBuffers(1, &drawbuffer);
                 gl4es_glGetFloatv(GL_COLOR_CLEAR_VALUE, oldclear);
                 // how to convert the value? Most FB will be 8bits / componant for now...
                 gl4es_glClearColor(value[0]/127.0f, value[1]/127.0f, value[2]/127.0f, value[3]/127.0f);
@@ -1538,7 +1538,7 @@ void gl4es_glClearBufferiv(GLenum buffer, GLint drawbuffer, const GLint * value)
                 gl4es_glClearColor(oldclear[0], oldclear[1], oldclear[2], oldclear[3]);
                 // put back the draw buffers...
                 if(hardext.drawbuffers)
-                    gles_glDrawBuffersEXT(glstate->fbo.fbo_draw->n_draw, glstate->fbo.fbo_draw->drawbuff);
+                    gles_glDrawBuffers(glstate->fbo.fbo_draw->n_draw, glstate->fbo.fbo_draw->drawbuff);
                 return;
             }
             break;
@@ -1572,10 +1572,10 @@ void gl4es_glClearBufferuiv(GLenum buffer, GLint drawbuffer, const GLuint * valu
                 return;
             } else {
                 GLfloat oldclear[4];
-                LOAD_GLES(glDrawBuffersEXT);
+                LOAD_GLES_EXT(glDrawBuffers);
                 // select the buffer...
                 if(hardext.drawbuffers)
-                    gles_glDrawBuffersEXT(1, &drawbuffer);
+                    gles_glDrawBuffers(1, &drawbuffer);
                 gl4es_glGetFloatv(GL_COLOR_CLEAR_VALUE, oldclear);
                 // how to convert the value? Most FB will be 8bits / componant for now...
                 gl4es_glClearColor(value[0]/255.0f, value[1]/255.0f, value[2]/255.0f, value[3]/255.0f);
@@ -1583,7 +1583,7 @@ void gl4es_glClearBufferuiv(GLenum buffer, GLint drawbuffer, const GLuint * valu
                 gl4es_glClearColor(oldclear[0], oldclear[1], oldclear[2], oldclear[3]);
                 // put back the draw buffers...
                 if(hardext.drawbuffers)
-                    gles_glDrawBuffersEXT(glstate->fbo.fbo_draw->n_draw, glstate->fbo.fbo_draw->drawbuff);
+                    gles_glDrawBuffers(glstate->fbo.fbo_draw->n_draw, glstate->fbo.fbo_draw->drawbuff);
                 return;
             }
             break;
@@ -1605,10 +1605,10 @@ void gl4es_glClearBufferfv(GLenum buffer, GLint drawbuffer, const GLfloat * valu
                 return;
             } else {
                 GLfloat oldclear[4];
-                LOAD_GLES(glDrawBuffersEXT);
+                LOAD_GLES_EXT(glDrawBuffers);
                 // select the buffer...
                 if(hardext.drawbuffers)
-                    gles_glDrawBuffersEXT(1, &drawbuffer);
+                    gles_glDrawBuffers(1, &drawbuffer);
                 gl4es_glGetFloatv(GL_COLOR_CLEAR_VALUE, oldclear);
                 // how to convert the value? Most FB will be 8bits / componant for now...
                 gl4es_glClearColor(value[0], value[1], value[2], value[3]);
@@ -1616,7 +1616,7 @@ void gl4es_glClearBufferfv(GLenum buffer, GLint drawbuffer, const GLfloat * valu
                 gl4es_glClearColor(oldclear[0], oldclear[1], oldclear[2], oldclear[3]);
                 // put back the draw buffers...
                 if(hardext.drawbuffers)
-                    gles_glDrawBuffersEXT(glstate->fbo.fbo_draw->n_draw, glstate->fbo.fbo_draw->drawbuff);
+                    gles_glDrawBuffers(glstate->fbo.fbo_draw->n_draw, glstate->fbo.fbo_draw->drawbuff);
                 return;
             }
             break;

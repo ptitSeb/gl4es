@@ -1,7 +1,6 @@
 #include "gles.h"
 #include "../gl4es.h"
 #include "../loader.h"
-#include "../attributes.h"
 #include "skips.h"
 #ifndef skip_glActiveTexture
 void gl4es_glActiveTexture(GLenum texture) {
@@ -543,15 +542,15 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 }
 void glDrawArrays(GLenum mode, GLint first, GLsizei count) AliasExport("gl4es_glDrawArrays");
 #endif
-#ifndef skip_glDrawBuffersEXT
-void gl4es_glDrawBuffersEXT(GLsizei n, const GLenum * bufs) {
-    LOAD_GLES(glDrawBuffersEXT);
-#ifndef direct_glDrawBuffersEXT
-    PUSH_IF_COMPILING(glDrawBuffersEXT)
+#ifndef skip_glDrawBuffers
+void gl4es_glDrawBuffers(GLsizei n, const GLenum * bufs) {
+    LOAD_GLES_EXT(glDrawBuffers);
+#ifndef direct_glDrawBuffers
+    PUSH_IF_COMPILING(glDrawBuffers)
 #endif
-    gles_glDrawBuffersEXT(n, bufs);
+    gles_glDrawBuffers(n, bufs);
 }
-void glDrawBuffersEXT(GLsizei n, const GLenum * bufs) AliasExport("gl4es_glDrawBuffersEXT");
+void glDrawBuffers(GLsizei n, const GLenum * bufs) AliasExport("gl4es_glDrawBuffers");
 #endif
 #ifndef skip_glDrawElements
 void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices) {
