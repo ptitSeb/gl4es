@@ -10,7 +10,7 @@ There is also support for GLES 1.1 Hardware, emulating OpenGL 1.5, and some Open
 
 GL4ES is known to work on many platform: OpenPandora, ODroid, RaspberryPI (2 and 3 at least), PocketCHIP, "otherfruit"PI (like the OrangePI), Android, iOS, x86 and x86_64 Linux (tested using mesa-egl). There is also some WIP support for AmigaOS4, using experimental GLES2 driver for Warp3D.
 
-This library is based on glshim (https://github.com/lunixbochs/glshim) but as now evolved far from it, with different feature set and objectives. Go check this lib if you need things like RemoteGL or TinyGLES (for 100% software rendering).
+This library is based on glshim (https://github.com/lunixbochs/glshim) but as now evolved far from it, with different feature set and objectives. Go check this lib if you need things like RemoteGL or TinyGLES (for software rendering).
 
 The focus is on compatibility and speed with a wide selection of game and software.
 
@@ -31,11 +31,12 @@ Some known general limitations:
 Status of the GLES2 backend
  * The FPE (Fixed Pipeline Emulator) has most OpenGL 1.5 drawing call implemented
  * The Shader Conversion is really crude, so only simple shaders will work (especialy, the implicit conversion float <-> int is not handled)
+ * ARB_program are supported (converted on-the-fly to glsl shaders)
  * Lighting support double-side and color separation
  * FogCoord are supported, along with secondary color
  * An ES2 context should be usable (usefull for SDL2)
- * OpenGL 2.x games that have been tested include: OpenRA, GZDoom, Danger from the Deep, SuperTuxKart 0.8.1, Hammerwatch, OpenMW, many FNA & MonoGames games (FEZ, Towerfall Ascension, Stardew Valley, Dust, Owlboy, and many other)...
- * glxgears works, but FlatShade is not implemented (and will probably never be), so it's slightly different then using GLES1.1 or actuel GL hardware
+ * OpenGL 2.x games that have been tested include: OpenRA, GZDoom, Danger from the Deep, SuperTuxKart 0.8.1, Hammerwatch, OpenMW, many FNA & MonoGames games (FEZ, Towerfall Ascension, Stardew Valley, Dust, Owlboy, and many other), even some Unity3D games (Teslagrad, Colin McRea Rally remake and other)...
+ * glxgears works, but FlatShade is not implemented (and will probably never be), so it's slightly different then using GLES1.1 or actual GL hardware
  * GL_TEXTURE_1D, GL_TEXTURE_3D and GL_TEXTURE_RECTANGLE_ARB are not yet supported in shaders (they are supported in fixed pipeline functions), and texture 3D are just a single 2D layer for now.
  * Program that link only a GL_FRAGMENT or GL_VERTEX shader are not supported yet.
  * Some VBO are used.
