@@ -1,7 +1,7 @@
 Usage
 ----
 
-There are many environnement variable to control gl4es behavour. All are numeric, except LIBGL_VERSION that take a string, LIBGL_FBO that takes a 2d size (WxH), and both LIBGL_EGL and LIBGL_GLES that take path/filename.
+There are many environment variables to control gl4es behavior. All are numeric, except LIBGL_VERSION that take a string, LIBGL_FBO that takes a 2d size (WxH), and both LIBGL_EGL and LIBGL_GLES that take path/filename.
 You can also change many of this variable at runtime using the `glHint(...)` function. See [gl4eshint.h](include/gl4eshint.h) for the list of #define to use in this function.
 
 ##### LIBGL_FB
@@ -42,7 +42,7 @@ Automatic Backtrace log
 
 ##### LIBGL_FPS
 Print current FPS to the console
- * 0 : Defaut, don't mesure or printf FPS
+ * 0 : Defaut, don't measure or printf FPS
  * 1 : Print FPS (on stdout) every second
 
 ##### LIBGL_VSYNC
@@ -68,7 +68,7 @@ Handling of Manual and Automatic MIPMAP
 Forcing NPOT (Non-Power of Two) Texture size.
  * 0 : Default, nothing special
  * 1 : If hardware only support Limited NPOT, then disabling MIPMAP (i.e. LIBGL_MIPMAP=3), so all texture can be NPOT.
-       If Hardware support full NPOT, do nothing special. Usefull for GLES2 backend where limited NPOT is always supported.
+       If Hardware support full NPOT, do nothing special. Useful for GLES2 backend where limited NPOT is always supported.
  
 ##### LIBGL_TEXCOPY
 Make a local copy of every texture for easy glGetTexImage2D
@@ -78,17 +78,17 @@ Make a local copy of every texture for easy glGetTexImage2D
 ##### LIBGL_SHRINK
 Texture shrinking control
  * 0 : Default, nothing special
- * 1 : everything / 2 (using original algorithm for size reduction, all other shink mode use a refined algorithm)
- * 2 : only textures wich one size > 512 are / 2
- * 3 : only textures wich one size > 256 are / 2
- * 4 : only textures wich one size > 256 are / 2, and the one > 1024 are / 4
- * 5 : only textures wich one size > 256 are resized to 256 (if possible, because only /2 and /4 exists), but empty texture are not shrinked
- * 6 : only textures wich one size > 128 are / 2, thoses >= 512 are resized to 256 (if possible, because only /2 and /4 exists), but empty texture are not shrinked
- * 7 : only textures wich one size > 512 are / 2, but empty texture are not shrinked
- * 8 : advertise a max texture size *4, but every texture wich one size > 2048 are shrinked to 2048
- * 9 : advertise a max texture size *4, but every texture wich one size > 4096 are / 4 and the one > 512 are / 2, but empty texture are not shrinked
- * 10: advertise a max texture size *4, but every texture wich one size > 2048 are / 4 and the one > 512 are / 2, but empty texture are not shrinked
- * 11: advertise a max texture size *2, but every texture with one dimension > max texture size will get shrinked to max texture size
+ * 1 : everything / 2 (using original algorithm for size reduction, all other shrink mode use a refined algorithm)
+ * 2 : only textures which one size > 512 are / 2
+ * 3 : only textures which one size > 256 are / 2
+ * 4 : only textures which one size > 256 are / 2, and the one > 1024 are / 4
+ * 5 : only textures which one size > 256 are resized to 256 (if possible, because only /2 and /4 exists), but empty texture are not shrunken
+ * 6 : only textures which one size > 128 are / 2, those >= 512 are resized to 256 (if possible, because only /2 and /4 exists), but empty texture are not shrunken
+ * 7 : only textures which one size > 512 are / 2, but empty texture are not shrunken
+ * 8 : advertise a max texture size *4, but every texture which one size > 2048 are shrunken to 2048
+ * 9 : advertise a max texture size *4, but every texture which one size > 4096 are / 4 and the one > 512 are / 2, but empty texture are not shrunken
+ * 10: advertise a max texture size *4, but every texture which one size > 2048 are / 4 and the one > 512 are / 2, but empty texture are not shrunken
+ * 11: advertise a max texture size *2, but every texture with one dimension > max texture size will get shrunken to max texture size
  
 ##### LIBGL_TEXDUMP
 Texture dump
@@ -112,10 +112,10 @@ PANDORA only: enable Texture Streaming (works only on RGB textures)
  * 2 : Enabled on all RGB textures
 
 ##### LIBGL_COPY
-Removed (Controled the glCopyTex(Sub)Image2D hack, it's now automatic, depending on how compatible is the readed framebuffer)
+Removed (Controlled the glCopyTex(Sub)Image2D hack, it's now automatic, depending on how compatible is the read framebuffer)
 
 ##### LIBGL_NOLUMALPHA
-Control the availability of the LUMUNANCE_ALPHA format (can be buggy on Pandora model CC)
+Control the availability of the LUMINANCE_ALPHA format (can be buggy on Pandora model CC)
  * 0 : Default,GL_LUMINANCE_ALPHA is available and used if needed
  * 1 : GL_LUMINANCE_ALPHA hardware support disabled (a GL_RGBA texture will be used instead)
 
@@ -127,14 +127,14 @@ Experimental: Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE
 ##### LIBGL_BLENDCOLOR
 Hack: Export a (faked) glBlendColor
  * 0 : Default, don't expose gBlendColor
- * 1 : Exposed the function (if no hadware support, faked function willbe used)
+ * 1 : Exposed the function (if no hardware support, faked function will be used)
 
 ##### LIBGL_VERSION
-Hack: Control the glGetString version. Overide version string (should be in the form of "1.x")
+Hack: Control the glGetString version. Override version string (should be in the form of "1.x")
 
 ##### LIBGL_BATCH
 This has been changed with v1.0.5.
-Now BATCH simply try to merge subsequents glDrawXXXXX (glDrawArrays, glDrawElements...). It only try to merge if arrays is between MINBATCH and MAXBATCH (inclusive)
+Now BATCH simply try to merge subsequent glDrawXXXXX (glDrawArrays, glDrawElements...). It only try to merge if arrays is between MINBATCH and MAXBATCH (inclusive)
 The Batching stop when there is a change of GL State, but also if an Array of more then 100*N is encountered.
  * 0 : Default: don't try to merge glDrawXXXXX
  * N : Any number: try to merger arrays, 1st must be between 0 and 100*N
@@ -155,14 +155,14 @@ ODROID Hack: Enable sRGB Surface (so Gamma corrected), if Hardware support it
  * 1 : Enable sRGB Surface (but support will be tested first, must have EGL_KHR_gl_colorspace extension)
 
 ##### LIBGL_FASTMATH
-Hack: Activate some Fast Math in processor/coprocessor
+Hack: Activate some Fast Math in processor/co-processor
  * 0 : Default, nothing special
  * 1 : On OpenPandora and CHIP, activate "RunFast" on Cortex-A8 (mode default NaN, flush-to-zero)
      : Not implemented on other platforms (will do nothing)
 
 ##### LIBGL_SILENTSTUB
 Debug: Hide or Show the Sub / Not found message
- * 0 : The messages for Stub or absend function are printed
+ * 0 : The messages for Stub or absent function are printed
  * 1 : Default, don't print the STUB or glXGetProcAddress glXXXXX not found message
 
 ##### LIBGL_NOBANNER
@@ -172,7 +172,7 @@ Show/Hide initial text
 
 ##### LIBGL_NPOT
 Expose NPOT (Non Power of Two) Support
- * 0 : Default, expose the extension that are availble by the GLES backend
+ * 0 : Default, expose the extension that are available by the GLES backend
  * 1 : Expose limited NPOT extension
  * 2 : Expose GL_ARB_texture_non_power_of_two extension
 
@@ -183,12 +183,12 @@ Expose glQueries functions
 
 ##### LIBGL_NOTEXMAT
 Handling of Texture Matrix
- * 0 : Default, perform handling internaly (better handling of NPOT texture on all hardware)
+ * 0 : Default, perform handling internally (better handling of NPOT texture on all hardware)
  * 1 : Let the driver handle texmat (can be faster in some cases, but NPOT texture may be broken)
 
 ##### LIBGL_NOTEST
 Initial Hardware test
- * 0 : Default, perform intial hardware testing (using a PBuffer)
+ * 0 : Default, perform initial hardware testing (using a PBuffer)
  * 1 : Do not perform test (no extensions tested or used)
 
 ##### LIBGL_NOVAOCACHE
@@ -208,13 +208,13 @@ Merge of subsequent glBegin/glEnd blocks (will be non-effective if BATCH mode is
 
 ##### LIBGL_AVOID16BITS
 Try to avoid 16bits textures
- * 0 : Default on ImgTec hardware, use 16bits texture if it can avoid a convertion or for DXTc textures
+ * 0 : Default on ImgTec hardware, use 16bits texture if it can avoid a conversion or for DXTc textures
  * 1 : Default on all other hardware, Use 32bits texture unless specifically requested (using internalformat)
 
 ##### LIBGL_AVOID24BITS
 Try to avoid 24bits textures (i.e. GL_RGB)
  * 0 : Default, use 24bits texture when it's possible
- * 1 : Force 32bits textures when GL_RGB is asked (as internal or not). Not recommanded, as it may break some blend functions (especialy on GLES 1.1 backend). Does not impact 16bits formats.
+ * 1 : Force 32bits textures when GL_RGB is asked (as internal or not). Not recommended, as it may break some blend functions (especially on GLES 1.1 backend). Does not impact 16bits formats.
 
 ##### LIBGL_FORCE16BITS
 Try to use 16bits textures
@@ -253,7 +253,7 @@ Hack to define default WRAP mode for texture
 * 2 : Default wrap mode is GL_CLAMP_TO_EDGE, enforced (not advised)
 
 ##### LIBL_FBOUNBIND
-Workaround on FBO where a binded texture is used for drawing
+Workaround on FBO where a bond texture is used for drawing
 * 0 : Disabled (Default for all other configuration)
 * 1 : Enabled (Default on ARM and PowerVR hardware)
 
@@ -279,7 +279,7 @@ Log to the console Shader Compile error, with initial and ShaderConv'd source of
 ##### LIBGL_SHADERNOGLES
 Don't use GL_ES part in shaders
 * 0 : Default, let GL_ES part in shader
-* 1 : Remove the GL_ES part in shader (usefull for Löve for example)
+* 1 : Remove the GL_ES part in shader (useful for Löve for example)
 
 ##### LIBGL_NODEPTHTEX
 Disable the use of Depth texture
@@ -287,7 +287,7 @@ Disable the use of Depth texture
 * 1 : Disable the use of Depth Texture (renderbuffer will be used in FBO)
 
 ##### LIBGL_FLOAT
-Expose support for FLOAT and HALF_FLOAT Texture support (and has attachement to FBO)
+Expose support for FLOAT and HALF_FLOAT Texture support (and has attachment to FBO)
 * 0 : Don't exposed, even if supported in hardware
 * 1 : Default, exposed what is supported by hardware
 * 2 : Force exposed, even if no supported (will be emulated has GL_UNSIGNED_BYTE if not supported)
@@ -303,13 +303,13 @@ Debug: don't clean GLContext when they are destroy
 * 1 : Don't clean GLContext
 
 ##### LIBGL_EGL
-Define EGL lib to use. Default folder are the standard one for dynamic librarie loading (LD_LIBRARY_PATH and friend) plus "/opt/vc/lib/", /usr/local/lib/" and "/usr/lib/".
+Define EGL lib to use. Default folder are the standard one for dynamic library loading (LD_LIBRARY_PATH and friend) plus "/opt/vc/lib/", /usr/local/lib/" and "/usr/lib/".
 * by default try to use libbrcmEGL and libEGL
 * filename: try to load from the defaults folder (don't forget to use complete filename, with ".so" extension). If not found/loaded, default one will be tried.
 * /path/to/filename: try to use exact path/filename. If not found/loaded, default one will be tried.
 
 ##### LIBGL_GLES
-Define GLES(2) lib to use. Default folder are the standard one for dynamic librarie loading (LD_LIBRARY_PATH and friend) plus "/opt/vc/lib/", /usr/local/lib/" and "/usr/lib/". Be sure to point to correct GLES library depanding on wich GLES backend you are using.
+Define GLES(2) lib to use. Default folder are the standard one for dynamic library loading (LD_LIBRARY_PATH and friend) plus "/opt/vc/lib/", /usr/local/lib/" and "/usr/lib/". Be sure to point to correct GLES library depending on wich GLES backend you are using.
 * by default try to use libGLESv1_CM, libGLES_CM or libbrcmGLESv1_CM for GLES1.1 and libGLESv2_CM, libGLESv2 or libbrcmGLESv2 for GLES2 backend
 * filename: try to load from the defaults folder (don't forget to use complete filename, with ".so" extension). If not found/loaded, default one will be tried.
 * /path/to/filename: try to use exact path/filename. If not found/loaded, default one will be tried.

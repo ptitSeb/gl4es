@@ -22,7 +22,7 @@ Most function of OpenGL up to 1.5 are supported, with some notable exceptions:
  * No Accum emulation
 
 Some known general limitations:
- * GL_SELECT as some limitation in its implementation (for exemple, current Depth buffer or binded texture are not taken into account, also custom vertex shader will not work here)
+ * GL_SELECT as some limitation in its implementation (for example, current Depth buffer or bounded texture are not taken into account, also custom vertex shader will not work here)
  * NPOT texture are supported, but not with GL_REPEAT / GL_MIRRORED, only GL_CLAMP will work properly (unless the GLES Hardware support NPOT)
  * Multiple Color attachment on Framebuffer are not supported
  * OcclusionQuery is implemented, but with a 0 bits precision
@@ -30,11 +30,11 @@ Some known general limitations:
 
 Status of the GLES2 backend
  * The FPE (Fixed Pipeline Emulator) has most OpenGL 1.5 drawing call implemented
- * The Shader Conversion is really crude, so only simple shaders will work (especialy, the implicit conversion float <-> int is not handled)
+ * The Shader Conversion is really crude, so only simple shaders will work (especially, the implicit conversion float <-> int is not handled)
  * ARB_program are supported (converted on-the-fly to glsl shaders)
  * Lighting support double-side and color separation
  * FogCoord are supported, along with secondary color
- * An ES2 context should be usable (usefull for SDL2)
+ * An ES2 context should be usable (useful for SDL2)
  * OpenGL 2.x games that have been tested include: OpenRA, GZDoom, Danger from the Deep, SuperTuxKart 0.8.1, Hammerwatch, OpenMW, many FNA & MonoGames games (FEZ, Towerfall Ascension, Stardew Valley, Dust, Owlboy, and many other), even some Unity3D games (Teslagrad, Colin McRea Rally remake and other)...
  * glxgears works, but FlatShade is not implemented (and will probably never be), so it's slightly different then using GLES1.1 or actual GL hardware
  * GL_TEXTURE_1D, GL_TEXTURE_3D and GL_TEXTURE_RECTANGLE_ARB are not yet supported in shaders (they are supported in fixed pipeline functions), and texture 3D are just a single 2D layer for now.
@@ -76,7 +76,7 @@ Beware that GL4ES is meant to replace any libGL you can have on your system (lik
 Usage
 ----
 
-There are many environnement variable to control gl4es behavour, also usable at runtime using `glHint(...)`.
+There are many environment variable to control gl4es behavior, also usable at runtime using `glHint(...)`.
 
 See [here](USAGE.md) for all variables and what they do.
 
