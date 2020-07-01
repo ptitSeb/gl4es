@@ -6,29 +6,29 @@ Version history
 * Added ARB_vertex_program and ARB_fragment_program
 * Improved fpe with more compatibility fixes
 * Improved Handling of DXTc textures
-* Improve handling of partialy mipmap'd textures
+* Improve handling of partially mipmap'd textures
 * Added PYRA Profile
 * Added support for Texture LOD access in Fragment Shaders
-* Increased maxumum Texture Unit support to 16 (from 8)
+* Increased maximum Texture Unit support to 16 (from 8)
 * Added support for program without Vertex Shader
 * Some fixes for program that switch GLX Context frequently.
 * Fixes and improvements in fpe_shaders (less array access)
-* Added support for Clipping Plane in custom shaders (help OpenMW water reflexion)
+* Added support for Clipping Plane in custom shaders (help OpenMW water reflection)
 * Added support for multiple FBO attachement (if hardware support it)
 
 ##### v1.1.2
 * Improved a bit the merger (wich merge subsequent `glBegin(...)`/`glEnd()`) efficiency
 * Removed LIBGL_BEGINEND=2 (that was not working correctly, and it complexify the code too much)
-* Added some Direct Acces function (from EXT_direct_access)
+* Added some Direct Access function (from EXT_direct_access)
 * Fixes and Improvements on depth (and depth_Stencil) Texture handling
 * Handling of GL_BGRA color size in VA (for HumandRessourceMachine)
 * Some fixes to fpe_shader (for Neverwinter Night)
 * Rework of Header structure (from @rajdakin)
 * Better test, using "make test" (from @rajdakin, still using apitrace for replay)
-* Added PSA: Precompiled Shader Archive, to store (and fast retreive) FPE shader (and avoid some pauses when complex FPE shaders are computed)
+* Added PSA: Precompiled Shader Archive, to store (and fast retrieve) FPE shader (and avoid some pauses when complex FPE shaders are computed)
 * Numerous optimization and changes in Batch mode.
 * Fixes to GL_BGRA handling
-* Improvment in texture format handling, to limit number of conversions
+* Improvement in texture format handling, to limit number of conversions
 * Added handling of VBO. Real VBO are used (in GLES2+ only) for GL_ARRAY_BUFFER and GL_ELEMENT_ARRAY_BUFFER
 * Added VBO when processing glList (only in GLES2+)
 * Added a few more GL3.x functions (like glTexStorage). No real GL3.0 support yet
@@ -46,7 +46,7 @@ Version history
 ##### v1.1.0
 * Default backend is now GLES2 (but not on Pandora, still GLES1.1 for compatibility reasons)
 * Added LIBGL_SHADERNOGLES to remove the GLES part of shaders (if any).
-* Various RPi improvments, mainly in the context creation.
+* Various RPi improvements, mainly in the context creation.
 * Various AmigaOS4 improvement and workaround (but still in a beta state)
 * Various improvement in GLX function, with a more accurate way to emulate GLXFBConfig
 * Improved the way eglSurface are created in glx.c, to avoid try to create 2 on the same window (EGL doesn't allow that)
@@ -54,7 +54,7 @@ Version history
 * Added tracking of Framebuffers Object and Renderbuffers Objects
 * Added (real) support for Float and Half-float Texture (including has attachement to FBO, emulating it if not supported in Hardware)
 * Added support for Depth Stencil texture when attached to an FBO
-* Added LIBGL_FBO=WxH for all plateform
+* Added LIBGL_FBO=WxH for all platform
 * Fixed some issue when resized textures attached to an FBO
 * Added LIBGL_NODEPTHTEX to avoid using Depth Texture when available (using renderbuffer can be faster)
 * Added support for Depth Texture when attached to an FBO (if supported by Hardware)
@@ -77,16 +77,16 @@ Version history
 * Optimized `glBitmap`
 * Added (limited) direct support to `GL_UNSIGNED_INT` for `glDrawElements` for hardware that support it
 * Improved (a lot) `glBegin`/`glEnd` merger
-* Added Anisotropic filterring support, for hardware that support it.
+* Added Anisotropic filtering support, for hardware that support it.
 * Changed `LIBGL_BATCH`. It will now try to merge small (parametrable) subsequent `glDrawXXXX`
 * Changed (simplified) the way texture "0" is handled
-* Improvement to `glDrawArrays` and `glDrawElement`, with less copy of datas
+* Improvement to `glDrawArrays` and `glDrawElement`, with less copy of data
 * WIP AmigaOS4 support (and BigEndian architecture)
 * Improved NPOT support for "Limited NPOT" hardware
 * Lots of FPE fixes
 * Improve the way multi glX Context are handled
 * Added basic pre-proc (only handle comments for now)
-* Small optimisation on when using `glDrawArrays` with GL_QUADS
+* Small optimization on when using `glDrawArrays` with GL_QUADS
 * Improvement to GL_RENDER
 * Improvement to line stipple
 * Improvement to glPolygonMode(GL_LINE)
@@ -109,7 +109,7 @@ Version history
 
 ##### 0.9.8
  * Added TravisCI build on github
- * Added some optimisation when to discard call to glBindTexture if useless (same texture) between 2 glBegin/glEnd blocks
+ * Added some optimization when to discard call to glBindTexture if useless (same texture) between 2 glBegin/glEnd blocks
  * Stubbed glGet with GL_DRAW_BUFFER
  * Improvement to Raster operations
  * Factorised Blit function (only 1 function for that now)
@@ -132,11 +132,11 @@ Version history
  * Some fix with the PBuffer glX context creation
  * Tracking of glFog
  * Exposed glBlendEquation if supported
- * New LIBGL_AVOID16BITS parameter to prefer 32bits texture (usefull on ODroid)
+ * New LIBGL_AVOID16BITS parameter to prefer 32bits texture (useful on ODroid)
  * Some optimisations in texture conversion
 
 ##### 0.9.5
- * Added some optimisations for sequencial glBegin/glEnd blocks, with a switch to control them
+ * Added some optimizations for sequential glBegin/glEnd blocks, with a switch to control them
  * Fixed many issue with Lights introduced with 0.9.4
  * Fixed Android build introduced with 0.9.4
 
@@ -154,12 +154,12 @@ Version history
  * Added LIBGL_NOTEXMAT env. var. switch for Texture Matrix handling
  * Added GL_EXT_vertex_array_bgra (and NEONinzed some loop)
  * Finished GL_EXT_direct_state_access extension
- * Mangled glX function (to be abble to use apitrace to capture GL frames)
+ * Mangled glX function (to be able to use apitrace to capture GL frames)
  * Return some values in glXQueryServerString, coherent with glXGetClientString
 
 ##### 0.9.2
  * All matrix are tracked now
- * Texture Matrix are 100% handled by gl4es. GLES Hardware keep an Identity matrix (TexCoord are transformed if needed). This allows a better handling of NPOT texture on hadware that doesn't support Full NPOT (fixed movies beiing horizontaly shifted in openmw with LIBGL_NPOT=1 for example)
+ * Texture Matrix are 100% handled by gl4es. GLES Hardware keep an Identity matrix (TexCoord are transformed if needed). This allows a better handling of NPOT texture on hardware that doesn't support Full NPOT (fixed movies being horizontally shifted in openmw with LIBGL_NPOT=1 for example)
 
 ##### 0.9.1
  * Added gl4es specifics glHint capabilities. If the extension GL_GL4ES_hint is present, than a few Hint are accessible. Look in include/gl4eshint.h for the list.
