@@ -90,7 +90,7 @@ typedef struct {
     Display *dpy;
     int Type;
     GC gc; 
-    XImage* frame; 
+    XImage* frame;
 } glx_buffSize;
 
 //PBuffer should work under ANDROID / NOX11
@@ -113,7 +113,7 @@ static void delPBuffer(int j)
     pbuffersize[j].Context = NULL;
     // should pack, but I think it's useless for common use 
 }
-void BlitEmulatedPixmap();
+void BlitEmulatedPixmap(int win);
 int createPBuffer(Display * dpy, const EGLint * egl_attribs, EGLSurface* Surface, EGLContext* Context, EGLConfig* Config, int redBits, int greenBits, int blueBits, int alphaBits, int samplebuffers, int samples);
 GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, EGLConfig Config, int Width, int Height, EGLContext Context, Pixmap pixmap, int depth, int emulated);
 
@@ -1454,7 +1454,7 @@ void gl4es_glXSwapBuffers(Display *display,
     if(PBuffer && glstate->emulatedPixmap) {
         LOAD_GLES(glFinish);
         gles_glFinish();
-        BlitEmulatedPixmap();
+        BlitEmulatedPixmap(drawable);
     } else
         egl_eglSwapBuffers(eglDisplay, surface);
     //CheckEGLErrors();     // not sure it's a good thing to call a eglGetError() after all eglSwapBuffers, performance wize (plus result is discarded anyway)
@@ -2683,7 +2683,7 @@ const int sbuf = Width * Height * (Depth==16?2:4);
     XPutImage(dpy, drawable, gc, frame, 0, 0, 0, 0, Width, Height);
 }
 
-void BlitEmulatedPixmap() {
+void BlitEmulatedPixmap(int win) {
     if(!glstate->emulatedPixmap)
         return;
 
@@ -2703,6 +2703,7 @@ void BlitEmulatedPixmap() {
 
     // grab the size of the drawable if it has changed
     if(reverse) {
+        drawable = (Pixmap)win;
         // Get Window size and all...
         unsigned int width, height, border, depth;
         Window root;

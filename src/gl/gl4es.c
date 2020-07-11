@@ -999,7 +999,7 @@ void gl4es_flush() {
 }
 
 #ifndef NOX11
-extern void BlitEmulatedPixmap();
+extern void BlitEmulatedPixmap(int win);
 #endif
 void gl4es_glFlush() {
 	LOAD_GLES(glFlush);
@@ -1013,7 +1013,7 @@ void gl4es_glFlush() {
 
 #ifndef NOX11
     if(glstate->emulatedPixmap && !glstate->emulatedWin)
-        BlitEmulatedPixmap();
+        BlitEmulatedPixmap(0);
 #endif
 }
 void glFlush() AliasExport("gl4es_glFlush");
