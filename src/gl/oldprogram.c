@@ -148,6 +148,12 @@ void gl4es_glProgramStringARB(GLenum target, GLenum format, GLsizei len, const G
     // grab the new program
     old->string = calloc(1, len + 1);
     memcpy(old->string, string, len);
+    // check if a shader is actually attached
+    if(!old->shader) {
+        DBG(printf("Error, no shader attached but glProgramStringARB(...) called\n");)
+        errorShim(GL_INVALID_OPERATION);
+        return;
+    }
     // Convert to GLSL
     const GLchar * p[1] = {0};
     p[0] = gl4es_convertARB(old->string, vertex, &glstate->glsl->error_msg, &glstate->glsl->error_ptr);
