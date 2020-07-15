@@ -61,6 +61,7 @@ static bool eglInitialized = false;
 static EGLDisplay eglDisplay = NULL;
 static EGLSurface eglSurface = NULL;
 static EGLConfig eglConfigs[1];
+static EGLContext eglContext  = EGL_NO_CONTEXT;
 #endif
 static int glx_default_depth=0;
 #ifdef PANDORA
@@ -133,11 +134,6 @@ void glx_getMainFBSize(GLint* width, GLint* height) {
     DBG(printf("%dx%d (%s)\n", *width, *height, PrintEGLError(0));)
 #endif
 }
-
-#ifndef NOEGL
-// hmm...
-static EGLContext eglContext  = EGL_NO_CONTEXT;
-#endif
 
 static int fbcontext_count = 0;
 
@@ -907,6 +903,7 @@ void gl4es_glXDestroyContext(Display *display, GLXContext ctx) {
         // need to bind back the context to delete stuff?
         LOAD_EGL(eglMakeCurrent);
         if(eglSurface!=ctx->eglSurface || eglContext!=ctx->eglContext) {
+            DBG(printf("  temporary switch to eglSurface:%p(from %p), eglContext:%p(from %p)\n", ctx->eglSurface, eglSurface, ctx->eglContext, eglContext);)
 #ifndef NO_GBM
             if(globals4es.usegbm)
                 GBMMakeCurrent(eglDisplay, ctx->eglSurface, ctx->eglSurface, ctx->eglContext);
@@ -922,13 +919,15 @@ void gl4es_glXDestroyContext(Display *display, GLXContext ctx) {
         DeleteGLState(ctx->glstate);
         
         // bind context back
-        if(eglSurface!=ctx->eglSurface || eglContext!=ctx->eglContext)
+        if(eglSurface!=ctx->eglSurface || eglContext!=ctx->eglContext) {
+            DBG(printf("  switch back to eglSurface:%p, eglContext:%p\n", eglSurface, eglContext);)
 #ifndef NO_GBM
             if(globals4es.usegbm)
-                GBMMakeCurrent(eglDisplay, eglContext?eglSurface:NULL, eglContext?eglSurface:NULL, ctx->eglContext);
+                GBMMakeCurrent(eglDisplay, eglContext?eglSurface:NULL, eglContext?eglSurface:NULL, eglContext);
             else
 #endif
             egl_eglMakeCurrent(eglDisplay, eglContext?eglSurface:NULL, eglContext?eglSurface:NULL, eglContext);
+        }
 
         LOAD_EGL(eglDestroyContext);
         LOAD_EGL(eglDestroySurface);
@@ -1104,7 +1103,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
 #else
     int created = (context)?isPBuffer(drawable):0;
 #endif
-    EGLContext eglContext = EGL_NO_CONTEXT;
+    EGLContext eglCtx = EGL_NO_CONTEXT;
     EGLSurface eglSurf = 0;
     EGLConfig eglConfig = 0;
     // flush current context if exist...
@@ -1167,7 +1166,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
             if(created) {
 #ifndef NOX11
                 eglSurf = context->eglSurface = pbuffersize[created-1].Surface; //(EGLSurface)drawable;
-                eglContext = context->eglContext = pbuffersize[created-1].Context;    // this context is ok for the PBuffer
+                eglCtx = context->eglContext = pbuffersize[created-1].Context;    // this context is ok for the PBuffer
                 eglConfig = context->eglConfigs[context->eglconfigIdx] = pbuffersize[created-1].Config;
                 /*if (context->contextType != pbuffersize[created-1].Type) {    // Context / buffer not aligned, create a new glstate tracker
                     if(context->glstate)
@@ -1215,7 +1214,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
                     egl_attribs[i++] = height;
                     egl_attribs[i++] = EGL_NONE;
 
-                    if(createPBuffer(display, egl_attribs, &eglSurf, &eglContext, &eglConfig, (depth>16)?8:5, (depth==15)?5:(depth>16)?8:6, (depth>16)?8:5, (depth==32)?8:0, context->samplebuffers, context->samples)==0) {
+                    if(createPBuffer(display, egl_attribs, &eglSurf, &eglCtx, &eglConfig, (depth>16)?8:5, (depth==15)?5:(depth>16)?8:6, (depth>16)?8:5, (depth==32)?8:0, context->samplebuffers, context->samples)==0) {
                         // fail too, abort
                         SHUT_LOGE("PBuffer creation failed too\n");
                         return 0;
@@ -1225,7 +1224,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
                     egl_eglQuerySurface(eglDisplay,eglSurf,EGL_WIDTH,&Width);
                     egl_eglQuerySurface(eglDisplay,eglSurf,EGL_HEIGHT,&Height);
 
-                    addPixBuffer(display, eglSurf, eglConfig, Width, Height, eglContext, drawable, depth, 2);
+                    addPixBuffer(display, eglSurf, eglConfig, Width, Height, eglCtx, drawable, depth, 2);
                     context->eglSurface = eglSurf;
                     if(context->eglContext && context->eglContext!=eglContext) {
                         // remove old context before putting PBuffer specific one
@@ -1299,22 +1298,26 @@ Bool gl4es_glXMakeCurrent(Display *display,
             }
         }
         eglSurf = context->eglSurface;
-        eglContext = context->eglContext;
+        eglCtx = context->eglContext;
     }
     EGLBoolean result;
 #ifndef NO_GBM
     if(globals4es.usegbm)
-        result = GBMMakeCurrent(eglDisplay, eglSurf, eglSurf, eglContext);
+        result = GBMMakeCurrent(eglDisplay, eglSurf, eglSurf, eglCtx);
     else
 #endif
-        result = egl_eglMakeCurrent(eglDisplay, eglSurf, eglSurf, eglContext);
-    DBG(printf("LIBGL: eglMakeCurrent(%p, %p, %p, %p)\n", eglDisplay, eglSurf, eglSurf, eglContext);)
+        result = egl_eglMakeCurrent(eglDisplay, eglSurf, eglSurf, eglCtx);
+    DBG(printf("LIBGL: eglMakeCurrent(%p, %p, %p, %p)\n", eglDisplay, eglSurf, eglSurf, eglCtx);)
     CheckEGLErrors();
     glxContext = context;
     if(!result) {
         // error switching context, don't change glstate and abort...
         DBG(printf(" => False\n");)
         return false;
+    } else {
+        eglSurface = eglSurf;
+        eglContext = eglCtx;
+        eglConfigs[0] = eglConfig;
     }
     // update MapDrawable
     {
