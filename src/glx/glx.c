@@ -216,6 +216,13 @@ static SharedEGLSurface_t* RecycleGetSurface(GLXDrawable drawable) {
         DBG(printf("LIBGL: EGLSurface for drawable %p found\n", (void*)drawable);)
         return kh_value(eglsurfaces, k);
     }
+    if((globals4es.usefb || globals4es.usefbo) && kh_size(eglsurfaces)) {
+        // all surface are in the same drawable
+        // take the first one
+        for (k = kh_begin(eglsurfaces); k != kh_end(eglsurfaces); ++k)
+		    if (kh_exist(eglsurfaces, k)) 
+                return kh_value(eglsurfaces, k);
+    }
     return NULL;
 }
 
@@ -794,7 +801,7 @@ GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBCon
 GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config,
                                       GLXContext share_context, Bool direct,
                                       const int *attrib_list) {
-    DBG(printf("glXCreateContextAttribsARB(%p, %p, %p, %d) ", display, config, share_context, direct);if(config)printf("config is RGBA:%d%d%d%d, depth=%d, stencil=%d, drawable=%d\n", config->redBits, config->greenBits, config->blueBits, config->alphaBits, config->depthBits, config->stencilBits, config->drawableType); else printf("\n");)
+    DBG(printf("glXCreateContextAttribsARB(%p, %p, %p, %d, %p) ", display, config, share_context, direct, attrib_list);if(config)printf("config is RGBA:%d%d%d%d, depth=%d, stencil=%d, drawable=%d\n", config->redBits, config->greenBits, config->blueBits, config->alphaBits, config->depthBits, config->stencilBits, config->drawableType); else printf("\n");)
     if(config && config->drawableType==GLX_PBUFFER_BIT) {
         return createPBufferContext(display, share_context, config);
     } else {
@@ -817,7 +824,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
             EGL_SAMPLES, config->multiSampleSize,
             EGL_SAMPLE_BUFFERS, config->nMultiSampleBuffers,
             EGL_RENDERABLE_TYPE, (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT,
-            EGL_SURFACE_TYPE, globals4es.usepbuffer?EGL_PBUFFER_BIT:((config->drawableType==GLX_PIXMAP_BIT)?EGL_PIXMAP_BIT:(globals4es.usepbuffer?EGL_PBUFFER_BIT:(EGL_WINDOW_BIT | EGL_PBUFFER_BIT))),
+            EGL_SURFACE_TYPE, globals4es.usepbuffer?EGL_PBUFFER_BIT:((config->drawableType==GLX_PIXMAP_BIT)?EGL_PIXMAP_BIT:(EGL_WINDOW_BIT | EGL_PBUFFER_BIT)),
             EGL_NONE
         };
         if (globals4es.usefb)
@@ -831,8 +838,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
         LOAD_EGL(eglQueryString);
         LOAD_EGL(eglGetConfigAttrib);
 
-        GLXContext fake = malloc(sizeof(struct __GLXContextRec));
-        memset(fake, 0, sizeof(struct __GLXContextRec));
+        GLXContext fake = calloc(1, sizeof(struct __GLXContextRec));
         fake->es2only = globales2;
 
         fake->shared = (share_context)?share_context->glstate:NULL;
@@ -1176,7 +1182,7 @@ Bool gl4es_glXMakeCurrent(Display *display,
                 }*/
 #endif
             } else {
-                EGLint attrib_list[5];
+                EGLint attrib_list[5] = {0};
                 int cnt=0;
                 if(!context->doublebuff) {
                     attrib_list[cnt++] = EGL_RENDER_BUFFER;
@@ -1244,10 +1250,12 @@ Bool gl4es_glXMakeCurrent(Display *display,
                             SharedEGLSurface_t *oldsurf = RecycleGetSurface(drawable);
                             if(oldsurf) {
                                 eglSurf = oldsurf->surf;
-                                if(eglSurf != EGL_NO_SURFACE)
+                                if(eglSurf != EGL_NO_SURFACE) {
                                     context->shared_eglsurface = oldsurf->cnt;
+                                    ++(*context->shared_eglsurface);
+                                }
                             }
-                            if(eglSurf == EGL_NO_CONTEXT) {
+                            if(eglSurf == EGL_NO_SURFACE) {
                                 context->nativewin = create_native_window(width,height);
 #if 0//ndef NO_GBM
                                 if(globals4es.usegbm) {
@@ -1280,8 +1288,10 @@ Bool gl4es_glXMakeCurrent(Display *display,
                         SharedEGLSurface_t *oldsurf = RecycleGetSurface(drawable);
                         if(oldsurf) {
                             eglSurf = oldsurf->surf;
-                            if(eglSurf != EGL_NO_SURFACE)
+                            if(eglSurf != EGL_NO_SURFACE) {
                                 context->shared_eglsurface = oldsurf->cnt;
+                                ++(*context->shared_eglsurface);
+                            }
                         }
                         if(eglSurf == EGL_NO_SURFACE) {
                             eglSurf = context->eglSurface = egl_eglCreateWindowSurface(eglDisplay, context->eglConfigs[0], drawable, attrib_list);
