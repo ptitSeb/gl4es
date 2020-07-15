@@ -271,7 +271,7 @@ char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int
 			APPEND_OUTPUT(
 				"\tgl_FragColor.rgb = mix(gl_Fog.color.rgb, gl_FragColor.rgb, "
 				"clamp((gl_Fog.end - gl_FogFragCoord) * gl_Fog.scale, 0., 1.));\n",
-				123
+				124
 			)
 			break;
 		}
