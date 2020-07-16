@@ -259,8 +259,18 @@ Workaround on FBO where a bond texture is used for drawing
 
 ##### LIBGL_FBOFORCETEX
 For the Color Attachment 0 to be a Texture2D (even if program attachs a Renderbuffer) => may speedup glBlitFramebuffer if used
-* 0 : Default, don't force
-* 1 : For Color Attachment 0 of FBO to be a texture
+* 0 : Don't force (allow Renderbuffer to be used on color attachments)
+* 1 : Default: For Color Attachment 0 of FBO to be a texture
+
+##### LIBGL_BLITFULLSCREEN
+Hack to trigger a SwapBuffers when a Full Framebuffer Blit on default FBO is done
+* 0 : Don't force
+* 1 : Default: Activate the hack (usefull with Wine/D3D)
+
+##### LIBGL_NOARBPROGRAM
+Don't expose ARB Program extensions (GL_ARB_vertex_program, GL_ARB_fragment_program and GL_EXT_program_parameters)
+* 0 : Default: expose the ARB Program extensions
+* 1 : Don't expose the extensions
 
 ##### LIBGL_FBO
 Hack: define custom dimension for FBO (only used with LIBGL_FBO=2)

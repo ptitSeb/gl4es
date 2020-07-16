@@ -56,6 +56,7 @@ typedef struct _globals4es {
  int fbomakecurrent;    // hack to bind/unbind FBO when doing glXMakeCurrent
  int fbounbind;         // hack to bind/unbind fbo if a bind texture is used for drawing
  int fboforcetex;       // force texture attachment for Color0
+ int blitfullscreen;    // a "fullscree" blit to FB0 means SwapBuffers
  int notexarray;
  int nodepthtex;
  int logshader;
@@ -69,6 +70,7 @@ typedef struct _globals4es {
  int nointovlhack;
  int noshaderlod;
  int fbo_noalpha;
+ int noarbprogram;      // to disable ARB Program
  int glxnative;
  #ifndef NO_GBM
  char drmcard[50];

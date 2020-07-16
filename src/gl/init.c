@@ -552,8 +552,18 @@ void initialize_gl4es() {
         SHUT_LOGD("FBO workaround for using binded texture enabled\n");
     }
         
-    env(LIBGL_FBOFORCETEX, globals4es.fboforcetex, "Force texture for Attachment color0 on FBO");
+    globals4es.fboforcetex = 1;
+    GetEnvVarInt("LIBGL_FBOFORCETEX", &globals4es.fboforcetex, globals4es.fboforcetex);
+    if(globals4es.fboforcetex)
+      SHUT_LOGD("Force texture for Attachment color0 on FBO\n");
+    globals4es.blitfullscreen = 1;
+    GetEnvVarInt("LIBGL_BLITFULLSCREEN", &globals4es.blitfullscreen, globals4es.blitfullscreen);
+    if(globals4es.blitfullscreen)
+      SHUT_LOGD("Hack to trigger a SwapBuffers when a Full Framebuffer Blit on default FBO is done\n");
+
     env(LIBGL_COMMENTS, globals4es.comments, "Keep comments in converted Shaders");
+
+    env(LIBGL_NOARBPROGRAM, globals4es.noarbprogram, "Not exposing ARB Program extensions");
 
     if(hardext.npot==3)
         globals4es.defaultwrap=0; 

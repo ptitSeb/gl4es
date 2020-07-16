@@ -198,7 +198,8 @@ void BuildExtensionsList() {
                 "GL_ARB_draw_instanced "
                 "GL_ARB_instanced_arrays "
                 );
-            strcat(glstate->extensions,
+            if(!globals4es.noarbprogram)
+                strcat(glstate->extensions,
                 "GL_ARB_vertex_program "
                 "GL_ARB_fragment_program "
                 "GL_EXT_program_parameters "
