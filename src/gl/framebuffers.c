@@ -952,6 +952,8 @@ void gl4es_glDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers) {
                     k = kh_get(renderbufferlist_t, glstate->fbo.renderbufferlist, t);
                     if (k != kh_end(glstate->fbo.renderbufferlist)) {
                         rend = kh_value(glstate->fbo.renderbufferlist, k);
+                        if(glstate->fbo.current_rb == rend)
+                            glstate->fbo.current_rb = glstate->fbo.default_rb;
                         if(rend->secondarybuffer)
                             gles_glDeleteRenderbuffers(1, &rend->secondarybuffer);
                         if(rend->secondarytexture)
@@ -1004,6 +1006,12 @@ void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei w
     else if (internalformat == GL_RGB8 && hardext.rgba8==0)
         internalformat = GL_RGB565_OES;
     else if (internalformat == GL_RGBA8 && hardext.rgba8==0)
+        internalformat = GL_RGBA4_OES;
+    else if (internalformat == GL_RGB5)
+        internalformat = GL_RGB565_OES;
+    else if (internalformat == GL_R3_G3_B2)
+        internalformat = GL_RGB565_OES;
+    else if (internalformat == GL_RGB4)
         internalformat = GL_RGBA4_OES;
     else if (internalformat == GL_RGBA) {
         if(hardext.rgba8==0)
