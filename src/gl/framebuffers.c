@@ -1393,6 +1393,9 @@ void gl4es_glFramebufferTextureLayer(	GLenum target, GLenum attachment, GLuint t
     gl4es_glFramebufferTexture2D(target, attachment, GL_TEXTURE_2D, texture,	level); // Force Texture2D, ignore layer (should track?)...
 }
 
+#ifndef NOX11
+void gl4es_SwapBuffers_currentContext();    // defined in glx/glx.c
+#endif
 void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) {
     // mask will be ignored
     // filter will be taken only for ReadFBO has no Texture attached (so readpixel is used)
@@ -1414,11 +1417,12 @@ void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
 
     int created = (texture==0 || (glstate->fbo.fbo_read==glstate->fbo.fbo_draw));
     int oldtex = glstate->texture.active;
+    DBG(printf("   blit: created=%d, texture=%u, oldtex=%d\n", created, texture, oldtex);)
     if (oldtex)
         gl4es_glActiveTexture(GL_TEXTURE0);
     float nwidth, nheight;
     if (created) {
-        gltexture_t *old = glstate->texture.bound[ENABLED_TEX2D][glstate->texture.active];
+        gltexture_t *old = glstate->texture.bound[ENABLED_TEX2D][0];
         gl4es_glGenTextures(1, &texture);
         gl4es_glBindTexture(GL_TEXTURE_2D, texture);
         gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -1452,12 +1456,18 @@ void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
     float zoomy = ((float)(dstY1-dstY0))/srcH;
     // get the width / height of write FBO
     int fbowidth, fboheight;
+    int blitfullscreen = 0;
     if(glstate->fbo.fbo_draw->id==0/* && glstate->fbo.mainfbo_fbo*/) {
         fbowidth = glstate->fbo.mainfbo_width;
         fboheight = glstate->fbo.mainfbo_height;
-        if(glstate->fbo.mainfbo_width!=dstX1 || glstate->fbo.mainfbo_height!=dstY1) {
-            if (gl4es_getMainFBSize)
+        if((glstate->fbo.mainfbo_width==abs(dstX1-dstX0)) && (glstate->fbo.mainfbo_height==abs(dstY1-dstY0))) {
+            blitfullscreen = 1;
+        } else {
+            if (gl4es_getMainFBSize) {
                 gl4es_getMainFBSize(&glstate->fbo.mainfbo_width, &glstate->fbo.mainfbo_height);
+                if((glstate->fbo.mainfbo_width==abs(dstX1-dstX0)) && (glstate->fbo.mainfbo_height==abs(dstY1-dstY0)))
+                    blitfullscreen = 1;
+            }
         }
     } else {
         fbowidth  = glstate->fbo.fbo_draw->width;
@@ -1474,6 +1484,10 @@ void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
     if(oldtex)
         gl4es_glActiveTexture(GL_TEXTURE0+oldtex);
 
+#ifndef NOX11
+    if(blitfullscreen)  // hack, force a swapbuffer (help wine d3d show stuff on certain games)
+        gl4es_SwapBuffers_currentContext();
+#endif
 }
 
 GLuint gl4es_getCurrentFBO() {
