@@ -208,7 +208,7 @@ GLenum gl4es_glCheckFramebufferStatus(GLenum target) {
             return GL_FRAMEBUFFER_COMPLETE; // cheating here
         if(target==GL_DRAW_FRAMEBUFFER)
             rtarget = GL_FRAMEBUFFER;
-        result = gles_glCheckFramebufferStatus(target);
+        result = gles_glCheckFramebufferStatus(rtarget);
      }
     DBG(printf("glCheckFramebufferStatus(0x%04X)=0x%04X\n", target, result);)
     return result;
