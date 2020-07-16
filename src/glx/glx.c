@@ -272,10 +272,10 @@ static int get_config_default(Display *display, int attribute, int *value) {
     switch (attribute) {
         case GLX_USE_GL:
         case GLX_RGBA:
-        case GLX_DOUBLEBUFFER:
         case GLX_X_RENDERABLE:
             *value = 1;
             break;
+        case GLX_DOUBLEBUFFER:
         case GLX_LEVEL:
         case GLX_STEREO:
             *value = 0;
@@ -615,7 +615,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
         default_glxfbconfig.alphaBits = (visual==0)?0:(visual->depth!=32)?0:8;
         default_glxfbconfig.depthBits = 16;
         default_glxfbconfig.stencilBits = 8;
-        default_glxfbconfig.doubleBufferMode = 1;
+        default_glxfbconfig.doubleBufferMode = 0;
     }
     int depthBits = glxfbconfig->depthBits;
     if(glxfbconfig->stencilBits>8)
@@ -631,7 +631,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
         depthBits = 24;
 #endif    
 
-    DBG(printf("Creating R:%d G:%d B:%d A:%d visual deth=%d Depth:%d Stencil:%d Multisample:%d/%d\n", glxfbconfig->redBits, glxfbconfig->greenBits, glxfbconfig->blueBits, glxfbconfig->alphaBits, visual?visual->depth:0, depthBits, glxfbconfig->stencilBits, glxfbconfig->nMultiSampleBuffers, glxfbconfig->multiSampleSize);)
+    DBG(printf("Creating R:%d G:%d B:%d A:%d visual deth=%d Depth:%d Stencil:%d Multisample:%d/%d Doublebuff=%d\n", glxfbconfig->redBits, glxfbconfig->greenBits, glxfbconfig->blueBits, glxfbconfig->alphaBits, visual?visual->depth:0, depthBits, glxfbconfig->stencilBits, glxfbconfig->nMultiSampleBuffers, glxfbconfig->multiSampleSize, glxfbconfig->doubleBufferMode);)
     EGLint configAttribs[] = {
 #ifdef PANDORA
         EGL_RED_SIZE, 5,
@@ -801,7 +801,11 @@ GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBCon
 GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config,
                                       GLXContext share_context, Bool direct,
                                       const int *attrib_list) {
-    DBG(printf("glXCreateContextAttribsARB(%p, %p, %p, %d, %p) ", display, config, share_context, direct, attrib_list);if(config)printf("config is RGBA:%d%d%d%d, depth=%d, stencil=%d, drawable=%d\n", config->redBits, config->greenBits, config->blueBits, config->alphaBits, config->depthBits, config->stencilBits, config->drawableType); else printf("\n");)
+    DBG(printf("glXCreateContextAttribsARB(%p, %p, %p, %d, %p) ", display, config, share_context, direct, attrib_list);
+        if(config)
+            printf("config is RGBA:%d%d%d%d, depth=%d, stencil=%d, doublebuff=%d, drawable=%d\n", config->redBits, config->greenBits, config->blueBits, config->alphaBits, config->depthBits, config->stencilBits, config->doubleBufferMode, config->drawableType); 
+        else printf("\n");
+    )
     if(config && config->drawableType==GLX_PBUFFER_BIT) {
         return createPBufferContext(display, share_context, config);
     } else {
@@ -1521,6 +1525,12 @@ void gl4es_glXSwapBuffers(Display *display,
     if (globals4es.usefbo && PBuffer==0) {
         bindMainFBO();
     }
+}
+
+void gl4es_SwapBuffers_currentContext()
+{
+    if(glxContext)
+        gl4es_glXSwapBuffers(glxContext->display, glxContext->drawable);
 }
 
 int gl4es_glXGetConfig(Display *display,
