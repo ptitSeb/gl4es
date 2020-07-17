@@ -2703,6 +2703,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 				}
 				free(param);
 				
+				curStatusPtr->curValue.newVar.var->init.strings_total_len = -1;
+				
 				int ret;
 				khint_t varIdx = kh_put(
 					variables,
