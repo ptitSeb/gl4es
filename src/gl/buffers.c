@@ -748,7 +748,12 @@ void gl4es_glBindVertexArray(GLuint array) {
             glvao = kh_value(list, k) = malloc(sizeof(glvao_t));
             // new vao is binded to nothing
             VaoInit(glvao);
-            // TODO: check if should copy status of current VAO instead of cleanning everything
+            // Copy current status to new VAO
+            glvao->vertex = glstate->vao->vertex;
+            glvao->elements = glstate->vao->elements;
+            glvao->pack = glstate->vao->pack;
+            glvao->unpack = glstate->vao->unpack;
+            glvao->maxtex = glstate->vao->maxtex;
 
             // just put is number
             glvao->array = array;
