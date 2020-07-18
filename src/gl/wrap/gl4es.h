@@ -76,7 +76,7 @@ void gl4es_glFogCoorddv(const GLdouble *coord);
 // rect
 #define GL_RECT(suffix, type)                                \
     void gl4es_glRect##suffix(type x1, type y1, type x2, type y2); \
-    void gl4es_glRect##suffix##v(const type *v);
+    void gl4es_glRect##suffix##v(const type *v1, const type *v2);
 
 GL_RECT(d, GLdouble)
 GL_RECT(f, GLfloat)

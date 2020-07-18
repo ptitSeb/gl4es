@@ -273,17 +273,17 @@ void glOrthofOES(GLfloat left, GLfloat right, GLfloat bottom,
 
 // glRect
 
-#define GL_RECT(suffix, type)                                 \
+#define GL_RECT(suffix, type)                                       \
     void gl4es_glRect##suffix(type x1, type y1, type x2, type y2) { \
-        gl4es_glBegin(GL_QUADS);                                  \
+        gl4es_glBegin(GL_QUADS);                                    \
         gl4es_glVertex2##suffix(x1, y1);                            \
         gl4es_glVertex2##suffix(x2, y1);                            \
         gl4es_glVertex2##suffix(x2, y2);                            \
         gl4es_glVertex2##suffix(x1, y2);                            \
-		gl4es_glEnd();											  \
-    }                                                         \
-    void gl4es_glRect##suffix##v(const type *v) {                   \
-        gl4es_glRect##suffix(v[0], v[1], v[2], v[3]);               \
+		gl4es_glEnd();											    \
+    }                                                               \
+    void gl4es_glRect##suffix##v(const type *v1, const type *v2) {  \
+        gl4es_glRect##suffix(v1[0], v1[1], v2[0], v2[1]);           \
     }
 
 GL_RECT(d, GLdouble)
@@ -789,7 +789,7 @@ void glMultMatrixd(const GLdouble *m) AliasExport("gl4es_glMultMatrixd");
 // rect
 #define GL_RECT(suffix, type)                                \
     void glRect##suffix(type x1, type y1, type x2, type y2) AliasExport("gl4es_glRect" #suffix); \
-    void glRect##suffix##v(const type *v)AliasExport("gl4es_glRect" #suffix "v");
+    void glRect##suffix##v(const type *v1, const type *v2)AliasExport("gl4es_glRect" #suffix "v");
 
 GL_RECT(d, GLdouble)
 GL_RECT(f, GLfloat)
