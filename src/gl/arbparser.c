@@ -3025,14 +3025,17 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 #define STATE_AFTER_TEXSAMPLER 14
 #define STATE_AFTER_NUMBER 15
 #define STATE_LSQBR_START 16
-#define STATE_LSQBR_ADDR 17
-#define STATE_LSQBR_ADOT 18
-#define STATE_LSQBR_ADOK 19
-#define STATE_LSQBR_SIGN 20
-#define STATE_LSQBR_END 21
+#define STATE_LSQBR_END 17
+#define STATE_LBRACE 18
+#define STATE_LBRACE_NUM1 19
+#define STATE_LBRACE_COM1 20
+#define STATE_LBRACE_NUM2 21
+#define STATE_LBRACE_COM2 22
+#define STATE_LBRACE_NUM3 23
+#define STATE_LBRACE_COM3 24
+#define STATE_LBRACE_NUM4 25
+#define STATE_RBRACE 26
 #define STATE_AFTER_SWIZZLE -1
-		// Note: after thinking again, STATE_LSQBR_ADDR, STATE_LSQBR_ADOT, STATE_LSQBR_ADOK and
-		// STATE_LSQBR_SIGN shouldn't exist (no relative addressing when using implicit params)
 		
 		sInstruction_Vars *curVarPtr = &curStatusPtr->curValue.newInst.inst.vars[curStatusPtr->curValue.newInst.curArg];
 		int texSampler = INSTTEX(curStatusPtr->curValue.newInst.inst.type)
@@ -3044,11 +3047,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 			case STATE_AFTER_VALID_LSQBR_ADDR:
 			case STATE_AFTER_VALID_LSQBR_ADOT:
 			case STATE_AFTER_VALID_LSQBR_ADOK:
-			case STATE_AFTER_VALID_LSQBR_SIGN:
-			case STATE_LSQBR_ADDR:
-			case STATE_LSQBR_ADOT:
-			case STATE_LSQBR_ADOK:
-			case STATE_LSQBR_SIGN: {
+			case STATE_AFTER_VALID_LSQBR_SIGN: {
 				char *faa = (char*)realloc(
 					curVarPtr->floatArrAddr,
 					(strlen(curVarPtr->floatArrAddr) + getTokenLength(curStatusPtr) + 1) * sizeof(char)
@@ -3073,8 +3072,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 				curStatusPtr->curValue.newInst.state = STATE_AFTER_SIGN;
 				break;
 				
-			case STATE_AFTER_VALID_LSQBR_ADOK:
-			case STATE_LSQBR_ADOK: {
+			case STATE_AFTER_VALID_LSQBR_ADOK: {
 				char *faa = (char*)realloc(
 					curVarPtr->floatArrAddr,
 					(strlen(curVarPtr->floatArrAddr) + getTokenLength(curStatusPtr) + 1) * sizeof(char)
@@ -3134,9 +3132,12 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 				break;
 			}
 				
-			case STATE_LSQBR_SIGN:
+			case STATE_LBRACE:
+			case STATE_LBRACE_COM1:
+			case STATE_LBRACE_COM2:
+			case STATE_LBRACE_COM3:
 				pushArray((sArray*)&curStatusPtr->_fixedNewVar, getToken(curStatusPtr));
-				curStatusPtr->curValue.newInst.state = STATE_LSQBR_END;
+				++curStatusPtr->curValue.newInst.state;
 				break;
 				
 			default:
@@ -3154,6 +3155,14 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 				curStatusPtr->curValue.newInst.state = STATE_AFTER_NUMBER;
 				break;
 			}
+				
+			case STATE_LBRACE:
+			case STATE_LBRACE_COM1:
+			case STATE_LBRACE_COM2:
+			case STATE_LBRACE_COM3:
+				pushArray((sArray*)&curStatusPtr->_fixedNewVar, getToken(curStatusPtr));
+				++curStatusPtr->curValue.newInst.state;
+				break;
 				
 			default:
 				FAIL("Invalid state");
@@ -3230,8 +3239,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 				
 				break; }
 				
-			case STATE_AFTER_VALID_LSQBR_START:
-			case STATE_LSQBR_START: {
+			case STATE_AFTER_VALID_LSQBR_START: {
 				khint_t idx = kh_get(variables, curStatusPtr->varsMap, tok);
 				if (!kh_truly_exist(curStatusPtr->varsMap, idx)) {
 					free(tok);
@@ -3248,8 +3256,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 				break;
 			}
 				
-			case STATE_AFTER_VALID_LSQBR_ADOT:
-			case STATE_LSQBR_ADOT: {
+			case STATE_AFTER_VALID_LSQBR_ADOT: {
 				if ((getTokenLength(curStatusPtr) != 1) || (tok[0] != 'x')) {
 					free(tok);
 					FAIL("Invalid address mask");
@@ -3311,8 +3318,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 				curStatusPtr->curValue.newInst.state = STATE_AFTER_VALID_DOT;
 				break;
 				
-			case STATE_AFTER_VALID_LSQBR_ADDR:
-			case STATE_LSQBR_ADDR: {
+			case STATE_AFTER_VALID_LSQBR_ADDR: {
 				char *faa = (char*)realloc(
 					curVarPtr->floatArrAddr,
 					(strlen(curVarPtr->floatArrAddr) + getTokenLength(curStatusPtr) + 1) * sizeof(char)
@@ -3368,15 +3374,28 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 			}
 			break;
 			
-		case TOK_LBRACE: /* TODO: { <signedFloat> *1-4 } */
+		case TOK_LBRACE:
 			switch (curStatusPtr->curValue.newInst.state) {
+			case STATE_START:
+				pushArray((sArray*)&curStatusPtr->_fixedNewVar, getToken(curStatusPtr));
+				curStatusPtr->curValue.newInst.state = STATE_LBRACE;
+				break;
+				
 			default:
 				FAIL("Invalid state");
 			}
 			break;
 			
-		case TOK_RBRACE: /* TODO: { <signedFloat> *1-4 } */
+		case TOK_RBRACE:
 			switch (curStatusPtr->curValue.newInst.state) {
+			case STATE_LBRACE_NUM1:
+			case STATE_LBRACE_NUM2:
+			case STATE_LBRACE_NUM3:
+			case STATE_LBRACE_NUM4:
+				pushArray((sArray*)&curStatusPtr->_fixedNewVar, getToken(curStatusPtr));
+				curStatusPtr->curValue.newInst.state = STATE_RBRACE;
+				break;
+				
 			default:
 				FAIL("Invalid state");
 			}
@@ -3403,10 +3422,20 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 			/* FALLTHROUGH */
 		case TOK_COMMA:
 			switch (curStatusPtr->curValue.newInst.state) {
+			case STATE_LBRACE_NUM1:
+			case STATE_LBRACE_NUM2:
+			case STATE_LBRACE_NUM3:
+			case STATE_LBRACE_NUM4:
+				pushArray((sArray*)&curStatusPtr->_fixedNewVar, getToken(curStatusPtr));
+				++curStatusPtr->curValue.newInst.state;
+				return;
+				
 			case STATE_AFTER_ELEMENT:
+			case STATE_RBRACE: // Should be able to go directly to the resolveParam part...
 				if (INSTTEX(curStatusPtr->curValue.newInst.inst.type)
 				 && (curStatusPtr->curValue.newInst.curArg == 2)) {
-					if ((curStatusPtr->_fixedNewVar.strLen != 4) || (curStatusPtr->_fixedNewVar.strParts[1][0] != '[')
+					if ((curStatusPtr->_fixedNewVar.strLen != 4)
+					 || (curStatusPtr->_fixedNewVar.strParts[1][0] != '[')
 					 || (curStatusPtr->_fixedNewVar.strParts[3][0] != ']')
 					 || strcmp(curStatusPtr->_fixedNewVar.strParts[0], "texture")) {
 						FAIL("Invalid texture instruction");
@@ -3568,9 +3597,16 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 #undef STATE_AFTER_TEXSAMPLER
 #undef STATE_AFTER_NUMBER
 #undef STATE_LSQBR_START
-#undef STATE_LSQBR_ADDR
-#undef STATE_LSQBR_SIGN
 #undef STATE_LSQBR_END
+#undef STATE_LBRACE
+#undef STATE_LBRACE_NUM1
+#undef STATE_LBRACE_COM1
+#undef STATE_LBRACE_NUM2
+#undef STATE_LBRACE_COM2
+#undef STATE_LBRACE_NUM3
+#undef STATE_LBRACE_COM3
+#undef STATE_LBRACE_NUM4
+#undef STATE_RBRACE
 #undef STATE_AFTER_SWIZZLE
 	}
 		
