@@ -72,7 +72,7 @@ SET(GL_SRC
 )
 
 SET(GL_H
-    ../version.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/../version.h
     ${CMAKE_CURRENT_SOURCE_DIR}/gl/arbconverter.h
 	${CMAKE_CURRENT_SOURCE_DIR}/gl/arbgenerator.h
 	${CMAKE_CURRENT_SOURCE_DIR}/gl/arbhelper.h
