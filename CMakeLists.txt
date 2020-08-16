@@ -176,16 +176,16 @@ macro(create_test test_name test_filename calls_count tolerance)
                 -D TOLERANCE_GLES2=${ARGV5}
                 -P ${CMAKE_SOURCE_DIR}/test.cmake)
         else (${ARGV4} STREQUAL "NOEXTRACT_RANGE")
-        add_test(${test_name}
-            ${CMAKE_COMMAND}
-            -D LIBRARY_FOLDER=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-            -D TESTS_DIRECTORY=${CMAKE_SOURCE_DIR}/tests
-            -D TEST_FILENAME=${test_filename}
-            -D CALLS=${calls_count}
-            -D TOLERANCE_GLES1=${tolerance}
-            -D TOLERANCE_GLES2=${ARGV5}
-            -D EXTRACT_RANGE=${ARGV4}
-            -P ${CMAKE_SOURCE_DIR}/test.cmake)
+            add_test(${test_name}
+                ${CMAKE_COMMAND}
+                -D LIBRARY_FOLDER=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+                -D TESTS_DIRECTORY=${CMAKE_SOURCE_DIR}/tests
+                -D TEST_FILENAME=${test_filename}
+                -D CALLS=${calls_count}
+                -D TOLERANCE_GLES1=${tolerance}
+                -D TOLERANCE_GLES2=${ARGV5}
+                -D EXTRACT_RANGE=${ARGV4}
+                -P ${CMAKE_SOURCE_DIR}/test.cmake)
         endif (${ARGV4} STREQUAL "NOEXTRACT_RANGE")
     else (${ARGC} EQUAL 5)
         add_test(${test_name}
@@ -227,10 +227,10 @@ endmacro(create_test_GLES)
 create_test(GLXgears glxgears "0000008203" 25 "NOEXTRACT_RANGE" 700)
 create_test(StuntCarRacer stuntcarracer "0000118817" 20 "638x478+1+1")
 create_test(Neverball neverball "0000078750" 20 "798x478+1+1" 200)
-#create_test_GLES(Neverball 2 neverball "0000078750" 20 "798x478+1+1" 200)
 create_test(FoobillardPlus foobillardplus "0000014748" 50 "798x478+1+1" 60)
 create_test(Descent3 descent3 "0000284192" 20 "638x478+1+1")
 create_test(PointSprite pointsprite "0000248810" 20)
 
+#create_test_GLES(Neverball 2 neverball "0000078750" 200 "798x478+1+1")
 create_test_GLES(OpenRA 2 openra "0000031249" 20 "638x478+1+1")
 create_test_GLES(GLSL_lighting 2 glsl_lighting "0000505393" 20)
