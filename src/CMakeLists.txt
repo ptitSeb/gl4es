@@ -1,170 +1,167 @@
 include_directories(util)
 
-#file(GLOB_RECURSE GL_SOURCES gl/*.c)
+#file(GLOB_RECURSE GL_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/gl/*.c)
 SET(GL_SRC
-    gl/arbconverter.c
-	gl/arbgenerator.c
-	gl/arbhelper.c
-	gl/arbparser.c
-    gl/array.c
-    gl/blit.c
-    gl/blend.c
-    gl/buffers.c
-    gl/build_info.c
-    gl/debug.c
-    gl/decompress.c
-    gl/depth.c
-    gl/directstate.c
-    gl/drawing.c
-    gl/enable.c
-    gl/envvars.c
-    gl/eval.c
-    gl/face.c
-    gl/fog.c
-    gl/fpe.c
-    gl/fpe_cache.c
-    gl/fpe_shader.c
-    gl/framebuffers.c
-    gl/gl_lookup.c
-    gl/getter.c
-    gl/gl4es.c
-    gl/glstate.c
-    gl/hint.c
-    gl/init.c
-    gl/light.c
-    gl/line.c
-    gl/list.c
-    gl/listdraw.c
-    gl/listrl.c
-    gl/loader.c
-    gl/logs.c
-    gl/matrix.c
-    gl/matvec.c
-    gl/oldprogram.c
-    gl/pixel.c
-    gl/planes.c
-    gl/pointsprite.c
-    gl/preproc.c
-    gl/program.c
-    gl/queries.c
-    gl/raster.c
-    gl/render.c
-    gl/shader.c
-    gl/shaderconv.c
-    gl/shader_hacks.c
-    gl/stack.c
-    gl/stencil.c
-    gl/string_utils.c
-    gl/stubs.c
-    gl/texenv.c
-    gl/texgen.c
-    gl/texture.c
-    gl/texture_compressed.c
-    gl/texture_params.c
-    gl/texture_read.c
-    gl/texture_3d.c
-    gl/uniform.c
-    gl/vertexattrib.c
-	gl/wrap/gl4eswraps.c
-	gl/wrap/gles.c
-	gl/wrap/glstub.c
-	gl/math/matheval.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/arbconverter.c
+	${CMAKE_CURRENT_SOURCE_DIR}/gl/arbgenerator.c
+	${CMAKE_CURRENT_SOURCE_DIR}/gl/arbhelper.c
+	${CMAKE_CURRENT_SOURCE_DIR}/gl/arbparser.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/array.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/blit.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/blend.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/buffers.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/build_info.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/debug.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/decompress.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/depth.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/directstate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/drawing.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/enable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/envvars.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/eval.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/face.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/fog.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/fpe.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/fpe_cache.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/fpe_shader.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/framebuffers.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/gl_lookup.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/getter.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/gl4es.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/glstate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/hint.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/init.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/light.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/line.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/list.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/listdraw.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/listrl.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/loader.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/logs.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/matrix.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/matvec.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/oldprogram.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/pixel.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/planes.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/pointsprite.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/preproc.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/program.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/queries.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/raster.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/render.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/shader.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/shaderconv.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/shader_hacks.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/stack.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/stencil.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/string_utils.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/stubs.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/texenv.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/texgen.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/texture.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/texture_compressed.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/texture_params.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/texture_read.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/texture_3d.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/uniform.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/vertexattrib.c
+	${CMAKE_CURRENT_SOURCE_DIR}/gl/wrap/gl4eswraps.c
+	${CMAKE_CURRENT_SOURCE_DIR}/gl/wrap/gles.c
+	${CMAKE_CURRENT_SOURCE_DIR}/gl/wrap/glstub.c
+	${CMAKE_CURRENT_SOURCE_DIR}/gl/math/matheval.c
 )
 
 SET(GL_H
     ../version.h
-    gl/arbconverter.h
-	gl/arbgenerator.h
-	gl/arbhelper.h
-	gl/arbparser.h
-    gl/array.h
-    gl/blend.h
-    gl/blit.h
-    gl/buffers.h
-	gl/build_info.h
-    gl/const.h
-    gl/debug.h
-    gl/decompress.h
-    gl/defines.h
-    gl/depth.h
-    gl/directstate.h
-    gl/envvars.h
-    gl/eval.h
-    gl/face.h
-    gl/fog.h
-    gl/fpe.h
-    gl/fpe_shader.h
-    gl/framebuffers.h
-    gl/gl_lookup.h
-    gl/gles.h
-    gl/gl4es.h
-    gl/glstate.h
-    gl/hint.h
-    gl/init.h
-    gl/light.h
-    gl/line.h
-    gl/list.h
-    gl/loader.h
-    gl/logs.h
-    gl/matrix.h
-    gl/matvec.h
-    gl/oldprogram.h
-    gl/pixel.h
-    gl/planes.h
-    gl/pointsprite.h
-    gl/preproc.h
-    gl/program.h
-    gl/queries.h
-    gl/raster.h
-    gl/render.h
-    gl/shader.h
-    gl/shaderconv.h
-    gl/shader_hacks.h
-    gl/stack.h
-    gl/state.h
-    gl/stencil.h
-    gl/stb_dxt_104.h
-    gl/string_utils.h
-    gl/texenv.h
-    gl/texgen.h
-    gl/uniform.h
-    gl/texture.h
-    gl/vertexattrib.h
-    gl/math/eval.h
-    gl/wrap/gl4es.h
-    gl/wrap/gles.h
-    gl/wrap/stub.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/arbconverter.h
+	${CMAKE_CURRENT_SOURCE_DIR}/gl/arbgenerator.h
+	${CMAKE_CURRENT_SOURCE_DIR}/gl/arbhelper.h
+	${CMAKE_CURRENT_SOURCE_DIR}/gl/arbparser.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/array.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/blend.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/blit.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/buffers.h
+	${CMAKE_CURRENT_SOURCE_DIR}/gl/build_info.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/const.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/debug.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/decompress.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/depth.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/directstate.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/envvars.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/eval.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/face.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/fog.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/fpe.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/fpe_shader.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/framebuffers.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/gl_lookup.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/gles.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/gl4es.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/glstate.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/hint.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/init.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/light.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/line.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/list.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/loader.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/logs.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/matrix.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/matvec.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/oldprogram.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/pixel.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/planes.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/pointsprite.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/preproc.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/program.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/queries.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/raster.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/render.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/shader.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/shaderconv.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/shader_hacks.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/stack.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/state.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/stencil.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/stb_dxt_104.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/string_utils.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/texenv.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/texgen.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/uniform.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/texture.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/vertexattrib.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/math/eval.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/wrap/gl4es.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/wrap/gles.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/wrap/stub.h
 )
-
-set_source_files_properties(gl/build_info.c PROPERTIES OBJECT_OUTPUTS "dummy.c")
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND NOT NO_LOADER)
     include_directories(glx)
 #    aux_source_directory(glx GLX_SOURCES)
 #    list(APPEND GL_SOURCES ${GLX_SOURCES})
     list(APPEND GL_SRC
-        glx/hardext.c
-        glx/gbm.c
-	    glx/glx.c
-	    glx/lookup.c
-        glx/rpi.c
-	    glx/streaming.c
-        glx/utils.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/hardext.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/gbm.c
+	    ${CMAKE_CURRENT_SOURCE_DIR}/glx/glx.c
+	    ${CMAKE_CURRENT_SOURCE_DIR}/glx/lookup.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/rpi.c
+	    ${CMAKE_CURRENT_SOURCE_DIR}/glx/streaming.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/utils.c
     )
     list(APPEND GL_H
-        glx/glx_gbm.h
-        glx/gbmfunc.h
-        glx/drmfunc.h
-        glx/glx.h
-        glx/hardext.h
-        glx/rpi.h
-        glx/streaming.h
-        glx/utils.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/glx_gbm.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/gbmfunc.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/drmfunc.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/glx.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/hardext.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/rpi.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/streaming.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/utils.h
     )
 else()
     include_directories(glx)
     list(APPEND GL_SRC
-        glx/hardext.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/hardext.c
     )
     message(STATUS "Not on Linux: building without GLX support.")
 endif()
@@ -172,22 +169,24 @@ endif()
 if(AMIGAOS4)
     include_directories(agl)
     list(APPEND GL_SRC
-        glx/gbm.c
-        glx/glx.c
-        agl/lookup.c
-        agl/amigaos.c
-        agl/agl.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/gbm.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/glx.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/agl/lookup.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/agl/amigaos.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/agl/agl.c
     )
     list(APPEND GL_H
-        glx/hardext.h
-        glx/glx.h
-        agl/amigaos.h
-        agl/agl.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/hardext.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/glx/glx.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/agl/amigaos.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/agl/agl.h
     )
 endif()
 
+set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/gl/build_info.c PROPERTIES OBJECT_DEPENDS "${GL_SRC};${GL_H}")
+
 if(STATICLIB)
-add_library(GL STATIC ${GL_SRC})
+    add_library(GL STATIC ${GL_SRC})
 else()
     add_library(GL SHARED ${GL_SRC})
     
@@ -210,11 +209,10 @@ else()
         set_target_properties(GL PROPERTIES SUFFIX ".so.1")
     endif()
     install(TARGETS GL
-    LIBRARY
+      LIBRARY
       DESTINATION "/usr/lib/gl4es/"
     )
-  install(FILES "../include/gl4esinit.h" "../include/gl4eshint.h"
-    DESTINATION "/usr/include/gl4es/"
+    install(FILES "../include/gl4esinit.h" "../include/gl4eshint.h"
+      DESTINATION "/usr/include/gl4es/"
     )
-  endif()
-
+endif()
