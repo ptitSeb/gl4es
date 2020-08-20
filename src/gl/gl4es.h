@@ -100,11 +100,12 @@ static inline void errorGL() {	// next glGetError will be from GL
 	glstate->shim_error = 0;
 }
 static inline void errorShim(GLenum error) {	// next glGetError will be "error" from gl4es
-	glstate->shim_error = 1;
+	glstate->shim_error = 2;    // no need to call glGetError() here
 	glstate->last_error = error;
 }
 static inline void noerrorShim() {
-	errorShim(GL_NO_ERROR);
+	glstate->shim_error = 1;
+	glstate->last_error = GL_NO_ERROR;
 }
 
 static inline void noerrorShimNoPurge() {
