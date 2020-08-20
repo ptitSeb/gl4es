@@ -464,8 +464,10 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_MAX_TEXTURE_MAX_ANISOTROPY:
             if(hardext.aniso)
                 *params=hardext.aniso;
-            else
+            else {
+                *params=0;  // still send 0...
                 errorShim(GL_INVALID_ENUM);
+            }
             break;
         case GL_MAX_COLOR_ATTACHMENTS:
             if(hardext.fbo)
