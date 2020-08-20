@@ -789,15 +789,15 @@ void gl4es_glLinkProgram(GLuint program) {
         DBG(printf(" link status = %d\n", glprogram->linked);)
         if(glprogram->linked) {
             fill_program(glprogram);
+            noerrorShimNoPurge();
         } else {
             // should DBG the linker error?
             DBG(printf(" Link failled!\n");)
             glprogram->linked = 0;
-            errorGL();
+            errorShim(err);
             return;
         }
-        // all done
-        errorShim(err);
+        
     } else {
         noerrorShim();
     }
