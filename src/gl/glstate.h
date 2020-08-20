@@ -48,8 +48,8 @@ typedef struct glstate_s {
     GLfloat             *texcoord[MAX_TEX];
     GLfloat             *normal;
     GLfloat             *fogcoord;                  // last shortcut
-    int                 shim_error;
-    GLenum              last_error;
+    int                 type_error;
+    GLenum              shim_error;
     GLint               vp[4];
     khash_t(queries)    *queries;       // shared
     glstack_t           *stack;

@@ -17,19 +17,26 @@
 #endif
 
 GLenum gl4es_glGetError() {
-    DBG(printf("glGetError(), noerror=%d, shim_error=%d\n", globals4es.noerror, glstate->shim_error);)
+    DBG(printf("glGetError(), noerror=%d, type_error=%d shim_error=%s\n", globals4es.noerror, glstate->type_error, PrintEnum(glstate->shim_error));)
     if(globals4es.noerror)
         return GL_NO_ERROR;
 	LOAD_GLES(glGetError);
-	if (glstate->shim_error) {
-        if(glstate->shim_error!=2)
-            gles_glGetError();  // purge error log
-        GLenum tmp = glstate->last_error;
-		glstate->last_error = GL_NO_ERROR;
-		return tmp;
+    GLenum err = GL_NO_ERROR;
+    if(!glstate->type_error) {
+        // check glGetError, forget everything else
+        err = gles_glGetError();
+        // If no error, then check "shim" error
+        if(err==GL_NO_ERROR)
+            err = glstate->shim_error;
+    } else {
+        err = glstate->shim_error;
 	}
-    noerrorShim();  // next will be ok
-	return gles_glGetError();
+    if(glstate->type_error==1)
+        gles_glGetError();  // purge error log
+    glstate->type_error = 2;
+    glstate->shim_error = GL_NO_ERROR;
+
+	return err;
 }
 GLenum glGetError() AliasExport("gl4es_glGetError");
 

@@ -96,21 +96,28 @@ extern glstate_t *glstate;
 void fpe_Init(glstate_t *glstate);       // defined in fpe.c
 void fpe_Dispose(glstate_t *glstate);    // defined in fpe.c
 
+// glGetError() return last error, but that error is not reset until read
+// So if 2 operations generate an error, 
+//  the 2nd error is lost if glGetError has not been called after 1st op
 static inline void errorGL() {	// next glGetError will be from GL 
-	glstate->shim_error = 0;
+    if(glstate->type_error && glstate->shim_error==GL_NO_ERROR)
+	    glstate->type_error = 0;
+    else if(glstate->type_error==2)
+        glstate->type_error = 1;    // will need to read glGetError...
 }
 static inline void errorShim(GLenum error) {	// next glGetError will be "error" from gl4es
-	glstate->shim_error = 2;    // no need to call glGetError() here
-	glstate->last_error = error;
+    if(glstate->type_error && glstate->shim_error==GL_NO_ERROR)
+	    glstate->type_error = 1;
+    if(glstate->shim_error = GL_NO_ERROR)
+	    glstate->shim_error = error;
 }
 static inline void noerrorShim() {
-	glstate->shim_error = 1;
-	glstate->last_error = GL_NO_ERROR;
+    if(glstate->type_error && glstate->shim_error==GL_NO_ERROR)
+	    glstate->type_error = 1;
 }
 
 static inline void noerrorShimNoPurge() {
-	glstate->shim_error = 2;
-	glstate->last_error = GL_NO_ERROR;
+    // doing nothing
 }
 
 void gl4es_scratch(int alloc);

@@ -109,7 +109,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     // set specifics default
 	GLfloat white[] = {1.0f, 1.0f, 1.0f, 1.0f};
 	memcpy(glstate->color, white, sizeof(GLfloat)*4);
-	glstate->last_error = GL_NO_ERROR;
+	glstate->shim_error = GL_NO_ERROR;
     glstate->normal[2] = 1.0f; // default normal is 0/0/1
     glstate->matrix_mode = GL_MODELVIEW;
     
