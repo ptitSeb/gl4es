@@ -787,13 +787,22 @@ GLuint glGenLists(GLsizei range) AliasExport("gl4es_glGenLists");
 
 
 void gl4es_glNewList(GLuint list, GLenum mode) {
-	errorShim(GL_INVALID_VALUE);
-	if (list==0)
+    ERROR_IN_BEGIN
+	if (list==0) {
+        errorShim(GL_INVALID_VALUE);
 		return;
+    }
     
     if (glstate->raster.bm_drawing) bitmap_flush();
     FLUSH_BEGINEND;
 
+    if(glstate->list.compiling) {
+        // already doing a list
+        errorShim(GL_INVALID_OPERATION);
+        return;
+    }
+
+    noerrorShimNoPurge();
     {
         khint_t k;
         int ret;
@@ -804,7 +813,6 @@ void gl4es_glNewList(GLuint list, GLenum mode) {
             kh_value(lists, k) = NULL;
         }
     }
-    noerrorShimNoPurge();
 
     glstate->list.name = list;
     glstate->list.mode = mode;
