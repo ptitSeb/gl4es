@@ -1,5 +1,8 @@
 Version history
 ----
+##### Current Version
+* Improve glGetError() handling
+
 ##### v1.1.4
 * Fixed some regression, and foobillard++ is working fine now
 * Set default GL version to 2.1 (instead of 2.0) for GLES2.0 backend
