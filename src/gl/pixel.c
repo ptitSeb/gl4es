@@ -871,6 +871,22 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         }
         return true;
     }
+    // L -> RGB
+    if ((src_format == GL_LUMINANCE) && (dst_format == GL_RGB) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {
+        GLuint tmp;
+        for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				//tmp = *(const GLuint*)src_pos;
+                unsigned char* byte_dst = (unsigned char*)dst_pos;
+                byte_dst[0] = byte_dst[1] = byte_dst[2] = *(GLubyte*)src_pos;
+				src_pos += src_stride;
+				dst_pos += dst_stride;
+			}
+			dst_pos += dst_width;
+            src_pos += src_widthadj;
+        }
+        return true;
+    }
     // RGBA -> LA
     if ((src_format == GL_RGBA) && (dst_format == GL_LUMINANCE_ALPHA) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {
         GLuint tmp;
