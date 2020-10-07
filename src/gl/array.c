@@ -170,7 +170,7 @@ GLvoid *copy_gl_array_convert(const GLvoid *src,
                       GLenum to, GLsizei to_width, GLsizei skip, GLsizei count, GLvoid* filler, void* dst) {
     if (! src || !count)
         return NULL;
-        
+
     if (! stride)
         stride = width * gl_sizeof(from);
     GLsizei from_size = gl_sizeof(from) * width;
@@ -186,9 +186,9 @@ GLvoid *copy_gl_array_convert(const GLvoid *src,
     if(to==GL_FLOAT && from==GL_FLOAT)
         if(width<4 || *(GLfloat*)filler==1.0f)    // no need to convert
             return copy_gl_array_texcoord(src, from, width, stride, to_width, skip, count, dst);
-        else /*if(*(GLfloat*)filler==0.0f)*/ //that should be unneeded
+        else
             return copy_gl_array(src, from, width, stride, to, to_width, skip, count, dst);
-						  
+
     const char *unknown_str = "LIBGL: copy_gl_array_convert -> unknown type: %x\n";
     if(!dst) dst = malloc((count-skip) * to_width * gl_sizeof(to));
     if (to_width < width) {
@@ -196,7 +196,7 @@ GLvoid *copy_gl_array_convert(const GLvoid *src,
         return NULL;*/
         width = to_width;
     }
-						  
+
     // if stride is weird, we need to be able to arbitrarily shift src
     // so we leave it in a uintptr_t and cast after incrementing
     uintptr_t in = (uintptr_t)src;
