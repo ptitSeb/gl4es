@@ -273,9 +273,9 @@ static int get_config_default(Display *display, int attribute, int *value) {
         case GLX_USE_GL:
         case GLX_RGBA:
         case GLX_X_RENDERABLE:
+        case GLX_DOUBLEBUFFER:
             *value = 1;
             break;
-        case GLX_DOUBLEBUFFER:
         case GLX_LEVEL:
         case GLX_STEREO:
             *value = 0;
@@ -615,7 +615,7 @@ GLXContext gl4es_glXCreateContext(Display *display,
         default_glxfbconfig.alphaBits = (visual==0)?0:(visual->depth!=32)?0:8;
         default_glxfbconfig.depthBits = 16;
         default_glxfbconfig.stencilBits = 8;
-        default_glxfbconfig.doubleBufferMode = 0;
+        default_glxfbconfig.doubleBufferMode = 1;
     }
     int depthBits = glxfbconfig->depthBits;
     if(glxfbconfig->stencilBits>8)
@@ -1233,15 +1233,17 @@ Bool gl4es_glXMakeCurrent(Display *display,
 
                     egl_eglQuerySurface(eglDisplay,eglSurf,EGL_WIDTH,&Width);
                     egl_eglQuerySurface(eglDisplay,eglSurf,EGL_HEIGHT,&Height);
+                    DBG(printf("New surface %p is %dx%d\n", eglSurf, Width, Height);)
 
                     addPixBuffer(display, eglSurf, eglConfig, Width, Height, eglCtx, drawable, depth, 2);
                     context->eglSurface = eglSurf;
-                    if(context->eglContext && context->eglContext!=eglContext) {
+                    if(context->eglContext && context->eglContext!=eglCtx) {
                         // remove old context before putting PBuffer specific one
                         LOAD_EGL(eglDestroyContext);
+                        DBG(printf("Remove old Cotnext %p, new is %p\n", context->eglContext, eglCtx);)
                         egl_eglDestroyContext(eglDisplay, context->eglContext);
                     }
-                    context->eglContext = eglContext;
+                    context->eglContext = eglCtx;
                     // update, that context is a created emulated one...
                     created = isPBuffer(drawable); 
                 } else
