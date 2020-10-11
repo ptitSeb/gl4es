@@ -371,6 +371,18 @@ static const hack_t gl4es_hacks[] = {
 "}\n"
 }},
 
+// for Eldritch
+{"float\tFogOffsetU\t= 0.5f / FogTexSize;\r\n"
+"float\tFogScaleU\t= ( FogTexSize - 1.0f ) / FogTexSize;\r\n",
+3, {"float   FogOffsetU;\r\n"
+"float   FogScaleU;\r\n",
+"void main()\r\n"
+"{\r\n",
+"void main()\r\n"
+"{\r\n"
+"\tFogOffsetU = 0.5 / FogTexSize;\r\n"
+"\tFogScaleU  = ( FogTexSize - 1.0 ) / FogTexSize;\r\n"
+}},
 };
 
 // For Stellaris
