@@ -60,7 +60,7 @@ char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int
 	sCurStatus curStatus = {0};
 	initStatus(&curStatus, codeStart);
 	readNextToken(&curStatus);
-	if (curStatus.curToken != TOK_NEWLINE) {
+	if ((curStatus.curToken != TOK_NEWLINE) && (curStatus.curToken != TOK_WHITESPACE)) {
 		curStatus.status = ST_ERROR;
 	} else {
 		readNextToken(&curStatus);
