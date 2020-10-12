@@ -2684,6 +2684,17 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 					FAIL("Invalid state");
 				}
 				
+				if (curStatusPtr->curValue.newVar.state == 7) {
+					pushArray((sArray*)&curStatusPtr->curValue.newVar, strdup(","));
+					pushArray((sArray*)&curStatusPtr->curValue.newVar, strdup("0.0"));
+					curStatusPtr->curValue.newVar.state += 2;
+				}
+				if (curStatusPtr->curValue.newVar.state == 9) {
+					pushArray((sArray*)&curStatusPtr->curValue.newVar, strdup(","));
+					pushArray((sArray*)&curStatusPtr->curValue.newVar, strdup("0.0"));
+					curStatusPtr->curValue.newVar.state += 2;
+				}
+				
 				pushArray((sArray*)&curStatusPtr->curValue.newVar, getToken(curStatusPtr));
 				curStatusPtr->curValue.newVar.state = 12;
 				break;
