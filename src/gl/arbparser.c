@@ -1011,8 +1011,15 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 					if (newVar->strLen && !IS_NEW_STR_OR_SWIZZLE(newVar->strParts[0], type)) {
 						tok = popFIFO((sArray*)newVar);
 						if (!strcmp(tok, "row")
-						 && newVar->strLen && (newVar->strParts[0][0] >= '0') && (newVar->strParts[0][0] <= '9')) {
+						 && ((newVar->strLen && (newVar->strParts[0][0] >= '0') && (newVar->strParts[0][0] <= '9'))
+						     || ((newVar->strLen >= 3) && (newVar->strParts[0][0] == '[')
+						         && (newVar->strParts[1][0] >= '0') && (newVar->strParts[1][0] <= '9')))) {
 							free(tok);
+							int freeLast = 0;
+							if (newVar->strParts[0][0] == '[') {
+								free(popFIFO((sArray*)newVar));
+								freeLast = 1;
+							}
 							tok = popFIFO((sArray*)newVar);
 							for (char *numPtr = tok; *numPtr; ++numPtr) {
 								start = start * 10 + *numPtr - '0';
@@ -1032,6 +1039,14 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 							} else {
 								end = start;
 							}
+							
+							if (freeLast) {
+								if (newVar->strParts[0][0] != ']') {
+									ARBCONV_DBG_RE("Failed to get param: [%s].row[%d..%d(not ])\n", matrixName, start, end)
+									return NULL;
+								}
+								free(popFIFO((sArray*)newVar));
+							}
 						} else {
 							ARBCONV_DBG_RE("Failed to get param: [%s].%s\n", matrixName, tok)
 							free(tok);
@@ -1047,6 +1062,70 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 				} else {
 					matrixName = "gl_ModelViewMatrixTranspose";
 					mtxNameLen = 27;
+				}
+			} else if (!strcmp(tok, "projection")) {
+				free(tok);
+				if (newVar->strLen && !IS_NEW_STR_OR_SWIZZLE(newVar->strParts[0], type)) {
+					if (!strcmp(newVar->strParts[0], "invtrans")) {
+						free(popFIFO((sArray*)newVar));
+						matrixName = "gl_ProjectionMatrixInverse";
+						mtxNameLen = 35;
+					} else if (!strcmp(newVar->strParts[0], "inverse")) {
+						free(popFIFO((sArray*)newVar));
+						matrixName = "gl_ProjectionMatrixInverseTranspose";
+						mtxNameLen = 44;
+					} else if (!strcmp(newVar->strParts[0], "transpose")) {
+						free(popFIFO((sArray*)newVar));
+						matrixName = "gl_ProjectionMatrix";
+						mtxNameLen = 28;
+					} else {
+						matrixName = "gl_ProjectionMatrixTranspose";
+						mtxNameLen = 37;
+					}
+					
+					if (newVar->strLen && !IS_NEW_STR_OR_SWIZZLE(newVar->strParts[0], type)) {
+						tok = popFIFO((sArray*)newVar);
+						if (!strcmp(tok, "row")
+						 && (newVar->strLen >= 3) && (newVar->strParts[0][0] == '[')
+						 && (newVar->strParts[1][0] >= '0') && (newVar->strParts[1][0] <= '9')) {
+							free(tok);
+							free(popFIFO((sArray*)newVar));
+							tok = popFIFO((sArray*)newVar);
+							for (char *numPtr = tok; *numPtr; ++numPtr) {
+								start = start * 10 + *numPtr - '0';
+							}
+							free(tok);
+							
+							if ((newVar->strLen >= 3) && (newVar->strParts[0][0] == '.')
+							 && (newVar->strParts[0][1] == '.')
+							 && (newVar->strParts[1][0] >= '0') && (newVar->strParts[1][0] <= '9')) {
+								end = 0;
+								free(popFIFO((sArray*)newVar));
+								tok = popFIFO((sArray*)newVar);
+								for (char *numPtr = tok; *numPtr; ++numPtr) {
+									end = end * 10 + *numPtr - '0';
+								}
+								free(tok);
+							} else {
+								end = start;
+							}
+							
+							tok = popFIFO((sArray*)newVar);
+							if (tok[0] != ']') {
+								ARBCONV_DBG_RE("Failed to get param: [%s].row[%d..%d(not ])\n", matrixName, start, end)
+								free(tok);
+								return NULL;
+							}
+							free(tok);
+						} else {
+							ARBCONV_DBG_RE("Failed to get param: [%s].%s\n", matrixName, tok)
+							free(tok);
+							return NULL;
+						}
+					}
+				} else {
+					matrixName = "gl_ProjectionMatrixTranspose";
+					mtxNameLen = 37;
 				}
 			} else if (!strcmp(tok, "mvp")) {
 				free(tok);
@@ -1420,6 +1499,15 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 		char **r = (char**)calloc(2, sizeof(char*));
 		r[0] = pseudoSt.outputString;
 		r[1] = NULL;
+		return r;
+	} else if ((tok[0] >= '0') && (tok[0] <= '9')) {
+		// Scalar
+		char **r = (char**)calloc(2, sizeof(char*));
+		r[0] = (char*)calloc(13 + 4*strlen(tok), sizeof(char));
+		r[1] = NULL;
+		
+		sprintf(r[0], "vec4(%s, %s, %s, %s)", tok, tok, tok, tok);
+		
 		return r;
 	} else {
 		ARBCONV_DBG_RE("Failed to get param: %s\n", tok)
@@ -2457,6 +2545,15 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 		switch (curStatusPtr->curValue.newVar.var->type) {
 		case VARTYPE_ATTRIB:
 			switch (curStatusPtr->curToken) {
+			case TOK_INTEGER:
+				if (curStatusPtr->curValue.newVar.state != 2) {
+					FAIL("Invalid state");
+				}
+				
+				pushArray((sArray*)&curStatusPtr->curValue.newVar, getToken(curStatusPtr));
+				curStatusPtr->curValue.newVar.state = 3;
+				break;
+				
 			case TOK_IDENTIFIER: {
 				if (curStatusPtr->curValue.newVar.state != 0) {
 					FAIL("Invalid state");
@@ -2473,6 +2570,24 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 					FAIL("Invalid state");
 				}
 				curStatusPtr->curValue.newVar.state = 0;
+				break;
+				
+			case TOK_LSQBRACKET:
+				if (curStatusPtr->curValue.newVar.state != 1) {
+					FAIL("Invalid state");
+				}
+				
+				pushArray((sArray*)&curStatusPtr->curValue.newVar, getToken(curStatusPtr));
+				curStatusPtr->curValue.newVar.state = 2;
+				break;
+				
+			case TOK_RSQBRACKET:
+				if (curStatusPtr->curValue.newVar.state != 3) {
+					FAIL("Invalid state");
+				}
+				
+				pushArray((sArray*)&curStatusPtr->curValue.newVar, getToken(curStatusPtr));
+				curStatusPtr->curValue.newVar.state = 1;
 				break;
 				
 			case TOK_END_OF_INST: {
@@ -2593,11 +2708,11 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 				break;
 				
 			case TOK_INTEGER:
-				/* ...
+				/* ... 0 works, too, in theory
 				if (curStatusPtr->curValue.newVar.state != 2) {
 					FAIL("Invalid state");
 				} */
-				if ((curStatusPtr->curValue.newVar.state < 2) || (curStatusPtr->curValue.newVar.state > 10)
+				if ((curStatusPtr->curValue.newVar.state > 10)
 					|| (curStatusPtr->curValue.newVar.state % 2)) {
 					FAIL("Invalid state");
 				}
@@ -2617,7 +2732,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 				break;
 				
 			case TOK_FLOATCONST:
-				if ((curStatusPtr->curValue.newVar.state < 4) || (curStatusPtr->curValue.newVar.state > 10)
+				if ((curStatusPtr->curValue.newVar.state == 2) || (curStatusPtr->curValue.newVar.state > 10)
 					|| (curStatusPtr->curValue.newVar.state % 2)) {
 					FAIL("Invalid state");
 				}
