@@ -2582,6 +2582,15 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 			
 		case VARTYPE_PARAM:
 			switch (curStatusPtr->curToken) {
+			case TOK_SIGN:
+				if ((curStatusPtr->curValue.newVar.state < 4) || (curStatusPtr->curValue.newVar.state > 10)
+					|| (curStatusPtr->curValue.newVar.state % 2)) {
+					FAIL("Invalid state");
+				}
+				
+				pushArray((sArray*)&curStatusPtr->curValue.newVar, getToken(curStatusPtr));
+				break;
+				
 			case TOK_INTEGER:
 				/* ...
 				if (curStatusPtr->curValue.newVar.state != 2) {
