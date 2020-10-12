@@ -2679,7 +2679,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 				curStatusPtr->curValue.newVar.state = 4;
 				break;
 			case TOK_RBRACE:
-				if ((curStatusPtr->curValue.newVar.state != 5) && (curStatusPtr->curValue.newVar.state != 11)) {
+				if ((curStatusPtr->curValue.newVar.state != 5) && (curStatusPtr->curValue.newVar.state != 7)
+					&& (curStatusPtr->curValue.newVar.state != 9) && (curStatusPtr->curValue.newVar.state != 11)) {
 					FAIL("Invalid state");
 				}
 				
@@ -3561,6 +3562,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 				/* FALLTHROUGH */
 			case STATE_AFTER_VALID:
 			case STATE_AFTER_VALID_RSQBR:
+			case STATE_AFTER_NUMBER:
 			case STATE_AFTER_SWIZZLE:
 				if (curStatusPtr->curToken == TOK_COMMA) {
 					curStatusPtr->curValue.newInst.state = STATE_START;
