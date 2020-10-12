@@ -2445,6 +2445,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 			
 		case VARTYPE_ALIAS:
 		case VARTYPE_CONST:
+		case VARTYPE_PSEUDOCONST:
 		case VARTYPE_TEXTURE:
 		case VARTYPE_TEXTARGET:
 		case VARTYPE_UNK:
@@ -2950,6 +2951,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 		case VARTYPE_TEMP:
 		case VARTYPE_ALIAS:
 		case VARTYPE_CONST:
+		case VARTYPE_PSEUDOCONST:
 		case VARTYPE_TEXTURE:
 		case VARTYPE_TEXTARGET:
 		case VARTYPE_UNK:
@@ -3495,7 +3497,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 					break;
 				} else {
 					int failure;
-					curStatusPtr->_fixedNewVar.var = createVariable(VARTYPE_CONST);
+					curStatusPtr->_fixedNewVar.var = createVariable(VARTYPE_PSEUDOCONST);
 					
 					if ((vertex && !strcmp(curStatusPtr->_fixedNewVar.strParts[0], "vertex"))
 					 || (!vertex && !strcmp(curStatusPtr->_fixedNewVar.strParts[0], "fragment"))) {

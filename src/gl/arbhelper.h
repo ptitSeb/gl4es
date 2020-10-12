@@ -63,7 +63,8 @@ typedef enum _eVariableType {
 	VARTYPE_ALIAS,
 	VARTYPE_OUTPUT,
 	
-	VARTYPE_CONST, // Used when having an anonymous variable
+	VARTYPE_CONST, // Used when having a true constant
+	VARTYPE_PSEUDOCONST, // Used when having an anonymous variable
 	VARTYPE_TEXTURE, // Not available in vertex programs, fixed name in fragment programs
 	VARTYPE_TEXTARGET, // Not available in vertex programs, fixed name in fragment programs
 	VARTYPE_UNK

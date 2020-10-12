@@ -11,7 +11,7 @@
 void generateVariablePre(sCurStatus *curStatusPtr, int vertex, char **error_msg, sVariable *varPtr) {
 	(void)vertex;
 	
-	if (varPtr->type == VARTYPE_CONST) {
+	if ((varPtr->type == VARTYPE_CONST) || (varPtr->type == VARTYPE_PSEUDOCONST)) {
 		return;
 	} else if (varPtr->type == VARTYPE_ADDRESS) {
 		// To be on the safe side, use a struct with only an 'x' component
@@ -70,6 +70,7 @@ void generateVariablePre(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		break;
 		
 	case VARTYPE_CONST:
+	case VARTYPE_PSEUDOCONST:
 	case VARTYPE_TEMP:
 		break;
 		
@@ -113,27 +114,28 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 			FAIL("Invalid instruction (not enough/too many arguments)");                                \
 		}
 #define ASSERT_MASKDST(i) \
-		if ((instPtr->vars[i].var->type != VARTYPE_TEMP) && (instPtr->vars[i].var->type != VARTYPE_OUTPUT) \
-		 && (instPtr->vars[i].var->type != VARTYPE_CONST)) {                                               \
-			FAIL("Variable is not a valid masked destination register");                                   \
-		}                                                                                                  \
-		if (instPtr->vars[i].sign != 0) {                                                                  \
-			FAIL("Variable is not a valid masked destination register");                                   \
-		}                                                                                                  \
-		if (instPtr->vars[i].floatArrAddr != NULL) {                                                       \
-			FAIL("Variable is not a valid masked destination register");                                   \
-		}                                                                                                  \
-		for (int sw = 0; (sw < 3) && (SWIZ(i, sw + 1) != SWIZ_NONE); ++sw) {                               \
-			if ((SWIZ(i, sw) >= SWIZ(i, sw + 1))) {                                                        \
-				FAIL("Variable is not a valid masked destination register");                               \
-			}                                                                                              \
-		}                                                                                                  \
-		if (curStatusPtr->status == ST_ERROR) {                                                            \
-			return;                                                                                        \
+		if ((instPtr->vars[i].var->type != VARTYPE_TEMP) && (instPtr->vars[i].var->type != VARTYPE_OUTPUT)          \
+		 && (instPtr->vars[i].var->type != VARTYPE_PSEUDOCONST) && (instPtr->vars[i].var->type != VARTYPE_CONST)) { \
+			FAIL("Variable is not a valid masked destination register");                                            \
+		}                                                                                                           \
+		if (instPtr->vars[i].sign != 0) {                                                                           \
+			FAIL("Variable is not a valid masked destination register");                                            \
+		}                                                                                                           \
+		if (instPtr->vars[i].floatArrAddr != NULL) {                                                                \
+			FAIL("Variable is not a valid masked destination register");                                            \
+		}                                                                                                           \
+		for (int sw = 0; (sw < 3) && (SWIZ(i, sw + 1) != SWIZ_NONE); ++sw) {                                        \
+			if ((SWIZ(i, sw) >= SWIZ(i, sw + 1))) {                                                                 \
+				FAIL("Variable is not a valid masked destination register");                                        \
+			}                                                                                                       \
+		}                                                                                                           \
+		if (curStatusPtr->status == ST_ERROR) {                                                                     \
+			return;                                                                                                 \
 		}
 #define ASSERT_VECTSRC(i) \
 		if ((instPtr->vars[i].var->type != VARTYPE_TEMP) && (instPtr->vars[i].var->type != VARTYPE_ATTRIB) \
 		 && (instPtr->vars[i].var->type != VARTYPE_PARAM) && (instPtr->vars[i].var->type != VARTYPE_CONST) \
+		 && (instPtr->vars[i].var->type != VARTYPE_PSEUDOCONST)                                            \
 		 && (instPtr->vars[i].var->type != VARTYPE_PARAM_MULT)) {                                          \
 			FAIL("Variable is not a valid vector source register");                                        \
 		}                                                                                                  \
@@ -143,6 +145,7 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 #define ASSERT_SCALSRC(i) \
 		if ((instPtr->vars[i].var->type != VARTYPE_TEMP) && (instPtr->vars[i].var->type != VARTYPE_ATTRIB) \
 		 && (instPtr->vars[i].var->type != VARTYPE_PARAM) && (instPtr->vars[i].var->type != VARTYPE_CONST) \
+		 && (instPtr->vars[i].var->type != VARTYPE_PSEUDOCONST)                                            \
 		 && (instPtr->vars[i].var->type != VARTYPE_PARAM_MULT)) {                                          \
 			FAIL("Variable is not a valid vector source scalar");                                          \
 		}                                                                                                  \
@@ -242,7 +245,8 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		if (instPtr->vars[i].sign == -1) {                        \
 			APPEND_OUTPUT("-", 1)                                 \
 		}                                                         \
-		if (instPtr->vars[i].var->type == VARTYPE_CONST) {        \
+		if ((instPtr->vars[i].var->type == VARTYPE_PSEUDOCONST)   \
+		    || (instPtr->vars[i].var->type == VARTYPE_CONST)) {   \
 			APPEND_OUTPUT2(instPtr->vars[i].var->init.strings[0]) \
 		} else {                                                  \
 			APPEND_OUTPUT2(instPtr->vars[i].var->names[0])        \
@@ -911,8 +915,16 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		PUSH_VARNAME(1)
 		PUSH_DSTMASK(0, 1)
 		APPEND_OUTPUT(" - ", 3)
-		PUSH_VARNAME(2)
-		PUSH_DSTMASK(0, 2)
+		// Hacky fix for unofficial feature -- there are probably a lot of other instructions that should
+		// be benefiting from this protection.
+		if (instPtr->vars[2].var->type == VARTYPE_CONST) {
+			PUSH_DESTLEN(0)
+			PUSH_VARNAME(2)
+			APPEND_OUTPUT(")", 1)
+		} else {
+			PUSH_VARNAME(2)
+			PUSH_DSTMASK(0, 2)
+		}
 		PUSH_POSTSAT(0)
 		FINISH_INST(0)
 		
