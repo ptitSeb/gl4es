@@ -14,7 +14,7 @@ This library is based on glshim (https://github.com/lunixbochs/glshim) but as no
 
 The focus is on compatibility and speed with a wide selection of game and software.
 
-It has been tested successfully of a large selection of games and software, including: Minecraft, OpenMW, SeriousSam (both First and Second Encounters), RVGL (ReVolt GL), TSMC (The Secret Maryo Chronicles), TORCS, SpeedDreams, GL-117, Foobillard(plus), Blender 2.68 to name just a few. I have also some success with Linux port of XNA games, using either MonoGame or FNA.
+It has been tested successfully of a large selection of games and software, including: Minecraft, OpenMW, SeriousSam (both First and Second Encounters), RVGL (ReVolt GL), TSMC (The Secret Maryo Chronicles), TORCS, SpeedDreams, GL-117, Foobillard(plus), half life 1&2, Blender 2.68 to name just a few. I have also some success with Linux port of XNA games, using either MonoGame or FNA.
 
 Most function of OpenGL up to 1.5 are supported, with some notable exceptions:
  * Reading of Depth or Stencil buffer will not work
