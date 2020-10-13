@@ -3133,8 +3133,15 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 			}
 			
 			sVariable *var = kh_val(curStatusPtr->varsMap, varIdx);
-			
 			pushArray((sArray*)var, curStatusPtr->curValue.string);
+			
+			int ret;
+			varIdx = kh_put(variables, curStatusPtr->varsMap, curStatusPtr->curValue.string, &ret);
+			if (ret < 0) {
+				FAIL("Unknown error");
+			}
+			kh_val(curStatusPtr->varsMap, varIdx) = var;
+			
 			curStatusPtr->valueType = TYPE_NONE;
 			break;
 			
