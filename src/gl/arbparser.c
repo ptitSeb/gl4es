@@ -1401,6 +1401,8 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 			return NULL;
 		}
 	} else if (tok[0] == '{') {
+		int valuesCnt = 0;
+		
 		sCurStatus pseudoSt;
 		pseudoSt.curValue.newVar.state = 0;
 		pseudoSt.status = ST_VARIABLE_INIT;
@@ -1441,6 +1443,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 					pseudoSt.status = ST_ERROR;
 					continue;
 				}
+				++valuesCnt;
 				pseudoSt.curValue.newVar.state = 3*(pseudoSt.curValue.newVar.state / 3) + 2;
 				break;
 				
@@ -1490,7 +1493,9 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 			return NULL;
 		}
 		
-		if (appendString(&pseudoSt, ")", 1)) {
+		if (((((valuesCnt != 1) && (valuesCnt != 4))) || appendString(&pseudoSt, ")", 1))
+		  && ( (valuesCnt != 2)                       || appendString(&pseudoSt, ", 0., 0.)", 9))
+		  && ( (valuesCnt != 3)                       || appendString(&pseudoSt, ", 0.)", 5))) {
 			free(pseudoSt.outputString);
 			ARBCONV_DBG_RE("Failed to get param: not enough memory?\n")
 			return NULL;
@@ -1606,7 +1611,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	 \ ? "state" "." "matrix" "." "program" "[" <stateProgramMatNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ V "program" "." "env" "[" <progEnvParamNum> "]"
 	 \ V "program" "." "local" "[" <progLocalParamNum> "]"
-	 \ * <optionalSign> <floatConstant>
+	 \ V <optionalSign> <floatConstant>
 	 \ V "{" <optionalSign> <floatConstant> "}"
 	 \ V "{" <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "}"
 	 \ V "{" <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "}"
@@ -1866,7 +1871,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	 \ V "program" "." "env" "[" <progEnvParamNum> ".." <progEnvParamNum> "]"
 	 \ V "program" "." "local" "[" <progLocalParamNum> "]"
 	 \ V "program" "." "local" "[" <progLocalParamNum> ".." <progLocalParamNum> "]"
-	 \ * <optionalSign> <floatConstant>
+	 \ V <optionalSign> <floatConstant>
 	 \ V "{" <optionalSign> <floatConstant> "}"
 	 \ V "{" <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "}"
 	 \ V "{" <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "}"
@@ -1978,7 +1983,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	 \ ? "state" "." "matrix" "." "program" "[" <stateProgramMatNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ V "program" "." "env" "[" <progEnvParamNum> "]"
 	 \ V "program" "." "local" "[" <progLocalParamNum> "]"
-	 \ * <optionalSign> <floatConstant>
+	 \ V <optionalSign> <floatConstant>
 	 \ V "{" <optionalSign> <floatConstant> "}"
 	 \ V "{" <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "}"
 	 \ V "{" <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "}"
@@ -2206,7 +2211,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	 \ V "program" "." "env" "[" <progEnvParamNum> ".." <progEnvParamNum> "]"
 	 \ V "program" "." "local" "[" <progLocalParamNum> "]"
 	 \ V "program" "." "local" "[" <progLocalParamNum> ".." <progLocalParamNum> "]"
-	 \ * <optionalSign> <floatConstant>
+	 \ V <optionalSign> <floatConstant>
 	 \ V "{" <optionalSign> <floatConstant> "}"
 	 \ V "{" <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "}"
 	 \ V "{" <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "}"
