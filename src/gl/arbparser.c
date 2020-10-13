@@ -7,12 +7,18 @@
 #include "../config.h"
 
 // ARBCONV_DBG_RE - resolve* error ArbConverter debug logs
+#ifdef DEBUG
 #define ARBCONV_DBG_RE(...) printf(__VA_ARGS__);
+#else
+#define ARBCONV_DBG_RE(...)
+#endif
 
-#define IS_SWIZZLE(str) (((str)[0] >= 'w') && ((str)[0] <= 'z') && \
- (((str)[1] == '\0') || (((str)[1] >= 'w') && ((str)[1] <= 'z') && \
- (((str)[2] == '\0') || (((str)[2] >= 'w') && ((str)[2] <= 'z') && \
- (((str)[3] == '\0') || (((str)[3] >= 'w') && ((str)[3] <= 'z') && \
+#define IS_SWIZ_VALUE(v) ((((v) >= 'w') && ((v) <= 'z')) || \
+  ((v) == 'r') || ((v) == 'g') || ((v) == 'b') || ((v) == 'a'))
+#define IS_SWIZZLE(str) (IS_SWIZ_VALUE((str)[0]) && \
+ (((str)[1] == '\0') || (IS_SWIZ_VALUE((str)[1]) && \
+ (((str)[2] == '\0') || (IS_SWIZ_VALUE((str)[2]) && \
+ (((str)[3] == '\0') || (IS_SWIZ_VALUE((str)[3]) && \
   ((str)[4] == '\0'))))))))
 #define IS_NEW_STR_OR_SWIZZLE(str, t) (((str)[0] == ',') || ((t == 1) && IS_SWIZZLE(str)))
 #define IS_NONE_OR_SWIZZLE (!newVar->strLen || IS_SWIZZLE(newVar->strParts[0]))
