@@ -137,6 +137,7 @@ eInstruction STR2INST(char *str, int *sat);
 	ENUMVALUE2STR(vartype, VARTYPE_,TEMP) \
 	ENUMVALUE2STR(vartype, VARTYPE_,OUTPUT) \
 	ENUMVALUE2STR(vartype, VARTYPE_,CONST) \
+	ENUMVALUE2STR(vartype, VARTYPE_,PSEUDOCONST) \
 	"???")
 #define INST2STR(inst) ( \
 	ENUMVALUE2STR(inst, INST_,ABS) ENUMVALUE2STR(inst, INST_,ADD) \
