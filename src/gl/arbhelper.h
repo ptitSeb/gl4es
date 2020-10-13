@@ -21,11 +21,11 @@
 // ARBCONV_DBG - general ArbConverter debug logs
 #define ARBCONV_DBG(a) 
 // ARBCONV_DBG_LP - code loop ArbConverter debug logs
-#define ARBCONV_DBG_LP(a)
+#define ARBCONV_DBG_LP(a) 
 // ARBCONV_DBG_AS - reassembly loop (2nd loop) ArbConverter debug logs
-#define ARBCONV_DBG_AS(a)
+#define ARBCONV_DBG_AS(a) 
 // ARBCONV_DBG_HEAVY - heavy ArbConverter debug logs and operations (e.g. check for pointer correctness...)
-#define ARBCONV_DBG_HEAVY(a)
+#define ARBCONV_DBG_HEAVY(a) 
 #endif
 
 #ifdef MAX_TEX
@@ -137,6 +137,7 @@ eInstruction STR2INST(char *str, int *sat);
 	ENUMVALUE2STR(vartype, VARTYPE_,TEMP) \
 	ENUMVALUE2STR(vartype, VARTYPE_,OUTPUT) \
 	ENUMVALUE2STR(vartype, VARTYPE_,CONST) \
+	ENUMVALUE2STR(vartype, VARTYPE_,PSEUDOCONST) \
 	"???")
 #define INST2STR(inst) ( \
 	ENUMVALUE2STR(inst, INST_,ABS) ENUMVALUE2STR(inst, INST_,ADD) \

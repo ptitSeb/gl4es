@@ -7,12 +7,18 @@
 #include "../config.h"
 
 // ARBCONV_DBG_RE - resolve* error ArbConverter debug logs
+#ifdef DEBUG
 #define ARBCONV_DBG_RE(...) printf(__VA_ARGS__);
+#else
+#define ARBCONV_DBG_RE(...)
+#endif
 
-#define IS_SWIZZLE(str) (((str)[0] >= 'w') && ((str)[0] <= 'z') && \
- (((str)[1] == '\0') || (((str)[1] >= 'w') && ((str)[1] <= 'z') && \
- (((str)[2] == '\0') || (((str)[2] >= 'w') && ((str)[2] <= 'z') && \
- (((str)[3] == '\0') || (((str)[3] >= 'w') && ((str)[3] <= 'z') && \
+#define IS_SWIZ_VALUE(v) ((((v) >= 'w') && ((v) <= 'z')) || \
+  ((v) == 'r') || ((v) == 'g') || ((v) == 'b') || ((v) == 'a'))
+#define IS_SWIZZLE(str) (IS_SWIZ_VALUE((str)[0]) && \
+ (((str)[1] == '\0') || (IS_SWIZ_VALUE((str)[1]) && \
+ (((str)[2] == '\0') || (IS_SWIZ_VALUE((str)[2]) && \
+ (((str)[3] == '\0') || (IS_SWIZ_VALUE((str)[3]) && \
   ((str)[4] == '\0'))))))))
 #define IS_NEW_STR_OR_SWIZZLE(str, t) (((str)[0] == ',') || ((t == 1) && IS_SWIZZLE(str)))
 #define IS_NONE_OR_SWIZZLE (!newVar->strLen || IS_SWIZZLE(newVar->strParts[0]))
@@ -1401,6 +1407,8 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 			return NULL;
 		}
 	} else if (tok[0] == '{') {
+		int valuesCnt = 0;
+		
 		sCurStatus pseudoSt;
 		pseudoSt.curValue.newVar.state = 0;
 		pseudoSt.status = ST_VARIABLE_INIT;
@@ -1441,6 +1449,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 					pseudoSt.status = ST_ERROR;
 					continue;
 				}
+				++valuesCnt;
 				pseudoSt.curValue.newVar.state = 3*(pseudoSt.curValue.newVar.state / 3) + 2;
 				break;
 				
@@ -1490,7 +1499,9 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 			return NULL;
 		}
 		
-		if (appendString(&pseudoSt, ")", 1)) {
+		if (((((valuesCnt != 1) && (valuesCnt != 4))) || appendString(&pseudoSt, ")", 1))
+		  && ( (valuesCnt != 2)                       || appendString(&pseudoSt, ", 0., 0.)", 9))
+		  && ( (valuesCnt != 3)                       || appendString(&pseudoSt, ", 0.)", 5))) {
 			free(pseudoSt.outputString);
 			ARBCONV_DBG_RE("Failed to get param: not enough memory?\n")
 			return NULL;
@@ -1606,7 +1617,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	 \ ? "state" "." "matrix" "." "program" "[" <stateProgramMatNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ V "program" "." "env" "[" <progEnvParamNum> "]"
 	 \ V "program" "." "local" "[" <progLocalParamNum> "]"
-	 \ * <optionalSign> <floatConstant>
+	 \ V <optionalSign> <floatConstant>
 	 \ V "{" <optionalSign> <floatConstant> "}"
 	 \ V "{" <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "}"
 	 \ V "{" <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "}"
@@ -1866,7 +1877,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	 \ V "program" "." "env" "[" <progEnvParamNum> ".." <progEnvParamNum> "]"
 	 \ V "program" "." "local" "[" <progLocalParamNum> "]"
 	 \ V "program" "." "local" "[" <progLocalParamNum> ".." <progLocalParamNum> "]"
-	 \ * <optionalSign> <floatConstant>
+	 \ V <optionalSign> <floatConstant>
 	 \ V "{" <optionalSign> <floatConstant> "}"
 	 \ V "{" <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "}"
 	 \ V "{" <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "}"
@@ -1978,7 +1989,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	 \ ? "state" "." "matrix" "." "program" "[" <stateProgramMatNum> "]" "." "invtrans" "." "row" "[" <stateMatrixRowNum> "]"
 	 \ V "program" "." "env" "[" <progEnvParamNum> "]"
 	 \ V "program" "." "local" "[" <progLocalParamNum> "]"
-	 \ * <optionalSign> <floatConstant>
+	 \ V <optionalSign> <floatConstant>
 	 \ V "{" <optionalSign> <floatConstant> "}"
 	 \ V "{" <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "}"
 	 \ V "{" <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "}"
@@ -2206,7 +2217,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 	 \ V "program" "." "env" "[" <progEnvParamNum> ".." <progEnvParamNum> "]"
 	 \ V "program" "." "local" "[" <progLocalParamNum> "]"
 	 \ V "program" "." "local" "[" <progLocalParamNum> ".." <progLocalParamNum> "]"
-	 \ * <optionalSign> <floatConstant>
+	 \ V <optionalSign> <floatConstant>
 	 \ V "{" <optionalSign> <floatConstant> "}"
 	 \ V "{" <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "}"
 	 \ V "{" <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "," <optionalSign> <floatConstant> "}"
@@ -3122,8 +3133,15 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 			}
 			
 			sVariable *var = kh_val(curStatusPtr->varsMap, varIdx);
-			
 			pushArray((sArray*)var, curStatusPtr->curValue.string);
+			
+			int ret;
+			varIdx = kh_put(variables, curStatusPtr->varsMap, curStatusPtr->curValue.string, &ret);
+			if (ret < 0) {
+				FAIL("Unknown error");
+			}
+			kh_val(curStatusPtr->varsMap, varIdx) = var;
+			
 			curStatusPtr->valueType = TYPE_NONE;
 			break;
 			
