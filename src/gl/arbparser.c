@@ -3255,7 +3255,11 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 						FAIL("Invalid texture sampler");
 					}
 					curStatusPtr->curValue.newInst.state = STATE_AFTER_TEXSPLINT;
-				} else {
+					break;
+				}
+				
+				/* FALLTHROUGH */
+			case STATE_AFTER_SIGN: {
 					sVariable *cst = createVariable(VARTYPE_CONST);
 					pushArray((sArray*)&cst->init, getToken(curStatusPtr));
 					pushArray((sArray*)&curStatusPtr->variables, cst);
@@ -3303,7 +3307,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 			
 		case TOK_FLOATCONST:
 			switch (curStatusPtr->curValue.newInst.state) {
-			case STATE_START: {
+			case STATE_START:
+			case STATE_AFTER_SIGN: {
 				sVariable *cst = createVariable(VARTYPE_CONST);
 				pushArray((sArray*)&cst->init, getToken(curStatusPtr));
 				pushArray((sArray*)&curStatusPtr->variables, cst);
