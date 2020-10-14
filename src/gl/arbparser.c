@@ -466,7 +466,7 @@ int resolveAttrib(sCurStatus_NewVar *newVar, int vertex) {
 	
 	return 0;
 }
-int resolveOutput(sCurStatus_NewVar *newVar, int vertex, int *hasFogFragCoord) {
+int resolveOutput(sCurStatus_NewVar *newVar, int vertex, struct sSpecialCases *specialCases) {
 	char *tok = popFIFO((sArray*)newVar);
 	
 	if (!tok) {
@@ -563,7 +563,7 @@ int resolveOutput(sCurStatus_NewVar *newVar, int vertex, int *hasFogFragCoord) {
 		} else if (!strcmp(tok, "fogcoord")) {
 			// result.fogcoord => gl_FogFragCoord
 			free(tok);
-			*hasFogFragCoord = 1;
+			specialCases->hasFogFragCoord = 1;
 			pushArray((sArray*)&newVar->var->init, strdup("gl4es_FogFragCoordTemp"));
 			newVar->var->init.strings_total_len = 22;
 		} else if (!strcmp(tok, "pointsize")) {
@@ -616,7 +616,8 @@ int resolveOutput(sCurStatus_NewVar *newVar, int vertex, int *hasFogFragCoord) {
 		} else if (!strcmp(tok, "depth")) {
 			// result.depth => gl_FragDepth
 			free(tok);
-			pushArray((sArray*)&newVar->var->init, strdup("gl_FragDepth"));
+			specialCases->isDepthReplacing = 1;
+			pushArray((sArray*)&newVar->var->init, strdup("gl4es_FragDepthTemp"));
 			newVar->var->init.strings_total_len = 12;
 		} else {
 			ARBCONV_DBG_RE("Failed to get output: result.%s\n", tok)
@@ -2294,7 +2295,7 @@ char **resolveParam(sCurStatus_NewVar *newVar, int vertex, int type) {
 
 #define FAIL(str) curStatusPtr->status = ST_ERROR; if (*error_msg) free(*error_msg); \
 		*error_msg = strdup(str); return
-void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *hasFogFragCoord) {
+void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct sSpecialCases *specialCases) {
 	if (((curStatusPtr->curToken == TOK_UNKNOWN) && (curStatusPtr->status != ST_LINE_COMMENT))
 		|| (curStatusPtr->curToken == TOK_NULL)) {
 		FAIL("Unknown token");
@@ -2671,7 +2672,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 					FAIL("Invalid state");
 				}
 				
-				if (resolveOutput(&curStatusPtr->curValue.newVar, vertex, hasFogFragCoord)) {
+				if (resolveOutput(&curStatusPtr->curValue.newVar, vertex, specialCases)) {
 					FAIL("Not a valid output");
 				}
 				
@@ -3641,7 +3642,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, int *has
 					 || (!vertex && !strcmp(curStatusPtr->_fixedNewVar.strParts[0], "fragment"))) {
 						failure = resolveAttrib(&curStatusPtr->_fixedNewVar, vertex);
 					} else if (!strcmp(curStatusPtr->_fixedNewVar.strParts[0], "result")) {
-						failure = resolveOutput(&curStatusPtr->_fixedNewVar, vertex, hasFogFragCoord);
+						failure = resolveOutput(&curStatusPtr->_fixedNewVar, vertex, specialCases);
 					} else {
 						char **resolved = resolveParam(&curStatusPtr->_fixedNewVar, vertex, 1);
 						
