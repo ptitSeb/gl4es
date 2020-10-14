@@ -719,11 +719,27 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		PUSH_VARNAME(1)
 		PUSH_DSTMASK(0, 1)
 		APPEND_OUTPUT(" * ", 3)
-		PUSH_VARNAME(2)
-		PUSH_DSTMASK(0, 2)
+		// Hacky fix for unofficial feature -- there are probably a lot of other instructions that should
+		// be benefiting from this protection.
+		if (instPtr->vars[2].var->type == VARTYPE_CONST) {
+			PUSH_DESTLEN(0)
+			PUSH_VARNAME(2)
+			APPEND_OUTPUT(")", 1)
+		} else {
+			PUSH_VARNAME(2)
+			PUSH_DSTMASK(0, 2)
+		}
 		APPEND_OUTPUT(" + ", 3)
-		PUSH_VARNAME(3)
-		PUSH_DSTMASK(0, 3)
+		// Hacky fix for unofficial feature -- there are probably a lot of other instructions that should
+		// be benefiting from this protection.
+		if (instPtr->vars[3].var->type == VARTYPE_CONST) {
+			PUSH_DESTLEN(0)
+			PUSH_VARNAME(3)
+			APPEND_OUTPUT(")", 1)
+		} else {
+			PUSH_VARNAME(3)
+			PUSH_DSTMASK(0, 3)
+		}
 		PUSH_POSTSAT(1)
 		FINISH_INST(0)
 		
@@ -737,8 +753,16 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		PUSH_VARNAME(1)
 		PUSH_DSTMASK(0, 1)
 		APPEND_OUTPUT(", ", 2)
-		PUSH_VARNAME(2)
-		PUSH_DSTMASK(0, 2)
+		// Hacky fix for unofficial feature -- there are probably a lot of other instructions that should
+		// be benefiting from this protection.
+		if (instPtr->vars[2].var->type == VARTYPE_CONST) {
+			PUSH_DESTLEN(0)
+			PUSH_VARNAME(2)
+			APPEND_OUTPUT(")", 1)
+		} else {
+			PUSH_VARNAME(2)
+			PUSH_DSTMASK(0, 2)
+		}
 		APPEND_OUTPUT(")", 1)
 		PUSH_POSTSAT(0)
 		FINISH_INST(0)
@@ -753,8 +777,16 @@ void generateInstruction(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 		PUSH_VECTSRC(1)
 		PUSH_DSTMASK(0, 1)
 		APPEND_OUTPUT(", ", 2)
-		PUSH_VECTSRC(2)
-		PUSH_DSTMASK(0, 2)
+		// Hacky fix for unofficial feature -- there are probably a lot of other instructions that should
+		// be benefiting from this protection.
+		if (instPtr->vars[2].var->type == VARTYPE_CONST) {
+			PUSH_DESTLEN(0)
+			PUSH_VARNAME(2)
+			APPEND_OUTPUT(")", 1)
+		} else {
+			PUSH_VARNAME(2)
+			PUSH_DSTMASK(0, 2)
+		}
 		APPEND_OUTPUT(")", 1)
 		PUSH_POSTSAT(0)
 		FINISH_INST(0)
