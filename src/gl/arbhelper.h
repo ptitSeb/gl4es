@@ -63,8 +63,7 @@ typedef enum _eVariableType {
 	VARTYPE_ALIAS,
 	VARTYPE_OUTPUT,
 	
-	VARTYPE_CONST, // Used when having a true constant
-	VARTYPE_PSEUDOCONST, // Used when having an anonymous variable
+	VARTYPE_CONST, // Used when having an anonymous variable
 	VARTYPE_TEXTURE, // Not available in vertex programs, fixed name in fragment programs
 	VARTYPE_TEXTARGET, // Not available in vertex programs, fixed name in fragment programs
 	VARTYPE_UNK
@@ -137,7 +136,6 @@ eInstruction STR2INST(char *str, int *sat);
 	ENUMVALUE2STR(vartype, VARTYPE_,TEMP) \
 	ENUMVALUE2STR(vartype, VARTYPE_,OUTPUT) \
 	ENUMVALUE2STR(vartype, VARTYPE_,CONST) \
-	ENUMVALUE2STR(vartype, VARTYPE_,PSEUDOCONST) \
 	"???")
 #define INST2STR(inst) ( \
 	ENUMVALUE2STR(inst, INST_,ABS) ENUMVALUE2STR(inst, INST_,ADD) \
