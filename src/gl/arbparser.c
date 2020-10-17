@@ -2545,7 +2545,6 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 			
 		case VARTYPE_ALIAS:
 		case VARTYPE_CONST:
-		case VARTYPE_PSEUDOCONST:
 		case VARTYPE_TEXTURE:
 		case VARTYPE_TEXTARGET:
 		case VARTYPE_UNK:
@@ -3078,7 +3077,6 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 		case VARTYPE_TEMP:
 		case VARTYPE_ALIAS:
 		case VARTYPE_CONST:
-		case VARTYPE_PSEUDOCONST:
 		case VARTYPE_TEXTURE:
 		case VARTYPE_TEXTARGET:
 		case VARTYPE_UNK:
@@ -3260,13 +3258,9 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				}
 				
 				/* FALLTHROUGH */
-			case STATE_AFTER_SIGN: {
-					sVariable *cst = createVariable(VARTYPE_CONST);
-					pushArray((sArray*)&cst->init, getToken(curStatusPtr));
-					pushArray((sArray*)&curStatusPtr->variables, cst);
-					curVarPtr->var = cst;
-					curStatusPtr->curValue.newInst.state = STATE_AFTER_NUMBER;
-				}
+			case STATE_AFTER_SIGN:
+				pushArray((sArray*)&curStatusPtr->_fixedNewVar, getToken(curStatusPtr));
+				curStatusPtr->curValue.newInst.state = STATE_AFTER_NUMBER;
 				break;
 				
 			case STATE_AFTER_VALID_LSQBR_START:
@@ -3310,10 +3304,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 			switch (curStatusPtr->curValue.newInst.state) {
 			case STATE_START:
 			case STATE_AFTER_SIGN: {
-				sVariable *cst = createVariable(VARTYPE_CONST);
-				pushArray((sArray*)&cst->init, getToken(curStatusPtr));
-				pushArray((sArray*)&curStatusPtr->variables, cst);
-				curVarPtr->var = cst;
+				pushArray((sArray*)&curStatusPtr->_fixedNewVar, getToken(curStatusPtr));
 				curStatusPtr->curValue.newInst.state = STATE_AFTER_NUMBER;
 				break;
 			}
@@ -3593,7 +3584,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				return;
 				
 			case STATE_AFTER_ELEMENT:
-			case STATE_RBRACE: // Should be able to go directly to the resolveParam part...
+			case STATE_AFTER_NUMBER: // Should be able to go
+			case STATE_RBRACE:       // directly to the resolveParam part...
 				if (INSTTEX(curStatusPtr->curValue.newInst.inst.type)
 				 && (curStatusPtr->curValue.newInst.curArg == 2)) {
 					if ((curStatusPtr->_fixedNewVar.strLen != 4)
@@ -3636,7 +3628,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 					break;
 				} else {
 					int failure;
-					curStatusPtr->_fixedNewVar.var = createVariable(VARTYPE_PSEUDOCONST);
+					curStatusPtr->_fixedNewVar.var = createVariable(VARTYPE_CONST);
 					
 					if ((vertex && !strcmp(curStatusPtr->_fixedNewVar.strParts[0], "vertex"))
 					 || (!vertex && !strcmp(curStatusPtr->_fixedNewVar.strParts[0], "fragment"))) {
@@ -3714,7 +3706,6 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				/* FALLTHROUGH */
 			case STATE_AFTER_VALID:
 			case STATE_AFTER_VALID_RSQBR:
-			case STATE_AFTER_NUMBER:
 			case STATE_AFTER_SWIZZLE:
 				if (curStatusPtr->curToken == TOK_COMMA) {
 					curStatusPtr->curValue.newInst.state = STATE_START;
