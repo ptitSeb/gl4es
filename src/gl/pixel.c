@@ -767,17 +767,10 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     GLuint src_widthadj = src_width -(width * pixel_sizeof(src_format, src_type));
 
     //printf("pixel conversion: %ix%i - %s, %s (%d) ==> %s, %s (%d), transform=%i, align=%d, src_width=%d(%d), dst_width=%d(%d)\n", width, height, PrintEnum(src_format), PrintEnum(src_type),pixel_sizeof(src_format, src_type), PrintEnum(dst_format), PrintEnum(dst_type), pixel_sizeof(dst_format, dst_type), raster_need_transform(), align, src_width, src_widthadj, dst_width2, dst_width);
-    src_color = get_color_map(src_format);
-    dst_color = get_color_map(dst_format);
-    if (!dst_size || !pixel_sizeof(src_format, src_type)
-        || !src_color->type || !dst_color->type) {
-        LOGE("pixel conversion, anticipated abort\n");
-        return false;
-    }
     if(src_type==GL_HALF_FLOAT) src_type=GL_HALF_FLOAT_OES;
     if(dst_type==GL_HALF_FLOAT) dst_type=GL_HALF_FLOAT_OES;
 
-    if ((src_type == dst_type) && (src_color->type == dst_color->type)) {
+    if ((src_type == dst_type) && (dst_format == src_format)) {
         if (*dst == src)
             return true;
         if (*dst == NULL)        // alloc dst only if dst==NULL
@@ -788,6 +781,13 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         else
 			memcpy(*dst, src, dst_size);
         return true;
+    }
+    src_color = get_color_map(src_format);
+    dst_color = get_color_map(dst_format);
+    if (!dst_size || !pixel_sizeof(src_format, src_type)
+        || !src_color->type || !dst_color->type) {
+        LOGE("pixel conversion, anticipated abort\n");
+        return false;
     }
     GLsizei src_stride = pixel_sizeof(src_format, src_type);
     GLsizei dst_stride = pixel_sizeof(dst_format, dst_type);
