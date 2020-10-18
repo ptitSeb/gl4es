@@ -1249,7 +1249,7 @@ bool pixel_halfscale(const GLvoid *old, GLvoid **new,
                  GLenum format, GLenum type) {
     if(!old) {
         *new = NULL;
-        return true;
+        return 1;
     }
     GLuint pixel_size, new_width, new_height;
     new_width = width / 2; if(!new_width) ++new_width;
@@ -1272,6 +1272,24 @@ bool pixel_halfscale(const GLvoid *old, GLvoid **new,
     const int mx = dx + 1;
     const int dy = (height>1)?1:0;
     const int my = dy + 1;
+    if(!src_color->type) {
+        if(!pixel_size) {
+            printf("LIBGL: Cannot halfscale unknown format/type %s/%s\n", PrintEnum(format), PrintEnum(type));
+            free(dst);
+            return 0;
+        }
+        for (int y = 0; y < new_height; y++) {
+            for (int x = 0; x < new_width; x++) {
+                pix0 = src + ((x * mx) +
+                            (y * my) * width) * pixel_size;
+                // no smart downsize here, the pixel is probably not RGB anyway
+                memcpy((void*)pos, (void*)pix0, pixel_size);
+                pos += pixel_size;
+            }
+        }
+        *new = dst;
+        return 1;
+    }
     for (int y = 0; y < new_height; y++) {
         for (int x = 0; x < new_width; x++) {
             pix0 = src + ((x * mx) +
@@ -1287,7 +1305,7 @@ bool pixel_halfscale(const GLvoid *old, GLvoid **new,
         }
     }
     *new = dst;
-    return true;
+    return 1;
 }
 
 bool pixel_thirdscale(const GLvoid *old, GLvoid **new,
@@ -1357,6 +1375,24 @@ bool pixel_quarterscale(const GLvoid *old, GLvoid **new,
     pos = (uintptr_t)dst;
     const int dxs[4] = {0, width>1?1:0, width>2?2:0, width>3?3:width>1?1:0};
     const int dys[4] = {0, height>1?1:0, height>2?2:0, height>3?3:height>1?1:0};
+    if(!src_color->type) {
+        if(!pixel_size) {
+            printf("LIBGL: Cannot quarterscale unknown format/type %s/%s\n", PrintEnum(format), PrintEnum(type));
+            free(dst);
+            return 0;
+        }
+        for (int y = 0; y < new_height; y++) {
+            for (int x = 0; x < new_width; x++) {
+                pix[0] = src + ((x * 4) +
+                            (y * 4) * width) * pixel_size;
+                // no smart downsize here, the pixel is probably not RGB anyway
+                memcpy((void*)pos, pix, pixel_size);
+                pos += pixel_size;
+            }
+        }
+        *new = dst;
+        return 1;
+    }
     for (int y = 0; y < new_height; y++) {
         for (int x = 0; x < new_width; x++) {
             for (int dx=0; dx<4; dx++) {
