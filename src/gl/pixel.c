@@ -236,31 +236,42 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
         // TODO: force 565 to RGB? then we can change [4] -> 3
         type_case(GL_UNSIGNED_SHORT_5_6_5, GLushort,
             GLfloat color[4];
-            color[src_color->red] = pixel.r;
-            color[src_color->green] = pixel.g;
-            color[src_color->blue] = pixel.b;
+            color[dst_color->red] = pixel.r;
+            color[dst_color->green] = pixel.g;
+            color[dst_color->blue] = pixel.b;
             *d = (((GLuint)(color[0] * 31.0f) & 0x1f) << 11) |
                  (((GLuint)(color[1] * 63.0f) & 0x3f) << 5 ) |
                  (((GLuint)(color[2] * 31.0f) & 0x1f)      );
         )
         type_case(GL_UNSIGNED_SHORT_5_5_5_1, GLushort,
             GLfloat color[4];
-            color[src_color->red] = pixel.r;
-            color[src_color->green] = pixel.g;
-            color[src_color->blue] = pixel.b;
-            color[src_color->alpha] = pixel.a;
+            color[dst_color->red] = pixel.r;
+            color[dst_color->green] = pixel.g;
+            color[dst_color->blue] = pixel.b;
+            color[dst_color->alpha] = pixel.a;
             // TODO: can I macro this or something? it follows a pretty strict form.
             *d = (((GLuint)(color[3]        ) & 0x01)      ) |
                  (((GLuint)(color[2] * 31.0f) & 0x1f) << 1 ) |
                  (((GLuint)(color[1] * 31.0f) & 0x1f) << 6 ) |
                  (((GLuint)(color[0] * 31.0f) & 0x1f) << 11);
         )
+        type_case(GL_UNSIGNED_SHORT_1_5_5_5_REV, GLushort,
+            GLfloat color[4];
+            color[dst_color->red] = pixel.r;
+            color[dst_color->green] = pixel.g;
+            color[dst_color->blue] = pixel.b;
+            color[dst_color->alpha] = pixel.a;
+            *d = (((GLuint)(color[3]        ) & 0x01) << 15) |
+                 (((GLuint)(color[2] * 31.0f) & 0x1f) << 10) |
+                 (((GLuint)(color[1] * 31.0f) & 0x1f) << 5 ) |
+                 (((GLuint)(color[0] * 31.0f) & 0x1f)      );
+        )
         type_case(GL_UNSIGNED_SHORT_4_4_4_4, GLushort,
             GLfloat color[4];
-            color[src_color->red] = pixel.r;
-            color[src_color->green] = pixel.g;
-            color[src_color->blue] = pixel.b;
-            color[src_color->alpha] = pixel.a;
+            color[dst_color->red] = pixel.r;
+            color[dst_color->green] = pixel.g;
+            color[dst_color->blue] = pixel.b;
+            color[dst_color->alpha] = pixel.a;
             *d = (((GLushort)(color[0] * 15.0f) & 0x0f) << 12) |
                  (((GLushort)(color[1] * 15.0f) & 0x0f) << 8 ) |
                  (((GLushort)(color[2] * 15.0f) & 0x0f) << 4 ) |
