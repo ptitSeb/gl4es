@@ -773,6 +773,10 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     if ((src_type == dst_type) && (dst_format == src_format)) {
         if (*dst == src)
             return true;
+        if (!dst_size || !pixel_sizeof(src_format, src_type)) {
+            LOGE("pixel conversion, unknow format size, anticipated abort\n");
+            return false;
+        }
         if (*dst == NULL)        // alloc dst only if dst==NULL
             *dst = malloc(dst_size);
         if (stride)	// for in-place conversion
