@@ -19,6 +19,7 @@ static const GLsizei gl_sizeof(GLenum type) {
         case GL_UNSIGNED_INT_2_10_10_10_REV:
         case GL_UNSIGNED_INT_8_8_8_8:
         case GL_UNSIGNED_INT_8_8_8_8_REV:
+        case GL_UNSIGNED_INT_24_8:
         case GL_4_BYTES:
             return 4;
         case GL_3_BYTES:
@@ -88,6 +89,7 @@ static const GLboolean is_type_packed(GLenum type) {
         case GL_UNSIGNED_SHORT_5_5_5_1:
         case GL_UNSIGNED_SHORT_5_6_5:
         case GL_UNSIGNED_SHORT_5_6_5_REV:
+        case GL_DEPTH_STENCIL:
             return true;
     }
     return false;
@@ -100,6 +102,7 @@ static const GLsizei pixel_sizeof(GLenum format, GLenum type) {
 		case GL_ALPHA:
 		case GL_LUMINANCE:
         case GL_DEPTH_COMPONENT:
+        case GL_DEPTH_STENCIL:
         case GL_COLOR_INDEX:
             width = 1;
             break;
@@ -144,6 +147,7 @@ static const GLboolean pixel_hasalpha(GLenum format) {
     case GL_BGR:
     case GL_RGB8:
     case GL_DEPTH_COMPONENT:
+    case GL_DEPTH_STENCIL:
 	    return false;
         default:
             return true;
