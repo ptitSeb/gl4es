@@ -178,12 +178,12 @@ char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int
 			if (specialCases.hasFogFragCoord) {
 				APPEND_OUTPUT("\tvec4 gl4es_FogFragCoordTemp = vec4(gl_FogFragCoord);\n", 54)
 			}
-			if (specialCases.isDepthReplacing) {
-				APPEND_OUTPUT("\tvec4 gl4es_FragDepthTemp = vec4(gl_FragDepth);\n", 48)
-			}
 		} else {
 			// No address
 			APPEND_OUTPUT("#version 120\n\nvoid main() {\n", 28)
+			if (specialCases.isDepthReplacing) {
+				APPEND_OUTPUT("\tvec4 gl4es_FragDepthTemp = vec4(gl_FragDepth);\n", 48)
+			}
 		}
 		
 		for (; (varIdx < curStatus.variables.size) && (curStatus.status != ST_ERROR); ++varIdx) {
