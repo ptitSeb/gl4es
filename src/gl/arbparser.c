@@ -2484,6 +2484,20 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 					free(tok);
 					FAIL("Cannot redefine variable");
 				}
+				
+				if (!strcmp(tok, "half")) {
+					// Special case for the 'half' keyword
+					pushArray((sArray*)curStatusPtr->curValue.newVar.var, strdup("gl4es_half"));
+					
+					// Hopefully this doesn't make a free-after-free in case of error (though it shouldn't)
+					int ret;
+					khint_t varIdx = kh_put(variables, curStatusPtr->varsMap, tok, &ret);
+					if (ret < 0) {
+						FAIL("Unknown error");
+					}
+					kh_val(curStatusPtr->varsMap, varIdx) = curStatusPtr->curValue.newVar.var;
+				}
+				
 				pushArray((sArray*)curStatusPtr->curValue.newVar.var, tok);
 				curStatusPtr->curValue.newVar.state = 1;
 				break; }
