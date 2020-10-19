@@ -282,7 +282,7 @@ char* gl4es_convertARB(const char* const code, int vertex, char **error_msg, int
 			break;
 		}
 		if(curStatus.position_invariant) {
-			APPEND_OUTPUT2("\tgl_Position = ftransform();\n;")
+			APPEND_OUTPUT("\tgl_Position = ftransform();\n", 29)
 		}
 		APPEND_OUTPUT("}\n", 2)
 	} while (0);
