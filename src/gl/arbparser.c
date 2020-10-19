@@ -2399,6 +2399,12 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 					free(tok);
 					FAIL("Cannot redefine variable");
 				}
+				
+				if (!strcmp(tok, "half")) {
+					// Special case for the 'half' keyword
+					pushArray((sArray*)curStatusPtr->curValue.newVar.var, strdup("gl4es_half"));
+				}
+				
 				pushArray((sArray*)curStatusPtr->curValue.newVar.var, tok);
 				curStatusPtr->curValue.newVar.state = 1;
 				break; }
