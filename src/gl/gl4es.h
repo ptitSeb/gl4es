@@ -108,7 +108,7 @@ static inline void errorGL() {	// next glGetError will be from GL
 static inline void errorShim(GLenum error) {	// next glGetError will be "error" from gl4es
     if(glstate->type_error && glstate->shim_error==GL_NO_ERROR)
 	    glstate->type_error = 1;
-    if(glstate->shim_error = GL_NO_ERROR)
+    if(glstate->shim_error == GL_NO_ERROR)
 	    glstate->shim_error = error;
 }
 static inline void noerrorShim() {
