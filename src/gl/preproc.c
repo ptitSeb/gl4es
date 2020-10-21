@@ -231,7 +231,7 @@ eTokenType NextToken(char **p, uToken *tok) {
                     fnb*=isneg;
                     tok->type = TK_FLOAT;
                     tok->real = fnb;
-                    sprintf(tok->str, "%f", fnb);
+                    sprintf(tok->str, "%#g", fnb);
                 } else {
                     tok->type = TK_INT;
                     tok->integer = nb;
