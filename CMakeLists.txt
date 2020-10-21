@@ -70,6 +70,13 @@ if(ODROID)
     add_definitions(-DODROID)
 endif()
 
+# Android
+if(ANDROID)
+    add_definitions(-DANDROID)
+    find_library(log-lib log)
+    find_library(dl-lib dl)
+endif()
+
 #PocketCHIP
 if(CHIP)
     add_definitions(-DCHIP)
