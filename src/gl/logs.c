@@ -1,6 +1,9 @@
 #include "logs.h"
 #include "init.h"
 #include <stdarg.h>
+#ifdef ANDROID
+#include <android/log.h>
+#endif
 //----------------------------------------------------------------------------
 static const char * const log_prefix="LIBGL: ";
 //----------------------------------------------------------------------------

@@ -70,6 +70,14 @@ if(ODROID)
     add_definitions(-DODROID)
 endif()
 
+# Android
+if(ANDROID)
+    add_definitions(-DANDROID)
+    add_definitions(-DNOX11 -DNO_GBM -DDEFAULT_ES=2)
+    find_library(log-lib log)
+    find_library(dl-lib dl)
+endif()
+
 #PocketCHIP
 if(CHIP)
     add_definitions(-DCHIP)
