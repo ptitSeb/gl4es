@@ -237,15 +237,15 @@ void gl4es_glPushAttrib(GLbitfield mask) {
     // TODO: GL_STENCIL_BUFFER_BIT on both faces
     if (mask & GL_STENCIL_BUFFER_BIT) {
         cur->stencil_test = gl4es_glIsEnabled(GL_STENCIL_TEST);
-        gl4es_glGetIntegerv(GL_STENCIL_FUNC, &cur->stencil_func);
-        gl4es_glGetIntegerv(GL_STENCIL_VALUE_MASK, &cur->stencil_mask);
-        gl4es_glGetIntegerv(GL_STENCIL_REF, &cur->stencil_ref);
+        gl4es_glGetIntegerv(GL_STENCIL_FUNC, (GLint *) &cur->stencil_func);
+        gl4es_glGetIntegerv(GL_STENCIL_VALUE_MASK, (GLint *) &cur->stencil_mask);
+        gl4es_glGetIntegerv(GL_STENCIL_REF, (GLint *) &cur->stencil_ref);
         //TODO: glStencilFuncSeperate
         
         //TODO: Stencil value mask
-        gl4es_glGetIntegerv(GL_STENCIL_FAIL, &cur->stencil_sfail);
-        gl4es_glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, &cur->stencil_dpfail);
-        gl4es_glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, &cur->stencil_dppass);
+        gl4es_glGetIntegerv(GL_STENCIL_FAIL, (GLint *) &cur->stencil_sfail);
+        gl4es_glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, (GLint *) &cur->stencil_dpfail);
+        gl4es_glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, (GLint *) &cur->stencil_dppass);
         //TODO: glStencilOpSeparate
 
         gl4es_glGetIntegerv(GL_STENCIL_CLEAR_VALUE, &cur->stencil_clearvalue);
@@ -276,7 +276,7 @@ void gl4es_glPushAttrib(GLbitfield mask) {
 				*(cur->clip_planes_enabled + i) = gl4es_glIsEnabled(GL_CLIP_PLANE0 + i);
 			}
 		}
-		gl4es_glGetIntegerv(GL_MATRIX_MODE, &cur->matrix_mode);
+		gl4es_glGetIntegerv(GL_MATRIX_MODE, (GLint *) &cur->matrix_mode);
 		cur->rescale_normal_flag = gl4es_glIsEnabled(GL_RESCALE_NORMAL);
 		cur->normalize_flag = gl4es_glIsEnabled(GL_NORMALIZE);
 	}

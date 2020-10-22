@@ -54,7 +54,7 @@ void gl4es_glPushClientAttribDefault(GLbitfield mask) {
 // Matrix
 #define mat(f) \
   GLenum old_mat; \
-  gl4es_glGetIntegerv(GL_MATRIX_MODE, &old_mat); \
+  gl4es_glGetIntegerv(GL_MATRIX_MODE, (GLint *) &old_mat); \
   gl4es_glMatrixMode(matrixMode); \
   gl4es_##f; \
   gl4es_glMatrixMode(old_mat)

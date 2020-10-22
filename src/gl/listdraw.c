@@ -591,7 +591,7 @@ void draw_renderlist(renderlist_t *list) {
             }
             TEXTURE(stipple_tmu);
             GLenum matmode;
-            gl4es_glGetIntegerv(GL_MATRIX_MODE, &matmode);
+            gl4es_glGetIntegerv(GL_MATRIX_MODE, (GLint *) &matmode);
             gl4es_glMatrixMode(GL_TEXTURE);
             gl4es_glPushMatrix();
             gl4es_glLoadIdentity();
@@ -818,7 +818,7 @@ void draw_renderlist(renderlist_t *list) {
             if(glstate->gleshard->active!=stipple_tmu)
                 gl4es_glActiveTexture(GL_TEXTURE0+stipple_tmu);
             GLenum matmode;
-            gl4es_glGetIntegerv(GL_MATRIX_MODE, &matmode);
+            gl4es_glGetIntegerv(GL_MATRIX_MODE, (GLint *) &matmode);
             gl4es_glMatrixMode(GL_TEXTURE);
             gl4es_glPopMatrix();
             gl4es_glMatrixMode(matmode);

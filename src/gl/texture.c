@@ -882,7 +882,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         int max1=hardext.maxsize;
         glstate->proxy_width = ((width<<level)>max1)?0:width;
         glstate->proxy_height = ((height<<level)>max1)?0:height;
-        glstate->proxy_intformat = swizzle_internalformat(&internalformat, format, type);
+        glstate->proxy_intformat = swizzle_internalformat((GLenum *) &internalformat, format, type);
         return;
     }
     // actualy bound if targetting shared TEX2D
@@ -1036,7 +1036,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     if (level==0 || !bound->valid) {
         bound->wanted_internal = internalformat;    // save it before transformation
     }
-    GLenum new_format = swizzle_internalformat(&internalformat, format, type);
+    GLenum new_format = swizzle_internalformat((GLenum *) &internalformat, format, type);
     if (level==0 || !bound->valid) {
         bound->orig_internal = internalformat;
         bound->internalformat = new_format;
@@ -1647,7 +1647,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
         pixel_to_ppm(pixels, width, height, format, type, bound->texture, glstate->texture.pack_align);
     }
 
-    int callgeneratemipmap = 0;
+    uint8_t callgeneratemipmap = 0;
     if ((target!=GL_TEXTURE_RECTANGLE_ARB) && (bound->mipmap_need || bound->mipmap_auto)) {
         if(hardext.esversion<2) {
             //gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
@@ -1690,10 +1690,10 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
                 free(ndata);
         }
         // check if max_level is set... and calculate higher level mipmap
-        int genmipmap = 0;
+        uint8_t genmipmap = 0;
         if(((bound->max_level == level) && (level || bound->mipmap_need)))
             genmipmap = 1;
-        if(callgeneratemipmap && (level==0) || (level==bound->max_level))
+        if((callgeneratemipmap && (level==0)) || (level==bound->max_level))
             genmipmap = 1;
         if((bound->max_level==bound->base_level) && (bound->base_level==0))
             genmipmap = 0;
