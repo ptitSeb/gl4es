@@ -205,7 +205,7 @@ else()
         target_link_libraries(GL rt)
     endif()
     if(ANDROID)
-        target_link_libraries(GL ${log-lib} ${dl-lib})
+        target_link_libraries(GL ${log-lib})
     endif()
     
     if(CMAKE_SHARED_LIBRARY_SUFFIX MATCHES ".so")
