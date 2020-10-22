@@ -432,8 +432,8 @@ void* NewGLState(void* shared_glstate, int es2only) {
     {
     LOAD_GLES(glGetIntegerv);
 #endif
-    gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, &glstate->readf);
-    gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, &glstate->readt);
+    gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, (GLint *) &glstate->readf);
+    gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, (GLint *) &glstate->readt);
 #if defined(AMIGAOS4) || defined(__EMSCRIPTEN__)
     }
 #endif

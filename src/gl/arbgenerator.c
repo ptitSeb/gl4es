@@ -50,7 +50,7 @@ void generateVariablePre(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 				APPEND_OUTPUT("\t", 1)
 				APPEND_OUTPUT2(varPtr->names[0])
 				APPEND_OUTPUT("[", 1)
-				APPEND_OUTPUT("0123456789" + i, 1)
+				APPEND_OUTPUT(&"0123456789"[i], 1)
 				APPEND_OUTPUT("] = ", 4)
 				APPEND_OUTPUT2(varPtr->init.strings[i])
 				APPEND_OUTPUT(";\n", 2)

@@ -504,7 +504,7 @@ static void clear_program(program_t *glprogram)
     if(glprogram->attribloc) {
         attribloc_t *m;
         khint_t k;
-        khint_t ret;
+        int ret;
         //attribloc->glname must not be freed
         kh_foreach(glprogram->attribloc, k, m,
             free(m->name); free(m);
@@ -831,7 +831,7 @@ void gl4es_glValidateProgram(GLuint program) {
         LOAD_GLES2(glGetProgramiv);
         gles_glValidateProgram(glprogram->id);
         GLenum err = gles_glGetError();
-        gles_glGetProgramiv(glprogram->id, GL_VALIDATE_STATUS, &glprogram->valid_result);
+        gles_glGetProgramiv(glprogram->id, GL_VALIDATE_STATUS, (GLint *) &glprogram->valid_result);
         errorShim(err);
         // TODO: grab all Uniform and Attrib of the program
     } else {

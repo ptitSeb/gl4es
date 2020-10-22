@@ -245,7 +245,7 @@ void GetHardwareExtensions(int notest)
     LOAD_GLES(glGetIntegerv);
     LOAD_GLES(glGetError);
     // Now get extensions
-    const char* Exts = gles_glGetString(GL_EXTENSIONS);
+    const char *Exts = (const char *) gles_glGetString(GL_EXTENSIONS);
     // Parse them!
     #define S(A, B, C) if(strstr(Exts, A)) { hardext.B = 1; SHUT_LOGD("Extension %s detected%s",A, C?" and used\n":"\n"); } 
     if(hardext.esversion>1) hardext.npot = 1;
@@ -397,7 +397,7 @@ void GetHardwareExtensions(int notest)
         hardext.maxdrawbuffers=MAX_DRAW_BUFFERS;
     SHUT_LOGD("Max Color Attachments: %d / Draw buffers: %d\n", hardext.maxdrawbuffers, hardext.maxcolorattach);
     // get GLES driver signatures...
-    const char* vendor = gles_glGetString(GL_VENDOR);
+    const char *vendor = (const char *) gles_glGetString(GL_VENDOR);
     SHUT_LOGD("Hardware vendor is %s\n", vendor);
     if(strstr(vendor, "ARM"))
         hardext.vendor = VEND_ARM;

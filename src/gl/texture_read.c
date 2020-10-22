@@ -54,8 +54,8 @@ void gl4es_glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,
 
     if(glstate->fbo.current_fb->read_type==0) {
         LOAD_GLES(glGetIntegerv);
-        gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, &glstate->fbo.current_fb->read_format);
-        gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, &glstate->fbo.current_fb->read_type);
+        gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, (GLint *) &glstate->fbo.current_fb->read_format);
+        gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, (GLint *) &glstate->fbo.current_fb->read_type);
     }
     int copytex = ((bound->format==GL_RGBA && bound->type==GL_UNSIGNED_BYTE) 
         || (bound->format==glstate->fbo.current_fb->read_format && bound->type==glstate->fbo.current_fb->read_type));
@@ -134,8 +134,8 @@ void gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
         int copytex = 0;
         if(glstate->fbo.current_fb->read_type==0) {
             LOAD_GLES(glGetIntegerv);
-            gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, &glstate->fbo.current_fb->read_format);
-            gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, &glstate->fbo.current_fb->read_type);
+            gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, (GLint *) &glstate->fbo.current_fb->read_format);
+            gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, (GLint *) &glstate->fbo.current_fb->read_type);
         }
         copytex = ((bound->format==GL_RGBA && bound->type==GL_UNSIGNED_BYTE) 
             || (bound->format==glstate->fbo.current_fb->read_format && bound->type==glstate->fbo.current_fb->read_type));
