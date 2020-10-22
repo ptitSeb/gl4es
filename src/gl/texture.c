@@ -1690,7 +1690,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
                 free(ndata);
         }
         // check if max_level is set... and calculate higher level mipmap
-        uint8_t genmipmap = 0;
+        int genmipmap = 0;
         if(((bound->max_level == level) && (level || bound->mipmap_need)))
             genmipmap = 1;
         if(callgeneratemipmap && ((level==0) || (level==bound->max_level)))
