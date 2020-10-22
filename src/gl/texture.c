@@ -1647,7 +1647,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
         pixel_to_ppm(pixels, width, height, format, type, bound->texture, glstate->texture.pack_align);
     }
 
-    uint8_t callgeneratemipmap = 0;
+    int callgeneratemipmap = 0;
     if ((target!=GL_TEXTURE_RECTANGLE_ARB) && (bound->mipmap_need || bound->mipmap_auto)) {
         if(hardext.esversion<2) {
             //gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
