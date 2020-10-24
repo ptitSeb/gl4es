@@ -152,6 +152,9 @@ void *gl4es_GetProcAddress(const char *name) {
         _EXT(glClearNamedFramebufferuiv)
         _EXT(glClearNamedFramebufferfv)
         _EXT(glClearNamedFramebufferfi)
+
+        // draw_buffer_2 (partial)
+        _EXT(glColorMaskIndexed)
     }
     
     // GL_EXT_vertex_array

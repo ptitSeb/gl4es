@@ -39,6 +39,8 @@ void gl4es_glClearNamedFramebufferuiv(GLuint framebuffer, GLenum buffer, GLint d
 void gl4es_glClearNamedFramebufferfv(GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLfloat *value);
 void gl4es_glClearNamedFramebufferfi(GLuint framebuffer, GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil);
 
+void gl4es_glColorMaskIndexed(GLuint framebuffer, GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
+
 // In case of LIBGL_FB=2, let's create an FBO for everything, that is then blitted just before the SwapBuffer
 void createMainFBO(int width, int height);
 void blitMainFBO(int x, int y, int width, int height);

@@ -1703,6 +1703,14 @@ void gl4es_glClearNamedFramebufferfi(GLuint framebuffer, GLenum buffer, GLint dr
     gl4es_glBindFramebuffer(target, oldf);
 }
 
+void gl4es_glColorMaskIndexed(GLuint framebuffer, GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
+    GLuint oldf = glstate->fbo.fbo_draw->id;
+    GLenum target = (glstate->fbo.fbo_draw==glstate->fbo.fbo_read)?GL_FRAMEBUFFER:GL_DRAW_FRAMEBUFFER;
+    gl4es_glBindFramebuffer(target, framebuffer);
+    gl4es_glColorMask(red, green, blue, alpha);
+    gl4es_glBindFramebuffer(target, oldf);
+}
+
 void gl4es_saveCurrentFBO()
 {
     // this, in fact, bind FBO to 0 if it wasn't
