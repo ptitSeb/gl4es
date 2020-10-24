@@ -157,7 +157,7 @@ void gl4es_glProgramStringARB(GLenum target, GLenum format, GLsizei len, const G
     // Convert to GLSL
     const GLchar * p[1] = {0};
     p[0] = gl4es_convertARB(old->string, vertex, &glstate->glsl->error_msg, &glstate->glsl->error_ptr);
-    if(!p[0]) {
+    if((!p[0]) || (glstate->glsl->error_ptr!=-1)) {
         DBG(printf("Error with ARB->GLSL conversion\nsource is:\n%s\n======\n", old->shader->source);)
         errorShim(GL_INVALID_OPERATION);
         return;
