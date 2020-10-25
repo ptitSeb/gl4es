@@ -92,10 +92,14 @@ void gl4es_glGetLightiv(GLenum light, GLenum pname, GLint * params) {
     else
 	    for (int i=0; i<n; i++) params[i]=fparams[i];
 }
-void gl4es_glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params) {
-	GLint iparams;
-	gl4es_glGetTexLevelParameteriv(target, level, pname, &iparams);
-	(*params)=iparams;
+void gl4es_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *params) {
+	GLfloat fparams[4];
+	gl4es_glGetTexLevelParameterfv(target, level, pname, fparams);
+    if(pname==GL_TEXTURE_BORDER_COLOR) {
+        for(int i=0; i<4; ++i)
+            params[i] = fparams[i];
+    } else
+	    (*params)=fparams[0];
 	return;
 }
 void gl4es_glGetClipPlane(GLenum plane, GLdouble *equation) {
@@ -811,7 +815,7 @@ void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) AliasExport("gl4es_g
 void glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r) AliasExport("gl4es_glMultiTexCoord3f");
 void glMultiTexCoord3fv(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord3fv");
 //void glMultiTexCoord4fv(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord4fv");
-void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params) AliasExport("gl4es_glGetTexLevelParameterfv");
+void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLfloat *params) AliasExport("gl4es_glGetTexLevelParameteriv");
 void glTexGend(GLenum coord, GLenum pname, GLdouble param) AliasExport("gl4es_glTexGend");
 void glTexGenf(GLenum coord, GLenum pname, GLfloat param) AliasExport("gl4es_glTexGenf");
 void glTexGendv(GLenum coord, GLenum pname, const GLdouble *params) AliasExport("gl4es_glTexGendv");

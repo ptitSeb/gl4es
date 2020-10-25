@@ -122,6 +122,8 @@ typedef struct glstate_s {
     int                 helper_texlen[MAX_TEX];
     GLfloat*            texgened[MAX_TEX];
     int                 texgenedsz[MAX_TEX];
+    // Sampler (is that shared?)
+    samplers_t          samplers;
 } glstate_t;
 
 

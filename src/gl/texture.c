@@ -846,6 +846,18 @@ GLenum minmag_forcenpot(GLenum filt) {
             return GL_NEAREST;
     }
 }
+GLenum wrap_forcenpot(GLenum wrap) {
+    switch(wrap) {
+        case 0: return GL_CLAMP_TO_EDGE;
+        case GL_CLAMP:
+        case GL_CLAMP_TO_EDGE:
+        case GL_CLAMP_TO_BORDER:
+            return wrap;
+        /*case GL_MIRROR_CLAMP_TO_EDGE_EXT:
+            return wrap;*/
+    }
+    return GL_CLAMP_TO_EDGE;
+}
 
 GLenum minmag_float(GLenum filt) {
     switch(filt) {
@@ -953,6 +965,14 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         // all done, exit
         errorGL();
         return;
+    }
+
+    if(target == GL_TEXTURE_RECTANGLE_ARB) {
+        // change sampler state
+        bound->sampler.min_filter = minmag_forcenpot(bound->sampler.min_filter);
+        bound->sampler.wrap_s = wrap_forcenpot(bound->sampler.wrap_s);
+        bound->sampler.wrap_t = wrap_forcenpot(bound->sampler.wrap_t);
+        bound->sampler.wrap_r = wrap_forcenpot(bound->sampler.wrap_r);
     }
 
 
@@ -1162,7 +1182,10 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
             if (bound->streamingID>-1) {	// success
                 bound->shrink = 0;  // no shrink on Stream texture
                 bound->streamed = true;
-                ApplyFilterID(bound->streamingID, bound->min_filter, bound->mag_filter);
+                glsampler_t *sampler = glstate->samplers.sampler[glstate->texture.active];
+                if(!sampler)
+                    sampler = &bound->sampler;
+                ApplyFilterID(bound->streamingID, sampler->min_filter, sampler->mag_filter);
                 GLboolean tmp = IS_ANYTEX(glstate->enable.texture[glstate->texture.active]);
                 LOAD_GLES(glDisable);
                 LOAD_GLES(glEnable);
@@ -1248,14 +1271,14 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                  || (globals4es.automipmap==3) 
                  || (globals4es.automipmap==4 && width!=height) 
                  || (globals4es.forcenpot==1) ) 
-                 && (wrap_npot(bound->wrap_s) && wrap_npot(bound->wrap_t)) )
+                 && (wrap_npot(bound->sampler.wrap_s) && wrap_npot(bound->sampler.wrap_t)) )
                  limitednpot=1;
             else if(hardext.esversion>1 && hardext.npot==1 
-                && (!bound->mipmap_auto || !minmag_npot(bound->min_filter) || !minmag_npot(bound->mag_filter)) 
-                && (wrap_npot(bound->wrap_s) && wrap_npot(bound->wrap_t)) )
+                && (!bound->mipmap_auto || !minmag_npot(bound->sampler.min_filter) || !minmag_npot(bound->sampler.mag_filter)) 
+                && (wrap_npot(bound->sampler.wrap_s) && wrap_npot(bound->sampler.wrap_t)) )
                 limitednpot=1;
             else if(hardext.esversion>1 && hardext.npot==2
-                && (wrap_npot(bound->wrap_s) && wrap_npot(bound->wrap_t)) )
+                && (wrap_npot(bound->sampler.wrap_s) && wrap_npot(bound->sampler.wrap_t)) )
                 limitednpot=1;
 
             if(limitednpot) {
@@ -1280,10 +1303,8 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
 
         if(bound->npot) {
             if(limitednpot && rtarget==GL_TEXTURE_2D) {
-                gles_glTexParameteri(rtarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                gles_glTexParameteri(rtarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                bound->wrap_t = bound->wrap_s = GL_CLAMP_TO_EDGE;
-            } else if (!wrap_npot(bound->wrap_s) || !wrap_npot(bound->wrap_t)) {
+                bound->sampler.wrap_t = bound->sampler.wrap_s = GL_CLAMP_TO_EDGE;
+            } else if (!wrap_npot(bound->sampler.wrap_s) || !wrap_npot(bound->sampler.wrap_t)) {
                 // resize to npot boundaries (not ideal if the wrap value is change after upload of the texture)
                 if(level==0 || bound->width==0) {
                     nwidth =  npot(width);
@@ -1317,30 +1338,6 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                     bound->shrink = 1;
                 }
             }
-        }
-        // check min/mag settings for GL_FLOAT type textures (only GL_NEAREST  and GL_NEAREST_MIPMAP_NEAREST is supported)
-        if(type==GL_FLOAT || type==GL_HALF_FLOAT_OES) {
-            GLenum m = minmag_float(bound->min_filter);
-            if(bound->min_filter != m ) {
-                bound->min_filter = m;
-                gles_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, m);
-            }
-            m = minmag_float(bound->mag_filter);
-            if(bound->mag_filter != m ) {
-                bound->mag_filter = m;
-                gles_glTexParameteri(rtarget, GL_TEXTURE_MAG_FILTER, m);
-            }
-            bound->mipmap_auto = 0; // no need to automipmap here
-        }
-        // check min/mag for NPOT with limited support
-        if(limitednpot && hardext.npot<2) {
-            GLenum m = minmag_forcenpot(bound->min_filter);
-            if (m!=bound->min_filter)
-                gles_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, m);
-            m = minmag_forcenpot(bound->mag_filter);
-            if (m!=bound->mag_filter)
-                gles_glTexParameteri(rtarget, GL_TEXTURE_MAG_FILTER, m);
-            bound->mipmap_auto = 0; // no need to automipmap here
         }
         if ((globals4es.automipmap==4) && (nwidth!=nheight))
             bound->mipmap_auto = 0;
@@ -1494,6 +1491,9 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     if (pixels != datab) {
         free(pixels);
     }
+    // update max bound to be sure "sampler" is applied
+    if(glstate->bound_changed<glstate->texture.active+1)
+        glstate->bound_changed = glstate->texture.active+1;
 }
 
 void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,

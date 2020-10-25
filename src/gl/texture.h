@@ -101,6 +101,21 @@ typedef enum {
 } texture_enabled_t;
 
 typedef struct {
+    GLuint glname;
+    GLenum target;
+	GLenum min_filter;
+	GLenum mag_filter;
+    GLenum wrap_s;
+    GLenum wrap_t;
+    GLenum wrap_r;
+    GLenum compare;
+    GLenum func;
+    GLfloat min_lod;
+    GLfloat max_lod;
+    GLfloat border_color[4];
+} glsampler_t;
+
+typedef struct {
     GLuint texture;
     GLuint glname;
     GLenum target;
@@ -108,31 +123,24 @@ typedef struct {
     GLsizei height;
     GLsizei nwidth;
     GLsizei nheight;
+    GLboolean mipmap_auto;
+    GLboolean mipmap_need;
+    GLboolean mipmap_done;
+    int base_level;
+    int max_level;
     GLenum  format;
     GLenum  type;
     GLenum  wanted_internal;
     GLenum  orig_internal;
     GLenum  internalformat;
     GLenum  inter_format, inter_type;
+    int aniso;
     int shrink;
-    GLboolean mipmap_auto;
-    GLboolean mipmap_need;
-    GLboolean mipmap_done;
-	GLenum min_filter;
-    GLenum wanted_min;
-	GLenum mag_filter;
-    GLenum wanted_mag;
-    GLenum wrap_s;
-    GLenum wrap_t;
-    GLenum compare;
     GLboolean alpha;
     GLboolean compressed;
     GLboolean streamed;
     int valid;
 	int	streamingID;
-    int base_level;
-    int max_level;
-    int aniso;
     int fpe_format; // tracking simplified internal format for FPE
     int npot;
     int adjust; // flag if width/height has to be adjusted
@@ -144,6 +152,8 @@ typedef struct {
     GLuint renderdepth; // incase renderbuffer where used instead...
     GLuint renderstencil;
     GLvoid *data;	// in case we want to keep a copy of it (it that case, always RGBA/GL_UNSIGNED_BYTE
+    glsampler_t sampler;    // internal sampler if not superceeded by glBindSampler
+    glsampler_t actual;     // actual sampler
 } gltexture_t;
 
 KHASH_MAP_DECLARE_INT(tex, gltexture_t *);
@@ -237,5 +247,13 @@ GLboolean isDXTc(GLenum format);
 void realize_bound(int TMU, GLenum target);
 void realize_textures(int drawing);
 void realize_active();
+
+// defined in samplers.c
+// return 0 if pname not handled, 1 if ok (or ok with error)
+int samplerParameterfv(glsampler_t* sampler, GLenum pname, const GLfloat *param);
+// return 0 if pname not handled, 1 if ok (or ok with error)
+int getSamplerParameterfv(glsampler_t* sampler, GLenum pname, GLfloat *params);
+
+void init_sampler(glsampler_t* sampler);
 
 #endif // _GL4ES_TEXTURE_H_

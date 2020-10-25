@@ -62,6 +62,7 @@ LOCAL_SRC_FILES := \
 	src/gl/queries.c \
 	src/gl/raster.c \
 	src/gl/render.c \
+	src/gl/samplers.c \
 	src/gl/shader.c \
 	src/gl/shaderconv.c \
 	src/gl/shader_hacks.c \

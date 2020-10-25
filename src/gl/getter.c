@@ -726,6 +726,12 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_PROGRAM_ERROR_POSITION_ARB:
             *params = glstate->glsl->error_ptr;
             break;
+        case GL_SAMPLER_BINDING:
+            if(glstate->samplers.sampler[glstate->texture.active])
+                *params = glstate->samplers.sampler[glstate->texture.active]->glname;
+            else
+                *params = 0;
+            break;
         // GL4ES special hints
         case GL_SHRINK_HINT_GL4ES:
             *params=globals4es.texshrink;

@@ -903,4 +903,10 @@
 
 #define GL_MAX_COLOR_ATTACHMENTS_EXT                    0x8CDF
 
+// Sampler
+#define GL_SAMPLER_BINDING                              0x8919
+#define GL_TEXTURE_COMPARE_FUNC                         0x884D
+#define GL_COMPARE_REF_TO_TEXTURE                       0x884E
+#define GL_NONE                                         0x0
+
 #endif // _GL4ES_CONST_H_
