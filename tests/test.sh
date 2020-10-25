@@ -6,6 +6,7 @@
 export LIBGL_FB=3
 export LIBGL_SILENTSTUB=1
 export LIBGL_NOBANNER=1
+export LIBGL_NOERROR=1
 
 tar xf ../traces/$1.tgz
 apitrace dump-images --calls="$2" $1.trace >/dev/null
@@ -32,6 +33,9 @@ then
 
 	[[ -e diff_$1_GLES$LIBGL_ES.png ]] && rm diff_$1_GLES$LIBGL_ES.png
 	[[ -e $1.$2.$LIBGL_ES.png ]] && rm $1.$2.$LIBGL_ES.png
+else
+	echo -n "Failed to get snapshot"
+	exit 1
 fi
 
 exit 0
