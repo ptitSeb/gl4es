@@ -12,13 +12,10 @@ GLboolean gl4es_glIsQuery(GLuint id);
 void gl4es_glGetQueryiv(GLenum target, GLenum pname, GLint* params);
 void gl4es_glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params);
 void gl4es_glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint* params);
+void gl4es_glQueryCounter(GLuint id, GLenum target);
+void gl4es_glGetQueryObjecti64v(GLuint id, GLenum pname, GLint64 * params);
+void gl4es_glGetQueryObjectui64v(GLuint id, GLenum pname, GLuint64 * params);
 
-typedef struct {
-    GLuint id;
-    GLenum target;
-    int num;
-} glquery_t;
-
-KHASH_MAP_DECLARE_INT(queries, glquery_t *)
+unsigned long long get_clock();
 
 #endif // _GL4ES_QUERIES_H_

@@ -51,7 +51,6 @@ typedef struct glstate_s {
     int                 type_error;
     GLenum              shim_error;
     GLint               vp[4];
-    khash_t(queries)    *queries;       // shared
     glstack_t           *stack;
     glclientstack_t     *clientStack;
     raster_state_t      raster;
@@ -122,8 +121,10 @@ typedef struct glstate_s {
     int                 helper_texlen[MAX_TEX];
     GLfloat*            texgened[MAX_TEX];
     int                 texgenedsz[MAX_TEX];
-    // Sampler (is that shared?)
+    // Sampler
     samplers_t          samplers;
+    // Queries
+    queries_t           queries;
 } glstate_t;
 
 

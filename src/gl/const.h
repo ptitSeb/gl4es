@@ -540,7 +540,6 @@
 #define GL_DYNAMIC_DRAW                   0x88E8
 #define GL_DYNAMIC_READ                   0x88E9
 #define GL_DYNAMIC_COPY                   0x88EA
-#define GL_SAMPLES_PASSED                 0x8914
 #define GL_SRC1_ALPHA                     0x8589
 #define GL_VERTEX_ARRAY_BUFFER_BINDING    0x8896
 #define GL_NORMAL_ARRAY_BUFFER_BINDING    0x8897
@@ -908,5 +907,15 @@
 #define GL_TEXTURE_COMPARE_FUNC                         0x884D
 #define GL_COMPARE_REF_TO_TEXTURE                       0x884E
 #define GL_NONE                                         0x0
+
+// Queries
+#define GL_TIME_ELAPSED                                 0x88BF
+#define GL_TIMESTAMP                                    0x8E28
+#define GL_SAMPLES_PASSED                               0x8914
+#define GL_ANY_SAMPLES_PASSED                           0x8C2F
+#define GL_ANY_SAMPLES_PASSED_CONSERVATIVE              0x8D6A
+#define GL_PRIMITIVES_GENERATED                         0x8C87
+#define GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN        0x8C88
+#define GL_QUERY_RESULT_NO_WAIT                         0x9194
 
 #endif // _GL4ES_CONST_H_
