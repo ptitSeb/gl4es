@@ -107,6 +107,7 @@ endif()
 
 #NOX11
 if(NOX11)
+    add_definitions(-DEGL_NO_X11)
     add_definitions(-DNOX11)
 endif()
 
