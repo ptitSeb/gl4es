@@ -1,9 +1,9 @@
 #include "glx.h"
 #include "../gl/init.h"
 
-#if !defined(ANDROID) && !defined(AMIGAOS4)
+#ifdef HAS_BACKTRACE
 #include <execinfo.h>
-#endif // !defined(ANDROID) && !defined(AMIGAOS4)
+#endif // HAS_BACKTRACE
 #include <fcntl.h>
 #include "khash.h"
 #ifdef USE_FBIO
@@ -458,7 +458,7 @@ static void signal_handler(int sig) {
 #if defined(BCMHOST) && !defined(ANDROID)
     rpi_fini();
 #endif
-#if !defined(ANDROID) && !defined(AMIGAOS4)
+#ifdef HAS_BACKTRACE
     if (globals4es.stacktrace) {
         switch (sig) {
             case SIGBUS:

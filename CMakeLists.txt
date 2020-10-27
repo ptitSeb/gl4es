@@ -24,6 +24,12 @@ option(USE_CLOCK "Set to ON to use clock_gettime instead of gttimeofday for LIBG
 option(NO_LOADER "disable library loader (useful for static library with NOEGL, NOX11, use include/gl4esinit.h)" ${NO_LOADER})
 option(NO_INIT_CONSTRUCTOR "disable automatic initialization (useful for static library, use include/gl4esinit.h)" ${NO_INIT_CONSTRUCTOR})
 
+include(CheckSymbolExists)
+check_symbol_exists(backtrace "execinfo.h" HAS_BACKTRACE)
+if (HAS_BACKTRACE)
+    add_definitions(-DHAS_BACKTRACE)
+endif()
+
 # Pandora
 if(PANDORA)
     add_definitions(-DPANDORA)
@@ -101,6 +107,7 @@ endif()
 
 #NOX11
 if(NOX11)
+    add_definitions(-DEGL_NO_X11)
     add_definitions(-DNOX11)
 endif()
 

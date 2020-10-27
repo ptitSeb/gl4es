@@ -1,6 +1,3 @@
-#if !defined(ANDROID) && !defined(AMIGAOS4) && !defined(__EMSCRIPTEN__) && !defined(__APPLE__)
-#include <execinfo.h>
-#endif
 #include <stdio.h>
 #include <unistd.h>
 #include "../../version.h"
