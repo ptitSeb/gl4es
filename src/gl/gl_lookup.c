@@ -60,6 +60,8 @@ void *gl4es_GetProcAddress(const char *name) {
     _ARB(glGetBufferParameteriv);
     _EX(glGetBufferSubData);
     _ARB(glGetBufferSubData);
+    _EX(glCopyBufferSubData);
+    _ARB(glCopyBufferSubData);
 
     _EX(glMapBufferRange);
     _EX(glFlushMappedBufferRange);

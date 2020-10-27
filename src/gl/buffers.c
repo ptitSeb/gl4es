@@ -664,6 +664,32 @@ void gl4es_glFlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr l
     }
 }
 
+void gl4es_glCopyBufferSubData(GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size)
+{
+    DBG(printf("glCopyBufferSubData(%s, %s, %p, %p, %d)\n", PrintEnum(readTarget), PrintEnum(writeTarget), (void*)readOffset, (void*)writeOffset, size);)
+    //TODO: Add GL_COPY_READ_BUFFER and GL_COPY_WRITE_BUFFER (and GL_QUERY_BUFFER?)
+	glbuffer_t *readbuff = getbuffer_buffer(readTarget);
+	glbuffer_t *writebuff = getbuffer_buffer(writeTarget);
+    if(!readbuff || !writebuff) {
+        errorShim(GL_INVALID_VALUE);
+        return;
+    }
+    if(writebuff->ranged && !(writebuff->access&GL_MAP_PERSISTENT_BIT)) {
+        errorShim(GL_INVALID_OPERATION);
+        return;
+    }
+    // TODO: check memory overlap and overread/overwrite
+    memcpy(writebuff->data+writeOffset, readbuff->data+readOffset, size);
+    if(writebuff->real_buffer && (writebuff->type==GL_ARRAY_BUFFER || writebuff->type==GL_ELEMENT_ARRAY_BUFFER) && writebuff->mapped && (writebuff->access==GL_WRITE_ONLY || writebuff->access==GL_READ_WRITE)) {
+        LOAD_GLES(glBufferSubData);
+        LOAD_GLES(glBindBuffer);
+        gles_glBindBuffer(writebuff->type, writebuff->real_buffer);
+        gles_glBufferSubData(writebuff->type, writeOffset, size, writebuff->data+writeOffset);
+        gles_glBindBuffer(writebuff->type, 0);
+    }
+    noerrorShim();
+}
+
 
 //Direct wrapper
 void glGenBuffers(GLsizei n, GLuint * buffers) AliasExport("gl4es_glGenBuffers");
@@ -681,6 +707,7 @@ void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params) AliasExp
 void *glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access) AliasExport("gl4es_glMapBufferRange");
 void glFlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length) AliasExport("gl4es_glFlushMappedBufferRange");
 
+void glCopyBufferSubData(GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size)  AliasExport("gl4es_glCopyBufferSubData");
 //ARB wrapper
 #ifndef AMIGAOS4
 void glGenBuffersARB(GLsizei n, GLuint * buffers) AliasExport("gl4es_glGenBuffers");
