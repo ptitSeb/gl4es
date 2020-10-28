@@ -701,7 +701,7 @@ void ToBuffer(int first, int count) {
     if(!glstate->scratch_vertex)
         gles_glGenBuffers(1, &glstate->scratch_vertex);
     glstate->scratch_vertex_size = stride*count;
-    gles_glBindBuffer(GL_ARRAY_BUFFER, glstate->scratch_vertex);
+    bindBuffer(GL_ARRAY_BUFFER, glstate->scratch_vertex);
     gles_glBufferData(GL_ARRAY_BUFFER, stride*count, (void*)(master+first*stride), GL_STREAM_DRAW);
     #else
     LOAD_GLES(glBufferSubData);
@@ -1162,7 +1162,6 @@ void gl4es_scratch(int alloc) {
 
 void gl4es_scratch_vertex(int alloc) {
     LOAD_GLES(glBufferData);
-    LOAD_GLES(glBindBuffer);
     LOAD_GLES(glGenBuffers);
     if(!glstate->scratch_vertex) {
         glGenBuffers(1, &glstate->scratch_vertex);
@@ -1174,26 +1173,24 @@ void gl4es_scratch_vertex(int alloc) {
         glGenBuffers(1, &glstate->scratch_vertex);
         gles_glDeleteBuffers(1, &old_buffer);
 #endif
-        gles_glBindBuffer(GL_ARRAY_BUFFER, glstate->scratch_vertex);
+        bindBuffer(GL_ARRAY_BUFFER, glstate->scratch_vertex);
         gles_glBufferData(GL_ARRAY_BUFFER, alloc, NULL, GL_STREAM_DRAW);
         glstate->scratch_vertex_size = alloc;
     } else
-        gles_glBindBuffer(GL_ARRAY_BUFFER, glstate->scratch_vertex);
+        bindBuffer(GL_ARRAY_BUFFER, glstate->scratch_vertex);
 }
 
 void gl4es_use_scratch_vertex(int use) {
-    LOAD_GLES(glBindBuffer);
-    gles_glBindBuffer(GL_ARRAY_BUFFER, use?glstate->scratch_vertex:0);
+    bindBuffer(GL_ARRAY_BUFFER, use?glstate->scratch_vertex:0);
 }
 
 void gl4es_scratch_indices(int alloc) {
     LOAD_GLES(glBufferData);
-    LOAD_GLES(glBindBuffer);
     LOAD_GLES(glGenBuffers);
     if(!glstate->scratch_indices) {
         glGenBuffers(1, &glstate->scratch_indices);
     }
-    gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, glstate->scratch_indices);
+    bindBuffer(GL_ELEMENT_ARRAY_BUFFER, glstate->scratch_indices);
     if(glstate->scratch_indices_size < alloc) {
         gles_glBufferData(GL_ELEMENT_ARRAY_BUFFER, alloc, NULL, GL_DYNAMIC_DRAW);
         glstate->scratch_indices_size = alloc;
@@ -1201,8 +1198,7 @@ void gl4es_scratch_indices(int alloc) {
 }
 
 void gl4es_use_scratch_indices(int use) {
-    LOAD_GLES(glBindBuffer);
-    gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, use?glstate->scratch_indices:0);
+    bindBuffer(GL_ELEMENT_ARRAY_BUFFER, use?glstate->scratch_indices:0);
 }
 
 #if defined(AMIGAOS4) || (defined(NOX11) && defined(NOEGL))

@@ -67,6 +67,16 @@ GLboolean glUnmapBufferARB(GLenum target);
 void glGetBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data);
 void glGetBufferPointervARB(GLenum target, GLenum pname, GLvoid ** params);
 
+// internal actual BindBuffer with cache
+void bindBuffer(GLenum target, GLuint buffer);
+// unbound all buffer
+void unboundBuffers();
+// update wanted Index Buffer
+void wantBufferIndex(GLuint buffer);
+// Bind the wanted index buffer if needed
+void realize_bufferIndex();
+
+
 // Pointer..... ****** => map them in vertexattrib (even with GLES1.1). So no more pointer_state_t, use vertexattrib_t
 // and map .enabled to .vaarray
 

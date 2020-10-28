@@ -367,5 +367,12 @@ typedef struct {
     unsigned long long start;
 } queries_t;
 
+typedef struct {
+    GLuint  array;
+    GLuint  index;
+    GLuint  want_index;
+    int     used;
+} bind_buffers_t;
+
 
 #endif // _GL4ES_STATE_H_

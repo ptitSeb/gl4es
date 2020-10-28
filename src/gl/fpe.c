@@ -796,19 +796,20 @@ void fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 
 void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
     DBG(printf("fpe_glDrawElements(%s, %d, %s, %p), program=%d, instanceID=%u\n", PrintEnum(mode), count, PrintEnum(type), indices, glstate->glsl->program, glstate->instanceID);)
-    LOAD_GLES2(glBindBuffer);
     scratch_t scratch = {0};
     realize_glenv(mode==GL_POINTS, 0, count, type, indices, &scratch);
     LOAD_GLES(glDrawElements);
     int use_vbo = 0;
     if(glstate->vao->elements && glstate->vao->elements->real_buffer && indices>=glstate->vao->elements->data && indices<=(glstate->vao->elements->data+glstate->vao->elements->size)) {
         use_vbo = 1;
-        gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, glstate->vao->elements->real_buffer);
+        bindBuffer(GL_ELEMENT_ARRAY_BUFFER, glstate->vao->elements->real_buffer);
         indices = (GLvoid*)((uintptr_t)indices - (uintptr_t)(glstate->vao->elements->data));
     }
+    realize_bufferIndex();
     gles_glDrawElements(mode, count, type, indices);
+    if(use_vbo)
+        wantBufferIndex(0);
     free_scratch(&scratch);
-    if(use_vbo) gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 void fpe_glDrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsizei primcount) {
     DBG(printf("fpe_glDrawArraysInstanced(%s, %d, %d, %d), program=%d\n", PrintEnum(mode), first, count, primcount, glstate->glsl->program);)
@@ -862,7 +863,6 @@ void fpe_glDrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsizei 
 }
 void fpe_glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices, GLsizei primcount) {
     DBG(printf("fpe_glDrawElementsInstanced(%s, %d, %s, %p, %d), program=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, primcount, glstate->glsl->program);)
-    LOAD_GLES2(glBindBuffer);
     LOAD_GLES(glDrawElements);
     LOAD_GLES2(glVertexAttrib4fv);
     scratch_t scratch = {0};
@@ -873,10 +873,13 @@ void fpe_glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const 
     GLfloat tmp[4] = {0.0f, 0.0f, 0.0f, 1.0f};
     if(glstate->vao->elements && glstate->vao->elements->real_buffer && indices>=glstate->vao->elements->data && indices<=(glstate->vao->elements->data+glstate->vao->elements->size)) {
         use_vbo = 1;
-        gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, glstate->vao->elements->real_buffer);
+        bindBuffer(GL_ELEMENT_ARRAY_BUFFER, glstate->vao->elements->real_buffer);
         inds = (void*)((uintptr_t)indices - (uintptr_t)(glstate->vao->elements->data));
-    } else 
+    } else {
         inds = (void*)indices;
+        bindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
+    //realize_bufferIndex();    // not usefull here
     for (GLint id=0; id<primcount; ++id) {
         GoUniformiv(glprogram, glprogram->builtin_instanceID, 1, 1, &id);
         for(int i=0; i<hardext.maxvattrib; i++) 
@@ -917,8 +920,9 @@ void fpe_glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const 
         }
         gles_glDrawElements(mode, count, type, inds);
     }
+    if(use_vbo)
+        wantBufferIndex(0);
     free_scratch(&scratch);
-    if(use_vbo) gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 
@@ -1025,7 +1029,6 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
     LOAD_GLES2(glDisableVertexAttribArray);
     LOAD_GLES2(glVertexAttribPointer);
     LOAD_GLES2(glVertexAttrib4fv);
-    LOAD_GLES2(glBindBuffer);
     LOAD_GLES2(glUseProgram);
     // update texture state for fpe only
     if(glstate->fpe_bound_changed && !glstate->glsl->program) {
@@ -1403,7 +1406,6 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         #undef GO
     }
     // set VertexAttrib if needed
-    GLuint old_buffer = 0;
     for(int i=0; i<hardext.maxvattrib; i++) 
     if(glprogram->va_size[i])   // only check used VA...
     {
@@ -1426,7 +1428,8 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
             void * ptr = (void*)((uintptr_t)w->pointer + ((w->buffer)?(uintptr_t)w->buffer->data:0));
             if(dirty || v->size!=w->size || v->type!=w->type || v->normalized!=w->normalized 
                 || v->stride!=w->stride || v->buffer!=w->buffer || (w->real_buffer==0 && v->pointer!=ptr)
-                || v->real_buffer!=w->real_buffer || (w->real_buffer!=0 && v->real_pointer != w->real_pointer)) {
+                || v->real_buffer!=w->real_buffer || (w->real_buffer!=0 && v->real_pointer != w->real_pointer) 
+                || w->real_buffer!=glstate->bind_buffer.array) {
                 if((w->size==GL_BGRA || w->type==GL_DOUBLE) && scratch->size<8) { 
                     // need to adjust, so first need the min/max (a shame as I already must have that somewhere)
                     int imin, imax;
@@ -1466,11 +1469,9 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                     v->pointer = (v->real_buffer)?v->real_pointer:ptr;
                     v->buffer = w->buffer; // buffer is unused here
                 }
-                if(old_buffer != v->real_buffer) {
-                    DBG(printf("Switching to Buffer %d\n", v->real_buffer);)
-                    gles_glBindBuffer(GL_ARRAY_BUFFER, v->real_buffer);
-                    old_buffer = v->real_buffer;
-                }
+                DBG(printf("using Buffer %d\n", v->real_buffer);)
+                bindBuffer(GL_ARRAY_BUFFER, v->real_buffer);
+
                 gles_glVertexAttribPointer(i, v->size, v->type, v->normalized, v->stride, v->pointer);
                 DBG(printf("glVertexAttribPointer(%d, %d, %s, %d, %d, %p)\n", i, v->size, PrintEnum(v->type), v->normalized, v->stride, (GLvoid*)((uintptr_t)v->pointer+((v->buffer)?(uintptr_t)v->buffer->data:0)));)
             }
@@ -1520,9 +1521,6 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
             gles_glDisableVertexAttribArray(i);
         }
     }
-    if(old_buffer)
-        gles_glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 }
 
 void realize_blitenv(int alpha) {

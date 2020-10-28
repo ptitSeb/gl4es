@@ -23,7 +23,6 @@ typedef struct array2vbo_s {
 int list2VBO(renderlist_t* list)
 {
     LOAD_GLES2(glGenBuffers);
-    LOAD_GLES2(glBindBuffer);
     LOAD_GLES2(glBufferData);
     LOAD_GLES2(glBufferSubData);
     array2vbo_t work[ATT_MAX] = {0};
@@ -109,14 +108,13 @@ int list2VBO(renderlist_t* list)
         return 1;
     // Create the VBO and fill the data
     gles_glGenBuffers(1, &list->vbo_array);
-    gles_glBindBuffer(GL_ARRAY_BUFFER, list->vbo_array);
+    bindBuffer(GL_ARRAY_BUFFER, list->vbo_array);
     gles_glBufferData(GL_ARRAY_BUFFER, vbo_base, NULL, GL_STATIC_DRAW);
     for(int i=0; i<imax; ++i) {
         array2vbo_t *r = work+sorted[i];
         if(r->vbo_base==r->vbo_basebase)
             gles_glBufferSubData(GL_ARRAY_BUFFER, r->vbo_basebase, r->real_size, (void*)r->real_base);
     }
-    gles_glBindBuffer(GL_ARRAY_BUFFER, 0);
     // work -> list
     imax = 0;
     if(list->vert) {
@@ -356,7 +354,6 @@ void draw_renderlist(renderlist_t *list) {
     LOAD_GLES_FPE(glTexCoordPointer);
     LOAD_GLES_FPE(glEnable);
     LOAD_GLES_FPE(glDisable);
-    LOAD_GLES2(glBindBuffer);
     gl4es_glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
 
 	int old_tex;
@@ -731,6 +728,7 @@ void draw_renderlist(renderlist_t *list) {
                         int k = fill_lineIndices(list->mode_inits?list->mode_inits:&tmp, list->mode_inits?list->mode_init_len:1, list->mode, indices, list->ind_lines);
                         list->ind_line = k;
                     }
+                    bindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
                     gles_glDrawElements(mode, list->ind_line, GL_UNSIGNED_SHORT, list->ind_lines);
                     use_vbo_indices = 1;
                 } else {
@@ -740,14 +738,15 @@ void draw_renderlist(renderlist_t *list) {
                         LOAD_GLES2(glGenBuffers);
                         LOAD_GLES2(glBufferData);
                         gles_glGenBuffers(1, &list->vbo_indices);
-                        gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, list->vbo_indices);
+                        bindBuffer(GL_ELEMENT_ARRAY_BUFFER, list->vbo_indices);
                         gles_glBufferData(GL_ELEMENT_ARRAY_BUFFER, list->ilen*sizeof(GL_UNSIGNED_SHORT), indices, GL_STATIC_DRAW);
                         use_vbo_indices = 2;
                         vbo_indices = 1;
                     } else if(use_vbo_indices==2) {
-                        gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, list->vbo_indices);
+                        bindBuffer(GL_ELEMENT_ARRAY_BUFFER, list->vbo_indices);
                         vbo_indices = 1;
-                    }
+                    } else
+                        realize_bufferIndex();
                     if(list->instanceCount==1)
                         gles_glDrawElements(mode, list->ilen, GL_UNSIGNED_SHORT, vbo_indices?NULL:indices);
                     else {
@@ -755,8 +754,7 @@ void draw_renderlist(renderlist_t *list) {
                             gles_glDrawElements(mode, list->ilen, GL_UNSIGNED_SHORT, vbo_indices?NULL:indices);
                         glstate->instanceID = 0;
                     }
-                    if(vbo_indices)
-                        gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+                    wantBufferIndex(0);
                 }
             }
         } else {
@@ -777,6 +775,7 @@ void draw_renderlist(renderlist_t *list) {
                         int k = fill_lineIndices(list->mode_inits?list->mode_inits:&tmp, list->mode_inits?list->mode_init_len:1, list->mode, NULL, list->ind_lines);
                         list->ind_line = k;
                     }
+                    bindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 					gles_glDrawElements(mode, list->ind_line, GL_UNSIGNED_SHORT, list->ind_lines);
                 } else {
                     if(list->instanceCount==1)

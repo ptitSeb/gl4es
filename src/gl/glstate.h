@@ -125,6 +125,8 @@ typedef struct glstate_s {
     samplers_t          samplers;
     // Queries
     queries_t           queries;
+    // Binded buffer (if used)
+    bind_buffers_t      bind_buffer;
 } glstate_t;
 
 
