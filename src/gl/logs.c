@@ -21,7 +21,9 @@ void LogPrintf_NoPrefix(const char *fmt,...)
 //----------------------------------------------------------------------------
 void LogFPrintf(FILE *fp,const char *fmt,...)
 {
+	#ifndef ANDROID
 	fprintf(fp,log_prefix);
+	#endif
 	va_list args;
 	va_start(args,fmt);
 	#ifdef ANDROID
