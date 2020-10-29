@@ -195,8 +195,8 @@ void gl4es_glShaderSource(GLuint shader, GLsizei count, const GLchar * const *st
     GO(mvpmatrix)   \
     GO(notexarray)  \
     GO(clean)       \
+    GO(clipvertex)  \
     GO2(texs)
-// not testing need_clipvertex as this stay in vertexshader
 
 void accumShaderNeeds(GLuint shader, shaderconv_need_t *need) {
     CHECK_SHADER(void, shader)

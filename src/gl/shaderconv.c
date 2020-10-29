@@ -269,6 +269,10 @@ static const char* gl4es_ClipVertex =
 static const char* gl4es_ClipVertexSource = 
 "gl4es_ClipVertex";
 
+static const char* gl4es_ClipVertex_clip =
+"\nif(any(lessThanEqual(gl4es_ClipVertex.xyz, vec3(-gl4es_ClipVertex.w)))"
+" || any(greaterThanEqual(gl4es_ClipVertex.xyz, vec3(gl4es_ClipVertex.w)))) discard;\n";
+
 static const char* gl_TexCoordSource = "gl_TexCoord[";
 
 static const char* gl_TexMatrixSources[] = {
@@ -1085,6 +1089,15 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     Tmp = InplaceInsert(GetLine(Tmp, 2), gl4es_ClipVertex, Tmp, &tmpsize);
     headline+=CountLine(gl4es_ClipVertex);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ClipVertex", gl4es_ClipVertexSource);
+    need->need_clipvertex = 1;
+  } else if(isVertex && need && need->need_clipvertex) {
+    Tmp = InplaceInsert(GetLine(Tmp, 2), gl4es_ClipVertex, Tmp, &tmpsize);
+    headline+=CountLine(gl4es_ClipVertex);
+    char *p = strchr(FindStringNC(Tmp, "main"), '{'); // find the openning curly bracket of main
+    if(p) {
+      // add regular clipping at start of main
+      Tmp = InplaceInsert(p+1, gl4es_ClipVertex_clip, Tmp, &tmpsize);
+    }
   }
   //oldprogram uniforms...
   if(FindString(Tmp, gl_ProgramEnv)) {
