@@ -8,6 +8,7 @@
 #include "preproc.h"
 #include "string_utils.h"
 #include "shader_hacks.h"
+#include "logs.h"
 
 typedef struct {
     const char* glname;
@@ -262,8 +263,11 @@ static const char* gl4es_ftransformSource =
 " return gl_ModelViewProjectionMatrix * gl_Vertex;\n"
 "}\n";
 
-static const char* gl4es_dummyClipVertex = 
-"vec4 dummyClipVertex_%d";
+static const char* gl4es_ClipVertex = 
+"varying %s vec4 gl4es_ClipVertex";
+
+static const char* gl4es_ClipVertexSource = 
+"gl4es_ClipVertex";
 
 static const char* gl_TexCoordSource = "gl_TexCoord[";
 
@@ -431,6 +435,8 @@ char gl4es_VA[MAX_VATTRIB][32] = {0};
 
 char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 {
+  #define ShadAppend(S) Tmp = Append(Tmp, &tmpsize, S)
+
   if(gl_VA[0][0]=='\0') {
     for (int i=0; i<MAX_VATTRIB; ++i) {
       sprintf(gl_VA[i], "%s%d", gl_VertexAttrib, i);
@@ -1076,13 +1082,25 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_MaxTextureCoords", "_gl4es_MaxTextureCoords");
   }
   if(strstr(Tmp, "gl_ClipVertex")) {
-    // gl_ClipVertex is not handled for now
-    // Proper way would be to copy handling from fpe_shader, but then, need to use gl_ClipPlane...
-    static int ncv = 0;
     char CV[60];
-    sprintf(CV, gl4es_dummyClipVertex, ncv);
-    ++ncv;
-    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ClipVertex", CV);
+    sprintf(CV, gl4es_ClipVertex, hardext.highp?"highp":"mediump");
+    Tmp = InplaceInsert(GetLine(Tmp, 2), CV, Tmp, &tmpsize);
+    headline+=CountLine(gl4es_MaxTextureCoordsSource);
+    Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ClipVertex", gl4es_ClipVertexSource);
+    need->need_clipvertex = 1;
+  } else if(need->need_clipvertex) {
+    if(isVertex) {
+      LOGE("LIBGL: Don't now how to generate a gl_ClipVertex in vertex shader\n");
+    } else {
+      char CV[60];
+      sprintf(CV, gl4es_ClipVertex, hardext.highp?"highp":"mediump");
+      Tmp = InplaceInsert(GetLine(Tmp, 2), CV, Tmp, &tmpsize);
+      // TODO: track this rename
+      Tmp = InplaceReplace(Tmp, &tmpsize, "main", "_gl4es_main");
+      // TODO: track the "super main"
+      ShadAppend(" if((min(0., gl4es_ClipVertex))<0.) discard;\n");
+      ShadAppend(" _gl4es_main();\n");
+    }
   }
   //oldprogram uniforms...
   if(FindString(Tmp, gl_ProgramEnv)) {
