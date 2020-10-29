@@ -1098,7 +1098,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
       // TODO: track this rename
       Tmp = InplaceReplace(Tmp, &tmpsize, "main", "_gl4es_main");
       // TODO: track the "super main"
-      ShadAppend(" if((min(0., gl4es_ClipVertex))<0.) discard;\n");
+      ShadAppend(" if(gl4es_ClipVertex<0.) discard;\n");
       ShadAppend(" _gl4es_main();\n");
     }
   }
