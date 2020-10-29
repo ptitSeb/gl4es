@@ -15,7 +15,6 @@ typedef struct shaderconv_need_s {
     int         need_mvmatrix;
     int         need_mvpmatrix;
     int         need_clean;         // this shader needs to stay "clean", no hack in here
-    int         need_clipvertex;
     uint32_t    need_texs;          // flags of what tex is needed
 } shaderconv_need_t;
 

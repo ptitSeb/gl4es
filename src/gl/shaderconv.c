@@ -264,7 +264,7 @@ static const char* gl4es_ftransformSource =
 "}\n";
 
 static const char* gl4es_ClipVertex = 
-"varying %s vec4 gl4es_ClipVertex";
+"vec4 gl4es_ClipVertex;\n";
 
 static const char* gl4es_ClipVertexSource = 
 "gl4es_ClipVertex";
@@ -1082,25 +1082,9 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_MaxTextureCoords", "_gl4es_MaxTextureCoords");
   }
   if(strstr(Tmp, "gl_ClipVertex")) {
-    char CV[60];
-    sprintf(CV, gl4es_ClipVertex, hardext.highp?"highp":"mediump");
-    Tmp = InplaceInsert(GetLine(Tmp, 2), CV, Tmp, &tmpsize);
-    headline+=CountLine(gl4es_MaxTextureCoordsSource);
+    Tmp = InplaceInsert(GetLine(Tmp, 2), gl4es_ClipVertex, Tmp, &tmpsize);
+    headline+=CountLine(gl4es_ClipVertex);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ClipVertex", gl4es_ClipVertexSource);
-    need->need_clipvertex = 1;
-  } else if(need->need_clipvertex) {
-    if(isVertex) {
-      LOGE("LIBGL: Don't now how to generate a gl_ClipVertex in vertex shader\n");
-    } else {
-      char CV[60];
-      sprintf(CV, gl4es_ClipVertex, hardext.highp?"highp":"mediump");
-      Tmp = InplaceInsert(GetLine(Tmp, 2), CV, Tmp, &tmpsize);
-      // TODO: track this rename
-      Tmp = InplaceReplace(Tmp, &tmpsize, "main", "_gl4es_main");
-      // TODO: track the "super main"
-      ShadAppend(" if(gl4es_ClipVertex<0.) discard;\n");
-      ShadAppend(" _gl4es_main();\n");
-    }
   }
   //oldprogram uniforms...
   if(FindString(Tmp, gl_ProgramEnv)) {

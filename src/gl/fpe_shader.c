@@ -1426,9 +1426,12 @@ const char* const* fpe_CustomVertexShader(const char* initial, fpe_state_t* stat
         ShadAppend("\nvoid main() {\n");
         ShadAppend("_gl4es_main();");
         if(planes) {
+            int clipvertex = 0;
+            if(strstr(shad, "gl4es_ClipVertex"))
+                clipvertex = 1;
             for (int i=0; i<hardext.maxplanes; i++) {
                 if((planes>>i)&1) {
-                    sprintf(buff, "clippedvertex_%d = dot(gl_ModelViewMatrix * gl_Vertex, _gl4es_ClipPlane_%d);\n", i, i);
+                    sprintf(buff, "clippedvertex_%d = dot(%s, _gl4es_ClipPlane_%d);\n", i, clipvertex?"gl4es_ClipVertex":"gl_ModelViewMatrix * gl_Vertex", i);
                     ShadAppend(buff);
                 }
             }
