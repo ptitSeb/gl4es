@@ -223,7 +223,7 @@ eTokenType NextToken(char **p, uToken *tok) {
                             (*p)++; nextc=**p;
                         }
                         while(nextc>='0' && nextc<='9') { nb=nb*10+nextc-'0'; (*p)++; nextc=**p;}
-                        fnb=powf(fnb, nb*expsign);
+                        fnb*=powf(10.0f, expsign*nb);
                     }
                     if(nextc=='f') {
                         (*p)++; nextc=**p;
