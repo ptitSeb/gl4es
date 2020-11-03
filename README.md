@@ -5,7 +5,7 @@ GL4ES - OpenGL for GLES Hardware
 
 ![gl4es build status](https://api.travis-ci.org/ptitSeb/gl4es.png "gl4es build status")
 
-This is a library provide OpenGL 2.x functionality for GLES2.0 accelerated Hardware (and of course also support OpenGL 1.5 function, sometimes better then when using GLES 1.1 backend)
+This is a library provide OpenGL 2.x functionality for GLES2.0 accelerated Hardware (and of course also support OpenGL 1.5 function, sometimes better than when using GLES 1.1 backend)
 There is also support for GLES 1.1 Hardware, emulating OpenGL 1.5, and some OpenGL 2.x+ extensions.
 
 GL4ES is known to work on many platform: OpenPandora, ODroid, RaspberryPI (2 and 3 at least), PocketCHIP, "otherfruit"PI (like the OrangePI), Android, iOS, x86 and x86_64 Linux (tested using mesa-egl). There is also some WIP support for AmigaOS4, using experimental GLES2 driver for Warp3D.
@@ -36,7 +36,7 @@ Status of the GLES2 backend
  * FogCoord are supported, along with secondary color
  * An ES2 context should be usable (useful for SDL2)
  * OpenGL 2.x games that have been tested include: OpenRA, GZDoom, Danger from the Deep, SuperTuxKart 0.8.1, Hammerwatch, OpenMW, half life 2, many FNA & MonoGames games (FEZ, Towerfall Ascension, Stardew Valley, Dust, Owlboy, and many other), even some Unity3D games (Teslagrad, Colin McRea Rally remake and other)...
- * glxgears works, but FlatShade is not implemented (and will probably never be), so it's slightly different then using GLES1.1 or actual GL hardware
+ * glxgears works, but FlatShade is not implemented (and will probably never be), so it's slightly different than using GLES1.1 or actual GL hardware
  * GL_TEXTURE_1D, GL_TEXTURE_3D and GL_TEXTURE_RECTANGLE_ARB are not yet supported in shaders (they are supported in fixed pipeline functions), and texture 3D are just a single 2D layer for now.
  * Program that link only a GL_FRAGMENT or GL_VERTEX shader are not supported yet.
  * Some VBO are used.
