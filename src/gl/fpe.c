@@ -1531,6 +1531,7 @@ void realize_blitenv(int alpha) {
         gles_glUseProgram(glstate->gleshard->program);
     }
     // set VertexAttrib if needed
+    unboundBuffers();
     for(int i=0; i<hardext.maxvattrib; i++) {
         vertexattrib_t *v = &glstate->gleshard->vertexattrib[i];
         // enable / disable Array if needed

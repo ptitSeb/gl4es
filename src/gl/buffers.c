@@ -724,6 +724,7 @@ void unboundBuffers()
     }
     if(glstate->bind_buffer.index) {
         glstate->bind_buffer.index = 0;
+        glstate->bind_buffer.want_index = 0;
         gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
     glstate->bind_buffer.used = 0;
