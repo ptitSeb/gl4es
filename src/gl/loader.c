@@ -80,7 +80,9 @@ static const char *gles_lib[] = {
     #if defined(BCMHOST)
     "libbrcmGLESv1_CM",
     #endif
+    #if !defined(PYRA)
     "libGLESv1_CM",
+    #endif
     "libGLES_CM",
     NULL
 };
