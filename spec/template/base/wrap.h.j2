@@ -58,8 +58,8 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 {% endfor %}
 
 {% for func in functions %}
-{{ func.return }} gl4es_{{ func.name }}({{ func.name }}_ARG_EXPAND);
-typedef {{ func.return }} (*{{ func.name }}_PTR)({{ func.name }}_ARG_EXPAND);
+{{ func.return }} APIENTRY_GL4ES gl4es_{{ func.name }}({{ func.name }}_ARG_EXPAND);
+typedef {{ func.return }} (* APIENTRY_GLES {{ func.name }}_PTR)({{ func.name }}_ARG_EXPAND);
 {% endfor %}
 
 {% endblock %}

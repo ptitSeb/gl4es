@@ -2,6 +2,7 @@
 #define _GL4ES_GLES_H_
 
 #include <GLES/glplatform.h>
+#include "attributes.h"
 
 // Define for GLES 1.1
 typedef void             GLvoid;

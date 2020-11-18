@@ -19,6 +19,38 @@
  #endif
 #endif // AliasExport
 
+// ensure APIENTRY used from platform if it defined, win32 should use STDCALL conversion
+#include <GLES/glplatform.h>
+
+#ifndef APIENTRY
+#define APIENTRY
+#endif
+
+#ifndef SOFTFLOAT
+#ifdef __arm__
+#define SOFTFLOAT __attribute__((pcs("aapcs")))
+#else
+#define SOFTFLOAT
+#endif
+#endif // SOFTFLOAT
+
+#ifndef APIENTRY_GLES
+#ifdef GLES_SOFTFLOAT
+#define APIENTRY_GLES APIENTRY SOFTFLOAT
+#else
+#define APIENTRY_GLES APIENTRY
+#endif
+#endif // APIENTRY_GLES
+
+
+#ifndef APIENTRY_GL4ES
+#ifdef GL_SOFTFLOAT
+#define APIENTRY_GL4ES APIENTRY SOFTFLOAT
+#else
+#define APIENTRY_GL4ES APIENTRY
+#endif
+#endif //APIENTRY_GL4ES
+
 #ifndef FASTMATH
 #ifdef __GNUC__
  #ifdef __arm__
