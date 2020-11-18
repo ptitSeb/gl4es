@@ -3,7 +3,7 @@
 import argparse
 import jinja2
 import re
-from yaml import load
+from yaml import safe_load
 
 split_re = re.compile(r'^(?P<type>.*?)\s*(?P<name>\w+)$')
 env = jinja2.Environment(
@@ -156,7 +156,7 @@ if __name__ == '__main__':
     files = []
     for name in args.yaml.split(','):
         with open(name) as f:
-            data = load(f)
+            data = safe_load(f)
             if data:
                 files.append(data)
 
@@ -164,6 +164,6 @@ if __name__ == '__main__':
         cats = args.cats.split(',')
     else:
         cats = None
-    print gen(files, args.template, args.name,
+    print(gen(files, args.template, args.name,
               args.headers, args.deep, cats,
-              args.ifdef, args.ifndef)
+              args.ifdef, args.ifndef))
