@@ -611,6 +611,8 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
         int t = state->texture[i].textype;
         if(need && (need->need_texs&(1<<i)) && t==0)
             t = 1;
+        if(need && !(need->need_texs&(1<<i)))
+            t = 0;
         int mat = state->texture[i].texmat;
         int adjust = state->texture[i].texadjust;
         int tg[4];
