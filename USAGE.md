@@ -366,3 +366,9 @@ Disable the filtering of GLXConfig by NATIVE_TYPE
 Disable GL_EXT_shader_texture_lod
 * 0 : Default, use the extension if present
 * 1 : Disable the use of the extension (using crude fallback)
+
+##### LIBGL_NORMALIZE
+Force normals to be normliazed in FPE
+* 0 : Default, don't force normalizations
+* 1 : Force normalization on normals on FPE, even when it's disabled (workaround for a bug that prevent colors on Minecraft 1.16+)
+

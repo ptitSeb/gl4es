@@ -445,6 +445,7 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
                 sprintf(buff, "BackColor = %s;\n", bm_emission);
                 ShadAppend(buff);
             }
+            
             sprintf(buff, "Color += %s*gl_LightModel.ambient;\n", fm_ambient);
             ShadAppend(buff);
             if(twosided) {
@@ -742,9 +743,10 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
             strcat(buff, "normal = normalize(normal);\n");
 #else
 // Implementions may choose to normalize for rescale...
-        if(state->rescaling || state->normalize)
+        if(state->rescaling || state->normalize || globals4es.normalize)
             strcpy(buff, "vec3 normal = normalize(gl_NormalMatrix * gl_Normal);\n");
         else
+            //strcpy(buff, "vec3 normal = (vec4(gl_Normal, (gl_Vertex.w==0.0)?0.0:(-dot(gl_Normal, gl_Vertex.xyz)/gl_Vertex.w))*gl_ModelViewMatrixInverse).xyz;\n");
             strcpy(buff, "vec3 normal = gl_NormalMatrix * gl_Normal;\n");
 #endif
         shad = InplaceInsert(GetLine(shad, normal_line + headers), buff, shad, &shad_cap);

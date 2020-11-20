@@ -254,7 +254,7 @@ void matrix_inverse3_transpose(const float *m, float *r) {
     r[7] = m[0+2]*m[4+0] - m[0+0]*m[4+2];
     r[8] = m[0+0]*m[4+1] - m[0+1]*m[4+0];
 
-    float det = 1.0f/(m[0]*r[0] + m[4+0]*r[3] + m[8+0]*r[6]);
+    float det = 1.0f/(m[0]*r[0] + m[4+0]*r[1] + m[8+0]*r[3]);
     for (int i = 0; i < 9; i++) r[i] *= det;
 }
     
