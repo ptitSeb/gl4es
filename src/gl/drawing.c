@@ -10,6 +10,13 @@
 #include "loader.h"
 #include "render.h"
 
+//#define DEBUG
+#ifdef DEBUG
+#define DBG(a) a
+#else
+#define DBG(a)
+#endif
+
 static GLboolean is_cache_compatible(GLsizei count) {
     #define T2(AA, A, B) \
     if(glstate->vao->AA!=glstate->vao->B.enabled) return GL_FALSE; \
@@ -59,7 +66,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
                                         GLsizei skip, GLsizei count) {
     if (! list)
         list = alloc_renderlist();
-//LOGD("arrary_to_renderlist, compiling=%d, skip=%d, count=%d\n", glstate->list.compiling, skip, count);
+    DBG(LOGD("arrary_to_renderlist, compiling=%d, skip=%d, count=%d\n", glstate->list.compiling, skip, count);)
     list->mode = mode;
     list->mode_init = mode;
     list->mode_dimension = rendermode_dimensions(mode);
@@ -173,6 +180,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
 }
 static renderlist_t *arrays_add_renderlist(renderlist_t *a, GLenum mode,
                                         GLsizei skip, GLsizei count, GLushort* indices, int ilen_b) {
+    DBG(LOGD("arrays_add_renderlist(%p, %s, %d, %d, %p, %d)\n", a, PrintEnum(mode), skip, count, indices, ilen_b);)
     // check cache if any
     if(glstate->vao->shared_arrays)  {
         if (!is_cache_compatible(count))
@@ -277,7 +285,7 @@ GLuint len_indices(const GLushort *sindices, const GLuint *iindices, GLsizei cou
 static void glDrawElementsCommon(GLenum mode, GLint first, GLsizei count, GLuint len, const GLushort *sindices, const GLuint *iindices, int instancecount) {
     if (glstate->raster.bm_drawing)
         bitmap_flush();
-    //printf("glDrawElementsCommon(%s, %d, %d, %d, %p, %p, %d)\n", PrintEnum(mode), first, count, len, sindices, iindices, instancecount);
+    DBG(printf("glDrawElementsCommon(%s, %d, %d, %d, %p, %p, %d)\n", PrintEnum(mode), first, count, len, sindices, iindices, instancecount);)
     LOAD_GLES_FPE(glDrawElements);
     LOAD_GLES_FPE(glDrawArrays);
     LOAD_GLES_FPE(glNormalPointer);
@@ -445,7 +453,7 @@ if(count>500000) return;
 #define MAX_BATCH  globals4es.maxbatch
 
 void gl4es_glDrawRangeElements(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const void *indices) {
-    //printf("glDrawRangeElements(%s, %i, %i, %i, %s, @%p), inlist=%i, pending=%d\n", PrintEnum(mode), start, end, count, PrintEnum(type), indices, (glstate->list.active)?1:0, glstate->list.pending);
+    DBG(printf("glDrawRangeElements(%s, %i, %i, %i, %s, @%p), inlist=%i, pending=%d\n", PrintEnum(mode), start, end, count, PrintEnum(type), indices, (glstate->list.active)?1:0, glstate->list.pending);)
     count = adjust_vertices(mode, count);
     
     if (count<0) {
@@ -549,7 +557,7 @@ void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GL
 
 
 void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) {
-    //printf("glDrawElements(%s, %d, %s, %p), vtx=%p map=%p, pending=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL, glstate->list.pending);
+    DBG(printf("glDrawElements(%s, %d, %s, %p), vtx=%p map=%p, pending=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL, glstate->list.pending);)
     // TODO: split for count > 65535?
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
     count = adjust_vertices(mode, count);
@@ -653,7 +661,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) AliasExport("gl4es_glDrawElements");
 
 void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
-    //printf("glDrawArrays(%s, %d, %d), list=%p pending=%d\n", PrintEnum(mode), first, count, glstate->list.active, glstate->list.pending);
+    DBG(printf("glDrawArrays(%s, %d, %d), list=%p pending=%d\n", PrintEnum(mode), first, count, glstate->list.active, glstate->list.pending);)
     // special check for QUADS and TRIANGLES that need multiple of 4 or 3 vertex...
     count = adjust_vertices(mode, count);
 
@@ -743,7 +751,9 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
                         *(p++) = j + 3;
                 }
             }
+            GLuint old_buffer = wantBufferIndex(0);
             glDrawElementsCommon(GL_TRIANGLES, 0, count*3/2, count, indices+(first-indfirst)*3/2, NULL, 1);
+            wantBufferIndex(old_buffer);
             return;
         }
 
@@ -755,6 +765,7 @@ void glDrawArraysEXT(GLenum mode, GLint first, GLsizei count) AliasExport("gl4es
 
 void gl4es_glMultiDrawArrays(GLenum mode, const GLint *firsts, const GLsizei *counts, GLsizei primcount)
 {
+    DBG(printf("glMultiDrawArrays(%s, %p, %p, %d), list=%p pending=%d\n", PrintEnum(mode), firsts, counts, primcount, glstate->list.active, glstate->list.pending);)
     if(!primcount) {
         noerrorShim();
         return;
@@ -850,7 +861,9 @@ void gl4es_glMultiDrawArrays(GLenum mode, const GLint *firsts, const GLsizei *co
                             *(p++) = j + 3;
                     }
                 }
+                GLuint old_buffer = wantBufferIndex(0);
                 glDrawElementsCommon(GL_TRIANGLES, 0, count*3/2, count, indices+(first-indfirst)*3/2, NULL, 1);
+                wantBufferIndex(old_buffer);
                 continue;
             }
 
@@ -871,6 +884,7 @@ void glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GL
 
 void gl4es_glMultiDrawElements( GLenum mode, GLsizei *counts, GLenum type, const void * const *indices, GLsizei primcount)
 {
+    DBG(printf("glMultiDrawElements(%s, %p, %s, %p, %d), list=%p pending=%d\n", PrintEnum(mode), counts, PrintEnum(type), indices, primcount, glstate->list.active, glstate->list.pending);)
     if(!primcount) {
         noerrorShim();
         return;
@@ -987,7 +1001,7 @@ void gl4es_glMultiDrawElements( GLenum mode, GLsizei *counts, GLenum type, const
 void glMultiDrawElements( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount) AliasExport("gl4es_glMultiDrawElements");
 
 void gl4es_glMultiDrawElementsBaseVertex( GLenum mode, GLsizei *counts, GLenum type, const void * const *indices, GLsizei primcount, const GLint * basevertex) {
-    //printf("glMultiDrawElementsBaseVertex(%s, %p, %s, @%p, %d, @%p), inlist=%i, pending=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, primcount, basevertex, (glstate->list.active)?1:0, glstate->list.pending);
+    DBG(printf("glMultiDrawElementsBaseVertex(%s, %p, %s, @%p, %d, @%p), inlist=%i, pending=%d\n", PrintEnum(mode), counts, PrintEnum(type), indices, primcount, basevertex, (glstate->list.active)?1:0, glstate->list.pending);)
     // divide the call, should try something better one day...
     bool compiling = (glstate->list.active);
     bool intercept = should_intercept_render(mode);
@@ -1090,7 +1104,7 @@ void glMultiDrawElementsBaseVertex( GLenum mode, GLsizei *count, GLenum type, co
 void glMultiDrawElementsBaseVertexARB( GLenum mode, GLsizei *count, GLenum type, const void * const *indices, GLsizei primcount, const GLint * basevertex) AliasExport("gl4es_glMultiDrawElementsBaseVertex");
 
 void gl4es_glDrawElementsBaseVertex(GLenum mode, GLsizei count, GLenum type, const void *indices, GLint basevertex) {
-    //printf("glDrawElementsBaseVertex(%s, %d, %s, %p, %d), vtx=%p map=%p, pending=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, basevertex, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL, glstate->list.pending);
+    DBG(printf("glDrawElementsBaseVertex(%s, %d, %s, %p, %d), vtx=%p map=%p, pending=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, basevertex, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL, glstate->list.pending);)
     if(basevertex==0)
         gl4es_glDrawElements(mode, count, type, indices);
     else {
@@ -1186,7 +1200,7 @@ void glDrawElementsBaseVertexARB(GLenum mode, GLsizei count, GLenum type, const 
 
 
 void gl4es_glDrawRangeElementsBaseVertex(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const void *indices, GLint basevertex) {
-    //printf("glDrawRangeElementsBaseVertex(%s, %i, %i, %i, %s, @%p, %d), inlist=%i, pending=%d\n", PrintEnum(mode), start, end, count, PrintEnum(type), indices, basevertex, (glstate->list.active)?1:0, glstate->list.pending);
+    DBG(printf("glDrawRangeElementsBaseVertex(%s, %i, %i, %i, %s, @%p, %d), inlist=%i, pending=%d\n", PrintEnum(mode), start, end, count, PrintEnum(type), indices, basevertex, (glstate->list.active)?1:0, glstate->list.pending);)
     if(basevertex==0) {
         gl4es_glDrawRangeElements(mode, start, end, count, type, indices);
     } else {
@@ -1279,6 +1293,7 @@ void glDrawRangeElementsBaseVertex(GLenum mode, GLuint start, GLuint end, GLsize
 void glDrawRangeElementsBaseVertexARB(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const void *indices, GLint basevertex) AliasExport("gl4es_glDrawRangeElementsBaseVertex");
 
 void gl4es_glDrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsizei primcount) {
+    DBG(printf("glDrawArraysInstanced(%s, %d, %d, %d), list=%p pending=%d\n", PrintEnum(mode), first, count, primcount, glstate->list.active, glstate->list.pending);)
     count = adjust_vertices(mode, count);
 
 	if (count<0) {
@@ -1362,7 +1377,9 @@ void gl4es_glDrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsize
                         *(p++) = j + 3;
                 }
             }
+            GLuint old_buffer = wantBufferIndex(0);
             glDrawElementsCommon(GL_TRIANGLES, 0, count*3/2, count, indices+(first-indfirst)*3/2, NULL, primcount);
+            wantBufferIndex(old_buffer);
             return;
         }
 
@@ -1373,6 +1390,7 @@ void glDrawArraysInstanced(GLenum mode, GLint first, GLsizei count, GLsizei prim
 void glDrawArraysInstancedARB(GLenum mode, GLint first, GLsizei count, GLsizei primcount) AliasExport("gl4es_glDrawArraysInstanced");
 
 void gl4es_glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const void *indices, GLsizei primcount) {
+    DBG(printf("glDrawElementsInstanced(%s, %d, %s, %p, %d), list=%p pending=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, primcount, glstate->list.active, glstate->list.pending);)
     count = adjust_vertices(mode, count);
     
     if (count<0) {
@@ -1473,7 +1491,7 @@ void glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const void
 void glDrawElementsInstancedARB(GLenum mode, GLsizei count, GLenum type, const void *indices, GLsizei primcount) AliasExport("gl4es_glDrawElementsInstanced");
 
 void gl4es_glDrawElementsInstancedBaseVertex(GLenum mode, GLsizei count, GLenum type, const void *indices, GLsizei primcount, GLint basevertex) {
-    //printf("glDrawElementsInstanceBaseVertex(%s, %d, %s, %p, %d, %d), vtx=%p map=%p, pending=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, primcount, basevertex, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL, glstate->list.pending);
+    DBG(printf("glDrawElementsInstanceBaseVertex(%s, %d, %s, %p, %d, %d), vtx=%p map=%p, pending=%d\n", PrintEnum(mode), count, PrintEnum(type), indices, primcount, basevertex, (glstate->vao->vertex)?glstate->vao->vertex->data:NULL, (glstate->vao->elements)?glstate->vao->elements->data:NULL, glstate->list.pending);)
     if(basevertex==0)
         gl4es_glDrawElementsInstanced(mode, count, type, indices, primcount);
     else {

@@ -682,6 +682,7 @@ void bindBuffer(GLenum target, GLuint buffer)
     if(target==GL_ARRAY_BUFFER) {
         if(glstate->bind_buffer.array == buffer)
             return;
+        DBG(printf("Bind buffer %d to GL_ARRAY_BUFFER\n", buffer);)
         glstate->bind_buffer.array = buffer;
         gles_glBindBuffer(target, buffer);
         
@@ -690,6 +691,7 @@ void bindBuffer(GLenum target, GLuint buffer)
         if(glstate->bind_buffer.index == buffer)
             return;
         glstate->bind_buffer.index = buffer;
+        DBG(printf("Bind buffer %d to GL_ELEMENT_ARRAY_BUFFER\n", buffer);)
         gles_glBindBuffer(target, buffer);
     } else {
         LOGE("Warning, unhandled Buffer type %s in bindBuffer\n", PrintEnum(target));
@@ -698,9 +700,11 @@ void bindBuffer(GLenum target, GLuint buffer)
     glstate->bind_buffer.used = (glstate->bind_buffer.index && glstate->bind_buffer.array)?1:0;
 }
 
-void wantBufferIndex(GLuint buffer)
+GLuint wantBufferIndex(GLuint buffer)
 {
+    GLuint ret = glstate->bind_buffer.want_index;
     glstate->bind_buffer.want_index = buffer;
+    return ret;
 }
 
 void realize_bufferIndex()
@@ -708,7 +712,8 @@ void realize_bufferIndex()
     LOAD_GLES(glBindBuffer);
     if(glstate->bind_buffer.index != glstate->bind_buffer.want_index) {
         glstate->bind_buffer.index = glstate->bind_buffer.want_index;
-        gles_glBindBuffer(GL_ARRAY_BUFFER, glstate->bind_buffer.index);
+        gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, glstate->bind_buffer.index);
+        DBG(printf("Bind buffer %d to GL_ELEMENT_ARRAY_BUFFER\n", glstate->bind_buffer.index);)
         glstate->bind_buffer.used = (glstate->bind_buffer.index && glstate->bind_buffer.array)?1:0;
     }
 }
@@ -721,11 +726,13 @@ void unboundBuffers()
     if(glstate->bind_buffer.array) {
         glstate->bind_buffer.array = 0;
         gles_glBindBuffer(GL_ARRAY_BUFFER, 0);
+        DBG(printf("Bind buffer %d to GL_ARRAY_BUFFER\n", 0);)
     }
     if(glstate->bind_buffer.index) {
         glstate->bind_buffer.index = 0;
         glstate->bind_buffer.want_index = 0;
         gles_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        DBG(printf("Bind buffer %d to GL_ELEMENT_ARRAY_BUFFER\n", 0);)
     }
     glstate->bind_buffer.used = 0;
 }

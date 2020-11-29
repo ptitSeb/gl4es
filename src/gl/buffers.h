@@ -72,7 +72,7 @@ void bindBuffer(GLenum target, GLuint buffer);
 // unbound all buffer
 void unboundBuffers();
 // update wanted Index Buffer
-void wantBufferIndex(GLuint buffer);
+GLuint wantBufferIndex(GLuint buffer);
 // Bind the wanted index buffer if needed
 void realize_bufferIndex();
 

@@ -821,6 +821,10 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
 }
 
 const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *state) {
+    // state can be NULL, so provide a 0 default
+    fpe_state_t default_state = {0};
+    int is_default = !!need;
+    if(!state) state = &default_state;
     int headers = 0;
     int lighting = state->lighting;
     int twosided = state->twosided && lighting;
