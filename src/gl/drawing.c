@@ -587,6 +587,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 	noerrorShim();
     GLushort *sindices = NULL;
     GLuint *iindices = NULL;
+    GLuint old_index = 0;
     bool need_free = !(
         (type==GL_UNSIGNED_SHORT) || 
         (!compiling && !intercept && type==GL_UNSIGNED_INT && hardext.elementuint)
@@ -594,6 +595,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
     if(need_free) {
         sindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
             type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count, NULL);
+        old_index = wantBufferIndex(0);
     } else {
         if(type==GL_UNSIGNED_INT)
             iindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
@@ -654,8 +656,10 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
         return;
     } else {
         glDrawElementsCommon(mode, 0, count, 0, sindices, iindices, 1);
-        if(need_free)
+        if(need_free) {
             free(sindices);
+            wantBufferIndex(old_index);
+        }
     }
 }
 void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices) AliasExport("gl4es_glDrawElements");
@@ -861,9 +865,9 @@ void gl4es_glMultiDrawArrays(GLenum mode, const GLint *firsts, const GLsizei *co
                             *(p++) = j + 3;
                     }
                 }
-                GLuint old_buffer = wantBufferIndex(0);
+                GLuint old_index = wantBufferIndex(0);
                 glDrawElementsCommon(GL_TRIANGLES, 0, count*3/2, count, indices+(first-indfirst)*3/2, NULL, 1);
-                wantBufferIndex(old_buffer);
+                wantBufferIndex(old_index);
                 continue;
             }
 
@@ -925,6 +929,7 @@ void gl4es_glMultiDrawElements( GLenum mode, GLsizei *counts, GLenum type, const
         noerrorShim();
         GLushort *sindices = NULL;
         GLuint *iindices = NULL;
+        GLuint old_index = 0;
         bool need_free = !(
             (type==GL_UNSIGNED_SHORT) || 
             (!compiling && !intercept && type==GL_UNSIGNED_INT && hardext.elementuint)
@@ -932,6 +937,7 @@ void gl4es_glMultiDrawElements( GLenum mode, GLsizei *counts, GLenum type, const
         if(need_free) {
             sindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
                 type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count, NULL);
+            old_index = wantBufferIndex(0);
         } else {
             if(type==GL_UNSIGNED_INT)
                 iindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
@@ -988,8 +994,10 @@ void gl4es_glMultiDrawElements( GLenum mode, GLsizei *counts, GLenum type, const
             continue;
         } else {
             glDrawElementsCommon(mode, 0, count, 0, sindices, iindices, 1);
-            if(need_free)
+            if(need_free) {
                 free(sindices);
+                wantBufferIndex(old_index);
+            }
         }
     }
     if(list) {
@@ -1087,11 +1095,13 @@ void gl4es_glMultiDrawElementsBaseVertex( GLenum mode, GLsizei *counts, GLenum t
                 for(int i=0; i<count; i++) iindices[i]+=basevertex[i];
             else
                 for(int i=0; i<count; i++) sindices[i]+=basevertex[i];
+            GLuint old_index = wantBufferIndex(0);
             glDrawElementsCommon(mode, 0, count, 0, sindices, iindices, 1);
             if(iindices)
                 free(iindices);
             else
                 free(sindices);
+            wantBufferIndex(old_index);
         }
     }
     if(list) {
@@ -1281,11 +1291,13 @@ void gl4es_glDrawRangeElementsBaseVertex(GLenum mode, GLuint start, GLuint end, 
                 for(int i=0; i<count; i++) iindices[i]+=basevertex;
             else
                 for(int i=0; i<count; i++) sindices[i]+=basevertex;
+            GLuint old_index = wantBufferIndex(0);
             glDrawElementsCommon(mode, 0, count, end+basevertex+1, sindices, iindices, 1);
             if(iindices)
                 free(iindices);
             else
                 free(sindices);
+            wantBufferIndex(old_index);
         }
     }
 }
@@ -1418,6 +1430,7 @@ void gl4es_glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, cons
 	noerrorShim();
     GLushort *sindices = NULL;
     GLuint *iindices = NULL;
+    GLuint old_index = 0;
     bool need_free = !(
         (type==GL_UNSIGNED_SHORT) || 
         (!compiling && !intercept && type==GL_UNSIGNED_INT && hardext.elementuint)
@@ -1425,6 +1438,7 @@ void gl4es_glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, cons
     if(need_free) {
         sindices = copy_gl_array((glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):indices,
             type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count, NULL);
+        old_index = wantBufferIndex(0);
     } else {
         if(type==GL_UNSIGNED_INT)
             iindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
@@ -1483,8 +1497,10 @@ void gl4es_glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, cons
         return;
     } else {
         glDrawElementsCommon(mode, 0, count, 0, sindices, iindices, primcount);
-        if(need_free)
+        if(need_free) {
             free(sindices);
+            wantBufferIndex(old_index);
+        }
     }
 }
 void glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const void *indices, GLsizei primcount) AliasExport("gl4es_glDrawElementsInstanced");
@@ -1576,11 +1592,13 @@ void gl4es_glDrawElementsInstancedBaseVertex(GLenum mode, GLsizei count, GLenum 
                 for(int i=0; i<count; i++) iindices[i]+=basevertex;
             else
                 for(int i=0; i<count; i++) sindices[i]+=basevertex;
+            GLuint old_index = wantBufferIndex(0);
             glDrawElementsCommon(mode, 0, count, 0, sindices, iindices, primcount);
             if(iindices)
                 free(iindices);
             else
                 free(sindices);
+            wantBufferIndex(old_index);
         }
     }
 }
