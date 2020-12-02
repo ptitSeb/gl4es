@@ -159,7 +159,7 @@ void internal2format_type(GLenum internalformat, GLenum *format, GLenum *type)
             break;
         case GL_DEPTH_COMPONENT:
             *format = GL_DEPTH_COMPONENT;
-            *type = GL_UNSIGNED_SHORT;
+            *type = (hardext.floattex)?GL_FLOAT:GL_UNSIGNED_SHORT;
             break;
         case GL_DEPTH_STENCIL:
         case GL_DEPTH24_STENCIL8:
