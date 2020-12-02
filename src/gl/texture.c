@@ -159,7 +159,7 @@ void internal2format_type(GLenum internalformat, GLenum *format, GLenum *type)
             break;
         case GL_DEPTH_COMPONENT:
             *format = GL_DEPTH_COMPONENT;
-            *type = (hardext.floattex)?GL_FLOAT:GL_UNSIGNED_SHORT;
+            *type = (hardext.depth24)?GL_UNSIGNED_INT:GL_UNSIGNED_SHORT;
             break;
         case GL_DEPTH_STENCIL:
         case GL_DEPTH24_STENCIL8:
@@ -355,10 +355,11 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 break;
             case GL_DEPTH_COMPONENT:
             case GL_DEPTH_COMPONENT16:
+            case GL_DEPTH_COMPONENT24:
             case GL_DEPTH_COMPONENT32:
                 if(hardext.depthtex) {
                     if(dest_type==GL_UNSIGNED_BYTE) {
-                        dest_type=(*format==GL_DEPTH_COMPONENT32)?GL_UNSIGNED_INT:GL_UNSIGNED_SHORT;
+                        dest_type=(*format==GL_DEPTH_COMPONENT32 || *format==GL_DEPTH_COMPONENT24)?GL_UNSIGNED_INT:GL_UNSIGNED_SHORT;
                         convert = 1;
                     }
                     *format = dest_format = GL_DEPTH_COMPONENT;
