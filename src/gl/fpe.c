@@ -1616,7 +1616,7 @@ void builtin_Init(program_t *glprogram) {
     for (int i=0; i<MAX_TEX; i++) {
         glprogram->builtin_texenvcolor[i] = -1;
         glprogram->builtin_texenvrgbscale[i] = -1;
-        glprogram->builtin_texenvrgbscale[i] = -1;
+        glprogram->builtin_texenvalphascale[i] = -1;
         for (int j=0; j<4; j++) {
             glprogram->builtin_eye[j][i] = -1;
             glprogram->builtin_obj[j][i] = -1;
