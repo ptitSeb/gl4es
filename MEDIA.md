@@ -47,5 +47,10 @@ Here running Foobillard++
 
 Or even in a web browser (that support WebGL): try it with Stunt Car Remake [here](http://ptitseb.github.io/stuntcarremake/)
 
+Another web browser example: Serious Sam Engine, try it [here](https://martinmullins.github.io/ssam/) (initial 80MB game files download).
+[source repo](https://github.com/martinmullins/Serious-Engine)
+[![Gif of Serious Engine](https://github.com/martinmullins/ssam/blob/main/ssam.gif?raw=true)](https://martinmullins.github.io/ssam/)
+
 About performances: while gl4es is a wrapper, there are many caching and works done in gl4es to avoid slowdown and bottleneck. While  those optimization are useless in highly optimized engine, like the Quake3 engine, on other engine and games, gl4es can be (much) faster than straight GLES conversion (especially if there are a lot of `glBegin(...)`/`glEnd()` drawing commands). On an x86 VM, gl4es running on GLES can be faster than direct OpenGL use on some games!
 Now GL4ES can also use VBO, either when the software use it, or automatically when using glList, giving sometimes a nice boost (the boost depend on the Platform and game)
+
