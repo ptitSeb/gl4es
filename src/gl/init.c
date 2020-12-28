@@ -18,8 +18,10 @@ void gl_init();
 void gl_close();
 
 #ifdef GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB
-	void agl_reset_internals();
-	void fpe_shader_reset_internals();
+#ifdef AMIGAOS4
+void agl_reset_internals();
+#endif
+void fpe_shader_reset_internals();
 #endif
 
 globals4es_t globals4es = {0};
@@ -79,7 +81,7 @@ void initialize_gl4es() {
 		#endif
 
 		SHUT_LOGD("Initialising gl4es\n");
-	
+
     if(!globals4es.nobanner) print_build_infos();
 
     #define env(name, global, message)                    \
@@ -231,14 +233,16 @@ void initialize_gl4es() {
 #endif
 
     gl_init();
-		
-		#ifdef GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB
-			fpe_shader_reset_internals();
-			agl_reset_internals();
-		#endif
-		
+
+#ifdef GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB
+    fpe_shader_reset_internals();
+#ifdef AMIGAOS4
+    agl_reset_internals();
+#endif
+#endif
+
     env(LIBGL_RECYCLEFBO, globals4es.recyclefbo, "Recycling of FBO enabled");
-    
+
     // Texture hacks
     globals4es.automipmap=ReturnEnvVarInt("LIBGL_MIPMAP");
     switch(globals4es.automipmap) {
@@ -266,7 +270,7 @@ void initialize_gl4es() {
       globals4es.texcopydata = 1;
 		  SHUT_LOGD("Texture copy enabled\n");
     }
-    
+
     globals4es.texshrink=ReturnEnvVarInt("LIBGL_SHRINK");
     switch(globals4es.texshrink) {
       case 10:
@@ -406,7 +410,7 @@ void initialize_gl4es() {
         SHUT_LOGD("No GL_EXT_shader_texture_lod used even if present\n");
         hardext.shaderlod=0;
     }
-    
+
     int env_begin_end;
     if(GetEnvVarInt("LIBGL_BEGINEND",&env_begin_end,0)) {
 	    switch(env_begin_end) {
@@ -448,7 +452,7 @@ void initialize_gl4es() {
 
     env(LIBGL_FORCE16BITS, globals4es.force16bits, "Force 16bits textures");
     env(LIBGL_POTFRAMEBUFFER, globals4es.potframebuffer, "Force framebuffers to be on POT size");
-    
+
     int env_forcenpot=ReturnEnvVarIntDef("LIBGL_FORCENPOT",-1);
     if(env_forcenpot==0 && (hardext.esversion==2 && (hardext.npot==1 || hardext.npot==2))) {
       SHUT_LOGD("Not forcing NPOT support\n");
@@ -529,7 +533,7 @@ void initialize_gl4es() {
     if(globals4es.fbomakecurrent) {
         SHUT_LOGD("glXMakeCurrent FBO workaround enabled\n");
     }
-        
+
 
     globals4es.fbounbind = 0;
     if((hardext.vendor & VEND_ARM) || (hardext.vendor & VEND_IMGTEC))
@@ -548,7 +552,7 @@ void initialize_gl4es() {
     if(globals4es.fbounbind) {
         SHUT_LOGD("FBO workaround for using binded texture enabled\n");
     }
-        
+
     globals4es.fboforcetex = 1;
     GetEnvVarInt("LIBGL_FBOFORCETEX", &globals4es.fboforcetex, globals4es.fboforcetex);
     if(globals4es.fboforcetex)
@@ -563,10 +567,10 @@ void initialize_gl4es() {
     env(LIBGL_NOARBPROGRAM, globals4es.noarbprogram, "Not exposing ARB Program extensions");
 
     if(hardext.npot==3)
-        globals4es.defaultwrap=0; 
+        globals4es.defaultwrap=0;
     else
-        globals4es.defaultwrap=1; 
-        
+        globals4es.defaultwrap=1;
+
     if(GetEnvVarInt("LIBGL_DEFAULTWRAP",&globals4es.defaultwrap,(hardext.npot==3) ? 0 : 1)) {
     	switch(globals4es.defaultwrap) {
     		case 0:
@@ -582,8 +586,8 @@ void initialize_gl4es() {
     			break;
     	}
     }
-    
-    
+
+
     GetEnvVarBool("LIBGL_NOTEXARRAY",&globals4es.notexarray,0);
     if(globals4es.notexarray) {
         SHUT_LOGD("No Texture Array in Shaders\n");
@@ -620,7 +624,7 @@ void initialize_gl4es() {
 #ifndef NOEGL
     if((globals4es.usepbuffer) || (globals4es.usefb))
         globals4es.glxrecycle = 0;
-    
+
     int env_glxrecycle=ReturnEnvVarIntDef("LIBGL_GLXRECYCLE",-1);
     if(globals4es.glxrecycle && env_glxrecycle==0 && !((globals4es.usepbuffer) || (globals4es.usefb))) {
         globals4es.glxrecycle = 0;
