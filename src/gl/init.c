@@ -668,7 +668,11 @@ void initialize_gl4es() {
 #ifndef NOX11
 void FreeFBVisual();
 #endif
+#ifdef NO_INIT_CONSTRUCTOR
+__attribute__((visibility("default")))
+#else
 __attribute__((destructor))
+#endif
 void close_gl4es() {
 		#ifdef GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB
 	    SHUT_LOGD("Shuting down request\n");
