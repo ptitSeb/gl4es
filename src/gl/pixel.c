@@ -849,8 +849,8 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         return true;
     }
     #ifdef __BIG_ENDIAN__
-    // RGBA or BGRA with GL_INT_8_8_8_8_REV <-> GL_UNSIGNED_BYTE
-    if((src_format==dst_format) && (src_format==GL_RGBA || src_format==GL_BGRA) && ((src_type==GL_INT_8_8_8_8_REV && dst_type==GL_UNSIGNED_BYTE) || (src_type==GL_UNSIGNED_BYTE && dst_type==GL_INT_8_8_8_8_REV))) {
+    // RGBA or BGRA with GL_UNSIGNED_INT_8_8_8_8_REV <-> GL_UNSIGNED_BYTE
+    if((src_format==dst_format) && (src_format==GL_RGBA || src_format==GL_BGRA) && ((src_type==GL_UNSIGNED_INT_8_8_8_8_REV && dst_type==GL_UNSIGNED_BYTE) || (src_type==GL_UNSIGNED_BYTE && dst_type==GL_UNSIGNED_INT_8_8_8_8_REV))) {
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				((char*)dst_pos)[0] = ((char*)src_pos)[3];
