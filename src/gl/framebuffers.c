@@ -1455,15 +1455,19 @@ void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
     int fbowidth, fboheight;
     int blitfullscreen = 0;
     if(glstate->fbo.fbo_draw->id==0/* && glstate->fbo.mainfbo_fbo*/) {
-        fbowidth = glstate->fbo.mainfbo_width;
-        fboheight = glstate->fbo.mainfbo_height;
-        if((glstate->fbo.mainfbo_width==abs(dstX1-dstX0)) && (glstate->fbo.mainfbo_height==abs(dstY1-dstY0))) {
+        if(globals4es.usefb && !globals4es.usefbo)
             blitfullscreen = 1;
-        } else {
-            if (gl4es_getMainFBSize) {
-                gl4es_getMainFBSize(&glstate->fbo.mainfbo_width, &glstate->fbo.mainfbo_height);
-                if((glstate->fbo.mainfbo_width==abs(dstX1-dstX0)) && (glstate->fbo.mainfbo_height==abs(dstY1-dstY0)))
-                    blitfullscreen = 1;
+        else {
+            fbowidth = glstate->fbo.mainfbo_width;
+            fboheight = glstate->fbo.mainfbo_height;
+            if((glstate->fbo.mainfbo_width==abs(dstX1-dstX0)) && (glstate->fbo.mainfbo_height==abs(dstY1-dstY0))) {
+                blitfullscreen = 1;
+            } else {
+                if (gl4es_getMainFBSize) {
+                    gl4es_getMainFBSize(&glstate->fbo.mainfbo_width, &glstate->fbo.mainfbo_height);
+                    if((glstate->fbo.mainfbo_width==abs(dstX1-dstX0)) && (glstate->fbo.mainfbo_height==abs(dstY1-dstY0)))
+                        blitfullscreen = 1;
+                }
             }
         }
     } else {

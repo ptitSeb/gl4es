@@ -39,7 +39,9 @@ void gl4es_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
 	glstate->raster.rPos.y = transl[1]*h2+h2;
 	glstate->raster.rPos.z = transl[2];
 }
-
+#if !defined(NO_EGL) && !defined(NOX11)
+void refreshMainFBO();
+#endif
 void gl4es_glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
     if (glstate->list.active)
         if (glstate->list.compiling) {
@@ -70,6 +72,12 @@ void gl4es_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
 		glstate->raster.viewport.y = y;
 		glstate->raster.viewport.width = width;
 		glstate->raster.viewport.height = height;
+#if !defined(NO_EGL) && !defined(NOX11)
+		if(!globals4es.usefbo && !globals4es.usefb && glstate->fbo.fbo_draw->id==0) {
+			// check if underlying EGL suface chnage dimension, and reflect that to main fbo size
+			refreshMainFBO();
+		}
+#endif
 	}
 }
 

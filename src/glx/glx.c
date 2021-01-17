@@ -2882,6 +2882,21 @@ GLXContext gl4es_glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXCo
     globales2 = 0;
     return context;
 }
+#ifndef NO_EGL
+void refreshMainFBO()
+{
+    if(!eglSurface || !eglDisplay)
+        return;
+    if(eglSurface!=EGL_NO_SURFACE) {
+        LOAD_EGL(eglQuerySurface);
+        EGLint tmp;
+        if(egl_eglQuerySurface(eglDisplay, eglSurface, EGL_WIDTH, &tmp)==EGL_TRUE)
+            glstate->fbo.mainfbo_width = tmp;
+        if(egl_eglQuerySurface(eglDisplay, eglSurface, EGL_HEIGHT, &tmp)==EGL_TRUE)
+            glstate->fbo.mainfbo_height = tmp;
+    } 
+}
+#endif //NO_EGL
 
 #endif //NOX11
 
