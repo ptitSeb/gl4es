@@ -123,7 +123,7 @@ void initialize_gl4es() {
     	default:
     	  break;
     }
-
+    env(LIBGL_BLITFB0, globals4es.blitfb0, "Blit to FB 0 force a SwapBuffer");
     env(LIBGL_FPS, globals4es.showfps, "fps counter enabled");
 #ifdef USE_FBIO
     env(LIBGL_VSYNC, globals4es.vsync, "vsync enabled");

@@ -73,6 +73,7 @@ typedef struct _globals4es {
  int noarbprogram;      // to disable ARB Program
  int glxnative;
  int normalize;         // force normal normalization (workaround a bug)
+ int blitfb0;
  #ifndef NO_GBM
  char drmcard[50];
  #endif

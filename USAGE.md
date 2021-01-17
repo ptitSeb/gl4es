@@ -372,3 +372,7 @@ Force normals to be normliazed in FPE
 * 0 : Default, don't force normalizations
 * 1 : Force normalization on normals on FPE, even when it's disabled (workaround for a bug that prevent colors on Minecraft 1.16+)
 
+###### LIBGL_BLITFB0
+Blit to FB 0 force a SwapBuffer
+* 0 : Default, don't force a SwapBuffer when glBlitFramebuffer to draw fb0 is used (unless the full FB0 if blitted)
+* 1 : Force a SwapBuffer each time glBlitFramebuffer on FB0 is used (can help some windowed Wine games)

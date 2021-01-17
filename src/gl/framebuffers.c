@@ -1455,7 +1455,7 @@ void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
     int fbowidth, fboheight;
     int blitfullscreen = 0;
     if(glstate->fbo.fbo_draw->id==0/* && glstate->fbo.mainfbo_fbo*/) {
-        if(globals4es.usefb && !globals4es.usefbo)
+        if(globals4es.blitfb0 || (globals4es.usefb && !globals4es.usefbo))
             blitfullscreen = 1;
         else {
             fbowidth = glstate->fbo.mainfbo_width;
