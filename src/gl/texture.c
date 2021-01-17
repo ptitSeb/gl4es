@@ -331,7 +331,7 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
             case GL_BGRA:
                 if(hardext.bgra8888 && ((*type)==GL_UNSIGNED_BYTE || (*type)==GL_FLOAT || (*type)==GL_HALF_FLOAT)) {
                     dest_format = GL_BGRA;
-                    *format = GL_BGRA;
+                    //*format = GL_BGRA;
                 } else {
                     convert = 1;
                     if(hardext.bgra8888 && 
@@ -340,9 +340,11 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                     #else
                         (*type==GL_UNSIGNED_INT_8_8_8_8)
                     #endif
-                    )
-                        *format = GL_BGRA;    //only type needs conversion
+                    ) {
+                        //*format = GL_BGRA;    //only type needs conversion
+                        dest_format = GL_BGRA;
                         check = 0;
+                    }
                 }
                 break;
             case GL_DEPTH24_STENCIL8:
@@ -932,7 +934,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
 
     gltexture_t *bound = glstate->texture.bound[glstate->texture.active][itarget];
 
-    //Special case when resizing an attached to FBO texture, taht is attached to depth and/or stencil => resizing is specific then
+    //Special case when resizing an attached to FBO texture, that is attached to depth and/or stencil => resizing is specific then
     if(bound->binded_fbo && (bound->binded_attachment==GL_DEPTH_ATTACHMENT || bound->binded_attachment==GL_STENCIL_ATTACHMENT || bound->binded_attachment==GL_DEPTH_STENCIL_ATTACHMENT))
     {
         // non null data should be handled, but need to convert then...
