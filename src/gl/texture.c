@@ -329,7 +329,14 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 *format = GL_RGBA;
                 break;
             case GL_BGRA:
-                if(hardext.bgra8888 && ((*type)==GL_UNSIGNED_BYTE || (*type)==GL_FLOAT || (*type)==GL_HALF_FLOAT)) {
+                if(hardext.bgra8888 && ((*type)==GL_UNSIGNED_BYTE || (*type)==GL_FLOAT || (*type)==GL_HALF_FLOAT ||
+                #ifdef __BIG_ENDIAN__
+                    (((*type)==GL_UNSIGNED_INT_8_8_8_8_REV) && hardext.rgba8888rev)
+                #else
+                    (((*type)==GL_UNSIGNED_INT_8_8_8_8) && hardext.rgba8888)
+                #endif
+                )) 
+                {
                     dest_format = GL_BGRA;
                     //*format = GL_BGRA;
                 } else {
@@ -393,9 +400,11 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                     convert = 1;
                 break;
             case GL_UNSIGNED_SHORT_1_5_5_5_REV:
-                if(dest_format==GL_RGBA)
-                    dest_type = GL_UNSIGNED_SHORT_5_5_5_1;
-                convert = 1;
+                if(!hardext.rgba1555rev) {
+                    if(dest_format==GL_RGBA)
+                        dest_type = GL_UNSIGNED_SHORT_5_5_5_1;
+                    convert = 1;
+                }
                 break;
             case GL_UNSIGNED_SHORT_5_5_5_1:
                 if(dest_format==GL_RGBA)
@@ -429,12 +438,19 @@ static void *swizzle_texture(GLsizei width, GLsizei height,
                 break;
             #ifdef __BIG_ENDIAN__
             case GL_UNSIGNED_INT_8_8_8_8_REV:
+                if(!hardext.rgba8888rev) {
+                    dest_type = GL_UNSIGNED_BYTE;
+                    convert = 1;
+                }
+                break;
             #else
             case GL_UNSIGNED_INT_8_8_8_8:
-            #endif
-                dest_type = GL_UNSIGNED_BYTE;
-                convert = 1;
+                if(!hardext.rgba8888) {
+                    dest_type = GL_UNSIGNED_BYTE;
+                    convert = 1;
+                }
                 break;
+            #endif
             case GL_UNSIGNED_INT_24_8:
                 if(hardext.depthtex && hardext.depthstencil) {
                     dest_type = GL_UNSIGNED_INT_24_8;

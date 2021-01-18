@@ -35,6 +35,11 @@ typedef struct _hardext {
     int halffloattex;   // GL_OES_texture_half_float
     int floatfbo;       // GL_EXT_color_buffer_float
     int halffloatfbo;   // GL_EXT_color_buffer_half_float
+    int rgb332;         // GL_AOS4_texture_format_RGB332
+    int rgb332rev;      // GL_AOS4_texture_format_RGB332REV
+    int rgba1555rev;    // GL_AOS4_texture_format_RGBA1555REV
+    int rgba8888;       // GL_AOS4_texture_format_RGBA8888
+    int rgba8888rev;    // GL_AOS4_texture_format_RGBA8888REV
     int mirrored;       // GL_OES_texture_mirrored_repeat
     int aniso;          // Max ANISOTROPIC filter available (0 if not)
     int srgb;           // EGL_KHR_gl_colorspace

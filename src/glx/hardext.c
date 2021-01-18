@@ -314,6 +314,11 @@ void GetHardwareExtensions(int notest)
         S("GL_EXT_color_buffer_float ", floatfbo, 1);
         S("GL_EXT_color_buffer_half_float ", halffloatfbo, 1);
     }
+    S("GL_AOS4_texture_format_RGB332", rgb332, 0);
+    S("GL_AOS4_texture_format_RGB332REV", rgb332rev, 0);
+    S("GL_AOS4_texture_format_RGBA1555REV", rgba1555rev, 1);
+    S("GL_AOS4_texture_format_RGBA8888", rgba8888, 1);
+    S("GL_AOS4_texture_format_RGBA8888REV", rgba8888rev, 1);
 
     if (hardext.esversion>1) {
         if(!globals4es.nohighp) {
