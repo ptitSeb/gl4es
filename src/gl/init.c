@@ -52,10 +52,12 @@ void glx_init();
 
 static int inited = 0;
 
+__attribute__((visibility("default")))
 void set_getmainfbsize(void (*new_getMainFBSize)(int* w, int* h)) {
     gl4es_getMainFBSize = (void*)new_getMainFBSize;
 }
 
+__attribute__((visibility("default")))
 void set_getprocaddress(void *(*new_proc_address)(const char *)) {
     gles_getProcAddress = new_proc_address;
 }
