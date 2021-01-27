@@ -28,6 +28,7 @@ void gl4es_Stub(void *x, ...) {
     return;
 }
 
+__attribute__((visibility("default")))
 void *gl4es_GetProcAddress(const char *name) {
     DBG(printf("glGetProcAddress(\"%s\")", name);)
     // generated gles wrappers
