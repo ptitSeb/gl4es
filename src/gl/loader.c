@@ -101,8 +101,17 @@ void *open_lib(const char **names, const char *override) {
     char path_name[PATH_MAX + 1];
     int flags = RTLD_LOCAL | RTLD_NOW;
 #if defined(RTLD_DEEPBIND) && !defined(PYRA)
+    static int totest = 1;
+    static int sanitizer = 0;
+    if(totest) {
+        totest = 0;
+        char *p = getenv("LD_PRELOAD");
+        if(p && strstr(p, "libasan.so"))
+            sanitizer = 1;
+    }
     // note: breaks address sanitizer
-    flags |= RTLD_DEEPBIND;
+    if(!sanitizer)
+        flags |= RTLD_DEEPBIND;
 #endif
     if (override) {
         if ((lib = dlopen(override, flags))) {
