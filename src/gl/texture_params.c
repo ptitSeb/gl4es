@@ -288,7 +288,7 @@ GLenum get_texture_wrap_t(gltexture_t* texture, glsampler_t *sampler)
 }
 // TODO: also glTexParameterf(v)?
 void gl4es_glTexParameterfv(GLenum target, GLenum pname, const GLfloat *params) {
-    DBG(printf("glTexParameteri(%s, %s, [%f(%s)...])\n", PrintEnum(target), PrintEnum(pname), params[0], PrintEnum(params[0]));)
+    DBG(printf("glTexParameterfv(%s, %s, [%f(%s)...])\n", PrintEnum(target), PrintEnum(pname), params[0], PrintEnum(params[0]));)
     if(!glstate->list.pending) {
         PUSH_IF_COMPILING(glTexParameterfv);
     }
@@ -296,7 +296,7 @@ void gl4es_glTexParameterfv(GLenum target, GLenum pname, const GLfloat *params) 
     const GLint itarget = what_target(target);
     const GLuint rtarget = map_tex_target(target);
     gltexture_t *texture = glstate->texture.bound[glstate->texture.active][itarget];
-    if(!samplerParameterfv(&texture->sampler, pname, params)) {
+    if(samplerParameterfv(&texture->sampler, pname, params)) {
         LOAD_GLES(glTexParameterfv);
         GLint param = params[0];
         switch (pname) {
@@ -762,6 +762,56 @@ void realize_active() {
     gles_glActiveTexture(GL_TEXTURE0 + glstate->gleshard->active);
 }
 
+void realize_1texture(GLenum target, int TMU, gltexture_t* tex, glsampler_t* sampler)
+{
+    DBG(printf("realize_1texture(%s, %d, %p[%d], %p)\n", PrintEnum(target), TMU, tex, tex->glname, sampler);)
+    LOAD_GLES(glActiveTexture);
+    LOAD_GLES(glTexParameteri);
+    // check sampler stuff
+    if(!sampler) sampler = &tex->sampler;
+    GLenum param;
+    param = get_texture_min_filter(tex, sampler);
+    if(tex->actual.min_filter!=param) {
+        DBG(printf("Adjusting %s[%d]:Texture[%d].min_filter = %s (binded=%d)\n", PrintEnum(target), TMU, tex->glname, PrintEnum(param), glstate->actual_tex2d[TMU]);)
+        if(glstate->gleshard->active!=TMU) {
+            glstate->gleshard->active = TMU;
+            gles_glActiveTexture(GL_TEXTURE0+TMU);
+        }
+        gles_glTexParameteri(target, GL_TEXTURE_MIN_FILTER, param);
+        tex->actual.min_filter=param;
+    }
+    param = sampler->mag_filter;
+    if(tex->actual.mag_filter!=param) {
+        DBG(printf("Adjusting %s[%d]:Texture[%d].mag_filter = %s (min=%s/%s)\n", PrintEnum(target), TMU, tex->glname, PrintEnum(param), PrintEnum(sampler->min_filter), PrintEnum(tex->actual.min_filter));)
+        if(glstate->gleshard->active!=TMU) {
+            glstate->gleshard->active = TMU;
+            gles_glActiveTexture(GL_TEXTURE0+TMU);
+        }
+        gles_glTexParameteri(target, GL_TEXTURE_MAG_FILTER, param);
+        tex->actual.mag_filter=param;
+    }
+    param = get_texture_wrap_s(tex, sampler);
+    if(tex->actual.wrap_s!=param) {
+        DBG(printf("Adjusting %s[%d]:Texture[%d].wrap_s = %s\n", PrintEnum(target), TMU, tex->glname, PrintEnum(param));)
+        if(glstate->gleshard->active!=TMU) {
+            glstate->gleshard->active = TMU;
+            gles_glActiveTexture(GL_TEXTURE0+TMU);
+        }
+        gles_glTexParameteri(target, GL_TEXTURE_WRAP_S, param);
+        tex->actual.wrap_s=param;
+    }
+    param = get_texture_wrap_t(tex, sampler);
+    if(tex->actual.wrap_t!=param) {
+        DBG(printf("Adjusting %s[%d]:Texture[%d].wrap_t = %s\n", PrintEnum(target), TMU, tex->glname, PrintEnum(param));)
+        if(glstate->gleshard->active!=TMU) {
+            glstate->gleshard->active = TMU;
+            gles_glActiveTexture(GL_TEXTURE0+TMU);
+        }
+        gles_glTexParameteri(target, GL_TEXTURE_WRAP_T, param);
+        tex->actual.wrap_t=param;
+    }
+}
+
 void realize_textures(int drawing) {
     LOAD_GLES(glEnable);
     LOAD_GLES(glDisable);
@@ -833,23 +883,10 @@ void realize_textures(int drawing) {
 #endif
 
                 // bound...
+                DBG(printf("Binding %s[%d]:Texture[%d] (sampler[%d]=%p)\n", PrintEnum(target), i, t, i, glstate->samplers.sampler[i]);)
                 gles_glBindTexture(GL_TEXTURE_2D, t);
                 glstate->actual_tex2d[i] = t;
             }
-        }
-        // check sampler stuff
-        glsampler_t* sampler = glstate->samplers.sampler[i];
-        if(!sampler) sampler = &tex->sampler;
-        GLenum param;
-        param = get_texture_min_filter(tex, sampler);
-        if(tex->actual.min_filter!=param) {
-            DBG(printf("Adjusting %s[%d]:Texture[%d].min_filter = %s\n", PrintEnum(target), i, tex->glname, PrintEnum(param));)
-            if(glstate->gleshard->active!=i) {
-                glstate->gleshard->active = i;
-                gles_glActiveTexture(GL_TEXTURE0+i);
-            }
-            gles_glTexParameteri(target, GL_TEXTURE_MIN_FILTER, param);
-            tex->actual.min_filter=param;
         }
         // check, if drawing, if mipmap needs some special care...
         if(drawing) {
@@ -864,36 +901,7 @@ void realize_textures(int drawing) {
                 tex->mipmap_auto = 1;
             }
         }
-        param = sampler->mag_filter;
-        if(tex->actual.mag_filter!=param) {
-            DBG(printf("Adjusting %s[%d]:Texture[%d].mag_filter = %s\n", PrintEnum(target), i, tex->glname, PrintEnum(param));)
-            if(glstate->gleshard->active!=i) {
-                glstate->gleshard->active = i;
-                gles_glActiveTexture(GL_TEXTURE0+i);
-            }
-            gles_glTexParameteri(target, GL_TEXTURE_MAG_FILTER, param);
-            tex->actual.mag_filter=param;
-        }
-        param = get_texture_wrap_s(tex, sampler);
-        if(tex->actual.wrap_s!=param) {
-            DBG(printf("Adjusting %s[%d]:Texture[%d].wrap_s = %s\n", PrintEnum(target), i, tex->glname, PrintEnum(param));)
-            if(glstate->gleshard->active!=i) {
-                glstate->gleshard->active = i;
-                gles_glActiveTexture(GL_TEXTURE0+i);
-            }
-            gles_glTexParameteri(target, GL_TEXTURE_WRAP_S, param);
-            tex->actual.wrap_s=param;
-        }
-        param = get_texture_wrap_t(tex, sampler);
-        if(tex->actual.wrap_t!=param) {
-            DBG(printf("Adjusting %s[%d]:Texture[%d].wrap_t = %s\n", PrintEnum(target), i, tex->glname, PrintEnum(param));)
-            if(glstate->gleshard->active!=i) {
-                glstate->gleshard->active = i;
-                gles_glActiveTexture(GL_TEXTURE0+i);
-            }
-            gles_glTexParameteri(target, GL_TEXTURE_WRAP_T, param);
-            tex->actual.wrap_t=param;
-        }
+        realize_1texture(target, i, tex, glstate->samplers.sampler[i]);
     }
     glstate->bound_changed = 0;
 }

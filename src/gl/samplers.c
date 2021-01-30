@@ -65,7 +65,7 @@ void init_sampler(glsampler_t* sampler)
 {
     memset(sampler, 0, sizeof(glsampler_t));
     // set default value for sampler
-    sampler->min_filter = GL_NEAREST_MIPMAP_LINEAR; //(globals4es.automipmap==1)?GL_NEAREST_MIPMAP_LINEAR:GL_LINEAR;
+    sampler->min_filter = GL_NEAREST_MIPMAP_LINEAR;
     sampler->mag_filter = GL_LINEAR;
     sampler->wrap_s = sampler->wrap_t = (globals4es.defaultwrap?0:GL_REPEAT);
     sampler->min_lod = -1000.f;

@@ -1393,8 +1393,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                 && (bound->mipmap_need || globals4es.automipmap==3)) {
                     // remove the need for mipmap...
                     bound->mipmap_need = 0;
-                    /*gles_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, bound->min_filter);
-                    gles_glTexParameteri(rtarget, GL_TEXTURE_MAG_FILTER, bound->mag_filter);*/ // why forcing ?
+                    gl4es_glTexParameteri(rtarget, GL_TEXTURE_MIN_FILTER, bound->sampler.min_filter); // forcing min_filter to be recomputed
                 }
             }
             
