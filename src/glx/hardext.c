@@ -104,7 +104,11 @@ void GetHardwareExtensions(int notest)
             hardext.maxvarying = 8;
             hardext.maxtex = 8;
             hardext.maxvattrib = 16;
+#ifdef AMIGAOS4
+            hardext.npot = 3;
+#else
             hardext.npot = 1;
+#endif
             hardext.fbo = 1; 
             hardext.blendcolor = 1;
             hardext.blendsub = 1;
