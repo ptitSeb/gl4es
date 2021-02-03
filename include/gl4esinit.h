@@ -13,7 +13,7 @@ void set_getmainfbsize(void (*new_getMainFBSize)(int* width, int* height));
 // do this before any GL calls if init constructors are disabled.
 void initialize_gl4es(void);
 // do this to uninitialize GL4ES if init constructors are disabled.
-void close_gl4es();
+void close_gl4es(void);
 // wrapped GetProcAddress
 void *gl4es_GetProcAddress(const char *name);
 
