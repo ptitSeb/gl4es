@@ -9,6 +9,9 @@
 #ifndef NOX11
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#else
+typedef void Display;
+typedef int Bool;
 #endif
 #include <stdio.h>
 #include <string.h>

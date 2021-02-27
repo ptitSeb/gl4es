@@ -1542,70 +1542,6 @@ int gl4es_glXGetConfig(Display *display,
     return get_config_default(display, attribute, value);
 }
 
-const char *gl4es_glXQueryExtensionsString(Display *display, int screen) {
-    DBG(printf("glXQueryExtensionString(%p, %d)\n", display, screen);)
-    static const char *basic_extensions = 
-        "GLX_ARB_create_context "
-        "GLX_ARB_create_context_profile "
-        "GLX_ARB_get_proc_address "
-        "GLX_ARB_multisample "
-        "GLX_SGI_swap_control "
-        "GLX_MESA_swap_control "
-        "GLX_EXT_swap_control "
-        "GLX_EXT_framebuffer_sRGB ";
-    static const char *es2_profile =
-        "GLX_EXT_create_context_es2_profile ";
-    static char extensions[5000] = {0};
-    static int inited = 0;
-
-    if(!inited) {
-        inited = 1;
-        strcpy(extensions, basic_extensions);
-        if(globals4es.es>1 && !globals4es.noes2)
-            strcat(extensions, es2_profile);
-    }
-    
-    return extensions;
-}
-
-const char *gl4es_glXQueryServerString(Display *display, int screen, int name) {
-    DBG(printf("glXQueryServerString(%p, %d, %d)\n", display, screen, name);)
-    switch (name) {
-        case GLX_VENDOR: return "ptitSeb";
-        case GLX_VERSION: return "1.4 GL4ES";
-        case GLX_EXTENSIONS: return gl4es_glXQueryExtensionsString(display, screen);
-    }
-    return 0;    
-}
-
-Bool gl4es_glXQueryExtension(Display *display, int *errorBase, int *eventBase) {
-    DBG(printf("glXQueryExtension(%p, %p, %p)\n", display, errorBase, eventBase);)
-    if (errorBase)
-        *errorBase = 0;
-
-    if (eventBase)
-        *eventBase = 0;
-
-    return 1;
-}
-
-Bool gl4es_glXQueryVersion(Display *display, int *major, int *minor) {
-    DBG(printf("glXQueryVersion(%p, %p, %p)\n", display, major, minor);)
-    // TODO: figure out which version we want to pretend to implement
-    *major = 1;
-    *minor = 4;
-    return 1;
-}
-
-const char *gl4es_glXGetClientString(Display *display, int name) {
-    DBG(printf("glXGetClientString(%p, %d)\n", display, name);)
-    switch (name) {
-        case GLX_VENDOR: return "ptitSeb";
-        case GLX_VERSION: return "1.4 GL4ES";
-        case GLX_EXTENSIONS: return gl4es_glXQueryExtensionsString(display, 0);
-    }
-    return 0;    
-}
 
 int gl4es_glXQueryContext( Display *dpy, GLXContext ctx, int attribute, int *value ) {
     DBG(printf("glXQueryContext(%p, %p, %d, %p)\n", dpy, ctx, attribute, value);)
@@ -2900,6 +2836,71 @@ void refreshMainFBO()
 
 #endif //NOX11
 
+const char *gl4es_glXQueryExtensionsString(Display *display, int screen) {
+    DBG(printf("glXQueryExtensionString(%p, %d)\n", display, screen);)
+    static const char *basic_extensions = 
+        "GLX_ARB_create_context "
+        "GLX_ARB_create_context_profile "
+        "GLX_ARB_get_proc_address "
+        "GLX_ARB_multisample "
+        "GLX_SGI_swap_control "
+        "GLX_MESA_swap_control "
+        "GLX_EXT_swap_control "
+        "GLX_EXT_framebuffer_sRGB ";
+    static const char *es2_profile =
+        "GLX_EXT_create_context_es2_profile ";
+    static char extensions[5000] = {0};
+    static int inited = 0;
+
+    if(!inited) {
+        inited = 1;
+        strcpy(extensions, basic_extensions);
+        if(globals4es.es>1 && !globals4es.noes2)
+            strcat(extensions, es2_profile);
+    }
+    
+    return extensions;
+}
+
+const char *gl4es_glXQueryServerString(Display *display, int screen, int name) {
+    DBG(printf("glXQueryServerString(%p, %d, %d)\n", display, screen, name);)
+    switch (name) {
+        case GLX_VENDOR: return "ptitSeb";
+        case GLX_VERSION: return "1.4 GL4ES";
+        case GLX_EXTENSIONS: return gl4es_glXQueryExtensionsString(display, screen);
+    }
+    return 0;    
+}
+
+Bool gl4es_glXQueryExtension(Display *display, int *errorBase, int *eventBase) {
+    DBG(printf("glXQueryExtension(%p, %p, %p)\n", display, errorBase, eventBase);)
+    if (errorBase)
+        *errorBase = 0;
+
+    if (eventBase)
+        *eventBase = 0;
+
+    return 1;
+}
+
+Bool gl4es_glXQueryVersion(Display *display, int *major, int *minor) {
+    DBG(printf("glXQueryVersion(%p, %p, %p)\n", display, major, minor);)
+    // TODO: figure out which version we want to pretend to implement
+    *major = 1;
+    *minor = 4;
+    return 1;
+}
+
+const char *gl4es_glXGetClientString(Display *display, int name) {
+    DBG(printf("glXGetClientString(%p, %d)\n", display, name);)
+    switch (name) {
+        case GLX_VENDOR: return "ptitSeb";
+        case GLX_VERSION: return "1.4 GL4ES";
+        case GLX_EXTENSIONS: return gl4es_glXQueryExtensionsString(display, 0);
+    }
+    return 0;    
+}
+
 // New export the Alias
 #ifndef NOX11
 GLXContext glXCreateContext(Display *display, XVisualInfo *visual, GLXContext shareList, Bool isDirect) AliasExport("gl4es_glXCreateContext");
@@ -2911,11 +2912,6 @@ Bool glXMakeCurrent(Display *display, GLXDrawable drawable, GLXContext context) 
 Bool glXMakeContextCurrent(Display *display, int drawable, int readable, GLXContext context) AliasExport("gl4es_glXMakeContextCurrent");
 void glXSwapBuffers(Display *display, GLXDrawable drawable) AliasExport("gl4es_glXSwapBuffers");
 int glXGetConfig(Display *display, XVisualInfo *visual, int attribute, int *value) AliasExport("gl4es_glXGetConfig");
-const char *glXQueryExtensionsString(Display *display, int screen) AliasExport("gl4es_glXQueryExtensionsString");
-const char *glXQueryServerString(Display *display, int screen, int name) AliasExport("gl4es_glXQueryServerString");
-Bool glXQueryExtension(Display *display, int *errorBase, int *eventBase) AliasExport("gl4es_glXQueryExtension");
-Bool glXQueryVersion(Display *display, int *major, int *minor) AliasExport("gl4es_glXQueryVersion");
-const char *glXGetClientString(Display *display, int name) AliasExport("gl4es_glXGetClientString");
 int glXQueryContext( Display *dpy, GLXContext ctx, int attribute, int *value) AliasExport("gl4es_glXQueryContext");
 GLXContext glXGetCurrentContext() AliasExport("gl4es_glXGetCurrentContext");
 GLXFBConfig *glXChooseFBConfig(Display *display, int screen, const int *attrib_list, int *count) AliasExport("gl4es_glXChooseFBConfig");
@@ -2940,6 +2936,12 @@ void glXDestroyGLXPixmap(Display *display, void *pixmap) AliasExport("gl4es_glXD
 void glXDestroyPixmap(Display *display, void *pixmap) AliasExport("gl4es_glXDestroyPixmap");
 GLXContext glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list) AliasExport("gl4es_glXCreateContextAttribs");
 #endif
+
+const char *glXQueryExtensionsString(Display *display, int screen) AliasExport("gl4es_glXQueryExtensionsString");
+const char *glXQueryServerString(Display *display, int screen, int name) AliasExport("gl4es_glXQueryServerString");
+Bool glXQueryExtension(Display *display, int *errorBase, int *eventBase) AliasExport("gl4es_glXQueryExtension");
+Bool glXQueryVersion(Display *display, int *major, int *minor) AliasExport("gl4es_glXQueryVersion");
+const char *glXGetClientString(Display *display, int name) AliasExport("gl4es_glXGetClientString");
 
 void glXSwapInterval(int interval) AliasExport("gl4es_glXSwapInterval");
 void glXSwapIntervalMESA(int interval) AliasExport("gl4es_glXSwapInterval");
