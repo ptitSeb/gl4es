@@ -734,6 +734,16 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts,
                     } else if(tok.type==TK_TEXT) {
                         strncat(*versionString, tok.str, 50);
                         status = 820;
+                    } else if(tok.type==TK_INT) {
+                        char buff[20] = {0};
+                        sprintf(buff, "%d", tok.integer);
+                        strncat(*versionString, buff, 50);
+                        status = 820;
+                    } else if(tok.type==TK_FLOAT) {
+                        char buff[20] = {0};
+                        sprintf(buff, "%g", tok.real);
+                        strncat(*versionString, buff, 50);
+                        status = 820;
                     } else {
                         status = 399; // fallback, syntax error...
                     }
@@ -744,6 +754,14 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts,
                         status = 830;
                     } else if(tok.type==TK_TEXT) {
                         strncat(*versionString, tok.str, 50);
+                    } else if(tok.type==TK_INT) {
+                        char buff[20] = {0};
+                        sprintf(buff, "%d", tok.integer);
+                        strncat(*versionString, buff, 50);
+                    } else if(tok.type==TK_FLOAT) {
+                        char buff[20] = {0};
+                        sprintf(buff, "%g", tok.real);
+                        strncat(*versionString, buff, 50);
                     } else {
                         status = 399; // fallback, syntax error...
                     }
@@ -753,6 +771,16 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts,
                         status = 830;
                     } else if(tok.type==TK_TEXT) {
                         strncat(*versionString, tok.str, 50);
+                        status = 820;
+                    } else if(tok.type==TK_INT) {
+                        char buff[20] = {0};
+                        sprintf(buff, "%d", tok.integer);
+                        strncat(*versionString, buff, 50);
+                        status = 820;
+                    } else if(tok.type==TK_FLOAT) {
+                        char buff[20] = {0};
+                        sprintf(buff, "%g", tok.real);
+                        strncat(*versionString, buff, 50);
                         status = 820;
                     } else {
                         status = 399; // fallback, syntax error...
