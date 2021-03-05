@@ -285,8 +285,8 @@ static const char* gl_TexMatrixSources[] = {
 static const char* GLESHeader[] = {
   "#version 100\n%sprecision %s float;\nprecision %s int;\n",
   "#version 120\n%sprecision %s float;\nprecision %s int;\n",
-  "#version 310 es\n%sprecision %s float;\nprecision %s int;\n",
-  "#version 300 es\n%sprecision %s float;\nprecision %s int;\n"
+  "#version 310 es\n#define attribute in\n#define varying out\n%sprecision %s float;\nprecision %s int;\n",
+  "#version 300 es\n#define attribute in\n#define varying out\n%sprecision %s float;\nprecision %s int;\n"
 };
 
 static const char* gl4es_transpose =
