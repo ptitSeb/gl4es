@@ -12,6 +12,7 @@ option(PANDORA "Set to ON if targeting an OpenPandora device" ${PANDORA})
 option(PYRA "Set to ON if targeting an Dragonbox Pyra device" ${PYRA})
 option(BCMHOST "Set to ON if targeting an RPi(2) device" ${BCMHOST})
 option(ODROID "Set to ON if targeting an ODroid device" ${ODROID})
+option(GOA_CLONE "Set to ON if targeting GO Advance clones, like RG351p/v, Gameforce Chi, RGB10..." ${GOA_CLONE})
 option(ANDROID "Set to ON if targeting an Android device" ${ANDROID})
 option(CHIP "Set to ON if targeting an C.H.I.P. device" ${CHIP})
 option(AMIGAOS4 "Set to ON if targeting an AmigaOS4/Warp3D platform (activate NOEGL and NOX11)" ${AMIGAOS4})
@@ -86,6 +87,12 @@ endif()
 # ODROID
 if(ODROID)
     add_definitions(-DODROID)
+endif()
+
+# GOA_CLONE
+if(GOA_CLONE)
+    add_definitions(-DGOA_CLONE)
+    add_definitions(-mcpu=cortex-a35 -mfpu=neon-vfpv3 -march=armv8-a+crc+simd+crypto -mfloat-abi=hard -ftree-vectorize -fsingle-precision-constant -ffast-math)
 endif()
 
 # Android
