@@ -260,7 +260,12 @@ void GetHardwareExtensions(int notest)
         SHUT_LOGD("Hardware %s NPOT detected and used\n", hardext.npot==3?"Full":(hardext.npot==2?"Limited+Mipmap":"Limited"));
     }
     S("GL_EXT_blend_minmax ", blendminmax, 1);
-    S("GL_EXT_draw_buffers ", drawbuffers, 1);
+    if (hardext.esversion>2) {
+        SHUT_LOGD("Extension GL_EXT_draw_buffers is in core ES3, and so used\n");
+        hardext.drawbuffers = 1;
+    } else {
+        S("GL_EXT_draw_buffers ", drawbuffers, 1);
+    }
     /*if(hardext.blendcolor==0) {
         // try by just loading the function
         LOAD_GLES_OR_OES(glBlendColor);

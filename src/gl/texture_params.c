@@ -762,13 +762,21 @@ void realize_active() {
     gles_glActiveTexture(GL_TEXTURE0 + glstate->gleshard->active);
 }
 
-void realize_1texture(GLenum target, int TMU, gltexture_t* tex, glsampler_t* sampler)
+void realize_1texture(GLenum target, int wantedTMU, gltexture_t* tex, glsampler_t* sampler)
 {
     DBG(printf("realize_1texture(%s, %d, %p[%u], %p)\n", PrintEnum(target), TMU, tex, tex->glname, sampler);)
     LOAD_GLES(glActiveTexture);
     LOAD_GLES(glTexParameteri);
+    LOAD_GLES(glBindTexture);
     // check sampler stuff
     if(!sampler) sampler = &tex->sampler;
+    GLuint oldtex = 0;
+    if(wantedTMU==-1) {
+        gltexture_t *bound = glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D];
+        oldtex = bound->glname;
+        if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+    }
+    int TMU = (wantedTMU==-1)?glstate->texture.active:TMU;
     GLenum param;
     param = get_texture_min_filter(tex, sampler);
     if(tex->actual.min_filter!=param) {
@@ -809,6 +817,9 @@ void realize_1texture(GLenum target, int TMU, gltexture_t* tex, glsampler_t* sam
         }
         gles_glTexParameteri(target, GL_TEXTURE_WRAP_T, param);
         tex->actual.wrap_t=param;
+    }
+    if(wantedTMU==-1) {
+        if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
     }
 }
 

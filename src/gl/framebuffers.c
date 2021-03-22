@@ -566,12 +566,14 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
         }
         //npot==2 and 3 should support that, but let's ignore that for now and force no mipmap for texture attached to fbo...
         if(!tex->actual.min_filter || !minmag_npot(tex->actual.min_filter) || tex->actual.min_filter!=tex->sampler.min_filter) {
-            tex->sampler.min_filter = minmag_forcenpot(tex->sampler.min_filter);
-            tex->adjust = 0;
-            tex->mipmap_need = 0;
-            tex->mipmap_auto = 0;
+            if(hardext.npot<2) {
+                tex->sampler.min_filter = minmag_forcenpot(tex->sampler.min_filter);
+                tex->adjust = 0;
+                tex->mipmap_need = 0;
+                tex->mipmap_auto = 0;
+            }
         }
-        realize_1texture(map_tex_target(textarget), 0, tex, NULL);
+        realize_1texture(map_tex_target(textarget), -1, tex, NULL);
     }
 
     if(attachment==GL_DEPTH_ATTACHMENT /*&& hardext.depthtex==0*/) {
