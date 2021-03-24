@@ -315,7 +315,7 @@ void gl4es_glTexParameterfv(GLenum target, GLenum pname, const GLfloat *params) 
                 if(texture->mipmap_auto == ((param)?1:0))
                     return; // same value...
                 texture->mipmap_auto = (param)?1:0;
-                if(hardext.esversion>1 && param) {
+                if(hardext.esversion>1) {
                     /*if(texture->valid) {
                         // force regeneration, if possible
                         FLUSH_BEGINEND;
@@ -852,7 +852,6 @@ void realize_textures(int drawing) {
         GLenum target = map_tex_target(to_target(tgt));
         gltexture_t *tex = glstate->texture.bound[i][tgt];
         GLuint t = tex->glname;
-
         if(tgt!=ENABLED_CUBE_MAP) {// CUBE MAP are immediatly bound
 #ifdef TEXSTREAM
             if(glstate->bound_stream[i]) {
@@ -904,7 +903,7 @@ void realize_textures(int drawing) {
             if((globals4es.automipmap==3) || ((globals4es.automipmap==1) && (tex->mipmap_auto==0)) || (tex->compressed && (tex->mipmap_auto==0)))
                 tex->mipmap_need = 0;
             else
-                tex->mipmap_need = (is_mipmap_needed(&tex->sampler) && (hardext.esversion!=1))?1:0;
+                tex->mipmap_need = (is_mipmap_needed(&tex->sampler) && (hardext.esversion!=1) && !tex->npot)?1:0;
             if(tex->mipmap_need && !tex->mipmap_done) {
                 if(!tex->mipmap_auto) {
                     // should check if glGenerateMipmap exist, and fall back to no mipmap if not
