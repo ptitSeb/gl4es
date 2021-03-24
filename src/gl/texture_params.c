@@ -771,12 +771,12 @@ void realize_1texture(GLenum target, int wantedTMU, gltexture_t* tex, glsampler_
     // check sampler stuff
     if(!sampler) sampler = &tex->sampler;
     GLuint oldtex = 0;
+    int TMU = (wantedTMU==-1)?glstate->gleshard->active:wantedTMU;
     if(wantedTMU==-1) {
-        gltexture_t *bound = glstate->texture.bound[glstate->texture.active][ENABLED_TEX2D];
+        gltexture_t *bound = glstate->texture.bound[TMU][ENABLED_TEX2D];
         oldtex = bound->glname;
         if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
     }
-    int TMU = (wantedTMU==-1)?glstate->texture.active:TMU;
     GLenum param;
     param = get_texture_min_filter(tex, sampler);
     if(tex->actual.min_filter!=param) {
