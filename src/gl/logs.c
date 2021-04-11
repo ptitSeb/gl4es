@@ -1,7 +1,7 @@
 #include "logs.h"
 #include "init.h"
 #include <stdarg.h>
-#ifdef ANDROID
+#if defined(ANDROID) && defined(USE_ANDROID_LOG)
 #include <android/log.h>
 #endif
 //----------------------------------------------------------------------------
@@ -11,7 +11,7 @@ void LogPrintf_NoPrefix(const char *fmt,...)
 {
 	va_list args;
 	va_start(args,fmt);
-	#ifdef ANDROID
+	#if defined(ANDROID) && defined(USE_ANDROID_LOG)
 	__android_log_vprint(ANDROID_LOG_INFO, "LIBGL", fmt, args);
 	#else
 	vprintf(fmt,args);
@@ -26,7 +26,7 @@ void LogFPrintf(FILE *fp,const char *fmt,...)
 	#endif
 	va_list args;
 	va_start(args,fmt);
-	#ifdef ANDROID
+	#if defined(ANDROID) && defined(USE_ANDROID_LOG)
 	// also on logcat
 	__android_log_vprint(ANDROID_LOG_INFO, "LIBGL", fmt, args);
 	#endif
@@ -41,7 +41,7 @@ void LogPrintf(const char *fmt,...)
 	#endif
 	va_list args;
 	va_start(args,fmt);
-	#ifdef ANDROID
+	#if defined(ANDROID) && defined(USE_ANDROID_LOG)
 	__android_log_vprint(ANDROID_LOG_INFO, "LIBGL", fmt, args);
 	#else
 	vprintf(fmt,args);

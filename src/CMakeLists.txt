@@ -206,7 +206,7 @@ else()
     if(USE_CLOCK)
         target_link_libraries(GL rt)
     endif()
-    if(ANDROID)
+    if(USE_ANDROID_LOG)
         target_link_libraries(GL ${log-lib})
     endif()
     
