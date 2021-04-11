@@ -23,7 +23,7 @@ option(USE_CCACHE "Set to ON to use ccache if present in the system" ${USE_CCACH
 option(USE_CLOCK "Set to ON to use clock_gettime instead of gttimeofday for LIBGL_FPS" ${USE_CLOCK})
 option(NO_LOADER "disable library loader (useful for static library with NOEGL, NOX11, use include/gl4esinit.h)" ${NO_LOADER})
 option(NO_INIT_CONSTRUCTOR "disable automatic initialization (useful for static library, use include/gl4esinit.h)" ${NO_INIT_CONSTRUCTOR})
-option(USE_ANDROID_LOG "Set to ON to use Android log instead of " ${USE_ANDROID_LOG})
+option(USE_ANDROID_LOG "Set to ON to use Android log instead of stdio" ${USE_ANDROID_LOG})
 
 include(CheckSymbolExists)
 check_symbol_exists(backtrace "execinfo.h" HAS_BACKTRACE)
