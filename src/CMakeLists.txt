@@ -221,3 +221,25 @@ else()
       DESTINATION "/usr/include/gl4es/"
     )
 endif()
+
+
+SET(EGL_SRC
+    ${CMAKE_CURRENT_SOURCE_DIR}/egl/egl.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/egl/lookup.c
+)
+
+SET(EGL_H
+    ${CMAKE_CURRENT_SOURCE_DIR}/egl/egl.h
+)
+
+if(EGL_WRAPPER)
+    add_library(EGL SHARED ${EGL_SRC})
+    target_link_libraries(EGL GL dl)
+    if(USE_ANDROID_LOG)
+        target_link_libraries(EGL ${log-lib})
+    endif()
+    if(CMAKE_SHARED_LIBRARY_SUFFIX MATCHES ".so")
+        set_target_properties(EGL PROPERTIES SUFFIX ".so.1")
+    endif()
+endif()
+
