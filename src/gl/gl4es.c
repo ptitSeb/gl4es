@@ -849,7 +849,7 @@ void gl4es_glEndList() {
 
         if (glstate->list.mode == GL_COMPILE_AND_EXECUTE) {
         	noerrorShim();
-            glCallList(list);
+            gl4es_glCallList(list);
         } else
         	noerrorShimNoPurge();
     } else
