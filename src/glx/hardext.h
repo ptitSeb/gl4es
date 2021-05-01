@@ -70,7 +70,7 @@ typedef struct _hardext {
     int glsl310es;      // does version 300es glsl shader are supported ?
 } hardext_t;
 
-extern hardext_t hardext;
+extern hardext_t hardext __attribute__((visibility("default")));
 
 void GetHardwareExtensions(int test);
 

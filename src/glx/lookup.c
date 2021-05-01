@@ -12,7 +12,7 @@
 void glXStub(void *x, ...) {
     return;
 }
-
+void *gl4es_glXGetProcAddress(const char *name) __attribute__((visibility("default")));
 void *gl4es_glXGetProcAddress(const char *name) {
 
 #ifndef NOX11
