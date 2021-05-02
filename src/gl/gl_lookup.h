@@ -40,6 +40,6 @@
     }
 #endif
 
-void *gl4es_GetProcAddress(const char *name);
+void *gl4es_GetProcAddress(const char *name) __attribute__((visibility("default")));
 
 #endif //_GL_LOOKUP_H_

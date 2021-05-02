@@ -85,9 +85,9 @@ typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLC
 #include "../glx/hardext.h"
 extern void *(*gles_getProcAddress)(const char *name);
 extern void (*gl4es_getMainFBSize)(GLint* width, GLint* height);
-void *proc_address(void *lib, const char *name);
+void *proc_address(void *lib, const char *name) __attribute__((visibility("default")));
 // will become references to dlopen'd gles and egl
-extern void *gles, *egl, *bcm_host, *vcos, *gbm, *drm;
+extern void *gles, *egl  __attribute__((visibility("default"))), *bcm_host, *vcos, *gbm, *drm;
 #if defined __APPLE__ || defined __EMSCRIPTEN__
 #define NO_LOADER
 #endif
