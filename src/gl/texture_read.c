@@ -33,7 +33,7 @@ static int inline nlevel(int size, int level) {
 
 void gl4es_glCopyTexImage2D(GLenum target,  GLint level,  GLenum internalformat,  GLint x,  GLint y,  
                                 GLsizei width,  GLsizei height,  GLint border) {
-    DBG(printf("glCopyTexImage2D(%s, %i, %s, %i, %i, %i, %i, %i), glstate->fbo.current_fb=%u\n", PrintEnum(target), level, PrintEnum(internalformat), x, y, width, height, border, glstate->fbo.current_fb);)
+    DBG(printf("glCopyTexImage2D(%s, %i, %s, %i, %i, %i, %i, %i), glstate->fbo.current_fb=%p\n", PrintEnum(target), level, PrintEnum(internalformat), x, y, width, height, border, glstate->fbo.current_fb);)
      //PUSH_IF_COMPILING(glCopyTexImage2D);
     FLUSH_BEGINEND;
     const GLuint itarget = what_target(target);

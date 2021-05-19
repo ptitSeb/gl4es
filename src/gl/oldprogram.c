@@ -123,7 +123,7 @@ void gl4es_glDisableVertexAttribArrayARB(GLuint index);
 */
 
 void gl4es_glProgramStringARB(GLenum target, GLenum format, GLsizei len, const GLvoid *string) {
-    DBG(printf("glProgramStringARB(%s, %s, %d, %p), source is\n%s\n=======\n", PrintEnum(target), PrintEnum(format), len, string, string);)
+    DBG(printf("glProgramStringARB(%s, %s, %d, %p), source is\n%s\n=======\n", PrintEnum(target), PrintEnum(format), len, string, (const char*)string);)
     oldprogram_t* old = NULL;
     int vertex;
     switch(target) {

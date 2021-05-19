@@ -237,7 +237,7 @@ void GoUniformiv(program_t *glprogram, GLint location, int size, int count, cons
         noerrorShim();
         return; // nothing to do, same value already there
     }
-    DBG(printf("Uniform updated, cache=%p(%d/%d), offset=%p, size=%d\n", glprogram->cache.cache, glprogram->cache.size, glprogram->cache.cap, m->cache_offs, rsize);)
+    DBG(printf("Uniform updated, cache=%p(%d/%d), offset=%p, size=%d\n", glprogram->cache.cache, glprogram->cache.size, glprogram->cache.cap, (void*)m->cache_offs, rsize);)
     // update uniform
     memcpy(glprogram->cache.cache + m->cache_offs, value, rsize);
     LOAD_GLES2(glUniform1iv);

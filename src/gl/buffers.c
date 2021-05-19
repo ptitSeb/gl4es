@@ -164,7 +164,7 @@ void gl4es_glBindBuffer(GLenum target, GLuint buffer) {
 }
 
 void gl4es_glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) {
-    DBG(printf("glBufferData(%s, %i, %p, %s)\n", PrintEnum(target), size, data, PrintEnum(usage));)
+    DBG(printf("glBufferData(%s, %zi, %p, %s)\n", PrintEnum(target), size, data, PrintEnum(usage));)
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
 		return;
@@ -210,7 +210,7 @@ void gl4es_glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLe
         buff->data = malloc(size);
     buff->size = size;
     buff->usage = usage;
-    DBG(printf("\t buff->data = %p (size=%d)\n", buff->data, size);)
+    DBG(printf("\t buff->data = %p (size=%zd)\n", buff->data, size);)
     buff->access = GL_READ_WRITE;
     if (data)
         memcpy(buff->data, data, size);
@@ -218,7 +218,7 @@ void gl4es_glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLe
 }
 
 void gl4es_glNamedBufferData(GLuint buffer, GLsizeiptr size, const GLvoid * data, GLenum usage) {
-    DBG(printf("glNamedBufferData(%u, %i, %p, %s)\n", buffer, size, data, PrintEnum(usage));)
+    DBG(printf("glNamedBufferData(%u, %zi, %p, %s)\n", buffer, size, data, PrintEnum(usage));)
     glbuffer_t *buff = getbuffer_id(buffer);
     if (buff==NULL) {
         DBG(printf("Named Buffer not found\n");)
@@ -261,7 +261,7 @@ void gl4es_glNamedBufferData(GLuint buffer, GLsizeiptr size, const GLvoid * data
 }
 
 void gl4es_glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) {
-    DBG(printf("glBufferSubData(%s, %p, %i, %p)\n", PrintEnum(target), offset, size, data);)
+    DBG(printf("glBufferSubData(%s, %p, %zi, %p)\n", PrintEnum(target), (void*)offset, size, data);)
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
 		return;
@@ -292,7 +292,7 @@ void gl4es_glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, cons
     noerrorShim();
 }
 void gl4es_glNamedBufferSubData(GLuint buffer, GLintptr offset, GLsizeiptr size, const GLvoid * data) {
-    DBG(printf("glNamedBufferSubData(%u, %p, %i, %p)\n", buffer, offset, size, data);)
+    DBG(printf("glNamedBufferSubData(%u, %p, %zi, %p)\n", buffer, (void*)offset, size, data);)
     glbuffer_t *buff = getbuffer_id(buffer);
     if (buff==NULL) {
 		errorShim(GL_INVALID_OPERATION);
@@ -538,7 +538,7 @@ GLboolean gl4es_glUnmapNamedBuffer(GLuint buffer) {
 }
 
 void gl4es_glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data) {
-    DBG(printf("glGetBufferSubData(%s, %p, %i, %p)\n", PrintEnum(target), offset, size, data);)
+    DBG(printf("glGetBufferSubData(%s, %p, %zi, %p)\n", PrintEnum(target), (void*)offset, size, data);)
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
 		return;
@@ -552,7 +552,7 @@ void gl4es_glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, G
 	noerrorShim();
 }
 void gl4es_glGetNamedBufferSubData(GLuint buffer, GLintptr offset, GLsizeiptr size, GLvoid * data) {
-    DBG(printf("glGetNamedBufferSubData(%u, %p, %i, %p)\n", buffer, offset, size, data);)
+    DBG(printf("glGetNamedBufferSubData(%u, %p, %zi, %p)\n", buffer, (void*)offset, size, data);)
 	glbuffer_t *buff = getbuffer_id(buffer);
 
 	if (buff==NULL)
@@ -599,7 +599,7 @@ void gl4es_glGetNamedBufferPointerv(GLuint buffer, GLenum pname, GLvoid ** param
 
 void* gl4es_glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access)
 {
-    DBG(printf("glMapBufferRange(%s, %p, %d, 0x%x)\n", PrintEnum(target), offset, length, access);)
+    DBG(printf("glMapBufferRange(%s, %p, %zd, 0x%x)\n", PrintEnum(target), (void*)offset, length, access);)
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
 		return NULL;
@@ -626,7 +626,7 @@ void* gl4es_glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, 
 }
 void gl4es_glFlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length)
 {
-    DBG(printf("glFlushMappedBufferRange(%s, %p, %d)\n", PrintEnum(target), offset, length);)
+    DBG(printf("glFlushMappedBufferRange(%s, %p, %zd)\n", PrintEnum(target), (void*)offset, length);)
 	if (!buffer_target(target)) {
 		errorShim(GL_INVALID_ENUM);
 		return;
@@ -654,7 +654,7 @@ void gl4es_glFlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr l
 
 void gl4es_glCopyBufferSubData(GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size)
 {
-    DBG(printf("glCopyBufferSubData(%s, %s, %p, %p, %d)\n", PrintEnum(readTarget), PrintEnum(writeTarget), (void*)readOffset, (void*)writeOffset, size);)
+    DBG(printf("glCopyBufferSubData(%s, %s, %p, %p, %zd)\n", PrintEnum(readTarget), PrintEnum(writeTarget), (void*)readOffset, (void*)writeOffset, size);)
     //TODO: Add GL_COPY_READ_BUFFER and GL_COPY_WRITE_BUFFER (and GL_QUERY_BUFFER?)
 	glbuffer_t *readbuff = getbuffer_buffer(readTarget);
 	glbuffer_t *writebuff = getbuffer_buffer(writeTarget);
