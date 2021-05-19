@@ -764,7 +764,7 @@ void realize_active() {
 
 void realize_1texture(GLenum target, int wantedTMU, gltexture_t* tex, glsampler_t* sampler)
 {
-    DBG(printf("realize_1texture(%s, %d, %p[%u], %p)\n", PrintEnum(target), TMU, tex, tex->glname, sampler);)
+    DBG(printf("realize_1texture(%s, %d, %p[%u], %p)\n", PrintEnum(target), wantedTMU, tex, tex->glname, sampler);)
     LOAD_GLES(glActiveTexture);
     LOAD_GLES(glTexParameteri);
     LOAD_GLES(glBindTexture);

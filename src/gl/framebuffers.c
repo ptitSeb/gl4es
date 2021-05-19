@@ -65,7 +65,7 @@ void readfboBegin() {
 void readfboEnd() {
 	if (glstate->fbo.fbo_read->id == glstate->fbo.fbo_draw->id)
         return;
-    DBG(printf("readfboEnd, fbo status read=%u, draw=%u, main=%u, current=%u\n", glstate->fbo.fbo_read, glstate->fbo.fbo_draw, glstate->fbo.mainfbo_fbo, glstate->fbo.current_fb);)
+    DBG(printf("readfboEnd, fbo status read=%p, draw=%p, main=%u, current=%p\n", glstate->fbo.fbo_read, glstate->fbo.fbo_draw, glstate->fbo.mainfbo_fbo, glstate->fbo.current_fb);)
     if(glstate->fbo.fbo_draw==glstate->fbo.current_fb)
         return;
     glstate->fbo.current_fb = glstate->fbo.fbo_draw;

@@ -323,7 +323,7 @@ void gl4es_glGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLs
                     strncpy(name, m->name, bufSize-1);
                     name[bufSize-1] = '\0';
                 }
-                DBG(printf(" found %s (%d), type=%s, size=%d\n", m->name, strlen(m->name), PrintEnum(m->type), m->size);)
+                DBG(printf(" found %s (%zd), type=%s, size=%d\n", m->name, strlen(m->name), PrintEnum(m->type), m->size);)
                 return;
             }
         );
