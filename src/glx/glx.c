@@ -1563,20 +1563,14 @@ GLXContext gl4es_glXGetCurrentContext() {
 
 #ifndef NO_EGL
 GLXFBConfig * fillGLXFBConfig(EGLConfig *eglConfigs, int count, int withDB, Display *display) {
-    #define MAX_CONFIG 200
-    static struct __GLXFBConfigRec ActualConfigs[MAX_CONFIG] = {0};
-    static int ActualConfigIdx = 0;
     LOAD_EGL(eglGetConfigAttrib);
     EGLint tmp;
     if(withDB==2) count*=2;
-    // still not correct, the ActualConfigs array should be build before hand, and the config choosen inside it instead
-    GLXFBConfig *configs = (GLXFBConfig *)calloc(count, sizeof(GLXFBConfig));
+    // don't use static array -- returned memory freed (via XFree) by caller
+    GLXFBConfig *configs = (GLXFBConfig *)calloc(count, sizeof(GLXFBConfig) + sizeof(struct __GLXFBConfigRec));
+    GLXFBConfig pRec = (GLXFBConfig)&configs[count];
     for (int j=0; j<count; ++j) {
-        configs[j] = &ActualConfigs[ActualConfigIdx++];
-        if(ActualConfigIdx==MAX_CONFIG) {
-            LOGD("Warning, GLXFBConfig static array looped\n");
-            ActualConfigIdx=0;  // better then overwrite...
-        }
+        configs[j] = &pRec[j];
         int i = (withDB!=2)?j:(j/2);
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_RED_SIZE, &configs[j]->redBits);
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_GREEN_SIZE, &configs[j]->greenBits);
@@ -1587,10 +1581,10 @@ GLXFBConfig * fillGLXFBConfig(EGLConfig *eglConfigs, int count, int withDB, Disp
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_SAMPLES, &configs[j]->multiSampleSize);
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_SAMPLE_BUFFERS, &configs[j]->nMultiSampleBuffers);
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_SURFACE_TYPE, &tmp);
-        configs[i]->drawableType = 0;
-        if(tmp&EGL_WINDOW_BIT) configs[i]->drawableType |= GLX_WINDOW_BIT;
-        if(tmp&EGL_PBUFFER_BIT) configs[i]->drawableType |= GLX_PBUFFER_BIT;
-        if(tmp&EGL_PIXMAP_BIT) configs[i]->drawableType |= GLX_PIXMAP_BIT;
+        configs[j]->drawableType = 0;
+        if(tmp&EGL_WINDOW_BIT) configs[j]->drawableType |= GLX_WINDOW_BIT;
+        if(tmp&EGL_PBUFFER_BIT) configs[j]->drawableType |= GLX_PBUFFER_BIT;
+        if(tmp&EGL_PIXMAP_BIT) configs[j]->drawableType |= GLX_PIXMAP_BIT;
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_MAX_PBUFFER_WIDTH, &configs[j]->maxPbufferWidth);
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_MAX_PBUFFER_HEIGHT, &configs[j]->maxPbufferHeight);
         egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_MAX_PBUFFER_PIXELS, &configs[j]->maxPbufferPixels);
