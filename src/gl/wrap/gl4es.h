@@ -12,7 +12,7 @@ void gl4es_glClipPlane(GLenum plane, const GLdouble *equation);
 void gl4es_glDepthRange(GLdouble nearVal, GLdouble farVal);
 void gl4es_glFogi(GLenum pname, GLint param);
 void gl4es_glFogiv(GLenum pname, GLint *params);
-void gl4es_glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
+void gl4es_glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble Near, GLdouble Far);
 void gl4es_glGetDoublev(GLenum pname, GLdouble *params);
 void gl4es_glLighti(GLenum light, GLenum pname, GLint param);
 void gl4es_glLightiv(GLenum light, GLenum pname, GLint *iparams);
@@ -21,7 +21,7 @@ void gl4es_glLightModeliv(GLenum pname, GLint *iparams);
 void gl4es_glMateriali(GLenum face, GLenum pname, GLint param);
 void gl4es_glMaterialiv(GLenum face, GLenum pname, GLint *param);
 void gl4es_glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t);
-void gl4es_glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far);
+void gl4es_glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble Near, GLdouble Far);
 void gl4es_glGetMaterialiv(GLenum face, GLenum pname, GLint * params);
 void gl4es_glGetLightiv(GLenum light, GLenum pname, GLint * params);
 void gl4es_glGetClipPlane(GLenum plane, GLdouble *equation);
@@ -130,10 +130,10 @@ void gl4es_glVertex4fv(GLfloat *v);
 
 void glClearDepthfOES(GLfloat depth);
 void glClipPlanefOES(GLenum plane, const GLfloat *equation);
-void glDepthRangefOES(GLclampf near, GLclampf far);
-void glFrustumfOES(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far);
+void glDepthRangefOES(GLclampf Near, GLclampf Far);
+void glFrustumfOES(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat Near, GLfloat Far);
 void glGetClipPlanefOES(GLenum plane, GLfloat equation[4]);
-void glOrthofOES(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far);
+void glOrthofOES(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat Near, GLfloat Far);
 
 // basic thunking
 

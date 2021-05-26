@@ -109,8 +109,8 @@ void gl4es_glGetClipPlane(GLenum plane, GLdouble *equation) {
 }
 
 void gl4es_glFrustum(GLdouble left, GLdouble right, GLdouble bottom,
-             GLdouble top, GLdouble near, GLdouble far) {
-    gl4es_glFrustumf(left, right, bottom, top, near, far);
+             GLdouble top, GLdouble Near, GLdouble Far) {
+    gl4es_glFrustumf(left, right, bottom, top, Near, Far);
 }
 void gl4es_glPixelStoref(GLenum pname, GLfloat param) {
     gl4es_glPixelStorei(pname, param);
@@ -248,8 +248,8 @@ void glBlendFuncSeparateEXT (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfacto
 }
 */
 void gl4es_glOrtho(GLdouble left, GLdouble right, GLdouble bottom,
-             GLdouble top, GLdouble near, GLdouble far) {
-    gl4es_glOrthof(left, right, bottom, top, near, far);
+             GLdouble top, GLdouble Near, GLdouble Far) {
+    gl4es_glOrthof(left, right, bottom, top, Near, Far);
 }
 
 // OES wrappers
@@ -260,19 +260,19 @@ void glClearDepthfOES(GLfloat depth) {
 void glClipPlanefOES(GLenum plane, const GLfloat *equation) {
     gl4es_glClipPlanef(plane, equation);
 }
-void glDepthRangefOES(GLclampf near, GLclampf far) {
-    gl4es_glDepthRangef(near, far);
+void glDepthRangefOES(GLclampf Near, GLclampf Far) {
+    gl4es_glDepthRangef(Near, Far);
 }
 void glFrustumfOES(GLfloat left, GLfloat right, GLfloat bottom,
-                   GLfloat top, GLfloat near, GLfloat far) {
-    gl4es_glFrustumf(left, right, bottom, top, near, far);
+                   GLfloat top, GLfloat Near, GLfloat Far) {
+    gl4es_glFrustumf(left, right, bottom, top, Near, Far);
 }
 void glGetClipPlanefOES(GLenum pname, GLfloat equation[4]) {
     gl4es_glGetClipPlanef(pname, equation);
 }
 void glOrthofOES(GLfloat left, GLfloat right, GLfloat bottom,
-                 GLfloat top, GLfloat near, GLfloat far) {
-    gl4es_glOrthof(left, right, bottom, top, near, far);
+                 GLfloat top, GLfloat Near, GLfloat Far) {
+    gl4es_glOrthof(left, right, bottom, top, Near, Far);
 }
 
 // glRect
@@ -749,14 +749,14 @@ void glClipPlane(GLenum plane, const GLdouble *equation) AliasExport("gl4es_glCl
 void glDepthRange(GLdouble nearVal, GLdouble farVal) AliasExport("gl4es_glDepthRange");
 void glFogi(GLenum pname, GLint param) AliasExport("gl4es_glFogi");
 void glFogiv(GLenum pname, GLint *params) AliasExport("gl4es_glFogiv");
-void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far) AliasExport("gl4es_glFrustum");
+void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble Near, GLdouble Far) AliasExport("gl4es_glFrustum");
 void glLighti(GLenum light, GLenum pname, GLint param) AliasExport("gl4es_glLighti");
 void glLightiv(GLenum light, GLenum pname, GLint *iparams) AliasExport("gl4es_glLightiv");
 void glLightModeli(GLenum pname, GLint param) AliasExport("gl4es_glLightModeli");
 void glLightModeliv(GLenum pname, GLint *iparams) AliasExport("gl4es_glLightModeliv");
 void glMateriali(GLenum face, GLenum pname, GLint param) AliasExport("gl4es_glMateriali");
 void glMaterialiv(GLenum face, GLenum pname, GLint *param) AliasExport("gl4es_glMaterialiv");
-void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far) AliasExport("gl4es_glOrtho");
+void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble Near, GLdouble Far) AliasExport("gl4es_glOrtho");
 void glGetMaterialiv(GLenum face, GLenum pname, GLint * params) AliasExport("gl4es_glGetMaterialiv");
 void glGetLightiv(GLenum light, GLenum pname, GLint * params) AliasExport("gl4es_glGetLightiv");
 void glGetClipPlane(GLenum plane, GLdouble *equation) AliasExport("gl4es_glGetClipPlane");

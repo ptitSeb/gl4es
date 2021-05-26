@@ -36,21 +36,21 @@ GLfloat clamp(GLfloat a) {
     return (a<0.f)?0.f:((a>1.f)?1.f:a);
 }
 
-void gl4es_glDepthRangef(GLclampf near, GLclampf far) {
-    near = clamp(near);
-    far = clamp(far);
+void gl4es_glDepthRangef(GLclampf Near, GLclampf Far) {
+    Near = clamp(Near);
+    Far = clamp(Far);
     if(glstate->list.compiling) {
         PUSH_IF_COMPILING(glDepthRangef);
     }
     noerrorShim();
-    if ((glstate->depth.near == near) && (glstate->depth.far == far))
+    if ((glstate->depth.Near == Near) && (glstate->depth.Far == Far))
         return;
     FLUSH_BEGINEND;
-    glstate->depth.near = near;
-    glstate->depth.far = far;
+    glstate->depth.Near = Near;
+    glstate->depth.Far = Far;
     LOAD_GLES(glDepthRangef);
     errorGL();
-    gles_glDepthRangef(near, far);
+    gles_glDepthRangef(Near, Far);
 }
 
 void gl4es_glClearDepthf(GLclampf depth) {
