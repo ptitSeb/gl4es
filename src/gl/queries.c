@@ -14,7 +14,6 @@
 KHASH_MAP_IMPL_INT(queries, glquery_t *);
 
 static GLuint new_query(GLuint base) {
-    int ret;
     khint_t k;
     khash_t(queries) *list = glstate->queries.querylist;
     while(1) {
@@ -26,7 +25,6 @@ static GLuint new_query(GLuint base) {
 }
 
 static glquery_t* find_query(GLuint querie) {
-    int ret;
     khint_t k;
     khash_t(queries) *list = glstate->queries.querylist;
     k = kh_get(queries, list, querie);
@@ -38,8 +36,6 @@ static glquery_t* find_query(GLuint querie) {
 }
 
 static glquery_t* find_query_target(GLenum target) {
-    int ret;
-    khint_t k;
     khash_t(queries) *list = glstate->queries.querylist;
 	glquery_t *q;
     kh_foreach_value(list, q,
@@ -51,7 +47,6 @@ static glquery_t* find_query_target(GLenum target) {
 
 
 void del_querie(GLuint querie) {
-    int ret;
     khint_t k;
     khash_t(queries) *list = glstate->queries.querylist;
     k = kh_get(queries, list, querie);
@@ -192,8 +187,6 @@ void gl4es_glGetQueryiv(GLenum target, GLenum pname, GLint* params) {
 }
 
 void gl4es_glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params) {
-   	khint_t k;
-   	int ret;
     FLUSH_BEGINEND;
 
 	glquery_t *query = find_query(id);

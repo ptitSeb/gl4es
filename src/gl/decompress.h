@@ -1,6 +1,8 @@
 #ifndef _GL4ES_DECOMPRESS_H_
 #define _GL4ES_DECOMPRESS_H_
 
+#include <stdint.h>
+
 void DecompressBlockDXT1(uint32_t x, uint32_t y, uint32_t width,
 	const uint8_t* blockStorage,
 	int transparent0, int* simpleAlpha, int *complexAlpha,

@@ -792,7 +792,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
             *dst = malloc(dst_size);
         if (stride)	// for in-place conversion
 			for (int yy=0; yy<height; yy++)
-				memcpy((*dst)+yy*dst_width2, src+yy*src_width, src_width);
+				memcpy((char*)(*dst)+yy*dst_width2, (char*)src+yy*src_width, src_width);
         else
 			memcpy(*dst, src, dst_size);
         return true;
@@ -884,7 +884,6 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     }
     // L -> RGBA
     if ((src_format == GL_LUMINANCE) && (dst_format == GL_RGBA) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {
-        GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				//tmp = *(const GLuint*)src_pos;
@@ -906,7 +905,6 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     }
     // L -> RGB
     if ((src_format == GL_LUMINANCE) && (dst_format == GL_RGB) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {
-        GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				//tmp = *(const GLuint*)src_pos;
@@ -922,7 +920,6 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     }
     // RGBA -> LA
     if ((src_format == GL_RGBA) && (dst_format == GL_LUMINANCE_ALPHA) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {
-        GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				//tmp = *(const GLuint*)src_pos;
@@ -942,7 +939,6 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     }
     // BGRA -> LA
     if ((src_format == GL_BGRA) && (dst_format == GL_LUMINANCE_ALPHA) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {
-        GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				//tmp = *(const GLuint*)src_pos;
@@ -962,7 +958,6 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     }
     // RGB(A) -> L
     if (((src_format == GL_RGBA)||(src_format == GL_RGB)) && (dst_format == GL_LUMINANCE) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {
-        GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				//tmp = *(const GLuint*)src_pos;
@@ -982,7 +977,6 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     }
     // BGR(A) -> L
     if (((src_format == GL_BGRA)||(src_format == GL_BGR)) && (dst_format == GL_LUMINANCE) && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {
-        GLuint tmp;
         for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				//tmp = *(const GLuint*)src_pos;
@@ -1441,7 +1435,7 @@ bool pixel_doublescale(const GLvoid *old, GLvoid **new,
     const colorlayout_t *src_color;
     src_color = get_color_map(format);
     GLvoid *dst;
-    uintptr_t src, pos, pix0, pix1, pix2, pix3;
+    uintptr_t src, pos, pix0;
 
     pixel_size = pixel_sizeof(format, type);
     dst = malloc(pixel_size * new_width * new_height);

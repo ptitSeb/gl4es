@@ -27,7 +27,6 @@ int wrap_npot(GLenum wrap);
 glframebuffer_t* find_framebuffer(GLuint framebuffer) {
     // Get a framebuffer based on ID
     if (framebuffer == 0) return glstate->fbo.fbo_0; // NULL or fbo_0 ?
-    int ret;
     khint_t k;
     khash_t(framebufferlist_t) *list = glstate->fbo.framebufferlist;
     k = kh_get(framebufferlist_t, list, framebuffer);
@@ -79,7 +78,6 @@ void readfboEnd() {
 glrenderbuffer_t* find_renderbuffer(GLuint renderbuffer) {
     // Get a renderbuffer based on ID
     if (renderbuffer == 0) return glstate->fbo.default_rb;
-    int ret;
     khint_t k;
     khash_t(renderbufferlist_t) *list = glstate->fbo.renderbufferlist;
     k = kh_get(renderbufferlist_t, list, renderbuffer);
@@ -119,7 +117,6 @@ void gl4es_glGenFramebuffers(GLsizei n, GLuint *ids) {
 void gl4es_glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
     DBG(printf("glDeleteFramebuffers(%i, %p), framebuffers[0]=%u\n", n, framebuffers, framebuffers[0]);)
     // delete tracking
-    khint_t k;
     if (glstate->fbo.framebufferlist)
         for (int i=0; i<n; i++) {
             khint_t k;
@@ -923,7 +920,6 @@ void gl4es_glDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers) {
     LOAD_GLES2_OR_OES(glDeleteRenderbuffers);
     
     // check if we delete a depthstencil
-    khint_t k;
     if (glstate->fbo.renderbufferlist)
         for (int i=0; i<n; i++) {
             khint_t k;
@@ -974,8 +970,6 @@ void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei w
         internalformat = GL_DEPTH24_STENCIL8;
     // in that case, create first a STENCIL one then a DEPTH one....
     if ((internalformat == GL_DEPTH24_STENCIL8 && (hardext.depthstencil==0 || ((hardext.vendor&VEND_IMGTEC)==VEND_IMGTEC)))) {
-        khint_t k;
-        int ret;
         internalformat = (hardext.depth24)?GL_DEPTH_COMPONENT24:GL_DEPTH_COMPONENT16;
         // create a stencil buffer if needed
         if(!rend->secondarybuffer) {

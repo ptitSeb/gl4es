@@ -41,13 +41,13 @@ typedef struct {
 void gl4es_glLightModelf(GLenum pname, GLfloat param);
 void gl4es_glLightModelfv(GLenum pname, const GLfloat* params);
 void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params);
-void gl4es_glLightf(GLenum light, GLenum pname, const GLfloat params);
+void gl4es_glLightf(GLenum light, GLenum pname, GLfloat params);
 
 void gl4es_glGetLightfv(GLenum light, GLenum pname, GLfloat * params);
 void gl4es_glGetLightiv(GLenum light, GLenum pname, GLint * params);
 
 void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) ;
-void gl4es_glMaterialf(GLenum face, GLenum pname, const GLfloat param);
+void gl4es_glMaterialf(GLenum face, GLenum pname, GLfloat param);
 void gl4es_glColorMaterial(GLenum face, GLenum mode);
 
 #endif // _GL4ES_LIGHT_H_

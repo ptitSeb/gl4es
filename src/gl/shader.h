@@ -4,6 +4,7 @@
 #include "khash.h"
 #include "gles.h"
 #include "oldprogram.h"
+#include <stdint.h>
 
 typedef struct shaderconv_need_s {
     int         need_color;      // front and back
@@ -59,7 +60,6 @@ shader_t *getShader(GLuint shader);
     shader_t *glshader = NULL; \
     khint_t k_##shader; \
     { \
-        int ret; \
         khash_t(shaderlist) *shaders = glstate->glsl->shaders; \
         k_##shader = kh_get(shaderlist, shaders, shader); \
         if (k_##shader != kh_end(shaders)) \

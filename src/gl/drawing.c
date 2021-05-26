@@ -486,13 +486,13 @@ void gl4es_glDrawRangeElements(GLenum mode, GLuint start, GLuint end, GLsizei co
         (!compiling && !intercept && type==GL_UNSIGNED_INT && hardext.elementuint)
         );
     if(need_free) {
-        sindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
+        sindices = copy_gl_array((glstate->vao->elements)?(void*)((char*)glstate->vao->elements->data + (uintptr_t)indices):indices,
             type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count, NULL);
     } else {
         if(type==GL_UNSIGNED_INT)
-            iindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
+            iindices = (glstate->vao->elements)?((void*)((char*)glstate->vao->elements->data + (uintptr_t)indices)):(GLvoid*)indices;
         else
-            sindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
+            sindices = (glstate->vao->elements)?((void*)((char*)glstate->vao->elements->data + (uintptr_t)indices)):(GLvoid*)indices;
     }
 
     if (compiling) {
@@ -593,14 +593,14 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
         (!compiling && !intercept && type==GL_UNSIGNED_INT && hardext.elementuint)
         );
     if(need_free) {
-        sindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
+        sindices = copy_gl_array((glstate->vao->elements)?(void*)((char*)glstate->vao->elements->data + (uintptr_t)indices):indices,
             type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count, NULL);
         old_index = wantBufferIndex(0);
     } else {
         if(type==GL_UNSIGNED_INT)
-            iindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
+            iindices = (glstate->vao->elements)?((void*)((char*)glstate->vao->elements->data + (uintptr_t)indices)):(GLvoid*)indices;
         else
-            sindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
+            sindices = (glstate->vao->elements)?((void*)((char*)glstate->vao->elements->data + (uintptr_t)indices)):(GLvoid*)indices;
     }
 
     if (compiling) {
@@ -935,14 +935,14 @@ void gl4es_glMultiDrawElements( GLenum mode, GLsizei *counts, GLenum type, const
             (!compiling && !intercept && type==GL_UNSIGNED_INT && hardext.elementuint)
             );
         if(need_free) {
-            sindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
+            sindices = copy_gl_array((glstate->vao->elements)?(void*)((char*)glstate->vao->elements->data + (uintptr_t)indices):indices,
                 type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count, NULL);
             old_index = wantBufferIndex(0);
         } else {
             if(type==GL_UNSIGNED_INT)
-                iindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
+                iindices = (glstate->vao->elements)?((void*)((char*)glstate->vao->elements->data + (uintptr_t)indices)):(GLvoid*)indices;
             else
-                sindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
+                sindices = (glstate->vao->elements)?((void*)((char*)glstate->vao->elements->data + (uintptr_t)indices)):(GLvoid*)indices;
         }
 
         if (compiling) {
@@ -1048,10 +1048,10 @@ void gl4es_glMultiDrawElementsBaseVertex( GLenum mode, GLsizei *counts, GLenum t
         GLuint *iindices = NULL;
 
         if(type==GL_UNSIGNED_INT && hardext.elementuint && !compiling && !intercept)
-            iindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
+            iindices = copy_gl_array((glstate->vao->elements)?(void*)((char*)glstate->vao->elements->data + (uintptr_t)indices):indices,
                 type, 1, 0, GL_UNSIGNED_INT, 1, 0, count, NULL);
         else
-            sindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
+            sindices = copy_gl_array((glstate->vao->elements)?(void*)((char*)glstate->vao->elements->data + (uintptr_t)indices):indices,
                 type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count, NULL);
 
         if (compiling) {
@@ -1149,10 +1149,10 @@ void gl4es_glDrawElementsBaseVertex(GLenum mode, GLsizei count, GLenum type, con
         GLuint *iindices = NULL;
 
         if(type==GL_UNSIGNED_INT && hardext.elementuint && !compiling && !intercept)
-            iindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
+            iindices = copy_gl_array((glstate->vao->elements)?(void*)((char*)glstate->vao->elements->data + (uintptr_t)indices):indices,
                 type, 1, 0, GL_UNSIGNED_INT, 1, 0, count, NULL);
         else
-            sindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
+            sindices = copy_gl_array((glstate->vao->elements)?(void*)((char*)glstate->vao->elements->data + (uintptr_t)indices):indices,
                 type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count, NULL);
 
         if (compiling) {
@@ -1244,10 +1244,10 @@ void gl4es_glDrawRangeElementsBaseVertex(GLenum mode, GLuint start, GLuint end, 
         GLushort *sindices = NULL;
         GLuint *iindices = NULL;
         if(type==GL_UNSIGNED_INT && hardext.elementuint && !compiling && !intercept)
-            iindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
+            iindices = copy_gl_array((glstate->vao->elements)?(void*)((char*)glstate->vao->elements->data + (uintptr_t)indices):indices,
                 type, 1, 0, GL_UNSIGNED_INT, 1, 0, count, NULL);
         else
-            sindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
+            sindices = copy_gl_array((glstate->vao->elements)?(void*)((char*)glstate->vao->elements->data + (uintptr_t)indices):indices,
                 type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count, NULL);
 
         if (compiling) {
@@ -1436,14 +1436,14 @@ void gl4es_glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, cons
         (!compiling && !intercept && type==GL_UNSIGNED_INT && hardext.elementuint)
         );
     if(need_free) {
-        sindices = copy_gl_array((glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):indices,
+        sindices = copy_gl_array((glstate->vao->elements)?((void*)((char*)glstate->vao->elements->data + (uintptr_t)indices)):indices,
             type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count, NULL);
         old_index = wantBufferIndex(0);
     } else {
         if(type==GL_UNSIGNED_INT)
-            iindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
+            iindices = (glstate->vao->elements)?((void*)((char*)glstate->vao->elements->data + (uintptr_t)indices)):(GLvoid*)indices;
         else
-            sindices = (glstate->vao->elements)?(glstate->vao->elements->data + (uintptr_t)indices):(GLvoid*)indices;
+            sindices = (glstate->vao->elements)?((void*)((char*)glstate->vao->elements->data + (uintptr_t)indices)):(GLvoid*)indices;
     }
 
     if (compiling) {
@@ -1542,10 +1542,10 @@ void gl4es_glDrawElementsInstancedBaseVertex(GLenum mode, GLsizei count, GLenum 
         GLuint *iindices = NULL;
 
         if(type==GL_UNSIGNED_INT && hardext.elementuint && !compiling && !intercept)
-            iindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
+            iindices = copy_gl_array((glstate->vao->elements)?(void*)((char*)glstate->vao->elements->data + (uintptr_t)indices):indices,
                 type, 1, 0, GL_UNSIGNED_INT, 1, 0, count, NULL);
         else
-            sindices = copy_gl_array((glstate->vao->elements)?glstate->vao->elements->data + (uintptr_t)indices:indices,
+            sindices = copy_gl_array((glstate->vao->elements)?(void*)((char*)glstate->vao->elements->data + (uintptr_t)indices):indices,
                 type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count, NULL);
 
         if (compiling) {

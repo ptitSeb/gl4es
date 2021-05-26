@@ -362,7 +362,6 @@ void draw_renderlist(renderlist_t *list) {
     old_tex = glstate->texture.client;
     GLuint cur_tex = old_tex;
     GLint needclean[MAX_TEX] = {0};
-    GLuint texture;
     bool stipple;
     int stipple_tmu;
     GLenum stipple_env;

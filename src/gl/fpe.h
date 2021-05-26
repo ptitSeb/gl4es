@@ -152,6 +152,7 @@ typedef struct fpe_texenv_s {
   unsigned int dummy:6;                 // align sturture to 64bits...
 } fpe_texenv_t;
 
+#pragma pack(1)
 typedef struct fpe_state_s {
     fpe_texture_t texture[MAX_TEX];      // 16 texture flags
     fpe_texgen_t texgen[MAX_TEX];        // 16 texgen flags
@@ -187,7 +188,8 @@ typedef struct fpe_state_s {
     unsigned int fragment_prg_enable:1;  // if fragment program is enabled
     uint16_t     vertex_prg_id;          // Id of vertex program currently binded (0 most of the time), 16bits is more than enough...
     uint16_t     fragment_prg_id;        // Id of fragment program currently binded (0 most of the time)
-}__attribute__((packed)) fpe_state_t;
+} fpe_state_t;
+#pragma pack()
 
 typedef struct fpe_fpe_s {
   GLuint  frag, vert, prog;   // shader info

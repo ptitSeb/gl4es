@@ -15,7 +15,6 @@ KHASH_MAP_IMPL_INT(texenv, rendertexenv_t *);
 KHASH_MAP_IMPL_INT(gllisthead, renderlist_t*);
 
 renderlist_t *alloc_renderlist() {
-    int a;
 
     renderlist_t *list = (renderlist_t *)malloc(sizeof(renderlist_t));
     memset(list, 0, sizeof(renderlist_t));

@@ -306,7 +306,6 @@ int gl4es_getProgramBinary(GLuint program, int *length, GLenum *format, void** b
     program_t *glprogram = NULL; \
     khint_t k_##program; \
     { \
-        int ret; \
         khash_t(programlist) *programs = glstate->glsl->programs; \
         k_##program = kh_get(programlist, programs, program); \
         if (k_##program != kh_end(programs)) \

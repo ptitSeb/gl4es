@@ -110,7 +110,7 @@ void gl4es_glGetUniformfv(GLuint program, GLint location, GLfloat *params) {
     FLUSH_BEGINEND;
     CHECK_PROGRAM(void, program);
 
-    khint_t k;
+    khint_t k = 0;
     uniform_t *gluniform = NULL;
     k = kh_get(uniformlist, glprogram->uniform, k);
     if(k!=kh_end(glprogram->uniform)) {
@@ -118,13 +118,13 @@ void gl4es_glGetUniformfv(GLuint program, GLint location, GLfloat *params) {
         uintptr_t offs = gluniform->cache_offs;
         int size = gluniform->cache_size;
         if(is_uniform_float(gluniform->type)) {
-            memcpy(params, glprogram->cache.cache+offs, size);
+            memcpy(params, (char*)glprogram->cache.cache+offs, size);
             noerrorShim();
             return;
         }
         // if it's not float, it can be only int for now
         int n = size / sizeof(GLint);
-        GLint *fl = (GLint*)(glprogram->cache.cache + offs);
+        GLint *fl = (GLint*)((char*)glprogram->cache.cache + offs);
         for (int i=0; i<n; i++)
             params[i] = fl[i];  // this is probably good, int->float is straight forward
         noerrorShim();
@@ -137,7 +137,7 @@ void gl4es_glGetUniformiv(GLuint program, GLint location, GLint *params) {
     FLUSH_BEGINEND;
     CHECK_PROGRAM(void, program);
 
-    khint_t k;
+    khint_t k = 0;
     uniform_t *gluniform = NULL;
     k = kh_get(uniformlist, glprogram->uniform, k);
     if(k!=kh_end(glprogram->uniform)) {
@@ -145,13 +145,13 @@ void gl4es_glGetUniformiv(GLuint program, GLint location, GLint *params) {
         uintptr_t offs = gluniform->cache_offs;
         int size = gluniform->cache_size;
         if(is_uniform_int(gluniform->type)) {
-            memcpy(params, glprogram->cache.cache+offs, size);
+            memcpy(params, (char*)glprogram->cache.cache+offs, size);
             noerrorShim();
             return;
         }
         // if it's not int, it can be only float for now
         int n = size / sizeof(GLfloat);
-        GLfloat *fl = (GLfloat*)(glprogram->cache.cache + offs);
+        GLfloat *fl = (GLfloat*)((char*)glprogram->cache.cache + offs);
         for (int i=0; i<n; i++)
             params[i] = fl[i];  // is this correct? float -> int without adjustment?
         noerrorShim();
@@ -186,12 +186,12 @@ void GoUniformfv(program_t *glprogram, GLint location, int size, int count, cons
     }
     // ok, check the value in the cache
     int rsize = sizeof(GLfloat)*size*count;
-    if (memcmp(glprogram->cache.cache + m->cache_offs, value, rsize)==0) {
+    if (memcmp((char*)glprogram->cache.cache + m->cache_offs, value, rsize)==0) {
         noerrorShim();
         return; // nothing to do, same value already there
     }
     // update uniform
-    memcpy(glprogram->cache.cache + m->cache_offs, value, rsize);
+    memcpy((char*)glprogram->cache.cache + m->cache_offs, value, rsize);
     LOAD_GLES2(glUniform1fv);
     LOAD_GLES2(glUniform2fv);
     LOAD_GLES2(glUniform3fv);
@@ -233,13 +233,13 @@ void GoUniformiv(program_t *glprogram, GLint location, int size, int count, cons
     }
     // ok, check the value in the cache
     int rsize = sizeof(GLint)*size*count;
-    if (memcmp(glprogram->cache.cache + m->cache_offs, value, rsize)==0) {
+    if (memcmp((char*)glprogram->cache.cache + m->cache_offs, value, rsize)==0) {
         noerrorShim();
         return; // nothing to do, same value already there
     }
     DBG(printf("Uniform updated, cache=%p(%d/%d), offset=%p, size=%d\n", glprogram->cache.cache, glprogram->cache.size, glprogram->cache.cap, (void*)m->cache_offs, rsize);)
     // update uniform
-    memcpy(glprogram->cache.cache + m->cache_offs, value, rsize);
+    memcpy((char*)glprogram->cache.cache + m->cache_offs, value, rsize);
     LOAD_GLES2(glUniform1iv);
     LOAD_GLES2(glUniform2iv);
     LOAD_GLES2(glUniform3iv);
@@ -556,12 +556,12 @@ void GoUniformMatrix2fv(program_t *glprogram, GLint location, GLsizei count, GLb
     }
     // ok, check the value in the cache
     int rsize = sizeof(GLfloat)*2*2*count;
-    if (memcmp(glprogram->cache.cache + m->cache_offs, v, rsize)==0) {
+    if (memcmp((char*)glprogram->cache.cache + m->cache_offs, v, rsize)==0) {
         noerrorShim();
         return; // nothing to do, same value already there
     }
     // update uniform
-    memcpy(glprogram->cache.cache + m->cache_offs, v, rsize);
+    memcpy((char*)glprogram->cache.cache + m->cache_offs, v, rsize);
     LOAD_GLES2(glUniformMatrix2fv);
     if (gles_glUniformMatrix2fv) {
         gles_glUniformMatrix2fv(m->id, count, GL_FALSE, v);
@@ -622,12 +622,12 @@ void GoUniformMatrix3fv(program_t *glprogram, GLint location, GLsizei count, GLb
     }
     // ok, check the value in the cache
     int rsize = sizeof(GLfloat)*3*3*count;
-    if (memcmp(glprogram->cache.cache + m->cache_offs, v, rsize)==0) {
+    if (memcmp((char*)glprogram->cache.cache + m->cache_offs, v, rsize)==0) {
         noerrorShim();
         return; // nothing to do, same value already there
     }
     // update uniform
-    memcpy(glprogram->cache.cache + m->cache_offs, v, rsize);
+    memcpy((char*)glprogram->cache.cache + m->cache_offs, v, rsize);
     LOAD_GLES2(glUniformMatrix3fv);
     if (gles_glUniformMatrix3fv) {
         gles_glUniformMatrix3fv(m->id, count, GL_FALSE, v);
@@ -684,12 +684,12 @@ void GoUniformMatrix4fv(program_t *glprogram, GLint location, GLsizei count, GLb
     }
     // ok, check the value in the cache
     int rsize = sizeof(GLfloat)*4*4*count;
-    if (memcmp(glprogram->cache.cache + m->cache_offs, v, rsize)==0) {
+    if (memcmp((char*)glprogram->cache.cache + m->cache_offs, v, rsize)==0) {
         noerrorShim();
         return; // nothing to do, same value already there
     }
     // update uniform
-    memcpy(glprogram->cache.cache + m->cache_offs, v, rsize);
+    memcpy((char*)glprogram->cache.cache + m->cache_offs, v, rsize);
     LOAD_GLES2(glUniformMatrix4fv);
     if (gles_glUniformMatrix4fv) {
         gles_glUniformMatrix4fv(m->id, count, GL_FALSE, v);
@@ -717,7 +717,7 @@ int GetUniformi(program_t *glprogram, GLint location)
 
     // ok, grab the value in the cache
     GLint ret;
-    memcpy(&ret, glprogram->cache.cache + m->cache_offs, sizeof(GLint));
+    memcpy(&ret, (char*)glprogram->cache.cache + m->cache_offs, sizeof(GLint));
     return ret;
 }
 

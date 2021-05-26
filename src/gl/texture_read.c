@@ -173,7 +173,7 @@ void gl4es_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum 
     errorGL();
     GLvoid* dst = data;
     if (glstate->vao->pack)
-        dst += (uintptr_t)glstate->vao->pack->data;
+        dst = (char*)dst + (uintptr_t)glstate->vao->pack->data;
         
     readfboBegin();
     if ((format == GL_RGBA && type == GL_UNSIGNED_BYTE)     // should not use default GL_RGBA on Pandora as it's very slow...
@@ -240,7 +240,7 @@ void gl4es_glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type,
     
     GLvoid *dst = img;
     if (glstate->vao->pack)
-        dst += (uintptr_t)glstate->vao->pack->data;
+        dst = (char*)dst + (uintptr_t)glstate->vao->pack->data;
 #ifdef TEXSTREAM
     if (globals4es.texstream && bound->streamed) {
         noerrorShim();

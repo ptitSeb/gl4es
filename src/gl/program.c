@@ -219,7 +219,6 @@ void gl4es_glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsi
     CHECK_PROGRAM(void, program)
 
     if(glprogram->attribloc) {
-        khint_t k;
         attribloc_t *attribloc;
         kh_foreach_value(glprogram->attribloc, attribloc,
             if(attribloc->real_index == index) {
@@ -313,7 +312,6 @@ void gl4es_glGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLs
     // look in uniform cache, that is filled when program is linked
     if(glprogram->uniform) {
         uniform_t *m;
-        khint_t k;
         kh_foreach_value(glprogram->uniform, m,
             if(m->internal_id == index) {
                 if(type) *type = m->type;
@@ -465,7 +463,6 @@ GLint gl4es_glGetUniformLocation(GLuint program, const GLchar *name) {
     }
     if(glprogram->uniform) {
         uniform_t *m;
-        khint_t k;
         kh_foreach_value(glprogram->uniform, m,
             if(strlen(m->name)==l && strncmp(m->name, name, l)==0) {
                 res = m->id;
@@ -490,7 +487,6 @@ GLboolean gl4es_glIsProgram(GLuint program) {
     }
     program_t *glprogram = NULL;
     khint_t k;
-    int ret;
     khash_t(programlist) *programs = glstate->glsl->programs;
     k = kh_get(programlist, programs, program);
     if (k != kh_end(programs))
@@ -613,7 +609,7 @@ static void fill_program(program_t *glprogram)
         khint_t k;
         kh_foreach(glprogram->uniform, k, m,
             if(m->type == GL_SAMPLER_2D || m->type == GL_SAMPLER_CUBE)
-                memset(glprogram->cache.cache+m->cache_offs, 0xff, m->cache_size);
+                memset((char*)glprogram->cache.cache+m->cache_offs, 0xff, m->cache_size);
         )
     }
 
@@ -885,7 +881,6 @@ GLvoid gl4es_glDeleteObject(GLhandleARB obj) {
     program_t *glprogram = NULL;
     khint_t k_program;
     {
-        int ret;
         khash_t(programlist) *programs = glstate->glsl->programs;
         k_program = kh_get(programlist, programs, obj);
         if (k_program != kh_end(programs))
@@ -929,7 +924,6 @@ GLvoid gl4es_glGetObjectParameterfv(GLhandleARB obj, GLenum pname, GLfloat *para
     program_t *glprogram = NULL;
     khint_t k_program;
     {
-        int ret;
         khash_t(programlist) *programs = glstate->glsl->programs;
         k_program = kh_get(programlist, programs, obj);
         if (k_program != kh_end(programs))
@@ -951,7 +945,6 @@ GLvoid gl4es_glGetObjectParameteriv(GLhandleARB obj, GLenum pname, GLint *params
     program_t *glprogram = NULL;
     khint_t k_program;
     {
-        int ret;
         khash_t(programlist) *programs = glstate->glsl->programs;
         k_program = kh_get(programlist, programs, obj);
         if (k_program != kh_end(programs))
@@ -973,7 +966,6 @@ GLvoid gl4es_glGetInfoLog(GLhandleARB obj, GLsizei maxLength, GLsizei *length, G
     program_t *glprogram = NULL;
     khint_t k_program;
     {
-        int ret;
         khash_t(programlist) *programs = glstate->glsl->programs;
         k_program = kh_get(programlist, programs, obj);
         if (k_program != kh_end(programs))
