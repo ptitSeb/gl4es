@@ -330,7 +330,7 @@ typedef struct {
 typedef struct {
     GLenum      func;
     GLboolean   mask;
-    GLfloat     near, far;
+    GLfloat     Near, Far;
     GLfloat     clear;
 } depth_state_t;
 

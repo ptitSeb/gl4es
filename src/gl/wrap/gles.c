@@ -473,24 +473,24 @@ void gl4es_glDepthMask(GLboolean flag) {
 void glDepthMask(GLboolean flag) AliasExport("gl4es_glDepthMask");
 #endif
 #ifndef skip_glDepthRangef
-void gl4es_glDepthRangef(GLclampf near, GLclampf far) {
+void gl4es_glDepthRangef(GLclampf Near, GLclampf Far) {
     LOAD_GLES(glDepthRangef);
 #ifndef direct_glDepthRangef
     PUSH_IF_COMPILING(glDepthRangef)
 #endif
-    gles_glDepthRangef(near, far);
+    gles_glDepthRangef(Near, Far);
 }
-void glDepthRangef(GLclampf near, GLclampf far) AliasExport("gl4es_glDepthRangef");
+void glDepthRangef(GLclampf Near, GLclampf Far) AliasExport("gl4es_glDepthRangef");
 #endif
 #ifndef skip_glDepthRangex
-void gl4es_glDepthRangex(GLclampx near, GLclampx far) {
+void gl4es_glDepthRangex(GLclampx Near, GLclampx Far) {
     LOAD_GLES(glDepthRangex);
 #ifndef direct_glDepthRangex
     PUSH_IF_COMPILING(glDepthRangex)
 #endif
-    gles_glDepthRangex(near, far);
+    gles_glDepthRangex(Near, Far);
 }
-void glDepthRangex(GLclampx near, GLclampx far) AliasExport("gl4es_glDepthRangex");
+void glDepthRangex(GLclampx Near, GLclampx Far) AliasExport("gl4es_glDepthRangex");
 #endif
 #ifndef skip_glDetachShader
 void gl4es_glDetachShader(GLuint program, GLuint shader) {
@@ -733,24 +733,24 @@ void gl4es_glFrontFace(GLenum mode) {
 void glFrontFace(GLenum mode) AliasExport("gl4es_glFrontFace");
 #endif
 #ifndef skip_glFrustumf
-void gl4es_glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far) {
+void gl4es_glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat Near, GLfloat Far) {
     LOAD_GLES(glFrustumf);
 #ifndef direct_glFrustumf
     PUSH_IF_COMPILING(glFrustumf)
 #endif
-    gles_glFrustumf(left, right, bottom, top, near, far);
+    gles_glFrustumf(left, right, bottom, top, Near, Far);
 }
-void glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far) AliasExport("gl4es_glFrustumf");
+void glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat Near, GLfloat Far) AliasExport("gl4es_glFrustumf");
 #endif
 #ifndef skip_glFrustumx
-void gl4es_glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) {
+void gl4es_glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed Near, GLfixed Far) {
     LOAD_GLES(glFrustumx);
 #ifndef direct_glFrustumx
     PUSH_IF_COMPILING(glFrustumx)
 #endif
-    gles_glFrustumx(left, right, bottom, top, near, far);
+    gles_glFrustumx(left, right, bottom, top, Near, Far);
 }
-void glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) AliasExport("gl4es_glFrustumx");
+void glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed Near, GLfixed Far) AliasExport("gl4es_glFrustumx");
 #endif
 #ifndef skip_glGenBuffers
 void gl4es_glGenBuffers(GLsizei n, GLuint * buffer) {
@@ -1563,24 +1563,24 @@ void gl4es_glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) 
 void glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) AliasExport("gl4es_glNormalPointer");
 #endif
 #ifndef skip_glOrthof
-void gl4es_glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far) {
+void gl4es_glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat Near, GLfloat Far) {
     LOAD_GLES(glOrthof);
 #ifndef direct_glOrthof
     PUSH_IF_COMPILING(glOrthof)
 #endif
-    gles_glOrthof(left, right, bottom, top, near, far);
+    gles_glOrthof(left, right, bottom, top, Near, Far);
 }
-void glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far) AliasExport("gl4es_glOrthof");
+void glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat Near, GLfloat Far) AliasExport("gl4es_glOrthof");
 #endif
 #ifndef skip_glOrthox
-void gl4es_glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) {
+void gl4es_glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed Near, GLfixed Far) {
     LOAD_GLES(glOrthox);
 #ifndef direct_glOrthox
     PUSH_IF_COMPILING(glOrthox)
 #endif
-    gles_glOrthox(left, right, bottom, top, near, far);
+    gles_glOrthox(left, right, bottom, top, Near, Far);
 }
-void glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far) AliasExport("gl4es_glOrthox");
+void glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed Near, GLfixed Far) AliasExport("gl4es_glOrthox");
 #endif
 #ifndef skip_glPixelStorei
 void gl4es_glPixelStorei(GLenum pname, GLint param) {

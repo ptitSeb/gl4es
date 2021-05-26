@@ -645,7 +645,7 @@ typedef struct {
     int func;
     ARGS_void_GLboolean args;
 } INDEXED_void_GLboolean;
-typedef void (*FUNC_void_GLclampf_GLclampf)(GLclampf near, GLclampf far);
+typedef void (*FUNC_void_GLclampf_GLclampf)(GLclampf Near, GLclampf Far);
 typedef struct {
     GLclampf a1;
     GLclampf a2;
@@ -659,7 +659,7 @@ typedef struct {
     int func;
     ARGS_void_GLclampf_GLclampf args;
 } INDEXED_void_GLclampf_GLclampf;
-typedef void (*FUNC_void_GLclampx_GLclampx)(GLclampx near, GLclampx far);
+typedef void (*FUNC_void_GLclampx_GLclampx)(GLclampx Near, GLclampx Far);
 typedef struct {
     GLclampx a1;
     GLclampx a2;
@@ -862,7 +862,7 @@ typedef struct {
     int func;
     ARGS_void_GLenum_GLenum_GLenum_GLuint_GLint args;
 } INDEXED_void_GLenum_GLenum_GLenum_GLuint_GLint;
-typedef void (*FUNC_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat)(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far);
+typedef void (*FUNC_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat)(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat Near, GLfloat Far);
 typedef struct {
     GLfloat a1;
     GLfloat a2;
@@ -880,7 +880,7 @@ typedef struct {
     int func;
     ARGS_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat args;
 } INDEXED_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat;
-typedef void (*FUNC_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed)(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far);
+typedef void (*FUNC_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed)(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed Near, GLfixed Far);
 typedef struct {
     GLfixed a1;
     GLfixed a2;
@@ -2304,15 +2304,15 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 #define glDepthMask_FORMAT FORMAT_void_GLboolean
 #define glDepthRangef_INDEX 48
 #define glDepthRangef_RETURN void
-#define glDepthRangef_ARG_NAMES near, far
-#define glDepthRangef_ARG_EXPAND GLclampf near, GLclampf far
+#define glDepthRangef_ARG_NAMES Near, Far
+#define glDepthRangef_ARG_EXPAND GLclampf Near, GLclampf Far
 #define glDepthRangef_PACKED PACKED_void_GLclampf_GLclampf
 #define glDepthRangef_INDEXED INDEXED_void_GLclampf_GLclampf
 #define glDepthRangef_FORMAT FORMAT_void_GLclampf_GLclampf
 #define glDepthRangex_INDEX 49
 #define glDepthRangex_RETURN void
-#define glDepthRangex_ARG_NAMES near, far
-#define glDepthRangex_ARG_EXPAND GLclampx near, GLclampx far
+#define glDepthRangex_ARG_NAMES Near, Far
+#define glDepthRangex_ARG_EXPAND GLclampx Near, GLclampx Far
 #define glDepthRangex_PACKED PACKED_void_GLclampx_GLclampx
 #define glDepthRangex_INDEXED INDEXED_void_GLclampx_GLclampx
 #define glDepthRangex_FORMAT FORMAT_void_GLclampx_GLclampx
@@ -2486,15 +2486,15 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 #define glFrontFace_FORMAT FORMAT_void_GLenum
 #define glFrustumf_INDEX 74
 #define glFrustumf_RETURN void
-#define glFrustumf_ARG_NAMES left, right, bottom, top, near, far
-#define glFrustumf_ARG_EXPAND GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far
+#define glFrustumf_ARG_NAMES left, right, bottom, top, Near, Far
+#define glFrustumf_ARG_EXPAND GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat Near, GLfloat Far
 #define glFrustumf_PACKED PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat
 #define glFrustumf_INDEXED INDEXED_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat
 #define glFrustumf_FORMAT FORMAT_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat
 #define glFrustumx_INDEX 75
 #define glFrustumx_RETURN void
-#define glFrustumx_ARG_NAMES left, right, bottom, top, near, far
-#define glFrustumx_ARG_EXPAND GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far
+#define glFrustumx_ARG_NAMES left, right, bottom, top, Near, Far
+#define glFrustumx_ARG_EXPAND GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed Near, GLfixed Far
 #define glFrustumx_PACKED PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed
 #define glFrustumx_INDEXED INDEXED_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed
 #define glFrustumx_FORMAT FORMAT_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed
@@ -3067,15 +3067,15 @@ packed_call_t* glCopyPackedCall(const packed_call_t *packed);
 #define glNormalPointer_FORMAT FORMAT_void_GLenum_GLsizei_const_GLvoid___GENPT__
 #define glOrthof_INDEX 157
 #define glOrthof_RETURN void
-#define glOrthof_ARG_NAMES left, right, bottom, top, near, far
-#define glOrthof_ARG_EXPAND GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far
+#define glOrthof_ARG_NAMES left, right, bottom, top, Near, Far
+#define glOrthof_ARG_EXPAND GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat Near, GLfloat Far
 #define glOrthof_PACKED PACKED_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat
 #define glOrthof_INDEXED INDEXED_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat
 #define glOrthof_FORMAT FORMAT_void_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat_GLfloat
 #define glOrthox_INDEX 158
 #define glOrthox_RETURN void
-#define glOrthox_ARG_NAMES left, right, bottom, top, near, far
-#define glOrthox_ARG_EXPAND GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed near, GLfixed far
+#define glOrthox_ARG_NAMES left, right, bottom, top, Near, Far
+#define glOrthox_ARG_EXPAND GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed Near, GLfixed Far
 #define glOrthox_PACKED PACKED_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed
 #define glOrthox_INDEXED INDEXED_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed
 #define glOrthox_FORMAT FORMAT_void_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed_GLfixed
@@ -4648,22 +4648,22 @@ typedef void (* APIENTRY_GLES glViewport_PTR)(glViewport_ARG_EXPAND);
 }
 #endif
 #ifndef direct_glDepthRangef
-#define push_glDepthRangef(near, far) { \
+#define push_glDepthRangef(Near, Far) { \
     glDepthRangef_PACKED *packed_data = malloc(sizeof(glDepthRangef_PACKED)); \
     packed_data->format = glDepthRangef_FORMAT; \
     packed_data->func = gl4es_glDepthRangef; \
-    packed_data->args.a1 = (GLclampf)near; \
-    packed_data->args.a2 = (GLclampf)far; \
+    packed_data->args.a1 = (GLclampf)Near; \
+    packed_data->args.a2 = (GLclampf)Far; \
     glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glDepthRangex
-#define push_glDepthRangex(near, far) { \
+#define push_glDepthRangex(Near, Far) { \
     glDepthRangex_PACKED *packed_data = malloc(sizeof(glDepthRangex_PACKED)); \
     packed_data->format = glDepthRangex_FORMAT; \
     packed_data->func = gl4es_glDepthRangex; \
-    packed_data->args.a1 = (GLclampx)near; \
-    packed_data->args.a2 = (GLclampx)far; \
+    packed_data->args.a1 = (GLclampx)Near; \
+    packed_data->args.a2 = (GLclampx)Far; \
     glPushCall((void *)packed_data); \
 }
 #endif
@@ -4910,7 +4910,7 @@ typedef void (* APIENTRY_GLES glViewport_PTR)(glViewport_ARG_EXPAND);
 }
 #endif
 #ifndef direct_glFrustumf
-#define push_glFrustumf(left, right, bottom, top, near, far) { \
+#define push_glFrustumf(left, right, bottom, top, Near, Far) { \
     glFrustumf_PACKED *packed_data = malloc(sizeof(glFrustumf_PACKED)); \
     packed_data->format = glFrustumf_FORMAT; \
     packed_data->func = gl4es_glFrustumf; \
@@ -4918,13 +4918,13 @@ typedef void (* APIENTRY_GLES glViewport_PTR)(glViewport_ARG_EXPAND);
     packed_data->args.a2 = (GLfloat)right; \
     packed_data->args.a3 = (GLfloat)bottom; \
     packed_data->args.a4 = (GLfloat)top; \
-    packed_data->args.a5 = (GLfloat)near; \
-    packed_data->args.a6 = (GLfloat)far; \
+    packed_data->args.a5 = (GLfloat)Near; \
+    packed_data->args.a6 = (GLfloat)Far; \
     glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glFrustumx
-#define push_glFrustumx(left, right, bottom, top, near, far) { \
+#define push_glFrustumx(left, right, bottom, top, Near, Far) { \
     glFrustumx_PACKED *packed_data = malloc(sizeof(glFrustumx_PACKED)); \
     packed_data->format = glFrustumx_FORMAT; \
     packed_data->func = gl4es_glFrustumx; \
@@ -4932,8 +4932,8 @@ typedef void (* APIENTRY_GLES glViewport_PTR)(glViewport_ARG_EXPAND);
     packed_data->args.a2 = (GLfixed)right; \
     packed_data->args.a3 = (GLfixed)bottom; \
     packed_data->args.a4 = (GLfixed)top; \
-    packed_data->args.a5 = (GLfixed)near; \
-    packed_data->args.a6 = (GLfixed)far; \
+    packed_data->args.a5 = (GLfixed)Near; \
+    packed_data->args.a6 = (GLfixed)Far; \
     glPushCall((void *)packed_data); \
 }
 #endif
@@ -5792,7 +5792,7 @@ typedef void (* APIENTRY_GLES glViewport_PTR)(glViewport_ARG_EXPAND);
 }
 #endif
 #ifndef direct_glOrthof
-#define push_glOrthof(left, right, bottom, top, near, far) { \
+#define push_glOrthof(left, right, bottom, top, Near, Far) { \
     glOrthof_PACKED *packed_data = malloc(sizeof(glOrthof_PACKED)); \
     packed_data->format = glOrthof_FORMAT; \
     packed_data->func = gl4es_glOrthof; \
@@ -5800,13 +5800,13 @@ typedef void (* APIENTRY_GLES glViewport_PTR)(glViewport_ARG_EXPAND);
     packed_data->args.a2 = (GLfloat)right; \
     packed_data->args.a3 = (GLfloat)bottom; \
     packed_data->args.a4 = (GLfloat)top; \
-    packed_data->args.a5 = (GLfloat)near; \
-    packed_data->args.a6 = (GLfloat)far; \
+    packed_data->args.a5 = (GLfloat)Near; \
+    packed_data->args.a6 = (GLfloat)Far; \
     glPushCall((void *)packed_data); \
 }
 #endif
 #ifndef direct_glOrthox
-#define push_glOrthox(left, right, bottom, top, near, far) { \
+#define push_glOrthox(left, right, bottom, top, Near, Far) { \
     glOrthox_PACKED *packed_data = malloc(sizeof(glOrthox_PACKED)); \
     packed_data->format = glOrthox_FORMAT; \
     packed_data->func = gl4es_glOrthox; \
@@ -5814,8 +5814,8 @@ typedef void (* APIENTRY_GLES glViewport_PTR)(glViewport_ARG_EXPAND);
     packed_data->args.a2 = (GLfixed)right; \
     packed_data->args.a3 = (GLfixed)bottom; \
     packed_data->args.a4 = (GLfixed)top; \
-    packed_data->args.a5 = (GLfixed)near; \
-    packed_data->args.a6 = (GLfixed)far; \
+    packed_data->args.a5 = (GLfixed)Near; \
+    packed_data->args.a6 = (GLfixed)Far; \
     glPushCall((void *)packed_data); \
 }
 #endif
