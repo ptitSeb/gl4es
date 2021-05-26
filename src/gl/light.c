@@ -147,7 +147,6 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
         } else gl4es_flush();
 
     GLfloat tmp[4];
-    GLfloat mtmp[16];
     noerrorShim();
     switch(pname) {
         case GL_AMBIENT:

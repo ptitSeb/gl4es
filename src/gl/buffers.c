@@ -65,7 +65,6 @@ glbuffer_t* getbuffer_id(GLuint buffer) {
     if(!buffer)
         return NULL;
     khint_t k;
-    int ret;
     khash_t(buff) *list = glstate->buffers;
     k = kh_get(buff, list, buffer);
     if (k == kh_end(list))
@@ -288,7 +287,7 @@ void gl4es_glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, cons
         gles_glBufferSubData(target, offset, size, data);
     }
         
-    memcpy(buff->data + offset, data, size);
+    memcpy((char*)buff->data + offset, data, size);
     noerrorShim();
 }
 void gl4es_glNamedBufferSubData(GLuint buffer, GLintptr offset, GLsizeiptr size, const GLvoid * data) {
@@ -310,7 +309,7 @@ void gl4es_glNamedBufferSubData(GLuint buffer, GLintptr offset, GLsizeiptr size,
         bindBuffer(buff->type, buff->real_buffer);
         gles_glBufferSubData(buff->type, offset, size, data);
     }
-    memcpy(buff->data + offset, data, size);
+    memcpy((char*)buff->data + offset, data, size);
     noerrorShim();
 }
 
@@ -548,7 +547,7 @@ void gl4es_glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, G
 	if (buff==NULL)
 		return;		// Should generate an error!
 	// TODO, check parameter consistancie
-    memcpy(data, buff->data+offset, size);
+    memcpy(data, (char*)buff->data+offset, size);
 	noerrorShim();
 }
 void gl4es_glGetNamedBufferSubData(GLuint buffer, GLintptr offset, GLsizeiptr size, GLvoid * data) {
@@ -558,7 +557,7 @@ void gl4es_glGetNamedBufferSubData(GLuint buffer, GLintptr offset, GLsizeiptr si
 	if (buff==NULL)
 		return;		// Should generate an error!
 	// TODO, check parameter consistancie
-    memcpy(data, buff->data+offset, size);
+    memcpy(data, (char*)buff->data+offset, size);
 	noerrorShim();
 }
 
@@ -667,11 +666,11 @@ void gl4es_glCopyBufferSubData(GLenum readTarget, GLenum writeTarget, GLintptr r
         return;
     }
     // TODO: check memory overlap and overread/overwrite
-    memcpy(writebuff->data+writeOffset, readbuff->data+readOffset, size);
+    memcpy((char*)writebuff->data+writeOffset, (char*)readbuff->data+readOffset, size);
     if(writebuff->real_buffer && (writebuff->type==GL_ARRAY_BUFFER || writebuff->type==GL_ELEMENT_ARRAY_BUFFER) && writebuff->mapped && (writebuff->access==GL_WRITE_ONLY || writebuff->access==GL_READ_WRITE)) {
         LOAD_GLES(glBufferSubData);
         bindBuffer(writebuff->type, writebuff->real_buffer);
-        gles_glBufferSubData(writebuff->type, writeOffset, size, writebuff->data+writeOffset);
+        gles_glBufferSubData(writebuff->type, writeOffset, size, (char*)writebuff->data+writeOffset);
     }
     noerrorShim();
 }

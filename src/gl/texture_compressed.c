@@ -200,7 +200,7 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
     glstate->vao->unpack = NULL;
     GLvoid *datab = (GLvoid*)data;
     if (unpack)
-        datab += (uintptr_t)unpack->data;
+        datab = (char*) + (uintptr_t)unpack->data;
     
     GLenum format = GL_RGBA;
     GLenum type = GL_UNSIGNED_BYTE;
@@ -243,7 +243,7 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
                 pixels = malloc(4*width*height);
                 // crop
                 for (int y=0; y<height; y++)
-                    memcpy(pixels+y*width*4, tmp+y*nw*4, width*4);
+                    memcpy((char*)pixels+y*width*4, (char*)tmp+y*nw*4, width*4);
                 free(tmp);
             } else {
                 pixels = uncompressDXTc(width, height, internalformat, imageSize, transparent0, &simpleAlpha, &complexAlpha, datab);
@@ -359,7 +359,7 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
     glstate->vao->unpack = NULL;
     GLvoid *datab = (GLvoid*)data;
     if (unpack)
-        datab += (uintptr_t)unpack->data;
+        datab = (char*)datab + (uintptr_t)unpack->data;
     LOAD_GLES(glCompressedTexSubImage2D);
     errorGL();
     int simpleAlpha = 0;
@@ -382,7 +382,7 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
             pixels = malloc(4*width*height);
             // crop
             for (int y=0; y<height; y++)
-                memcpy(pixels+y*width*4, tmp+y*nw*4, width*4);
+                memcpy((char*)pixels+y*width*4, (char*)tmp+y*nw*4, width*4);
             free(tmp);
         } else {
             pixels = uncompressDXTc(width, height, format, imageSize, transparent0, &simpleAlpha, &complexAlpha, datab);
@@ -435,7 +435,7 @@ void gl4es_glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img) {
     glstate->vao->pack = NULL;
     GLvoid *datab = (GLvoid*)img;
     if (pack)
-        datab += (uintptr_t)pack->data;
+        datab = (char*)datab + (uintptr_t)pack->data;
 
     // alloc the memory for source image and grab the file
     GLuint *src = (GLuint*)malloc(width*height*4);
@@ -456,7 +456,7 @@ void gl4es_glGetCompressedTexImage(GLenum target, GLint lod, GLvoid *img) {
                 }
             }
             stb_compress_dxt_block((unsigned char*)datab, (const unsigned char*)tmp, ralpha, STB_DXT_NORMAL);
-            datab+=8*(ralpha+1);
+            datab = (char*)datab + 8*(ralpha+1);
     }
     free(src);
 

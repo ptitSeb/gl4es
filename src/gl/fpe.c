@@ -470,7 +470,6 @@ program_t* fpe_CustomShader(program_t* glprogram, fpe_state_t* state)
         // now find the program
         khint_t k_program;
         {
-            int ret;
             khash_t(programlist) *programs = glstate->glsl->programs;
             k_program = kh_get(programlist, programs, fpe->prog);
             if (k_program != kh_end(programs))
@@ -548,7 +547,6 @@ program_t* fpe_CustomShader_DefaultVertex(program_t* glprogram, fpe_state_t* sta
         // now find the program
         khint_t k_program;
         {
-            int ret;
             khash_t(programlist) *programs = glstate->glsl->programs;
             k_program = kh_get(programlist, programs, fpe->prog);
             if (k_program != kh_end(programs))
@@ -800,7 +798,7 @@ void fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *i
     realize_glenv(mode==GL_POINTS, 0, count, type, indices, &scratch);
     LOAD_GLES(glDrawElements);
     int use_vbo = 0;
-    if(glstate->vao->elements && glstate->vao->elements->real_buffer && indices>=glstate->vao->elements->data && indices<=(glstate->vao->elements->data+glstate->vao->elements->size)) {
+    if(glstate->vao->elements && glstate->vao->elements->real_buffer && indices>=glstate->vao->elements->data && indices<=((void*)((char*)glstate->vao->elements->data+glstate->vao->elements->size))) {
         use_vbo = 1;
         bindBuffer(GL_ELEMENT_ARRAY_BUFFER, glstate->vao->elements->real_buffer);
         indices = (GLvoid*)((uintptr_t)indices - (uintptr_t)(glstate->vao->elements->data));
@@ -872,7 +870,7 @@ void fpe_glDrawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const 
     int use_vbo = 0;
     void* inds;
     GLfloat tmp[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-    if(glstate->vao->elements && glstate->vao->elements->real_buffer && indices>=glstate->vao->elements->data && indices<=(glstate->vao->elements->data+glstate->vao->elements->size)) {
+    if(glstate->vao->elements && glstate->vao->elements->real_buffer && indices>=glstate->vao->elements->data && indices<=((void*)((char*)glstate->vao->elements->data+glstate->vao->elements->size))) {
         use_vbo = 1;
         bindBuffer(GL_ELEMENT_ARRAY_BUFFER, glstate->vao->elements->real_buffer);
         inds = (void*)((uintptr_t)indices - (uintptr_t)(glstate->vao->elements->data));
@@ -1217,7 +1215,6 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
     {
         for (int i=0; i<MAX_LIGHT; i++) {
             if(glprogram->builtin_lights[i].has) {
-               GLfloat tmp[4];
                GoUniformfv(glprogram, glprogram->builtin_lights[i].ambient, 4, 1, glstate->light.lights[i].ambient);
                GoUniformfv(glprogram, glprogram->builtin_lights[i].diffuse, 4, 1, glstate->light.lights[i].diffuse);
                GoUniformfv(glprogram, glprogram->builtin_lights[i].specular, 4, 1, glstate->light.lights[i].specular);
@@ -1448,7 +1445,7 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                         v->type = GL_FLOAT;
                         v->normalized = 0;
                         v->pointer = scratch->scratch[scratch->size++] = copy_gl_pointer_color_bgra(ptr, w->stride, 4, imin, imax);
-                        v->pointer -= imin*4*sizeof(GLfloat);   // adjust for min...
+                        v->pointer = (char*)v->pointer - imin*4*sizeof(GLfloat);   // adjust for min...
                         v->stride = 0;
                         v->buffer = NULL;
                         v->real_buffer = 0;

@@ -362,7 +362,6 @@ DBG(printf("glPopAttrib()\n");)
         enable_disable(GL_COLOR_LOGIC_OP, cur->color_logic_op);
         gl4es_glLogicOp(cur->logic_op);
 
-        GLfloat *c;
         gl4es_glClearColor(v4(cur->clear_color));
         gl4es_glColorMask(v4(cur->color_mask));
     }

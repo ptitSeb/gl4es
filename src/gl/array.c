@@ -177,7 +177,7 @@ GLvoid *copy_gl_array_convert(const GLvoid *src,
 
     if(to==from && width==to_width && stride==(to_width * gl_sizeof(to))) {
         if(!dst) dst = malloc((count-skip) * stride);
-        memcpy(dst, src+stride*skip, (count-skip)*stride);
+        memcpy(dst, (char*)src+stride*skip, (count-skip)*stride);
         return dst;
     }
 

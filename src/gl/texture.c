@@ -942,7 +942,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
     GLvoid *datab = (GLvoid*)data;
     
     if (glstate->vao->unpack)
-        datab += (uintptr_t)glstate->vao->unpack->data;
+        datab = (char*)datab + (uintptr_t)glstate->vao->unpack->data;
         
     GLvoid *pixels = (GLvoid *)datab;
     border = 0;	//TODO: something?
@@ -1535,7 +1535,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
     
     GLvoid *datab = (GLvoid*)data;
     if (glstate->vao->unpack)
-        datab += (uintptr_t)glstate->vao->unpack->data;
+        datab = (char*)datab + (uintptr_t)glstate->vao->unpack->data;
     GLvoid *pixels = (GLvoid*)datab;
 
     const GLuint itarget = what_target(target);
@@ -1744,8 +1744,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
 
     if ((target==GL_TEXTURE_2D) && globals4es.texcopydata && ((globals4es.texstream && !bound->streamed) || !globals4es.texstream)) {
     //printf("*texcopy* glTexSubImage2D, xy=%i,%i, size=%i,%i=>%i,%i, format=%s, type=%s, tex=%u\n", xoffset, yoffset, width, height, bound->width, bound->height, PrintEnum(format), PrintEnum(type), bound->glname);
-        GLvoid * tmp = bound->data;
-        tmp += (yoffset*bound->width + xoffset)*4;
+        GLvoid * tmp = (char*)bound->data + (yoffset*bound->width + xoffset)*4;
         if (!pixel_convert(pixels, &tmp, width, height, format, type, GL_RGBA, GL_UNSIGNED_BYTE, bound->width, glstate->texture.unpack_align))
             printf("LIBGL: Error on pixel_convert while TEXCOPY in glTexSubImage2D\n");
     }
@@ -1779,7 +1778,6 @@ GLboolean gl4es_glIsTexture(GLuint texture) {
         DBG(printf("%s\n", glstate->texture.zero->valid?"GL_TRUE":"GL_FALSE");)
         return glstate->texture.zero->valid;
     }
-    int ret;
     khint_t k;
     khash_t(tex) *list = glstate->texture.list;
     if (! list) {

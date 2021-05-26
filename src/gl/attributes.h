@@ -21,6 +21,9 @@
 
 // ensure APIENTRY used from platform if it defined, win32 should use STDCALL conversion
 #include <GLES/glplatform.h>
+#ifndef NOEGL
+#include <EGL/eglplatform.h>
+#endif
 
 #ifndef APIENTRY
 #define APIENTRY

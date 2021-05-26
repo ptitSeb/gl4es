@@ -20,7 +20,6 @@
 KHASH_MAP_IMPL_INT(samplerlist_t, glsampler_t *);
 
 GLuint new_sampler(GLuint base) {
-    int ret;
     khint_t k;
     khash_t(samplerlist_t) *list = glstate->samplers.samplerlist;
     while(1) {
@@ -32,7 +31,6 @@ GLuint new_sampler(GLuint base) {
 }
 
 glsampler_t* find_sampler(GLuint sampler) {
-    int ret;
     khint_t k;
     khash_t(samplerlist_t) *list = glstate->samplers.samplerlist;
     k = kh_get(samplerlist_t, list, sampler);
@@ -44,7 +42,6 @@ glsampler_t* find_sampler(GLuint sampler) {
 }
 
 void del_sampler(GLuint sampler) {
-    int ret;
     khint_t k;
     khash_t(samplerlist_t) *list = glstate->samplers.samplerlist;
     k = kh_get(samplerlist_t, list, sampler);

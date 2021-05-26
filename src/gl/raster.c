@@ -310,7 +310,7 @@ void bitmap_flush() {
 		int alloc = 4*ex*ey;
 		gl4es_scratch(alloc);
 		for (int i=0; i<ey; i++)
-			memcpy(glstate->scratch+4*i*ex, glstate->raster.bitmap+4*(sx+(sy+i)*glstate->raster.bm_width), ex*4);
+			memcpy((char*)glstate->scratch+4*i*ex, (char*)glstate->raster.bitmap+4*(sx+(sy+i)*glstate->raster.bm_width), ex*4);
 		gl4es_glTexSubImage2D(GL_TEXTURE_2D, 0, sx, sy, ex, ey, GL_RGBA, GL_UNSIGNED_BYTE, glstate->scratch);
 	}
 
@@ -509,7 +509,6 @@ void gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum format,
     }
 					  
     pixels = (GLubyte *)dst;
-	GLint vx, vy;
 	int pixtrans=raster_need_transform();
 
     if (pixtrans) {
