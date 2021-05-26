@@ -12,7 +12,7 @@ Complex OpenGL 1.5 games, like Foobillard++, that uses cascaded display list, li
 
 The limit is an hardware one: GLES1.1 and GLES2.0 hardware do not allow reading Depth buffer, so some games that use it (like AssaultCube) for game play wont run correctly. Some FPS are using it just for cosmetics (Lens flare) and run fine without, like Serious Sam (both First and Second Encounter), here on the OpenPandora again.
 
-![AssaultCube on Android](media/assaultcuble.jpg)
+![AssaultCube on Android](media/assaultcube.jpg)
 AssaultCube an Android also use gl4es for the rendering
 
 
