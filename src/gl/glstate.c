@@ -108,9 +108,9 @@ void* NewGLState(void* shared_glstate, int es2only) {
     for (int i=0; i<MAX_TEX; ++i)
         glstate->texcoord[i] = glstate->vavalue[ATT_MULTITEXCOORD0+i];
     // set specifics default
-	GLfloat white[] = {1.0f, 1.0f, 1.0f, 1.0f};
-	memcpy(glstate->color, white, sizeof(GLfloat)*4);
-	glstate->shim_error = GL_NO_ERROR;
+    GLfloat white[] = {1.0f, 1.0f, 1.0f, 1.0f};
+    memcpy(glstate->color, white, sizeof(GLfloat)*4);
+    glstate->shim_error = GL_NO_ERROR;
     glstate->normal[2] = 1.0f; // default normal is 0/0/1
     glstate->matrix_mode = GL_MODELVIEW;
     

@@ -679,7 +679,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
           state = 0; // separator
         else      
           state = 3;
-          break;
+        break;
     }
     newptr++;
   }

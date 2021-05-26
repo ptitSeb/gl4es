@@ -1174,11 +1174,11 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                     if(toshrink==1) {
                         pixel_halfscale(pixels, &out, width, height, format, type);
                         if(!bound->valid)
-                            bound->ratiox *= 0.5f; bound->ratioy *= 0.5f;
+                            { bound->ratiox *= 0.5f; bound->ratioy *= 0.5f; }
                     } else {
                         pixel_quarterscale(pixels, &out, width, height, format, type);
                         if(!bound->valid)
-                            bound->ratiox *= 0.25f; bound->ratioy *= 0.25f;
+                            { bound->ratiox *= 0.25f; bound->ratioy *= 0.25f; }
                     }
                     if (out != pixels && pixels!=datab)
                         free(pixels);

@@ -219,65 +219,65 @@ _math_de_casteljau_surf(GLfloat * cn, GLfloat * out, GLfloat * du,
                 out[k] = us * (vs * CN(0, 0, k) + v * CN(0, 1, k)) +
                     u * (vs * CN(1, 0, k) + v * CN(1, 1, k));
             }
-    } else if (minorder == uorder) {
-        for (k = 0; k < dim; k++) {
-            /* bilinear de Casteljau step */
-            DCN(1, 0) = CN(1, 0, k) - CN(0, 0, k);
-            DCN(0, 0) = us * CN(0, 0, k) + u * CN(1, 0, k);
+        } else if (minorder == uorder) {
+            for (k = 0; k < dim; k++) {
+                /* bilinear de Casteljau step */
+                DCN(1, 0) = CN(1, 0, k) - CN(0, 0, k);
+                DCN(0, 0) = us * CN(0, 0, k) + u * CN(1, 0, k);
 
-            for (j = 0; j < vorder - 1; j++) {
-                /* for the derivative in u */
-                DCN(1, j + 1) = CN(1, j + 1, k) - CN(0, j + 1, k);
-                DCN(1, j) = vs * DCN(1, j) + v * DCN(1, j + 1);
+                for (j = 0; j < vorder - 1; j++) {
+                    /* for the derivative in u */
+                    DCN(1, j + 1) = CN(1, j + 1, k) - CN(0, j + 1, k);
+                    DCN(1, j) = vs * DCN(1, j) + v * DCN(1, j + 1);
 
-                /* for the `point' */
-                DCN(0, j + 1) = us * CN(0, j + 1, k) + u * CN(1, j + 1, k);
-                DCN(0, j) = vs * DCN(0, j) + v * DCN(0, j + 1);
-            }
-
-            /* remaining linear de Casteljau steps until the second last step */
-            for (h = minorder; h < vorder - 1; h++)
-                for (j = 0; j < vorder - h; j++) {
-                /* for the derivative in u */
-                DCN(1, j) = vs * DCN(1, j) + v * DCN(1, j + 1);
-
-                /* for the `point' */
-                DCN(0, j) = vs * DCN(0, j) + v * DCN(0, j + 1);
-            }
-
-            /* derivative direction in v */
-            dv[k] = DCN(0, 1) - DCN(0, 0);
-
-            /* derivative direction in u */
-            du[k] = vs * DCN(1, 0) + v * DCN(1, 1);
-
-            /* last linear de Casteljau step */
-            out[k] = vs * DCN(0, 0) + v * DCN(0, 1);
-        }
-    } else {  /* minorder == vorder */
-        for (k = 0; k < dim; k++) {
-            /* bilinear de Casteljau step */
-            DCN(0, 1) = CN(0, 1, k) - CN(0, 0, k);
-            DCN(0, 0) = vs * CN(0, 0, k) + v * CN(0, 1, k);
-            for (i = 0; i < uorder - 1; i++) {
-                /* for the derivative in v */
-                DCN(i + 1, 1) = CN(i + 1, 1, k) - CN(i + 1, 0, k);
-                DCN(i, 1) = us * DCN(i, 1) + u * DCN(i + 1, 1);
-
-                /* for the `point' */
-                DCN(i + 1, 0) = vs * CN(i + 1, 0, k) + v * CN(i + 1, 1, k);
-                DCN(i, 0) = us * DCN(i, 0) + u * DCN(i + 1, 0);
-            }
-
-            /* remaining linear de Casteljau steps until the second last step */
-            for (h = minorder; h < uorder - 1; h++)
-                for (i = 0; i < uorder - h; i++) {
-                /* for the derivative in v */
-                DCN(i, 1) = us * DCN(i, 1) + u * DCN(i + 1, 1);
-
-                /* for the `point' */
-                DCN(i, 0) = us * DCN(i, 0) + u * DCN(i + 1, 0);
+                    /* for the `point' */
+                    DCN(0, j + 1) = us * CN(0, j + 1, k) + u * CN(1, j + 1, k);
+                    DCN(0, j) = vs * DCN(0, j) + v * DCN(0, j + 1);
                 }
+
+                /* remaining linear de Casteljau steps until the second last step */
+                for (h = minorder; h < vorder - 1; h++)
+                    for (j = 0; j < vorder - h; j++) {
+                        /* for the derivative in u */
+                        DCN(1, j) = vs * DCN(1, j) + v * DCN(1, j + 1);
+
+                        /* for the `point' */
+                        DCN(0, j) = vs * DCN(0, j) + v * DCN(0, j + 1);
+                    }
+
+                /* derivative direction in v */
+                dv[k] = DCN(0, 1) - DCN(0, 0);
+
+                /* derivative direction in u */
+                du[k] = vs * DCN(1, 0) + v * DCN(1, 1);
+
+                /* last linear de Casteljau step */
+                out[k] = vs * DCN(0, 0) + v * DCN(0, 1);
+            }
+        } else {  /* minorder == vorder */
+            for (k = 0; k < dim; k++) {
+                /* bilinear de Casteljau step */
+                DCN(0, 1) = CN(0, 1, k) - CN(0, 0, k);
+                DCN(0, 0) = vs * CN(0, 0, k) + v * CN(0, 1, k);
+                for (i = 0; i < uorder - 1; i++) {
+                    /* for the derivative in v */
+                    DCN(i + 1, 1) = CN(i + 1, 1, k) - CN(i + 1, 0, k);
+                    DCN(i, 1) = us * DCN(i, 1) + u * DCN(i + 1, 1);
+
+                    /* for the `point' */
+                    DCN(i + 1, 0) = vs * CN(i + 1, 0, k) + v * CN(i + 1, 1, k);
+                    DCN(i, 0) = us * DCN(i, 0) + u * DCN(i + 1, 0);
+                }
+
+                /* remaining linear de Casteljau steps until the second last step */
+                for (h = minorder; h < uorder - 1; h++)
+                    for (i = 0; i < uorder - h; i++) {
+                        /* for the derivative in v */
+                        DCN(i, 1) = us * DCN(i, 1) + u * DCN(i + 1, 1);
+
+                        /* for the `point' */
+                        DCN(i, 0) = us * DCN(i, 0) + u * DCN(i + 1, 0);
+                    }
 
                 /* derivative direction in u */
                 du[k] = DCN(1, 0) - DCN(0, 0);
@@ -361,7 +361,7 @@ _math_de_casteljau_surf(GLfloat * cn, GLfloat * out, GLfloat * du,
                 for (j = 0; j < vorder - h; j++) {
                     /* for the derivative in u */
                     DCN(2, j) = vs * DCN(2, j) + v * DCN(2, j + 1);
-        
+
                     /* for the `point' */
                     DCN(0, j) = vs * DCN(0, j) + v * DCN(0, j + 1);
                 }

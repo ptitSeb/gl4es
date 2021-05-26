@@ -88,7 +88,7 @@ void tex_coord_matrix(GLfloat *tex, GLsizei len, const GLfloat* mat) {
  * Apply texture matrix if not identity 
  * Or some NPOT texture used
  */
-int inline tex_setup_needchange(GLuint itarget) {
+int tex_setup_needchange(GLuint itarget) {
     if(hardext.esversion>1) return 0; // no text ajustement on ES2
 
     GLuint texunit = glstate->texture.client;

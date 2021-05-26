@@ -64,9 +64,9 @@ glbuffer_t* getbuffer_buffer(GLenum target) {
 glbuffer_t* getbuffer_id(GLuint buffer) {
     if(!buffer)
         return NULL;
-   	khint_t k;
-   	int ret;
-	khash_t(buff) *list = glstate->buffers;
+    khint_t k;
+    int ret;
+    khash_t(buff) *list = glstate->buffers;
     k = kh_get(buff, list, buffer);
     if (k == kh_end(list))
         return NULL;
@@ -437,8 +437,8 @@ void *gl4es_glMapBuffer(GLenum target, GLenum access) {
     if(target==GL_ARRAY_BUFFER)
         VaoSharedClear(glstate->vao);
 
-	glbuffer_t *buff = getbuffer_buffer(target);
-	if (buff==NULL) {
+    glbuffer_t *buff = getbuffer_buffer(target);
+    if (buff==NULL) {
         errorShim(GL_INVALID_VALUE);
 		return NULL;
     }
@@ -484,8 +484,8 @@ GLboolean gl4es_glUnmapBuffer(GLenum target) {
     if(target==GL_ARRAY_BUFFER)
         VaoSharedClear(glstate->vao);
         
-	glbuffer_t *buff = getbuffer_buffer(target);
-	if (buff==NULL) {
+    glbuffer_t *buff = getbuffer_buffer(target);
+    if (buff==NULL) {
         errorShim(GL_INVALID_VALUE);
 		return GL_FALSE;
     }
@@ -635,7 +635,7 @@ void gl4es_glFlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr l
     if(target==GL_ARRAY_BUFFER)
         VaoSharedClear(glstate->vao);
 
-	glbuffer_t *buff = getbuffer_buffer(target);
+    glbuffer_t *buff = getbuffer_buffer(target);
     if(!buff) {
         errorShim(GL_INVALID_VALUE);
         return;

@@ -40,7 +40,7 @@ static GLboolean is_cache_compatible(GLsizei count) {
     return GL_TRUE;
 }
 
-static GLboolean is_list_compatible(renderlist_t* list) {
+GLboolean is_list_compatible(renderlist_t* list) {
     #define T2(AA, A, B) \
     if(glstate->vao->AA!=(list->B!=NULL)) return GL_FALSE;
     #define TEST(A,B) T2(vertexattrib[A].enabled, A, B)
@@ -62,8 +62,8 @@ static GLboolean is_list_compatible(renderlist_t* list) {
     return GL_TRUE;
 }
 
-static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
-                                        GLsizei skip, GLsizei count) {
+renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
+                                   GLsizei skip, GLsizei count) {
     if (! list)
         list = alloc_renderlist();
     DBG(LOGD("arrary_to_renderlist, compiling=%d, skip=%d, count=%d\n", glstate->list.compiling, skip, count);)
@@ -142,7 +142,7 @@ static renderlist_t *arrays_to_renderlist(renderlist_t *list, GLenum mode,
                     glstate->vao->secondary.ptr = copy_gl_pointer_color_bgra(glstate->vao->vertexattrib[ATT_SECONDARY].pointer, glstate->vao->vertexattrib[ATT_SECONDARY].stride, 4, 0, count);
                 else
                     glstate->vao->secondary.ptr = copy_gl_pointer(&glstate->vao->vertexattrib[ATT_SECONDARY], 4, 0, count);		// alpha chanel is always 0 for secondary...
-                    list->secondary = glstate->vao->secondary.ptr + 4*skip;
+                list->secondary = glstate->vao->secondary.ptr + 4*skip;
             } else {
                 if(glstate->vao->vertexattrib[ATT_SECONDARY].size==GL_BGRA)
                     list->secondary = copy_gl_pointer_color_bgra(glstate->vao->vertexattrib[ATT_SECONDARY].pointer, glstate->vao->vertexattrib[ATT_SECONDARY].stride, 4, skip, count);
