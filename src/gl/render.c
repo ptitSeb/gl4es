@@ -139,7 +139,7 @@ void gl4es_glLoadName(GLuint name) {
     push_hit();
     if (glstate->namestack.top == 0)
         return;
-	glstate->namestack.names[glstate->namestack.top-1] = name;
+    glstate->namestack.names[glstate->namestack.top-1] = name;
 }
 
 void gl4es_glSelectBuffer(GLsizei size, GLuint *buffer) {
@@ -415,11 +415,12 @@ void select_glDrawElements(const vertexattrib_t* vtx, GLenum mode, GLuint count,
 					break;
 				case GL_TRIANGLE_FAN:
 					if (i>1) {
-						if (select_triangle_in_viewscreen(vert+sind[0]*4, vert+sind[(i-1)]*4, vert+sind[i]*4))
+						if (select_triangle_in_viewscreen(vert+sind[0]*4, vert+sind[(i-1)]*4, vert+sind[i]*4)) {
 							ZMinMax(&zmin, &zmax, vert+sind[0]*4);
 							ZMinMax(&zmin, &zmax, vert+sind[i-1]*4);
 							ZMinMax(&zmin, &zmax, vert+sind[i]*4);
 							FOUND();
+						}	
 					}
 					break;
 				default:
@@ -476,11 +477,12 @@ void select_glDrawElements(const vertexattrib_t* vtx, GLenum mode, GLuint count,
 					break;
 				case GL_TRIANGLE_FAN:
 					if (i>1) {
-						if (select_triangle_in_viewscreen(vert+iind[0]*4, vert+iind[(i-1)]*4, vert+iind[i]*4))
+						if (select_triangle_in_viewscreen(vert+iind[0]*4, vert+iind[(i-1)]*4, vert+iind[i]*4)) {
 							ZMinMax(&zmin, &zmax, vert+iind[0]*4);
 							ZMinMax(&zmin, &zmax, vert+iind[i-1]*4);
 							ZMinMax(&zmin, &zmax, vert+iind[i]*4);
 							FOUND();
+						}
 					}
 					break;
 				default:

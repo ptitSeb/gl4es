@@ -976,17 +976,17 @@ void gl4es_glPolygonMode(GLenum face, GLenum mode) {
             return;
         }
         else gl4es_flush();
-	switch(mode) {
-		case GL_LINE:
-		case GL_POINT:
-			glstate->polygon_mode = mode;
-			break;
-		case GL_FILL:
-			glstate->polygon_mode = 0;
-			break;
-		default:
-			glstate->polygon_mode = 0;
-	}
+    switch(mode) {
+	case GL_LINE:
+	case GL_POINT:
+		glstate->polygon_mode = mode;
+		break;
+	case GL_FILL:
+		glstate->polygon_mode = 0;
+		break;
+	default:
+		glstate->polygon_mode = 0;
+    }
 }
 void glPolygonMode(GLenum face, GLenum mode) AliasExport("gl4es_glPolygonMode");
 

@@ -11,33 +11,35 @@
 #include "matvec.h"
 #include "pixel.h"
 
+#undef min
+#undef max
 #define min(a, b)	((a)<b)?(a):(b)
 #define max(a, b)	((a)>(b))?(a):(b)
 
 void gl4es_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
     if (glstate->list.active)
         if (glstate->list.compiling) {
-			NewStage(glstate->list.active, STAGE_RASTER);
-			rlRasterOp(glstate->list.active, 1, x, y, z);
-			noerrorShim();
-			return;
-		} else gl4es_flush();
+		NewStage(glstate->list.active, STAGE_RASTER);
+		rlRasterOp(glstate->list.active, 1, x, y, z);
+		noerrorShim();
+		return;
+	} else gl4es_flush();
 
-	// Transform xyz coordinates with current modelview and projection matrix...
-	GLfloat glmatrix[16], projection[16], modelview[16];
-	GLfloat t[4], transl[4] = {x, y, z, 1.0f};
-	gl4es_glGetFloatv(GL_PROJECTION_MATRIX, glmatrix);
-	matrix_transpose(glmatrix, projection);
-	gl4es_glGetFloatv(GL_MODELVIEW_MATRIX, glmatrix);
-	matrix_transpose(glmatrix, modelview);
-	matrix_vector(modelview, transl, t);
-	matrix_vector(projection, t, transl);
-	GLfloat w2, h2;
-	w2=glstate->raster.viewport.width/2.0f;
-	h2=glstate->raster.viewport.height/2.0f;
-	glstate->raster.rPos.x = transl[0]*w2+w2;
-	glstate->raster.rPos.y = transl[1]*h2+h2;
-	glstate->raster.rPos.z = transl[2];
+    // Transform xyz coordinates with current modelview and projection matrix...
+    GLfloat glmatrix[16], projection[16], modelview[16];
+    GLfloat t[4], transl[4] = {x, y, z, 1.0f};
+    gl4es_glGetFloatv(GL_PROJECTION_MATRIX, glmatrix);
+    matrix_transpose(glmatrix, projection);
+    gl4es_glGetFloatv(GL_MODELVIEW_MATRIX, glmatrix);
+    matrix_transpose(glmatrix, modelview);
+    matrix_vector(modelview, transl, t);
+    matrix_vector(projection, t, transl);
+    GLfloat w2, h2;
+    w2=glstate->raster.viewport.width/2.0f;
+    h2=glstate->raster.viewport.height/2.0f;
+    glstate->raster.rPos.x = transl[0]*w2+w2;
+    glstate->raster.rPos.y = transl[1]*h2+h2;
+    glstate->raster.rPos.z = transl[2];
 }
 #if !defined(NO_EGL) && !defined(NOX11)
 void refreshMainFBO();
@@ -120,57 +122,57 @@ void popViewport() {
 void gl4es_glPixelZoom(GLfloat xfactor, GLfloat yfactor) {
     if (glstate->list.active)
         if (glstate->list.compiling) {
-			NewStage(glstate->list.active, STAGE_RASTER);
-			rlRasterOp(glstate->list.active, 3, xfactor, yfactor, 0.0f);
-			noerrorShim();
-			return;
-		} else gl4es_flush();
+		NewStage(glstate->list.active, STAGE_RASTER);
+		rlRasterOp(glstate->list.active, 3, xfactor, yfactor, 0.0f);
+		noerrorShim();
+		return;
+	} else gl4es_flush();
 
-	glstate->raster.raster_zoomx = xfactor;
-	glstate->raster.raster_zoomy = yfactor;
+    glstate->raster.raster_zoomx = xfactor;
+    glstate->raster.raster_zoomy = yfactor;
 //printf("LIBGL: glPixelZoom(%f, %f)\n", xfactor, yfactor);
 }
 
 void gl4es_glPixelTransferf(GLenum pname, GLfloat param) {
     if (glstate->list.active)
         if (glstate->list.compiling) {
-			NewStage(glstate->list.active, STAGE_RASTER);
-			rlRasterOp(glstate->list.active, pname|0x10000, param, 0.0f, 0.0f);
-			noerrorShim();
-			return;
-		} else gl4es_flush();
+		NewStage(glstate->list.active, STAGE_RASTER);
+		rlRasterOp(glstate->list.active, pname|0x10000, param, 0.0f, 0.0f);
+		noerrorShim();
+		return;
+	} else gl4es_flush();
 
 //printf("LIBGL: glPixelTransferf(%04x, %f)\n", pname, param);
-	switch(pname) {
-		case GL_RED_SCALE:
-			glstate->raster.raster_scale[0]=param;
-			break;
-		case GL_RED_BIAS:
-			glstate->raster.raster_bias[0]=param;
-			break;
-		case GL_GREEN_SCALE:
-		case GL_BLUE_SCALE:
-		case GL_ALPHA_SCALE:
-			glstate->raster.raster_scale[(pname-GL_GREEN_SCALE)/2+1]=param;
-			break;
-		case GL_GREEN_BIAS:
-		case GL_BLUE_BIAS:
-		case GL_ALPHA_BIAS:
-			glstate->raster.raster_bias[(pname-GL_GREEN_BIAS)/2+1]=param;
-			break;
-		case GL_INDEX_SHIFT:
-			glstate->raster.index_shift=param;
-			break;
-		case GL_INDEX_OFFSET:
-			glstate->raster.index_offset=param;
-			break;
-		case GL_MAP_COLOR:
-			glstate->raster.map_color=param?1:0;
-			break;
-		/*default:
-			printf("LIBGL: stubbed glPixelTransferf(%04x, %f)\n", pname, param);*/
+    switch(pname) {
+	case GL_RED_SCALE:
+		glstate->raster.raster_scale[0]=param;
+		break;
+	case GL_RED_BIAS:
+		glstate->raster.raster_bias[0]=param;
+		break;
+	case GL_GREEN_SCALE:
+	case GL_BLUE_SCALE:
+	case GL_ALPHA_SCALE:
+		glstate->raster.raster_scale[(pname-GL_GREEN_SCALE)/2+1]=param;
+		break;
+	case GL_GREEN_BIAS:
+	case GL_BLUE_BIAS:
+	case GL_ALPHA_BIAS:
+		glstate->raster.raster_bias[(pname-GL_GREEN_BIAS)/2+1]=param;
+		break;
+	case GL_INDEX_SHIFT:
+		glstate->raster.index_shift=param;
+		break;
+	case GL_INDEX_OFFSET:
+		glstate->raster.index_offset=param;
+		break;
+	case GL_MAP_COLOR:
+		glstate->raster.map_color=param?1:0;
+		break;
+	/*default:
+		printf("LIBGL: stubbed glPixelTransferf(%04x, %f)\n", pname, param);*/
 	// the other...
-	}
+    }
 }
 
 

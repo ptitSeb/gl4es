@@ -57,7 +57,7 @@ void generateVariablePre(sCurStatus *curStatusPtr, int vertex, char **error_msg,
 			}
 		} else {
 			for (size_t i = 0; i < varPtr->init.strings_count; ++i) {
-				sprintf(buf, "%ld", i);
+				sprintf(buf, "%zd", i);
 				APPEND_OUTPUT("\t", 1)
 				APPEND_OUTPUT2(varPtr->names[0])
 				APPEND_OUTPUT("[", 1)
