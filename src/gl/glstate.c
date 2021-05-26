@@ -295,7 +295,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     // Depth
     glstate->depth.func = GL_LESS;
     glstate->depth.mask = GL_TRUE;
-    glstate->depth.far  = 1.0f;
+    glstate->depth.Far  = 1.0f;
     glstate->depth.clear= 1.0f;
     // Face
     glstate->face.cull  = GL_BACK;
