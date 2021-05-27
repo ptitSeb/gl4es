@@ -25,17 +25,20 @@ void *open_lib(const char **names, const char *override) {
 
 
 #else
+#ifndef _WIN32
 // PATH_MAX
 #ifdef __linux__
 #include <linux/limits.h>
 #else
 #include <limits.h>
 #endif
+#endif
 #include "logs.h"
 #include "init.h"
 #include "envvars.h"
 
 void *gles = NULL, *egl = NULL, *bcm_host = NULL, *vcos = NULL, *gbm = NULL, *drm = NULL;
+#ifndef _WIN32
 #ifndef NO_GBM
 static const char *drm_lib[] = {
     "libdrm",
@@ -135,11 +138,19 @@ void *open_lib(const char **names, const char *override) {
     }
     return lib;
 }
+#else  // _WIN32
+void* open_lib(const wchar_t* envvar, const wchar_t* dll)
+{
+    const wchar_t* name = _wgetenv(envvar);
+    return LoadLibraryW(name?name:dll);
+}
+#endif
 
 void load_libs() {
     static int first = 1;
     if (! first) return;
     first = 0;
+#ifndef _WIN32
     const char *gles_override = GetEnvVar("LIBGL_GLES");
 #if defined(BCMHOST) && !defined(ANDROID)
     // optimistically try to load the raspberry pi libs
@@ -151,13 +162,18 @@ void load_libs() {
     }
 #endif
     gles = open_lib((globals4es.es==1)?gles_lib:gles2_lib, gles_override);
+#else
+    gles = open_lib(L"LIBGL_GLES", L"libGLESv2.dll");
+#endif
     WARN_NULL(gles);
 
 #ifdef NOEGL
     egl = gles;
-#else
+#elif !defined(_WIN32)
     const char *egl_override = GetEnvVar("LIBGL_EGL");
     egl = open_lib(egl_lib, egl_override);
+#else
+    egl = open_lib(L"LIBGL_EGL", L"libEGL.dll");
 #endif
     WARN_NULL(egl);
 

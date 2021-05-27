@@ -831,25 +831,25 @@ void gl4es_glProgramLocalParameters4fvEXT(GLenum target, GLuint index, GLsizei c
 }
 
 // Mappers for ARB_vertex_program
-void glProgramStringARB(GLenum target, GLenum format, GLsizei len, const GLvoid *string) AliasExport("gl4es_glProgramStringARB");
-void glBindProgramARB(GLenum target, GLuint program) AliasExport("gl4es_glBindProgramARB");
-void glDeleteProgramsARB(GLsizei n, const GLuint *programs) AliasExport("gl4es_glDeleteProgramsARB");
-void glGenProgramsARB(GLsizei n, GLuint *programs) AliasExport("gl4es_glGenProgramsARB");
-void glProgramEnvParameter4dARB(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) AliasExport("gl4es_glProgramEnvParameter4dARB");
-void glProgramEnvParameter4dvARB(GLenum target, GLuint index, const GLdouble *params) AliasExport("gl4es_glProgramEnvParameter4dvARB");
-void glProgramEnvParameter4fARB(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) AliasExport("gl4es_glProgramEnvParameter4fARB");
-void glProgramEnvParameter4fvARB(GLenum target, GLuint index, const GLfloat *params) AliasExport("gl4es_glProgramEnvParameter4fvARB");
-void glProgramLocalParameter4dARB(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w) AliasExport("gl4es_glProgramLocalParameter4dARB");
-void glProgramLocalParameter4dvARB(GLenum target, GLuint index, const GLdouble *params) AliasExport("gl4es_glProgramLocalParameter4dvARB");
-void glProgramLocalParameter4fARB(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) AliasExport("gl4es_glProgramLocalParameter4fARB");
-void glProgramLocalParameter4fvARB(GLenum target, GLuint index, const GLfloat *params) AliasExport("gl4es_glProgramLocalParameter4fvARB");
-void glGetProgramEnvParameterdvARB(GLenum target, GLuint index, GLdouble *params) AliasExport("gl4es_glGetProgramEnvParameterdvARB");
-void glGetProgramEnvParameterfvARB(GLenum target, GLuint index, GLfloat *params) AliasExport("gl4es_glGetProgramEnvParameterfvARB");
-void glGetProgramLocalParameterdvARB(GLenum target, GLuint index, GLdouble *params) AliasExport("gl4es_glGetProgramLocalParameterdvARB");
-void glGetProgramLocalParameterfvARB(GLenum target, GLuint index, GLfloat *params) AliasExport("gl4es_glGetProgramLocalParameterfvARB");
-void glGetProgramivARB(GLenum target, GLenum pname, GLint *params) AliasExport("gl4es_glGetProgramivARB");
-void glGetProgramStringARB(GLenum target, GLenum pname, GLvoid *string) AliasExport("gl4es_glGetProgramStringARB");
-GLboolean glIsProgramARB(GLuint program) AliasExport("gl4es_glIsProgramARB");
+AliasExport(void,glProgramStringARB,,(GLenum target, GLenum format, GLsizei len, const GLvoid *string));
+AliasExport(void,glBindProgramARB,,(GLenum target, GLuint program));
+AliasExport(void,glDeleteProgramsARB,,(GLsizei n, const GLuint *programs));
+AliasExport(void,glGenProgramsARB,,(GLsizei n, GLuint *programs));
+AliasExport(void,glProgramEnvParameter4dARB,,(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w));
+AliasExport(void,glProgramEnvParameter4dvARB,,(GLenum target, GLuint index, const GLdouble *params));
+AliasExport(void,glProgramEnvParameter4fARB,,(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w));
+AliasExport(void,glProgramEnvParameter4fvARB,,(GLenum target, GLuint index, const GLfloat *params));
+AliasExport(void,glProgramLocalParameter4dARB,,(GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w));
+AliasExport(void,glProgramLocalParameter4dvARB,,(GLenum target, GLuint index, const GLdouble *params));
+AliasExport(void,glProgramLocalParameter4fARB,,(GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w));
+AliasExport(void,glProgramLocalParameter4fvARB,,(GLenum target, GLuint index, const GLfloat *params));
+AliasExport(void,glGetProgramEnvParameterdvARB,,(GLenum target, GLuint index, GLdouble *params));
+AliasExport(void,glGetProgramEnvParameterfvARB,,(GLenum target, GLuint index, GLfloat *params));
+AliasExport(void,glGetProgramLocalParameterdvARB,,(GLenum target, GLuint index, GLdouble *params));
+AliasExport(void,glGetProgramLocalParameterfvARB,,(GLenum target, GLuint index, GLfloat *params));
+AliasExport(void,glGetProgramivARB,,(GLenum target, GLenum pname, GLint *params));
+AliasExport(void,glGetProgramStringARB,,(GLenum target, GLenum pname, GLvoid *string));
+AliasExport(GLboolean,glIsProgramARB,,(GLuint program));
 
-void glProgramEnvParameters4fvEXT(GLenum target, GLuint index, GLsizei count, const GLfloat *params) AliasExport("gl4es_glProgramEnvParameters4fvEXT");
-void glProgramLocalParameters4fvEXT(GLenum target, GLuint index, GLsizei count, const GLfloat *params) AliasExport("gl4es_glProgramLocalParameters4fvEXT");
+AliasExport(void,glProgramEnvParameters4fvEXT,,(GLenum target, GLuint index, GLsizei count, const GLfloat *params));
+AliasExport(void,glProgramLocalParameters4fvEXT,,(GLenum target, GLuint index, GLsizei count, const GLfloat *params));

@@ -132,4 +132,4 @@ void gl4es_glHint(GLenum pname, GLenum mode) {
             gles_glHint(pname, mode);
     }
 }
-void glHint(GLenum pname, GLenum mode) AliasExport("gl4es_glHint");
+AliasExport(void,glHint,,(GLenum pname, GLenum mode));

@@ -10,7 +10,7 @@ void gl4es_glActiveTexture(GLenum texture) {
 #endif
     gles_glActiveTexture(texture);
 }
-void glActiveTexture(GLenum texture) AliasExport("gl4es_glActiveTexture");
+AliasExport(void,glActiveTexture,,(GLenum texture));
 #endif
 #ifndef skip_glAlphaFunc
 void gl4es_glAlphaFunc(GLenum func, GLclampf ref) {
@@ -20,7 +20,7 @@ void gl4es_glAlphaFunc(GLenum func, GLclampf ref) {
 #endif
     gles_glAlphaFunc(func, ref);
 }
-void glAlphaFunc(GLenum func, GLclampf ref) AliasExport("gl4es_glAlphaFunc");
+AliasExport(void,glAlphaFunc,,(GLenum func, GLclampf ref));
 #endif
 #ifndef skip_glAlphaFuncx
 void gl4es_glAlphaFuncx(GLenum func, GLclampx ref) {
@@ -30,7 +30,7 @@ void gl4es_glAlphaFuncx(GLenum func, GLclampx ref) {
 #endif
     gles_glAlphaFuncx(func, ref);
 }
-void glAlphaFuncx(GLenum func, GLclampx ref) AliasExport("gl4es_glAlphaFuncx");
+AliasExport(void,glAlphaFuncx,,(GLenum func, GLclampx ref));
 #endif
 #ifndef skip_glAttachShader
 void gl4es_glAttachShader(GLuint program, GLuint shader) {
@@ -40,7 +40,7 @@ void gl4es_glAttachShader(GLuint program, GLuint shader) {
 #endif
     gles_glAttachShader(program, shader);
 }
-void glAttachShader(GLuint program, GLuint shader) AliasExport("gl4es_glAttachShader");
+AliasExport(void,glAttachShader,,(GLuint program, GLuint shader));
 #endif
 #ifndef skip_glBindAttribLocation
 void gl4es_glBindAttribLocation(GLuint program, GLuint index, const GLchar * name) {
@@ -50,7 +50,7 @@ void gl4es_glBindAttribLocation(GLuint program, GLuint index, const GLchar * nam
 #endif
     gles_glBindAttribLocation(program, index, name);
 }
-void glBindAttribLocation(GLuint program, GLuint index, const GLchar * name) AliasExport("gl4es_glBindAttribLocation");
+AliasExport(void,glBindAttribLocation,,(GLuint program, GLuint index, const GLchar * name));
 #endif
 #ifndef skip_glBindBuffer
 void gl4es_glBindBuffer(GLenum target, GLuint buffer) {
@@ -60,7 +60,7 @@ void gl4es_glBindBuffer(GLenum target, GLuint buffer) {
 #endif
     gles_glBindBuffer(target, buffer);
 }
-void glBindBuffer(GLenum target, GLuint buffer) AliasExport("gl4es_glBindBuffer");
+AliasExport(void,glBindBuffer,,(GLenum target, GLuint buffer));
 #endif
 #ifndef skip_glBindFramebuffer
 void gl4es_glBindFramebuffer(GLenum target, GLuint framebuffer) {
@@ -70,7 +70,7 @@ void gl4es_glBindFramebuffer(GLenum target, GLuint framebuffer) {
 #endif
     gles_glBindFramebuffer(target, framebuffer);
 }
-void glBindFramebuffer(GLenum target, GLuint framebuffer) AliasExport("gl4es_glBindFramebuffer");
+AliasExport(void,glBindFramebuffer,,(GLenum target, GLuint framebuffer));
 #endif
 #ifndef skip_glBindRenderbuffer
 void gl4es_glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
@@ -80,7 +80,7 @@ void gl4es_glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
 #endif
     gles_glBindRenderbuffer(target, renderbuffer);
 }
-void glBindRenderbuffer(GLenum target, GLuint renderbuffer) AliasExport("gl4es_glBindRenderbuffer");
+AliasExport(void,glBindRenderbuffer,,(GLenum target, GLuint renderbuffer));
 #endif
 #ifndef skip_glBindTexture
 void gl4es_glBindTexture(GLenum target, GLuint texture) {
@@ -90,7 +90,7 @@ void gl4es_glBindTexture(GLenum target, GLuint texture) {
 #endif
     gles_glBindTexture(target, texture);
 }
-void glBindTexture(GLenum target, GLuint texture) AliasExport("gl4es_glBindTexture");
+AliasExport(void,glBindTexture,,(GLenum target, GLuint texture));
 #endif
 #ifndef skip_glBlendColor
 void gl4es_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
@@ -100,7 +100,7 @@ void gl4es_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf al
 #endif
     gles_glBlendColor(red, green, blue, alpha);
 }
-void glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) AliasExport("gl4es_glBlendColor");
+AliasExport(void,glBlendColor,,(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha));
 #endif
 #ifndef skip_glBlendEquation
 void gl4es_glBlendEquation(GLenum mode) {
@@ -110,7 +110,7 @@ void gl4es_glBlendEquation(GLenum mode) {
 #endif
     gles_glBlendEquation(mode);
 }
-void glBlendEquation(GLenum mode) AliasExport("gl4es_glBlendEquation");
+AliasExport(void,glBlendEquation,,(GLenum mode));
 #endif
 #ifndef skip_glBlendEquationSeparate
 void gl4es_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
@@ -120,7 +120,7 @@ void gl4es_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
 #endif
     gles_glBlendEquationSeparate(modeRGB, modeA);
 }
-void glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) AliasExport("gl4es_glBlendEquationSeparate");
+AliasExport(void,glBlendEquationSeparate,,(GLenum modeRGB, GLenum modeA));
 #endif
 #ifndef skip_glBlendFunc
 void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
@@ -130,7 +130,7 @@ void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
 #endif
     gles_glBlendFunc(sfactor, dfactor);
 }
-void glBlendFunc(GLenum sfactor, GLenum dfactor) AliasExport("gl4es_glBlendFunc");
+AliasExport(void,glBlendFunc,,(GLenum sfactor, GLenum dfactor));
 #endif
 #ifndef skip_glBlendFuncSeparate
 void gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) {
@@ -140,7 +140,7 @@ void gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfac
 #endif
     gles_glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
 }
-void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha) AliasExport("gl4es_glBlendFuncSeparate");
+AliasExport(void,glBlendFuncSeparate,,(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha));
 #endif
 #ifndef skip_glBufferData
 void gl4es_glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) {
@@ -150,7 +150,7 @@ void gl4es_glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLe
 #endif
     gles_glBufferData(target, size, data, usage);
 }
-void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) AliasExport("gl4es_glBufferData");
+AliasExport(void,glBufferData,,(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage));
 #endif
 #ifndef skip_glBufferSubData
 void gl4es_glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) {
@@ -160,7 +160,7 @@ void gl4es_glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, cons
 #endif
     gles_glBufferSubData(target, offset, size, data);
 }
-void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) AliasExport("gl4es_glBufferSubData");
+AliasExport(void,glBufferSubData,,(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data));
 #endif
 #ifndef skip_glCheckFramebufferStatus
 GLenum gl4es_glCheckFramebufferStatus(GLenum target) {
@@ -170,7 +170,7 @@ GLenum gl4es_glCheckFramebufferStatus(GLenum target) {
 #endif
     return gles_glCheckFramebufferStatus(target);
 }
-GLenum glCheckFramebufferStatus(GLenum target) AliasExport("gl4es_glCheckFramebufferStatus");
+AliasExport(GLenum,glCheckFramebufferStatus,,(GLenum target));
 #endif
 #ifndef skip_glClear
 void gl4es_glClear(GLbitfield mask) {
@@ -180,7 +180,7 @@ void gl4es_glClear(GLbitfield mask) {
 #endif
     gles_glClear(mask);
 }
-void glClear(GLbitfield mask) AliasExport("gl4es_glClear");
+AliasExport(void,glClear,,(GLbitfield mask));
 #endif
 #ifndef skip_glClearColor
 void gl4es_glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
@@ -190,7 +190,7 @@ void gl4es_glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf al
 #endif
     gles_glClearColor(red, green, blue, alpha);
 }
-void glClearColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) AliasExport("gl4es_glClearColor");
+AliasExport(void,glClearColor,,(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha));
 #endif
 #ifndef skip_glClearColorx
 void gl4es_glClearColorx(GLclampx red, GLclampx green, GLclampx blue, GLclampx alpha) {
@@ -200,7 +200,7 @@ void gl4es_glClearColorx(GLclampx red, GLclampx green, GLclampx blue, GLclampx a
 #endif
     gles_glClearColorx(red, green, blue, alpha);
 }
-void glClearColorx(GLclampx red, GLclampx green, GLclampx blue, GLclampx alpha) AliasExport("gl4es_glClearColorx");
+AliasExport(void,glClearColorx,,(GLclampx red, GLclampx green, GLclampx blue, GLclampx alpha));
 #endif
 #ifndef skip_glClearDepthf
 void gl4es_glClearDepthf(GLclampf depth) {
@@ -210,7 +210,7 @@ void gl4es_glClearDepthf(GLclampf depth) {
 #endif
     gles_glClearDepthf(depth);
 }
-void glClearDepthf(GLclampf depth) AliasExport("gl4es_glClearDepthf");
+AliasExport(void,glClearDepthf,,(GLclampf depth));
 #endif
 #ifndef skip_glClearDepthx
 void gl4es_glClearDepthx(GLclampx depth) {
@@ -220,7 +220,7 @@ void gl4es_glClearDepthx(GLclampx depth) {
 #endif
     gles_glClearDepthx(depth);
 }
-void glClearDepthx(GLclampx depth) AliasExport("gl4es_glClearDepthx");
+AliasExport(void,glClearDepthx,,(GLclampx depth));
 #endif
 #ifndef skip_glClearStencil
 void gl4es_glClearStencil(GLint s) {
@@ -230,7 +230,7 @@ void gl4es_glClearStencil(GLint s) {
 #endif
     gles_glClearStencil(s);
 }
-void glClearStencil(GLint s) AliasExport("gl4es_glClearStencil");
+AliasExport(void,glClearStencil,,(GLint s));
 #endif
 #ifndef skip_glClientActiveTexture
 void gl4es_glClientActiveTexture(GLenum texture) {
@@ -240,7 +240,7 @@ void gl4es_glClientActiveTexture(GLenum texture) {
 #endif
     gles_glClientActiveTexture(texture);
 }
-void glClientActiveTexture(GLenum texture) AliasExport("gl4es_glClientActiveTexture");
+AliasExport(void,glClientActiveTexture,,(GLenum texture));
 #endif
 #ifndef skip_glClipPlanef
 void gl4es_glClipPlanef(GLenum plane, const GLfloat * equation) {
@@ -250,7 +250,7 @@ void gl4es_glClipPlanef(GLenum plane, const GLfloat * equation) {
 #endif
     gles_glClipPlanef(plane, equation);
 }
-void glClipPlanef(GLenum plane, const GLfloat * equation) AliasExport("gl4es_glClipPlanef");
+AliasExport(void,glClipPlanef,,(GLenum plane, const GLfloat * equation));
 #endif
 #ifndef skip_glClipPlanex
 void gl4es_glClipPlanex(GLenum plane, const GLfixed * equation) {
@@ -260,7 +260,7 @@ void gl4es_glClipPlanex(GLenum plane, const GLfixed * equation) {
 #endif
     gles_glClipPlanex(plane, equation);
 }
-void glClipPlanex(GLenum plane, const GLfixed * equation) AliasExport("gl4es_glClipPlanex");
+AliasExport(void,glClipPlanex,,(GLenum plane, const GLfixed * equation));
 #endif
 #ifndef skip_glColor4f
 void gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
@@ -270,7 +270,7 @@ void gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
 #endif
     gles_glColor4f(red, green, blue, alpha);
 }
-void glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) AliasExport("gl4es_glColor4f");
+AliasExport(void,glColor4f,,(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha));
 #endif
 #ifndef skip_glColor4ub
 void gl4es_glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) {
@@ -280,7 +280,7 @@ void gl4es_glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) {
 #endif
     gles_glColor4ub(red, green, blue, alpha);
 }
-void glColor4ub(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha) AliasExport("gl4es_glColor4ub");
+AliasExport(void,glColor4ub,,(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha));
 #endif
 #ifndef skip_glColor4x
 void gl4es_glColor4x(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
@@ -290,7 +290,7 @@ void gl4es_glColor4x(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) {
 #endif
     gles_glColor4x(red, green, blue, alpha);
 }
-void glColor4x(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha) AliasExport("gl4es_glColor4x");
+AliasExport(void,glColor4x,,(GLfixed red, GLfixed green, GLfixed blue, GLfixed alpha));
 #endif
 #ifndef skip_glColorMask
 void gl4es_glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
@@ -300,7 +300,7 @@ void gl4es_glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean
 #endif
     gles_glColorMask(red, green, blue, alpha);
 }
-void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) AliasExport("gl4es_glColorMask");
+AliasExport(void,glColorMask,,(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha));
 #endif
 #ifndef skip_glColorPointer
 void gl4es_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -310,7 +310,7 @@ void gl4es_glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid 
 #endif
     gles_glColorPointer(size, type, stride, pointer);
 }
-void glColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) AliasExport("gl4es_glColorPointer");
+AliasExport(void,glColorPointer,,(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer));
 #endif
 #ifndef skip_glCompileShader
 void gl4es_glCompileShader(GLuint shader) {
@@ -320,7 +320,7 @@ void gl4es_glCompileShader(GLuint shader) {
 #endif
     gles_glCompileShader(shader);
 }
-void glCompileShader(GLuint shader) AliasExport("gl4es_glCompileShader");
+AliasExport(void,glCompileShader,,(GLuint shader));
 #endif
 #ifndef skip_glCompressedTexImage2D
 void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data) {
@@ -330,7 +330,7 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
 #endif
     gles_glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
 }
-void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data) AliasExport("gl4es_glCompressedTexImage2D");
+AliasExport(void,glCompressedTexImage2D,,(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data));
 #endif
 #ifndef skip_glCompressedTexSubImage2D
 void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data) {
@@ -340,7 +340,7 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
 #endif
     gles_glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, data);
 }
-void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data) AliasExport("gl4es_glCompressedTexSubImage2D");
+AliasExport(void,glCompressedTexSubImage2D,,(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data));
 #endif
 #ifndef skip_glCopyTexImage2D
 void gl4es_glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) {
@@ -350,7 +350,7 @@ void gl4es_glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, G
 #endif
     gles_glCopyTexImage2D(target, level, internalformat, x, y, width, height, border);
 }
-void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) AliasExport("gl4es_glCopyTexImage2D");
+AliasExport(void,glCopyTexImage2D,,(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border));
 #endif
 #ifndef skip_glCopyTexSubImage2D
 void gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) {
@@ -360,7 +360,7 @@ void gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint 
 #endif
     gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
 }
-void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) AliasExport("gl4es_glCopyTexSubImage2D");
+AliasExport(void,glCopyTexSubImage2D,,(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height));
 #endif
 #ifndef skip_glCreateProgram
 GLuint gl4es_glCreateProgram() {
@@ -370,7 +370,7 @@ GLuint gl4es_glCreateProgram() {
 #endif
     return gles_glCreateProgram();
 }
-GLuint glCreateProgram() AliasExport("gl4es_glCreateProgram");
+AliasExport(GLuint,glCreateProgram,,());
 #endif
 #ifndef skip_glCreateShader
 GLuint gl4es_glCreateShader(GLenum type) {
@@ -380,7 +380,7 @@ GLuint gl4es_glCreateShader(GLenum type) {
 #endif
     return gles_glCreateShader(type);
 }
-GLuint glCreateShader(GLenum type) AliasExport("gl4es_glCreateShader");
+AliasExport(GLuint,glCreateShader,,(GLenum type));
 #endif
 #ifndef skip_glCullFace
 void gl4es_glCullFace(GLenum mode) {
@@ -390,7 +390,7 @@ void gl4es_glCullFace(GLenum mode) {
 #endif
     gles_glCullFace(mode);
 }
-void glCullFace(GLenum mode) AliasExport("gl4es_glCullFace");
+AliasExport(void,glCullFace,,(GLenum mode));
 #endif
 #ifndef skip_glDeleteBuffers
 void gl4es_glDeleteBuffers(GLsizei n, const GLuint * buffer) {
@@ -400,7 +400,7 @@ void gl4es_glDeleteBuffers(GLsizei n, const GLuint * buffer) {
 #endif
     gles_glDeleteBuffers(n, buffer);
 }
-void glDeleteBuffers(GLsizei n, const GLuint * buffer) AliasExport("gl4es_glDeleteBuffers");
+AliasExport(void,glDeleteBuffers,,(GLsizei n, const GLuint * buffer));
 #endif
 #ifndef skip_glDeleteFramebuffers
 void gl4es_glDeleteFramebuffers(GLsizei n, GLuint * framebuffers) {
@@ -410,7 +410,7 @@ void gl4es_glDeleteFramebuffers(GLsizei n, GLuint * framebuffers) {
 #endif
     gles_glDeleteFramebuffers(n, framebuffers);
 }
-void glDeleteFramebuffers(GLsizei n, GLuint * framebuffers) AliasExport("gl4es_glDeleteFramebuffers");
+AliasExport(void,glDeleteFramebuffers,,(GLsizei n, GLuint * framebuffers));
 #endif
 #ifndef skip_glDeleteProgram
 void gl4es_glDeleteProgram(GLuint program) {
@@ -420,7 +420,7 @@ void gl4es_glDeleteProgram(GLuint program) {
 #endif
     gles_glDeleteProgram(program);
 }
-void glDeleteProgram(GLuint program) AliasExport("gl4es_glDeleteProgram");
+AliasExport(void,glDeleteProgram,,(GLuint program));
 #endif
 #ifndef skip_glDeleteRenderbuffers
 void gl4es_glDeleteRenderbuffers(GLsizei n, GLuint * renderbuffers) {
@@ -430,7 +430,7 @@ void gl4es_glDeleteRenderbuffers(GLsizei n, GLuint * renderbuffers) {
 #endif
     gles_glDeleteRenderbuffers(n, renderbuffers);
 }
-void glDeleteRenderbuffers(GLsizei n, GLuint * renderbuffers) AliasExport("gl4es_glDeleteRenderbuffers");
+AliasExport(void,glDeleteRenderbuffers,,(GLsizei n, GLuint * renderbuffers));
 #endif
 #ifndef skip_glDeleteShader
 void gl4es_glDeleteShader(GLuint shader) {
@@ -440,7 +440,7 @@ void gl4es_glDeleteShader(GLuint shader) {
 #endif
     gles_glDeleteShader(shader);
 }
-void glDeleteShader(GLuint shader) AliasExport("gl4es_glDeleteShader");
+AliasExport(void,glDeleteShader,,(GLuint shader));
 #endif
 #ifndef skip_glDeleteTextures
 void gl4es_glDeleteTextures(GLsizei n, const GLuint * textures) {
@@ -450,7 +450,7 @@ void gl4es_glDeleteTextures(GLsizei n, const GLuint * textures) {
 #endif
     gles_glDeleteTextures(n, textures);
 }
-void glDeleteTextures(GLsizei n, const GLuint * textures) AliasExport("gl4es_glDeleteTextures");
+AliasExport(void,glDeleteTextures,,(GLsizei n, const GLuint * textures));
 #endif
 #ifndef skip_glDepthFunc
 void gl4es_glDepthFunc(GLenum func) {
@@ -460,7 +460,7 @@ void gl4es_glDepthFunc(GLenum func) {
 #endif
     gles_glDepthFunc(func);
 }
-void glDepthFunc(GLenum func) AliasExport("gl4es_glDepthFunc");
+AliasExport(void,glDepthFunc,,(GLenum func));
 #endif
 #ifndef skip_glDepthMask
 void gl4es_glDepthMask(GLboolean flag) {
@@ -470,7 +470,7 @@ void gl4es_glDepthMask(GLboolean flag) {
 #endif
     gles_glDepthMask(flag);
 }
-void glDepthMask(GLboolean flag) AliasExport("gl4es_glDepthMask");
+AliasExport(void,glDepthMask,,(GLboolean flag));
 #endif
 #ifndef skip_glDepthRangef
 void gl4es_glDepthRangef(GLclampf Near, GLclampf Far) {
@@ -480,7 +480,7 @@ void gl4es_glDepthRangef(GLclampf Near, GLclampf Far) {
 #endif
     gles_glDepthRangef(Near, Far);
 }
-void glDepthRangef(GLclampf Near, GLclampf Far) AliasExport("gl4es_glDepthRangef");
+AliasExport(void,glDepthRangef,,(GLclampf Near, GLclampf Far));
 #endif
 #ifndef skip_glDepthRangex
 void gl4es_glDepthRangex(GLclampx Near, GLclampx Far) {
@@ -490,7 +490,7 @@ void gl4es_glDepthRangex(GLclampx Near, GLclampx Far) {
 #endif
     gles_glDepthRangex(Near, Far);
 }
-void glDepthRangex(GLclampx Near, GLclampx Far) AliasExport("gl4es_glDepthRangex");
+AliasExport(void,glDepthRangex,,(GLclampx Near, GLclampx Far));
 #endif
 #ifndef skip_glDetachShader
 void gl4es_glDetachShader(GLuint program, GLuint shader) {
@@ -500,7 +500,7 @@ void gl4es_glDetachShader(GLuint program, GLuint shader) {
 #endif
     gles_glDetachShader(program, shader);
 }
-void glDetachShader(GLuint program, GLuint shader) AliasExport("gl4es_glDetachShader");
+AliasExport(void,glDetachShader,,(GLuint program, GLuint shader));
 #endif
 #ifndef skip_glDisable
 void gl4es_glDisable(GLenum cap) {
@@ -510,7 +510,7 @@ void gl4es_glDisable(GLenum cap) {
 #endif
     gles_glDisable(cap);
 }
-void glDisable(GLenum cap) AliasExport("gl4es_glDisable");
+AliasExport(void,glDisable,,(GLenum cap));
 #endif
 #ifndef skip_glDisableClientState
 void gl4es_glDisableClientState(GLenum array) {
@@ -520,7 +520,7 @@ void gl4es_glDisableClientState(GLenum array) {
 #endif
     gles_glDisableClientState(array);
 }
-void glDisableClientState(GLenum array) AliasExport("gl4es_glDisableClientState");
+AliasExport(void,glDisableClientState,,(GLenum array));
 #endif
 #ifndef skip_glDisableVertexAttribArray
 void gl4es_glDisableVertexAttribArray(GLuint index) {
@@ -530,7 +530,7 @@ void gl4es_glDisableVertexAttribArray(GLuint index) {
 #endif
     gles_glDisableVertexAttribArray(index);
 }
-void glDisableVertexAttribArray(GLuint index) AliasExport("gl4es_glDisableVertexAttribArray");
+AliasExport(void,glDisableVertexAttribArray,,(GLuint index));
 #endif
 #ifndef skip_glDrawArrays
 void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
@@ -540,7 +540,7 @@ void gl4es_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
 #endif
     gles_glDrawArrays(mode, first, count);
 }
-void glDrawArrays(GLenum mode, GLint first, GLsizei count) AliasExport("gl4es_glDrawArrays");
+AliasExport(void,glDrawArrays,,(GLenum mode, GLint first, GLsizei count));
 #endif
 #ifndef skip_glDrawBuffers
 void gl4es_glDrawBuffers(GLsizei n, const GLenum * bufs) {
@@ -550,7 +550,7 @@ void gl4es_glDrawBuffers(GLsizei n, const GLenum * bufs) {
 #endif
     gles_glDrawBuffers(n, bufs);
 }
-void glDrawBuffers(GLsizei n, const GLenum * bufs) AliasExport("gl4es_glDrawBuffers");
+AliasExport(void,glDrawBuffers(,,GLsizei n, const GLenum * bufs));
 #endif
 #ifndef skip_glDrawElements
 void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices) {
@@ -560,7 +560,7 @@ void gl4es_glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid 
 #endif
     gles_glDrawElements(mode, count, type, indices);
 }
-void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices) AliasExport("gl4es_glDrawElements");
+AliasExport(void,glDrawElements,,(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices));
 #endif
 #ifndef skip_glDrawTexf
 void gl4es_glDrawTexf(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height) {
@@ -570,7 +570,7 @@ void gl4es_glDrawTexf(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat he
 #endif
     gles_glDrawTexf(x, y, z, width, height);
 }
-void glDrawTexf(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height) AliasExport("gl4es_glDrawTexf");
+AliasExport(void,glDrawTexf,,(GLfloat x, GLfloat y, GLfloat z, GLfloat width, GLfloat height));
 #endif
 #ifndef skip_glDrawTexi
 void gl4es_glDrawTexi(GLint x, GLint y, GLint z, GLint width, GLint height) {
@@ -580,7 +580,7 @@ void gl4es_glDrawTexi(GLint x, GLint y, GLint z, GLint width, GLint height) {
 #endif
     gles_glDrawTexi(x, y, z, width, height);
 }
-void glDrawTexi(GLint x, GLint y, GLint z, GLint width, GLint height) AliasExport("gl4es_glDrawTexi");
+AliasExport(void,glDrawTexi,,(GLint x, GLint y, GLint z, GLint width, GLint height));
 #endif
 #ifndef skip_glEnable
 void gl4es_glEnable(GLenum cap) {
@@ -590,7 +590,7 @@ void gl4es_glEnable(GLenum cap) {
 #endif
     gles_glEnable(cap);
 }
-void glEnable(GLenum cap) AliasExport("gl4es_glEnable");
+AliasExport(void,glEnable,,(GLenum cap));
 #endif
 #ifndef skip_glEnableClientState
 void gl4es_glEnableClientState(GLenum array) {
@@ -600,7 +600,7 @@ void gl4es_glEnableClientState(GLenum array) {
 #endif
     gles_glEnableClientState(array);
 }
-void glEnableClientState(GLenum array) AliasExport("gl4es_glEnableClientState");
+AliasExport(void,glEnableClientState,,(GLenum array));
 #endif
 #ifndef skip_glEnableVertexAttribArray
 void gl4es_glEnableVertexAttribArray(GLuint index) {
@@ -610,7 +610,7 @@ void gl4es_glEnableVertexAttribArray(GLuint index) {
 #endif
     gles_glEnableVertexAttribArray(index);
 }
-void glEnableVertexAttribArray(GLuint index) AliasExport("gl4es_glEnableVertexAttribArray");
+AliasExport(void,glEnableVertexAttribArray,,(GLuint index));
 #endif
 #ifndef skip_glFinish
 void gl4es_glFinish() {
@@ -620,7 +620,7 @@ void gl4es_glFinish() {
 #endif
     gles_glFinish();
 }
-void glFinish() AliasExport("gl4es_glFinish");
+AliasExport(void,glFinish,,());
 #endif
 #ifndef skip_glFlush
 void gl4es_glFlush() {
@@ -630,7 +630,7 @@ void gl4es_glFlush() {
 #endif
     gles_glFlush();
 }
-void glFlush() AliasExport("gl4es_glFlush");
+AliasExport(void,glFlush,,());
 #endif
 #ifndef skip_glFogCoordPointer
 void gl4es_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -640,7 +640,7 @@ void gl4es_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid * pointer
 #endif
     gles_glFogCoordPointer(type, stride, pointer);
 }
-void glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid * pointer) AliasExport("gl4es_glFogCoordPointer");
+AliasExport(void,glFogCoordPointer,,(GLenum type, GLsizei stride, const GLvoid * pointer));
 #endif
 #ifndef skip_glFogCoordf
 void gl4es_glFogCoordf(GLfloat coord) {
@@ -650,7 +650,7 @@ void gl4es_glFogCoordf(GLfloat coord) {
 #endif
     gles_glFogCoordf(coord);
 }
-void glFogCoordf(GLfloat coord) AliasExport("gl4es_glFogCoordf");
+AliasExport(void,glFogCoordf,,(GLfloat coord));
 #endif
 #ifndef skip_glFogCoordfv
 void gl4es_glFogCoordfv(const GLfloat * coord) {
@@ -660,7 +660,7 @@ void gl4es_glFogCoordfv(const GLfloat * coord) {
 #endif
     gles_glFogCoordfv(coord);
 }
-void glFogCoordfv(const GLfloat * coord) AliasExport("gl4es_glFogCoordfv");
+AliasExport(void,glFogCoordfv,,(const GLfloat * coord));
 #endif
 #ifndef skip_glFogf
 void gl4es_glFogf(GLenum pname, GLfloat param) {
@@ -670,7 +670,7 @@ void gl4es_glFogf(GLenum pname, GLfloat param) {
 #endif
     gles_glFogf(pname, param);
 }
-void glFogf(GLenum pname, GLfloat param) AliasExport("gl4es_glFogf");
+AliasExport(void,glFogf,,(GLenum pname, GLfloat param));
 #endif
 #ifndef skip_glFogfv
 void gl4es_glFogfv(GLenum pname, const GLfloat * params) {
@@ -680,7 +680,7 @@ void gl4es_glFogfv(GLenum pname, const GLfloat * params) {
 #endif
     gles_glFogfv(pname, params);
 }
-void glFogfv(GLenum pname, const GLfloat * params) AliasExport("gl4es_glFogfv");
+AliasExport(void,glFogfv,,(GLenum pname, const GLfloat * params));
 #endif
 #ifndef skip_glFogx
 void gl4es_glFogx(GLenum pname, GLfixed param) {
@@ -690,7 +690,7 @@ void gl4es_glFogx(GLenum pname, GLfixed param) {
 #endif
     gles_glFogx(pname, param);
 }
-void glFogx(GLenum pname, GLfixed param) AliasExport("gl4es_glFogx");
+AliasExport(void,glFogx,,(GLenum pname, GLfixed param));
 #endif
 #ifndef skip_glFogxv
 void gl4es_glFogxv(GLenum pname, const GLfixed * params) {
@@ -700,7 +700,7 @@ void gl4es_glFogxv(GLenum pname, const GLfixed * params) {
 #endif
     gles_glFogxv(pname, params);
 }
-void glFogxv(GLenum pname, const GLfixed * params) AliasExport("gl4es_glFogxv");
+AliasExport(void,glFogxv,,(GLenum pname, const GLfixed * params));
 #endif
 #ifndef skip_glFramebufferRenderbuffer
 void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
@@ -710,7 +710,7 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
 #endif
     gles_glFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
 }
-void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) AliasExport("gl4es_glFramebufferRenderbuffer");
+AliasExport(void,glFramebufferRenderbuffer,,(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer));
 #endif
 #ifndef skip_glFramebufferTexture2D
 void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
@@ -720,7 +720,7 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
 #endif
     gles_glFramebufferTexture2D(target, attachment, textarget, texture, level);
 }
-void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) AliasExport("gl4es_glFramebufferTexture2D");
+AliasExport(void,glFramebufferTexture2D,,(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level));
 #endif
 #ifndef skip_glFrontFace
 void gl4es_glFrontFace(GLenum mode) {
@@ -730,7 +730,7 @@ void gl4es_glFrontFace(GLenum mode) {
 #endif
     gles_glFrontFace(mode);
 }
-void glFrontFace(GLenum mode) AliasExport("gl4es_glFrontFace");
+AliasExport(void,glFrontFace,,(GLenum mode));
 #endif
 #ifndef skip_glFrustumf
 void gl4es_glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat Near, GLfloat Far) {
@@ -740,7 +740,7 @@ void gl4es_glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, 
 #endif
     gles_glFrustumf(left, right, bottom, top, Near, Far);
 }
-void glFrustumf(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat Near, GLfloat Far) AliasExport("gl4es_glFrustumf");
+AliasExport(void,glFrustumf,,(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat Near, GLfloat Far));
 #endif
 #ifndef skip_glFrustumx
 void gl4es_glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed Near, GLfixed Far) {
@@ -750,7 +750,7 @@ void gl4es_glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, 
 #endif
     gles_glFrustumx(left, right, bottom, top, Near, Far);
 }
-void glFrustumx(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed Near, GLfixed Far) AliasExport("gl4es_glFrustumx");
+AliasExport(void,glFrustumx,,(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed Near, GLfixed Far));
 #endif
 #ifndef skip_glGenBuffers
 void gl4es_glGenBuffers(GLsizei n, GLuint * buffer) {
@@ -760,7 +760,7 @@ void gl4es_glGenBuffers(GLsizei n, GLuint * buffer) {
 #endif
     gles_glGenBuffers(n, buffer);
 }
-void glGenBuffers(GLsizei n, GLuint * buffer) AliasExport("gl4es_glGenBuffers");
+AliasExport(void,glGenBuffers,,(GLsizei n, GLuint * buffer));
 #endif
 #ifndef skip_glGenFramebuffers
 void gl4es_glGenFramebuffers(GLsizei n, GLuint * ids) {
@@ -770,7 +770,7 @@ void gl4es_glGenFramebuffers(GLsizei n, GLuint * ids) {
 #endif
     gles_glGenFramebuffers(n, ids);
 }
-void glGenFramebuffers(GLsizei n, GLuint * ids) AliasExport("gl4es_glGenFramebuffers");
+AliasExport(void,glGenFramebuffers,,(GLsizei n, GLuint * ids));
 #endif
 #ifndef skip_glGenRenderbuffers
 void gl4es_glGenRenderbuffers(GLsizei n, GLuint * renderbuffers) {
@@ -780,7 +780,7 @@ void gl4es_glGenRenderbuffers(GLsizei n, GLuint * renderbuffers) {
 #endif
     gles_glGenRenderbuffers(n, renderbuffers);
 }
-void glGenRenderbuffers(GLsizei n, GLuint * renderbuffers) AliasExport("gl4es_glGenRenderbuffers");
+AliasExport(void,glGenRenderbuffers,,(GLsizei n, GLuint * renderbuffers));
 #endif
 #ifndef skip_glGenTextures
 void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
@@ -790,7 +790,7 @@ void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
 #endif
     gles_glGenTextures(n, textures);
 }
-void glGenTextures(GLsizei n, GLuint * textures) AliasExport("gl4es_glGenTextures");
+AliasExport(void,glGenTextures,,(GLsizei n, GLuint * textures));
 #endif
 #ifndef skip_glGenerateMipmap
 void gl4es_glGenerateMipmap(GLenum target) {
@@ -800,7 +800,7 @@ void gl4es_glGenerateMipmap(GLenum target) {
 #endif
     gles_glGenerateMipmap(target);
 }
-void glGenerateMipmap(GLenum target) AliasExport("gl4es_glGenerateMipmap");
+AliasExport(void,glGenerateMipmap,,(GLenum target));
 #endif
 #ifndef skip_glGetActiveAttrib
 void gl4es_glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLint * size, GLenum * type, GLchar * name) {
@@ -810,7 +810,7 @@ void gl4es_glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsi
 #endif
     gles_glGetActiveAttrib(program, index, bufSize, length, size, type, name);
 }
-void glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLint * size, GLenum * type, GLchar * name) AliasExport("gl4es_glGetActiveAttrib");
+AliasExport(void,glGetActiveAttrib,,(GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLint * size, GLenum * type, GLchar * name));
 #endif
 #ifndef skip_glGetActiveUniform
 void gl4es_glGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLint * size, GLenum * type, GLchar * name) {
@@ -820,7 +820,7 @@ void gl4es_glGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLs
 #endif
     gles_glGetActiveUniform(program, index, bufSize, length, size, type, name);
 }
-void glGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLint * size, GLenum * type, GLchar * name) AliasExport("gl4es_glGetActiveUniform");
+AliasExport(void,glGetActiveUniform,,(GLuint program, GLuint index, GLsizei bufSize, GLsizei * length, GLint * size, GLenum * type, GLchar * name));
 #endif
 #ifndef skip_glGetAttachedShaders
 void gl4es_glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei * count, GLuint * obj) {
@@ -830,7 +830,7 @@ void gl4es_glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei * coun
 #endif
     gles_glGetAttachedShaders(program, maxCount, count, obj);
 }
-void glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei * count, GLuint * obj) AliasExport("gl4es_glGetAttachedShaders");
+AliasExport(void,glGetAttachedShaders,,(GLuint program, GLsizei maxCount, GLsizei * count, GLuint * obj));
 #endif
 #ifndef skip_glGetAttribLocation
 GLint gl4es_glGetAttribLocation(GLuint program, const GLchar * name) {
@@ -840,7 +840,7 @@ GLint gl4es_glGetAttribLocation(GLuint program, const GLchar * name) {
 #endif
     return gles_glGetAttribLocation(program, name);
 }
-GLint glGetAttribLocation(GLuint program, const GLchar * name) AliasExport("gl4es_glGetAttribLocation");
+AliasExport(GLint,glGetAttribLocation,,(GLuint program, const GLchar * name));
 #endif
 #ifndef skip_glGetBooleanv
 void gl4es_glGetBooleanv(GLenum pname, GLboolean * params) {
@@ -850,7 +850,7 @@ void gl4es_glGetBooleanv(GLenum pname, GLboolean * params) {
 #endif
     gles_glGetBooleanv(pname, params);
 }
-void glGetBooleanv(GLenum pname, GLboolean * params) AliasExport("gl4es_glGetBooleanv");
+AliasExport(void,glGetBooleanv,,(GLenum pname, GLboolean * params));
 #endif
 #ifndef skip_glGetBufferParameteriv
 void gl4es_glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) {
@@ -860,7 +860,7 @@ void gl4es_glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) {
 #endif
     gles_glGetBufferParameteriv(target, pname, params);
 }
-void glGetBufferParameteriv(GLenum target, GLenum pname, GLint * params) AliasExport("gl4es_glGetBufferParameteriv");
+AliasExport(void,glGetBufferParameteriv,,(GLenum target, GLenum pname, GLint * params));
 #endif
 #ifndef skip_glGetClipPlanef
 void gl4es_glGetClipPlanef(GLenum plane, GLfloat * equation) {
@@ -870,7 +870,7 @@ void gl4es_glGetClipPlanef(GLenum plane, GLfloat * equation) {
 #endif
     gles_glGetClipPlanef(plane, equation);
 }
-void glGetClipPlanef(GLenum plane, GLfloat * equation) AliasExport("gl4es_glGetClipPlanef");
+AliasExport(void,glGetClipPlanef,,(GLenum plane, GLfloat * equation));
 #endif
 #ifndef skip_glGetClipPlanex
 void gl4es_glGetClipPlanex(GLenum plane, GLfixed * equation) {
@@ -880,7 +880,7 @@ void gl4es_glGetClipPlanex(GLenum plane, GLfixed * equation) {
 #endif
     gles_glGetClipPlanex(plane, equation);
 }
-void glGetClipPlanex(GLenum plane, GLfixed * equation) AliasExport("gl4es_glGetClipPlanex");
+AliasExport(void,glGetClipPlanex,,(GLenum plane, GLfixed * equation));
 #endif
 #ifndef skip_glGetError
 GLenum gl4es_glGetError() {
@@ -890,7 +890,7 @@ GLenum gl4es_glGetError() {
 #endif
     return gles_glGetError();
 }
-GLenum glGetError() AliasExport("gl4es_glGetError");
+AliasExport(GLenum,glGetError,,());
 #endif
 #ifndef skip_glGetFixedv
 void gl4es_glGetFixedv(GLenum pname, GLfixed * params) {
@@ -900,7 +900,7 @@ void gl4es_glGetFixedv(GLenum pname, GLfixed * params) {
 #endif
     gles_glGetFixedv(pname, params);
 }
-void glGetFixedv(GLenum pname, GLfixed * params) AliasExport("gl4es_glGetFixedv");
+AliasExport(void,glGetFixedv,,(GLenum pname, GLfixed * params));
 #endif
 #ifndef skip_glGetFloatv
 void gl4es_glGetFloatv(GLenum pname, GLfloat * params) {
@@ -910,7 +910,7 @@ void gl4es_glGetFloatv(GLenum pname, GLfloat * params) {
 #endif
     gles_glGetFloatv(pname, params);
 }
-void glGetFloatv(GLenum pname, GLfloat * params) AliasExport("gl4es_glGetFloatv");
+AliasExport(void,glGetFloatv,,(GLenum pname, GLfloat * params));
 #endif
 #ifndef skip_glGetFramebufferAttachmentParameteriv
 void gl4es_glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint * params) {
@@ -920,7 +920,7 @@ void gl4es_glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachmen
 #endif
     gles_glGetFramebufferAttachmentParameteriv(target, attachment, pname, params);
 }
-void glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint * params) AliasExport("gl4es_glGetFramebufferAttachmentParameteriv");
+AliasExport(void,glGetFramebufferAttachmentParameteriv,,(GLenum target, GLenum attachment, GLenum pname, GLint * params));
 #endif
 #ifndef skip_glGetIntegerv
 void gl4es_glGetIntegerv(GLenum pname, GLint * params) {
@@ -930,7 +930,7 @@ void gl4es_glGetIntegerv(GLenum pname, GLint * params) {
 #endif
     gles_glGetIntegerv(pname, params);
 }
-void glGetIntegerv(GLenum pname, GLint * params) AliasExport("gl4es_glGetIntegerv");
+AliasExport(void,glGetIntegerv,,(GLenum pname, GLint * params));
 #endif
 #ifndef skip_glGetLightfv
 void gl4es_glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
@@ -940,7 +940,7 @@ void gl4es_glGetLightfv(GLenum light, GLenum pname, GLfloat * params) {
 #endif
     gles_glGetLightfv(light, pname, params);
 }
-void glGetLightfv(GLenum light, GLenum pname, GLfloat * params) AliasExport("gl4es_glGetLightfv");
+AliasExport(void,glGetLightfv,,(GLenum light, GLenum pname, GLfloat * params));
 #endif
 #ifndef skip_glGetLightxv
 void gl4es_glGetLightxv(GLenum light, GLenum pname, GLfixed * params) {
@@ -950,7 +950,7 @@ void gl4es_glGetLightxv(GLenum light, GLenum pname, GLfixed * params) {
 #endif
     gles_glGetLightxv(light, pname, params);
 }
-void glGetLightxv(GLenum light, GLenum pname, GLfixed * params) AliasExport("gl4es_glGetLightxv");
+AliasExport(void,glGetLightxv,,(GLenum light, GLenum pname, GLfixed * params));
 #endif
 #ifndef skip_glGetMaterialfv
 void gl4es_glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
@@ -960,7 +960,7 @@ void gl4es_glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) {
 #endif
     gles_glGetMaterialfv(face, pname, params);
 }
-void glGetMaterialfv(GLenum face, GLenum pname, GLfloat * params) AliasExport("gl4es_glGetMaterialfv");
+AliasExport(void,glGetMaterialfv,,(GLenum face, GLenum pname, GLfloat * params));
 #endif
 #ifndef skip_glGetMaterialxv
 void gl4es_glGetMaterialxv(GLenum face, GLenum pname, GLfixed * params) {
@@ -970,7 +970,7 @@ void gl4es_glGetMaterialxv(GLenum face, GLenum pname, GLfixed * params) {
 #endif
     gles_glGetMaterialxv(face, pname, params);
 }
-void glGetMaterialxv(GLenum face, GLenum pname, GLfixed * params) AliasExport("gl4es_glGetMaterialxv");
+AliasExport(void,glGetMaterialxv,,(GLenum face, GLenum pname, GLfixed * params));
 #endif
 #ifndef skip_glGetPointerv
 void gl4es_glGetPointerv(GLenum pname, GLvoid ** params) {
@@ -980,7 +980,7 @@ void gl4es_glGetPointerv(GLenum pname, GLvoid ** params) {
 #endif
     gles_glGetPointerv(pname, params);
 }
-void glGetPointerv(GLenum pname, GLvoid ** params) AliasExport("gl4es_glGetPointerv");
+AliasExport(void,glGetPointerv,,(GLenum pname, GLvoid ** params));
 #endif
 #ifndef skip_glGetProgramBinary
 void gl4es_glGetProgramBinary(GLuint program, GLsizei bufSize, GLsizei * length, GLenum * binaryFormat, GLvoid * binary) {
@@ -990,7 +990,7 @@ void gl4es_glGetProgramBinary(GLuint program, GLsizei bufSize, GLsizei * length,
 #endif
     gles_glGetProgramBinary(program, bufSize, length, binaryFormat, binary);
 }
-void glGetProgramBinary(GLuint program, GLsizei bufSize, GLsizei * length, GLenum * binaryFormat, GLvoid * binary) AliasExport("gl4es_glGetProgramBinary");
+AliasExport(void,glGetProgramBinary,,(GLuint program, GLsizei bufSize, GLsizei * length, GLenum * binaryFormat, GLvoid * binary));
 #endif
 #ifndef skip_glGetProgramInfoLog
 void gl4es_glGetProgramInfoLog(GLuint program, GLsizei bufSize, GLsizei * length, GLchar * infoLog) {
@@ -1000,7 +1000,7 @@ void gl4es_glGetProgramInfoLog(GLuint program, GLsizei bufSize, GLsizei * length
 #endif
     gles_glGetProgramInfoLog(program, bufSize, length, infoLog);
 }
-void glGetProgramInfoLog(GLuint program, GLsizei bufSize, GLsizei * length, GLchar * infoLog) AliasExport("gl4es_glGetProgramInfoLog");
+AliasExport(void,glGetProgramInfoLog,,(GLuint program, GLsizei bufSize, GLsizei * length, GLchar * infoLog));
 #endif
 #ifndef skip_glGetProgramiv
 void gl4es_glGetProgramiv(GLuint program, GLenum pname, GLint * params) {
@@ -1010,7 +1010,7 @@ void gl4es_glGetProgramiv(GLuint program, GLenum pname, GLint * params) {
 #endif
     gles_glGetProgramiv(program, pname, params);
 }
-void glGetProgramiv(GLuint program, GLenum pname, GLint * params) AliasExport("gl4es_glGetProgramiv");
+AliasExport(void,glGetProgramiv,,(GLuint program, GLenum pname, GLint * params));
 #endif
 #ifndef skip_glGetRenderbufferParameteriv
 void gl4es_glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * params) {
@@ -1020,7 +1020,7 @@ void gl4es_glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * par
 #endif
     gles_glGetRenderbufferParameteriv(target, pname, params);
 }
-void glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * params) AliasExport("gl4es_glGetRenderbufferParameteriv");
+AliasExport(void,glGetRenderbufferParameteriv,,(GLenum target, GLenum pname, GLint * params));
 #endif
 #ifndef skip_glGetShaderInfoLog
 void gl4es_glGetShaderInfoLog(GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * infoLog) {
@@ -1030,7 +1030,7 @@ void gl4es_glGetShaderInfoLog(GLuint shader, GLsizei bufSize, GLsizei * length, 
 #endif
     gles_glGetShaderInfoLog(shader, bufSize, length, infoLog);
 }
-void glGetShaderInfoLog(GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * infoLog) AliasExport("gl4es_glGetShaderInfoLog");
+AliasExport(void,glGetShaderInfoLog,,(GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * infoLog));
 #endif
 #ifndef skip_glGetShaderPrecisionFormat
 void gl4es_glGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint * range, GLint * precision) {
@@ -1040,7 +1040,7 @@ void gl4es_glGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, G
 #endif
     gles_glGetShaderPrecisionFormat(shadertype, precisiontype, range, precision);
 }
-void glGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint * range, GLint * precision) AliasExport("gl4es_glGetShaderPrecisionFormat");
+AliasExport(void,glGetShaderPrecisionFormat,,(GLenum shadertype, GLenum precisiontype, GLint * range, GLint * precision));
 #endif
 #ifndef skip_glGetShaderSource
 void gl4es_glGetShaderSource(GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * source) {
@@ -1050,7 +1050,7 @@ void gl4es_glGetShaderSource(GLuint shader, GLsizei bufSize, GLsizei * length, G
 #endif
     gles_glGetShaderSource(shader, bufSize, length, source);
 }
-void glGetShaderSource(GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * source) AliasExport("gl4es_glGetShaderSource");
+AliasExport(void,glGetShaderSource,,(GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * source));
 #endif
 #ifndef skip_glGetShaderiv
 void gl4es_glGetShaderiv(GLuint shader, GLenum pname, GLint * params) {
@@ -1060,7 +1060,7 @@ void gl4es_glGetShaderiv(GLuint shader, GLenum pname, GLint * params) {
 #endif
     gles_glGetShaderiv(shader, pname, params);
 }
-void glGetShaderiv(GLuint shader, GLenum pname, GLint * params) AliasExport("gl4es_glGetShaderiv");
+AliasExport(void,glGetShaderiv,,(GLuint shader, GLenum pname, GLint * params));
 #endif
 #ifndef skip_glGetString
 const GLubyte * gl4es_glGetString(GLenum name) {
@@ -1070,7 +1070,7 @@ const GLubyte * gl4es_glGetString(GLenum name) {
 #endif
     return gles_glGetString(name);
 }
-const GLubyte * glGetString(GLenum name) AliasExport("gl4es_glGetString");
+AliasExport(const GLubyte*,glGetString,,(GLenum name));
 #endif
 #ifndef skip_glGetTexEnvfv
 void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
@@ -1080,7 +1080,7 @@ void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
 #endif
     gles_glGetTexEnvfv(target, pname, params);
 }
-void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) AliasExport("gl4es_glGetTexEnvfv");
+AliasExport(void,glGetTexEnvfv,,(GLenum target, GLenum pname, GLfloat * params));
 #endif
 #ifndef skip_glGetTexEnviv
 void gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
@@ -1090,7 +1090,7 @@ void gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
 #endif
     gles_glGetTexEnviv(target, pname, params);
 }
-void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) AliasExport("gl4es_glGetTexEnviv");
+AliasExport(void,glGetTexEnviv,,(GLenum target, GLenum pname, GLint * params));
 #endif
 #ifndef skip_glGetTexEnvxv
 void gl4es_glGetTexEnvxv(GLenum target, GLenum pname, GLfixed * params) {
@@ -1100,7 +1100,7 @@ void gl4es_glGetTexEnvxv(GLenum target, GLenum pname, GLfixed * params) {
 #endif
     gles_glGetTexEnvxv(target, pname, params);
 }
-void glGetTexEnvxv(GLenum target, GLenum pname, GLfixed * params) AliasExport("gl4es_glGetTexEnvxv");
+AliasExport(void,glGetTexEnvxv,,(GLenum target, GLenum pname, GLfixed * params));
 #endif
 #ifndef skip_glGetTexParameterfv
 void gl4es_glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
@@ -1110,7 +1110,7 @@ void gl4es_glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) {
 #endif
     gles_glGetTexParameterfv(target, pname, params);
 }
-void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) AliasExport("gl4es_glGetTexParameterfv");
+AliasExport(void,glGetTexParameterfv,,(GLenum target, GLenum pname, GLfloat * params));
 #endif
 #ifndef skip_glGetTexParameteriv
 void gl4es_glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
@@ -1120,7 +1120,7 @@ void gl4es_glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) {
 #endif
     gles_glGetTexParameteriv(target, pname, params);
 }
-void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) AliasExport("gl4es_glGetTexParameteriv");
+AliasExport(void,glGetTexParameteriv,,(GLenum target, GLenum pname, GLint * params));
 #endif
 #ifndef skip_glGetTexParameterxv
 void gl4es_glGetTexParameterxv(GLenum target, GLenum pname, GLfixed * params) {
@@ -1130,7 +1130,7 @@ void gl4es_glGetTexParameterxv(GLenum target, GLenum pname, GLfixed * params) {
 #endif
     gles_glGetTexParameterxv(target, pname, params);
 }
-void glGetTexParameterxv(GLenum target, GLenum pname, GLfixed * params) AliasExport("gl4es_glGetTexParameterxv");
+AliasExport(void,glGetTexParameterxv,,(GLenum target, GLenum pname, GLfixed * params));
 #endif
 #ifndef skip_glGetUniformLocation
 GLint gl4es_glGetUniformLocation(GLuint program, const GLchar * name) {
@@ -1140,7 +1140,7 @@ GLint gl4es_glGetUniformLocation(GLuint program, const GLchar * name) {
 #endif
     return gles_glGetUniformLocation(program, name);
 }
-GLint glGetUniformLocation(GLuint program, const GLchar * name) AliasExport("gl4es_glGetUniformLocation");
+AliasExport(GLint,glGetUniformLocation,,(GLuint program, const GLchar * name));
 #endif
 #ifndef skip_glGetUniformfv
 void gl4es_glGetUniformfv(GLuint program, GLint location, GLfloat * params) {
@@ -1150,7 +1150,7 @@ void gl4es_glGetUniformfv(GLuint program, GLint location, GLfloat * params) {
 #endif
     gles_glGetUniformfv(program, location, params);
 }
-void glGetUniformfv(GLuint program, GLint location, GLfloat * params) AliasExport("gl4es_glGetUniformfv");
+AliasExport(void,glGetUniformfv,,(GLuint program, GLint location, GLfloat * params));
 #endif
 #ifndef skip_glGetUniformiv
 void gl4es_glGetUniformiv(GLuint program, GLint location, GLint * params) {
@@ -1160,7 +1160,7 @@ void gl4es_glGetUniformiv(GLuint program, GLint location, GLint * params) {
 #endif
     gles_glGetUniformiv(program, location, params);
 }
-void glGetUniformiv(GLuint program, GLint location, GLint * params) AliasExport("gl4es_glGetUniformiv");
+AliasExport(void,glGetUniformiv,,(GLuint program, GLint location, GLint * params));
 #endif
 #ifndef skip_glGetVertexAttribPointerv
 void gl4es_glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid ** pointer) {
@@ -1170,7 +1170,7 @@ void gl4es_glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid ** point
 #endif
     gles_glGetVertexAttribPointerv(index, pname, pointer);
 }
-void glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid ** pointer) AliasExport("gl4es_glGetVertexAttribPointerv");
+AliasExport(void,glGetVertexAttribPointerv,,(GLuint index, GLenum pname, GLvoid ** pointer));
 #endif
 #ifndef skip_glGetVertexAttribfv
 void gl4es_glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat * params) {
@@ -1180,7 +1180,7 @@ void gl4es_glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat * params) {
 #endif
     gles_glGetVertexAttribfv(index, pname, params);
 }
-void glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat * params) AliasExport("gl4es_glGetVertexAttribfv");
+AliasExport(void,glGetVertexAttribfv,,(GLuint index, GLenum pname, GLfloat * params));
 #endif
 #ifndef skip_glGetVertexAttribiv
 void gl4es_glGetVertexAttribiv(GLuint index, GLenum pname, GLint * params) {
@@ -1190,7 +1190,7 @@ void gl4es_glGetVertexAttribiv(GLuint index, GLenum pname, GLint * params) {
 #endif
     gles_glGetVertexAttribiv(index, pname, params);
 }
-void glGetVertexAttribiv(GLuint index, GLenum pname, GLint * params) AliasExport("gl4es_glGetVertexAttribiv");
+AliasExport(void,glGetVertexAttribiv,,(GLuint index, GLenum pname, GLint * params));
 #endif
 #ifndef skip_glHint
 void gl4es_glHint(GLenum target, GLenum mode) {
@@ -1200,7 +1200,7 @@ void gl4es_glHint(GLenum target, GLenum mode) {
 #endif
     gles_glHint(target, mode);
 }
-void glHint(GLenum target, GLenum mode) AliasExport("gl4es_glHint");
+AliasExport(void,glHint,,(GLenum target, GLenum mode));
 #endif
 #ifndef skip_glIsBuffer
 GLboolean gl4es_glIsBuffer(GLuint buffer) {
@@ -1210,7 +1210,7 @@ GLboolean gl4es_glIsBuffer(GLuint buffer) {
 #endif
     return gles_glIsBuffer(buffer);
 }
-GLboolean glIsBuffer(GLuint buffer) AliasExport("gl4es_glIsBuffer");
+AliasExport(GLboolean,glIsBuffer,,(GLuint buffer));
 #endif
 #ifndef skip_glIsEnabled
 GLboolean gl4es_glIsEnabled(GLenum cap) {
@@ -1220,7 +1220,7 @@ GLboolean gl4es_glIsEnabled(GLenum cap) {
 #endif
     return gles_glIsEnabled(cap);
 }
-GLboolean glIsEnabled(GLenum cap) AliasExport("gl4es_glIsEnabled");
+AliasExport(GLboolean,glIsEnabled,,(GLenum cap));
 #endif
 #ifndef skip_glIsFramebuffer
 GLboolean gl4es_glIsFramebuffer(GLuint framebuffer) {
@@ -1230,7 +1230,7 @@ GLboolean gl4es_glIsFramebuffer(GLuint framebuffer) {
 #endif
     return gles_glIsFramebuffer(framebuffer);
 }
-GLboolean glIsFramebuffer(GLuint framebuffer) AliasExport("gl4es_glIsFramebuffer");
+AliasExport(GLboolean,glIsFramebuffer,,(GLuint framebuffer));
 #endif
 #ifndef skip_glIsProgram
 GLboolean gl4es_glIsProgram(GLuint program) {
@@ -1240,7 +1240,7 @@ GLboolean gl4es_glIsProgram(GLuint program) {
 #endif
     return gles_glIsProgram(program);
 }
-GLboolean glIsProgram(GLuint program) AliasExport("gl4es_glIsProgram");
+AliasExport(GLboolean,glIsProgram,,(GLuint program));
 #endif
 #ifndef skip_glIsRenderbuffer
 GLboolean gl4es_glIsRenderbuffer(GLuint renderbuffer) {
@@ -1250,7 +1250,7 @@ GLboolean gl4es_glIsRenderbuffer(GLuint renderbuffer) {
 #endif
     return gles_glIsRenderbuffer(renderbuffer);
 }
-GLboolean glIsRenderbuffer(GLuint renderbuffer) AliasExport("gl4es_glIsRenderbuffer");
+AliasExport(GLboolean,glIsRenderbuffer,,(GLuint renderbuffer));
 #endif
 #ifndef skip_glIsShader
 GLboolean gl4es_glIsShader(GLuint shader) {
@@ -1260,7 +1260,7 @@ GLboolean gl4es_glIsShader(GLuint shader) {
 #endif
     return gles_glIsShader(shader);
 }
-GLboolean glIsShader(GLuint shader) AliasExport("gl4es_glIsShader");
+AliasExport(GLboolean,glIsShader,,(GLuint shader));
 #endif
 #ifndef skip_glIsTexture
 GLboolean gl4es_glIsTexture(GLuint texture) {
@@ -1270,7 +1270,7 @@ GLboolean gl4es_glIsTexture(GLuint texture) {
 #endif
     return gles_glIsTexture(texture);
 }
-GLboolean glIsTexture(GLuint texture) AliasExport("gl4es_glIsTexture");
+AliasExport(GLboolean,glIsTexture,,(GLuint texture));
 #endif
 #ifndef skip_glLightModelf
 void gl4es_glLightModelf(GLenum pname, GLfloat param) {
@@ -1280,7 +1280,7 @@ void gl4es_glLightModelf(GLenum pname, GLfloat param) {
 #endif
     gles_glLightModelf(pname, param);
 }
-void glLightModelf(GLenum pname, GLfloat param) AliasExport("gl4es_glLightModelf");
+AliasExport(void,glLightModelf,,(GLenum pname, GLfloat param));
 #endif
 #ifndef skip_glLightModelfv
 void gl4es_glLightModelfv(GLenum pname, const GLfloat * params) {
@@ -1290,7 +1290,7 @@ void gl4es_glLightModelfv(GLenum pname, const GLfloat * params) {
 #endif
     gles_glLightModelfv(pname, params);
 }
-void glLightModelfv(GLenum pname, const GLfloat * params) AliasExport("gl4es_glLightModelfv");
+AliasExport(void,glLightModelfv,,(GLenum pname, const GLfloat * params));
 #endif
 #ifndef skip_glLightModelx
 void gl4es_glLightModelx(GLenum pname, GLfixed param) {
@@ -1300,7 +1300,7 @@ void gl4es_glLightModelx(GLenum pname, GLfixed param) {
 #endif
     gles_glLightModelx(pname, param);
 }
-void glLightModelx(GLenum pname, GLfixed param) AliasExport("gl4es_glLightModelx");
+AliasExport(void,glLightModelx,,(GLenum pname, GLfixed param));
 #endif
 #ifndef skip_glLightModelxv
 void gl4es_glLightModelxv(GLenum pname, const GLfixed * params) {
@@ -1310,7 +1310,7 @@ void gl4es_glLightModelxv(GLenum pname, const GLfixed * params) {
 #endif
     gles_glLightModelxv(pname, params);
 }
-void glLightModelxv(GLenum pname, const GLfixed * params) AliasExport("gl4es_glLightModelxv");
+AliasExport(void,glLightModelxv,,(GLenum pname, const GLfixed * params));
 #endif
 #ifndef skip_glLightf
 void gl4es_glLightf(GLenum light, GLenum pname, GLfloat param) {
@@ -1320,7 +1320,7 @@ void gl4es_glLightf(GLenum light, GLenum pname, GLfloat param) {
 #endif
     gles_glLightf(light, pname, param);
 }
-void glLightf(GLenum light, GLenum pname, GLfloat param) AliasExport("gl4es_glLightf");
+AliasExport(void,glLightf,,(GLenum light, GLenum pname, GLfloat param));
 #endif
 #ifndef skip_glLightfv
 void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat * params) {
@@ -1330,7 +1330,7 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat * params) {
 #endif
     gles_glLightfv(light, pname, params);
 }
-void glLightfv(GLenum light, GLenum pname, const GLfloat * params) AliasExport("gl4es_glLightfv");
+AliasExport(void,glLightfv,,(GLenum light, GLenum pname, const GLfloat * params));
 #endif
 #ifndef skip_glLightx
 void gl4es_glLightx(GLenum light, GLenum pname, GLfixed param) {
@@ -1340,7 +1340,7 @@ void gl4es_glLightx(GLenum light, GLenum pname, GLfixed param) {
 #endif
     gles_glLightx(light, pname, param);
 }
-void glLightx(GLenum light, GLenum pname, GLfixed param) AliasExport("gl4es_glLightx");
+AliasExport(void,glLightx,,(GLenum light, GLenum pname, GLfixed param));
 #endif
 #ifndef skip_glLightxv
 void gl4es_glLightxv(GLenum light, GLenum pname, const GLfixed * params) {
@@ -1350,7 +1350,7 @@ void gl4es_glLightxv(GLenum light, GLenum pname, const GLfixed * params) {
 #endif
     gles_glLightxv(light, pname, params);
 }
-void glLightxv(GLenum light, GLenum pname, const GLfixed * params) AliasExport("gl4es_glLightxv");
+AliasExport(void,glLightxv,,(GLenum light, GLenum pname, const GLfixed * params));
 #endif
 #ifndef skip_glLineWidth
 void gl4es_glLineWidth(GLfloat width) {
@@ -1360,7 +1360,7 @@ void gl4es_glLineWidth(GLfloat width) {
 #endif
     gles_glLineWidth(width);
 }
-void glLineWidth(GLfloat width) AliasExport("gl4es_glLineWidth");
+AliasExport(void,glLineWidth,,(GLfloat width));
 #endif
 #ifndef skip_glLineWidthx
 void gl4es_glLineWidthx(GLfixed width) {
@@ -1370,7 +1370,7 @@ void gl4es_glLineWidthx(GLfixed width) {
 #endif
     gles_glLineWidthx(width);
 }
-void glLineWidthx(GLfixed width) AliasExport("gl4es_glLineWidthx");
+AliasExport(void,glLineWidthx,,(GLfixed width));
 #endif
 #ifndef skip_glLinkProgram
 void gl4es_glLinkProgram(GLuint program) {
@@ -1380,7 +1380,7 @@ void gl4es_glLinkProgram(GLuint program) {
 #endif
     gles_glLinkProgram(program);
 }
-void glLinkProgram(GLuint program) AliasExport("gl4es_glLinkProgram");
+AliasExport(void,glLinkProgram,,(GLuint program));
 #endif
 #ifndef skip_glLoadIdentity
 void gl4es_glLoadIdentity() {
@@ -1390,7 +1390,7 @@ void gl4es_glLoadIdentity() {
 #endif
     gles_glLoadIdentity();
 }
-void glLoadIdentity() AliasExport("gl4es_glLoadIdentity");
+AliasExport(void,glLoadIdentity,,());
 #endif
 #ifndef skip_glLoadMatrixf
 void gl4es_glLoadMatrixf(const GLfloat * m) {
@@ -1400,7 +1400,7 @@ void gl4es_glLoadMatrixf(const GLfloat * m) {
 #endif
     gles_glLoadMatrixf(m);
 }
-void glLoadMatrixf(const GLfloat * m) AliasExport("gl4es_glLoadMatrixf");
+AliasExport(void,glLoadMatrixf,,(const GLfloat * m));
 #endif
 #ifndef skip_glLoadMatrixx
 void gl4es_glLoadMatrixx(const GLfixed * m) {
@@ -1410,7 +1410,7 @@ void gl4es_glLoadMatrixx(const GLfixed * m) {
 #endif
     gles_glLoadMatrixx(m);
 }
-void glLoadMatrixx(const GLfixed * m) AliasExport("gl4es_glLoadMatrixx");
+AliasExport(void,glLoadMatrixx,,(const GLfixed * m));
 #endif
 #ifndef skip_glLogicOp
 void gl4es_glLogicOp(GLenum opcode) {
@@ -1420,7 +1420,7 @@ void gl4es_glLogicOp(GLenum opcode) {
 #endif
     gles_glLogicOp(opcode);
 }
-void glLogicOp(GLenum opcode) AliasExport("gl4es_glLogicOp");
+AliasExport(void,glLogicOp,,(GLenum opcode));
 #endif
 #ifndef skip_glMaterialf
 void gl4es_glMaterialf(GLenum face, GLenum pname, GLfloat param) {
@@ -1430,7 +1430,7 @@ void gl4es_glMaterialf(GLenum face, GLenum pname, GLfloat param) {
 #endif
     gles_glMaterialf(face, pname, param);
 }
-void glMaterialf(GLenum face, GLenum pname, GLfloat param) AliasExport("gl4es_glMaterialf");
+AliasExport(void,glMaterialf,,(GLenum face, GLenum pname, GLfloat param));
 #endif
 #ifndef skip_glMaterialfv
 void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) {
@@ -1440,7 +1440,7 @@ void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) {
 #endif
     gles_glMaterialfv(face, pname, params);
 }
-void glMaterialfv(GLenum face, GLenum pname, const GLfloat * params) AliasExport("gl4es_glMaterialfv");
+AliasExport(void,glMaterialfv,,(GLenum face, GLenum pname, const GLfloat * params));
 #endif
 #ifndef skip_glMaterialx
 void gl4es_glMaterialx(GLenum face, GLenum pname, GLfixed param) {
@@ -1450,7 +1450,7 @@ void gl4es_glMaterialx(GLenum face, GLenum pname, GLfixed param) {
 #endif
     gles_glMaterialx(face, pname, param);
 }
-void glMaterialx(GLenum face, GLenum pname, GLfixed param) AliasExport("gl4es_glMaterialx");
+AliasExport(void,glMaterialx,,(GLenum face, GLenum pname, GLfixed param));
 #endif
 #ifndef skip_glMaterialxv
 void gl4es_glMaterialxv(GLenum face, GLenum pname, const GLfixed * params) {
@@ -1460,7 +1460,7 @@ void gl4es_glMaterialxv(GLenum face, GLenum pname, const GLfixed * params) {
 #endif
     gles_glMaterialxv(face, pname, params);
 }
-void glMaterialxv(GLenum face, GLenum pname, const GLfixed * params) AliasExport("gl4es_glMaterialxv");
+AliasExport(void,glMaterialxv,,(GLenum face, GLenum pname, const GLfixed * params));
 #endif
 #ifndef skip_glMatrixMode
 void gl4es_glMatrixMode(GLenum mode) {
@@ -1470,7 +1470,7 @@ void gl4es_glMatrixMode(GLenum mode) {
 #endif
     gles_glMatrixMode(mode);
 }
-void glMatrixMode(GLenum mode) AliasExport("gl4es_glMatrixMode");
+AliasExport(void,glMatrixMode,,(GLenum mode));
 #endif
 #ifndef skip_glMultMatrixf
 void gl4es_glMultMatrixf(const GLfloat * m) {
@@ -1480,7 +1480,7 @@ void gl4es_glMultMatrixf(const GLfloat * m) {
 #endif
     gles_glMultMatrixf(m);
 }
-void glMultMatrixf(const GLfloat * m) AliasExport("gl4es_glMultMatrixf");
+AliasExport(void,glMultMatrixf,,(const GLfloat * m));
 #endif
 #ifndef skip_glMultMatrixx
 void gl4es_glMultMatrixx(const GLfixed * m) {
@@ -1490,7 +1490,7 @@ void gl4es_glMultMatrixx(const GLfixed * m) {
 #endif
     gles_glMultMatrixx(m);
 }
-void glMultMatrixx(const GLfixed * m) AliasExport("gl4es_glMultMatrixx");
+AliasExport(void,glMultMatrixx,,(const GLfixed * m));
 #endif
 #ifndef skip_glMultiDrawArrays
 void gl4es_glMultiDrawArrays(GLenum mode, const GLint * first, const GLsizei * count, GLsizei primcount) {
@@ -1500,7 +1500,7 @@ void gl4es_glMultiDrawArrays(GLenum mode, const GLint * first, const GLsizei * c
 #endif
     gles_glMultiDrawArrays(mode, first, count, primcount);
 }
-void glMultiDrawArrays(GLenum mode, const GLint * first, const GLsizei * count, GLsizei primcount) AliasExport("gl4es_glMultiDrawArrays");
+AliasExport(void,glMultiDrawArrays,,(GLenum mode, const GLint * first, const GLsizei * count, GLsizei primcount));
 #endif
 #ifndef skip_glMultiDrawElements
 void gl4es_glMultiDrawElements(GLenum mode, GLsizei * count, GLenum type, const void * const * indices, GLsizei primcount) {
@@ -1510,7 +1510,7 @@ void gl4es_glMultiDrawElements(GLenum mode, GLsizei * count, GLenum type, const 
 #endif
     gles_glMultiDrawElements(mode, count, type, indices, primcount);
 }
-void glMultiDrawElements(GLenum mode, GLsizei * count, GLenum type, const void * const * indices, GLsizei primcount) AliasExport("gl4es_glMultiDrawElements");
+AliasExport(void,glMultiDrawElements,,(GLenum mode, GLsizei * count, GLenum type, const void * const * indices, GLsizei primcount));
 #endif
 #ifndef skip_glMultiTexCoord4f
 void gl4es_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
@@ -1520,7 +1520,7 @@ void gl4es_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLf
 #endif
     gles_glMultiTexCoord4f(target, s, t, r, q);
 }
-void glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) AliasExport("gl4es_glMultiTexCoord4f");
+AliasExport(void,glMultiTexCoord4f,,(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q));
 #endif
 #ifndef skip_glMultiTexCoord4x
 void gl4es_glMultiTexCoord4x(GLenum target, GLfixed s, GLfixed t, GLfixed r, GLfixed q) {
@@ -1530,7 +1530,7 @@ void gl4es_glMultiTexCoord4x(GLenum target, GLfixed s, GLfixed t, GLfixed r, GLf
 #endif
     gles_glMultiTexCoord4x(target, s, t, r, q);
 }
-void glMultiTexCoord4x(GLenum target, GLfixed s, GLfixed t, GLfixed r, GLfixed q) AliasExport("gl4es_glMultiTexCoord4x");
+AliasExport(void,glMultiTexCoord4x,,(GLenum target, GLfixed s, GLfixed t, GLfixed r, GLfixed q));
 #endif
 #ifndef skip_glNormal3f
 void gl4es_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
@@ -1540,7 +1540,7 @@ void gl4es_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 #endif
     gles_glNormal3f(nx, ny, nz);
 }
-void glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) AliasExport("gl4es_glNormal3f");
+AliasExport(void,glNormal3f,,(GLfloat nx, GLfloat ny, GLfloat nz));
 #endif
 #ifndef skip_glNormal3x
 void gl4es_glNormal3x(GLfixed nx, GLfixed ny, GLfixed nz) {
@@ -1550,7 +1550,7 @@ void gl4es_glNormal3x(GLfixed nx, GLfixed ny, GLfixed nz) {
 #endif
     gles_glNormal3x(nx, ny, nz);
 }
-void glNormal3x(GLfixed nx, GLfixed ny, GLfixed nz) AliasExport("gl4es_glNormal3x");
+AliasExport(void,glNormal3x,,(GLfixed nx, GLfixed ny, GLfixed nz));
 #endif
 #ifndef skip_glNormalPointer
 void gl4es_glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -1560,7 +1560,7 @@ void gl4es_glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) 
 #endif
     gles_glNormalPointer(type, stride, pointer);
 }
-void glNormalPointer(GLenum type, GLsizei stride, const GLvoid * pointer) AliasExport("gl4es_glNormalPointer");
+AliasExport(void,glNormalPointer,,(GLenum type, GLsizei stride, const GLvoid * pointer));
 #endif
 #ifndef skip_glOrthof
 void gl4es_glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat Near, GLfloat Far) {
@@ -1570,7 +1570,7 @@ void gl4es_glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GL
 #endif
     gles_glOrthof(left, right, bottom, top, Near, Far);
 }
-void glOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat Near, GLfloat Far) AliasExport("gl4es_glOrthof");
+AliasExport(void,glOrthof,,(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat Near, GLfloat Far));
 #endif
 #ifndef skip_glOrthox
 void gl4es_glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed Near, GLfixed Far) {
@@ -1580,7 +1580,7 @@ void gl4es_glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GL
 #endif
     gles_glOrthox(left, right, bottom, top, Near, Far);
 }
-void glOrthox(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed Near, GLfixed Far) AliasExport("gl4es_glOrthox");
+AliasExport(void,glOrthox,,(GLfixed left, GLfixed right, GLfixed bottom, GLfixed top, GLfixed Near, GLfixed Far));
 #endif
 #ifndef skip_glPixelStorei
 void gl4es_glPixelStorei(GLenum pname, GLint param) {
@@ -1590,7 +1590,7 @@ void gl4es_glPixelStorei(GLenum pname, GLint param) {
 #endif
     gles_glPixelStorei(pname, param);
 }
-void glPixelStorei(GLenum pname, GLint param) AliasExport("gl4es_glPixelStorei");
+AliasExport(void,glPixelStorei,,(GLenum pname, GLint param));
 #endif
 #ifndef skip_glPointParameterf
 void gl4es_glPointParameterf(GLenum pname, GLfloat param) {
@@ -1600,7 +1600,7 @@ void gl4es_glPointParameterf(GLenum pname, GLfloat param) {
 #endif
     gles_glPointParameterf(pname, param);
 }
-void glPointParameterf(GLenum pname, GLfloat param) AliasExport("gl4es_glPointParameterf");
+AliasExport(void,glPointParameterf,,(GLenum pname, GLfloat param));
 #endif
 #ifndef skip_glPointParameterfv
 void gl4es_glPointParameterfv(GLenum pname, const GLfloat * params) {
@@ -1610,7 +1610,7 @@ void gl4es_glPointParameterfv(GLenum pname, const GLfloat * params) {
 #endif
     gles_glPointParameterfv(pname, params);
 }
-void glPointParameterfv(GLenum pname, const GLfloat * params) AliasExport("gl4es_glPointParameterfv");
+AliasExport(void,glPointParameterfv,,(GLenum pname, const GLfloat * params));
 #endif
 #ifndef skip_glPointParameterx
 void gl4es_glPointParameterx(GLenum pname, GLfixed param) {
@@ -1620,7 +1620,7 @@ void gl4es_glPointParameterx(GLenum pname, GLfixed param) {
 #endif
     gles_glPointParameterx(pname, param);
 }
-void glPointParameterx(GLenum pname, GLfixed param) AliasExport("gl4es_glPointParameterx");
+AliasExport(void,glPointParameterx,,(GLenum pname, GLfixed param));
 #endif
 #ifndef skip_glPointParameterxv
 void gl4es_glPointParameterxv(GLenum pname, const GLfixed * params) {
@@ -1630,7 +1630,7 @@ void gl4es_glPointParameterxv(GLenum pname, const GLfixed * params) {
 #endif
     gles_glPointParameterxv(pname, params);
 }
-void glPointParameterxv(GLenum pname, const GLfixed * params) AliasExport("gl4es_glPointParameterxv");
+AliasExport(void,glPointParameterxv,,(GLenum pname, const GLfixed * params));
 #endif
 #ifndef skip_glPointSize
 void gl4es_glPointSize(GLfloat size) {
@@ -1640,7 +1640,7 @@ void gl4es_glPointSize(GLfloat size) {
 #endif
     gles_glPointSize(size);
 }
-void glPointSize(GLfloat size) AliasExport("gl4es_glPointSize");
+AliasExport(void,glPointSize,,(GLfloat size));
 #endif
 #ifndef skip_glPointSizePointerOES
 void gl4es_glPointSizePointerOES(GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -1650,7 +1650,7 @@ void gl4es_glPointSizePointerOES(GLenum type, GLsizei stride, const GLvoid * poi
 #endif
     gles_glPointSizePointerOES(type, stride, pointer);
 }
-void glPointSizePointerOES(GLenum type, GLsizei stride, const GLvoid * pointer) AliasExport("gl4es_glPointSizePointerOES");
+AliasExport(void,glPointSizePointerOES,,(GLenum type, GLsizei stride, const GLvoid * pointer));
 #endif
 #ifndef skip_glPointSizex
 void gl4es_glPointSizex(GLfixed size) {
@@ -1660,7 +1660,7 @@ void gl4es_glPointSizex(GLfixed size) {
 #endif
     gles_glPointSizex(size);
 }
-void glPointSizex(GLfixed size) AliasExport("gl4es_glPointSizex");
+AliasExport(void,glPointSizex,,(GLfixed size));
 #endif
 #ifndef skip_glPolygonOffset
 void gl4es_glPolygonOffset(GLfloat factor, GLfloat units) {
@@ -1670,7 +1670,7 @@ void gl4es_glPolygonOffset(GLfloat factor, GLfloat units) {
 #endif
     gles_glPolygonOffset(factor, units);
 }
-void glPolygonOffset(GLfloat factor, GLfloat units) AliasExport("gl4es_glPolygonOffset");
+AliasExport(void,glPolygonOffset,,(GLfloat factor, GLfloat units));
 #endif
 #ifndef skip_glPolygonOffsetx
 void gl4es_glPolygonOffsetx(GLfixed factor, GLfixed units) {
@@ -1680,7 +1680,7 @@ void gl4es_glPolygonOffsetx(GLfixed factor, GLfixed units) {
 #endif
     gles_glPolygonOffsetx(factor, units);
 }
-void glPolygonOffsetx(GLfixed factor, GLfixed units) AliasExport("gl4es_glPolygonOffsetx");
+AliasExport(void,glPolygonOffsetx,,(GLfixed factor, GLfixed units));
 #endif
 #ifndef skip_glPopMatrix
 void gl4es_glPopMatrix() {
@@ -1690,7 +1690,7 @@ void gl4es_glPopMatrix() {
 #endif
     gles_glPopMatrix();
 }
-void glPopMatrix() AliasExport("gl4es_glPopMatrix");
+AliasExport(void,glPopMatrix,,());
 #endif
 #ifndef skip_glProgramBinary
 void gl4es_glProgramBinary(GLuint program, GLenum binaryFormat, const GLvoid * binary, GLint length) {
@@ -1700,7 +1700,7 @@ void gl4es_glProgramBinary(GLuint program, GLenum binaryFormat, const GLvoid * b
 #endif
     gles_glProgramBinary(program, binaryFormat, binary, length);
 }
-void glProgramBinary(GLuint program, GLenum binaryFormat, const GLvoid * binary, GLint length) AliasExport("gl4es_glProgramBinary");
+AliasExport(void,glProgramBinary,,(GLuint program, GLenum binaryFormat, const GLvoid * binary, GLint length));
 #endif
 #ifndef skip_glPushMatrix
 void gl4es_glPushMatrix() {
@@ -1710,7 +1710,7 @@ void gl4es_glPushMatrix() {
 #endif
     gles_glPushMatrix();
 }
-void glPushMatrix() AliasExport("gl4es_glPushMatrix");
+AliasExport(void,glPushMatrix,,());
 #endif
 #ifndef skip_glReadPixels
 void gl4es_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels) {
@@ -1720,7 +1720,7 @@ void gl4es_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum 
 #endif
     gles_glReadPixels(x, y, width, height, format, type, pixels);
 }
-void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels) AliasExport("gl4es_glReadPixels");
+AliasExport(void,glReadPixels,,(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels));
 #endif
 #ifndef skip_glReleaseShaderCompiler
 void gl4es_glReleaseShaderCompiler() {
@@ -1730,7 +1730,7 @@ void gl4es_glReleaseShaderCompiler() {
 #endif
     gles_glReleaseShaderCompiler();
 }
-void glReleaseShaderCompiler() AliasExport("gl4es_glReleaseShaderCompiler");
+AliasExport(void,glReleaseShaderCompiler,,());
 #endif
 #ifndef skip_glRenderbufferStorage
 void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) {
@@ -1740,7 +1740,7 @@ void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei w
 #endif
     gles_glRenderbufferStorage(target, internalformat, width, height);
 }
-void glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) AliasExport("gl4es_glRenderbufferStorage");
+AliasExport(void,glRenderbufferStorage,,(GLenum target, GLenum internalformat, GLsizei width, GLsizei height));
 #endif
 #ifndef skip_glRotatef
 void gl4es_glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
@@ -1750,7 +1750,7 @@ void gl4es_glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) {
 #endif
     gles_glRotatef(angle, x, y, z);
 }
-void glRotatef(GLfloat angle, GLfloat x, GLfloat y, GLfloat z) AliasExport("gl4es_glRotatef");
+AliasExport(void,glRotatef,,(GLfloat angle, GLfloat x, GLfloat y, GLfloat z));
 #endif
 #ifndef skip_glRotatex
 void gl4es_glRotatex(GLfixed angle, GLfixed x, GLfixed y, GLfixed z) {
@@ -1760,7 +1760,7 @@ void gl4es_glRotatex(GLfixed angle, GLfixed x, GLfixed y, GLfixed z) {
 #endif
     gles_glRotatex(angle, x, y, z);
 }
-void glRotatex(GLfixed angle, GLfixed x, GLfixed y, GLfixed z) AliasExport("gl4es_glRotatex");
+AliasExport(void,glRotatex,,(GLfixed angle, GLfixed x, GLfixed y, GLfixed z));
 #endif
 #ifndef skip_glSampleCoverage
 void gl4es_glSampleCoverage(GLclampf value, GLboolean invert) {
@@ -1770,7 +1770,7 @@ void gl4es_glSampleCoverage(GLclampf value, GLboolean invert) {
 #endif
     gles_glSampleCoverage(value, invert);
 }
-void glSampleCoverage(GLclampf value, GLboolean invert) AliasExport("gl4es_glSampleCoverage");
+AliasExport(void,glSampleCoverage,,(GLclampf value, GLboolean invert));
 #endif
 #ifndef skip_glSampleCoveragex
 void gl4es_glSampleCoveragex(GLclampx value, GLboolean invert) {
@@ -1780,7 +1780,7 @@ void gl4es_glSampleCoveragex(GLclampx value, GLboolean invert) {
 #endif
     gles_glSampleCoveragex(value, invert);
 }
-void glSampleCoveragex(GLclampx value, GLboolean invert) AliasExport("gl4es_glSampleCoveragex");
+AliasExport(void,glSampleCoveragex,,(GLclampx value, GLboolean invert));
 #endif
 #ifndef skip_glScalef
 void gl4es_glScalef(GLfloat x, GLfloat y, GLfloat z) {
@@ -1790,7 +1790,7 @@ void gl4es_glScalef(GLfloat x, GLfloat y, GLfloat z) {
 #endif
     gles_glScalef(x, y, z);
 }
-void glScalef(GLfloat x, GLfloat y, GLfloat z) AliasExport("gl4es_glScalef");
+AliasExport(void,glScalef,,(GLfloat x, GLfloat y, GLfloat z));
 #endif
 #ifndef skip_glScalex
 void gl4es_glScalex(GLfixed x, GLfixed y, GLfixed z) {
@@ -1800,7 +1800,7 @@ void gl4es_glScalex(GLfixed x, GLfixed y, GLfixed z) {
 #endif
     gles_glScalex(x, y, z);
 }
-void glScalex(GLfixed x, GLfixed y, GLfixed z) AliasExport("gl4es_glScalex");
+AliasExport(void,glScalex,,(GLfixed x, GLfixed y, GLfixed z));
 #endif
 #ifndef skip_glScissor
 void gl4es_glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
@@ -1810,7 +1810,7 @@ void gl4es_glScissor(GLint x, GLint y, GLsizei width, GLsizei height) {
 #endif
     gles_glScissor(x, y, width, height);
 }
-void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) AliasExport("gl4es_glScissor");
+AliasExport(void,glScissor,,(GLint x, GLint y, GLsizei width, GLsizei height));
 #endif
 #ifndef skip_glShadeModel
 void gl4es_glShadeModel(GLenum mode) {
@@ -1820,7 +1820,7 @@ void gl4es_glShadeModel(GLenum mode) {
 #endif
     gles_glShadeModel(mode);
 }
-void glShadeModel(GLenum mode) AliasExport("gl4es_glShadeModel");
+AliasExport(void,glShadeModel,,(GLenum mode));
 #endif
 #ifndef skip_glShaderBinary
 void gl4es_glShaderBinary(GLsizei n, const GLuint * shaders, GLenum binaryformat, const GLvoid * binary, GLsizei length) {
@@ -1830,7 +1830,7 @@ void gl4es_glShaderBinary(GLsizei n, const GLuint * shaders, GLenum binaryformat
 #endif
     gles_glShaderBinary(n, shaders, binaryformat, binary, length);
 }
-void glShaderBinary(GLsizei n, const GLuint * shaders, GLenum binaryformat, const GLvoid * binary, GLsizei length) AliasExport("gl4es_glShaderBinary");
+AliasExport(void,glShaderBinary,,(GLsizei n, const GLuint * shaders, GLenum binaryformat, const GLvoid * binary, GLsizei length));
 #endif
 #ifndef skip_glShaderSource
 void gl4es_glShaderSource(GLuint shader, GLsizei count, const GLchar * const * string, const GLint * length) {
@@ -1840,7 +1840,7 @@ void gl4es_glShaderSource(GLuint shader, GLsizei count, const GLchar * const * s
 #endif
     gles_glShaderSource(shader, count, string, length);
 }
-void glShaderSource(GLuint shader, GLsizei count, const GLchar * const * string, const GLint * length) AliasExport("gl4es_glShaderSource");
+AliasExport(void,glShaderSource,,(GLuint shader, GLsizei count, const GLchar * const * string, const GLint * length));
 #endif
 #ifndef skip_glStencilFunc
 void gl4es_glStencilFunc(GLenum func, GLint ref, GLuint mask) {
@@ -1850,7 +1850,7 @@ void gl4es_glStencilFunc(GLenum func, GLint ref, GLuint mask) {
 #endif
     gles_glStencilFunc(func, ref, mask);
 }
-void glStencilFunc(GLenum func, GLint ref, GLuint mask) AliasExport("gl4es_glStencilFunc");
+AliasExport(void,glStencilFunc,,(GLenum func, GLint ref, GLuint mask));
 #endif
 #ifndef skip_glStencilFuncSeparate
 void gl4es_glStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask) {
@@ -1860,7 +1860,7 @@ void gl4es_glStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mas
 #endif
     gles_glStencilFuncSeparate(face, func, ref, mask);
 }
-void glStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask) AliasExport("gl4es_glStencilFuncSeparate");
+AliasExport(void,glStencilFuncSeparate,,(GLenum face, GLenum func, GLint ref, GLuint mask));
 #endif
 #ifndef skip_glStencilMask
 void gl4es_glStencilMask(GLuint mask) {
@@ -1870,7 +1870,7 @@ void gl4es_glStencilMask(GLuint mask) {
 #endif
     gles_glStencilMask(mask);
 }
-void glStencilMask(GLuint mask) AliasExport("gl4es_glStencilMask");
+AliasExport(void,glStencilMask,,(GLuint mask));
 #endif
 #ifndef skip_glStencilMaskSeparate
 void gl4es_glStencilMaskSeparate(GLenum face, GLuint mask) {
@@ -1880,7 +1880,7 @@ void gl4es_glStencilMaskSeparate(GLenum face, GLuint mask) {
 #endif
     gles_glStencilMaskSeparate(face, mask);
 }
-void glStencilMaskSeparate(GLenum face, GLuint mask) AliasExport("gl4es_glStencilMaskSeparate");
+AliasExport(void,glStencilMaskSeparate,,(GLenum face, GLuint mask));
 #endif
 #ifndef skip_glStencilOp
 void gl4es_glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
@@ -1890,7 +1890,7 @@ void gl4es_glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
 #endif
     gles_glStencilOp(fail, zfail, zpass);
 }
-void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) AliasExport("gl4es_glStencilOp");
+AliasExport(void,glStencilOp,,(GLenum fail, GLenum zfail, GLenum zpass));
 #endif
 #ifndef skip_glStencilOpSeparate
 void gl4es_glStencilOpSeparate(GLenum face, GLenum sfail, GLenum zfail, GLenum zpass) {
@@ -1900,7 +1900,7 @@ void gl4es_glStencilOpSeparate(GLenum face, GLenum sfail, GLenum zfail, GLenum z
 #endif
     gles_glStencilOpSeparate(face, sfail, zfail, zpass);
 }
-void glStencilOpSeparate(GLenum face, GLenum sfail, GLenum zfail, GLenum zpass) AliasExport("gl4es_glStencilOpSeparate");
+AliasExport(void,glStencilOpSeparate,,(GLenum face, GLenum sfail, GLenum zfail, GLenum zpass));
 #endif
 #ifndef skip_glTexCoordPointer
 void gl4es_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -1910,7 +1910,7 @@ void gl4es_glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvo
 #endif
     gles_glTexCoordPointer(size, type, stride, pointer);
 }
-void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) AliasExport("gl4es_glTexCoordPointer");
+AliasExport(void,glTexCoordPointer,,(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer));
 #endif
 #ifndef skip_glTexEnvf
 void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
@@ -1920,7 +1920,7 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
 #endif
     gles_glTexEnvf(target, pname, param);
 }
-void glTexEnvf(GLenum target, GLenum pname, GLfloat param) AliasExport("gl4es_glTexEnvf");
+AliasExport(void,glTexEnvf,,(GLenum target, GLenum pname, GLfloat param));
 #endif
 #ifndef skip_glTexEnvfv
 void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) {
@@ -1930,7 +1930,7 @@ void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) {
 #endif
     gles_glTexEnvfv(target, pname, params);
 }
-void glTexEnvfv(GLenum target, GLenum pname, const GLfloat * params) AliasExport("gl4es_glTexEnvfv");
+AliasExport(void,glTexEnvfv,,(GLenum target, GLenum pname, const GLfloat * params));
 #endif
 #ifndef skip_glTexEnvi
 void gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param) {
@@ -1940,7 +1940,7 @@ void gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param) {
 #endif
     gles_glTexEnvi(target, pname, param);
 }
-void glTexEnvi(GLenum target, GLenum pname, GLint param) AliasExport("gl4es_glTexEnvi");
+AliasExport(void,glTexEnvi,,(GLenum target, GLenum pname, GLint param));
 #endif
 #ifndef skip_glTexEnviv
 void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint * params) {
@@ -1950,7 +1950,7 @@ void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint * params) {
 #endif
     gles_glTexEnviv(target, pname, params);
 }
-void glTexEnviv(GLenum target, GLenum pname, const GLint * params) AliasExport("gl4es_glTexEnviv");
+AliasExport(void,glTexEnviv,,(GLenum target, GLenum pname, const GLint * params));
 #endif
 #ifndef skip_glTexEnvx
 void gl4es_glTexEnvx(GLenum target, GLenum pname, GLfixed param) {
@@ -1960,7 +1960,7 @@ void gl4es_glTexEnvx(GLenum target, GLenum pname, GLfixed param) {
 #endif
     gles_glTexEnvx(target, pname, param);
 }
-void glTexEnvx(GLenum target, GLenum pname, GLfixed param) AliasExport("gl4es_glTexEnvx");
+AliasExport(void,glTexEnvx,,(GLenum target, GLenum pname, GLfixed param));
 #endif
 #ifndef skip_glTexEnvxv
 void gl4es_glTexEnvxv(GLenum target, GLenum pname, const GLfixed * params) {
@@ -1970,7 +1970,7 @@ void gl4es_glTexEnvxv(GLenum target, GLenum pname, const GLfixed * params) {
 #endif
     gles_glTexEnvxv(target, pname, params);
 }
-void glTexEnvxv(GLenum target, GLenum pname, const GLfixed * params) AliasExport("gl4es_glTexEnvxv");
+AliasExport(void,glTexEnvxv,,(GLenum target, GLenum pname, const GLfixed * params));
 #endif
 #ifndef skip_glTexGenfv
 void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat * params) {
@@ -1980,7 +1980,7 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat * params) {
 #endif
     gles_glTexGenfv(coord, pname, params);
 }
-void glTexGenfv(GLenum coord, GLenum pname, const GLfloat * params) AliasExport("gl4es_glTexGenfv");
+AliasExport(void,glTexGenfv,,(GLenum coord, GLenum pname, const GLfloat * params));
 #endif
 #ifndef skip_glTexGeni
 void gl4es_glTexGeni(GLenum coord, GLenum pname, GLint param) {
@@ -1990,7 +1990,7 @@ void gl4es_glTexGeni(GLenum coord, GLenum pname, GLint param) {
 #endif
     gles_glTexGeni(coord, pname, param);
 }
-void glTexGeni(GLenum coord, GLenum pname, GLint param) AliasExport("gl4es_glTexGeni");
+AliasExport(void,glTexGeni,,(GLenum coord, GLenum pname, GLint param));
 #endif
 #ifndef skip_glTexImage2D
 void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * data) {
@@ -2000,7 +2000,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsize
 #endif
     gles_glTexImage2D(target, level, internalformat, width, height, border, format, type, data);
 }
-void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * data) AliasExport("gl4es_glTexImage2D");
+AliasExport(void,glTexImage2D,,(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * data));
 #endif
 #ifndef skip_glTexParameterf
 void gl4es_glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
@@ -2010,7 +2010,7 @@ void gl4es_glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
 #endif
     gles_glTexParameterf(target, pname, param);
 }
-void glTexParameterf(GLenum target, GLenum pname, GLfloat param) AliasExport("gl4es_glTexParameterf");
+AliasExport(void,glTexParameterf,,(GLenum target, GLenum pname, GLfloat param));
 #endif
 #ifndef skip_glTexParameterfv
 void gl4es_glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) {
@@ -2020,7 +2020,7 @@ void gl4es_glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params)
 #endif
     gles_glTexParameterfv(target, pname, params);
 }
-void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) AliasExport("gl4es_glTexParameterfv");
+AliasExport(void,glTexParameterfv,,(GLenum target, GLenum pname, const GLfloat * params));
 #endif
 #ifndef skip_glTexParameteri
 void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
@@ -2030,7 +2030,7 @@ void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
 #endif
     gles_glTexParameteri(target, pname, param);
 }
-void glTexParameteri(GLenum target, GLenum pname, GLint param) AliasExport("gl4es_glTexParameteri");
+AliasExport(void,glTexParameteri,,(GLenum target, GLenum pname, GLint param));
 #endif
 #ifndef skip_glTexParameteriv
 void gl4es_glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
@@ -2040,7 +2040,7 @@ void gl4es_glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
 #endif
     gles_glTexParameteriv(target, pname, params);
 }
-void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) AliasExport("gl4es_glTexParameteriv");
+AliasExport(void,glTexParameteriv,,(GLenum target, GLenum pname, const GLint * params));
 #endif
 #ifndef skip_glTexParameterx
 void gl4es_glTexParameterx(GLenum target, GLenum pname, GLfixed param) {
@@ -2050,7 +2050,7 @@ void gl4es_glTexParameterx(GLenum target, GLenum pname, GLfixed param) {
 #endif
     gles_glTexParameterx(target, pname, param);
 }
-void glTexParameterx(GLenum target, GLenum pname, GLfixed param) AliasExport("gl4es_glTexParameterx");
+AliasExport(void,glTexParameterx,,(GLenum target, GLenum pname, GLfixed param));
 #endif
 #ifndef skip_glTexParameterxv
 void gl4es_glTexParameterxv(GLenum target, GLenum pname, const GLfixed * params) {
@@ -2060,7 +2060,7 @@ void gl4es_glTexParameterxv(GLenum target, GLenum pname, const GLfixed * params)
 #endif
     gles_glTexParameterxv(target, pname, params);
 }
-void glTexParameterxv(GLenum target, GLenum pname, const GLfixed * params) AliasExport("gl4es_glTexParameterxv");
+AliasExport(void,glTexParameterxv,,(GLenum target, GLenum pname, const GLfixed * params));
 #endif
 #ifndef skip_glTexSubImage2D
 void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * data) {
@@ -2070,7 +2070,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
 #endif
     gles_glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, data);
 }
-void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * data) AliasExport("gl4es_glTexSubImage2D");
+AliasExport(void,glTexSubImage2D,,(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * data));
 #endif
 #ifndef skip_glTranslatef
 void gl4es_glTranslatef(GLfloat x, GLfloat y, GLfloat z) {
@@ -2080,7 +2080,7 @@ void gl4es_glTranslatef(GLfloat x, GLfloat y, GLfloat z) {
 #endif
     gles_glTranslatef(x, y, z);
 }
-void glTranslatef(GLfloat x, GLfloat y, GLfloat z) AliasExport("gl4es_glTranslatef");
+AliasExport(void,glTranslatef,,(GLfloat x, GLfloat y, GLfloat z));
 #endif
 #ifndef skip_glTranslatex
 void gl4es_glTranslatex(GLfixed x, GLfixed y, GLfixed z) {
@@ -2090,7 +2090,7 @@ void gl4es_glTranslatex(GLfixed x, GLfixed y, GLfixed z) {
 #endif
     gles_glTranslatex(x, y, z);
 }
-void glTranslatex(GLfixed x, GLfixed y, GLfixed z) AliasExport("gl4es_glTranslatex");
+AliasExport(void,glTranslatex,,(GLfixed x, GLfixed y, GLfixed z));
 #endif
 #ifndef skip_glUniform1f
 void gl4es_glUniform1f(GLint location, GLfloat v0) {
@@ -2100,7 +2100,7 @@ void gl4es_glUniform1f(GLint location, GLfloat v0) {
 #endif
     gles_glUniform1f(location, v0);
 }
-void glUniform1f(GLint location, GLfloat v0) AliasExport("gl4es_glUniform1f");
+AliasExport(void,glUniform1f,,(GLint location, GLfloat v0));
 #endif
 #ifndef skip_glUniform1fv
 void gl4es_glUniform1fv(GLint location, GLsizei count, const GLfloat * value) {
@@ -2110,7 +2110,7 @@ void gl4es_glUniform1fv(GLint location, GLsizei count, const GLfloat * value) {
 #endif
     gles_glUniform1fv(location, count, value);
 }
-void glUniform1fv(GLint location, GLsizei count, const GLfloat * value) AliasExport("gl4es_glUniform1fv");
+AliasExport(void,glUniform1fv,,(GLint location, GLsizei count, const GLfloat * value));
 #endif
 #ifndef skip_glUniform1i
 void gl4es_glUniform1i(GLint location, GLint v0) {
@@ -2120,7 +2120,7 @@ void gl4es_glUniform1i(GLint location, GLint v0) {
 #endif
     gles_glUniform1i(location, v0);
 }
-void glUniform1i(GLint location, GLint v0) AliasExport("gl4es_glUniform1i");
+AliasExport(void,glUniform1i,,(GLint location, GLint v0));
 #endif
 #ifndef skip_glUniform1iv
 void gl4es_glUniform1iv(GLint location, GLsizei count, const GLint * value) {
@@ -2130,7 +2130,7 @@ void gl4es_glUniform1iv(GLint location, GLsizei count, const GLint * value) {
 #endif
     gles_glUniform1iv(location, count, value);
 }
-void glUniform1iv(GLint location, GLsizei count, const GLint * value) AliasExport("gl4es_glUniform1iv");
+AliasExport(void,glUniform1iv,,(GLint location, GLsizei count, const GLint * value));
 #endif
 #ifndef skip_glUniform2f
 void gl4es_glUniform2f(GLint location, GLfloat v0, GLfloat v1) {
@@ -2140,7 +2140,7 @@ void gl4es_glUniform2f(GLint location, GLfloat v0, GLfloat v1) {
 #endif
     gles_glUniform2f(location, v0, v1);
 }
-void glUniform2f(GLint location, GLfloat v0, GLfloat v1) AliasExport("gl4es_glUniform2f");
+AliasExport(void,glUniform2f,,(GLint location, GLfloat v0, GLfloat v1));
 #endif
 #ifndef skip_glUniform2fv
 void gl4es_glUniform2fv(GLint location, GLsizei count, const GLfloat * value) {
@@ -2150,7 +2150,7 @@ void gl4es_glUniform2fv(GLint location, GLsizei count, const GLfloat * value) {
 #endif
     gles_glUniform2fv(location, count, value);
 }
-void glUniform2fv(GLint location, GLsizei count, const GLfloat * value) AliasExport("gl4es_glUniform2fv");
+AliasExport(void,glUniform2fv,,(GLint location, GLsizei count, const GLfloat * value));
 #endif
 #ifndef skip_glUniform2i
 void gl4es_glUniform2i(GLint location, GLint v0, GLint v1) {
@@ -2160,7 +2160,7 @@ void gl4es_glUniform2i(GLint location, GLint v0, GLint v1) {
 #endif
     gles_glUniform2i(location, v0, v1);
 }
-void glUniform2i(GLint location, GLint v0, GLint v1) AliasExport("gl4es_glUniform2i");
+AliasExport(void,glUniform2i,,(GLint location, GLint v0, GLint v1));
 #endif
 #ifndef skip_glUniform2iv
 void gl4es_glUniform2iv(GLint location, GLsizei count, const GLint * value) {
@@ -2170,7 +2170,7 @@ void gl4es_glUniform2iv(GLint location, GLsizei count, const GLint * value) {
 #endif
     gles_glUniform2iv(location, count, value);
 }
-void glUniform2iv(GLint location, GLsizei count, const GLint * value) AliasExport("gl4es_glUniform2iv");
+AliasExport(void,glUniform2iv,,(GLint location, GLsizei count, const GLint * value));
 #endif
 #ifndef skip_glUniform3f
 void gl4es_glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) {
@@ -2180,7 +2180,7 @@ void gl4es_glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) {
 #endif
     gles_glUniform3f(location, v0, v1, v2);
 }
-void glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) AliasExport("gl4es_glUniform3f");
+AliasExport(void,glUniform3f,,(GLint location, GLfloat v0, GLfloat v1, GLfloat v2));
 #endif
 #ifndef skip_glUniform3fv
 void gl4es_glUniform3fv(GLint location, GLsizei count, const GLfloat * value) {
@@ -2190,7 +2190,7 @@ void gl4es_glUniform3fv(GLint location, GLsizei count, const GLfloat * value) {
 #endif
     gles_glUniform3fv(location, count, value);
 }
-void glUniform3fv(GLint location, GLsizei count, const GLfloat * value) AliasExport("gl4es_glUniform3fv");
+AliasExport(void,glUniform3fv,,(GLint location, GLsizei count, const GLfloat * value));
 #endif
 #ifndef skip_glUniform3i
 void gl4es_glUniform3i(GLint location, GLint v0, GLint v1, GLint v2) {
@@ -2200,7 +2200,7 @@ void gl4es_glUniform3i(GLint location, GLint v0, GLint v1, GLint v2) {
 #endif
     gles_glUniform3i(location, v0, v1, v2);
 }
-void glUniform3i(GLint location, GLint v0, GLint v1, GLint v2) AliasExport("gl4es_glUniform3i");
+AliasExport(void,glUniform3i,,(GLint location, GLint v0, GLint v1, GLint v2));
 #endif
 #ifndef skip_glUniform3iv
 void gl4es_glUniform3iv(GLint location, GLsizei count, const GLint * value) {
@@ -2210,7 +2210,7 @@ void gl4es_glUniform3iv(GLint location, GLsizei count, const GLint * value) {
 #endif
     gles_glUniform3iv(location, count, value);
 }
-void glUniform3iv(GLint location, GLsizei count, const GLint * value) AliasExport("gl4es_glUniform3iv");
+AliasExport(void,glUniform3iv,,(GLint location, GLsizei count, const GLint * value));
 #endif
 #ifndef skip_glUniform4f
 void gl4es_glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) {
@@ -2220,7 +2220,7 @@ void gl4es_glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLflo
 #endif
     gles_glUniform4f(location, v0, v1, v2, v3);
 }
-void glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) AliasExport("gl4es_glUniform4f");
+AliasExport(void,glUniform4f,,(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3));
 #endif
 #ifndef skip_glUniform4fv
 void gl4es_glUniform4fv(GLint location, GLsizei count, const GLfloat * value) {
@@ -2230,7 +2230,7 @@ void gl4es_glUniform4fv(GLint location, GLsizei count, const GLfloat * value) {
 #endif
     gles_glUniform4fv(location, count, value);
 }
-void glUniform4fv(GLint location, GLsizei count, const GLfloat * value) AliasExport("gl4es_glUniform4fv");
+AliasExport(void,glUniform4fv,,(GLint location, GLsizei count, const GLfloat * value));
 #endif
 #ifndef skip_glUniform4i
 void gl4es_glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) {
@@ -2240,7 +2240,7 @@ void gl4es_glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) {
 #endif
     gles_glUniform4i(location, v0, v1, v2, v3);
 }
-void glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) AliasExport("gl4es_glUniform4i");
+AliasExport(void,glUniform4i,,(GLint location, GLint v0, GLint v1, GLint v2, GLint v3));
 #endif
 #ifndef skip_glUniform4iv
 void gl4es_glUniform4iv(GLint location, GLsizei count, const GLint * value) {
@@ -2250,7 +2250,7 @@ void gl4es_glUniform4iv(GLint location, GLsizei count, const GLint * value) {
 #endif
     gles_glUniform4iv(location, count, value);
 }
-void glUniform4iv(GLint location, GLsizei count, const GLint * value) AliasExport("gl4es_glUniform4iv");
+AliasExport(void,glUniform4iv,,(GLint location, GLsizei count, const GLint * value));
 #endif
 #ifndef skip_glUniformMatrix2fv
 void gl4es_glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value) {
@@ -2260,7 +2260,7 @@ void gl4es_glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose
 #endif
     gles_glUniformMatrix2fv(location, count, transpose, value);
 }
-void glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value) AliasExport("gl4es_glUniformMatrix2fv");
+AliasExport(void,glUniformMatrix2fv,,(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value));
 #endif
 #ifndef skip_glUniformMatrix3fv
 void gl4es_glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value) {
@@ -2270,7 +2270,7 @@ void gl4es_glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose
 #endif
     gles_glUniformMatrix3fv(location, count, transpose, value);
 }
-void glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value) AliasExport("gl4es_glUniformMatrix3fv");
+AliasExport(void,glUniformMatrix3fv,,(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value));
 #endif
 #ifndef skip_glUniformMatrix4fv
 void gl4es_glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value) {
@@ -2280,7 +2280,7 @@ void gl4es_glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose
 #endif
     gles_glUniformMatrix4fv(location, count, transpose, value);
 }
-void glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value) AliasExport("gl4es_glUniformMatrix4fv");
+AliasExport(void,glUniformMatrix4fv,,(GLint location, GLsizei count, GLboolean transpose, const GLfloat * value));
 #endif
 #ifndef skip_glUseProgram
 void gl4es_glUseProgram(GLuint program) {
@@ -2290,7 +2290,7 @@ void gl4es_glUseProgram(GLuint program) {
 #endif
     gles_glUseProgram(program);
 }
-void glUseProgram(GLuint program) AliasExport("gl4es_glUseProgram");
+AliasExport(void,glUseProgram,,(GLuint program));
 #endif
 #ifndef skip_glValidateProgram
 void gl4es_glValidateProgram(GLuint program) {
@@ -2300,7 +2300,7 @@ void gl4es_glValidateProgram(GLuint program) {
 #endif
     gles_glValidateProgram(program);
 }
-void glValidateProgram(GLuint program) AliasExport("gl4es_glValidateProgram");
+AliasExport(void,glValidateProgram,,(GLuint program));
 #endif
 #ifndef skip_glVertexAttrib1f
 void gl4es_glVertexAttrib1f(GLuint index, GLfloat x) {
@@ -2310,7 +2310,7 @@ void gl4es_glVertexAttrib1f(GLuint index, GLfloat x) {
 #endif
     gles_glVertexAttrib1f(index, x);
 }
-void glVertexAttrib1f(GLuint index, GLfloat x) AliasExport("gl4es_glVertexAttrib1f");
+AliasExport(void,glVertexAttrib1f,,(GLuint index, GLfloat x));
 #endif
 #ifndef skip_glVertexAttrib1fv
 void gl4es_glVertexAttrib1fv(GLuint index, const GLfloat * v) {
@@ -2320,7 +2320,7 @@ void gl4es_glVertexAttrib1fv(GLuint index, const GLfloat * v) {
 #endif
     gles_glVertexAttrib1fv(index, v);
 }
-void glVertexAttrib1fv(GLuint index, const GLfloat * v) AliasExport("gl4es_glVertexAttrib1fv");
+AliasExport(void,glVertexAttrib1fv,,(GLuint index, const GLfloat * v));
 #endif
 #ifndef skip_glVertexAttrib2f
 void gl4es_glVertexAttrib2f(GLuint index, GLfloat x, GLfloat y) {
@@ -2330,7 +2330,7 @@ void gl4es_glVertexAttrib2f(GLuint index, GLfloat x, GLfloat y) {
 #endif
     gles_glVertexAttrib2f(index, x, y);
 }
-void glVertexAttrib2f(GLuint index, GLfloat x, GLfloat y) AliasExport("gl4es_glVertexAttrib2f");
+AliasExport(void,glVertexAttrib2f,,(GLuint index, GLfloat x, GLfloat y));
 #endif
 #ifndef skip_glVertexAttrib2fv
 void gl4es_glVertexAttrib2fv(GLuint index, const GLfloat * v) {
@@ -2340,7 +2340,7 @@ void gl4es_glVertexAttrib2fv(GLuint index, const GLfloat * v) {
 #endif
     gles_glVertexAttrib2fv(index, v);
 }
-void glVertexAttrib2fv(GLuint index, const GLfloat * v) AliasExport("gl4es_glVertexAttrib2fv");
+AliasExport(void,glVertexAttrib2fv,,(GLuint index, const GLfloat * v));
 #endif
 #ifndef skip_glVertexAttrib3f
 void gl4es_glVertexAttrib3f(GLuint index, GLfloat x, GLfloat y, GLfloat z) {
@@ -2350,7 +2350,7 @@ void gl4es_glVertexAttrib3f(GLuint index, GLfloat x, GLfloat y, GLfloat z) {
 #endif
     gles_glVertexAttrib3f(index, x, y, z);
 }
-void glVertexAttrib3f(GLuint index, GLfloat x, GLfloat y, GLfloat z) AliasExport("gl4es_glVertexAttrib3f");
+AliasExport(void,glVertexAttrib3f,,(GLuint index, GLfloat x, GLfloat y, GLfloat z));
 #endif
 #ifndef skip_glVertexAttrib3fv
 void gl4es_glVertexAttrib3fv(GLuint index, const GLfloat * v) {
@@ -2360,7 +2360,7 @@ void gl4es_glVertexAttrib3fv(GLuint index, const GLfloat * v) {
 #endif
     gles_glVertexAttrib3fv(index, v);
 }
-void glVertexAttrib3fv(GLuint index, const GLfloat * v) AliasExport("gl4es_glVertexAttrib3fv");
+AliasExport(void,glVertexAttrib3fv,,(GLuint index, const GLfloat * v));
 #endif
 #ifndef skip_glVertexAttrib4f
 void gl4es_glVertexAttrib4f(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
@@ -2370,7 +2370,7 @@ void gl4es_glVertexAttrib4f(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLflo
 #endif
     gles_glVertexAttrib4f(index, x, y, z, w);
 }
-void glVertexAttrib4f(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w) AliasExport("gl4es_glVertexAttrib4f");
+AliasExport(void,glVertexAttrib4f,,(GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w));
 #endif
 #ifndef skip_glVertexAttrib4fv
 void gl4es_glVertexAttrib4fv(GLuint index, const GLfloat * v) {
@@ -2380,7 +2380,7 @@ void gl4es_glVertexAttrib4fv(GLuint index, const GLfloat * v) {
 #endif
     gles_glVertexAttrib4fv(index, v);
 }
-void glVertexAttrib4fv(GLuint index, const GLfloat * v) AliasExport("gl4es_glVertexAttrib4fv");
+AliasExport(void,glVertexAttrib4fv,,(GLuint index, const GLfloat * v));
 #endif
 #ifndef skip_glVertexAttribPointer
 void gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer) {
@@ -2390,7 +2390,7 @@ void gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolea
 #endif
     gles_glVertexAttribPointer(index, size, type, normalized, stride, pointer);
 }
-void glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer) AliasExport("gl4es_glVertexAttribPointer");
+AliasExport(void,glVertexAttribPointer,,(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer));
 #endif
 #ifndef skip_glVertexPointer
 void gl4es_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
@@ -2400,7 +2400,7 @@ void gl4es_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid
 #endif
     gles_glVertexPointer(size, type, stride, pointer);
 }
-void glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) AliasExport("gl4es_glVertexPointer");
+AliasExport(void,glVertexPointer,,(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer));
 #endif
 #ifndef skip_glViewport
 void gl4es_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
@@ -2410,7 +2410,7 @@ void gl4es_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
 #endif
     gles_glViewport(x, y, width, height);
 }
-void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) AliasExport("gl4es_glViewport");
+AliasExport(void,glViewport,,(GLint x, GLint y, GLsizei width, GLsizei height));
 #endif
 void glPackedCall(const packed_call_t *packed) {
     switch (packed->format) {

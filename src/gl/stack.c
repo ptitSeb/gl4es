@@ -657,7 +657,7 @@ void gl4es_glPopClientAttrib() {
 #undef v4
 
 //Direct wrapper
-void glPushClientAttrib(GLbitfield mask) AliasExport("gl4es_glPushClientAttrib");
-void glPopClientAttrib() AliasExport("gl4es_glPopClientAttrib");
-void glPushAttrib(GLbitfield mask) AliasExport("gl4es_glPushAttrib");
-void glPopAttrib() AliasExport("gl4es_glPopAttrib");
+AliasExport(void,glPushClientAttrib,,(GLbitfield mask));
+AliasExport(void,glPopClientAttrib,,());
+AliasExport(void,glPushAttrib,,(GLbitfield mask));
+AliasExport(void,glPopAttrib,,());

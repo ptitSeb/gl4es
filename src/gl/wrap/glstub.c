@@ -11,7 +11,7 @@ ret gl4es_ ## def args {\
     if(IsEnvVarTrue("LIBGL_DEBUG"))\
         printf("stub: %s;\n", #def);\
 } \
-ret def args AliasExport("gl4es_"#def);
+AliasExport(ret,def,,args);
 
 /*STUB(void,glFogCoordd,(GLdouble coord));
 STUB(void,glFogCoordf,(GLfloat coord));

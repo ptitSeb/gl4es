@@ -1,5 +1,12 @@
 #include <stdio.h>
+#ifndef _WIN32
 #include <unistd.h>
+#else
+#include <stdio.h>
+#include <direct.h>
+#define getcwd(a,b) _getcwd(a,b)
+#define snprintf _snprintf
+#endif
 #include "../../version.h"
 #include "../glx/glx_gbm.h"
 #include "../glx/streaming.h"
@@ -52,22 +59,36 @@ void glx_init();
 
 static int inited = 0;
 
-__attribute__((visibility("default")))
+EXPORT
 void set_getmainfbsize(void (*new_getMainFBSize)(int* w, int* h)) {
     gl4es_getMainFBSize = (void*)new_getMainFBSize;
 }
 
-__attribute__((visibility("default")))
+EXPORT
 void set_getprocaddress(void *(*new_proc_address)(const char *)) {
     gles_getProcAddress = new_proc_address;
 }
 
 #ifdef NO_INIT_CONSTRUCTOR
-__attribute__((visibility("default")))
+EXPORT
 #else
-__attribute__((constructor))
+#if defined(_WIN32) || defined(__CYGWIN__)
+#define BUILD_WINDOWS_DLL
+// dll can't initialized Mali Emulator in startup code :(
+static unsigned char dll_inited;
+EXPORT
+#endif
+#if !defined(_MSC_VER) || defined(__clang__)
+__attribute__((constructor(101)))
+#endif
 #endif
 void initialize_gl4es() {
+#ifdef BUILD_WINDOWS_DLL
+    if(!dll_inited && GetModuleHandleW(L"libMaliEmulator")) {
+       LOGE("libMaliEmulator can't be initialized fron DllMain (directX limitation)\n");
+       return;
+    }
+#endif
     // only init 1 time
     if(inited++) return;
     // default init of globals
@@ -671,9 +692,14 @@ void initialize_gl4es() {
 void FreeFBVisual();
 #endif
 #ifdef NO_INIT_CONSTRUCTOR
-__attribute__((visibility("default")))
+EXPORT
 #else
+#ifdef BUILD_WINDOWS_DLL
+EXPORT // symmetric for init -- trivialize application code
+#endif
+#if !defined(_MSC_VER) || defined(__clang__)
 __attribute__((destructor))
+#endif
 #endif
 void close_gl4es() {
 		#ifdef GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB
@@ -691,3 +717,19 @@ void close_gl4es() {
 	    os4CloseLib();
 	  #endif
 }
+
+#ifdef BUILD_WINDOWS_DLL
+#if !defined(_MSC_VER) || defined(__clang__)
+__attribute__((constructor(103)))
+#endif
+void dll_init_done()
+{ dll_inited = 1; }
+#endif
+
+#if defined(_MSC_VER) && !defined(NO_INIT_CONSTRUCTOR) && !defined(__clang__)
+#pragma const_seg(".CRT$XCU")
+void (*const gl4es_ctors[])() = { initialize_gl4es, dll_init_done };
+#pragma const_seg(".CRT$XTX")
+void (*const gl4es_dtor)() = close_gl4es;
+#pragma const_seg()
+#endif

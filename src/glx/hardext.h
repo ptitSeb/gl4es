@@ -1,6 +1,8 @@
 #ifndef _GLX_HARDEXT_H_
 #define _GLX_HARDEXT_H_
 
+#include "../gl/attributes.h"
+
 #define VEND_IMGTEC     0x0100
 #define VEND_ARM        0x0200
 
@@ -70,7 +72,7 @@ typedef struct _hardext {
     int glsl310es;      // does version 300es glsl shader are supported ?
 } hardext_t;
 
-extern hardext_t hardext __attribute__((visibility("default")));
+EXPORT extern hardext_t hardext;
 
 void GetHardwareExtensions(int test);
 

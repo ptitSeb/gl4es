@@ -64,7 +64,7 @@ void gl4es_glLineStipple(GLuint factor, GLushort pattern) {
         noerrorShim();
     }
 }
-void glLineStipple(GLuint factor, GLushort pattern) AliasExport("gl4es_glLineStipple");
+AliasExport(void,glLineStipple,,(GLuint factor, GLushort pattern));
 
 void bind_stipple_tex() {
     gl4es_glBindTexture(GL_TEXTURE_2D, glstate->linestipple.texture);

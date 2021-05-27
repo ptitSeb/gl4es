@@ -75,8 +75,16 @@ typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLC
 
 #ifdef AMIGAOS4
 #include "../agl/amigaos.h"
-#else
+#elif !defined(_WIN32)
 #include <dlfcn.h>
+#else
+#ifdef _MSC_VER
+__forceinline
+#elif defined(__GNUC__)
+__attribute__((always_inline)) __inline
+#endif
+static void* dlsym(void* __restrict handle, const char* __restrict symbol)
+{ return (void*)GetProcAddress(handle, symbol); }
 #endif
 #include <stdio.h>
 #include <stdlib.h>
@@ -85,20 +93,23 @@ typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLC
 #include "../glx/hardext.h"
 extern void *(*gles_getProcAddress)(const char *name);
 extern void (*gl4es_getMainFBSize)(GLint* width, GLint* height);
-void *proc_address(void *lib, const char *name) __attribute__((visibility("default")));
+EXPORT void *proc_address(void *lib, const char *name);
 // will become references to dlopen'd gles and egl
-extern void *gles, *egl  __attribute__((visibility("default"))), *bcm_host, *vcos, *gbm, *drm;
+extern void *gles, *bcm_host, *vcos, *gbm, *drm;
+EXPORT extern void *egl;
 #if defined __APPLE__ || defined __EMSCRIPTEN__
 #define NO_LOADER
 #endif
 
 #define WARN_NULL(name) if (name == NULL) LOGD("warning, %s line %d function %s: " #name " is NULL\n", __FILE__, __LINE__, __func__);
 
+#define MSVC_SPC(MACRO, ARGS) MACRO ARGS
+
 #define PUSH_IF_COMPILING_EXT(nam, ...)             \
     if (glstate->list.active) {                     \
         if (!glstate->list.pending) { \
             NewStage(glstate->list.active, STAGE_GLCALL);   \
-            push_##nam(__VA_ARGS__);                \
+            MSVC_SPC(push_##nam, (__VA_ARGS__));            \
             noerrorShim();							\
             return (nam##_RETURN)0;                 \
         }                                           \

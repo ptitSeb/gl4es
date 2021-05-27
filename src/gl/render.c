@@ -500,9 +500,9 @@ void select_glDrawElements(const vertexattrib_t* vtx, GLenum mode, GLuint count,
 }
 
 //Direct wrapper
-GLint glRenderMode(GLenum mode) AliasExport("gl4es_glRenderMode");
-void glInitNames() AliasExport("gl4es_glInitNames");
-void glPopName() AliasExport("gl4es_glPopName");
-void glPushName(GLuint name) AliasExport("gl4es_glPushName");
-void glLoadName(GLuint name) AliasExport("gl4es_glLoadName");
-void glSelectBuffer(GLsizei size, GLuint *buffer) AliasExport("gl4es_glSelectBuffer");
+AliasExport(GLint,glRenderMode,,(GLenum mode));
+AliasExport(void,glInitNames,,());
+AliasExport(void,glPopName,,());
+AliasExport(void,glPushName,,(GLuint name));
+AliasExport(void,glLoadName,,(GLuint name));
+AliasExport(void,glSelectBuffer,,(GLsizei size, GLuint *buffer));
