@@ -110,9 +110,9 @@ void gl4es_glGetUniformfv(GLuint program, GLint location, GLfloat *params) {
     FLUSH_BEGINEND;
     CHECK_PROGRAM(void, program);
 
-    khint_t k = 0;
+    khint_t k;
     uniform_t *gluniform = NULL;
-    k = kh_get(uniformlist, glprogram->uniform, k);
+    k = kh_get(uniformlist, glprogram->uniform, location);
     if(k!=kh_end(glprogram->uniform)) {
         gluniform = kh_value(glprogram->uniform, k);
         uintptr_t offs = gluniform->cache_offs;
@@ -137,9 +137,9 @@ void gl4es_glGetUniformiv(GLuint program, GLint location, GLint *params) {
     FLUSH_BEGINEND;
     CHECK_PROGRAM(void, program);
 
-    khint_t k = 0;
+    khint_t k;
     uniform_t *gluniform = NULL;
-    k = kh_get(uniformlist, glprogram->uniform, k);
+    k = kh_get(uniformlist, glprogram->uniform, location);
     if(k!=kh_end(glprogram->uniform)) {
         gluniform = kh_value(glprogram->uniform, k);
         uintptr_t offs = gluniform->cache_offs;
