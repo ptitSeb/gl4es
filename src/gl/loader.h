@@ -75,8 +75,16 @@ typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLC
 
 #ifdef AMIGAOS4
 #include "../agl/amigaos.h"
-#else
+#elif !defined(_WIN32)
 #include <dlfcn.h>
+#else
+#ifdef _MSC_VER
+__forceinline
+#elif defined(__GNUC__)
+__attribute__((always_inline)) __inline
+#endif
+static void* dlsym(void* __restrict handle, const char* __restrict symbol)
+{ return (void*)GetProcAddress(handle, symbol); }
 #endif
 #include <stdio.h>
 #include <stdlib.h>
@@ -95,11 +103,13 @@ EXPORT extern void *egl;
 
 #define WARN_NULL(name) if (name == NULL) LOGD("warning, %s line %d function %s: " #name " is NULL\n", __FILE__, __LINE__, __func__);
 
+#define MSVC_SPC(MACRO, ARGS) MACRO ARGS
+
 #define PUSH_IF_COMPILING_EXT(nam, ...)             \
     if (glstate->list.active) {                     \
         if (!glstate->list.pending) { \
             NewStage(glstate->list.active, STAGE_GLCALL);   \
-            push_##nam(__VA_ARGS__);                \
+            MSVC_SPC(push_##nam, (__VA_ARGS__));            \
             noerrorShim();							\
             return (nam##_RETURN)0;                 \
         }                                           \

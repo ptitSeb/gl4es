@@ -1,7 +1,9 @@
+#ifndef _WIN32
 #ifdef USE_CLOCK
 #include <time.h>
 #else
 #include <sys/time.h>
+#endif
 #endif
 
 #include "queries.h"
@@ -61,7 +63,9 @@ void del_querie(GLuint querie) {
 
 unsigned long long get_clock() {
 	unsigned long long now;
-	#ifdef USE_CLOCK
+	#ifdef _WIN32
+        GetSystemTimeAsFileTime((LPFILETIME)&now);
+	#elif defined(USE_CLOCK)
 	struct timespec out;
 	clock_gettime(CLOCK_MONOTONIC_RAW, &out);
 	now = ((unsigned long long)out.tv_sec)*1000000000LL + out.tv_nsec;

@@ -1,8 +1,8 @@
 #include "gl4es.h"
 
-#if defined(AMIGAOS4) || (defined(NOX11) && defined(NOEGL))
+#if defined(AMIGAOS4) || (defined(NOX11) && defined(NOEGL) && !defined(_WIN32))
 #include <sys/time.h>
-#endif // defined(AMIGAOS4) || (defined(NOX11) && defined(NOEGL))
+#endif // defined(AMIGAOS4) || (defined(NOX11) && defined(NOEGL) && !defined(_WIN32))
 
 #include "../config.h"
 #include "../glx/hardext.h"
@@ -1222,9 +1222,15 @@ void show_fps() {
         // framerate counter
         static float avg, fps = 0;
         static int frame1, last_frame, frame, now, current_frames;
+#ifndef _WIN32
         struct timeval out;
         gettimeofday(&out, NULL);
         now = out.tv_sec;
+#else
+        unsigned __int64 ft;
+        GetSystemTimeAsFileTime(&ft);
+        now = (unsigned)((ft / 10000000) - 11644473600ull); // 2unixtime
+#endif
         frame++;
         current_frames++;
 
