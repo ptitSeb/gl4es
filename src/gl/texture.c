@@ -1847,12 +1847,12 @@ void gl4es_glTexStorage2D(GLenum target, GLsizei levels, GLenum internalformat, 
 
 
 //Direct wrapper
-void glTexImage2D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *data) AliasExport("gl4es_glTexImage2D");
-void glTexImage1D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid *data) AliasExport("gl4es_glTexImage1D");
-void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *data) AliasExport("gl4es_glTexSubImage2D");
-void glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid *data) AliasExport("gl4es_glTexSubImage1D");
-GLboolean glIsTexture( GLuint texture ) AliasExport("gl4es_glIsTexture");
+AliasExport(void,glTexImage2D,,(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *data));
+AliasExport(void,glTexImage1D,,(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid *data));
+AliasExport(void,glTexSubImage2D,,(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *data));
+AliasExport(void,glTexSubImage1D,,(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid *data));
+AliasExport(GLboolean,glIsTexture,,( GLuint texture ));
 
 // TexStorage
-void glTexStorage1D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width) AliasExport("gl4es_glTexStorage1D");
-void glTexStorage2D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height) AliasExport("gl4es_glTexStorage2D");
+AliasExport(void,glTexStorage1D,,(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width));
+AliasExport(void,glTexStorage2D,,(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height));

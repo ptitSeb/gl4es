@@ -1,6 +1,8 @@
 #ifndef _GL_LOOKUP_H_
 #define _GL_LOOKUP_H_
 
+#include "attributes.h"
+
 #ifdef DEBUG
 #define MAP(func_name, func) \
     if (strcmp(name, func_name) == 0) {printf("%p (%s)\n", (void*)func, #func) ;return (void *)func;}
@@ -40,6 +42,6 @@
     }
 #endif
 
-void *gl4es_GetProcAddress(const char *name) __attribute__((visibility("default")));
+EXPORT void *gl4es_GetProcAddress(const char *name);
 
 #endif //_GL_LOOKUP_H_

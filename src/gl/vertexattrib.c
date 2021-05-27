@@ -160,30 +160,30 @@ void gl4es_glVertexAttribDivisor(GLuint index, GLuint divisor) {
     glstate->vao->vertexattrib[index].divisor = divisor;
 }
 
-void glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer) AliasExport("gl4es_glVertexAttribPointer");
-void glEnableVertexAttribArray(GLuint index) AliasExport("gl4es_glEnableVertexAttribArray");
-void glDisableVertexAttribArray(GLuint index) AliasExport("gl4es_glDisableVertexAttribArray");
-void glVertexAttrib4f(GLuint index, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) AliasExport("gl4es_glVertexAttrib4f");
-void glVertexAttrib4fv(GLuint index, const GLfloat *v) AliasExport("gl4es_glVertexAttrib4fv");
-void glGetVertexAttribdv(GLuint index, GLenum pname, GLdouble *params) AliasExport("gl4es_glGetVertexAttribdv");
-void glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat *params) AliasExport("gl4es_glGetVertexAttribfv");
-void glGetVertexAttribiv(GLuint index, GLenum pname, GLint *params) AliasExport("gl4es_glGetVertexAttribiv");
-void glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid **pointer) AliasExport("gl4es_glGetVertexAttribPointerv");
+AliasExport(void,glVertexAttribPointer,,(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer));
+AliasExport(void,glEnableVertexAttribArray,,(GLuint index));
+AliasExport(void,glDisableVertexAttribArray,,(GLuint index));
+AliasExport(void,glVertexAttrib4f,,(GLuint index, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3));
+AliasExport(void,glVertexAttrib4fv,,(GLuint index, const GLfloat *v));
+AliasExport(void,glGetVertexAttribdv,,(GLuint index, GLenum pname, GLdouble *params));
+AliasExport(void,glGetVertexAttribfv,,(GLuint index, GLenum pname, GLfloat *params));
+AliasExport(void,glGetVertexAttribiv,,(GLuint index, GLenum pname, GLint *params));
+AliasExport(void,glGetVertexAttribPointerv,,(GLuint index, GLenum pname, GLvoid **pointer));
 
 // ============= GL_ARB_vertex_shader =================
-GLvoid glVertexAttrib4fARB(GLuint index, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) AliasExport("gl4es_glVertexAttrib4f");
-GLvoid glVertexAttrib4fvARB(GLuint index, const GLfloat *v) AliasExport("gl4es_glVertexAttrib4fv");
+AliasExport(GLvoid,glVertexAttrib4f,ARB,(GLuint index, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3));
+AliasExport(GLvoid,glVertexAttrib4fv,ARB,(GLuint index, const GLfloat *v));
 
-GLvoid glVertexAttribPointerARB(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid *pointer) AliasExport("gl4es_glVertexAttribPointer");
+AliasExport(GLvoid,glVertexAttribPointer,ARB,(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid *pointer));
 
-GLvoid glEnableVertexAttribArrayARB(GLuint index) AliasExport("gl4es_glEnableVertexAttribArray");
-GLvoid glDisableVertexAttribArrayARB(GLuint index) AliasExport("gl4es_glDisableVertexAttribArray");
+AliasExport(GLvoid,glEnableVertexAttribArray,ARB,(GLuint index));
+AliasExport(GLvoid,glDisableVertexAttribArray,ARB,(GLuint index));
 
-GLvoid glGetVertexAttribdvARB(GLuint index, GLenum pname, GLdouble *params) AliasExport("gl4es_glGetVertexAttribdv");
-GLvoid glGetVertexAttribfvARB(GLuint index, GLenum pname, GLfloat *params) AliasExport("gl4es_glGetVertexAttribfv");
-GLvoid glGetVertexAttribivARB(GLuint index, GLenum pname, GLint *params) AliasExport("gl4es_glGetVertexAttribiv");
-GLvoid glGetVertexAttribPointervARB(GLuint index, GLenum pname, GLvoid **pointer) AliasExport("gl4es_glGetVertexAttribPointerv");
+AliasExport(GLvoid,glGetVertexAttribdv,ARB,(GLuint index, GLenum pname, GLdouble *params));
+AliasExport(GLvoid,glGetVertexAttribfv,ARB,(GLuint index, GLenum pname, GLfloat *params));
+AliasExport(GLvoid,glGetVertexAttribiv,ARB,(GLuint index, GLenum pname, GLint *params));
+AliasExport(GLvoid,glGetVertexAttribPointerv,ARB,(GLuint index, GLenum pname, GLvoid **pointer));
 
 // ============== GL_ARB_instanced_arrays =================
-void glVertexAttribDivisor(GLuint index, GLuint divisor) AliasExport("gl4es_glVertexAttribDivisor");
-void glVertexAttribDivisorARB(GLuint index, GLuint divisor) AliasExport("gl4es_glVertexAttribDivisor");
+AliasExport(void,glVertexAttribDivisor,,(GLuint index, GLuint divisor));
+AliasExport(void,glVertexAttribDivisor,ARB,(GLuint index, GLuint divisor));

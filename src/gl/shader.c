@@ -379,24 +379,24 @@ void gl4es_glReleaseShaderCompiler(void) {
 
 // ========== GL_ARB_shader_objects ==============
 
-GLuint glCreateShader(GLenum shaderType) AliasExport("gl4es_glCreateShader");
-void glDeleteShader(GLuint shader) AliasExport("gl4es_glDeleteShader");
-void glCompileShader(GLuint shader) AliasExport("gl4es_glCompileShader");
-void glShaderSource(GLuint shader, GLsizei count, const GLchar * const *string, const GLint *length) AliasExport("gl4es_glShaderSource");
-void glGetShaderSource(GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *source) AliasExport("gl4es_glGetShaderSource");
-GLboolean glIsShader(GLuint shader) AliasExport("gl4es_glIsShader");
-void glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei *length, GLchar *infoLog) AliasExport("gl4es_glGetShaderInfoLog");
-void glGetShaderiv(GLuint shader, GLenum pname, GLint *params) AliasExport("gl4es_glGetShaderiv");
-void glGetShaderPrecisionFormat(GLenum shaderType, GLenum precisionType, GLint *range, GLint *precision) AliasExport("gl4es_glGetShaderPrecisionFormat");
-void glShaderBinary(GLsizei count, const GLuint *shaders, GLenum binaryFormat, const void *binary, GLsizei length) AliasExport("gl4es_glShaderBinary");
-void glReleaseShaderCompiler(void) AliasExport("gl4es_glReleaseShaderCompiler");
+AliasExport(GLuint,glCreateShader,,(GLenum shaderType));
+AliasExport(void,glDeleteShader,,(GLuint shader));
+AliasExport(void,glCompileShader,,(GLuint shader));
+AliasExport(void,glShaderSource,,(GLuint shader, GLsizei count, const GLchar * const *string, const GLint *length));
+AliasExport(void,glGetShaderSource,,(GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *source));
+AliasExport(GLboolean,glIsShader,,(GLuint shader));
+AliasExport(void,glGetShaderInfoLog,,(GLuint shader, GLsizei maxLength, GLsizei *length, GLchar *infoLog));
+AliasExport(void,glGetShaderiv,,(GLuint shader, GLenum pname, GLint *params));
+AliasExport(void,glGetShaderPrecisionFormat,,(GLenum shaderType, GLenum precisionType, GLint *range, GLint *precision));
+AliasExport(void,glShaderBinary,,(GLsizei count, const GLuint *shaders, GLenum binaryFormat, const void *binary, GLsizei length));
+AliasExport(void,glReleaseShaderCompiler,,(void));
 
 
 GLhandleARB gl4es_glCreateShaderObject(GLenum shaderType) {
     return gl4es_glCreateShader(shaderType);
 }
 
-GLhandleARB glCreateShaderObjectARB(GLenum shaderType) AliasExport("gl4es_glCreateShaderObject");
-GLvoid glShaderSourceARB(GLhandleARB shaderObj, GLsizei count, const GLcharARB **string, const GLint *length) AliasExport("gl4es_glShaderSource");
-GLvoid glCompileShaderARB(GLhandleARB shaderObj) AliasExport("gl4es_glCompileShader");
-GLvoid glGetShaderSourceARB(GLhandleARB obj, GLsizei maxLength, GLsizei *length, GLcharARB *source) AliasExport("gl4es_glGetShaderSource");
+AliasExport(GLhandleARB,glCreateShaderObject,ARB,(GLenum shaderType));
+AliasExport(GLvoid,glShaderSource,ARB,(GLhandleARB shaderObj, GLsizei count, const GLcharARB **string, const GLint *length));
+AliasExport(GLvoid,glCompileShader,ARB,(GLhandleARB shaderObj));
+AliasExport(GLvoid,glGetShaderSource,ARB,(GLhandleARB obj, GLsizei maxLength, GLsizei *length, GLcharARB *source));

@@ -451,11 +451,11 @@ void gl4es_glMultTransposeMatrixf(const GLfloat *m) {
     errorGL();
 }
 
-void glTexGenfv(GLenum coord, GLenum pname, const GLfloat *params) AliasExport("gl4es_glTexGenfv");
-void glTexGeni(GLenum coord, GLenum pname, GLint param) AliasExport("gl4es_glTexGeni");
-void glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) AliasExport("gl4es_glGetTexGenfv");
+AliasExport(void,glTexGenfv,,(GLenum coord, GLenum pname, const GLfloat *params));
+AliasExport(void,glTexGeni,,(GLenum coord, GLenum pname, GLint param));
+AliasExport(void,glGetTexGenfv,,(GLenum coord,GLenum pname,GLfloat *params));
 
-void glLoadTransposeMatrixf(const GLfloat *m) AliasExport("gl4es_glLoadTransposeMatrixf");
-void glLoadTransposeMatrixd(const GLdouble *m) AliasExport("gl4es_glLoadTransposeMatrixd");
-void glMultTransposeMatrixd(const GLdouble *m) AliasExport("gl4es_glMultTransposeMatrixd");
-void glMultTransposeMatrixf(const GLfloat *m) AliasExport("gl4es_glMultTransposeMatrixf");
+AliasExport(void,glLoadTransposeMatrixf,,(const GLfloat *m));
+AliasExport(void,glLoadTransposeMatrixd,,(const GLdouble *m));
+AliasExport(void,glMultTransposeMatrixd,,(const GLdouble *m));
+AliasExport(void,glMultTransposeMatrixf,,(const GLfloat *m));

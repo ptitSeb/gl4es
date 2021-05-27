@@ -919,19 +919,19 @@ void realize_textures(int drawing) {
 }
 
 //Direct wrapper
-void glBindTexture(GLenum target, GLuint texture) AliasExport("gl4es_glBindTexture");
-void glGenTextures(GLsizei n, GLuint * textures) AliasExport("gl4es_glGenTextures");
-void glDeleteTextures(GLsizei n, const GLuint * textures) AliasExport("gl4es_glDeleteTextures");
-void glTexParameteri(GLenum target, GLenum pname, GLint param) AliasExport("gl4es_glTexParameteri");
-void glTexParameterf(GLenum target, GLenum pname, GLfloat param) AliasExport("gl4es_glTexParameterf");
-void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) AliasExport("gl4es_glTexParameterfv");
-void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) AliasExport("gl4es_glTexParameteriv");
-void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLint *params) AliasExport("gl4es_glGetTexLevelParameterfv");
-GLboolean glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *residences) AliasExport("gl4es_glAreTexturesResident");
-void glActiveTexture( GLenum texture ) AliasExport("gl4es_glActiveTexture");
-void glClientActiveTexture( GLenum texture ) AliasExport("gl4es_glClientActiveTexture");
-void glPixelStorei(GLenum pname, GLint param) AliasExport("gl4es_glPixelStorei");
+AliasExport(void,glBindTexture,,(GLenum target, GLuint texture));
+AliasExport(void,glGenTextures,,(GLsizei n, GLuint * textures));
+AliasExport(void,glDeleteTextures,,(GLsizei n, const GLuint * textures));
+AliasExport(void,glTexParameteri,,(GLenum target, GLenum pname, GLint param));
+AliasExport(void,glTexParameterf,,(GLenum target, GLenum pname, GLfloat param));
+AliasExport(void,glTexParameterfv,,(GLenum target, GLenum pname, const GLfloat * params));
+AliasExport(void,glTexParameteriv,,(GLenum target, GLenum pname, const GLint * params));
+AliasExport(void,glGetTexLevelParameterfv,,(GLenum target, GLint level, GLenum pname, GLint *params));
+AliasExport(GLboolean,glAreTexturesResident,,(GLsizei n, const GLuint *textures, GLboolean *residences));
+AliasExport(void,glActiveTexture,,( GLenum texture ));
+AliasExport(void,glClientActiveTexture,,( GLenum texture ));
+AliasExport(void,glPixelStorei,,(GLenum pname, GLint param));
 
 //ARB mapper
-void glActiveTextureARB(GLenum texture) AliasExport("gl4es_glActiveTexture");
-void glClientActiveTextureARB(GLenum texture) AliasExport("gl4es_glClientActiveTexture");
+AliasExport(void,glActiveTexture,ARB,(GLenum texture));
+AliasExport(void,glClientActiveTexture,ARB,(GLenum texture));

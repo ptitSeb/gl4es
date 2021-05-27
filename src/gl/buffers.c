@@ -738,53 +738,53 @@ void unboundBuffers()
 
 
 //Direct wrapper
-void glGenBuffers(GLsizei n, GLuint * buffers) AliasExport("gl4es_glGenBuffers");
-void glBindBuffer(GLenum target, GLuint buffer) AliasExport("gl4es_glBindBuffer");
-void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) AliasExport("gl4es_glBufferData");
-void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) AliasExport("gl4es_glBufferSubData");
-void glDeleteBuffers(GLsizei n, const GLuint * buffers) AliasExport("gl4es_glDeleteBuffers");
-GLboolean glIsBuffer(GLuint buffer) AliasExport("gl4es_glIsBuffer");
-void glGetBufferParameteriv(GLenum target, GLenum value, GLint * data) AliasExport("gl4es_glGetBufferParameteriv");
-void *glMapBuffer(GLenum target, GLenum access) AliasExport("gl4es_glMapBuffer");
-GLboolean glUnmapBuffer(GLenum target) AliasExport("gl4es_glUnmapBuffer");
-void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data) AliasExport("gl4es_glGetBufferSubData");
-void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params) AliasExport("gl4es_glGetBufferPointerv");
+AliasExport(void,glGenBuffers,,(GLsizei n, GLuint * buffers));
+AliasExport(void,glBindBuffer,,(GLenum target, GLuint buffer));
+AliasExport(void,glBufferData,,(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage));
+AliasExport(void,glBufferSubData,,(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data));
+AliasExport(void,glDeleteBuffers,,(GLsizei n, const GLuint * buffers));
+AliasExport(GLboolean,glIsBuffer,,(GLuint buffer));
+AliasExport(void,glGetBufferParameteriv,,(GLenum target, GLenum value, GLint * data));
+AliasExport(void*,glMapBuffer,,(GLenum target, GLenum access));
+AliasExport(GLboolean,glUnmapBuffer,,(GLenum target));
+AliasExport(void,glGetBufferSubData,,(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data));
+AliasExport(void,glGetBufferPointerv,,(GLenum target, GLenum pname, GLvoid ** params));
 
-void *glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access) AliasExport("gl4es_glMapBufferRange");
-void glFlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length) AliasExport("gl4es_glFlushMappedBufferRange");
+AliasExport(void*,glMapBufferRange,,(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access));
+AliasExport(void,glFlushMappedBufferRange,,(GLenum target, GLintptr offset, GLsizeiptr length));
 
-void glCopyBufferSubData(GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size)  AliasExport("gl4es_glCopyBufferSubData");
+AliasExport(void,glCopyBufferSubData,,(GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size));
 //ARB wrapper
 #ifndef AMIGAOS4
-void glGenBuffersARB(GLsizei n, GLuint * buffers) AliasExport("gl4es_glGenBuffers");
-void glBindBufferARB(GLenum target, GLuint buffer) AliasExport("gl4es_glBindBuffer");
-void glBufferDataARB(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage) AliasExport("gl4es_glBufferData");
-void glBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) AliasExport("gl4es_glBufferSubData");
-void glDeleteBuffersARB(GLsizei n, const GLuint * buffers) AliasExport("gl4es_glDeleteBuffers");
-GLboolean glIsBufferARB(GLuint buffer) AliasExport("gl4es_glIsBuffer");
-void glGetBufferParameterivARB(GLenum target, GLenum value, GLint * data) AliasExport("gl4es_glGetBufferParameteriv");
-void *glMapBufferARB(GLenum target, GLenum access) AliasExport("gl4es_glMapBuffer");
-GLboolean glUnmapBufferARB(GLenum target) AliasExport("gl4es_glUnmapBuffer");
-void glGetBufferSubDataARB(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data) AliasExport("gl4es_glGetBufferSubData");
-void glGetBufferPointervARB(GLenum target, GLenum pname, GLvoid ** params) AliasExport("gl4es_glGetBufferPointerv");
+AliasExport(void,glGenBuffers,ARB,(GLsizei n, GLuint * buffers));
+AliasExport(void,glBindBuffer,ARB,(GLenum target, GLuint buffer));
+AliasExport(void,glBufferData,ARB,(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage));
+AliasExport(void,glBufferSubData,ARB,(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data));
+AliasExport(void,glDeleteBuffers,ARB,(GLsizei n, const GLuint * buffers));
+AliasExport(GLboolean,glIsBuffer,ARB,(GLuint buffer));
+AliasExport(void,glGetBufferParameteriv,ARB,(GLenum target, GLenum value, GLint * data));
+AliasExport(void*,glMapBuffer,ARB,(GLenum target, GLenum access));
+AliasExport(GLboolean,glUnmapBuffer,ARB,(GLenum target));
+AliasExport(void,glGetBufferSubData,ARB,(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data));
+AliasExport(void,glGetBufferPointerv,ARB,(GLenum target, GLenum pname, GLvoid ** params));
 #endif
 
 //Direct Access
-void glNamedBufferData(GLuint buffer, GLsizeiptr size, const GLvoid * data, GLenum usage) AliasExport("gl4es_glNamedBufferData");
-void glNamedBufferSubData(GLuint buffer, GLintptr offset, GLsizeiptr size, const GLvoid * data) AliasExport("gl4es_glNamedBufferSubData");
-void glGetNamedBufferParameteriv(GLuint buffer, GLenum value, GLint * data) AliasExport("gl4es_glGetNamedBufferParameteriv");
-void *glMapNamedBuffer(GLuint buffer, GLenum access) AliasExport("gl4es_glMapNamedBuffer");
-GLboolean glUnmapNamedBuffer(GLuint buffer) AliasExport("gl4es_glUnmapNamedBuffer");
-void glGetNamedBufferSubData(GLuint buffer, GLintptr offset, GLsizeiptr size, GLvoid * data) AliasExport("gl4es_glGetNamedBufferSubData");
-void glGetNamedBufferPointerv(GLuint buffer, GLenum pname, GLvoid ** params) AliasExport("gl4es_glGetNamedBufferPointerv");
+AliasExport(void,glNamedBufferData,,(GLuint buffer, GLsizeiptr size, const GLvoid * data, GLenum usage));
+AliasExport(void,glNamedBufferSubData,,(GLuint buffer, GLintptr offset, GLsizeiptr size, const GLvoid * data));
+AliasExport(void,glGetNamedBufferParameteriv,,(GLuint buffer, GLenum value, GLint * data));
+AliasExport(void*,glMapNamedBuffer,,(GLuint buffer, GLenum access));
+AliasExport(GLboolean,glUnmapNamedBuffer,,(GLuint buffer));
+AliasExport(void,glGetNamedBufferSubData,,(GLuint buffer, GLintptr offset, GLsizeiptr size, GLvoid * data));
+AliasExport(void,glGetNamedBufferPointerv,,(GLuint buffer, GLenum pname, GLvoid ** params));
 
-void glNamedBufferDataEXT(GLuint buffer, GLsizeiptr size, const GLvoid * data, GLenum usage) AliasExport("gl4es_glNamedBufferData");
-void glNamedBufferSubDataEXT(GLuint buffer, GLintptr offset, GLsizeiptr size, const GLvoid * data) AliasExport("gl4es_glNamedBufferSubData");
-void glGetNamedBufferParameterivEXT(GLuint buffer, GLenum value, GLint * data) AliasExport("gl4es_glGetNamedBufferParameteriv");
-void *glMapNamedBufferEXT(GLuint buffer, GLenum access) AliasExport("gl4es_glMapNamedBuffer");
-GLboolean glUnmapNamedBufferEXT(GLuint buffer) AliasExport("gl4es_glUnmapNamedBuffer");
-void glGetNamedBufferSubDataEXT(GLuint buffer, GLintptr offset, GLsizeiptr size, GLvoid * data) AliasExport("gl4es_glGetNamedBufferSubData");
-void glGetNamedBufferPointervEXT(GLuint buffer, GLenum pname, GLvoid ** params) AliasExport("gl4es_glGetNamedBufferPointerv");
+AliasExport(void,glNamedBufferData,EXT,(GLuint buffer, GLsizeiptr size, const GLvoid * data, GLenum usage));
+AliasExport(void,glNamedBufferSubData,EXT,(GLuint buffer, GLintptr offset, GLsizeiptr size, const GLvoid * data));
+AliasExport(void,glGetNamedBufferParameteriv,EXT,(GLuint buffer, GLenum value, GLint * data));
+AliasExport(void*,glMapNamedBuffer,EXT,(GLuint buffer, GLenum access));
+AliasExport(GLboolean,glUnmapNamedBuffer,EXT,(GLuint buffer));
+AliasExport(void,glGetNamedBufferSubData,EXT,(GLuint buffer, GLintptr offset, GLsizeiptr size, GLvoid * data));
+AliasExport(void,glGetNamedBufferPointerv,EXT,(GLuint buffer, GLenum pname, GLvoid ** params));
 
 
 // VAO ****************
@@ -908,8 +908,8 @@ void VaoInit(glvao_t *vao) {
 }
 
 //Direct wrapper
-void glGenVertexArrays(GLsizei n, GLuint *arrays) AliasExport("gl4es_glGenVertexArrays");
-void glBindVertexArray(GLuint array) AliasExport("gl4es_glBindVertexArray");
-void glDeleteVertexArrays(GLsizei n, const GLuint *arrays) AliasExport("gl4es_glDeleteVertexArrays");
-GLboolean glIsVertexArray(GLuint array) AliasExport("gl4es_glIsVertexArray");
+AliasExport(void,glGenVertexArrays,,(GLsizei n, GLuint *arrays));
+AliasExport(void,glBindVertexArray,,(GLuint array));
+AliasExport(void,glDeleteVertexArrays,,(GLsizei n, const GLuint *arrays));
+AliasExport(GLboolean,glIsVertexArray,,(GLuint array));
 

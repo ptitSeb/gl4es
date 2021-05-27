@@ -65,7 +65,7 @@ void gl4es_glClearDepthf(GLclampf depth) {
     gles_glClearDepthf(depth);
 }
 
-void glDepthFunc(GLenum func) AliasExport("gl4es_glDepthFunc");
-void glDepthMask(GLboolean flag) AliasExport("gl4es_glDepthMask");
-void glDepthRangef(GLclampf nearVal, GLclampf farVal) AliasExport("gl4es_glDepthRangef");
+AliasExport(void,glDepthFunc,,(GLenum func));
+AliasExport(void,glDepthMask,,(GLboolean flag));
+AliasExport(void,glDepthRangef,,(GLclampf nearVal, GLclampf farVal));
 

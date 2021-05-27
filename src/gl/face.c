@@ -41,5 +41,5 @@ void gl4es_glFrontFace(GLenum mode) {
 }
 
 
-void glCullFace(GLenum mode) AliasExport("gl4es_glCullFace");
-void glFrontFace(GLenum mode) AliasExport("gl4es_glFrontFace");
+AliasExport(void,glCullFace,,(GLenum mode));
+AliasExport(void,glFrontFace,,(GLenum mode));

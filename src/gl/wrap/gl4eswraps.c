@@ -462,7 +462,7 @@ void gl4es_glIndexfv(const GLfloat *c) {
 void gl4es_glSecondaryColor3fv(const GLfloat *v) {
     gl4es_glSecondaryColor3f(v[0], v[1], v[2]);
 }
-void glSecondaryColor3fvEXT(GLfloat *t) AliasExport("gl4es_glSecondaryColor3fv");
+AliasExport(void,glSecondaryColor3fv,EXT,(GLfloat *t));
 
 
 // raster
@@ -651,8 +651,8 @@ void gl4es_glSampleCoverage(GLclampf value, GLboolean invert) {
     PUSH_IF_COMPILING(glSampleCoverage)
     gles_glSampleCoverage(value, invert);
 }
-void glSampleCoverage(GLclampf value, GLboolean invert) AliasExport("gl4es_glSampleCoverage");
-void glSampleCoverageARB(GLclampf value, GLboolean invert) AliasExport("gl4es_glSampleCoverage");
+AliasExport(void,glSampleCoverage,,(GLclampf value, GLboolean invert));
+AliasExport(void,glSampleCoverage,ARB,(GLclampf value, GLboolean invert));
 
 // VertexArray stuff
 void gl4es_glVertexAttrib1f (GLuint index, GLfloat v0) { GLfloat f[4] = {0,0,0,1}; f[0] =v0; gl4es_glVertexAttrib4fv(index, f); };
@@ -661,12 +661,12 @@ void gl4es_glVertexAttrib3f (GLuint index, GLfloat v0, GLfloat v1, GLfloat v2) {
 void gl4es_glVertexAttrib1fv (GLuint index, const GLfloat *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]; gl4es_glVertexAttrib4fv(index, f); }; \
 void gl4es_glVertexAttrib2fv (GLuint index, const GLfloat *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]; f[1]=v[1]; gl4es_glVertexAttrib4fv(index, f); }; \
 void gl4es_glVertexAttrib3fv (GLuint index, const GLfloat *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]; f[1]=v[1]; f[2]=v[2]; gl4es_glVertexAttrib4fv(index, f); }; \
-void glVertexAttrib1f (GLuint index, GLfloat v0) AliasExport("gl4es_glVertexAttrib1f");
-void glVertexAttrib2f (GLuint index, GLfloat v0, GLfloat v1) AliasExport("gl4es_glVertexAttrib2f");
-void glVertexAttrib3f (GLuint index, GLfloat v0, GLfloat v1, GLfloat v2) AliasExport("gl4es_glVertexAttrib3f");
-void glVertexAttrib1fv (GLuint index, const GLfloat *v) AliasExport("gl4es_glVertexAttrib1fv");
-void glVertexAttrib2fv (GLuint index, const GLfloat *v) AliasExport("gl4es_glVertexAttrib2fv");
-void glVertexAttrib3fv (GLuint index, const GLfloat *v) AliasExport("gl4es_glVertexAttrib3fv");
+AliasExport(void,glVertexAttrib1f,, (GLuint index, GLfloat v0));
+AliasExport(void,glVertexAttrib2f,, (GLuint index, GLfloat v0, GLfloat v1));
+AliasExport(void,glVertexAttrib3f,, (GLuint index, GLfloat v0, GLfloat v1, GLfloat v2));
+AliasExport(void,glVertexAttrib1fv,, (GLuint index, const GLfloat *v));
+AliasExport(void,glVertexAttrib2fv,, (GLuint index, const GLfloat *v));
+AliasExport(void,glVertexAttrib3fv,, (GLuint index, const GLfloat *v));
 #define THUNK(suffix, type) \
 void gl4es_glVertexAttrib1##suffix (GLuint index, type v0) { GLfloat f[4] = {0,0,0,1}; f[0] =v0; gl4es_glVertexAttrib4fv(index, f); }; \
 void gl4es_glVertexAttrib2##suffix (GLuint index, type v0, type v1) { GLfloat f[4] = {0,0,0,1}; f[0] =v0; f[1]=v1; gl4es_glVertexAttrib4fv(index, f); }; \
@@ -675,24 +675,24 @@ void gl4es_glVertexAttrib4##suffix (GLuint index, type v0, type v1, type v2, typ
 void gl4es_glVertexAttrib1##suffix##v (GLuint index, const type *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]; gl4es_glVertexAttrib4fv(index, f); }; \
 void gl4es_glVertexAttrib2##suffix##v (GLuint index, const type *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]; f[1]=v[1]; gl4es_glVertexAttrib4fv(index, f); }; \
 void gl4es_glVertexAttrib3##suffix##v (GLuint index, const type *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]; f[1]=v[1]; f[2]=v[2]; gl4es_glVertexAttrib4fv(index, f); }; \
-void glVertexAttrib1##suffix (GLuint index, type v0) AliasExport("gl4es_glVertexAttrib1"#suffix); \
-void glVertexAttrib2##suffix (GLuint index, type v0, type v1) AliasExport("gl4es_glVertexAttrib2"#suffix); \
-void glVertexAttrib3##suffix (GLuint index, type v0, type v1, type v2) AliasExport("gl4es_glVertexAttrib3"#suffix); \
-void glVertexAttrib4##suffix (GLuint index, type v0, type v1, type v2, type v3) AliasExport("gl4es_glVertexAttrib4"#suffix); \
-void glVertexAttrib1##suffix##v (GLuint index, const type *v) AliasExport("gl4es_glVertexAttrib1"#suffix "v"); \
-void glVertexAttrib2##suffix##v (GLuint index, const type *v) AliasExport("gl4es_glVertexAttrib2"#suffix "v"); \
-void glVertexAttrib3##suffix##v (GLuint index, const type *v) AliasExport("gl4es_glVertexAttrib3"#suffix "v")
+AliasExport(void,glVertexAttrib1##suffix,, (GLuint index, type v0)); \
+AliasExport(void,glVertexAttrib2##suffix,, (GLuint index, type v0, type v1)); \
+AliasExport(void,glVertexAttrib3##suffix,, (GLuint index, type v0, type v1, type v2)); \
+AliasExport(void,glVertexAttrib4##suffix,, (GLuint index, type v0, type v1, type v2, type v3)); \
+AliasExport(void,glVertexAttrib1##suffix##v,, (GLuint index, const type *v)); \
+AliasExport(void,glVertexAttrib2##suffix##v,, (GLuint index, const type *v)); \
+AliasExport(void,glVertexAttrib3##suffix##v,, (GLuint index, const type *v))
 THUNK(s, GLshort);
 THUNK(d, GLdouble);
 #undef THUNK
 void gl4es_glVertexAttrib4dv (GLuint index, const GLdouble *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]; f[1]=v[1]; f[2]=v[2]; f[3]=v[3]; gl4es_glVertexAttrib4fv(index, f); };
-void glVertexAttrib4dv (GLuint index, const GLdouble *v) AliasExport("gl4es_glVertexAttrib4dv");
+AliasExport(void,glVertexAttrib4dv,, (GLuint index, const GLdouble *v));
 
 #define THUNK(suffix, type, norm) \
 void gl4es_glVertexAttrib4##suffix##v (GLuint index, const type *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]; f[1]=v[1]; f[2]=v[2]; f[3]=v[3]; gl4es_glVertexAttrib4fv(index, f); }; \
-void glVertexAttrib4##suffix##v (GLuint index, const type *v) AliasExport("gl4es_glVertexAttrib4"#suffix "v"); \
+AliasExport(void,glVertexAttrib4##suffix##v,, (GLuint index, const type *v)); \
 void gl4es_glVertexAttrib4N##suffix##v (GLuint index, const type *v) { GLfloat f[4] = {0,0,0,1}; f[0] =v[0]/norm; f[1]=v[1]/norm; f[2]=v[2]/norm; f[3]=v[3]/norm; gl4es_glVertexAttrib4fv(index, f); }; \
-void glVertexAttrib4N##suffix##v (GLuint index, const type *v) AliasExport("gl4es_glVertexAttrib4N"#suffix "v")
+AliasExport(void,glVertexAttrib4N##suffix##v,, (GLuint index, const type *v));
 THUNK(b, GLbyte, 127.0f);
 THUNK(ub, GLubyte, 255.0f);
 THUNK(s, GLshort, 32767.0f);
@@ -701,99 +701,99 @@ THUNK(i, GLint, 2147483647.0f);
 THUNK(ui, GLuint, 4294967295.0f);
 #undef THUNK
 void gl4es_glVertexAttrib4Nub(GLuint index, GLubyte v0, GLubyte v1, GLubyte v2, GLubyte v3) {GLfloat f[4] = {0,0,0,1}; f[0] =v0/255.f; f[1]=v1/255.f; f[2]=v2/255.f; f[3]=v3/255.f; gl4es_glVertexAttrib4fv(index, f); };
-void glVertexAttrib4Nub(GLuint index, GLubyte v0, GLubyte v1, GLubyte v2, GLubyte v3) AliasExport("gl4es_glVertexAttrib4Nub");
+AliasExport(void,glVertexAttrib4Nub,,(GLuint index, GLubyte v0, GLubyte v1, GLubyte v2, GLubyte v3));
 
 // ============= GL_ARB_vertex_shader =================
-GLvoid glVertexAttrib1fARB(GLuint index, GLfloat v0) AliasExport("gl4es_glVertexAttrib1f");
-GLvoid glVertexAttrib1sARB(GLuint index, GLshort v0) AliasExport("gl4es_glVertexAttrib1s");
-GLvoid glVertexAttrib1dARB(GLuint index, GLdouble v0) AliasExport("gl4es_glVertexAttrib1d");
-GLvoid glVertexAttrib2fARB(GLuint index, GLfloat v0, GLfloat v1) AliasExport("gl4es_glVertexAttrib2f");
-GLvoid glVertexAttrib2sARB(GLuint index, GLshort v0, GLshort v1) AliasExport("gl4es_glVertexAttrib2s");
-GLvoid glVertexAttrib2dARB(GLuint index, GLdouble v0, GLdouble v1) AliasExport("gl4es_glVertexAttrib2d");
-GLvoid glVertexAttrib3fARB(GLuint index, GLfloat v0, GLfloat v1, GLfloat v2) AliasExport("gl4es_glVertexAttrib3f");
-GLvoid glVertexAttrib3sARB(GLuint index, GLshort v0, GLshort v1, GLshort v2) AliasExport("gl4es_glVertexAttrib3s");
-GLvoid glVertexAttrib3dARB(GLuint index, GLdouble v0, GLdouble v1, GLdouble v2) AliasExport("gl4es_glVertexAttrib3d");
-GLvoid glVertexAttrib4sARB(GLuint index, GLshort v0, GLshort v1, GLshort v2, GLshort v3) AliasExport("gl4es_glVertexAttrib4s");
-GLvoid glVertexAttrib4dARB(GLuint index, GLdouble v0, GLdouble v1, GLdouble v2, GLdouble v3) AliasExport("gl4es_glVertexAttrib4d");
-GLvoid glVertexAttrib4NubARB(GLuint index, GLubyte x, GLubyte y, GLubyte z, GLubyte w) AliasExport("gl4es_glVertexAttrib4Nub");
+AliasExport(GLvoid,glVertexAttrib1f,ARB,(GLuint index, GLfloat v0));
+AliasExport(GLvoid,glVertexAttrib1s,ARB,(GLuint index, GLshort v0));
+AliasExport(GLvoid,glVertexAttrib1d,ARB,(GLuint index, GLdouble v0));
+AliasExport(GLvoid,glVertexAttrib2f,ARB,(GLuint index, GLfloat v0, GLfloat v1));
+AliasExport(GLvoid,glVertexAttrib2s,ARB,(GLuint index, GLshort v0, GLshort v1));
+AliasExport(GLvoid,glVertexAttrib2d,ARB,(GLuint index, GLdouble v0, GLdouble v1));
+AliasExport(GLvoid,glVertexAttrib3f,ARB,(GLuint index, GLfloat v0, GLfloat v1, GLfloat v2));
+AliasExport(GLvoid,glVertexAttrib3s,ARB,(GLuint index, GLshort v0, GLshort v1, GLshort v2));
+AliasExport(GLvoid,glVertexAttrib3d,ARB,(GLuint index, GLdouble v0, GLdouble v1, GLdouble v2));
+AliasExport(GLvoid,glVertexAttrib4s,ARB,(GLuint index, GLshort v0, GLshort v1, GLshort v2, GLshort v3));
+AliasExport(GLvoid,glVertexAttrib4d,ARB,(GLuint index, GLdouble v0, GLdouble v1, GLdouble v2, GLdouble v3));
+AliasExport(GLvoid,glVertexAttrib4Nub,ARB,(GLuint index, GLubyte x, GLubyte y, GLubyte z, GLubyte w));
 
-GLvoid glVertexAttrib1fvARB(GLuint index, const GLfloat *v) AliasExport("gl4es_glVertexAttrib1fv");
-GLvoid glVertexAttrib1svARB(GLuint index, const GLshort *v) AliasExport("gl4es_glVertexAttrib1sv");
-GLvoid glVertexAttrib1dvARB(GLuint index, const GLdouble *v) AliasExport("gl4es_glVertexAttrib1dv");
-GLvoid glVertexAttrib2fvARB(GLuint index, const GLfloat *v) AliasExport("gl4es_glVertexAttrib2fv");
-GLvoid glVertexAttrib2svARB(GLuint index, const GLshort *v) AliasExport("gl4es_glVertexAttrib2sv");
-GLvoid glVertexAttrib2dvARB(GLuint index, const GLdouble *v) AliasExport("gl4es_glVertexAttrib2dv");
-GLvoid glVertexAttrib3fvARB(GLuint index, const GLfloat *v) AliasExport("gl4es_glVertexAttrib3fv");
-GLvoid glVertexAttrib3svARB(GLuint index, const GLshort *v) AliasExport("gl4es_glVertexAttrib3sv");
-GLvoid glVertexAttrib3dvARB(GLuint index, const GLdouble *v) AliasExport("gl4es_glVertexAttrib3dv");
-GLvoid glVertexAttrib4svARB(GLuint index, const GLshort *v) AliasExport("gl4es_glVertexAttrib4sv");
-GLvoid glVertexAttrib4dvARB(GLuint index, const GLdouble *v) AliasExport("gl4es_glVertexAttrib4dv");
-GLvoid glVertexAttrib4ivARB(GLuint index, const GLint *v) AliasExport("gl4es_glVertexAttrib4iv");
-GLvoid glVertexAttrib4bvARB(GLuint index, const GLbyte *v) AliasExport("gl4es_glVertexAttrib4bv");
+AliasExport(GLvoid,glVertexAttrib1fv,ARB,(GLuint index, const GLfloat *v));
+AliasExport(GLvoid,glVertexAttrib1sv,ARB,(GLuint index, const GLshort *v));
+AliasExport(GLvoid,glVertexAttrib1dv,ARB,(GLuint index, const GLdouble *v));
+AliasExport(GLvoid,glVertexAttrib2fv,ARB,(GLuint index, const GLfloat *v));
+AliasExport(GLvoid,glVertexAttrib2sv,ARB,(GLuint index, const GLshort *v));
+AliasExport(GLvoid,glVertexAttrib2dv,ARB,(GLuint index, const GLdouble *v));
+AliasExport(GLvoid,glVertexAttrib3fv,ARB,(GLuint index, const GLfloat *v));
+AliasExport(GLvoid,glVertexAttrib3sv,ARB,(GLuint index, const GLshort *v));
+AliasExport(GLvoid,glVertexAttrib3dv,ARB,(GLuint index, const GLdouble *v));
+AliasExport(GLvoid,glVertexAttrib4sv,ARB,(GLuint index, const GLshort *v));
+AliasExport(GLvoid,glVertexAttrib4dv,ARB,(GLuint index, const GLdouble *v));
+AliasExport(GLvoid,glVertexAttrib4iv,ARB,(GLuint index, const GLint *v));
+AliasExport(GLvoid,glVertexAttrib4bv,ARB,(GLuint index, const GLbyte *v));
 
-GLvoid glVertexAttrib4ubvARB(GLuint index, const GLubyte *v) AliasExport("gl4es_glVertexAttrib4ubv");
-GLvoid glVertexAttrib4usvARB(GLuint index, const GLushort *v) AliasExport("gl4es_glVertexAttrib4usv");
-GLvoid glVertexAttrib4uivARB(GLuint index, const GLuint *v) AliasExport("gl4es_glVertexAttrib4uiv");
+AliasExport(GLvoid,glVertexAttrib4ubv,ARB,(GLuint index, const GLubyte *v));
+AliasExport(GLvoid,glVertexAttrib4usv,ARB,(GLuint index, const GLushort *v));
+AliasExport(GLvoid,glVertexAttrib4uiv,ARB,(GLuint index, const GLuint *v));
 
-GLvoid glVertexAttrib4NbvARB(GLuint index, const GLbyte *v) AliasExport("gl4es_glVertexAttrib4Nbv");
-GLvoid glVertexAttrib4NsvARB(GLuint index, const GLshort *v) AliasExport("gl4es_glVertexAttrib4Nsv");
-GLvoid glVertexAttrib4NivARB(GLuint index, const GLint *v) AliasExport("gl4es_glVertexAttrib4Niv");
-GLvoid glVertexAttrib4NubvARB(GLuint index, const GLubyte *v) AliasExport("gl4es_glVertexAttrib4Nubv");
-GLvoid glVertexAttrib4NusvARB(GLuint index, const GLushort *v) AliasExport("gl4es_glVertexAttrib4Nusv");
-GLvoid glVertexAttrib4NuivARB(GLuint index, const GLuint *v) AliasExport("gl4es_glVertexAttrib4Nuiv");
+AliasExport(GLvoid,glVertexAttrib4Nbv,ARB,(GLuint index, const GLbyte *v));
+AliasExport(GLvoid,glVertexAttrib4Nsv,ARB,(GLuint index, const GLshort *v));
+AliasExport(GLvoid,glVertexAttrib4Niv,ARB,(GLuint index, const GLint *v));
+AliasExport(GLvoid,glVertexAttrib4Nubv,ARB,(GLuint index, const GLubyte *v));
+AliasExport(GLvoid,glVertexAttrib4Nusv,ARB,(GLuint index, const GLushort *v));
+AliasExport(GLvoid,glVertexAttrib4Nuiv,ARB,(GLuint index, const GLuint *v));
 
 
 //Direct wrapper
-void glClearDepth(GLdouble depth) AliasExport("gl4es_glClearDepth");
-void glClipPlane(GLenum plane, const GLdouble *equation) AliasExport("gl4es_glClipPlane");
-void glDepthRange(GLdouble nearVal, GLdouble farVal) AliasExport("gl4es_glDepthRange");
-void glFogi(GLenum pname, GLint param) AliasExport("gl4es_glFogi");
-void glFogiv(GLenum pname, GLint *params) AliasExport("gl4es_glFogiv");
-void glFrustum(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble Near, GLdouble Far) AliasExport("gl4es_glFrustum");
-void glLighti(GLenum light, GLenum pname, GLint param) AliasExport("gl4es_glLighti");
-void glLightiv(GLenum light, GLenum pname, GLint *iparams) AliasExport("gl4es_glLightiv");
-void glLightModeli(GLenum pname, GLint param) AliasExport("gl4es_glLightModeli");
-void glLightModeliv(GLenum pname, GLint *iparams) AliasExport("gl4es_glLightModeliv");
-void glMateriali(GLenum face, GLenum pname, GLint param) AliasExport("gl4es_glMateriali");
-void glMaterialiv(GLenum face, GLenum pname, GLint *param) AliasExport("gl4es_glMaterialiv");
-void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble Near, GLdouble Far) AliasExport("gl4es_glOrtho");
-void glGetMaterialiv(GLenum face, GLenum pname, GLint * params) AliasExport("gl4es_glGetMaterialiv");
-void glGetLightiv(GLenum light, GLenum pname, GLint * params) AliasExport("gl4es_glGetLightiv");
-void glGetClipPlane(GLenum plane, GLdouble *equation) AliasExport("gl4es_glGetClipPlane");
-//void glDrawRangeElements(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) AliasExport("gl4es_glDrawRangeElements");
-void glColor3f(GLfloat r, GLfloat g, GLfloat b) AliasExport("gl4es_glColor3f");
-void glColor3fv(GLfloat *c) AliasExport("gl4es_glColor3fv");
-//void glColor4fv(GLfloat *c) AliasExport("gl4es_glColor4fv");
-void glIndexfv(const GLfloat *c) AliasExport("gl4es_glIndexfv");
-void glSecondaryColor3fv(const GLfloat *v) AliasExport("gl4es_glSecondaryColor3fv");
-void glRasterPos2f(GLfloat x, GLfloat y) AliasExport("gl4es_glRasterPos2f");
-void glRasterPos2fv(const GLfloat *v) AliasExport("gl4es_glRasterPos2fv");
-void glRasterPos3fv(const GLfloat *v) AliasExport("gl4es_glRasterPos3fv");
-void glRasterPos4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) AliasExport("gl4es_glRasterPos4f");
-void glRasterPos4fv(const GLfloat *v) AliasExport("gl4es_glRasterPos4fv");
-void glWindowPos2f(GLfloat x, GLfloat y) AliasExport("gl4es_glWindowPos2f");
-void glWindowPos2fv(const GLfloat *v) AliasExport("gl4es_glWindowPos2fv");
-void glWindowPos3fv(const GLfloat *v) AliasExport("gl4es_glWindowPos3fv");
-void glPixelStoref(GLenum pname, GLfloat param) AliasExport("gl4es_glPixelStoref");
-void glGetTexGendv(GLenum coord,GLenum pname,GLdouble *params) AliasExport("gl4es_glGetTexGendv");
-void glGetTexGeniv(GLenum coord,GLenum pname,GLint *params) AliasExport("gl4es_glGetTexGeniv");
-void glPixelTransferi(GLenum pname, GLint param) AliasExport("gl4es_glPixelTransferi");
-void glEvalCoord1d(GLdouble u) AliasExport("gl4es_glEvalCoord1d");
-void glEvalCoord1dv(GLdouble *v) AliasExport("gl4es_glEvalCoord1dv");
-void glEvalCoord1fv(GLfloat *v) AliasExport("gl4es_glEvalCoord1fv");
-void glEvalCoord2d(GLdouble u, GLdouble v) AliasExport("gl4es_glEvalCoord2d");
-void glEvalCoord2dv(GLdouble *v) AliasExport("gl4es_glEvalCoord2dv");
-void glEvalCoord2fv(GLfloat *v) AliasExport("gl4es_glEvalCoord2fv");
-void glMapGrid1d(GLint un, GLdouble u1, GLdouble u2) AliasExport("gl4es_glMapGrid1d");
-void glMapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdouble v2) AliasExport("gl4es_glMapGrid2d");
-void glLoadMatrixd(const GLdouble *m) AliasExport("gl4es_glLoadMatrixd");
-void glMultMatrixd(const GLdouble *m) AliasExport("gl4es_glMultMatrixd");
-//void glNormal3fv(GLfloat *v) AliasExport("gl4es_glNormal3fv");
+AliasExport(void,glClearDepth,,(GLdouble depth));
+AliasExport(void,glClipPlane,,(GLenum plane, const GLdouble *equation));
+AliasExport(void,glDepthRange,,(GLdouble nearVal, GLdouble farVal));
+AliasExport(void,glFogi,,(GLenum pname, GLint param));
+AliasExport(void,glFogiv,,(GLenum pname, GLint *params));
+AliasExport(void,glFrustum,,(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble Near, GLdouble Far));
+AliasExport(void,glLighti,,(GLenum light, GLenum pname, GLint param));
+AliasExport(void,glLightiv,,(GLenum light, GLenum pname, GLint *iparams));
+AliasExport(void,glLightModeli,,(GLenum pname, GLint param));
+AliasExport(void,glLightModeliv,,(GLenum pname, GLint *iparams));
+AliasExport(void,glMateriali,,(GLenum face, GLenum pname, GLint param));
+AliasExport(void,glMaterialiv,,(GLenum face, GLenum pname, GLint *param));
+AliasExport(void,glOrtho,,(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble Near, GLdouble Far));
+AliasExport(void,glGetMaterialiv,,(GLenum face, GLenum pname, GLint * params));
+AliasExport(void,glGetLightiv,,(GLenum light, GLenum pname, GLint * params));
+AliasExport(void,glGetClipPlane,,(GLenum plane, GLdouble *equation));
+//AliasExport(void,glDrawRangeElements,,(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices));
+AliasExport(void,glColor3f,,(GLfloat r, GLfloat g, GLfloat b));
+AliasExport(void,glColor3fv,,(GLfloat *c));
+//AliasExport(void,glColor4fv,,(GLfloat *c));
+AliasExport(void,glIndexfv,,(const GLfloat *c));
+AliasExport(void,glSecondaryColor3fv,,(const GLfloat *v));
+AliasExport(void,glRasterPos2f,,(GLfloat x, GLfloat y));
+AliasExport(void,glRasterPos2fv,,(const GLfloat *v));
+AliasExport(void,glRasterPos3fv,,(const GLfloat *v));
+AliasExport(void,glRasterPos4f,,(GLfloat x, GLfloat y, GLfloat z, GLfloat w));
+AliasExport(void,glRasterPos4fv,,(const GLfloat *v));
+AliasExport(void,glWindowPos2f,,(GLfloat x, GLfloat y));
+AliasExport(void,glWindowPos2fv,,(const GLfloat *v));
+AliasExport(void,glWindowPos3fv,,(const GLfloat *v));
+AliasExport(void,glPixelStoref,,(GLenum pname, GLfloat param));
+AliasExport(void,glGetTexGendv,,(GLenum coord,GLenum pname,GLdouble *params));
+AliasExport(void,glGetTexGeniv,,(GLenum coord,GLenum pname,GLint *params));
+AliasExport(void,glPixelTransferi,,(GLenum pname, GLint param));
+AliasExport(void,glEvalCoord1d,,(GLdouble u));
+AliasExport(void,glEvalCoord1dv,,(GLdouble *v));
+AliasExport(void,glEvalCoord1fv,,(GLfloat *v));
+AliasExport(void,glEvalCoord2d,,(GLdouble u, GLdouble v));
+AliasExport(void,glEvalCoord2dv,,(GLdouble *v));
+AliasExport(void,glEvalCoord2fv,,(GLfloat *v));
+AliasExport(void,glMapGrid1d,,(GLint un, GLdouble u1, GLdouble u2));
+AliasExport(void,glMapGrid2d,,(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdouble v2));
+AliasExport(void,glLoadMatrixd,,(const GLdouble *m));
+AliasExport(void,glMultMatrixd,,(const GLdouble *m));
+//AliasExport(void,glNormal3fv,,(GLfloat *v));
 
 // rect
 #define GL_RECT(suffix, type)                                \
-    void glRect##suffix(type x1, type y1, type x2, type y2) AliasExport("gl4es_glRect" #suffix); \
-    void glRect##suffix##v(const type *v1, const type *v2)AliasExport("gl4es_glRect" #suffix "v");
+    AliasExport(void,glRect##suffix,,(type x1, type y1, type x2, type y2)); \
+    AliasExport(void,glRect##suffix##v,,(const type *v1, const type *v2));
 
 GL_RECT(d, GLdouble)
 GL_RECT(f, GLfloat)
@@ -801,87 +801,87 @@ GL_RECT(i, GLint)
 GL_RECT(s, GLshort)
 #undef GL_RECT
 
-void glTexCoord1f(GLfloat s) AliasExport("gl4es_glTexCoord1f");
-void glTexCoord1fv(GLfloat *t) AliasExport("gl4es_glTexCoord1fv");
-void glTexCoord2f(GLfloat s, GLfloat t) AliasExport("gl4es_glTexCoord2f");
-void glTexCoord2fv(GLfloat *t) AliasExport("gl4es_glTexCoord2fv");
-void glTexCoord3f(GLfloat s, GLfloat t, GLfloat r) AliasExport("gl4es_glTexCoord3f");
-void glTexCoord3fv(GLfloat *t) AliasExport("gl4es_glTexCoord3fv");
-void glTexCoord4fv(GLfloat *t) AliasExport("gl4es_glTexCoord4fv");
-void glMultiTexCoord1f(GLenum target, GLfloat s) AliasExport("gl4es_glMultiTexCoord1f");
-void glMultiTexCoord1fv(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord1fv");
-void glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) AliasExport("gl4es_glMultiTexCoord2f");
-//void glMultiTexCoord2fv(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord2fv");
-void glMultiTexCoord3f(GLenum target, GLfloat s, GLfloat t, GLfloat r) AliasExport("gl4es_glMultiTexCoord3f");
-void glMultiTexCoord3fv(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord3fv");
-//void glMultiTexCoord4fv(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord4fv");
-void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLfloat *params) AliasExport("gl4es_glGetTexLevelParameteriv");
-void glTexGend(GLenum coord, GLenum pname, GLdouble param) AliasExport("gl4es_glTexGend");
-void glTexGenf(GLenum coord, GLenum pname, GLfloat param) AliasExport("gl4es_glTexGenf");
-void glTexGendv(GLenum coord, GLenum pname, const GLdouble *params) AliasExport("gl4es_glTexGendv");
-void glTexGeniv(GLenum coord, GLenum pname, const GLint *params) AliasExport("gl4es_glTexGeniv");
-void glRotated(GLdouble angle, GLdouble x, GLdouble y, GLdouble z) AliasExport("gl4es_glRotated");
-void glScaled(GLdouble x, GLdouble y, GLdouble z) AliasExport("gl4es_glScaled");
-void glTranslated(GLdouble x, GLdouble y, GLdouble z) AliasExport("gl4es_glTranslated");
-void glVertex2f(GLfloat x, GLfloat y) AliasExport("gl4es_glVertex2f");
-void glVertex2fv(GLfloat *v) AliasExport("gl4es_glVertex2fv");
-void glVertex3f(GLfloat r, GLfloat g, GLfloat b) AliasExport("gl4es_glVertex3f");
-/*void glVertex3fv(GLfloat *v) AliasExport("gl4es_glVertex3fv");
-void glVertex4fv(GLfloat *v) AliasExport("gl4es_glVertex4fv");*/
+AliasExport(void,glTexCoord1f,,(GLfloat s));
+AliasExport(void,glTexCoord1fv,,(GLfloat *t));
+AliasExport(void,glTexCoord2f,,(GLfloat s, GLfloat t));
+AliasExport(void,glTexCoord2fv,,(GLfloat *t));
+AliasExport(void,glTexCoord3f,,(GLfloat s, GLfloat t, GLfloat r));
+AliasExport(void,glTexCoord3fv,,(GLfloat *t));
+AliasExport(void,glTexCoord4fv,,(GLfloat *t));
+AliasExport(void,glMultiTexCoord1f,,(GLenum target, GLfloat s));
+AliasExport(void,glMultiTexCoord1fv,,(GLenum target, GLfloat *t));
+AliasExport(void,glMultiTexCoord2f,,(GLenum target, GLfloat s, GLfloat t));
+//AliasExport(void,glMultiTexCoord2fv,,(GLenum target, GLfloat *t));
+AliasExport(void,glMultiTexCoord3f,,(GLenum target, GLfloat s, GLfloat t, GLfloat r));
+AliasExport(void,glMultiTexCoord3fv,,(GLenum target, GLfloat *t));
+//AliasExport(void,glMultiTexCoord4fv,,(GLenum target, GLfloat *t));
+AliasExport(void,glGetTexLevelParameteriv,,(GLenum target, GLint level, GLenum pname, GLfloat *params));
+AliasExport(void,glTexGend,,(GLenum coord, GLenum pname, GLdouble param));
+AliasExport(void,glTexGenf,,(GLenum coord, GLenum pname, GLfloat param));
+AliasExport(void,glTexGendv,,(GLenum coord, GLenum pname, const GLdouble *params));
+AliasExport(void,glTexGeniv,,(GLenum coord, GLenum pname, const GLint *params));
+AliasExport(void,glRotated,,(GLdouble angle, GLdouble x, GLdouble y, GLdouble z));
+AliasExport(void,glScaled,,(GLdouble x, GLdouble y, GLdouble z));
+AliasExport(void,glTranslated,,(GLdouble x, GLdouble y, GLdouble z));
+AliasExport(void,glVertex2f,,(GLfloat x, GLfloat y));
+AliasExport(void,glVertex2fv,,(GLfloat *v));
+AliasExport(void,glVertex3f,,(GLfloat r, GLfloat g, GLfloat b));
+/*AliasExport(void,glVertex3fv,,(GLfloat *v));
+AliasExport(void,glVertex4fv,,(GLfloat *v));*/
 
 // basic thunking
 
 #define THUNK(suffix, type)                                \
-void glColor3##suffix##v(const type *v)                 AliasExport("gl4es_glColor3"#suffix "v"); \
-void glColor3##suffix(type r, type g, type b)           AliasExport("gl4es_glColor3"#suffix); \
-void glColor4##suffix##v(const type *v)                 AliasExport("gl4es_glColor4"#suffix "v"); \
-void glColor4##suffix(type r, type g, type b, type a)   AliasExport("gl4es_glColor4"#suffix); \
-void glSecondaryColor3##suffix##v(const type *v)        AliasExport("gl4es_glSecondaryColor3"#suffix "v"); \
-void glSecondaryColor3##suffix(type r, type g, type b)  AliasExport("gl4es_glSecondaryColor3"#suffix); \
-void glIndex##suffix##v(const type *c)                  AliasExport("gl4es_glIndex"#suffix"v"); \
-void glIndex##suffix(type c)                            AliasExport("gl4es_glIndex"#suffix); \
-void glNormal3##suffix##v(const type *v)                AliasExport("gl4es_glNormal3"#suffix"v"); \
-void glNormal3##suffix(type x, type y, type z)          AliasExport("gl4es_glNormal3"#suffix); \
-void glRasterPos2##suffix##v(type *v)                   AliasExport("gl4es_glRasterPos2"#suffix"v"); \
-void glRasterPos2##suffix(type x, type y)               AliasExport("gl4es_glRasterPos2"#suffix); \
-void glRasterPos3##suffix##v(type *v)                   AliasExport("gl4es_glRasterPos3"#suffix"v"); \
-void glRasterPos3##suffix(type x, type y, type z)       AliasExport("gl4es_glRasterPos3"#suffix); \
-void glRasterPos4##suffix##v(type *v)                   AliasExport("gl4es_glRasterPos4"#suffix"v"); \
-void glRasterPos4##suffix(type x, type y, type z, type w)AliasExport("gl4es_glRasterPos4"#suffix); \
-void glWindowPos2##suffix##v(type *v)                   AliasExport("gl4es_glWindowPos2"#suffix"v"); \
-void glWindowPos2##suffix(type x, type y)               AliasExport("gl4es_glWindowPos2"#suffix); \
-void glWindowPos3##suffix##v(type *v)                   AliasExport("gl4es_glWindowPos3"#suffix"v"); \
-void glWindowPos3##suffix(type x, type y, type z)       AliasExport("gl4es_glWindowPos3"#suffix); \
-void glVertex2##suffix##v(type *v)                      AliasExport("gl4es_glVertex2"#suffix"v"); \
-void glVertex2##suffix(type x, type y)                  AliasExport("gl4es_glVertex2"#suffix); \
-void glVertex3##suffix##v(type *v)                      AliasExport("gl4es_glVertex3"#suffix"v"); \
-void glVertex3##suffix(type x, type y, type z)          AliasExport("gl4es_glVertex3"#suffix); \
-void glVertex4##suffix(type x, type y, type z, type w)  AliasExport("gl4es_glVertex4"#suffix); \
-void glVertex4##suffix##v(type *v)                      AliasExport("gl4es_glVertex4"#suffix"v"); \
-void glTexCoord1##suffix(type s)                        AliasExport("gl4es_glTexCoord1"#suffix); \
-void glTexCoord1##suffix##v(type *t)                    AliasExport("gl4es_glTexCoord1"#suffix"v"); \
-void glTexCoord2##suffix(type s, type t)                AliasExport("gl4es_glTexCoord2"#suffix); \
-void glTexCoord2##suffix##v(type *t)                    AliasExport("gl4es_glTexCoord2"#suffix"v"); \
-void glTexCoord3##suffix(type s, type t, type r)        AliasExport("gl4es_glTexCoord3"#suffix); \
-void glTexCoord3##suffix##v(type *t)                    AliasExport("gl4es_glTexCoord3"#suffix"v"); \
-void glTexCoord4##suffix(type s, type t, type r, type q)AliasExport("gl4es_glTexCoord4"#suffix); \
-void glTexCoord4##suffix##v(type *t)                    AliasExport("gl4es_glTexCoord4"#suffix"v"); \
-void glMultiTexCoord1##suffix(GLenum target, type s)    AliasExport("gl4es_glMultiTexCoord1"#suffix); \
-void glMultiTexCoord1##suffix##v(GLenum target, type *t)AliasExport("gl4es_glMultiTexCoord1"#suffix"v"); \
-void glMultiTexCoord2##suffix(GLenum target, type s, type t)        AliasExport("gl4es_glMultiTexCoord2"#suffix); \
-void glMultiTexCoord2##suffix##v(GLenum target, type *t)            AliasExport("gl4es_glMultiTexCoord2"#suffix"v"); \
-void glMultiTexCoord3##suffix(GLenum target, type s, type t, type r)AliasExport("gl4es_glMultiTexCoord3"#suffix); \
-void glMultiTexCoord3##suffix##v(GLenum target, type *t)            AliasExport("gl4es_glMultiTexCoord3"#suffix"v"); \
-void glMultiTexCoord4##suffix(GLenum target, type s, type t, type r, type q) AliasExport("gl4es_glMultiTexCoord4"#suffix); \
-void glMultiTexCoord4##suffix##v(GLenum target, type *t)            AliasExport("gl4es_glMultiTexCoord4"#suffix"v"); \
-void glMultiTexCoord1##suffix##ARB(GLenum target, type s)           AliasExport("gl4es_glMultiTexCoord1"#suffix); \
-void glMultiTexCoord1##suffix##vARB(GLenum target, type *t)         AliasExport("gl4es_glMultiTexCoord1"#suffix"v"); \
-void glMultiTexCoord2##suffix##ARB(GLenum target, type s, type t)   AliasExport("gl4es_glMultiTexCoord2"#suffix); \
-void glMultiTexCoord2##suffix##vARB(GLenum target, type *t)         AliasExport("gl4es_glMultiTexCoord2"#suffix"v"); \
-void glMultiTexCoord3##suffix##ARB(GLenum target, type s, type t, type r)  AliasExport("gl4es_glMultiTexCoord3"#suffix); \
-void glMultiTexCoord3##suffix##vARB(GLenum target, type *t)         AliasExport("gl4es_glMultiTexCoord3"#suffix"v"); \
-void glMultiTexCoord4##suffix##ARB(GLenum target, type s, type t, type r, type q) AliasExport("gl4es_glMultiTexCoord4"#suffix); \
-void glMultiTexCoord4##suffix##vARB(GLenum target, type *t)AliasExport("gl4es_glMultiTexCoord4"#suffix"v");
+AliasExport(void,glColor3##suffix##v,,(const type *v));               \
+AliasExport(void,glColor3##suffix,,(type r, type g, type b));         \
+AliasExport(void,glColor4##suffix##v,,(const type *v));               \
+AliasExport(void,glColor4##suffix,,(type r, type g, type b, type a)); \
+AliasExport(void,glSecondaryColor3##suffix##v,,(const type *v));      \
+AliasExport(void,glSecondaryColor3##suffix,,(type r, type g, type b));\
+AliasExport(void,glIndex##suffix##v,,(const type *c));                \
+AliasExport(void,glIndex##suffix,,(type c));                          \
+AliasExport(void,glNormal3##suffix##v,,(const type *v));              \
+AliasExport(void,glNormal3##suffix,,(type x, type y, type z));        \
+AliasExport(void,glRasterPos2##suffix##v,,(type *v));                 \
+AliasExport(void,glRasterPos2##suffix,,(type x, type y));             \
+AliasExport(void,glRasterPos3##suffix##v,,(type *v));                 \
+AliasExport(void,glRasterPos3##suffix,,(type x, type y, type z));     \
+AliasExport(void,glRasterPos4##suffix##v,,(type *v));                 \
+AliasExport(void,glRasterPos4##suffix,,(type x, type y, type z, type w));\
+AliasExport(void,glWindowPos2##suffix##v,,(type *v));                 \
+AliasExport(void,glWindowPos2##suffix,,(type x, type y));             \
+AliasExport(void,glWindowPos3##suffix##v,,(type *v));                 \
+AliasExport(void,glWindowPos3##suffix,,(type x, type y, type z));     \
+AliasExport(void,glVertex2##suffix##v,,(type *v));                    \
+AliasExport(void,glVertex2##suffix,,(type x, type y));                \
+AliasExport(void,glVertex3##suffix##v,,(type *v));                    \
+AliasExport(void,glVertex3##suffix,,(type x, type y, type z));        \
+AliasExport(void,glVertex4##suffix,,(type x, type y, type z, type w));\
+AliasExport(void,glVertex4##suffix##v,,(type *v));                    \
+AliasExport(void,glTexCoord1##suffix,,(type s));                      \
+AliasExport(void,glTexCoord1##suffix##v,,(type *t));                  \
+AliasExport(void,glTexCoord2##suffix,,(type s, type t));              \
+AliasExport(void,glTexCoord2##suffix##v,,(type *t));                  \
+AliasExport(void,glTexCoord3##suffix,,(type s, type t, type r));      \
+AliasExport(void,glTexCoord3##suffix##v,,(type *t));                  \
+AliasExport(void,glTexCoord4##suffix,,(type s, type t, type r, type q));          \
+AliasExport(void,glTexCoord4##suffix##v,,(type *t));                              \
+AliasExport(void,glMultiTexCoord1##suffix,,(GLenum target, type s));              \
+AliasExport(void,glMultiTexCoord1##suffix##v,,(GLenum target, type *t));          \
+AliasExport(void,glMultiTexCoord2##suffix,,(GLenum target, type s, type t));      \
+AliasExport(void,glMultiTexCoord2##suffix##v,,(GLenum target, type *t));          \
+AliasExport(void,glMultiTexCoord3##suffix,,(GLenum target, type s, type t, type r));\
+AliasExport(void,glMultiTexCoord3##suffix##v,,(GLenum target, type *t));          \
+AliasExport(void,glMultiTexCoord4##suffix,,(GLenum target, type s, type t, type r, type q));\
+AliasExport(void,glMultiTexCoord4##suffix##v,,(GLenum target, type *t));          \
+AliasExport(void,glMultiTexCoord1##suffix,ARB,(GLenum target, type s));         \
+AliasExport(void,glMultiTexCoord1##suffix##v,ARB,(GLenum target, type *t));       \
+AliasExport(void,glMultiTexCoord2##suffix,ARB,(GLenum target, type s, type t)); \
+AliasExport(void,glMultiTexCoord2##suffix##v,ARB,(GLenum target, type *t));       \
+AliasExport(void,glMultiTexCoord3##suffix,ARB,(GLenum target, type s, type t, type r));\
+AliasExport(void,glMultiTexCoord3##suffix##v,ARB,(GLenum target, type *t));       \
+AliasExport(void,glMultiTexCoord4##suffix,ARB,(GLenum target, type s, type t, type r, type q));\
+AliasExport(void,glMultiTexCoord4##suffix##v,ARB,(GLenum target, type *t));
 
 THUNK(b, GLbyte)
 THUNK(d, GLdouble)
@@ -892,14 +892,14 @@ THUNK(ui, GLuint)
 THUNK(us, GLushort)
 #undef THUNK
 
-void glMultiTexCoord1fARB(GLenum target, GLfloat s) AliasExport("gl4es_glMultiTexCoord1f");
-void glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t) AliasExport("gl4es_glMultiTexCoord2f");
-void glMultiTexCoord3fARB(GLenum target, GLfloat s, GLfloat t, GLfloat r) AliasExport("gl4es_glMultiTexCoord3f");
-void glMultiTexCoord1fvARB(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord1fv");
-//void glMultiTexCoord2fvARB(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord2fv");
-void glMultiTexCoord3fvARB(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord3fv");
-//void glMultiTexCoord4fvARB(GLenum target, GLfloat *t) AliasExport("gl4es_glMultiTexCoord4fv");
-//void glDrawRangeElementsEXT(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices) AliasExport("gl4es_glDrawRangeElements");
+AliasExport(void,glMultiTexCoord1f,ARB,(GLenum target, GLfloat s));
+AliasExport(void,glMultiTexCoord2f,ARB,(GLenum target, GLfloat s, GLfloat t));
+AliasExport(void,glMultiTexCoord3f,ARB,(GLenum target, GLfloat s, GLfloat t, GLfloat r));
+AliasExport(void,glMultiTexCoord1fv,ARB,(GLenum target, GLfloat *t));
+//AliasExport(void,glMultiTexCoord2fv,ARB,(GLenum target, GLfloat *t));
+AliasExport(void,glMultiTexCoord3fv,ARB,(GLenum target, GLfloat *t));
+//AliasExport(void,glMultiTexCoord4fv,ARB,(GLenum target, GLfloat *t));
+//AliasExport(void,glDrawRangeElements,EXT,(GLenum mode,GLuint start,GLuint end,GLsizei count,GLenum type,const void *indices));
 
-void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) AliasExport("gl4es_glGetTexParameterfv");
-void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) AliasExport("gl4es_glGetTexParameteriv");
+AliasExport(void,glGetTexParameterfv,,(GLenum target, GLenum pname, GLfloat * params));
+AliasExport(void,glGetTexParameteriv,,(GLenum target, GLenum pname, GLint * params));

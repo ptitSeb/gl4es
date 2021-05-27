@@ -806,9 +806,9 @@ void gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
 }
 
 
-void glTexEnvf(GLenum target, GLenum pname, GLfloat param) AliasExport("gl4es_glTexEnvf");
-void glTexEnvi(GLenum target, GLenum pname, GLint param) AliasExport("gl4es_glTexEnvi");
-void glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) AliasExport("gl4es_glTexEnvfv");
-void glTexEnviv(GLenum target, GLenum pname, const GLint *param) AliasExport("gl4es_glTexEnviv");
-void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) AliasExport("gl4es_glGetTexEnvfv");
-void glGetTexEnviv(GLenum target, GLenum pname, GLint * params) AliasExport("gl4es_glGetTexEnviv");
+AliasExport(void,glTexEnvf,,(GLenum target, GLenum pname, GLfloat param));
+AliasExport(void,glTexEnvi,,(GLenum target, GLenum pname, GLint param));
+AliasExport(void,glTexEnvfv,,(GLenum target, GLenum pname, const GLfloat *param));
+AliasExport(void,glTexEnviv,,(GLenum target, GLenum pname, const GLint *param));
+AliasExport(void,glGetTexEnvfv,,(GLenum target, GLenum pname, GLfloat * params));
+AliasExport(void,glGetTexEnviv,,(GLenum target, GLenum pname, GLint * params));

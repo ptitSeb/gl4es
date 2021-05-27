@@ -3,10 +3,11 @@
 //----------------------------------------------------------------------------
 #include <stdio.h>
 #include "init.h"
+#include "attributes.h"
 //----------------------------------------------------------------------------
 void LogPrintf_NoPrefix(const char *fmt,...);
 void LogFPrintf(FILE *fp,const char *fmt,...);
-void LogPrintf(const char *fmt,...) __attribute__((visibility("default")));
+EXPORT void LogPrintf(const char *fmt,...);
 //----------------------------------------------------------------------------
 #ifdef GL4ES_SILENCE_MESSAGES
 	#define SHUT_LOGD(...)

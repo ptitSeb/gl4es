@@ -770,17 +770,17 @@ void gl4es_glGetPixelMapusv(GLenum map, GLushort *data) {
 
 
 //Direct wrapper
-void glBitmap(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLfloat xmove, GLfloat ymove, const GLubyte *bitmap) AliasExport("gl4es_glBitmap");
-void glDrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *data) AliasExport("gl4es_glDrawPixels");
-void glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) AliasExport("gl4es_glRasterPos3f");
-void glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) AliasExport("gl4es_glWindowPos3f");
-void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) AliasExport("gl4es_glViewport");
-void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) AliasExport("gl4es_glScissor");
-void glPixelZoom(GLfloat xfactor, GLfloat yfactor) AliasExport("gl4es_glPixelZoom");
-void glPixelTransferf(GLenum pname, GLfloat param) AliasExport("gl4es_glPixelTransferf");
-void glPixelMapfv(GLenum map, GLsizei mapsize, const GLfloat *values) AliasExport("gl4es_glPixelMapfv");
-void glPixelMapuiv(GLenum map,GLsizei mapsize, const GLuint *values) AliasExport("gl4es_glPixelMapuiv");
-void glPixelMapusv(GLenum map,GLsizei mapsize, const GLushort *values) AliasExport("gl4es_glPixelMapusv");
-void glGetPixelMapfv(GLenum map, GLfloat *data) AliasExport("gl4es_glGetPixelMapfv");
-void glGetPixelMapuiv(GLenum map, GLuint *data) AliasExport("gl4es_glGetPixelMapuiv");
-void glGetPixelMapusv(GLenum map, GLushort *data) AliasExport("gl4es_glGetPixelMapusv");
+AliasExport(void,glBitmap,,(GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLfloat xmove, GLfloat ymove, const GLubyte *bitmap));
+AliasExport(void,glDrawPixels,,(GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *data));
+AliasExport(void,glRasterPos3f,,(GLfloat x, GLfloat y, GLfloat z));
+AliasExport(void,glWindowPos3f,,(GLfloat x, GLfloat y, GLfloat z));
+AliasExport(void,glViewport,,(GLint x, GLint y, GLsizei width, GLsizei height));
+AliasExport(void,glScissor,,(GLint x, GLint y, GLsizei width, GLsizei height));
+AliasExport(void,glPixelZoom,,(GLfloat xfactor, GLfloat yfactor));
+AliasExport(void,glPixelTransferf,,(GLenum pname, GLfloat param));
+AliasExport(void,glPixelMapfv,,(GLenum map, GLsizei mapsize, const GLfloat *values));
+AliasExport(void,glPixelMapuiv,,(GLenum map,GLsizei mapsize, const GLuint *values));
+AliasExport(void,glPixelMapusv,,(GLenum map,GLsizei mapsize, const GLushort *values));
+AliasExport(void,glGetPixelMapfv,,(GLenum map, GLfloat *data));
+AliasExport(void,glGetPixelMapuiv,,(GLenum map, GLuint *data));
+AliasExport(void,glGetPixelMapusv,,(GLenum map, GLushort *data));
