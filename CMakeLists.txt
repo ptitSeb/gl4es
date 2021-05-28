@@ -183,6 +183,7 @@ elseif(CMAKE_C_COMPILER_ID MATCHES "Clang")
     add_definitions(-Wno-deprecated-declarations) #strdup
     add_definitions(-Wno-unused-function -Wno-unused-variable -Wno-dangling-else)
     add_definitions(-Wno-implicit-const-int-float-conversion)
+    add_definitions(-Wno-visibility)
 else()
     if(CMAKE_C_COMPILER_ID MATCHES "Intel")
         add_definitions(-wd1786 -wd589 -wd537 -wd118 -wd2722)
