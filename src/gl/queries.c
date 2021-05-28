@@ -4,6 +4,12 @@
 #else
 #include <sys/time.h>
 #endif
+#else
+#ifdef _MSC_VER
+#pragma warning(disable : 4028 4133)
+#endif
+__declspec(dllimport)
+void __stdcall GetSystemTimeAsFileTime(unsigned __int64*);
 #endif
 
 #include "queries.h"
@@ -64,7 +70,7 @@ void del_querie(GLuint querie) {
 unsigned long long get_clock() {
 	unsigned long long now;
 	#ifdef _WIN32
-        GetSystemTimeAsFileTime((LPFILETIME)&now);
+        GetSystemTimeAsFileTime((unsigned __int64*)&now);
 	#elif defined(USE_CLOCK)
 	struct timespec out;
 	clock_gettime(CLOCK_MONOTONIC_RAW, &out);

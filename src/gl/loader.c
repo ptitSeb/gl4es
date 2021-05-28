@@ -32,6 +32,9 @@ void *open_lib(const char **names, const char *override) {
 #else
 #include <limits.h>
 #endif
+#else
+__declspec(dllimport)
+struct HINSTANCE__* __stdcall LoadLibraryW(const wchar_t*);
 #endif
 #include "logs.h"
 #include "init.h"
