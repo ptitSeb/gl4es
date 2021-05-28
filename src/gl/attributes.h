@@ -35,7 +35,6 @@
 
 #ifndef AliasExport
  #if !defined(__EMSCRIPTEN__) && !defined(__APPLE__)
-  #define _STR(n) #n
   #ifdef __GNUC__
    #define AliasExport(RET,NAME,X,DEF) \
       EXPORT RET NAME##X DEF __attribute__((alias(_STR(gl4es_##NAME))))
