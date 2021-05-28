@@ -78,7 +78,7 @@ typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLC
 #elif !defined(_WIN32)
 #include <dlfcn.h>
 #else
-typedef intptr_t (*FPROC)();
+typedef intptr_t (__stdcall* FPROC)();
 __declspec(dllimport)
 FPROC __stdcall GetProcAddress(struct HINSTANCE__*, const char*);
 #ifdef _MSC_VER
