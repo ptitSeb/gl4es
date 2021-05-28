@@ -74,6 +74,6 @@ typedef struct _hardext {
 
 EXPORT extern hardext_t hardext;
 
-void GetHardwareExtensions(int test);
+EXPORT void GetHardwareExtensions(int test);
 
 #endif

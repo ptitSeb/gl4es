@@ -80,9 +80,7 @@ static int testTextureCubeLod() {
     return compiled;
 }
 
-#if defined(NOX11) && defined(NOEGL)
-__attribute__((visibility("default")))
-#endif
+EXPORT
 void GetHardwareExtensions(int notest)
 {
     if(tested) return;

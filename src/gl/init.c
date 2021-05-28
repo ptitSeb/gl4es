@@ -74,7 +74,7 @@ EXPORT
 #else
 #if defined(_WIN32) || defined(__CYGWIN__)
 #define BUILD_WINDOWS_DLL
-// dll can't initialized Mali Emulator in startup code :(
+// dll can't initialize emulator in startup code :(
 static unsigned char dll_inited;
 EXPORT
 #endif
@@ -84,8 +84,8 @@ __attribute__((constructor(101)))
 #endif
 void initialize_gl4es() {
 #ifdef BUILD_WINDOWS_DLL
-    if(!dll_inited && GetModuleHandleW(L"libMaliEmulator")) {
-       LOGE("libMaliEmulator can't be initialized fron DllMain (directX limitation)\n");
+    if(!dll_inited) {
+       LOGE("Windows ES emulator's can't be initialized from DllMain (directX limitation)\n");
        return;
     }
 #endif

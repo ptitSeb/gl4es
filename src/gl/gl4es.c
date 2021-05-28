@@ -1,8 +1,14 @@
 #include "gl4es.h"
 
-#if defined(AMIGAOS4) || (defined(NOX11) && defined(NOEGL) && !defined(_WIN32))
+#ifdef _WIN32
+#ifdef _MSC_VER
+#pragma warning(disable : 4028 4133)
+#endif
+__declspec(dllimport)
+void __stdcall GetSystemTimeAsFileTime(unsigned __int64*);
+#elif defined(AMIGAOS4) || (defined(NOX11) && defined(NOEGL))
 #include <sys/time.h>
-#endif // defined(AMIGAOS4) || (defined(NOX11) && defined(NOEGL) && !defined(_WIN32))
+#endif // defined(AMIGAOS4) || (defined(NOX11) && defined(NOEGL)
 
 #include "../config.h"
 #include "../glx/hardext.h"
@@ -1239,7 +1245,7 @@ void show_fps() {
         } else if (frame1 < now) {
             if (last_frame < now) {
                 float change = current_frames / (float)(now - last_frame);
-                float weight = 0.7;
+                float weight = 0.7f;
                 if (! fps) {
                     fps = change;
                 } else {
