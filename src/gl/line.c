@@ -15,7 +15,7 @@
 #define DBG(a)
 #endif
 
-void gl4es_glLineStipple(GLuint factor, GLushort pattern) {
+void APIENTRY_GL4ES gl4es_glLineStipple(GLuint factor, GLushort pattern) {
     DBG(printf("glLineStipple(%d, 0x%04X)\n", factor, pattern);)
     if(glstate->list.active) {
         if (glstate->list.compiling) {

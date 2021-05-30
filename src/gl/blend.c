@@ -8,7 +8,7 @@
 #include "loader.h"
 #include "logs.h"
 
-void gl4es_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
+void APIENTRY_GL4ES gl4es_glBlendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha) {
     PUSH_IF_COMPILING(glBlendColor);
     LOAD_GLES2_OR_OES(glBlendColor);
 	if  (gles_glBlendColor)
@@ -25,7 +25,7 @@ AliasExport(void,glBlendColor,,(GLclampf red, GLclampf green, GLclampf blue, GLc
 AliasExport(void,glBlendColor,EXT,(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha));
 AliasExport(void,glBlendColor,ARB,(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha));
 
-void gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha)
+void APIENTRY_GL4ES gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha)
 {
     if(!glstate->list.pending) 
         PUSH_IF_COMPILING(glBlendFuncSeparate)
@@ -60,7 +60,7 @@ void gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfac
 AliasExport(void,glBlendFuncSeparate,,(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha));
 AliasExport(void,glBlendFuncSeparate,EXT,(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha));
 
-void gl4es_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
+void APIENTRY_GL4ES gl4es_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
     PUSH_IF_COMPILING(glBlendEquationSeparate);
     LOAD_GLES2_OR_OES(glBlendEquationSeparate);
 #ifndef PANDORA
@@ -71,7 +71,7 @@ void gl4es_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) {
 AliasExport(void,glBlendEquationSeparate,,(GLenum modeRGB, GLenum modeA));
 AliasExport(void,glBlendEquationSeparate,EXT,(GLenum modeRGB, GLenum modeA));
 
-void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
+void APIENTRY_GL4ES gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
     if(!glstate->list.pending) 
         PUSH_IF_COMPILING(glBlendFunc)
 
@@ -157,7 +157,7 @@ void gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
 }
 AliasExport(void,glBlendFunc,,(GLenum sfactor, GLenum dfactor));
 
-void gl4es_glBlendEquation(GLenum mode) {
+void APIENTRY_GL4ES gl4es_glBlendEquation(GLenum mode) {
     PUSH_IF_COMPILING(glBlendEquation)
     LOAD_GLES2_OR_OES(glBlendEquation);
     errorGL();

@@ -1,12 +1,6 @@
 #include "gl4es.h"
 
-#ifdef _WIN32
-#ifdef _MSC_VER
-#pragma warning(disable : 4028 4133)
-#endif
-__declspec(dllimport)
-void __stdcall GetSystemTimeAsFileTime(unsigned __int64*);
-#elif defined(AMIGAOS4) || (defined(NOX11) && defined(NOEGL))
+#if defined(AMIGAOS4) || (defined(NOX11) && defined(NOEGL) && !defined(_WIN32))
 #include <sys/time.h>
 #endif // defined(AMIGAOS4) || (defined(NOX11) && defined(NOEGL)
 
@@ -22,6 +16,15 @@ void __stdcall GetSystemTimeAsFileTime(unsigned __int64*);
 #include "init.h"
 #include "loader.h"
 #include "matrix.h"
+#ifdef _WIN32
+#ifdef _WINBASE_
+#define GSM_CAST(c) ((LPFILETIME)c)
+#else
+__declspec(dllimport)
+void __stdcall GetSystemTimeAsFileTime(unsigned __int64*);
+#define GSM_CAST(c) ((__int64*)c)
+#endif
+#endif
 
 //#define DEBUG
 #ifdef DEBUG
@@ -66,7 +69,7 @@ int adjust_vertices(GLenum mode, int nb) {
         glstate->vao->locked_mapped[t] = 0; \
     }
 
-void gl4es_glVertexPointer(GLint size, GLenum type,
+void APIENTRY_GL4ES gl4es_glVertexPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     DBG(printf("glVertexPointer(%d, %s, %d, %p)\n", size, PrintEnum(type), stride, pointer);)
     if(size<1 || size>4) {
@@ -77,7 +80,7 @@ void gl4es_glVertexPointer(GLint size, GLenum type,
     break_lockarrays(ATT_VERTEX);
     clone_gl_pointer(glstate->vao->vertexattrib[ATT_VERTEX], size, GL_FALSE);
 }
-void gl4es_glColorPointer(GLint size, GLenum type,
+void APIENTRY_GL4ES gl4es_glColorPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     DBG((size>4)?printf("glColorPointer(%d, %s, %d, %p)\n", size, PrintEnum(type), stride, pointer):printf("glColorPointer(%s, %s, %d, %p)\n", PrintEnum(size), PrintEnum(type), stride, pointer);)
 	if (!((size>0 && size<=4) || (size==GL_BGRA && type==GL_UNSIGNED_BYTE))) {
@@ -88,13 +91,13 @@ void gl4es_glColorPointer(GLint size, GLenum type,
     break_lockarrays(ATT_COLOR);
     clone_gl_pointer(glstate->vao->vertexattrib[ATT_COLOR], size, (type==GL_FLOAT)?GL_FALSE:GL_TRUE);
 }
-void gl4es_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
+void APIENTRY_GL4ES gl4es_glNormalPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
     DBG(printf("glNormalPointer(%s, %d, %p)\n", PrintEnum(type), stride, pointer);)
     noerrorShimNoPurge();
     break_lockarrays(ATT_NORMAL);
     clone_gl_pointer(glstate->vao->vertexattrib[ATT_NORMAL], 3, GL_FALSE);
 }
-void gl4es_glTexCoordPointer(GLint size, GLenum type,
+void APIENTRY_GL4ES gl4es_glTexCoordPointer(GLint size, GLenum type,
                      GLsizei stride, const GLvoid *pointer) {
     DBG(printf("glTexCoordPointer(%d, %s, %d, %p), texture.client=%d\n", size, PrintEnum(type), stride, pointer, glstate->texture.client);)
     if(size<1 || size>4) {
@@ -105,7 +108,7 @@ void gl4es_glTexCoordPointer(GLint size, GLenum type,
     break_lockarrays(ATT_MULTITEXCOORD0+glstate->texture.client);
     clone_gl_pointer(glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+glstate->texture.client], size, GL_FALSE);
 }
-void gl4es_glSecondaryColorPointer(GLint size, GLenum type, 
+void APIENTRY_GL4ES gl4es_glSecondaryColorPointer(GLint size, GLenum type, 
 					GLsizei stride, const GLvoid *pointer) {
     DBG((size>4)?printf("glSecondaryColorPointer(%d, %s, %d, %p)\n", size, PrintEnum(type), stride, pointer):printf("glSecondaryColorPointer(%s, %s, %d, %p)\n", PrintEnum(size), PrintEnum(type), stride, pointer);)
 	if (!(size==3 || (size==GL_BGRA && type==GL_UNSIGNED_BYTE))) {
@@ -116,7 +119,7 @@ void gl4es_glSecondaryColorPointer(GLint size, GLenum type,
     clone_gl_pointer(glstate->vao->vertexattrib[ATT_SECONDARY], size, (type==GL_FLOAT)?GL_FALSE:GL_TRUE);
     noerrorShimNoPurge();
 }
-void gl4es_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
+void APIENTRY_GL4ES gl4es_glFogCoordPointer(GLenum type, GLsizei stride, const GLvoid *pointer) {
     DBG(printf("glFogCoordPointer(%s, %d, %p)\n", PrintEnum(type), stride, pointer);)
     if(type==1 && stride==GL_FLOAT) {
         type = GL_FLOAT;
@@ -139,7 +142,7 @@ AliasExport(void,glSecondaryColorPointer,EXT,(GLint size, GLenum type, GLsizei s
 AliasExport(void,glFogCoordPointer,EXT,(GLenum type, GLsizei stride, const GLvoid *pointer));
 
 
-void gl4es_glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
+void APIENTRY_GL4ES gl4es_glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *pointer) {
     DBG(printf("glInterleavedArrays(%s, %d, %p)\n", PrintEnum(format), stride, pointer);)
     uintptr_t ptr = (uintptr_t)pointer;
     // element lengths
@@ -239,7 +242,7 @@ void gl4es_glInterleavedArrays(GLenum format, GLsizei stride, const GLvoid *poin
 AliasExport(void,glInterleavedArrays,,(GLenum format, GLsizei stride, const GLvoid *pointer));
 
 // immediate mode functions
-void gl4es_glBegin(GLenum mode) {
+void APIENTRY_GL4ES gl4es_glBegin(GLenum mode) {
     glstate->list.begin = 1;
     if (!glstate->list.active)
         glstate->list.active = alloc_renderlist();
@@ -250,7 +253,7 @@ void gl4es_glBegin(GLenum mode) {
 }
 AliasExport(void,glBegin,,(GLenum mode));
 
-void gl4es_glEnd() {
+void APIENTRY_GL4ES gl4es_glEnd(void) {
     if (!glstate->list.active) return;
     glstate->list.begin = 0;
     // check if TEXTUREx is activate and no TexCoord (or texgen), in that case, create a dummy one base on glstate->..
@@ -282,7 +285,7 @@ void gl4es_glEnd() {
 }
 AliasExport(void,glEnd,,());
 
-void gl4es_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
+void APIENTRY_GL4ES gl4es_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     if (glstate->list.active) {
         if (glstate->list.active->stage != STAGE_DRAW) {
             if (glstate->list.compiling && glstate->list.active) {
@@ -310,7 +313,7 @@ void gl4es_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
 }
 AliasExport(void,glNormal3f,,(GLfloat nx, GLfloat ny, GLfloat nz));
 
-void gl4es_glNormal3fv(GLfloat* v) {
+void APIENTRY_GL4ES gl4es_glNormal3fv(GLfloat* v) {
     if (glstate->list.active) {
         if (glstate->list.active->stage != STAGE_DRAW) {
             if (glstate->list.compiling && glstate->list.active) {
@@ -338,7 +341,7 @@ void gl4es_glNormal3fv(GLfloat* v) {
 }
 AliasExport(void,glNormal3fv,,(GLfloat* v));
 
-void gl4es_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
+void APIENTRY_GL4ES gl4es_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
     if (glstate->list.active) {
         rlVertex4f(glstate->list.active, x, y, z, w);
         noerrorShimNoPurge();
@@ -348,7 +351,7 @@ void gl4es_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
 }
 AliasExport(void,glVertex4f,,(GLfloat x, GLfloat y, GLfloat z, GLfloat w));
 
-void gl4es_glVertex3fv(GLfloat* v) {
+void APIENTRY_GL4ES gl4es_glVertex3fv(GLfloat* v) {
     if (glstate->list.active) {
         rlVertex3fv(glstate->list.active, v);
         noerrorShimNoPurge();
@@ -359,7 +362,7 @@ void gl4es_glVertex3fv(GLfloat* v) {
 }
 AliasExport(void,glVertex3fv,,(GLfloat* v));
 
-void gl4es_glVertex4fv(GLfloat* v) {
+void APIENTRY_GL4ES gl4es_glVertex4fv(GLfloat* v) {
     if (glstate->list.active) {
         rlVertex4fv(glstate->list.active, v);
         noerrorShimNoPurge();
@@ -370,7 +373,7 @@ void gl4es_glVertex4fv(GLfloat* v) {
 }
 AliasExport(void,glVertex4fv,,(GLfloat* v));
 
-void gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
+void APIENTRY_GL4ES gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     if (glstate->list.active) {
         if (glstate->list.active->stage != STAGE_DRAW) {
             if (glstate->list.compiling || glstate->list.active->stage<STAGE_DRAW) {
@@ -400,7 +403,7 @@ void gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
 }
 AliasExport(void,glColor4f,,(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha));
 
-void gl4es_glColor4fv(GLfloat* v) {
+void APIENTRY_GL4ES gl4es_glColor4fv(GLfloat* v) {
     if (glstate->list.active) {
         if (glstate->list.active->stage != STAGE_DRAW) {
             if (glstate->list.compiling || glstate->list.active->stage<STAGE_DRAW) {
@@ -428,7 +431,7 @@ void gl4es_glColor4fv(GLfloat* v) {
 }
 AliasExport(void,glColor4fv,,(GLfloat* v));
 
-void gl4es_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
+void APIENTRY_GL4ES gl4es_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b) {
     if (glstate->list.active) {
         if(glstate->list.pending)
             gl4es_flush();
@@ -450,7 +453,7 @@ AliasExport(void,glSecondaryColor3f,,(GLfloat r, GLfloat g, GLfloat b));
 AliasExport(void,glSecondaryColor3f,EXT,(GLfloat r, GLfloat g, GLfloat b));
 
 
-void gl4es_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
+void APIENTRY_GL4ES gl4es_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
     if (glstate->list.active) {
         if(glstate->list.pending)
             gl4es_flush();
@@ -466,7 +469,7 @@ void gl4es_glTexCoord4f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
 }
 AliasExport(void,glTexCoord4f,,(GLfloat s, GLfloat t, GLfloat r, GLfloat q));
 
-void gl4es_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
+void APIENTRY_GL4ES gl4es_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q) {
 	// TODO, error if target is unsuported texture....
     if (glstate->list.active) {
         if(glstate->list.pending)
@@ -484,7 +487,7 @@ void gl4es_glMultiTexCoord4f(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLf
 AliasExport(void,glMultiTexCoord4f,,(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q));
 AliasExport(void,glMultiTexCoord4f,ARB,(GLenum target, GLfloat s, GLfloat t, GLfloat r, GLfloat q));
 
-void gl4es_glMultiTexCoord2fv(GLenum target, GLfloat* v) {
+void APIENTRY_GL4ES gl4es_glMultiTexCoord2fv(GLenum target, GLfloat* v) {
 	// TODO, error if target is unsuported texture....
     if (glstate->list.active) {
         if(glstate->list.pending)
@@ -502,7 +505,7 @@ void gl4es_glMultiTexCoord2fv(GLenum target, GLfloat* v) {
 AliasExport(void,glMultiTexCoord2fv,,(GLenum target, GLfloat* v));
 AliasExport(void,glMultiTexCoord2fv,ARB,(GLenum target, GLfloat* v));
 
-void gl4es_glMultiTexCoord4fv(GLenum target, GLfloat* v) {
+void APIENTRY_GL4ES gl4es_glMultiTexCoord4fv(GLenum target, GLfloat* v) {
 	// TODO, error if target is unsuported texture....
     if (glstate->list.active) {
         if(glstate->list.pending)
@@ -519,7 +522,7 @@ void gl4es_glMultiTexCoord4fv(GLenum target, GLfloat* v) {
 AliasExport(void,glMultiTexCoord4fv,,(GLenum target, GLfloat* v));
 AliasExport(void,glMultiTexCoord4fv,ARB,(GLenum target, GLfloat* v));
 
-void gl4es_glArrayElement(GLint i) {
+void APIENTRY_GL4ES gl4es_glArrayElement(GLint i) {
     GLfloat *v;
     vertexattrib_t *p;
     glvao_t* vao = glstate->vao;
@@ -648,7 +651,7 @@ AliasExport(void,glArrayElement,EXT,(GLint i));
 // TODO: between a lock and unlock, I can assume the array pointers are unchanged
 // so I can build a renderlist_t on the first call and hold onto it
 // maybe I need a way to call a renderlist_t with (first, count)
-void gl4es_glLockArrays(GLint first, GLsizei count) {
+void APIENTRY_GL4ES gl4es_glLockArrays(GLint first, GLsizei count) {
     if(glstate->vao->locked) {
         errorShim(GL_INVALID_OPERATION);
         return;
@@ -659,7 +662,7 @@ void gl4es_glLockArrays(GLint first, GLsizei count) {
     noerrorShim();
 }
 AliasExport(void,glLockArrays,EXT,(GLint first, GLsizei count));
-void gl4es_glUnlockArrays() {
+void APIENTRY_GL4ES gl4es_glUnlockArrays(void) {
     if(globals4es.usevbo>1 && glstate->vao->locked==globals4es.usevbo) UnBuffer();
     glstate->vao->locked = 0;
 
@@ -751,7 +754,7 @@ static renderlist_t *gl4es_glGetList(GLuint list) {
     return NULL;
 }
 
-GLuint gl4es_glGenLists(GLsizei range) {
+GLuint APIENTRY_GL4ES gl4es_glGenLists(GLsizei range) {
 	if (range<0) {
 		errorShim(GL_INVALID_VALUE);
 		return 0;
@@ -791,7 +794,7 @@ GLuint gl4es_glGenLists(GLsizei range) {
 AliasExport(GLuint,glGenLists,,(GLsizei range));
 
 
-void gl4es_glNewList(GLuint list, GLenum mode) {
+void APIENTRY_GL4ES gl4es_glNewList(GLuint list, GLenum mode) {
     ERROR_IN_BEGIN
 	if (list==0) {
         errorShim(GL_INVALID_VALUE);
@@ -827,7 +830,7 @@ void gl4es_glNewList(GLuint list, GLenum mode) {
 }
 AliasExport(void,glNewList,,(GLuint list, GLenum mode));
 
-void gl4es_glEndList() {
+void APIENTRY_GL4ES gl4es_glEndList(void) {
     GLuint list = glstate->list.name;
     khash_t(gllisthead) *lists = glstate->headlists;
     khint_t k;
@@ -863,7 +866,7 @@ void gl4es_glEndList() {
 AliasExport(void,glEndList,,());
 
 renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a);
-void gl4es_glCallList(GLuint list) {
+void APIENTRY_GL4ES gl4es_glCallList(GLuint list) {
 	noerrorShim();
     if (glstate->list.active) {
         glstate->list.active = append_calllist(glstate->list.active, gl4es_glGetList(list));
@@ -876,14 +879,14 @@ void gl4es_glCallList(GLuint list) {
 }
 AliasExport(void,glCallList,,(GLuint list));
 
-void glPushCall(void *call) {
+void APIENTRY_GL4ES glPushCall(void *call) {
     if (glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_GLCALL);
         rlPushCall(glstate->list.active, call);
     }
 }
 
-void gl4es_glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
+void APIENTRY_GL4ES gl4es_glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
     #define call(name, type) \
         case name: glCallList(((type *)lists)[i] + glstate->list.base); break
 
@@ -923,7 +926,7 @@ void gl4es_glCallLists(GLsizei n, GLenum type, const GLvoid *lists) {
 }
 AliasExport(void,glCallLists,,(GLsizei n, GLenum type, const GLvoid *lists));
 
-void gl4es_glDeleteList(GLuint list) {
+void APIENTRY_GL4ES gl4es_glDeleteList(GLuint list) {
 
     renderlist_t *gllist = NULL;
     {
@@ -939,7 +942,7 @@ void gl4es_glDeleteList(GLuint list) {
     }
 }
 
-void gl4es_glDeleteLists(GLuint list, GLsizei range) {
+void APIENTRY_GL4ES gl4es_glDeleteLists(GLuint list, GLsizei range) {
 	noerrorShimNoPurge();
     for (int i = 0; i < range; i++) {
         gl4es_glDeleteList(list+i);
@@ -947,13 +950,13 @@ void gl4es_glDeleteLists(GLuint list, GLsizei range) {
 }
 AliasExport(void,glDeleteLists,,(GLuint list, GLsizei range));
 
-void gl4es_glListBase(GLuint base) {
+void APIENTRY_GL4ES gl4es_glListBase(GLuint base) {
 	noerrorShimNoPurge();
     glstate->list.base = base;
 }
 AliasExport(void,glListBase,,(GLuint base));
 
-GLboolean gl4es_glIsList(GLuint list) {
+GLboolean APIENTRY_GL4ES gl4es_glIsList(GLuint list) {
 	noerrorShimNoPurge();
     if(!list)
         return GL_FALSE;
@@ -966,7 +969,7 @@ GLboolean gl4es_glIsList(GLuint list) {
 }
 AliasExport(GLboolean,glIsList,,(GLuint list));
 
-void gl4es_glPolygonMode(GLenum face, GLenum mode) {
+void APIENTRY_GL4ES gl4es_glPolygonMode(GLenum face, GLenum mode) {
     ERROR_IN_BEGIN
 	noerrorShimNoPurge();
 	if (face == GL_FRONT)
@@ -1013,7 +1016,7 @@ void gl4es_flush() {
 #ifndef NOX11
 extern void BlitEmulatedPixmap(int win);
 #endif
-void gl4es_glFlush() {
+void APIENTRY_GL4ES gl4es_glFlush(void) {
 	LOAD_GLES(glFlush);
     
     realize_textures(0);
@@ -1028,9 +1031,9 @@ void gl4es_glFlush() {
         BlitEmulatedPixmap(0);
 #endif
 }
-AliasExport(void,glFlush,,());
+AliasExport_V(void,glFlush);
 
-void gl4es_glFinish() {
+void APIENTRY_GL4ES gl4es_glFinish(void) {
 	LOAD_GLES(glFinish);
     
     realize_textures(0);
@@ -1040,9 +1043,9 @@ void gl4es_glFinish() {
     gles_glFinish();
     errorGL();
 }
-AliasExport(void,glFinish,,());
+AliasExport_V(void,glFinish);
 
-void gl4es_glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
+void APIENTRY_GL4ES gl4es_glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
     static bool warning = false;
     if(!warning) {
         LOGD("Warning, stubbed glIndexPointer\n");
@@ -1051,7 +1054,7 @@ void gl4es_glIndexPointer(GLenum type, GLsizei stride, const GLvoid * pointer) {
 }
 AliasExport(void,glIndexPointer,,(GLenum type, GLsizei stride, const GLvoid * pointer));
 
-void gl4es_glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) {
+void APIENTRY_GL4ES gl4es_glEdgeFlagPointer(GLsizei stride, const GLvoid * pointer) {
     static bool warning = false;
     if(!warning) {
         LOGD("Warning, stubbed glEdgeFlagPointer\n");
@@ -1062,7 +1065,7 @@ AliasExport(void,glEdgeFlagPointer,,(GLsizei stride, const GLvoid * pointer));
 
 
 
-void gl4es_glShadeModel(GLenum mode) {
+void APIENTRY_GL4ES gl4es_glShadeModel(GLenum mode) {
     if(mode!=GL_SMOOTH && mode!=GL_FLAT) {
         errorShim(GL_INVALID_ENUM);
         return;
@@ -1080,7 +1083,7 @@ void gl4es_glShadeModel(GLenum mode) {
 }
 AliasExport(void,glShadeModel,,(GLenum mode));
 
-void gl4es_glAlphaFunc(GLenum func, GLclampf ref) {
+void APIENTRY_GL4ES gl4es_glAlphaFunc(GLenum func, GLclampf ref) {
     PUSH_IF_COMPILING(glAlphaFunc);
     noerrorShim();
     if(ref<0.0f) ref = 0.0f;
@@ -1103,7 +1106,7 @@ void gl4es_glAlphaFunc(GLenum func, GLclampf ref) {
 }
 AliasExport(void,glAlphaFunc,,(GLenum func, GLclampf ref));
 
-void gl4es_glLogicOp(GLenum opcode) {
+void APIENTRY_GL4ES gl4es_glLogicOp(GLenum opcode) {
     PUSH_IF_COMPILING(glLogicOp);
     noerrorShim();
     if(glstate->logicop==opcode)
@@ -1118,7 +1121,7 @@ void gl4es_glLogicOp(GLenum opcode) {
 }
 AliasExport(void,glLogicOp,,(GLenum opcode));
 
-void gl4es_glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
+void APIENTRY_GL4ES gl4es_glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
     PUSH_IF_COMPILING(glColorMask);
     if(glstate->colormask[0]==red && glstate->colormask[1]==green && glstate->colormask[2]==blue && glstate->colormask[3]==alpha) {
         noerrorShim();
@@ -1133,7 +1136,7 @@ void gl4es_glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean
 }
 AliasExport(void,glColorMask,,(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha));
 
-void gl4es_glClear(GLbitfield mask) {
+void APIENTRY_GL4ES gl4es_glClear(GLbitfield mask) {
     PUSH_IF_COMPILING(glClear);
 
     mask &= GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT;
@@ -1142,7 +1145,7 @@ void gl4es_glClear(GLbitfield mask) {
 }
 AliasExport(void,glClear,,(GLbitfield mask));
 
-void gl4es_glClampColor(GLenum target, GLenum clamp)
+void APIENTRY_GL4ES gl4es_glClampColor(GLenum target, GLenum clamp)
 {
     // TODO: test valid clamp values?
     // Not to be executed in list
@@ -1234,7 +1237,7 @@ void show_fps() {
         now = out.tv_sec;
 #else
         unsigned __int64 ft;
-        GetSystemTimeAsFileTime(&ft);
+        GetSystemTimeAsFileTime(GSM_CAST(&ft));
         now = (unsigned)((ft / 10000000) - 11644473600ull); // 2unixtime
 #endif
         frame++;

@@ -4,12 +4,12 @@
 #include "buffers.h"
 #include "gles.h"
 
-GLint gl4es_glRenderMode(GLenum mode);
-void gl4es_glInitNames();
-void gl4es_glPopName();
-void gl4es_glPushName(GLuint name);
-void gl4es_glLoadName(GLuint name);
-void gl4es_glSelectBuffer(GLsizei size, GLuint *buffer);
+GLint APIENTRY_GL4ES gl4es_glRenderMode(GLenum mode);
+void APIENTRY_GL4ES gl4es_glInitNames(void);
+void APIENTRY_GL4ES gl4es_glPopName(void);
+void APIENTRY_GL4ES gl4es_glPushName(GLuint name);
+void APIENTRY_GL4ES gl4es_glLoadName(GLuint name);
+void APIENTRY_GL4ES gl4es_glSelectBuffer(GLsizei size, GLuint *buffer);
 
 void select_glDrawElements(const vertexattrib_t* vtx, GLenum mode, GLuint count, GLenum type, GLvoid * indices);
 void select_glDrawArrays(const vertexattrib_t* vtx, GLenum mode, GLuint first, GLuint count);

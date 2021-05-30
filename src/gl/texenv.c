@@ -14,7 +14,7 @@
 #define DBG(a)
 #endif
 
-void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
+void APIENTRY_GL4ES gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
     DBG(printf("glTexEnvf(%s, %s, 0x%04X(%s)), tmu=%d, pending=%d, compiling=%d\n", PrintEnum(target), PrintEnum(pname), (GLenum)param, PrintEnum((GLenum)param), glstate->texture.active, glstate->list.pending, glstate->list.compiling);)
     if (!glstate->list.pending) {
         PUSH_IF_COMPILING(glTexEnvf);
@@ -593,12 +593,12 @@ void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param) {
     }
 }
 
-void gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param) {
+void APIENTRY_GL4ES gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param) {
     DBG(printf("glTexEnvi(...)->");)
     gl4es_glTexEnvf(target, pname, param);
 }
 
-void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
+void APIENTRY_GL4ES gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
     DBG(printf("glTexEnvfv(%s, %s, %p)->", PrintEnum(target), PrintEnum(pname), param);)
     if (glstate->list.compiling && glstate->list.active && !glstate->list.pending) {
         DBG(printf("rlTexEnvfv(...)\n");)
@@ -625,7 +625,7 @@ void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param) {
     } else
         gl4es_glTexEnvf(target, pname, *param);
 }
-void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param) {
+void APIENTRY_GL4ES gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param) {
     DBG(printf("glTexEnviv(%s, %s, %p)->", PrintEnum(target), PrintEnum(pname), param);)
     if (glstate->list.compiling && glstate->list.active && !glstate->list.pending) {
         DBG(printf("rlTexEnviv(...)\n");)
@@ -642,7 +642,7 @@ void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param) {
     } else
         gl4es_glTexEnvf(target, pname, *param);
 }
-void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
+void APIENTRY_GL4ES gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
     //FLUSH_BEGINEND;
     DBG(printf("glGetTexEnvfv(%s, %s, %p)\n", PrintEnum(target), PrintEnum(pname), params);)
     noerrorShim();
@@ -723,7 +723,7 @@ void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params) {
     errorShim(GL_INVALID_ENUM);
     return;
 }
-void gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
+void APIENTRY_GL4ES gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params) {
  //   LOAD_GLES(glGetTexEnviv);
     //FLUSH_BEGINEND;
     noerrorShim();

@@ -14,10 +14,10 @@ typedef struct {
     GLenum          coord_src;
 } fog_t;
 
-void gl4es_glFogfv(GLenum pname, const GLfloat* params);
-void gl4es_glFogf(GLenum pname, GLfloat param);
+void APIENTRY_GL4ES gl4es_glFogfv(GLenum pname, const GLfloat* params);
+void APIENTRY_GL4ES gl4es_glFogf(GLenum pname, GLfloat param);
 
-void gl4es_glFogCoordf(GLfloat coord);
-void gl4es_glFogCoordfv(const GLfloat *coord);
+void APIENTRY_GL4ES gl4es_glFogCoordf(GLfloat coord);
+void APIENTRY_GL4ES gl4es_glFogCoordfv(const GLfloat *coord);
 
 #endif // _GL4ES_FOG_H_

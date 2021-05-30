@@ -173,7 +173,7 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
     }
     return tex;
 }
-void gl4es_glBindTexture(GLenum target, GLuint texture) {
+void APIENTRY_GL4ES gl4es_glBindTexture(GLenum target, GLuint texture) {
     noerrorShim();
     DBG(printf("glBindTexture(%s, %u), active=%i, client=%i, list.active=%p (compiling=%d, pending=%d)\n", PrintEnum(target), texture, glstate->texture.active, glstate->texture.client, glstate->list.active, glstate->list.compiling, glstate->list.pending);)
     if ((target!=GL_PROXY_TEXTURE_2D) && glstate->list.compiling && glstate->list.active && !glstate->list.pending) {
@@ -287,7 +287,7 @@ GLenum get_texture_wrap_t(gltexture_t* texture, glsampler_t *sampler)
     return get_texture_wrap(sampler->wrap_t, texture);
 }
 // TODO: also glTexParameterf(v)?
-void gl4es_glTexParameterfv(GLenum target, GLenum pname, const GLfloat *params) {
+void APIENTRY_GL4ES gl4es_glTexParameterfv(GLenum target, GLenum pname, const GLfloat *params) {
     DBG(printf("glTexParameterfv(%s, %s, [%f(%s)...])\n", PrintEnum(target), PrintEnum(pname), params[0], PrintEnum(params[0]));)
     if(!glstate->list.pending) {
         PUSH_IF_COMPILING(glTexParameterfv);
@@ -346,15 +346,15 @@ void gl4es_glTexParameterfv(GLenum target, GLenum pname, const GLfloat *params) 
     }
 }
 
-void gl4es_glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
+void APIENTRY_GL4ES gl4es_glTexParameterf(GLenum target, GLenum pname, GLfloat param) {
     gl4es_glTexParameterfv(target, pname, &param);
 }
-void gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
+void APIENTRY_GL4ES gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
     GLfloat fparam = param;
     gl4es_glTexParameterfv(target, pname, &fparam);
 }
 
-void gl4es_glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
+void APIENTRY_GL4ES gl4es_glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
     GLfloat fparams[4];
     fparams[0] = *params;
     if(pname==GL_TEXTURE_BORDER_COLOR)
@@ -363,7 +363,7 @@ void gl4es_glTexParameteriv(GLenum target, GLenum pname, const GLint * params) {
     gl4es_glTexParameterfv(target, pname, fparams);
 }
 
-void gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
+void APIENTRY_GL4ES gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
     DBG(printf("glDeleteTextures(%d, %p {%d...})\n", n, textures, n?textures[0]:-1);)
     if(!glstate) return;
     FLUSH_BEGINEND;
@@ -424,7 +424,7 @@ void gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
     }
 }
 
-void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
+void APIENTRY_GL4ES gl4es_glGenTextures(GLsizei n, GLuint * textures) {
     DBG(printf("glGenTextures(%d, %p)\n", n, textures);)
     if (n<=0) 
         return;
@@ -469,12 +469,12 @@ void gl4es_glGenTextures(GLsizei n, GLuint * textures) {
     }
 }
 
-GLboolean gl4es_glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *residences) {
+GLboolean APIENTRY_GL4ES gl4es_glAreTexturesResident(GLsizei n, const GLuint *textures, GLboolean *residences) {
     noerrorShim();
     return true;
 }
 
-void gl4es_glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params) {
+void APIENTRY_GL4ES gl4es_glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat *params) {
     DBG(printf("glGetTexLevelParameteriv(%s, %d, %s, %p)\n", PrintEnum(target), level, PrintEnum(pname), params);)
     // simplification: (mostly) not taking "target" into account here
     FLUSH_BEGINEND;
@@ -596,7 +596,7 @@ void gl4es_glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GL
     }
 }
 
-void gl4es_glActiveTexture( GLenum texture ) {
+void APIENTRY_GL4ES gl4es_glActiveTexture( GLenum texture ) {
     DBG(printf("glActiveTexture(%s)\n", PrintEnum(texture));)
     int tmu = texture - GL_TEXTURE0;
     if (glstate->list.pending) {
@@ -623,7 +623,7 @@ void gl4es_glActiveTexture( GLenum texture ) {
     noerrorShim();
 }
 
-void gl4es_glClientActiveTexture( GLenum texture ) {
+void APIENTRY_GL4ES gl4es_glClientActiveTexture( GLenum texture ) {
     DBG(printf("glClientActiveTexture(%s)\n", PrintEnum(texture));)
     int tmu = texture - GL_TEXTURE0;
     if ((tmu<0) || (tmu >= hardext.maxtex)) {
@@ -640,7 +640,7 @@ void gl4es_glClientActiveTexture( GLenum texture ) {
     errorGL();
 }
 
-void gl4es_glPixelStorei(GLenum pname, GLint param) {
+void APIENTRY_GL4ES gl4es_glPixelStorei(GLenum pname, GLint param) {
     DBG(printf("glPixelStorei(%s, %d)\n", PrintEnum(pname), param);)
     // TODO: add to glGetIntegerv?
 
