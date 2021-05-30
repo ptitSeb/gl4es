@@ -88,7 +88,7 @@ glrenderbuffer_t* find_renderbuffer(GLuint renderbuffer) {
     return NULL;
 }
 
-void gl4es_glGenFramebuffers(GLsizei n, GLuint *ids) {
+void APIENTRY_GL4ES gl4es_glGenFramebuffers(GLsizei n, GLuint *ids) {
     DBG(printf("glGenFramebuffers(%i, %p)\n", n, ids);)
     LOAD_GLES2_OR_OES(glGenFramebuffers);
     GLsizei m = 0;
@@ -114,7 +114,7 @@ void gl4es_glGenFramebuffers(GLsizei n, GLuint *ids) {
     }
 }
 
-void gl4es_glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
+void APIENTRY_GL4ES gl4es_glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
     DBG(printf("glDeleteFramebuffers(%i, %p), framebuffers[0]=%u\n", n, framebuffers, framebuffers[0]);)
     // delete tracking
     if (glstate->fbo.framebufferlist)
@@ -180,7 +180,7 @@ void gl4es_glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) {
     }
 }
 
-GLboolean gl4es_glIsFramebuffer(GLuint framebuffer) {
+GLboolean APIENTRY_GL4ES gl4es_glIsFramebuffer(GLuint framebuffer) {
     DBG(printf("glIsFramebuffer(%u)\n", framebuffer);)
     LOAD_GLES2_OR_OES(glIsFramebuffer);
     
@@ -188,7 +188,7 @@ GLboolean gl4es_glIsFramebuffer(GLuint framebuffer) {
     return find_framebuffer(framebuffer)!=NULL;
 }
 
-GLenum gl4es_glCheckFramebufferStatus(GLenum target) {
+GLenum APIENTRY_GL4ES gl4es_glCheckFramebufferStatus(GLenum target) {
     GLenum result;
     if(glstate->fbo.internal) {
         result = glstate->fbo.fb_status;
@@ -208,7 +208,7 @@ GLenum gl4es_glCheckFramebufferStatus(GLenum target) {
     return result;
 }
 
-void gl4es_glBindFramebuffer(GLenum target, GLuint framebuffer) {
+void APIENTRY_GL4ES gl4es_glBindFramebuffer(GLenum target, GLuint framebuffer) {
     DBG(printf("glBindFramebuffer(%s, %u), list=%s, glstate->fbo.current_fb=%d (draw=%d, read=%d)\n", PrintEnum(target), framebuffer, glstate->list.active?"active":"none", glstate->fbo.current_fb->id, glstate->fbo.fbo_draw->id, glstate->fbo.fbo_read->id);)
 	PUSH_IF_COMPILING(glBindFramebuffer);
     LOAD_GLES2_OR_OES(glBindFramebuffer);
@@ -413,7 +413,7 @@ int GetAttachmentLevel(glframebuffer_t* fb, GLenum attachment) {
     return 0;
 }
 
-void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
+void APIENTRY_GL4ES gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) {
     DBG(printf("glFramebufferTexture2D(%s, %s, %s, %u, %i) glstate->fbo.current_fb=%d (draw=%d, read=%d)\n", PrintEnum(target), PrintEnum(attachment), PrintEnum(textarget), texture, level, glstate->fbo.current_fb->id, glstate->fbo.fbo_draw->id, glstate->fbo.fbo_read->id);)
     static GLuint scrap_tex = 0;
     static int scrap_width = 0;
@@ -789,15 +789,15 @@ void gl4es_glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum texta
     ReadDraw_Pop(target);
 }
 
-void gl4es_glFramebufferTexture1D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level) {
+void APIENTRY_GL4ES gl4es_glFramebufferTexture1D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level) {
     gl4es_glFramebufferTexture2D(target, attachment, textarget, texture, level);
 }
-void gl4es_glFramebufferTexture3D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level, GLint layer) {
+void APIENTRY_GL4ES gl4es_glFramebufferTexture3D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture,	GLint level, GLint layer) {
     (void)layer;
     gl4es_glFramebufferTexture2D(target, attachment, textarget, texture, level);
 }
 
-void gl4es_glGenRenderbuffers(GLsizei n, GLuint *renderbuffers) {
+void APIENTRY_GL4ES gl4es_glGenRenderbuffers(GLsizei n, GLuint *renderbuffers) {
     DBG(printf("glGenRenderbuffers(%i, %p)\n", n, renderbuffers);)
     LOAD_GLES2_OR_OES(glGenRenderbuffers);
     errorGL();
@@ -814,7 +814,7 @@ void gl4es_glGenRenderbuffers(GLsizei n, GLuint *renderbuffers) {
     }
 }
 
-void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
+void APIENTRY_GL4ES gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) {
     DBG(printf("glFramebufferRenderbuffer(%s, %s, %s, %u)\n", PrintEnum(target), PrintEnum(attachment), PrintEnum(renderbuffertarget), renderbuffer);)
     LOAD_GLES2_OR_OES(glFramebufferRenderbuffer);
     LOAD_GLES2_OR_OES(glGetFramebufferAttachmentParameteriv);
@@ -915,7 +915,7 @@ void gl4es_glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum re
     ReadDraw_Pop(target);
 }
 
-void gl4es_glDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers) {
+void APIENTRY_GL4ES gl4es_glDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers) {
     DBG(printf("glDeleteRenderbuffer(%d, %p)\n", n, renderbuffers);)
     LOAD_GLES2_OR_OES(glDeleteRenderbuffers);
     
@@ -947,7 +947,7 @@ void gl4es_glDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers) {
     gles_glDeleteRenderbuffers(n, renderbuffers);
 }
 
-void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) {
+void APIENTRY_GL4ES gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) {
     DBG(printf("glRenderbufferStorage(%s, %s, %i, %i)\n", PrintEnum(target), PrintEnum(internalformat), width, height);)
     LOAD_GLES2_OR_OES(glRenderbufferStorage);
     LOAD_GLES2_OR_OES(glGenRenderbuffers);
@@ -1036,11 +1036,11 @@ void gl4es_glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei w
     DBG(CheckGLError(1);)
 }
 
-void gl4es_glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height) {    //STUB
+void APIENTRY_GL4ES gl4es_glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height) {    //STUB
     gl4es_glRenderbufferStorage(target, internalformat, width, height);
 }
 
-void gl4es_glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
+void APIENTRY_GL4ES gl4es_glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
     DBG(printf("glBindRenderbuffer(%s, %u), binded Fbo=%u\n", PrintEnum(target), renderbuffer, glstate->fbo.current_fb->id);)
     LOAD_GLES2_OR_OES(glBindRenderbuffer);
     
@@ -1060,13 +1060,13 @@ void gl4es_glBindRenderbuffer(GLenum target, GLuint renderbuffer) {
     gles_glBindRenderbuffer(target, renderbuffer);
 }
 
-GLboolean gl4es_glIsRenderbuffer(GLuint renderbuffer) {
+GLboolean APIENTRY_GL4ES gl4es_glIsRenderbuffer(GLuint renderbuffer) {
     DBG(printf("glIsRenderbuffer(%u)\n", renderbuffer);)
     noerrorShim();
     return((find_renderbuffer(renderbuffer)!=NULL)?GL_TRUE:GL_FALSE);
 }
 
-void gl4es_glGenerateMipmap(GLenum target) {
+void APIENTRY_GL4ES gl4es_glGenerateMipmap(GLenum target) {
     DBG(printf("glGenerateMipmap(%s)\n", PrintEnum(target));)
     LOAD_GLES2_OR_OES(glGenerateMipmap);
     
@@ -1089,7 +1089,7 @@ void gl4es_glGenerateMipmap(GLenum target) {
     }
 }
 
-void gl4es_glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint *params) {
+void APIENTRY_GL4ES gl4es_glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint *params) {
     DBG(printf("glGetFramebufferAttachmentParameteriv(%s, %s, %s, %p)\n", PrintEnum(target), PrintEnum(attachment), PrintEnum(pname), params);)
     LOAD_GLES2_OR_OES(glGetFramebufferAttachmentParameteriv);
 
@@ -1180,7 +1180,7 @@ void gl4es_glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachmen
     ReadDraw_Pop(target);
 }
 
-void gl4es_glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * params) {
+void APIENTRY_GL4ES gl4es_glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint * params) {
     DBG(printf("glGetRenderbufferParameteriv(%s, %s, %p)\n", PrintEnum(target), PrintEnum(pname), params);)
     LOAD_GLES2_OR_OES(glGetRenderbufferParameteriv);
     
@@ -1365,14 +1365,14 @@ void deleteMainFBO(void *state) {
     // all done...
 }
 
-void gl4es_glFramebufferTextureLayer(	GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer) {
+void APIENTRY_GL4ES gl4es_glFramebufferTextureLayer(	GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer) {
     gl4es_glFramebufferTexture2D(target, attachment, GL_TEXTURE_2D, texture,	level); // Force Texture2D, ignore layer (should track?)...
 }
 
 #ifndef NOX11
 void gl4es_SwapBuffers_currentContext();    // defined in glx/glx.c
 #endif
-void gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) {
+void APIENTRY_GL4ES gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) {
     // mask will be ignored
     // filter will be taken only for ReadFBO has no Texture attached (so readpixel is used)
     DBG(printf("glBlitFramebuffer(%d, %d, %d, %d,  %d, %d, %d, %d,  0x%04X, %s) fbo_read=%d, fbo_draw=%d\n",
@@ -1480,7 +1480,7 @@ void gl4es_setCurrentFBO() {
 }
 
 // DrawBuffers functions are faked unless GL_EXT_draw_buffers is supported
-void gl4es_glDrawBuffers(GLsizei n, const GLenum *bufs) {
+void APIENTRY_GL4ES gl4es_glDrawBuffers(GLsizei n, const GLenum *bufs) {
     DBG(printf("glDrawBuffers(%d, %p) [0]=%s\n", n, bufs, n?PrintEnum(bufs[0]):"nil");)
     if(hardext.drawbuffers) {
         LOAD_GLES_EXT(glDrawBuffers);
@@ -1496,7 +1496,7 @@ void gl4es_glDrawBuffers(GLsizei n, const GLenum *bufs) {
     memcpy(glstate->fbo.fbo_draw->drawbuff, bufs, n*sizeof(GLenum));
     noerrorShim();
 }
-void gl4es_glNamedFramebufferDrawBuffers(GLuint framebuffer, GLsizei n, const GLenum *bufs) {
+void APIENTRY_GL4ES gl4es_glNamedFramebufferDrawBuffers(GLuint framebuffer, GLsizei n, const GLenum *bufs) {
     if(n<0 || n>hardext.maxdrawbuffers) {
         errorShim(GL_INVALID_VALUE);
         return;
@@ -1516,7 +1516,7 @@ void gl4es_glNamedFramebufferDrawBuffers(GLuint framebuffer, GLsizei n, const GL
 }
 
 
-void gl4es_glClearBufferiv(GLenum buffer, GLint drawbuffer, const GLint * value) {
+void APIENTRY_GL4ES gl4es_glClearBufferiv(GLenum buffer, GLint drawbuffer, const GLint * value) {
     noerrorShim();
     GLenum attch;
     switch(buffer) {
@@ -1561,7 +1561,7 @@ void gl4es_glClearBufferiv(GLenum buffer, GLint drawbuffer, const GLint * value)
     }
     return;
 }
-void gl4es_glClearBufferuiv(GLenum buffer, GLint drawbuffer, const GLuint * value) {
+void APIENTRY_GL4ES gl4es_glClearBufferuiv(GLenum buffer, GLint drawbuffer, const GLuint * value) {
     noerrorShim();
     GLenum attch;
     switch(buffer) {
@@ -1594,7 +1594,7 @@ void gl4es_glClearBufferuiv(GLenum buffer, GLint drawbuffer, const GLuint * valu
     }
     return;
 }
-void gl4es_glClearBufferfv(GLenum buffer, GLint drawbuffer, const GLfloat * value) {
+void APIENTRY_GL4ES gl4es_glClearBufferfv(GLenum buffer, GLint drawbuffer, const GLfloat * value) {
     noerrorShim();
     GLenum attch;
     switch(buffer) {
@@ -1639,7 +1639,7 @@ void gl4es_glClearBufferfv(GLenum buffer, GLint drawbuffer, const GLfloat * valu
     }
     return;
 }
-void gl4es_glClearBufferfi(GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil) {
+void APIENTRY_GL4ES gl4es_glClearBufferfi(GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil) {
     if(buffer!=GL_DEPTH_STENCIL || drawbuffer!=0) {
         errorShim(GL_INVALID_ENUM);
         return;
@@ -1654,28 +1654,28 @@ void gl4es_glClearBufferfi(GLenum buffer, GLint drawbuffer, GLfloat depth, GLint
     gl4es_glClearStencil(olds);
 }
 
-void gl4es_glClearNamedFramebufferiv(GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLint *value) {
+void APIENTRY_GL4ES gl4es_glClearNamedFramebufferiv(GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLint *value) {
     GLuint oldf = glstate->fbo.fbo_draw->id;
     GLenum target = (glstate->fbo.fbo_draw==glstate->fbo.fbo_read)?GL_FRAMEBUFFER:GL_DRAW_FRAMEBUFFER;
     gl4es_glBindFramebuffer(target, framebuffer);
     gl4es_glClearBufferiv(buffer, drawbuffer, value);
     gl4es_glBindFramebuffer(target, oldf);
 }
-void gl4es_glClearNamedFramebufferuiv(GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLuint *value) {
+void APIENTRY_GL4ES gl4es_glClearNamedFramebufferuiv(GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLuint *value) {
     GLuint oldf = glstate->fbo.fbo_draw->id;
     GLenum target = (glstate->fbo.fbo_draw==glstate->fbo.fbo_read)?GL_FRAMEBUFFER:GL_DRAW_FRAMEBUFFER;
     gl4es_glBindFramebuffer(target, framebuffer);
     gl4es_glClearBufferuiv(buffer, drawbuffer, value);
     gl4es_glBindFramebuffer(target, oldf);
 }
-void gl4es_glClearNamedFramebufferfv(GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLfloat *value) {
+void APIENTRY_GL4ES gl4es_glClearNamedFramebufferfv(GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLfloat *value) {
     GLuint oldf = glstate->fbo.fbo_draw->id;
     GLenum target = (glstate->fbo.fbo_draw==glstate->fbo.fbo_read)?GL_FRAMEBUFFER:GL_DRAW_FRAMEBUFFER;
     gl4es_glBindFramebuffer(target, framebuffer);
     gl4es_glClearBufferfv(buffer, drawbuffer, value);
     gl4es_glBindFramebuffer(target, oldf);
 }
-void gl4es_glClearNamedFramebufferfi(GLuint framebuffer, GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil) {
+void APIENTRY_GL4ES gl4es_glClearNamedFramebufferfi(GLuint framebuffer, GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil) {
     GLuint oldf = glstate->fbo.fbo_draw->id;
     GLenum target = (glstate->fbo.fbo_draw==glstate->fbo.fbo_read)?GL_FRAMEBUFFER:GL_DRAW_FRAMEBUFFER;
     gl4es_glBindFramebuffer(target, framebuffer);
@@ -1683,7 +1683,7 @@ void gl4es_glClearNamedFramebufferfi(GLuint framebuffer, GLenum buffer, GLint dr
     gl4es_glBindFramebuffer(target, oldf);
 }
 
-void gl4es_glColorMaskIndexed(GLuint framebuffer, GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
+void APIENTRY_GL4ES gl4es_glColorMaskIndexed(GLuint framebuffer, GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) {
     GLuint oldf = glstate->fbo.fbo_draw->id;
     GLenum target = (glstate->fbo.fbo_draw==glstate->fbo.fbo_read)?GL_FRAMEBUFFER:GL_DRAW_FRAMEBUFFER;
     gl4es_glBindFramebuffer(target, framebuffer);

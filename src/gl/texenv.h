@@ -32,11 +32,11 @@ typedef struct {
     GLenum          lod_bias;
 } texfilter_t;
 
-void gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param);
-void gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param);
-void gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param);
-void gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param);
-void gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params);
-void gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params);
+void APIENTRY_GL4ES gl4es_glTexEnvf(GLenum target, GLenum pname, GLfloat param);
+void APIENTRY_GL4ES gl4es_glTexEnvi(GLenum target, GLenum pname, GLint param);
+void APIENTRY_GL4ES gl4es_glTexEnvfv(GLenum target, GLenum pname, const GLfloat *param);
+void APIENTRY_GL4ES gl4es_glTexEnviv(GLenum target, GLenum pname, const GLint *param);
+void APIENTRY_GL4ES gl4es_glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params);
+void APIENTRY_GL4ES gl4es_glGetTexEnviv(GLenum target, GLenum pname, GLint * params);
 
 #endif // _GL4ES_TEXENV_H_

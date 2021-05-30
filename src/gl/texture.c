@@ -891,7 +891,7 @@ GLenum minmag_float(GLenum filt) {
     }
 }
 
-void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
+void APIENTRY_GL4ES gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
                   GLsizei width, GLsizei height, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
     DBG(printf("glTexImage2D on target=%s with unpack_row_length(%i), size(%i,%i) and skip(%i,%i), format(internal)=%s(%s), type=%s, data=%p, level=%i (mipmap_need=%i, mipmap_auto=%i, base_level=%i, max_level=%i) => texture=%u (streamed=%i), glstate->list.compiling=%d\n", PrintEnum(target), glstate->texture.unpack_row_length, width, height, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), (internalformat==3)?"3":(internalformat==4?"4":PrintEnum(internalformat)), PrintEnum(type), data, level, glstate->texture.bound[glstate->texture.active][what_target(target)]->mipmap_need, glstate->texture.bound[glstate->texture.active][what_target(target)]->mipmap_auto, glstate->texture.bound[glstate->texture.active][what_target(target)]->base_level, glstate->texture.bound[glstate->texture.active][what_target(target)]->max_level, glstate->texture.bound[glstate->texture.active][what_target(target)]->texture, glstate->texture.bound[glstate->texture.active][what_target(target)]->streamed, glstate->list.compiling);)
@@ -1514,7 +1514,7 @@ void gl4es_glTexImage2D(GLenum target, GLint level, GLint internalformat,
         glstate->bound_changed = glstate->texture.active+1;
 }
 
-void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
+void APIENTRY_GL4ES gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                      GLsizei width, GLsizei height, GLenum format, GLenum type,
                      const GLvoid *data) {
 
@@ -1754,7 +1754,7 @@ void gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoff
 }
 
 // 1d stubs
-void gl4es_glTexImage1D(GLenum target, GLint level, GLint internalFormat,
+void APIENTRY_GL4ES gl4es_glTexImage1D(GLenum target, GLint level, GLint internalFormat,
                   GLsizei width, GLint border,
                   GLenum format, GLenum type, const GLvoid *data) {
 
@@ -1762,7 +1762,7 @@ void gl4es_glTexImage1D(GLenum target, GLint level, GLint internalFormat,
     gl4es_glTexImage2D(GL_TEXTURE_1D, level, internalFormat, width, 1,
                  border, format, type, data);
 }
-void gl4es_glTexSubImage1D(GLenum target, GLint level, GLint xoffset,
+void APIENTRY_GL4ES gl4es_glTexSubImage1D(GLenum target, GLint level, GLint xoffset,
                      GLsizei width, GLenum format, GLenum type,
                      const GLvoid *data) {
 
@@ -1770,7 +1770,7 @@ void gl4es_glTexSubImage1D(GLenum target, GLint level, GLint xoffset,
                     width, 1, format, type, data);
 }
 
-GLboolean gl4es_glIsTexture(GLuint texture) {
+GLboolean APIENTRY_GL4ES gl4es_glIsTexture(GLuint texture) {
     DBG(printf("glIsTexture(%d):", texture);)
     if(!glstate) {DBG(printf("GL_FALSE\n");) return GL_FALSE;}
     noerrorShim();
@@ -1794,12 +1794,12 @@ GLboolean gl4es_glIsTexture(GLuint texture) {
     return GL_TRUE;
 }
 
-void gl4es_glTexStorage1D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width)
+void APIENTRY_GL4ES gl4es_glTexStorage1D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width)
 {
     DBG(printf("glTexStorage1D(%s, %d, %s, %d)\n", PrintEnum(target), levels, PrintEnum(internalformat), width);)
     gl4es_glTexImage1D(target, 0, internalformat, width, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 }
-void gl4es_glTexStorage2D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height)
+void APIENTRY_GL4ES gl4es_glTexStorage2D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height)
 {
     // (could be implemented in GLES3.0)
     DBG(printf("glTexStorage2D(%s, %d, %s, %d, %d)\n", PrintEnum(target), levels, PrintEnum(internalformat), width, height);)

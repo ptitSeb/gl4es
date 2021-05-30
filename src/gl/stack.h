@@ -170,9 +170,9 @@ typedef struct _glclientstack_t {
     unsigned int cap;
 } glclientstack_t;
 
-void gl4es_glPushClientAttrib(GLbitfield mask);
-void gl4es_glPopClientAttrib();
-void gl4es_glPushAttrib(GLbitfield mask);
-void gl4es_glPopAttrib();
+void APIENTRY_GL4ES gl4es_glPushClientAttrib(GLbitfield mask);
+void APIENTRY_GL4ES gl4es_glPopClientAttrib(void);
+void APIENTRY_GL4ES gl4es_glPushAttrib(GLbitfield mask);
+void APIENTRY_GL4ES gl4es_glPopAttrib(void);
 
 #endif // _GL4ES_STACK_H_

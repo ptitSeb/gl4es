@@ -3,6 +3,6 @@
 
 #include "gles.h"
 
-void gl4es_glHint(GLenum pname, GLenum mode);
+void APIENTRY_GL4ES gl4es_glHint(GLenum pname, GLenum mode);
 
 #endif // _GL4ES_HINT_H_

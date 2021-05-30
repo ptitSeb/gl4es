@@ -6,7 +6,7 @@
 #include "matrix.h"
 #include "matvec.h"
 
-void gl4es_glLightModelf(GLenum pname, GLfloat param) {
+void APIENTRY_GL4ES gl4es_glLightModelf(GLenum pname, GLfloat param) {
 //printf("%sglLightModelf(%04X, %.2f)\n", (state.list.compiling)?"list":"", pname, param);
     ERROR_IN_BEGIN
     if(glstate->list.active) 
@@ -59,7 +59,7 @@ void gl4es_glLightModelf(GLenum pname, GLfloat param) {
     gles_glLightModelf(pname, param);
 }
 
-void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
+void APIENTRY_GL4ES gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
 //printf("%sglLightModelfv(%04X, [%.2f, %.2f, %.2f, %.2f])\n", (state.list.compiling)?"list":"", pname, params[0], params[1], params[2], params[3]);
     ERROR_IN_BEGIN
     if(glstate->list.active)
@@ -130,7 +130,7 @@ void gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
     gles_glLightModelfv(pname, params);
 }
 
-void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
+void APIENTRY_GL4ES gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
 //printf("%sglLightfv(%s, %s, %p=[%.2f, %.2f, %.2f, %.2f])\n", (glstate->list.compiling)?"list":"", PrintEnum(light), PrintEnum(pname), params, (params)?params[0]:0.0f, (params)?params[1]:0.0f, (params)?params[2]:0.0f, (params)?params[3]:0.0f);
     const int nl = light-GL_LIGHT0;
     if(nl<0 || nl>=hardext.maxlights) {
@@ -243,13 +243,13 @@ void gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
     errorGL();
 }
 
-void gl4es_glLightf(GLenum light, GLenum pname, GLfloat param) {
+void APIENTRY_GL4ES gl4es_glLightf(GLenum light, GLenum pname, GLfloat param) {
 	GLfloat dummy[4];
 	dummy[0]=param;
 	gl4es_glLightfv(light, pname, dummy);
 }
 
-void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
+void APIENTRY_GL4ES gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
     if(glstate->list.active)
         if(glstate->list.begin) {
             // if a glMaterialfv is called inside a glBegin/glEnd block
@@ -345,7 +345,7 @@ void gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) {
     errorGL();
 }
 
-void gl4es_glMaterialf(GLenum face, GLenum pname, GLfloat param) {
+void APIENTRY_GL4ES gl4es_glMaterialf(GLenum face, GLenum pname, GLfloat param) {
     ERROR_IN_BEGIN
     if(glstate->list.active)
         if (glstate->list.compiling) {
@@ -391,7 +391,7 @@ void gl4es_glMaterialf(GLenum face, GLenum pname, GLfloat param) {
     errorGL();
 }
 
-void gl4es_glColorMaterial(GLenum face, GLenum mode) {
+void APIENTRY_GL4ES gl4es_glColorMaterial(GLenum face, GLenum mode) {
     ERROR_IN_BEGIN
     if(glstate->list.active)
         if (glstate->list.compiling) {

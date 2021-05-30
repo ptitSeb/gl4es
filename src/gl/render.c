@@ -39,7 +39,7 @@ void push_hit() {
 }
 
 
-GLint gl4es_glRenderMode(GLenum mode) {
+GLint APIENTRY_GL4ES gl4es_glRenderMode(GLenum mode) {
 	if(glstate->list.compiling) {errorShim(GL_INVALID_OPERATION); return 0;}
 	FLUSH_BEGINEND;
 
@@ -73,7 +73,7 @@ GLint gl4es_glRenderMode(GLenum mode) {
 	return ret;
 }
 
-void gl4es_glInitNames() {
+void APIENTRY_GL4ES gl4es_glInitNames(void) {
 	if(glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_RENDER);
 		glstate->list.active->render_op = 1;
@@ -87,7 +87,7 @@ void gl4es_glInitNames() {
     noerrorShim();
 }
 
-void gl4es_glPopName() {
+void APIENTRY_GL4ES gl4es_glPopName(void) {
 	FLUSH_BEGINEND;
 	if(glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_RENDER);
@@ -104,7 +104,7 @@ void gl4es_glPopName() {
         errorShim(GL_STACK_UNDERFLOW);
 }
 
-void gl4es_glPushName(GLuint name) {
+void APIENTRY_GL4ES gl4es_glPushName(GLuint name) {
 	FLUSH_BEGINEND;
 	if(glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_RENDER);
@@ -123,7 +123,7 @@ void gl4es_glPushName(GLuint name) {
 	}
 }
 
-void gl4es_glLoadName(GLuint name) {
+void APIENTRY_GL4ES gl4es_glLoadName(GLuint name) {
 	FLUSH_BEGINEND;
 	if(glstate->list.active) {
 		NewStage(glstate->list.active, STAGE_RENDER);
@@ -142,7 +142,7 @@ void gl4es_glLoadName(GLuint name) {
     glstate->namestack.names[glstate->namestack.top-1] = name;
 }
 
-void gl4es_glSelectBuffer(GLsizei size, GLuint *buffer) {
+void APIENTRY_GL4ES gl4es_glSelectBuffer(GLsizei size, GLuint *buffer) {
     FLUSH_BEGINEND;
 		
     noerrorShim();
@@ -501,8 +501,8 @@ void select_glDrawElements(const vertexattrib_t* vtx, GLenum mode, GLuint count,
 
 //Direct wrapper
 AliasExport(GLint,glRenderMode,,(GLenum mode));
-AliasExport(void,glInitNames,,());
-AliasExport(void,glPopName,,());
+AliasExport_V(void,glInitNames);
+AliasExport_V(void,glPopName);
 AliasExport(void,glPushName,,(GLuint name));
 AliasExport(void,glLoadName,,(GLuint name));
 AliasExport(void,glSelectBuffer,,(GLsizei size, GLuint *buffer));

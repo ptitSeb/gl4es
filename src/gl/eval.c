@@ -64,7 +64,7 @@ static inline map_state_t **get_map_pointer(GLenum target) {
         case_state(dims, GL_MAP##dims##_VERTEX_4, vertex4);             \
     }
 
-void gl4es_glMap1d(GLenum target, GLdouble u1, GLdouble u2,
+void APIENTRY_GL4ES gl4es_glMap1d(GLenum target, GLdouble u1, GLdouble u2,
              GLint ustride, GLint uorder, const GLdouble *points) {
     noerrorShim();
     map_statef_t *map = malloc(sizeof(map_statef_t));
@@ -74,7 +74,7 @@ void gl4es_glMap1d(GLenum target, GLdouble u1, GLdouble u2,
     map->points = copy_eval_double1(target, ustride, uorder, points);
 }
 
-void gl4es_glMap1f(GLenum target, GLfloat u1, GLfloat u2,
+void APIENTRY_GL4ES gl4es_glMap1f(GLenum target, GLfloat u1, GLfloat u2,
              GLint ustride, GLint uorder, const GLfloat *points) {
     noerrorShim();
     map_statef_t *map = malloc(sizeof(map_statef_t));
@@ -84,7 +84,7 @@ void gl4es_glMap1f(GLenum target, GLfloat u1, GLfloat u2,
     map->points = copy_eval_float1(target, ustride, uorder, points);
 }
 
-void gl4es_glMap2d(GLenum target, GLdouble u1, GLdouble u2,
+void APIENTRY_GL4ES gl4es_glMap2d(GLenum target, GLdouble u1, GLdouble u2,
              GLint ustride, GLint uorder, GLdouble v1, GLdouble v2,
              GLint vstride, GLint vorder, const GLdouble *points) {
     noerrorShim();
@@ -96,7 +96,7 @@ void gl4es_glMap2d(GLenum target, GLdouble u1, GLdouble u2,
     map->points = copy_eval_double2(target, ustride, uorder, vstride, vorder, points);
 }
 
-void gl4es_glMap2f(GLenum target, GLfloat u1, GLfloat u2,
+void APIENTRY_GL4ES gl4es_glMap2f(GLenum target, GLfloat u1, GLfloat u2,
              GLint ustride, GLint uorder, GLfloat v1, GLfloat v2,
              GLint vstride, GLint vorder, const GLfloat *points) {
     noerrorShim();
@@ -141,7 +141,7 @@ void gl4es_glMap2f(GLenum target, GLfloat u1, GLfloat u2,
     else                                               \
     p_map(d, vertex3, glVertex3f, code);
 
-void gl4es_glEvalCoord1f(GLfloat u) {
+void APIENTRY_GL4ES gl4es_glEvalCoord1f(GLfloat u) {
     noerrorShim();
     GLfloat out[4];                           \
     iter_maps(1,
@@ -150,7 +150,7 @@ void gl4es_glEvalCoord1f(GLfloat u) {
     )
 }
 
-void gl4es_glEvalCoord2f(GLfloat u, GLfloat v) {
+void APIENTRY_GL4ES gl4es_glEvalCoord2f(GLfloat u, GLfloat v) {
     noerrorShim();
     GLfloat out[4];                           \
     iter_maps(2,
@@ -183,7 +183,7 @@ void gl4es_glEvalCoord2f(GLfloat u, GLfloat v) {
 #undef p_map
 #undef iter_maps
 
-void gl4es_glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
+void APIENTRY_GL4ES gl4es_glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
     if(un<1) {
         errorShim(GL_INVALID_VALUE);
         return;
@@ -200,7 +200,7 @@ void gl4es_glMapGrid1f(GLint un, GLfloat u1, GLfloat u2) {
    glstate->map_grid[0]._2 = u2;
 }
 
-void gl4es_glMapGrid2f(GLint un, GLfloat u1, GLfloat u2,
+void APIENTRY_GL4ES gl4es_glMapGrid2f(GLint un, GLfloat u1, GLfloat u2,
                  GLint vn, GLfloat v1, GLfloat v2) {
 
      if((un<1) || (vn<1)) {
@@ -240,7 +240,7 @@ static inline GLenum eval_mesh_prep(GLenum mode) {
     }
 }
 
-void gl4es_glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
+void APIENTRY_GL4ES gl4es_glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
     GLenum renderMode = eval_mesh_prep(mode);
     if (! renderMode) {
         errorShim(GL_INVALID_ENUM);
@@ -259,7 +259,7 @@ void gl4es_glEvalMesh1(GLenum mode, GLint i1, GLint i2) {
     gl4es_glEnd();
 }
 
-void gl4es_glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
+void APIENTRY_GL4ES gl4es_glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
     GLenum renderMode = eval_mesh_prep(mode);
     if (! renderMode) {
         errorShim(GL_INVALID_ENUM);
@@ -302,16 +302,16 @@ void gl4es_glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2) {
     }
 }
 
-void gl4es_glEvalPoint1(GLint i) {
+void APIENTRY_GL4ES gl4es_glEvalPoint1(GLint i) {
     gl4es_glEvalCoord1f(glstate->map_grid[0]._1 + glstate->map_grid[0].d*i);
 }
 
-void gl4es_glEvalPoint2(GLint i, GLint j) {
+void APIENTRY_GL4ES gl4es_glEvalPoint2(GLint i, GLint j) {
     gl4es_glEvalCoord2f(glstate->map_grid[0]._1 + glstate->map_grid[0].d*i, glstate->map_grid[1]._1 + glstate->map_grid[1].d*j);
 }
 
 #define GL_GET_MAP(t, type)                                        \
-void gl4es_glGetMap##t##v(GLenum target, GLenum query, type *v) { \
+void APIENTRY_GL4ES gl4es_glGetMap##t##v(GLenum target, GLenum query, type *v) { \
     noerrorShim();                                                 \
     map_statef_t *map = *(map_statef_t **)get_map_pointer(target); \
     if (map) {                                                     \
@@ -353,9 +353,9 @@ GL_GET_MAP(d, GLdouble)
 #undef GL_GET_MAP
 
 //Direct wrapper
-AliasExport(void,glMap1d,,(GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order, const GLdouble *points));
+AliasExport_M(void,glMap1d,,(GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order, const GLdouble *points),32);
 AliasExport(void,glMap1f,,(GLenum target, GLfloat u1, GLfloat u2, GLint stride, GLint order, const GLfloat *points));
-AliasExport(void,glMap2d,,(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, const GLdouble *points));
+AliasExport_M(void,glMap2d,,(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, const GLdouble *points),56);
 AliasExport(void,glMap2f,,(GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, const GLfloat *points));
 AliasExport(void,glEvalCoord1f,,(GLfloat u));
 AliasExport(void,glEvalCoord2f,,(GLfloat u, GLfloat v));

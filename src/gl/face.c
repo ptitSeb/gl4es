@@ -4,7 +4,7 @@
 #include "gl4es.h"
 #include "glstate.h"
 
-void gl4es_glCullFace(GLenum mode) {
+void APIENTRY_GL4ES gl4es_glCullFace(GLenum mode) {
     if(!glstate->list.pending)
         PUSH_IF_COMPILING(glCullFace);
     if(mode!=GL_FRONT && mode!=GL_BACK && mode!=GL_FRONT_AND_BACK) {
@@ -22,7 +22,7 @@ void gl4es_glCullFace(GLenum mode) {
     gles_glCullFace(mode);
 }
 
-void gl4es_glFrontFace(GLenum mode) {
+void APIENTRY_GL4ES gl4es_glFrontFace(GLenum mode) {
     if(!glstate->list.pending)
         PUSH_IF_COMPILING(glFrontFace);
     if(mode!=GL_CW && mode!=GL_CCW) {

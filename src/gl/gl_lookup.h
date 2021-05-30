@@ -42,6 +42,6 @@
     }
 #endif
 
-EXPORT void *gl4es_GetProcAddress(const char *name);
+EXPORT void* APIENTRY_GL4ES gl4es_GetProcAddress(const char *name);
 
 #endif //_GL_LOOKUP_H_

@@ -7,13 +7,13 @@
 #include "glstate.h"
 #include "loader.h"
 
-void gl4es_glPointParameteri(GLenum pname, GLint param)
+void APIENTRY_GL4ES gl4es_glPointParameteri(GLenum pname, GLint param)
 {
     gl4es_glPointParameterf(pname, param);
 }
 AliasExport(void,glPointParameteri,,(GLenum pname, GLint param));
 
-void gl4es_glPointParameteriv(GLenum pname, const GLint * params)
+void APIENTRY_GL4ES gl4es_glPointParameteriv(GLenum pname, const GLint * params)
 {
     GLfloat tmp[3];
     int v=(pname==GL_POINT_DISTANCE_ATTENUATION)?3:1;
@@ -22,7 +22,7 @@ void gl4es_glPointParameteriv(GLenum pname, const GLint * params)
 }
 AliasExport(void,glPointParameteriv,,(GLenum pname, const GLint * params));
 
-void gl4es_glPointParameterf(GLenum pname, GLfloat param) {
+void APIENTRY_GL4ES gl4es_glPointParameterf(GLenum pname, GLfloat param) {
     PUSH_IF_COMPILING(glPointParameterf);
     gl4es_glPointParameterfv(pname, &param);
 }
@@ -30,7 +30,7 @@ AliasExport(void,glPointParameterf,,(GLenum pname, GLfloat param));
 AliasExport(void,glPointParameterf,ARB,(GLenum pname, GLfloat param));
 AliasExport(void,glPointParameterf,EXT,(GLenum pname, GLfloat param));
 
-void gl4es_glPointParameterfv(GLenum pname, const GLfloat * params)
+void APIENTRY_GL4ES gl4es_glPointParameterfv(GLenum pname, const GLfloat * params)
 {
     if (glstate->list.active)
         if (glstate->list.compiling) {
@@ -116,7 +116,7 @@ AliasExport(void,glPointParameterfv,,(GLenum pname, const GLfloat * params));
 AliasExport(void,glPointParameterfv,ARB,(GLenum pname, const GLfloat * params));
 AliasExport(void,glPointParameterfv,EXT,(GLenum pname, const GLfloat * params));
 
-void gl4es_glPointSize(GLfloat size) {
+void APIENTRY_GL4ES gl4es_glPointSize(GLfloat size) {
     if(size<=0.0f) {
         errorShim(GL_INVALID_VALUE);
         return;

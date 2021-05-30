@@ -4,27 +4,27 @@
 #include "const.h"
 #include "gles.h"
 
-void gl4es_glMap1d(GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order, const GLdouble *points);
-void gl4es_glMap1f(GLenum target, GLfloat u1, GLfloat u2, GLint stride, GLint order, const GLfloat *points);
-void gl4es_glMap2d(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, const GLdouble *points);
-void gl4es_glMap2f(GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, const GLfloat *points);
+void APIENTRY_GL4ES gl4es_glMap1d(GLenum target, GLdouble u1, GLdouble u2, GLint stride, GLint order, const GLdouble *points);
+void APIENTRY_GL4ES gl4es_glMap1f(GLenum target, GLfloat u1, GLfloat u2, GLint stride, GLint order, const GLfloat *points);
+void APIENTRY_GL4ES gl4es_glMap2d(GLenum target, GLdouble u1, GLdouble u2, GLint ustride, GLint uorder, GLdouble v1, GLdouble v2, GLint vstride, GLint vorder, const GLdouble *points);
+void APIENTRY_GL4ES gl4es_glMap2f(GLenum target, GLfloat u1, GLfloat u2, GLint ustride, GLint uorder, GLfloat v1, GLfloat v2, GLint vstride, GLint vorder, const GLfloat *points);
 
-void gl4es_glEvalCoord1d(GLdouble u);
-void gl4es_glEvalCoord1f(GLfloat u);
-void gl4es_glEvalCoord2d(GLdouble u, GLdouble v);
-void gl4es_glEvalCoord2f(GLfloat u, GLfloat v);
+void APIENTRY_GL4ES gl4es_glEvalCoord1d(GLdouble u);
+void APIENTRY_GL4ES gl4es_glEvalCoord1f(GLfloat u);
+void APIENTRY_GL4ES gl4es_glEvalCoord2d(GLdouble u, GLdouble v);
+void APIENTRY_GL4ES gl4es_glEvalCoord2f(GLfloat u, GLfloat v);
 
-void gl4es_glEvalMesh1(GLenum mode, GLint i1, GLint i2);
-void gl4es_glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2);
-void gl4es_glEvalPoint1(GLint i);
-void gl4es_glEvalPoint2(GLint i, GLint j);
-void gl4es_glMapGrid1d(GLint un, GLdouble u1, GLdouble u2);
-void gl4es_glMapGrid1f(GLint un, GLfloat u1, GLfloat u2);
-void gl4es_glMapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdouble v2);
-void gl4es_glMapGrid2f(GLint un, GLfloat u1, GLfloat u2, GLint vn, GLfloat v1, GLfloat v2);
-void gl4es_glGetMapdv(GLenum target, GLenum query, GLdouble *v);
-void gl4es_glGetMapfv(GLenum target, GLenum query, GLfloat *v);
-void gl4es_glGetMapiv(GLenum target, GLenum query, GLint *v);
+void APIENTRY_GL4ES gl4es_glEvalMesh1(GLenum mode, GLint i1, GLint i2);
+void APIENTRY_GL4ES gl4es_glEvalMesh2(GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2);
+void APIENTRY_GL4ES gl4es_glEvalPoint1(GLint i);
+void APIENTRY_GL4ES gl4es_glEvalPoint2(GLint i, GLint j);
+void APIENTRY_GL4ES gl4es_glMapGrid1d(GLint un, GLdouble u1, GLdouble u2);
+void APIENTRY_GL4ES gl4es_glMapGrid1f(GLint un, GLfloat u1, GLfloat u2);
+void APIENTRY_GL4ES gl4es_glMapGrid2d(GLint un, GLdouble u1, GLdouble u2, GLint vn, GLdouble v1, GLdouble v2);
+void APIENTRY_GL4ES gl4es_glMapGrid2f(GLint un, GLfloat u1, GLfloat u2, GLint vn, GLfloat v1, GLfloat v2);
+void APIENTRY_GL4ES gl4es_glGetMapdv(GLenum target, GLenum query, GLdouble *v);
+void APIENTRY_GL4ES gl4es_glGetMapfv(GLenum target, GLenum query, GLfloat *v);
+void APIENTRY_GL4ES gl4es_glGetMapiv(GLenum target, GLenum query, GLint *v);
 
 typedef struct {
     GLenum type;

@@ -4,12 +4,6 @@
 #else
 #include <sys/time.h>
 #endif
-#else
-#ifdef _MSC_VER
-#pragma warning(disable : 4028 4133)
-#endif
-__declspec(dllimport)
-void __stdcall GetSystemTimeAsFileTime(unsigned __int64*);
 #endif
 
 #include "queries.h"
@@ -18,6 +12,15 @@ void __stdcall GetSystemTimeAsFileTime(unsigned __int64*);
 #include "gl4es.h"
 #include "glstate.h"
 #include "loader.h"
+#ifdef _WIN32
+#ifdef _WINBASE_
+#define GSM_CAST(c) ((LPFILETIME)c)
+#else
+__declspec(dllimport)
+void __stdcall GetSystemTimeAsFileTime(unsigned __int64*);
+#define GSM_CAST(c) ((__int64*)c)
+#endif
+#endif
 
 KHASH_MAP_IMPL_INT(queries, glquery_t *);
 
@@ -70,7 +73,7 @@ void del_querie(GLuint querie) {
 unsigned long long get_clock() {
 	unsigned long long now;
 	#ifdef _WIN32
-        GetSystemTimeAsFileTime((unsigned __int64*)&now);
+        GetSystemTimeAsFileTime(GSM_CAST(&now));
 	#elif defined(USE_CLOCK)
 	struct timespec out;
 	clock_gettime(CLOCK_MONOTONIC_RAW, &out);
@@ -83,7 +86,7 @@ unsigned long long get_clock() {
 	return now;
 }
 
-void gl4es_glGenQueries(GLsizei n, GLuint * ids) {
+void APIENTRY_GL4ES gl4es_glGenQueries(GLsizei n, GLuint * ids) {
     FLUSH_BEGINEND;
 	noerrorShim();
     if (n<1) {
@@ -95,7 +98,7 @@ void gl4es_glGenQueries(GLsizei n, GLuint * ids) {
     }
 }
 
-GLboolean gl4es_glIsQuery(GLuint id) {
+GLboolean APIENTRY_GL4ES gl4es_glIsQuery(GLuint id) {
 	if(glstate->list.compiling) {errorShim(GL_INVALID_OPERATION); return GL_FALSE;}
 	FLUSH_BEGINEND;
 	glquery_t *querie = find_query(id);
@@ -104,7 +107,7 @@ GLboolean gl4es_glIsQuery(GLuint id) {
 	return GL_FALSE;
 }
 
-void gl4es_glDeleteQueries(GLsizei n, const GLuint* ids) {
+void APIENTRY_GL4ES gl4es_glDeleteQueries(GLsizei n, const GLuint* ids) {
     FLUSH_BEGINEND;
     if(n<0) {
         errorShim(GL_INVALID_VALUE);
@@ -117,7 +120,7 @@ void gl4es_glDeleteQueries(GLsizei n, const GLuint* ids) {
         del_querie(ids[i]);
 }
 
-void gl4es_glBeginQuery(GLenum target, GLuint id) {
+void APIENTRY_GL4ES gl4es_glBeginQuery(GLenum target, GLuint id) {
     FLUSH_BEGINEND;
     glquery_t *query = find_query(id);
 	if(!query) {
@@ -150,7 +153,7 @@ void gl4es_glBeginQuery(GLenum target, GLuint id) {
     noerrorShim();
 }
 
-void gl4es_glEndQuery(GLenum target) {
+void APIENTRY_GL4ES gl4es_glEndQuery(GLenum target) {
     FLUSH_BEGINEND;
 	glquery_t *query = find_query_target(target);
 	if(!query) {
@@ -174,7 +177,7 @@ void gl4es_glEndQuery(GLenum target) {
 	noerrorShim();
 }
 
-void gl4es_glGetQueryiv(GLenum target, GLenum pname, GLint* params) {
+void APIENTRY_GL4ES gl4es_glGetQueryiv(GLenum target, GLenum pname, GLint* params) {
     FLUSH_BEGINEND;
 
 	glquery_t *q = find_query_target(target);
@@ -196,7 +199,7 @@ void gl4es_glGetQueryiv(GLenum target, GLenum pname, GLint* params) {
 	}
 }
 
-void gl4es_glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params) {
+void APIENTRY_GL4ES gl4es_glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params) {
     FLUSH_BEGINEND;
 
 	glquery_t *query = find_query(id);
@@ -219,7 +222,7 @@ void gl4es_glGetQueryObjectiv(GLuint id, GLenum pname, GLint* params) {
     noerrorShim();
 }
 
-void gl4es_glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint* params) {
+void APIENTRY_GL4ES gl4es_glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint* params) {
     FLUSH_BEGINEND;
 		
 	glquery_t *query = find_query(id);
@@ -243,7 +246,7 @@ void gl4es_glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint* params) {
     noerrorShim();
 }
 
-void gl4es_glQueryCounter(GLuint id, GLenum target)
+void APIENTRY_GL4ES gl4es_glQueryCounter(GLuint id, GLenum target)
 {
     FLUSH_BEGINEND;
 		
@@ -266,7 +269,7 @@ void gl4es_glQueryCounter(GLuint id, GLenum target)
 }
 
 
-void gl4es_glGetQueryObjecti64v(GLuint id, GLenum pname, GLint64 * params)
+void APIENTRY_GL4ES gl4es_glGetQueryObjecti64v(GLuint id, GLenum pname, GLint64 * params)
 {
 	FLUSH_BEGINEND;
 		
@@ -291,7 +294,7 @@ void gl4es_glGetQueryObjecti64v(GLuint id, GLenum pname, GLint64 * params)
     noerrorShim();
 }
 	
-void gl4es_glGetQueryObjectui64v(GLuint id, GLenum pname, GLuint64 * params)
+void APIENTRY_GL4ES gl4es_glGetQueryObjectui64v(GLuint id, GLenum pname, GLuint64 * params)
 {
     FLUSH_BEGINEND;
 		

@@ -10,13 +10,13 @@
 
 //extern void* eglGetProcAddress(const char*);
 
-void gl4es_glTexGeni(GLenum coord, GLenum pname, GLint param) {
+void APIENTRY_GL4ES gl4es_glTexGeni(GLenum coord, GLenum pname, GLint param) {
     GLfloat params[4] = {0,0,0,0};
     params[0]=param;
     gl4es_glTexGenfv(coord, pname, params);
 }
 
-void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
+void APIENTRY_GL4ES gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
     
     /*
     If pname is GL_TEXTURE_GEN_MODE, then the array must contain
@@ -117,7 +117,7 @@ void gl4es_glTexGenfv(GLenum coord, GLenum pname, const GLfloat *param) {
             errorShim(GL_INVALID_ENUM);
     }
 }
-void gl4es_glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
+void APIENTRY_GL4ES gl4es_glGetTexGenfv(GLenum coord,GLenum pname,GLfloat *params) {
     //FLUSH_BEGINEND;   // no flush on get
     noerrorShim();
 	switch(pname) {
@@ -424,27 +424,27 @@ void gen_tex_clean(GLint cleancode, int texture) {
 	}
 }
 
-void gl4es_glLoadTransposeMatrixf(const GLfloat *m) {
+void APIENTRY_GL4ES gl4es_glLoadTransposeMatrixf(const GLfloat *m) {
 	GLfloat mf[16];
 	matrix_transpose(m, mf);
 	gl4es_glLoadMatrixf(mf);
     errorGL();
 }
 
-void gl4es_glLoadTransposeMatrixd(const GLdouble *m) {
+void APIENTRY_GL4ES gl4es_glLoadTransposeMatrixd(const GLdouble *m) {
 	GLfloat mf[16];
 	for (int i=0; i<16; i++)
 		mf[i] = m[i];
 	gl4es_glLoadTransposeMatrixf(mf);
 }
 
-void gl4es_glMultTransposeMatrixd(const GLdouble *m) {
+void APIENTRY_GL4ES gl4es_glMultTransposeMatrixd(const GLdouble *m) {
 	GLfloat mf[16];
 	for (int i=0; i<16; i++)
 		mf[i] = m[i];
 	gl4es_glMultTransposeMatrixf(mf);
 }
-void gl4es_glMultTransposeMatrixf(const GLfloat *m) {
+void APIENTRY_GL4ES gl4es_glMultTransposeMatrixf(const GLfloat *m) {
 	GLfloat mf[16];
 	matrix_transpose(m, mf);
 	gl4es_glMultMatrixf(mf);

@@ -14,7 +14,7 @@
 #define DBG(a)
 #endif
 
-void gl4es_glPushAttrib(GLbitfield mask) {
+void APIENTRY_GL4ES gl4es_glPushAttrib(GLbitfield mask) {
     DBG(printf("glPushAttrib(0x%04X)\n", mask);)
     realize_textures(0);
     noerrorShim();
@@ -289,7 +289,7 @@ void gl4es_glPushAttrib(GLbitfield mask) {
     glstate->stack->len++;
 }
 
-void gl4es_glPushClientAttrib(GLbitfield mask) {
+void APIENTRY_GL4ES gl4es_glPushClientAttrib(GLbitfield mask) {
     DBG(printf("glPushClientAttrib(0x%04X)\n", mask);)
     noerrorShim();
     if (glstate->clientStack == NULL) {
@@ -334,7 +334,7 @@ void gl4es_glPushClientAttrib(GLbitfield mask) {
 #define v3(c) v2(c), c[2]
 #define v4(c) v3(c), c[3]
 
-void gl4es_glPopAttrib() {
+void APIENTRY_GL4ES gl4es_glPopAttrib(void) {
 DBG(printf("glPopAttrib()\n");)
     noerrorShim();
     if (glstate->list.active)
@@ -617,7 +617,7 @@ DBG(printf("glPopAttrib()\n");)
     if (enabled) gl4es_glEnableClientState(pname);       \
     else gl4es_glDisableClientState(pname)
 
-void gl4es_glPopClientAttrib() {
+void APIENTRY_GL4ES gl4es_glPopClientAttrib(void) {
     DBG(printf("glPopClientAttrib()\n");)
     noerrorShim();
 	//LOAD_GLES(glVertexPointer);
@@ -658,6 +658,6 @@ void gl4es_glPopClientAttrib() {
 
 //Direct wrapper
 AliasExport(void,glPushClientAttrib,,(GLbitfield mask));
-AliasExport(void,glPopClientAttrib,,());
+AliasExport_V(void,glPopClientAttrib);
 AliasExport(void,glPushAttrib,,(GLbitfield mask));
-AliasExport(void,glPopAttrib,,());
+AliasExport_V(void,glPopAttrib);

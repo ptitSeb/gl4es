@@ -4,7 +4,7 @@
 #include "glstate.h"
 #include "loader.h"
 
-void gl4es_glDepthFunc(GLenum func) {
+void APIENTRY_GL4ES gl4es_glDepthFunc(GLenum func) {
     if(glstate->list.compiling) {
         PUSH_IF_COMPILING(glDepthFunc);
     }
@@ -18,7 +18,7 @@ void gl4es_glDepthFunc(GLenum func) {
     gles_glDepthFunc(func);
 }
 
-void gl4es_glDepthMask(GLboolean flag) {
+void APIENTRY_GL4ES gl4es_glDepthMask(GLboolean flag) {
     if(glstate->list.compiling) {
         PUSH_IF_COMPILING(glDepthMask);
     }
@@ -36,7 +36,7 @@ GLfloat clamp(GLfloat a) {
     return (a<0.f)?0.f:((a>1.f)?1.f:a);
 }
 
-void gl4es_glDepthRangef(GLclampf Near, GLclampf Far) {
+void APIENTRY_GL4ES gl4es_glDepthRangef(GLclampf Near, GLclampf Far) {
     Near = clamp(Near);
     Far = clamp(Far);
     if(glstate->list.compiling) {
@@ -53,7 +53,7 @@ void gl4es_glDepthRangef(GLclampf Near, GLclampf Far) {
     gles_glDepthRangef(Near, Far);
 }
 
-void gl4es_glClearDepthf(GLclampf depth) {
+void APIENTRY_GL4ES gl4es_glClearDepthf(GLclampf depth) {
     depth = clamp(depth);
     if(glstate->list.compiling) {
         PUSH_IF_COMPILING(glClearDepthf);

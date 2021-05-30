@@ -177,7 +177,7 @@ if(NOT WIN32_MSVC)
     if(NOT WIN32_PLATFORM)
        add_definitions(-fvisibility=hidden)
     else()
-       set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--exclude-all-symbols")
+       set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--exclude-all-symbols,--kill-at")
     endif()
 elseif(CMAKE_C_COMPILER_ID MATCHES "Clang")
     add_definitions(-Wno-deprecated-declarations) #strdup
