@@ -25,11 +25,15 @@
 #define STUB_FCT gl4es_Stub
 #include "gl_lookup.h"
 
+#if (!defined(_WIN32) || defined(_WIN64)) && !defined(__MINGW32__)
 void gl4es_Stub(void *x, ...) {
     return;
 }
+#else
+//TODO: if need use STUB with different argnum, the macro must be redesigned
+void APIENTRY_GL4ES gl4es_Stub(void *x) {}
+#endif
 
-EXPORT
 void* APIENTRY_GL4ES gl4es_GetProcAddress(const char *name) {
     DBG(printf("glGetProcAddress(\"%s\")", name);)
     // generated gles wrappers

@@ -1,6 +1,6 @@
 #include "loader.h"
 
-void (*gl4es_getMainFBSize)(GLint* width, GLint* height);
+void (APIENTRY_GL4ES *gl4es_getMainFBSize)(GLint* width, GLint* height);
 
 #if defined NO_LOADER
 
@@ -190,9 +190,9 @@ void load_libs() {
 #endif
 
 // user-defined getProcAddress
-void *(*gles_getProcAddress)(const char *name);
+void* (APIENTRY_GL4ES *gles_getProcAddress)(const char *name);
 
-void *proc_address(void *lib, const char *name) {
+void* APIENTRY_GL4ES proc_address(void *lib, const char *name) {
     if (gles_getProcAddress)
         return gles_getProcAddress(name);
 #ifdef AMIGAOS4
