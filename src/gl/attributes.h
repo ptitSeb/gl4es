@@ -71,6 +71,8 @@
   #ifdef __GNUC__
    #define _AliasExport_(RET,ENM,DEF,INM,SUF) EXPORT \
       RET APIENTRY_GL4ES ENM DEF __attribute__((alias(_MNG(gl4es_##INM,SUF))))
+   #define NonAliasExportDecl(RET,NAME,DEF) EXPORT \
+      RET APIENTRY_GL4ES NAME DEF
   #elif defined(_MSC_VER)
    #define _DIR(DIR,ENM,INM,OP) \
        __pragma(comment(linker, "/" DIR ":" ENM OP INM))
@@ -94,6 +96,8 @@
        _EXP(ENM,SUF) _DIR("ALTERNATENAME",_MNG(ENM,SUF),_MNG(INM,SUF), "=")
    #define _AliasExport_(RET,ENM,DEF,INM,SUF) _DECL(ENM,gl4es_##INM,SUF) \
        RET APIENTRY_GL4ES ENM DEF
+   #define NonAliasExportDecl(RET,NAME,DEF) _EXP(NAME,_SUFF(DEF)) \
+      RET APIENTRY_GL4ES NAME DEF
   #endif
   #define AliasExport(RET,NAME,X,DEF) \
       _AliasExport_(RET,NAME##X,DEF,NAME,_SUFF(DEF))
@@ -115,6 +119,7 @@
   #define AliasExport_D_1(RET,NAME,X,DEF)   AliasExport(RET,NAME,X,DEF)
   #define AliasExport_M(RET,NAME,X,DEF,SUF) AliasExport(RET,NAME,X,DEF)
   #define AliasExport_V(RET,NAME)           AliasExport(RET,NAME,,(void))
+  #define NonAliasExportDecl(RET,NAME,DEF)  RET NAME DEF
  #endif
  #define AliasExport_1(RET,NAME,X,DEF) AliasExport(RET,NAME,X,DEF)
 #endif // AliasExport
@@ -126,7 +131,11 @@
 #endif
 
 #ifndef APIENTRY
-#define APIENTRY
+# if defined(_WIN32) || defined(__MINGW32__)
+#  define APIENTRY __stdcall
+# else
+#  define APIENTRY
+# endif
 #endif
 
 #ifndef SOFTFLOAT

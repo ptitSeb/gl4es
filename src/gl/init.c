@@ -60,12 +60,12 @@ void glx_init();
 static int inited = 0;
 
 EXPORT
-void set_getmainfbsize(void (*new_getMainFBSize)(int* w, int* h)) {
+void set_getmainfbsize(void (APIENTRY_GL4ES  *new_getMainFBSize)(int* w, int* h)) {
     gl4es_getMainFBSize = (void*)new_getMainFBSize;
 }
 
 EXPORT
-void set_getprocaddress(void *(*new_proc_address)(const char *)) {
+void set_getprocaddress(void *(APIENTRY_GL4ES  *new_proc_address)(const char *)) {
     gles_getProcAddress = new_proc_address;
 }
 
