@@ -1409,12 +1409,17 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
     {
         vertexattrib_t *v = &glstate->gleshard->vertexattrib[i];
         vertexattrib_t *w = &glstate->vao->vertexattrib[i];
+        int enabled = w->enabled;
         int dirty = 0;
+        if(enabled && !w->buffer && !w->pointer) {
+            DBG(printf("Warning: VA %d Enabled with buffer:0 and NULL pointer, disabling\n", i));
+            enabled = 0;
+        }
         // enable / disable Array if needed
-        if(v->enabled != w->enabled || (v->enabled && w->divisor)) {
+        if(v->enabled != enabled || (v->enabled && w->divisor)) {
             dirty = 1;
-            v->enabled = (w->divisor)?0:w->enabled;
-            DBG(printf("VertexAttribArray[%d]:%s, divisor=%d\n", i, (w->enabled)?"Enable":"Disable", w->divisor);)
+            v->enabled = (w->divisor)?0:enabled;
+            DBG(printf("VertexAttribArray[%d]:%s, divisor=%d\n", i, (enabled)?"Enable":"Disable", w->divisor);)
             if(v->enabled)
                 gles_glEnableVertexAttribArray(i);
             else
