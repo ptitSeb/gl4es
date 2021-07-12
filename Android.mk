@@ -94,6 +94,8 @@ LOCAL_CFLAGS += -DNOX11
 LOCAL_CFLAGS += -DNO_GBM
 #LOCAL_CFLAGS += -DNO_INIT_CONSTRUCTOR
 LOCAL_CFLAGS += -DDEFAULT_ES=2
+//TODO: maybe temporary?
+LOCAL_CFLAGS += -Wno-typedef-redefinition -Wno-dangling-else
 
 LOCAL_LDLIBS := -llog
 #building as a static lib
