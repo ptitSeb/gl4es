@@ -520,15 +520,13 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts,
                     if(tok.type==TK_SPACE)
                         status = 310;
                     else if(tok.type==TK_TEXT) {
-                        int v;
+                        int v = -1;
                         if(gl_es && (strcmp(tok.str, "GL_ES")==0))
                             v = 1;
                         else if(kh_get(alldefine, alldefines, tok.str)!=kh_end(alldefines)) {
                             v = 0;
                         } else if (strncmp(tok.str, "GL_", 3)==0)
                             v = -1;
-                        else 
-                            v = 1;
                         push_if(&stackif, v);
                         nowrite_ifs = result_if(&stackif);
                         if(nowrite_ifs!=-1) {
@@ -543,15 +541,13 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts,
                     if(tok.type==TK_SPACE)
                         status = 320;
                     else if(tok.type==TK_TEXT) {
-                        int v;
+                        int v = -1;
                         if(gl_es && strcmp(tok.str, "GL_ES")==0)
                             v = 0;
                         else if(kh_get(alldefine, alldefines, tok.str)!=kh_end(alldefines)) {
                             v = 1;
                         } else if (strncmp(tok.str, "GL_", 3)==0)
                             v = -1;
-                        else 
-                            v = 0;
                         push_if(&stackif, v);
                         nowrite_ifs = result_if(&stackif);
                         if(nowrite_ifs!=-1) {
