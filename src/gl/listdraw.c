@@ -719,6 +719,7 @@ void draw_renderlist(renderlist_t *list) {
                 select_glDrawElements(&vtx, list->mode, list->ilen, GL_UNSIGNED_SHORT, indices);
                 use_vbo_indices = 1;
             } else {
+                GLuint old_index = wantBufferIndex(0);
                 if (glstate->polygon_mode == GL_LINE && list->mode_init>=GL_TRIANGLES) {
                     int ilen = list->ilen;
                     if(!list->ind_lines) {
@@ -753,8 +754,8 @@ void draw_renderlist(renderlist_t *list) {
                             gles_glDrawElements(mode, list->ilen, GL_UNSIGNED_SHORT, vbo_indices?NULL:indices);
                         glstate->instanceID = 0;
                     }
-                    wantBufferIndex(0);
                 }
+                wantBufferIndex(old_index);
             }
         } else {
             if (glstate->render_mode == GL_SELECT) {	
