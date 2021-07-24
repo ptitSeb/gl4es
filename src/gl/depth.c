@@ -68,4 +68,5 @@ void APIENTRY_GL4ES gl4es_glClearDepthf(GLclampf depth) {
 AliasExport(void,glDepthFunc,,(GLenum func));
 AliasExport(void,glDepthMask,,(GLboolean flag));
 AliasExport(void,glDepthRangef,,(GLclampf nearVal, GLclampf farVal));
+AliasExport(void,glClearDepthf,,(GLclampf depth));
 

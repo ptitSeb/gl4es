@@ -860,6 +860,7 @@ AliasExport(GLboolean,glIsProgram,,(GLuint program));
 AliasExport(void,glLinkProgram,,(GLuint program));
 AliasExport(void,glUseProgram,,(GLuint program));
 AliasExport(void,glValidateProgram,,(GLuint program));
+AliasExport(void,glGetProgramInfoLog,,(GLuint program, GLsizei maxLength, GLsizei *length, GLchar *infoLog));
 
 AliasExport(void,glGetProgramBinary,,(GLuint program, GLsizei bufSize, GLsizei *length, GLenum *binaryFormat, void *binary));
 AliasExport(void,glProgramBinary,,(GLuint program, GLenum binaryFormat, const void *binary, GLsizei length));
