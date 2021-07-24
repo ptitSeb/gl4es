@@ -743,7 +743,7 @@ GLXContext createPBufferContext(Display *display, GLXContext shareList, GLXFBCon
     LOAD_EGL(eglGetConfigAttrib);
 
     // Check that the config is for PBuffer
-    if(config->drawableType&GLX_PBUFFER_BIT!=GLX_PBUFFER_BIT)
+    if(!(config->drawableType&GLX_PBUFFER_BIT))
         return 0;
 
     // Init what need to be done
@@ -799,12 +799,16 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
                                       const int *attrib_list) {
     DBG(printf("glXCreateContextAttribsARB(%p, %p, %p, %d, %p) ", display, config, share_context, direct, attrib_list);
         if(config)
-            printf("config is RGBA:%d%d%d%d, depth=%d, stencil=%d, doublebuff=%d, drawable=%d\n", config->redBits, config->greenBits, config->blueBits, config->alphaBits, config->depthBits, config->stencilBits, config->doubleBufferMode, config->drawableType); 
+            printf("config is RGBA:%d%d%d%d, depth=%d, stencil=%d, multisample=%d/%d doublebuff=%d, drawable=%d\n", config->redBits, config->greenBits, config->blueBits, config->alphaBits, config->depthBits, config->stencilBits, config->multiSampleSize, config->nMultiSampleBuffers, config->doubleBufferMode, config->drawableType); 
         else printf("\n");
     )
     if(config && config->drawableType==GLX_PBUFFER_BIT) {
         return createPBufferContext(display, share_context, config);
     } else {
+        EGLint type = 0;
+        if(config->drawableType&GLX_PIXMAP_BIT) type|=EGL_PIXMAP_BIT;
+        if(config->drawableType&GLX_WINDOW_BIT) type|=EGL_WINDOW_BIT;
+        if(config->drawableType&GLX_PBUFFER_BIT) type|=EGL_PBUFFER_BIT;
         EGLint configAttribs[] = {
 #ifdef PANDORA
             EGL_RED_SIZE, (config->drawableType==GLX_PIXMAP_BIT)?config->redBits:5,
@@ -824,7 +828,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
             EGL_SAMPLES, config->multiSampleSize,
             EGL_SAMPLE_BUFFERS, config->nMultiSampleBuffers,
             EGL_RENDERABLE_TYPE, (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT,
-            EGL_SURFACE_TYPE, globals4es.usepbuffer?EGL_PBUFFER_BIT:((config->drawableType==GLX_PIXMAP_BIT)?EGL_PIXMAP_BIT:(EGL_WINDOW_BIT | EGL_PBUFFER_BIT)),
+            EGL_SURFACE_TYPE, globals4es.usepbuffer?EGL_PBUFFER_BIT:type,
             EGL_NONE
         };
         if (globals4es.usefb)
@@ -883,7 +887,7 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
         fake->display = display;
         fake->direct = true;
         fake->xid = 1;  //TODO: Proper handling of that id...
-        fake->contextType = (config->drawableType)==GLX_PIXMAP_BIT?2:0;  //Pixmap:Window
+        fake->contextType = (config->drawableType&GLX_WINDOW_BIT)?0:2;  //Window:Pixmap
         fake->doublebuff = config->doubleBufferMode;
 
         egl_eglGetConfigAttrib(eglDisplay, fake->eglConfigs[fake->eglconfigIdx], EGL_RED_SIZE, &fake->rbits);
@@ -1690,8 +1694,8 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                     tmp = attrib_list[i++];
                     //attr[0] = EGL_SURFACE_TYPE;
                     //attr[1] = 0;
-                    /*if(tmp&GLX_WINDOW_BIT)
-                        attr[1] |= EGL_WINDOW_BIT;*/  // safe to ignore
+                    if(tmp&GLX_WINDOW_BIT)
+                        attr[1] |= EGL_WINDOW_BIT;
                     if(tmp&GLX_PIXMAP_BIT)
                         attr[1] |= EGL_PIXMAP_BIT;
                     if(tmp&GLX_PBUFFER_BIT)
@@ -1930,7 +1934,7 @@ int gl4es_glXGetFBConfigAttrib(Display *display, GLXFBConfig config, int attribu
             *value = (int)(uintptr_t)config->id;
             break;
         case GLX_DRAWABLE_TYPE:
-            *value = GLX_WINDOW_BIT; //config->drawableType;
+            *value = config->drawableType;  //GLX_WINDOW_BIT
             break;
         case GLX_X_VISUAL_TYPE:
         case GLX_CONFIG_CAVEAT:
@@ -1983,7 +1987,7 @@ GLXContext gl4es_glXCreateNewContext(Display *display, GLXFBConfig config,
     DBG(printf("glXCreateNewContext(%p, %p, %d, %p, %i), drawableType=0x%02X\n", display, config, render_type, share_list, is_direct, (config)?config->drawableType:0);)
     if(render_type!=GLX_RGBA_TYPE)
         return 0;
-    if(config && config->drawableType==GLX_PBUFFER_BIT) {
+    if(config && (config->drawableType==GLX_PBUFFER_BIT)) {
         return createPBufferContext(display, share_list, config);
     } else
         return gl4es_glXCreateContextAttribsARB(display, config, share_list, is_direct, NULL);
@@ -2402,7 +2406,7 @@ GLXPbuffer gl4es_glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int *
     egl_attribs[i++] = EGL_NONE;
 
     // Check that the config is for PBuffer
-    if(config->drawableType&GLX_PBUFFER_BIT!=GLX_PBUFFER_BIT)
+    if(!(config->drawableType&GLX_PBUFFER_BIT))
         return 0;
 
 
@@ -2568,7 +2572,7 @@ GLXPixmap gl4es_glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixma
 GLXPixmap gl4es_glXCreatePixmap(Display * dpy, GLXFBConfig config, Pixmap pixmap, const int * attrib_list) {
     DBG(printf("glXCreatePixmap(%p, %p, %p, %p)\n", dpy, config, (void*)pixmap, attrib_list);)
     // Check that the config is for PBuffer
-    if(config->drawableType&GLX_PIXMAP_BIT!=GLX_PIXMAP_BIT)
+    if(!(config->drawableType&GLX_PIXMAP_BIT))
         return 0;
     
     return gl4es_glXCreateGLXPixmap(dpy, NULL, pixmap);
