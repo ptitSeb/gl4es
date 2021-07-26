@@ -10,7 +10,7 @@
 
 extern void *gl4es_glXGetProcAddress(const char *name);
 
-void glXStub(void *x, ...) {
+void eglStub(void *x, ...) {
     return;
 }
 
