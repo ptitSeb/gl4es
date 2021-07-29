@@ -309,7 +309,7 @@ static int get_config_default(Display *display, int attribute, int *value) {
             *value = 8;
             break;
         case GLX_DEPTH_SIZE:
-            *value = 32;
+            *value = 24;//32;
             break;
 #endif
         case GLX_STENCIL_SIZE:
@@ -609,7 +609,11 @@ GLXContext gl4es_glXCreateContext(Display *display,
         default_glxfbconfig.greenBits = (visual==0)?0:(visual->depth==16)?6:8;
         default_glxfbconfig.blueBits = (visual==0)?0:(visual->depth==16)?5:8;
         default_glxfbconfig.alphaBits = (visual==0)?0:(visual->depth!=32)?0:8;
+        #ifdef PANDORA
         default_glxfbconfig.depthBits = 16;
+        #else
+        default_glxfbconfig.depthBits = 24;
+        #endif
         default_glxfbconfig.stencilBits = 8;
         default_glxfbconfig.doubleBufferMode = 1;
     }
@@ -1539,7 +1543,12 @@ int gl4es_glXGetConfig(Display *display,
                  XVisualInfo *visual,
                  int attribute,
                  int *value) {
-    return get_config_default(display, attribute, value);
+    DBG(printf("glXGetConfig(%p, %p, 0x%x, %p)\n", display, visual, attribute, value);)
+    GLXFBConfig *config = FindFBVisual(visual);
+    if(config)
+        return gl4es_glXGetFBConfigAttrib(display, *config, attribute, value);
+    else
+        return get_config_default(display, attribute, value);
 }
 
 
@@ -1758,6 +1767,12 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
 				// discard other stuffs
 			}
 		}
+    } else {
+        // choose a context with DEPTH & STENCIL if no attribute are given
+        attr[cur++] = EGL_DEPTH_SIZE;
+        attr[cur++] = 16;
+        attr[cur++] = EGL_STENCIL_SIZE;
+        attr[cur++] = tmp;
     }
     attr[1] |= (globals4es.usepbuffer)?(/*EGL_PBUFFER_BIT|*/EGL_PIXMAP_BIT):EGL_WINDOW_BIT;
 
@@ -1967,8 +1982,11 @@ XVisualInfo *gl4es_glXGetVisualFromFBConfig(Display *display, GLXFBConfig config
     if (glx_default_depth==0)
         glx_default_depth = XDefaultDepth(display, 0);
 
+    int depth = glx_default_depth;
+    if(config)
+        depth = config->redBits + config->greenBits + config->blueBits + config->alphaBits;
     XVisualInfo xvinfo = {0};
-    xvinfo.depth = glx_default_depth;
+    xvinfo.depth = depth;
     xvinfo.class = TrueColor;
     //TODO: add more filter in here?
 
@@ -2840,6 +2858,7 @@ const char *gl4es_glXQueryExtensionsString(Display *display, int screen) {
         "GLX_SGI_swap_control "
         "GLX_MESA_swap_control "
         "GLX_EXT_swap_control "
+        "GLX_SGIX_pbuffer "
         "GLX_EXT_framebuffer_sRGB ";
     static const char *es2_profile =
         "GLX_EXT_create_context_es2_profile ";
