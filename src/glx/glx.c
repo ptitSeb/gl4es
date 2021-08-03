@@ -58,6 +58,8 @@ static EGLDisplay eglDisplay = NULL;
 static EGLSurface eglSurface = NULL;
 static EGLConfig eglConfigs[1];
 static EGLContext eglContext  = EGL_NO_CONTEXT;
+static int maxEGLConfig = 0;
+static GLXFBConfig allFBConfig = NULL;
 #endif
 static int glx_default_depth=0;
 #ifdef PANDORA
@@ -388,6 +390,83 @@ static void init_display(Display *display) {
         } else {
             eglDisplay = egl_eglGetDisplay(display);
         }
+    }
+}
+
+static void fill1GLXFBConfig(Display *display, EGLConfig eglConfig, int DB, GLXFBConfig fbConfig) {
+    LOAD_EGL(eglGetConfigAttrib);
+
+    EGLint tmp;
+    egl_eglGetConfigAttrib(eglDisplay, eglConfig, EGL_RED_SIZE, &fbConfig->redBits);
+    egl_eglGetConfigAttrib(eglDisplay, eglConfig, EGL_GREEN_SIZE, &fbConfig->greenBits);
+    egl_eglGetConfigAttrib(eglDisplay, eglConfig, EGL_BLUE_SIZE, &fbConfig->blueBits);
+    egl_eglGetConfigAttrib(eglDisplay, eglConfig, EGL_ALPHA_SIZE, &fbConfig->alphaBits);
+    egl_eglGetConfigAttrib(eglDisplay, eglConfig, EGL_DEPTH_SIZE, &fbConfig->depthBits);
+    egl_eglGetConfigAttrib(eglDisplay, eglConfig, EGL_STENCIL_SIZE, &fbConfig->stencilBits);
+    egl_eglGetConfigAttrib(eglDisplay, eglConfig, EGL_SAMPLES, &fbConfig->multiSampleSize);
+    egl_eglGetConfigAttrib(eglDisplay, eglConfig, EGL_SAMPLE_BUFFERS, &fbConfig->nMultiSampleBuffers);
+    egl_eglGetConfigAttrib(eglDisplay, eglConfig, EGL_SURFACE_TYPE, &tmp);
+    fbConfig->drawableType = 0;
+    if(tmp&EGL_WINDOW_BIT) fbConfig->drawableType |= GLX_WINDOW_BIT;
+    if(tmp&EGL_PBUFFER_BIT) fbConfig->drawableType |= GLX_PBUFFER_BIT;
+    if(tmp&EGL_PIXMAP_BIT) fbConfig->drawableType |= GLX_PIXMAP_BIT;
+    egl_eglGetConfigAttrib(eglDisplay, eglConfig, EGL_MAX_PBUFFER_WIDTH, &fbConfig->maxPbufferWidth);
+    egl_eglGetConfigAttrib(eglDisplay, eglConfig, EGL_MAX_PBUFFER_HEIGHT, &fbConfig->maxPbufferHeight);
+    egl_eglGetConfigAttrib(eglDisplay, eglConfig, EGL_MAX_PBUFFER_PIXELS, &fbConfig->maxPbufferPixels);
+    egl_eglGetConfigAttrib(eglDisplay, eglConfig, EGL_NATIVE_VISUAL_ID, &fbConfig->associatedVisualId);
+    if(!fbConfig->associatedVisualId || globals4es.usefb || globals4es.usefbo || globals4es.usepbuffer) {
+        // when using some FB driver, lets take a default VisualID, as the one from the EGLConfig is probably not the correct one
+        glx_default_depth = XDefaultDepth(display, 0);
+        XVisualInfo xvinfo = {0};
+        xvinfo.depth = glx_default_depth;
+        xvinfo.class = TrueColor;
+        int n;
+        XVisualInfo *visuals = XGetVisualInfo(display, VisualDepthMask|VisualClassMask, &xvinfo, &n);
+        if (!n) {
+            LOGD("Warning, fillGLXFBConfig: XGetVisualInfo gives 0 VisualInfo for %d depth and TrueColor class\n", glx_default_depth);
+            fbConfig->associatedVisualId = 0;
+        } else {
+            fbConfig->associatedVisualId = visuals[0].visualid;
+            XFree(visuals);
+        }
+    }
+    fbConfig->doubleBufferMode = DB;
+    fbConfig->id = eglConfig;
+}
+
+static void init_eglconfig(Display *display) {
+    if(g_display != display) {
+        if(allFBConfig)
+            free(allFBConfig);
+            allFBConfig = NULL;
+        g_display = NULL;   // should close properly
+        init_display(display);
+    }
+    if(allFBConfig)
+        return;
+    LOAD_EGL(eglChooseConfig);
+    LOAD_EGL(eglGetConfigAttrib);
+    EGLint configAttribs[] = {
+        EGL_RENDERABLE_TYPE, (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT,
+        EGL_NONE
+    };
+    int configsFound;
+    // grab all config for the display
+    egl_eglChooseConfig(eglDisplay, configAttribs, NULL, 0, &configsFound);
+    EGLConfig allConfigs[configsFound];
+    egl_eglChooseConfig(eglDisplay, configAttribs, allConfigs, configsFound, &configsFound);
+    maxEGLConfig = -1;
+    EGLint confID;
+    for(int i=0; i<configsFound; ++i) {
+        egl_eglGetConfigAttrib(eglDisplay, allConfigs[i], EGL_CONFIG_ID, &confID);
+        if(maxEGLConfig<confID)
+            maxEGLConfig = confID;    // get max number
+    }
+    allFBConfig = (GLXFBConfig)calloc(maxEGLConfig*2, sizeof(struct __GLXFBConfigRec));
+    for(int i=0; i<configsFound; ++i) {
+        egl_eglGetConfigAttrib(eglDisplay, allConfigs[i], EGL_CONFIG_ID, &confID);
+        fill1GLXFBConfig(display, allConfigs[i], 0, &allFBConfig[confID]);
+        fill1GLXFBConfig(display, allConfigs[i], 1, &allFBConfig[confID+maxEGLConfig]);
     }
 }
 
@@ -1572,50 +1651,16 @@ GLXContext gl4es_glXGetCurrentContext() {
 
 #ifndef NO_EGL
 GLXFBConfig * fillGLXFBConfig(EGLConfig *eglConfigs, int count, int withDB, Display *display) {
+    init_eglconfig(display);
     LOAD_EGL(eglGetConfigAttrib);
-    EGLint tmp;
+    EGLint confID;
     if(withDB==2) count*=2;
-    // don't use static array -- returned memory freed (via XFree) by caller
-    GLXFBConfig *configs = (GLXFBConfig *)calloc(count, sizeof(GLXFBConfig) + sizeof(struct __GLXFBConfigRec));
-    GLXFBConfig pRec = (GLXFBConfig)&configs[count];
+    GLXFBConfig *configs = (GLXFBConfig *)calloc(count, sizeof(GLXFBConfig));
     for (int j=0; j<count; ++j) {
-        configs[j] = &pRec[j];
         int i = (withDB!=2)?j:(j/2);
-        egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_RED_SIZE, &configs[j]->redBits);
-        egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_GREEN_SIZE, &configs[j]->greenBits);
-        egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_BLUE_SIZE, &configs[j]->blueBits);
-        egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_ALPHA_SIZE, &configs[j]->alphaBits);
-        egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_DEPTH_SIZE, &configs[j]->depthBits);
-        egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_STENCIL_SIZE, &configs[j]->stencilBits);
-        egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_SAMPLES, &configs[j]->multiSampleSize);
-        egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_SAMPLE_BUFFERS, &configs[j]->nMultiSampleBuffers);
-        egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_SURFACE_TYPE, &tmp);
-        configs[j]->drawableType = 0;
-        if(tmp&EGL_WINDOW_BIT) configs[j]->drawableType |= GLX_WINDOW_BIT;
-        if(tmp&EGL_PBUFFER_BIT) configs[j]->drawableType |= GLX_PBUFFER_BIT;
-        if(tmp&EGL_PIXMAP_BIT) configs[j]->drawableType |= GLX_PIXMAP_BIT;
-        egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_MAX_PBUFFER_WIDTH, &configs[j]->maxPbufferWidth);
-        egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_MAX_PBUFFER_HEIGHT, &configs[j]->maxPbufferHeight);
-        egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_MAX_PBUFFER_PIXELS, &configs[j]->maxPbufferPixels);
-        egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_NATIVE_VISUAL_ID, &configs[j]->associatedVisualId);
-        if(!configs[j]->associatedVisualId || globals4es.usefb || globals4es.usefbo || globals4es.usepbuffer) {
-            // when using some FB driver, lets take a default VisualID, as the one from the EGLConfig is probably not the correct one
-            glx_default_depth = XDefaultDepth(display, 0);
-            XVisualInfo xvinfo = {0};
-            xvinfo.depth = glx_default_depth;
-            xvinfo.class = TrueColor;
-            int n;
-            XVisualInfo *visuals = XGetVisualInfo(display, VisualDepthMask|VisualClassMask, &xvinfo, &n);
-            if (!n) {
-                LOGD("Warning, fillGLXFBConfig: XGetVisualInfo gives 0 VisualInfo for %d depth and TrueColor class\n", glx_default_depth);
-                configs[j]->associatedVisualId = 0;
-            } else {
-                configs[j]->associatedVisualId = visuals[0].visualid;
-                XFree(visuals);
-            }
-        }
-        configs[j]->doubleBufferMode = (withDB==2)?(j%2):withDB;
-        configs[j]->id = eglConfigs[i];
+        egl_eglGetConfigAttrib(eglDisplay, eglConfigs[i], EGL_CONFIG_ID, &confID);
+        confID += ((withDB==2)?(j%2):withDB)*maxEGLConfig;
+        configs[j] = &allFBConfig[confID];
     }
 
     return configs;
@@ -1849,7 +1894,11 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
     GLXFBConfig *configs = fillGLXFBConfig(eglConfigs, *count, doublebuffer, display);
     if(doublebuffer==2) *count *= 2;
     free(eglConfigs);
-    DBG(printf("glXChooseFBConfig found %d config\n", *count);)
+    DBG(
+        printf("glXChooseFBConfig found %d config\n", *count);
+        for(int i=0; i<*count; ++i)
+            printf(" config[%d] = %p\n", i, configs[i]);
+    )
 
     return configs;
 #endif		
