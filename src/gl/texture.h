@@ -149,7 +149,7 @@ typedef struct {
     float ratiox, ratioy;
     int   binded_fbo;   // non zero if binded to an fbo
     GLenum binded_attachment; // What binding (texture, depth, stencil, depth_stencil)
-    GLuint renderdepth; // incase renderbuffer where used instead...
+    GLuint renderdepth; // in case renderbuffer where used instead...
     GLuint renderstencil;
     int     trace;  // internal use for debug
     GLvoid *data;	// in case we want to keep a copy of it (it that case, always RGBA/GL_UNSIGNED_BYTE

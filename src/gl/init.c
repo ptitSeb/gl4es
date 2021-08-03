@@ -96,7 +96,7 @@ void initialize_gl4es() {
     globals4es.mergelist = 1;
     globals4es.queries = 1;
     globals4es.beginend = 1;
-    // overides by env. variables
+    // overrides by env. variables
 		#ifdef GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB
 			GetEnvVarInt("LIBGL_NOBANNER",&globals4es.nobanner,1);
     #else
@@ -282,7 +282,7 @@ void initialize_gl4es() {
         SHUT_LOGD("ignore AutoMipMap on non-squared textures\n");
         break;
       case 5:
-        SHUT_LOGD("Calculate sub-mipmap incase some are missing\n");
+        SHUT_LOGD("Calculate sub-mipmap in case some are missing\n");
         break;
       default:
         globals4es.automipmap = 0;
@@ -369,7 +369,7 @@ void initialize_gl4es() {
 
     const char *env_version = GetEnvVar("LIBGL_VERSION");
     if (env_version) {
-        SHUT_LOGD("Overide version string with \"%s\" (should be in the form of \"1.x\")\n", env_version);
+        SHUT_LOGD("Override version string with \"%s\" (should be in the form of \"1.x\")\n", env_version);
     }
     if(env_version) {
         snprintf(globals4es.version, 49, "%s gl4es wrapper %d.%d.%d", env_version, MAJOR, MINOR, REVISION);
@@ -416,7 +416,7 @@ void initialize_gl4es() {
 
     if(IsEnvVarFalse("LIBGL_GLQUERIES")) {
         globals4es.queries = 0;
-        SHUT_LOGD("Dont't expose fake glQueries functions\n");
+        SHUT_LOGD("Don't expose fake glQueries functions\n");
     }
     if(IsEnvVarTrue("LIBGL_NODOWNSAMPLING")) {
         globals4es.nodownsampling = 1;

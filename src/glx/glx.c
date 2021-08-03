@@ -2854,7 +2854,7 @@ GLXContext gl4es_glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXCo
                 mask = pair;
                 break;
             default: {
-                DBG(printf(" unknow Attrib %04X (value=%d)\n", name, pair);)
+                DBG(printf(" unknown Attrib %04X (value=%d)\n", name, pair);)
             }
         }   
     }

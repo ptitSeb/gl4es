@@ -292,7 +292,7 @@ void GetHardwareExtensions(int notest)
         hardext.cubemap = 1;
         SHUT_LOGD("BlendColor is in core, and so used\n");
         hardext.blendcolor = 1;
-        SHUT_LOGD("Blend Substract is in core, and so used\n");
+        SHUT_LOGD("Blend Subtract is in core, and so used\n");
         hardext.blendsub = 1;
         SHUT_LOGD("Blend Function and Equation Separation is in core, and so used\n");
         hardext.blendfunc = 1;

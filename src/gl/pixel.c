@@ -785,7 +785,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
         if (*dst == src)
             return true;
         if (!dst_size || !pixel_sizeof(src_format, src_type)) {
-            LOGE("pixel conversion, unknow format size, anticipated abort\n");
+            LOGE("pixel conversion, unknown format size, anticipated abort\n");
             return false;
         }
         if (*dst == NULL)        // alloc dst only if dst==NULL
