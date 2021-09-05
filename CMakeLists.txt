@@ -26,6 +26,7 @@ option(NO_LOADER "disable library loader (useful for static library with NOEGL, 
 option(NO_INIT_CONSTRUCTOR "disable automatic initialization (useful for static library, use include/gl4esinit.h)" ${NO_INIT_CONSTRUCTOR})
 option(USE_ANDROID_LOG "Set to ON to use Android log instead of stdio" ${USE_ANDROID_LOG})
 option(EGL_WRAPPER "Set to ON to build EGL wrapper" ${EGL_WRAPPER})
+option(GLX_STUBS "Set to ON to build GLX function stubs" ${GLX_STUBS})
 
 include(CheckSymbolExists)
 check_symbol_exists(backtrace "execinfo.h" HAS_BACKTRACE)
@@ -93,6 +94,8 @@ endif()
 if(GOA_CLONE)
     add_definitions(-DGOA_CLONE)
     add_definitions(-mcpu=cortex-a35 -mfpu=neon-vfpv3 -march=armv8-a+crc+simd+crypto -mfloat-abi=hard -ftree-vectorize -fsingle-precision-constant -ffast-math)
+    set(EGL_WRAPPER ON)
+    set(GLX_STUBS ON)
 endif()
 
 # Android
@@ -161,6 +164,10 @@ endif()
 
 if(NO_INIT_CONSTRUCTOR)
     add_definitions(-DNO_INIT_CONSTRUCTOR)
+endif()
+
+if(GLX_STUBS)
+    add_definitions(-DGLX_STUBS)
 endif()
 
 #DEFAULT_ES=2
