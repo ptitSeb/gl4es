@@ -35,10 +35,10 @@
 #pragma message disable nosimpint
 #endif
 #endif
-#ifndef ANDROID
+#ifndef NOX11
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#endif //ANDROID
+#endif // NOX11
 #ifdef __VMS
 # ifdef __cplusplus
 #pragma message enable nosimpint
