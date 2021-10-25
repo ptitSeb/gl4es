@@ -462,6 +462,7 @@ static void init_eglconfig(Display *display) {
         if(maxEGLConfig<confID)
             maxEGLConfig = confID;    // get max number
     }
+    ++maxEGLConfig;
     allFBConfig = (GLXFBConfig)calloc(maxEGLConfig*2, sizeof(struct __GLXFBConfigRec));
     for(int i=0; i<configsFound; ++i) {
         egl_eglGetConfigAttrib(eglDisplay, allConfigs[i], EGL_CONFIG_ID, &confID);
