@@ -21,6 +21,11 @@ It's better to define the CMake Build type, preferably `RelWithDebInfo`, that de
 
 `mkdir build; cd build; cmake .. -DODROID=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo; make`
 
+*Tinker Board 1/1S or RK3288*
+---
+
+    use ODROID profile.
+
 *OrangePI*
 ---
 
