@@ -339,7 +339,7 @@ void APIENTRY_GL4ES fpe_oldprogram(fpe_state_t* state) {
             printf("LIBGL: FPE ARB Program link failed: %s\n with vertex %s%s%s%s%s and fragment %s%s%s%s%s\n", 
                 buff, 
                 state->vertex_prg_id?"custom:\n":"default", state->vertex_prg_id?old_vtx->string:"", state->vertex_prg_id?"\nconverted:\n":"", state->vertex_prg_id?old_vtx->shader->source:"", state->vertex_prg_id?"\n":"", 
-                state->fragment_prg_id?"custom:\n":"default", state->vertex_prg_id?old_frg->string:"", state->fragment_prg_id?"\nconverted:\n":"", state->fragment_prg_id?old_vtx->shader->source:"", state->fragment_prg_id?"\n":"");
+                state->fragment_prg_id?"custom:\n":"default", state->fragment_prg_id?old_frg->string:"", state->fragment_prg_id?"\nconverted:\n":"", state->fragment_prg_id?old_frg->shader->source:"", state->fragment_prg_id?"\n":"");
         else
             printf("LIBGL: FPE ARB Program link failed: %s\n", buff);
     }
