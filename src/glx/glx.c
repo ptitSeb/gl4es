@@ -1818,7 +1818,7 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
         attr[cur++] = EGL_DEPTH_SIZE;
         attr[cur++] = 16;
         attr[cur++] = EGL_STENCIL_SIZE;
-        attr[cur++] = tmp;
+        attr[cur++] = 8;
     }
     attr[1] |= (globals4es.usepbuffer)?(/*EGL_PBUFFER_BIT|*/EGL_PIXMAP_BIT):EGL_WINDOW_BIT;
 
@@ -2033,8 +2033,11 @@ XVisualInfo *gl4es_glXGetVisualFromFBConfig(Display *display, GLXFBConfig config
         glx_default_depth = XDefaultDepth(display, 0);
 
     int depth = glx_default_depth;
-    if(config)
-        depth = config->redBits + config->greenBits + config->blueBits + config->alphaBits;
+    /*if(config) {  // seems to upset Colin McRea Rally (Unity game)
+        int d = config->redBits + config->greenBits + config->blueBits + config->alphaBits;
+        if(d==16 || d==24 || d==32)
+            depth = d;
+    }*/
     XVisualInfo xvinfo = {0};
     xvinfo.depth = depth;
     xvinfo.class = TrueColor;
