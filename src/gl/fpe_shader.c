@@ -815,16 +815,16 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
 const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *state) {
     // state can be NULL, so provide a 0 default
     fpe_state_t default_state = {0};
-    int is_default = !!need;
+    int is_default = !need;
     if(!state) state = &default_state;
     int headers = 0;
     int lighting = state->lighting;
     int twosided = state->twosided && lighting;
     int light_separate = state->light_separate && lighting;
-    int secondary = (state->colorsum && !(lighting && light_separate)) || fpe_texenvSecondary(state);
+    int secondary = is_default?((state->colorsum && !(lighting && light_separate)) || fpe_texenvSecondary(state)):need->need_secondary;
     int alpha_test = state->alphatest;
     int alpha_func = state->alphafunc;
-    int fog = state->fog || (need && need->need_fogcoord);
+    int fog = is_default?state->fog:need->need_fogcoord;
     int fogsource = state->fogsource;
     int fogmode = state->fogmode;
     int fogdist = state->fogdist;
@@ -903,6 +903,9 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
     for (int i=0; i<hardext.maxtex; i++) {
         int t = state->texture[i].textype;
         if(point && !pointsprite) t=0;
+        if(!is_default)
+            if(t && !need->need_texs&(1<<i))
+                t = 0;
         if(t) {
             sprintf(buff, "varying %s _gl4es_TexCoord_%d;\n", texvecsize[t-1], i);
             ShadAppend(buff);
@@ -1386,7 +1389,7 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
     return (const char* const*)&shad;
 }
 
-const char* const* fpe_CustomVertexShader(const char* initial, fpe_state_t* state)
+const char* const* fpe_CustomVertexShader(const char* initial, fpe_state_t* state, int default_fragment)
 {
     int planes = state->plane;
     char buff[1024];
@@ -1398,6 +1401,8 @@ const char* const* fpe_CustomVertexShader(const char* initial, fpe_state_t* stat
     strcpy(shad, "");
     ShadAppend(initial);
 
+    int color = default_fragment?(strstr(initial, "_gl4es_Color")?0:1):0;   // need to add a simple color variant?
+if(default_fragment) printf("fpe_CustomVertexShader(%p, %p, %d)\n%s\ncolor=%d\n", initial, state, default_fragment, initial, color);
     // add some uniform and varying
     if(planes) {
         for (int i=0; i<hardext.maxplanes; i++) {
@@ -1411,8 +1416,16 @@ const char* const* fpe_CustomVertexShader(const char* initial, fpe_state_t* stat
             }
         }
     }
+    if(color) {
+        sprintf(buff, "attribute lowp vec4 _gl4es_Color;\n");
+        ShadAppend(buff);
+        ++headline;
+        sprintf(buff, "varying lowp vec4 Color;\n");
+        ShadAppend(buff);
+        ++headline;
+    }
     // wrap main if needed
-    if(planes) {
+    if(planes || color) {
         // wrap real main...
         shad = InplaceReplace(shad, &shad_cap, "main", "_gl4es_main");
     }
@@ -1420,7 +1433,10 @@ const char* const* fpe_CustomVertexShader(const char* initial, fpe_state_t* stat
     // let's start
     if(strstr(shad, "_gl4es_main")) {
         ShadAppend("\nvoid main() {\n");
-        ShadAppend("_gl4es_main();");
+        if(color) {
+            sprintf(buff, "Color = _gl4es_Color;\n");
+        }
+        ShadAppend("_gl4es_main();\n");
         if(planes) {
             int clipvertex = 0;
             if(strstr(shad, "gl4es_ClipVertex"))
