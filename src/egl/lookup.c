@@ -58,5 +58,5 @@ void* gl4es_eglGetProcAddress(const char *name) {
     return gl4es_GetProcAddress(name);
 }
 
-__eglMustCastToProperFunctionPointerType eglGetProcAddress(const char *name) AliasExport("gl4es_eglGetProcAddress");
+AliasExport(__eglMustCastToProperFunctionPointerType, eglGetProcAddress,, (const char *name));
 
