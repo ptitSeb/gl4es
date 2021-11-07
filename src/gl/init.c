@@ -685,6 +685,10 @@ void initialize_gl4es() {
             }
         }
     }
+
+    if(GetEnvVarFloat("LIBGL_FB_TEX_SCALE",&globals4es.fbtexscale,0.0f)) {
+      SHUT_LOGD("Framebuffer Textures will be scaled by %.2f\n", globals4es.fbtexscale);
+		}
 }
 
 
