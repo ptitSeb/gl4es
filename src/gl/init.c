@@ -686,6 +686,7 @@ void initialize_gl4es() {
         }
     }
 
+    env(LIBGL_SKIPTEXCOPIES, globals4es.skiptexcopies, "Texture Copies will be skipped");
     if(GetEnvVarFloat("LIBGL_FB_TEX_SCALE",&globals4es.fbtexscale,0.0f)) {
       SHUT_LOGD("Framebuffer Textures will be scaled by %.2f\n", globals4es.fbtexscale);
 		}

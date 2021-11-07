@@ -41,6 +41,11 @@ void APIENTRY_GL4ES gl4es_glCopyTexImage2D(GLenum target,  GLint level,  GLenum 
     // actualy bound if targetting shared TEX2D
     realize_bound(glstate->texture.active, target);
 
+    if (globals4es.skiptexcopies) {
+        DBG(printf("glCopyTexImage2D skipped.\n"));
+        return;
+    }
+
     errorGL();
 
     // "Unmap" if buffer mapped...
@@ -101,6 +106,11 @@ void APIENTRY_GL4ES gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint 
     DBG(printf("glCopyTexSubImage2D(%s, %i, %i, %i, %i, %i, %i, %i), bounded texture=%u format/type=%s, %s\n", PrintEnum(target), level, xoffset, yoffset, x, y, width, height, (glstate->texture.bound[glstate->texture.active][itarget])?glstate->texture.bound[glstate->texture.active][itarget]->texture:0, PrintEnum((glstate->texture.bound[glstate->texture.active][itarget])?glstate->texture.bound[glstate->texture.active][itarget]->format:0), PrintEnum((glstate->texture.bound[glstate->texture.active][itarget])?glstate->texture.bound[glstate->texture.active][itarget]->type:0));)
     // PUSH_IF_COMPILING(glCopyTexSubImage2D);
     FLUSH_BEGINEND;
+
+    if (globals4es.skiptexcopies) {
+        DBG(printf("glCopyTexSubImage2D skipped.\n"));
+        return;
+    }
  
     LOAD_GLES(glCopyTexSubImage2D);
     errorGL();
