@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "../gl/attributes.h"
 #include "../gl/init.h"
 #include "../gl/logs.h"
