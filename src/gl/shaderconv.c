@@ -632,6 +632,20 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
         Tmp = InplaceInsert(GetLine(Tmp, headline), textureCubeGradAlt, Tmp, &tmpsize);
       }
   }
+
+  // Some drivers have troubles with "\\\r\n" or "\\\n" sequences on preprocessor macros 
+  newptr = Tmp;
+  while (*newptr!=0x00) {
+    if (*newptr == '\\') {
+      if (*(newptr+1) == '\r' && *(newptr+2) == '\n')
+        memmove(newptr, newptr+3, strlen(newptr+3)+1);
+      else if (*(newptr+1) == '\n')
+        memmove(newptr, newptr+2, strlen(newptr+2)+1);
+    }
+
+    newptr++;
+  }
+
     // now check to remove trailling "f" after float, as it's not supported too
   newptr = Tmp;
   // simple state machine...
