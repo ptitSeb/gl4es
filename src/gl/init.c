@@ -33,7 +33,7 @@ void fpe_shader_reset_internals();
 
 globals4es_t globals4es = {0};
 
-#if defined(PANDORA) || defined(CHIP)
+#if defined(PANDORA) || defined(CHIP) || defined(GOA_CLONE)
 static void fast_math() {
   // enable Cortex A8 RunFast
    int v = 0;
@@ -385,7 +385,7 @@ void initialize_gl4es() {
     }
 
     if(IsEnvVarTrue("LIBGL_FASTMATH")) {
-#if defined(PANDORA) || defined(CHIP)
+#if defined(PANDORA) || defined(CHIP) || defined(GOA_CLONE)
         SHUT_LOGD("Enable FastMath for cortex-a8\n");
         fast_math();
 #else
@@ -685,6 +685,11 @@ void initialize_gl4es() {
             }
         }
     }
+
+    env(LIBGL_SKIPTEXCOPIES, globals4es.skiptexcopies, "Texture Copies will be skipped");
+    if(GetEnvVarFloat("LIBGL_FB_TEX_SCALE",&globals4es.fbtexscale,0.0f)) {
+      SHUT_LOGD("Framebuffer Textures will be scaled by %.2f\n", globals4es.fbtexscale);
+		}
 }
 
 

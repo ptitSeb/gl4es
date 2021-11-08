@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "../gl/attributes.h"
 #include "../gl/init.h"
 #include "../gl/logs.h"
@@ -45,6 +47,8 @@ void* gl4es_eglGetProcAddress(const char *name) {
     _EX(eglGetCurrentContext);
     _EX(eglGetCurrentSurface);
     _EX(eglGetCurrentDisplay);
+    _EX(eglGetPlatformDisplay);
+    _EXT(eglGetPlatformDisplay);
     _EX(eglQueryContext);
     _EX(eglWaitGL);
     _EX(eglWaitNative);
@@ -58,5 +62,5 @@ void* gl4es_eglGetProcAddress(const char *name) {
     return gl4es_GetProcAddress(name);
 }
 
-__eglMustCastToProperFunctionPointerType eglGetProcAddress(const char *name) AliasExport("gl4es_eglGetProcAddress");
+AliasExport(__eglMustCastToProperFunctionPointerType, eglGetProcAddress,, (const char *name));
 

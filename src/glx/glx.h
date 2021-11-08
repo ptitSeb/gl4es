@@ -238,8 +238,15 @@ struct __GLXFBConfigRec {
     double minBlue, maxBlue;
     double minAlpha, maxAlpha;
 };
+
+#ifdef NOX11
+// Declare stub types
+typedef void *XVisualInfo, *GLXContext, *Font, *Window, *Pixmap;
+typedef unsigned int GLXPixmap, GLXPbuffer;
+#endif
+
 typedef struct __GLXFBConfigRec *GLXFBConfig;
-#ifndef NOX11
+#if !defined(NOX11) || defined(GLX_STUBS)
 GLXContext gl4es_glXCreateContext(Display *dpy,
                             XVisualInfo *visual,
                             GLXContext shareList,
@@ -250,11 +257,11 @@ GLXContext gl4es_glXCreateContextAttribsARB(Display *display, GLXFBConfig config
                                       const int *attrib_list);
 
 void gl4es_glXSwapIntervalEXT(Display *display, int drawable, int interval);
-#endif //NOX11
+#endif // !defined(NOX11) || defined(GLX_STUBS)
 void gl4es_glXSwapInterval(int interval);
 
 // GLX 1.1?
-#ifndef NOX11
+#if !defined(NOX11) || defined(GLX_STUBS)
 Bool gl4es_glXIsDirect(Display * display, GLXContext ctx);
 Bool gl4es_glXMakeCurrent(Display *display, GLXDrawable drawable, GLXContext context);
 Bool gl4es_glXQueryExtension(Display *display, int *errorBase, int *eventBase);
@@ -262,18 +269,18 @@ Bool gl4es_glXQueryVersion(Display *display, int *major, int *minor);
 const char *gl4es_glXGetClientString(Display *display, int name);
 const char *gl4es_glXQueryExtensionsString(Display *display, int screen);
 const char *gl4es_glXQueryServerString(Display *display, int screen, int name);
-#endif //NOX11
+#endif
 GLXDrawable gl4es_glXGetCurrentDrawable();
-#ifndef NOX11
+#if !defined(NOX11) || defined(GLX_STUBS)
 int gl4es_glXGetConfig(Display *display, XVisualInfo *visual, int attribute, int *value);
 void gl4es_glXCopyContext(Display *display, GLXContext src, GLXContext dst, GLuint mask);
 void gl4es_glXDestroyContext(Display *display, GLXContext ctx);
 void gl4es_glXSwapBuffers(Display *display, GLXDrawable drawable);
 void gl4es_glXUseXFont(Font font, int first, int count, int listBase);
-#endif //NOX11
+#endif // !defined(NOX11) || defined(GLX_STUBS)
 void gl4es_glXWaitGL();
 void gl4es_glXWaitX();
-#ifndef NOX11
+#if !defined(NOX11) || defined(GLX_STUBS)
 XVisualInfo *gl4es_glXChooseVisual(Display *display, int screen, int *attributes);
 int gl4es_glXQueryDrawable(Display *dpy, GLXDrawable draw, int attribute,	unsigned int *value);
 
@@ -304,6 +311,6 @@ GLXPixmap gl4es_glXCreateGLXPixmap(Display *display, XVisualInfo * visual, Pixma
 void gl4es_glXDestroyGLXPixmap(Display *display, void *pixmap);
 
 GLXContext gl4es_glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list);
-#endif // NOX11
+#endif // !defined(NOX11) || defined(GLX_STUBS)
 
 #endif // _GLX_GLX_H

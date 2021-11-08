@@ -145,6 +145,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND NOT NO_LOADER)
         ${CMAKE_CURRENT_SOURCE_DIR}/glx/hardext.c
         ${CMAKE_CURRENT_SOURCE_DIR}/glx/gbm.c
 	    ${CMAKE_CURRENT_SOURCE_DIR}/glx/glx.c
+	    ${CMAKE_CURRENT_SOURCE_DIR}/glx/glx_stubs.c
 	    ${CMAKE_CURRENT_SOURCE_DIR}/glx/lookup.c
         ${CMAKE_CURRENT_SOURCE_DIR}/glx/rpi.c
 	    ${CMAKE_CURRENT_SOURCE_DIR}/glx/streaming.c

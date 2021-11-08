@@ -39,6 +39,7 @@ EGLBoolean gl4es_eglMakeCurrent(EGLDisplay dpy, EGLSurface draw, EGLSurface read
 EGLContext gl4es_eglGetCurrentContext(void);
 EGLSurface gl4es_eglGetCurrentSurface(EGLint readdraw);
 EGLDisplay gl4es_eglGetCurrentDisplay(void);
+EGLDisplay gl4es_eglGetPlatformDisplay(EGLenum platform, void *native_display, const EGLAttrib *attrib_list);
 EGLBoolean gl4es_eglQueryContext(EGLDisplay dpy, EGLContext ctx, EGLint attribute, EGLint *value);
 EGLBoolean gl4es_eglWaitGL(void);
 EGLBoolean gl4es_eglWaitNative(EGLint engine);

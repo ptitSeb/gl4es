@@ -383,6 +383,60 @@ static const hack_t gl4es_hacks[] = {
 "\tFogOffsetU = 0.5 / FogTexSize;\r\n"
 "\tFogScaleU  = ( FogTexSize - 1.0 ) / FogTexSize;\r\n"
 }},
+// for Iconoclasts
+// Disable hotspot shaders 1
+#ifdef GOA_CLONE
+{
+    "void main()\n"
+    "{\n"
+    "    vec4 p = texture2D(texture, texture_coordinate0);\n"
+    "    float factor = (0.5 - p.r) * magnification;\n"
+    "    vec2 t = texture_coordinate1;\n"
+    "    t.x += (t.x - hotspotX) * factor;\n"
+    "    t.y += (t.y - hotspotY) * factor;\n"
+    "    gl_FragColor = sample_backtex(background_texture, t) * gl_Color;\n"
+    "}",
+    1,
+    {
+    "void main() { discard; }"
+    }
+},
+// Disable hotspot shaders 2
+{
+    "void main()\n"
+    "{\n"
+    "    vec4 p = texture2D(texture, texture_coordinate0) * gl_Color;\n"
+    "    if (p.a != 0.0) {\n"
+    "        float zoomFactor = (0.0 - (p.r + p.g + p.b) / 3.0) * magnification;\n"
+    "        vec2 t = texture_coordinate1;\n"
+    "        t.x += (t.x - hotspotX + offx / texture_size.x) * zoomFactor;\n"
+    "        t.y += (t.y - hotspotY + offy / texture_size.y) * zoomFactor;\n"
+    "        gl_FragColor = sample_backtex(background_texture, t);\n"
+    "        return;\n"
+    "    }\n"
+    "    gl_FragColor = p;\n"
+    "}",
+    1,
+    {
+    "void main() { discard; }"
+    }
+},
+// Disable hotspot shaders 3
+{
+    "void main()\n"
+    "{\n"
+    "    vec4 p = texture2D(texture, texture_coordinate0) * gl_Color;\n"
+    "    float factor = (0.0 - (p.r + p.g + p.b) / 3.0) * magnification;\n"
+    "    vec2 t = background_offset.xy - texture_coordinate1 * \n"
+    "                                    (background_offset.xy * 2.0 - vec2(1.0));\n"
+    "    t.x += (t.x - hotspotX) * factor;\n"
+    "    t.y += (t.y - hotspotY) * factor;\n"
+    "    gl_FragColor = sample_backtex(background_texture, t);\n"
+    "}",
+    1,
+    {"void main() { discard; }"}
+}
+#endif
 };
 
 // For Stellaris

@@ -155,6 +155,7 @@ typedef struct {
     GLvoid *data;	// in case we want to keep a copy of it (it that case, always RGBA/GL_UNSIGNED_BYTE
     glsampler_t sampler;    // internal sampler if not superceeded by glBindSampler
     glsampler_t actual;     // actual sampler
+    float fbtex_ratio; // Lower rendering resolution
 } gltexture_t;
 
 KHASH_MAP_DECLARE_INT(tex, gltexture_t *);

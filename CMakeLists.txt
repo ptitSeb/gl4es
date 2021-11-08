@@ -12,6 +12,7 @@ option(PANDORA "Set to ON if targeting an OpenPandora device" ${PANDORA})
 option(PYRA "Set to ON if targeting an Dragonbox Pyra device" ${PYRA})
 option(BCMHOST "Set to ON if targeting an RPi(2) device" ${BCMHOST})
 option(ODROID "Set to ON if targeting an ODroid device" ${ODROID})
+option(GOA_CLONE "Set to ON if targeting GO Advance clones, like RG351p/v, Gameforce Chi, RGB10..." ${GOA_CLONE})
 option(ANDROID "Set to ON if targeting an Android device" ${ANDROID})
 option(CHIP "Set to ON if targeting an C.H.I.P. device" ${CHIP})
 option(AMIGAOS4 "Set to ON if targeting an AmigaOS4/Warp3D platform (activate NOEGL and NOX11)" ${AMIGAOS4})
@@ -25,6 +26,7 @@ option(NO_LOADER "disable library loader (useful for static library with NOEGL, 
 option(NO_INIT_CONSTRUCTOR "disable automatic initialization (useful for static library, use include/gl4esinit.h)" ${NO_INIT_CONSTRUCTOR})
 option(USE_ANDROID_LOG "Set to ON to use Android log instead of stdio" ${USE_ANDROID_LOG})
 option(EGL_WRAPPER "Set to ON to build EGL wrapper" ${EGL_WRAPPER})
+option(GLX_STUBS "Set to ON to build GLX function stubs" ${GLX_STUBS})
 
 include(CheckSymbolExists)
 check_symbol_exists(backtrace "execinfo.h" HAS_BACKTRACE)
@@ -86,6 +88,14 @@ endif()
 # ODROID
 if(ODROID)
     add_definitions(-DODROID)
+endif()
+
+# GOA_CLONE
+if(GOA_CLONE)
+    add_definitions(-DGOA_CLONE)
+    add_definitions(-mcpu=cortex-a35 -mfpu=neon-vfpv3 -march=armv8-a+crc+simd+crypto -mfloat-abi=hard -ftree-vectorize -fsingle-precision-constant -ffast-math)
+    set(EGL_WRAPPER ON)
+    set(GLX_STUBS ON)
 endif()
 
 # Android
@@ -154,6 +164,10 @@ endif()
 
 if(NO_INIT_CONSTRUCTOR)
     add_definitions(-DNO_INIT_CONSTRUCTOR)
+endif()
+
+if(GLX_STUBS)
+    add_definitions(-DGLX_STUBS)
 endif()
 
 #DEFAULT_ES=2

@@ -164,6 +164,16 @@ EGLDisplay gl4es_eglGetCurrentDisplay(void) {
     return egl_eglGetCurrentDisplay();
 }
 
+EGLDisplay gl4es_eglGetPlatformDisplay(EGLenum platform, void *native_display, const EGLAttrib *attrib_list) {
+    LOAD_EGL_EXT(eglGetPlatformDisplay);
+    if (egl_eglGetPlatformDisplay)
+        return egl_eglGetPlatformDisplay(platform, native_display, attrib_list);
+    else {
+        LOAD_EGL(eglGetDisplay);
+        return egl_eglGetDisplay((EGLNativeDisplayType)native_display);
+    }
+}
+
 EGLBoolean gl4es_eglQueryContext(EGLDisplay dpy, EGLContext ctx, EGLint attribute, EGLint *value) {
     LOAD_EGL(eglQueryContext);
     return egl_eglQueryContext(dpy, ctx, attribute, value);
@@ -189,37 +199,39 @@ EGLBoolean gl4es_eglCopyBuffers(EGLDisplay dpy, EGLSurface surface, EGLNativePix
     return egl_eglCopyBuffers(dpy, surface, target);
 }
 
-EGLint eglGetError(void) AliasExport("gl4es_eglGetError");
-EGLDisplay eglGetDisplay(EGLNativeDisplayType display_id) AliasExport("gl4es_eglGetDisplay");
-EGLBoolean eglInitialize(EGLDisplay dpy, EGLint *major, EGLint *minor) AliasExport("gl4es_eglInitialize");
-EGLBoolean eglTerminate(EGLDisplay dpy) AliasExport("gl4es_eglTerminate");
-const char * eglQueryString(EGLDisplay dpy, EGLint name) AliasExport("gl4es_eglQueryString");
-EGLBoolean eglGetConfigs(EGLDisplay dpy, EGLConfig *configs, EGLint config_size, EGLint *num_config) AliasExport("gl4es_eglGetConfigs");
-EGLBoolean eglChooseConfig(EGLDisplay dpy, const EGLint *attrib_list, EGLConfig *configs, EGLint config_size, EGLint *num_config) AliasExport("gl4es_eglChooseConfig");
-EGLBoolean eglGetConfigAttrib(EGLDisplay dpy, EGLConfig config, EGLint attribute, EGLint *value) AliasExport("gl4es_eglGetConfigAttrib");
-EGLSurface eglCreateWindowSurface(EGLDisplay dpy, EGLConfig config, EGLNativeWindowType win, const EGLint *attrib_list) AliasExport("gl4es_eglCreateWindowSurface");
-EGLSurface eglCreatePbufferSurface(EGLDisplay dpy, EGLConfig config, const EGLint *attrib_list) AliasExport("gl4es_eglCreatePbufferSurface");
-EGLSurface eglCreatePixmapSurface(EGLDisplay dpy, EGLConfig config, EGLNativePixmapType pixmap, const EGLint *attrib_list) AliasExport("gl4es_eglCreatePixmapSurface");
-EGLBoolean eglDestroySurface(EGLDisplay dpy, EGLSurface surface) AliasExport("gl4es_eglDestroySurface");
-EGLBoolean eglQuerySurface(EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint *value) AliasExport("gl4es_eglQuerySurface");
-EGLBoolean eglBindAPI(EGLenum api) AliasExport("gl4es_eglBindAPI");
-EGLenum eglQueryAPI(void) AliasExport("gl4es_eglQueryAPI");
-EGLBoolean eglWaitClient(void) AliasExport("gl4es_eglWaitClient");
-EGLBoolean eglReleaseThread(void) AliasExport("gl4es_eglReleaseThread");
-EGLSurface eglCreatePbufferFromClientBuffer(EGLDisplay dpy, EGLenum buftype, EGLClientBuffer buffer, EGLConfig config, const EGLint *attrib_list) AliasExport("gl4es_eglCreatePbufferFromClientBuffer");
-EGLBoolean eglSurfaceAttrib(EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint value) AliasExport("gl4es_eglSurfaceAttrib");
-EGLBoolean eglBindTexImage(EGLDisplay dpy, EGLSurface surface, EGLint buffer) AliasExport("gl4es_eglBindTexImage");
-EGLBoolean eglReleaseTexImage(EGLDisplay dpy, EGLSurface surface, EGLint buffer) AliasExport("gl4es_eglReleaseTexImage");
-EGLBoolean eglSwapInterval(EGLDisplay dpy, EGLint interval) AliasExport("gl4es_eglSwapInterval");
-EGLContext eglCreateContext(EGLDisplay dpy, EGLConfig config, EGLContext share_context, const EGLint *attrib_list) AliasExport("gl4es_eglCreateContext");
-EGLBoolean eglDestroyContext(EGLDisplay dpy, EGLContext ctx) AliasExport("gl4es_eglDestroyContext");
-EGLBoolean eglMakeCurrent(EGLDisplay dpy, EGLSurface draw, EGLSurface read, EGLContext ctx) AliasExport("gl4es_eglMakeCurrent");
-EGLContext eglGetCurrentContext(void) AliasExport("gl4es_eglGetCurrentContext");
-EGLSurface eglGetCurrentSurface(EGLint readdraw) AliasExport("gl4es_eglGetCurrentSurface");
-EGLDisplay eglGetCurrentDisplay(void) AliasExport("gl4es_eglGetCurrentDisplay");
-EGLBoolean eglQueryContext(EGLDisplay dpy, EGLContext ctx, EGLint attribute, EGLint *value) AliasExport("gl4es_eglQueryContext");
-EGLBoolean eglWaitGL(void) AliasExport("gl4es_eglWaitGL");
-EGLBoolean eglWaitNative(EGLint engine) AliasExport("gl4es_eglWaitNative");
-EGLBoolean eglSwapBuffers(EGLDisplay dpy, EGLSurface surface) AliasExport("gl4es_eglSwapBuffers");
-EGLBoolean eglCopyBuffers(EGLDisplay dpy, EGLSurface surface, EGLNativePixmapType target) AliasExport("gl4es_eglCopyBuffers");
+AliasExport(EGLint, eglGetError,,(void));
+AliasExport(EGLDisplay, eglGetDisplay,,(EGLNativeDisplayType display_id));
+AliasExport(EGLBoolean, eglInitialize,,(EGLDisplay dpy, EGLint *major, EGLint *minor));
+AliasExport(EGLBoolean, eglTerminate,,(EGLDisplay dpy));
+AliasExport(const char *, eglQueryString,,(EGLDisplay dpy, EGLint name));
+AliasExport(EGLBoolean, eglGetConfigs,,(EGLDisplay dpy, EGLConfig *configs, EGLint config_size, EGLint *num_config));
+AliasExport(EGLBoolean, eglChooseConfig,,(EGLDisplay dpy, const EGLint *attrib_list, EGLConfig *configs, EGLint config_size, EGLint *num_config));
+AliasExport(EGLBoolean, eglGetConfigAttrib,,(EGLDisplay dpy, EGLConfig config, EGLint attribute, EGLint *value));
+AliasExport(EGLSurface, eglCreateWindowSurface,,(EGLDisplay dpy, EGLConfig config, EGLNativeWindowType win, const EGLint *attrib_list));
+AliasExport(EGLSurface, eglCreatePbufferSurface,,(EGLDisplay dpy, EGLConfig config, const EGLint *attrib_list));
+AliasExport(EGLSurface, eglCreatePixmapSurface,,(EGLDisplay dpy, EGLConfig config, EGLNativePixmapType pixmap, const EGLint *attrib_list));
+AliasExport(EGLBoolean, eglDestroySurface,,(EGLDisplay dpy, EGLSurface surface));
+AliasExport(EGLBoolean, eglQuerySurface,,(EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint *value));
+AliasExport(EGLBoolean, eglBindAPI,,(EGLenum api));
+AliasExport(EGLenum, eglQueryAPI,,(void));
+AliasExport(EGLBoolean, eglWaitClient,,(void));
+AliasExport(EGLBoolean, eglReleaseThread,,(void));
+AliasExport(EGLSurface, eglCreatePbufferFromClientBuffer,,(EGLDisplay dpy, EGLenum buftype, EGLClientBuffer buffer, EGLConfig config, const EGLint *attrib_list));
+AliasExport(EGLBoolean, eglSurfaceAttrib,,(EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint value));
+AliasExport(EGLBoolean, eglBindTexImage,,(EGLDisplay dpy, EGLSurface surface, EGLint buffer));
+AliasExport(EGLBoolean, eglReleaseTexImage,,(EGLDisplay dpy, EGLSurface surface, EGLint buffer));
+AliasExport(EGLBoolean, eglSwapInterval,,(EGLDisplay dpy, EGLint interval));
+AliasExport(EGLContext, eglCreateContext,,(EGLDisplay dpy, EGLConfig config, EGLContext share_context, const EGLint *attrib_list));
+AliasExport(EGLBoolean, eglDestroyContext,,(EGLDisplay dpy, EGLContext ctx));
+AliasExport(EGLBoolean, eglMakeCurrent,,(EGLDisplay dpy, EGLSurface draw, EGLSurface read, EGLContext ctx));
+AliasExport(EGLContext, eglGetCurrentContext,,(void));
+AliasExport(EGLSurface, eglGetCurrentSurface,,(EGLint readdraw));
+AliasExport(EGLDisplay, eglGetCurrentDisplay,,(void));
+AliasExport(EGLDisplay, eglGetPlatformDisplay,, (EGLenum platform, void *native_display, const EGLAttrib *attrib_list));
+AliasExport(EGLDisplay, eglGetPlatformDisplay, EXT, (EGLenum platform, void *native_display, const EGLAttrib *attrib_list));
+AliasExport(EGLBoolean, eglQueryContext,,(EGLDisplay dpy, EGLContext ctx, EGLint attribute, EGLint *value));
+AliasExport(EGLBoolean, eglWaitGL,,(void));
+AliasExport(EGLBoolean, eglWaitNative,,(EGLint engine));
+AliasExport(EGLBoolean, eglSwapBuffers,,(EGLDisplay dpy, EGLSurface surface));
+AliasExport(EGLBoolean, eglCopyBuffers,,(EGLDisplay dpy, EGLSurface surface, EGLNativePixmapType target));
 

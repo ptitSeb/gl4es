@@ -449,8 +449,10 @@ void APIENTRY_GL4ES gl4es_glFramebufferTexture2D(GLenum target, GLenum attachmen
             LOGE("texture for FBO not found, name=%u\n", texture);
         } else {
             texture = tex->glname;
-            // check if texture is shrinked...
-            if (tex->shrink || tex->useratio || (tex->adjust && (hardext.npot==1 || hardext.npot==2) && !globals4es.potframebuffer)) {
+            tex->fbtex_ratio = (globals4es.fbtexscale > 0.0f) ? globals4es.fbtexscale : 0.0f;
+
+            // check if texture is shrinked or if fb texture is being scaled...
+            if (globals4es.fbtexscale > 0.0f || tex->shrink || tex->useratio || (tex->adjust && (hardext.npot==1 || hardext.npot==2) && !globals4es.potframebuffer)) {
                 LOGD("%s texture for FBO\n",(tex->useratio)?"going back to npot size pot'ed":"unshrinking shrinked");
                 if(tex->shrink || tex->useratio) {
                     if(tex->useratio) {
@@ -461,6 +463,13 @@ void APIENTRY_GL4ES gl4es_glFramebufferTexture2D(GLenum target, GLenum attachmen
                         tex->height *= 1<<tex->shrink;
                     }
                 }
+
+                // Use FBO Ratio
+                if (tex->fbtex_ratio > 0.0f) {
+                    tex->width *= tex->fbtex_ratio;
+                    tex->height *= tex->fbtex_ratio;
+                }
+
                 tex->nwidth = (hardext.npot>0 || hardext.esversion>1)?tex->width:npot(tex->width);
                 tex->nheight = (hardext.npot>0 || hardext.esversion>1)?tex->height:npot(tex->height);
                 tex->adjustxy[0] = (float)tex->width / tex->nwidth;
