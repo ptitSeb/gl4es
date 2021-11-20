@@ -160,6 +160,8 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
         tex->adjustxy[0] = tex->adjustxy[1] = 1.f;
         tex->mipmap_auto = (globals4es.automipmap==1);
         tex->mipmap_need = (globals4es.automipmap==1)?1:0;
+        tex->base_level = -1;
+        tex->max_level = -1;
         tex->streamingID = -1;
         init_sampler(&tex->sampler);
         tex->alpha = true;
