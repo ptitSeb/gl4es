@@ -476,7 +476,7 @@ void initialize_gl4es() {
     env(LIBGL_FORCE16BITS, globals4es.force16bits, "Force 16bits textures");
     env(LIBGL_POTFRAMEBUFFER, globals4es.potframebuffer, "Force framebuffers to be on POT size");
 
-    int env_forcenpot=ReturnEnvVarIntDef("LIBGL_FORCENPOT",-1);
+    int env_forcenpot=ReturnEnvVarIntDef("LIBGL_FORCENPOT",0);
     if(env_forcenpot==0 && (hardext.esversion==2 && (hardext.npot==1 || hardext.npot==2))) {
       SHUT_LOGD("Not forcing NPOT support\n");
     } else if(env_forcenpot!=0 || (hardext.esversion==2 && (hardext.npot==1 || hardext.npot==2))) {
