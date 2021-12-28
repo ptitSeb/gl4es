@@ -32,6 +32,38 @@ void APIENTRY_GL4ES gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum
     v->size = size;
     v->type = type;
     v->normalized = normalized;
+    v->integer = 0;
+    v->stride = stride;
+    v->pointer = pointer;
+    v->buffer = glstate->vao->vertex;
+    if( v->buffer ) {
+		v->real_buffer = v->buffer->real_buffer;
+		v->real_pointer = pointer;
+	} else {
+        v->real_buffer = 0;
+        v->real_pointer = 0;
+    }
+}
+void APIENTRY_GL4ES gl4es_glVertexAttribIPointer(GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
+    DBG(printf("glVertexAttribIPointer(%d, %d, %s, %d, %p), vertex buffer = %p\n", index, size, PrintEnum(type), stride, pointer, (glstate->vao->vertex)?glstate->vao->vertex->data:0);)
+    FLUSH_BEGINEND;
+    // sanity test
+    if(index>=hardext.maxvattrib) {
+        errorShim(GL_INVALID_VALUE);
+        return;
+    }
+    if(size<1 || (size>4 && size!=GL_BGRA)) {
+        errorShim(GL_INVALID_VALUE);
+        return;
+    }
+    // TODO: test Type also
+    vertexattrib_t *v = &glstate->vao->vertexattrib[index];
+    noerrorShim();
+    if(stride==0) stride=((size==GL_BGRA)?4:size)*gl_sizeof(type);
+    v->size = size;
+    v->type = type;
+    v->normalized = 0;
+    v->integer = 1;
     v->stride = stride;
     v->pointer = pointer;
     v->buffer = glstate->vao->vertex;
@@ -161,6 +193,7 @@ void APIENTRY_GL4ES gl4es_glVertexAttribDivisor(GLuint index, GLuint divisor) {
 }
 
 AliasExport(void,glVertexAttribPointer,,(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer));
+AliasExport(void,glVertexAttribIPointer,,(GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer));
 AliasExport(void,glEnableVertexAttribArray,,(GLuint index));
 AliasExport(void,glDisableVertexAttribArray,,(GLuint index));
 AliasExport(void,glVertexAttrib4f,,(GLuint index, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3));
