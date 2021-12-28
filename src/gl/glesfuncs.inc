@@ -236,5 +236,6 @@ _EX(glVertexAttrib3fv);
 _EX(glVertexAttrib4f);
 _EX(glVertexAttrib4fv);
 _EX(glVertexAttribPointer);
+_EX(glVertexAttribIPointer);
 _EX(glVertexPointer);
 _EX(glViewport);
