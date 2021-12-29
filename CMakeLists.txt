@@ -27,6 +27,7 @@ option(NO_INIT_CONSTRUCTOR "disable automatic initialization (useful for static 
 option(USE_ANDROID_LOG "Set to ON to use Android log instead of stdio" ${USE_ANDROID_LOG})
 option(EGL_WRAPPER "Set to ON to build EGL wrapper" ${EGL_WRAPPER})
 option(GLX_STUBS "Set to ON to build GLX function stubs" ${GLX_STUBS})
+option(USE_EXPERIMENTAL_FEATURE "Set to ON to build with experimental features" ${USE_EXPERIMENTAL_FEATURE})
 
 include(CheckSymbolExists)
 check_symbol_exists(backtrace "execinfo.h" HAS_BACKTRACE)
@@ -183,6 +184,10 @@ if(USE_CCACHE)
         set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
         set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
     endif()
+endif()
+
+if(USE_EXPERIMENTAL_FEATURE)
+    add_definitions(-DUSE_EXPERIMENTAL_FEATURE)
 endif()
 
 link_directories(${CMAKE_SOURCE_DIR}/lib)
