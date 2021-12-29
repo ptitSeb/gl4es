@@ -1027,7 +1027,9 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
     LOAD_GLES2(glEnableVertexAttribArray)
     LOAD_GLES2(glDisableVertexAttribArray);
     LOAD_GLES2(glVertexAttribPointer);
+#ifdef USE_EXPERIMENTAL_FEATURE
     LOAD_GLES2(glVertexAttribIPointer);
+#endif
     LOAD_GLES2(glVertexAttrib4fv);
     LOAD_GLES2(glUseProgram);
     // update texture state for fpe only
@@ -1450,7 +1452,9 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                         v->size = 4;
                         v->type = GL_FLOAT;
                         v->normalized = 0;
+#ifdef USE_EXPERIMENTAL_FEATURE
                         v->integer = 0;
+#endif
                         v->pointer = scratch->scratch[scratch->size++] = copy_gl_pointer_color_bgra(ptr, w->stride, 4, imin, imax);
                         v->pointer = (char*)v->pointer - imin*4*sizeof(GLfloat);   // adjust for min...
                         v->stride = 0;
@@ -1468,7 +1472,9 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                     v->size = w->size;
                     v->type = w->type;
                     v->normalized = w->normalized;
+#ifdef USE_EXPERIMENTAL_FEATURE
                     v->integer = w->integer;
+#endif
                     v->stride = w->stride;
                     v->real_buffer = w->real_buffer;
                     v->real_pointer = w->real_pointer;
@@ -1477,12 +1483,14 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                 }
                 DBG(printf("using Buffer %d\n", v->real_buffer);)
                 bindBuffer(GL_ARRAY_BUFFER, v->real_buffer);
-
+#ifdef USE_EXPERIMENTAL_FEATURE
                 if (v->integer) {
                     gles_glVertexAttribIPointer(i, v->size, v->type, v->stride, v->pointer);
                     DBG(printf("glVertexAttribIPointer(%d, %d, %s, %d, %p)\n", i, v->size, PrintEnum(v->type), v->stride, (GLvoid*)((uintptr_t)v->pointer+((v->buffer)?(uintptr_t)v->buffer->data:0)));)
                 }
-                else {
+                else
+#endif
+                {
                     gles_glVertexAttribPointer(i, v->size, v->type, v->normalized, v->stride, v->pointer);
                     DBG(printf("glVertexAttribPointer(%d, %d, %s, %d, %d, %p)\n", i, v->size, PrintEnum(v->type), v->normalized, v->stride, (GLvoid*)((uintptr_t)v->pointer+((v->buffer)?(uintptr_t)v->buffer->data:0)));)
                 }

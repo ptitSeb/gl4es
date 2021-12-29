@@ -204,7 +204,9 @@
 
 // vertexattrib.c
 #define skip_glVertexAttribPointer
+#ifdef USE_EXPERIMENTAL_FEATURE
 #define skip_glVertexAttribIPointer
+#endif
 #define skip_glEnableVertexAttribArray
 #define skip_glDisableVertexAttribArray
 #define skip_glVertexAttrib1f

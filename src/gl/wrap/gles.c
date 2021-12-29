@@ -2392,6 +2392,7 @@ void APIENTRY_GL4ES gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum
 }
 AliasExport(void,glVertexAttribPointer,,(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer));
 #endif
+#ifdef USE_EXPERIMENTAL_FEATURE
 #ifndef skip_glVertexAttribIPointer
 void APIENTRY_GL4ES gl4es_glVertexAttribIPointer(GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
     LOAD_GLES(glVertexAttribIPointer);
@@ -2402,6 +2403,7 @@ void APIENTRY_GL4ES gl4es_glVertexAttribIPointer(GLuint index, GLint size, GLenu
 }
 AliasExport(void,glVertexAttribIPointer,,(GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer));
 #endif
+#endif // USE_EXPERIMENTAL_FEATURE
 #ifndef skip_glVertexPointer
 void APIENTRY_GL4ES gl4es_glVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid * pointer) {
     LOAD_GLES(glVertexPointer);

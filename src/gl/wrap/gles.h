@@ -3661,6 +3661,7 @@ packed_call_t* APIENTRY_GL4ES glCopyPackedCall(const packed_call_t *packed);
 #define glViewport_INDEXED INDEXED_void_GLint_GLint_GLsizei_GLsizei
 #define glViewport_FORMAT FORMAT_void_GLint_GLint_GLsizei_GLsizei
 
+#ifdef USE_EXPERIMENTAL_FEATURE
 #define glVertexAttribIPointer_INDEX 242
 #define glVertexAttribIPointer_RETURN void
 #define glVertexAttribIPointer_ARG_NAMES index, size, type, stride, pointer
@@ -3668,6 +3669,7 @@ packed_call_t* APIENTRY_GL4ES glCopyPackedCall(const packed_call_t *packed);
 #define glVertexAttribIPointer_PACKED PACKED_void_GLuint_GLint_GLenum_GLsizei_const_GLvoid___GENPT__
 #define glVertexAttribIPointer_INDEXED INDEXED_void_GLuint_GLint_GLenum_GLsizei_const_GLvoid___GENPT__
 #define glVertexAttribIPointer_FORMAT FORMAT_void_GLuint_GLint_GLenum_GLsizei_const_GLvoid___GENPT__
+#endif
 
 void APIENTRY_GL4ES gl4es_glActiveTexture(glActiveTexture_ARG_EXPAND);
 typedef void (APIENTRY_GLES * glActiveTexture_PTR)(glActiveTexture_ARG_EXPAND);
@@ -4152,9 +4154,10 @@ typedef void (APIENTRY_GLES * glVertexPointer_PTR)(glVertexPointer_ARG_EXPAND);
 void APIENTRY_GL4ES gl4es_glViewport(glViewport_ARG_EXPAND);
 typedef void (APIENTRY_GLES * glViewport_PTR)(glViewport_ARG_EXPAND);
 
+#ifdef USE_EXPERIMENTAL_FEATURE
 void APIENTRY_GL4ES gl4es_glVertexAttribIPointer(glVertexAttribIPointer_ARG_EXPAND);
 typedef void (APIENTRY_GLES * glVertexAttribIPointer_PTR)(glVertexAttribIPointer_ARG_EXPAND);
-
+#endif
 
 
 #ifndef direct_glActiveTexture
@@ -6725,6 +6728,7 @@ typedef void (APIENTRY_GLES * glVertexAttribIPointer_PTR)(glVertexAttribIPointer
     glPushCall((void *)packed_data); \
 }
 #endif
+#ifdef USE_EXPERIMENTAL_FEATURE
 #ifndef direct_glVertexAttribIPointer
 #define push_glVertexAttribIPointer(index, size, type, stride, pointer) { \
     glVertexAttribIPointer_PACKED *packed_data = malloc(sizeof(glVertexAttribIPointer_PACKED)); \
@@ -6738,6 +6742,7 @@ typedef void (APIENTRY_GLES * glVertexAttribIPointer_PTR)(glVertexAttribIPointer
     glPushCall((void *)packed_data); \
 }
 #endif
+#endif // USE_EXPERIMENTAL_FEATURE
 #ifndef direct_glVertexPointer
 #define push_glVertexPointer(size, type, stride, pointer) { \
     glVertexPointer_PACKED *packed_data = malloc(sizeof(glVertexPointer_PACKED)); \

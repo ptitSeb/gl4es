@@ -177,7 +177,9 @@ typedef struct {
     GLint           divisor;
     GLuint          real_buffer;    // If there is a real VBO binded
     const GLvoid*   real_pointer;   // the pointer related to real VBO
+#ifdef USE_EXPERIMENTAL_FEATURE
     int             integer;
+#endif
 } vertexattrib_t;
 
 typedef struct {

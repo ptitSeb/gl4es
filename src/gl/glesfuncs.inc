@@ -236,6 +236,8 @@ _EX(glVertexAttrib3fv);
 _EX(glVertexAttrib4f);
 _EX(glVertexAttrib4fv);
 _EX(glVertexAttribPointer);
+#ifdef USE_EXPERIMENTAL_FEATURE
 _EX(glVertexAttribIPointer);
+#endif
 _EX(glVertexPointer);
 _EX(glViewport);

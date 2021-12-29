@@ -6,7 +6,9 @@
 // actual definition of vertexattrib_t is in buffer.h, as they are part of VAO...
 
 void APIENTRY_GL4ES gl4es_glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer);
+#ifdef USE_EXPERIMENTAL_FEATURE
 void APIENTRY_GL4ES gl4es_glVertexAttribIPointer(GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
+#endif
 void APIENTRY_GL4ES gl4es_glEnableVertexAttribArray(GLuint index);
 void APIENTRY_GL4ES gl4es_glDisableVertexAttribArray(GLuint index);
 
