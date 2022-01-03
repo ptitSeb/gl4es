@@ -40,4 +40,4 @@ void *gl4es_aglGetProcAddress(const char *name) {
 
     return gl4es_GetProcAddress(name);
 }
-void* aglGetProcAddress(const char* name) AliasExport("gl4es_aglGetProcAddress");
+AliasExport(void*,aglGetProcAddress,,(const char* name));
