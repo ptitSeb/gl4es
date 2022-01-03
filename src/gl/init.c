@@ -24,6 +24,12 @@
 void gl_init();
 void gl_close();
 
+#ifdef USE_EXPERIMENTAL_FEATURE
+extern int (*glslconv_init)();
+extern char* (*glslconv_conv)(const char* src, int type);
+extern int (*glslconv_fini)();
+#endif
+
 #ifdef GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB
 #ifdef AMIGAOS4
 void agl_reset_internals();
@@ -620,7 +626,32 @@ void initialize_gl4es() {
     env(LIBGL_SHADERNOGLES, globals4es.shadernogles, "Remove GLES part in shader");
     env(LIBGL_NOES2COMPAT, globals4es.noes2, "Don't expose GLX_EXT_create_context_es2_profile extension");
     env(LIBGL_NORMALIZE, globals4es.normalize, "Force normals to be normalized on FPE shaders");
-
+#ifdef USE_EXPERIMENTAL_FEATURE
+    globals4es.shaderconverter = ReturnEnvVarInt("LIBGL_SHADERCONVERTER");
+    switch (globals4es.shaderconverter) {
+        case 1: {
+            SHUT_LOGD("Using glslang-based shader converter\n");
+            const char *glslconv_name[] = {"libglslconv", NULL};
+            const char *glslconv_override = GetEnvVar("LIBGL_GLSLCONV");
+            glslconv = open_lib(glslconv_name, glslconv_override);
+            if (glslconv == NULL) {
+                WARN_NULL(glslconv);
+            }
+            else {
+                glslconv_init = dlsym(glslconv, "glslconv_init");
+                glslconv_conv = dlsym(glslconv, "glslconv_conv");
+                glslconv_fini = dlsym(glslconv, "glslconv_fini");
+                if (glslconv_init) {
+                    glslconv_init();
+                    SHUT_LOGD("libglslconv loaded and initialized\n");
+                }
+            }
+            break;
+        }
+        default:
+            SHUT_LOGD("Using gl4es built-in shader converter\n");
+    }
+#endif
     globals4es.dbgshaderconv=ReturnEnvVarIntDef("LIBGL_DBGSHADERCONV",0);
     if(globals4es.dbgshaderconv) {
       if(globals4es.dbgshaderconv==1)
@@ -718,6 +749,12 @@ void close_gl4es() {
     gl_close();
     fpe_writePSA();
     fpe_FreePSA();
+#ifdef USE_EXPERIMENTAL_FEATURE
+    if (glslconv_fini) {
+        glslconv_fini();
+        SHUT_LOGD("libglslconv compiler destroyed\n");
+    }
+#endif
 		#if defined(GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB) && defined(AMIGAOS4)
 	    os4CloseLib();
 	  #endif

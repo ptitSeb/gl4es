@@ -41,6 +41,9 @@ struct HINSTANCE__* __stdcall LoadLibraryW(const wchar_t*);
 #include "envvars.h"
 
 void *gles = NULL, *egl = NULL, *bcm_host = NULL, *vcos = NULL, *gbm = NULL, *drm = NULL;
+#ifdef USE_EXPERIMENTAL_FEATURE
+void *glslconv = NULL;
+#endif
 #ifndef _WIN32
 #ifndef NO_GBM
 static const char *drm_lib[] = {

@@ -437,7 +437,7 @@ static const char* gl4es_VertexAttrib = "_gl4es_VertexAttrib_";
 char gl_VA[MAX_VATTRIB][32] = {0};
 char gl4es_VA[MAX_VATTRIB][32] = {0};
 
-char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
+static char* ConvertShader_gl4es(const char* pEntry, int isVertex, shaderconv_need_t *need)
 {
   #define ShadAppend(S) Tmp = Append(Tmp, &tmpsize, S)
 
@@ -1245,6 +1245,38 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   if(pEntry!=pBuffer)
     free(pBuffer);
   return Tmp;
+}
+
+#ifdef USE_EXPERIMENTAL_FEATURE
+int (*glslconv_init)();
+char* (*glslconv_conv)(const char* src, int type);
+int (*glslconv_fini)();
+
+static char* ConvertShader_glslconv(const char* pEntry, int isVertex, shaderconv_need_t *need)
+{
+    int fpeShader = (strstr(pEntry, fpeshader_signature)!=NULL)?1:0;
+    int maskbefore = 4|(isVertex?1:2);
+    int maskafter = 8|(isVertex?1:2);
+    if((globals4es.dbgshaderconv&maskbefore)==maskbefore) {
+        printf("Shader source:\n%s\n%s\n", pEntry, fpeShader?" (FPEShader generated)":"");
+    }
+    char* Tmp = NULL;
+    if (glslconv_conv) {
+        Tmp = glslconv_conv(pEntry, isVertex ? 0 : 1);
+    }
+    if((globals4es.dbgshaderconv&maskafter)==maskafter) {
+        printf("New Shader source:\n%s\n", Tmp);
+    }
+    return Tmp;
+}
+#endif
+char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need) {
+#ifdef USE_EXPERIMENTAL_FEATURE
+    if (globals4es.shaderconverter == 1) {
+        return ConvertShader_glslconv(pEntry, isVertex, need);
+    }
+#endif
+    return ConvertShader_gl4es(pEntry, isVertex, need);
 }
 
 int isBuiltinAttrib(const char* name) {

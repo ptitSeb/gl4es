@@ -80,6 +80,9 @@ typedef struct _globals4es {
  char drmcard[50];
  #endif
  char version[50];
+ #ifdef USE_EXPERIMENTAL_FEATURE
+ int shaderconverter;
+ #endif
 } globals4es_t;
 
 extern globals4es_t globals4es;

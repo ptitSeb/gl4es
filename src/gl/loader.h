@@ -102,7 +102,11 @@ extern void (APIENTRY_GL4ES *gl4es_getMainFBSize)(GLint* width, GLint* height);
 NonAliasExportDecl(void*,proc_address,(void *lib, const char *name));
 // will become references to dlopen'd gles and egl
 extern void *gles, *bcm_host, *vcos, *gbm, *drm;
+#ifdef USE_EXPERIMENTAL_FEATURE
+extern void *glslconv;
+#endif
 EXPORT extern void *egl;
+void *open_lib(const char **names, const char *override);
 #if defined __APPLE__ || defined __EMSCRIPTEN__
 #define NO_LOADER
 #endif
