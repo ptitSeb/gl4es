@@ -1033,6 +1033,8 @@ void* APIENTRY_GL4ES gl4es_GetProcAddress(const char *name) {
         _EX(glProgramLocalParameters4fvEXT)
     }
 
+    // GL 3.0
+
     //Sampler
     _EX(glGenSamplers);
     _EX(glBindSampler);
@@ -1048,6 +1050,9 @@ void* APIENTRY_GL4ES gl4es_GetProcAddress(const char *name) {
     _EX(glGetSamplerParameteriv);
     _EX(glGetSamplerParameterIiv);
     _EX(glGetSamplerParameterIuiv);
+
+    // IPointer
+    //_EX(glVertexAttribIPointer);
 
     DBG(printf("NULL\n");)
     if (!globals4es.silentstub) LOGD("GL4ES GetProcAddress: %s not found.\n", name);
