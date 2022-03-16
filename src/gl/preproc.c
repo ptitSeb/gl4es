@@ -758,6 +758,9 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts,
                         char buff[20] = {0};
                         sprintf(buff, "%g", tok.real);
                         strncat(*versionString, buff, 50);
+                    } else if(tok.type==TK_NEWLINE) {
+                        oldp = NULL;
+                        status = 0;
                     } else {
                         status = 399; // fallback, syntax error...
                     }
@@ -778,6 +781,9 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts,
                         sprintf(buff, "%g", tok.real);
                         strncat(*versionString, buff, 50);
                         status = 820;
+                    } else if(tok.type==TK_NEWLINE) {
+                        oldp = NULL;
+                        status = 0;
                     } else {
                         status = 399; // fallback, syntax error...
                     }
