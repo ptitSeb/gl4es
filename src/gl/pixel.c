@@ -230,7 +230,8 @@ bool remap_pixel(const GLvoid *src, GLvoid *dst,
         type_case(GL_HALF_FLOAT_OES, halffloat_t, write_each(,,float_f2h))
         type_case(GL_BYTE, GLbyte, write_each(, * 127.0f,))
         type_case(GL_UNSIGNED_BYTE, GLubyte, write_each(, * 255.0,))
-        type_case(GL_UNSIGNED_SHORT, GLushort, write_each(, / 65535.0f,))
+        type_case(GL_UNSIGNED_SHORT, GLushort, write_each(, * 65535.0f,))
+        type_case(GL_UNSIGNED_INT, GLuint, write_each(, * (float)0xffffffff,))
         type_case(GL_INT8_REV, GLubyte, write_each(, * 255.0,))
         type_case(GL_INT8, GLubyte, write_each(max_a - , * 255.0,))
         // TODO: force 565 to RGB? then we can change [4] -> 3
