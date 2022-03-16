@@ -451,7 +451,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   int maskbefore = 4|(isVertex?1:2);
   int maskafter = 8|(isVertex?1:2);
   if((globals4es.dbgshaderconv&maskbefore)==maskbefore) {
-    printf("Shader source%s:\n%s\n", pEntry, fpeShader?" (FPEShader generated)":"");
+    printf("Shader source%s:\n%s\n", fpeShader?" (FPEShader generated)":"", pEntry);
   }
   int comments = globals4es.comments;
   
