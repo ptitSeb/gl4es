@@ -149,45 +149,58 @@ int list2VBO(renderlist_t* list)
 typedef struct save_vbo_s {
     GLuint          real_buffer;
     const GLvoid*   real_pointer;
+    glbuffer_t*     buffer;
 } save_vbo_t;
 
 void listActiveVBO(renderlist_t* list, save_vbo_t* saved) {
     if(list->vert) {
         saved[ATT_VERTEX].real_buffer = glstate->vao->vertexattrib[ATT_VERTEX].real_buffer;
         saved[ATT_VERTEX].real_pointer = glstate->vao->vertexattrib[ATT_VERTEX].real_pointer;
+        saved[ATT_VERTEX].buffer = glstate->vao->vertexattrib[ATT_VERTEX].buffer;
         glstate->vao->vertexattrib[ATT_VERTEX].real_buffer = list->vbo_array;
         glstate->vao->vertexattrib[ATT_VERTEX].real_pointer = list->vbo_vert;
+        glstate->vao->vertexattrib[ATT_VERTEX].buffer = NULL;
     }
     if(list->color) {
         saved[ATT_COLOR].real_buffer = glstate->vao->vertexattrib[ATT_COLOR].real_buffer;
         saved[ATT_COLOR].real_pointer = glstate->vao->vertexattrib[ATT_COLOR].real_pointer;
+        saved[ATT_COLOR].buffer = glstate->vao->vertexattrib[ATT_COLOR].buffer;
         glstate->vao->vertexattrib[ATT_COLOR].real_buffer = list->vbo_array;
         glstate->vao->vertexattrib[ATT_COLOR].real_pointer = list->vbo_color;
+        glstate->vao->vertexattrib[ATT_COLOR].buffer = NULL;
     }
     if(list->secondary) {
         saved[ATT_SECONDARY].real_buffer = glstate->vao->vertexattrib[ATT_SECONDARY].real_buffer;
         saved[ATT_SECONDARY].real_pointer = glstate->vao->vertexattrib[ATT_SECONDARY].real_pointer;
+        saved[ATT_SECONDARY].buffer = glstate->vao->vertexattrib[ATT_SECONDARY].buffer;
         glstate->vao->vertexattrib[ATT_SECONDARY].real_buffer = list->vbo_array;
         glstate->vao->vertexattrib[ATT_SECONDARY].real_pointer = list->vbo_secondary;
+        glstate->vao->vertexattrib[ATT_SECONDARY].buffer = NULL;
     }
     if(list->fogcoord) {
         saved[ATT_FOGCOORD].real_buffer = glstate->vao->vertexattrib[ATT_FOGCOORD].real_buffer;
         saved[ATT_FOGCOORD].real_pointer = glstate->vao->vertexattrib[ATT_FOGCOORD].real_pointer;
+        saved[ATT_FOGCOORD].buffer = glstate->vao->vertexattrib[ATT_FOGCOORD].buffer;
         glstate->vao->vertexattrib[ATT_FOGCOORD].real_buffer = list->vbo_array;
         glstate->vao->vertexattrib[ATT_FOGCOORD].real_pointer = list->vbo_fogcoord;
+        glstate->vao->vertexattrib[ATT_FOGCOORD].buffer = NULL;
     }
     if(list->normal) {
         saved[ATT_NORMAL].real_buffer = glstate->vao->vertexattrib[ATT_NORMAL].real_buffer;
         saved[ATT_NORMAL].real_pointer = glstate->vao->vertexattrib[ATT_NORMAL].real_pointer;
+        saved[ATT_NORMAL].buffer = glstate->vao->vertexattrib[ATT_NORMAL].buffer;
         glstate->vao->vertexattrib[ATT_NORMAL].real_buffer = list->vbo_array;
         glstate->vao->vertexattrib[ATT_NORMAL].real_pointer = list->vbo_normal;
+        glstate->vao->vertexattrib[ATT_NORMAL].buffer = NULL;
     }
     for (int a=0; a<list->maxtex; ++a) {
         if(list->tex[a]) {
             saved[ATT_MULTITEXCOORD0+a].real_buffer = glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].real_buffer;
             saved[ATT_MULTITEXCOORD0+a].real_pointer = glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].real_pointer;
+            saved[ATT_MULTITEXCOORD0+a].buffer = glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].buffer;
             glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].real_buffer = list->vbo_array;
             glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].real_pointer = list->vbo_tex[a];
+            glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].buffer = NULL;
         }
     }
 }
@@ -195,27 +208,33 @@ void listInactiveVBO(renderlist_t* list, save_vbo_t* saved) {
     if(list->vert) {
         glstate->vao->vertexattrib[ATT_VERTEX].real_buffer = saved[ATT_VERTEX].real_buffer;
         glstate->vao->vertexattrib[ATT_VERTEX].real_pointer = saved[ATT_VERTEX].real_pointer;
+        glstate->vao->vertexattrib[ATT_VERTEX].buffer = saved[ATT_VERTEX].buffer;
     }
     if(list->color) {
         glstate->vao->vertexattrib[ATT_COLOR].real_buffer = saved[ATT_COLOR].real_buffer;
         glstate->vao->vertexattrib[ATT_COLOR].real_pointer = saved[ATT_COLOR].real_pointer;
+        glstate->vao->vertexattrib[ATT_COLOR].buffer = saved[ATT_COLOR].buffer;
     }
     if(list->secondary) {
         glstate->vao->vertexattrib[ATT_SECONDARY].real_buffer = saved[ATT_SECONDARY].real_buffer;
         glstate->vao->vertexattrib[ATT_SECONDARY].real_pointer = saved[ATT_SECONDARY].real_pointer;
+        glstate->vao->vertexattrib[ATT_SECONDARY].buffer = saved[ATT_SECONDARY].buffer;
     }
     if(list->fogcoord) {
         glstate->vao->vertexattrib[ATT_FOGCOORD].real_buffer = saved[ATT_FOGCOORD].real_buffer;
         glstate->vao->vertexattrib[ATT_FOGCOORD].real_pointer = saved[ATT_FOGCOORD].real_pointer;
+        glstate->vao->vertexattrib[ATT_FOGCOORD].buffer = saved[ATT_FOGCOORD].buffer;
     }
     if(list->normal) {
         glstate->vao->vertexattrib[ATT_NORMAL].real_buffer = saved[ATT_NORMAL].real_buffer;
         glstate->vao->vertexattrib[ATT_NORMAL].real_pointer = saved[ATT_NORMAL].real_pointer;
+        glstate->vao->vertexattrib[ATT_NORMAL].buffer = saved[ATT_NORMAL].buffer;
     }
     for (int a=0; a<list->maxtex; ++a) {
         if(list->tex[a]) {
             glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].real_buffer = saved[ATT_MULTITEXCOORD0+a].real_buffer;
             glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].real_pointer = saved[ATT_MULTITEXCOORD0+a].real_pointer;
+            glstate->vao->vertexattrib[ATT_MULTITEXCOORD0+a].buffer = saved[ATT_MULTITEXCOORD0+a].buffer;
         }
     }
 }

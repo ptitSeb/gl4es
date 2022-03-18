@@ -837,9 +837,9 @@ void adjust_renderlist(renderlist_t *list) {
         if (list->set_texture && (list->tmu == a))
             bound = gl4es_getTexture(list->target_texture, list->texture);
 	    // GL_ARB_texture_rectangle
-	if ((list->tex[a]) && (itarget == ENABLED_TEXTURE_RECTANGLE) && (bound)) {
-	    tex_coord_rect_arb(list->tex[a], list->tex_stride[a]>>2, list->len, bound->width, bound->height);
-	}
+        if ((list->tex[a]) && (itarget == ENABLED_TEXTURE_RECTANGLE) && (bound)) {
+            tex_coord_rect_arb(list->tex[a], list->tex_stride[a]>>2, list->len, bound->width, bound->height);
+        }
     }
 }
 

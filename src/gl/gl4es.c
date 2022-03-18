@@ -249,6 +249,7 @@ void APIENTRY_GL4ES gl4es_glBegin(GLenum mode) {
     // small optim... continue a render command if possible
     glstate->list.active = NewDrawStage(glstate->list.active, mode);
     glstate->list.pending = 0;
+    glstate->list.active->use_vbo_array = 2;
     noerrorShimNoPurge();	// TODO, check Enum validity
 }
 AliasExport(void,glBegin,,(GLenum mode));
