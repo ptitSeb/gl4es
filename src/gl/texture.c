@@ -159,7 +159,9 @@ void internal2format_type(GLenum internalformat, GLenum *format, GLenum *type)
             break;
         case GL_DEPTH_COMPONENT:
             *format = GL_DEPTH_COMPONENT;
-            *type = (hardext.depth24)?GL_UNSIGNED_INT:GL_UNSIGNED_SHORT;
+            if (*type != GL_UNSIGNED_SHORT) {
+                *type = (hardext.depth24)?GL_UNSIGNED_INT:GL_UNSIGNED_SHORT;
+            }
             break;
         case GL_DEPTH_STENCIL:
         case GL_DEPTH24_STENCIL8:
