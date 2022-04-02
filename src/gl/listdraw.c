@@ -653,7 +653,6 @@ void draw_renderlist(renderlist_t *list) {
                             if(list->tex_stride[a]) {
                                 GLfloat *src = list->tex[a];
                                 GLfloat *dst = glstate->texgened[a];
-                                int stride = list->tex_stride[a]>>2;    // stride need to be a multiple of 4 (i.e. sizeof(GLfloat))
                                 for (int ii=0; ii<list->len; ii++) {
                                     memcpy(dst, src, 4*sizeof(GLfloat));
                                     src+=stride;
@@ -758,7 +757,7 @@ void draw_renderlist(renderlist_t *list) {
                         LOAD_GLES2(glBufferData);
                         gles_glGenBuffers(1, &list->vbo_indices);
                         bindBuffer(GL_ELEMENT_ARRAY_BUFFER, list->vbo_indices);
-                        gles_glBufferData(GL_ELEMENT_ARRAY_BUFFER, list->ilen*sizeof(GL_UNSIGNED_SHORT), indices, GL_STATIC_DRAW);
+                        gles_glBufferData(GL_ELEMENT_ARRAY_BUFFER, list->ilen*sizeof(GLushort), indices, GL_STATIC_DRAW);
                         use_vbo_indices = 2;
                         vbo_indices = 1;
                     } else if(use_vbo_indices==2) {
