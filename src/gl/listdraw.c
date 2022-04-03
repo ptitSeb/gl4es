@@ -653,6 +653,7 @@ void draw_renderlist(renderlist_t *list) {
                             if(list->tex_stride[a]) {
                                 GLfloat *src = list->tex[a];
                                 GLfloat *dst = glstate->texgened[a];
+				int stride = list->tex_stride[a]>>2;    // stride need to be a multiple of 4 (i.e. sizeof(GLfloat))
                                 for (int ii=0; ii<list->len; ii++) {
                                     memcpy(dst, src, 4*sizeof(GLfloat));
                                     src+=stride;
