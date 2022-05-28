@@ -121,7 +121,7 @@ eToken readNextToken(sCurStatus* curStatus) {
 		
 		break;
 		
-	case '.':
+	case '.': {
 		curStatus->endOfToken = curStatus->codePtr + 1;
 		
 		// Plain '.' is TOK_POINT, '..' is TOK_UPTO
@@ -167,8 +167,8 @@ eToken readNextToken(sCurStatus* curStatus) {
 			while (e-- != 0) curStatus->tokFloat *= s ? 10.f : 0.1f;
 		}
 		
-		break;
-		
+		break; }
+
 	case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': case 'G':
 	case 'H': case 'I': case 'J': case 'K': case 'L': case 'M': case 'N':
 	case 'O': case 'P': case 'Q': case 'R': case 'S': case 'T': case 'U':
@@ -2467,7 +2467,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				FAIL("Invalid token");
 			}
 			break;
-			
+
 		case VARTYPE_ATTRIB:
 		case VARTYPE_OUTPUT:
 		case VARTYPE_PARAM:
@@ -2671,7 +2671,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				FAIL("Invalid token");
 			}
 			break;
-			
+
 		case VARTYPE_OUTPUT:
 			switch (curStatusPtr->curToken) {
 			case TOK_IDENTIFIER: {
@@ -2854,7 +2854,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				curStatusPtr->curValue.newVar.state = 12;
 				break;
 				
-			case TOK_END_OF_INST:
+			case TOK_END_OF_INST: {
 				if ((curStatusPtr->curValue.newVar.state != 1) && (curStatusPtr->curValue.newVar.state != 12)) {
 					FAIL("Invalid state");
 				}
@@ -2897,8 +2897,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				curStatusPtr->valueType = TYPE_NONE;
 				curStatusPtr->status = ST_LINE_START;
 				
-				break;
-				
+				break; }
+
 			case TOK_WHITESPACE:
 			case TOK_NEWLINE:
 				break;
@@ -3031,7 +3031,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				}
 				break;
 				
-			case TOK_END_OF_INST:
+			case TOK_END_OF_INST: {
 				if (curStatusPtr->curValue.newVar.state != 15) {
 					FAIL("Invalid state");
 				}
@@ -3090,8 +3090,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				curStatusPtr->valueType = TYPE_NONE;
 				curStatusPtr->status = ST_LINE_START;
 				
-				break;
-				
+				break; }
+
 			case TOK_WHITESPACE:
 			case TOK_NEWLINE:
 				break;
@@ -3100,7 +3100,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				FAIL("Invalid token");
 			}
 			break;
-			
+
 		case VARTYPE_ADDRESS:
 		case VARTYPE_TEMP:
 		case VARTYPE_ALIAS:
@@ -3112,7 +3112,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 			FAIL("Unknown error (unintended fallthrough?)");
 		}
 		break;
-		
+
 	case ST_ALIAS:
 		switch (curStatusPtr->curToken) {
 		case TOK_IDENTIFIER: {
@@ -3145,7 +3145,7 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 		break;
 	case ST_ALIASING:
 		switch (curStatusPtr->curToken) {
-		case TOK_IDENTIFIER:
+		case TOK_IDENTIFIER: {
 			if (curStatusPtr->valueType != TYPE_ALIAS_DECL) {
 				// Already aliased
 				FAIL("Too many identifiers");
@@ -3170,8 +3170,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 			kh_val(curStatusPtr->varsMap, varIdx) = var;
 			
 			curStatusPtr->valueType = TYPE_NONE;
-			break;
-			
+			break; }
+
 		case TOK_WHITESPACE:
 		case TOK_NEWLINE:
 			break;
