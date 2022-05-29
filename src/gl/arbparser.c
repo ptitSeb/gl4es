@@ -166,8 +166,8 @@ eToken readNextToken(sCurStatus* curStatus) {
 			
 			while (e-- != 0) curStatus->tokFloat *= s ? 10.f : 0.1f;
 		}
-		
-		break; }
+		}
+		break;
 
 	case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': case 'G':
 	case 'H': case 'I': case 'J': case 'K': case 'L': case 'M': case 'N':
@@ -2356,7 +2356,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				FAIL("Unknown operand");
 			}
 			free(tok);
-			break; }
+			}
+			break;
 			
 		case TOK_LINE_COMMENT:
 			curStatusPtr->status = ST_LINE_COMMENT;
@@ -2415,7 +2416,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				
 				pushArray((sArray*)curStatusPtr->curValue.newVar.var, tok);
 				curStatusPtr->curValue.newVar.state = 1;
-				break; }
+				}
+				break;
 				
 			case TOK_COMMA: {
 				if (curStatusPtr->curValue.newVar.state != 1) {
@@ -2436,7 +2438,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				pushArray((sArray*)&curStatusPtr->variables, curStatusPtr->curValue.newVar.var);
 				curStatusPtr->curValue.newVar.var = createVariable(curStatusPtr->curValue.newVar.var->type);
 				curStatusPtr->curValue.newVar.state = 0;
-				break; }
+				}
+				break;
 				
 			case TOK_END_OF_INST: {
 				if (curStatusPtr->curValue.newVar.state != 1) {
@@ -2457,7 +2460,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				pushArray((sArray*)&curStatusPtr->variables, curStatusPtr->curValue.newVar.var);
 				curStatusPtr->valueType = TYPE_NONE;
 				curStatusPtr->status = ST_LINE_START;
-				break; }
+				}
+				break;
 				
 			case TOK_WHITESPACE:
 			case TOK_NEWLINE:
@@ -2500,7 +2504,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				
 				pushArray((sArray*)curStatusPtr->curValue.newVar.var, tok);
 				curStatusPtr->curValue.newVar.state = 1;
-				break; }
+				}
+				break;
 				
 			case TOK_EQUALS:
 				if (curStatusPtr->curValue.newVar.state != 1) {
@@ -2601,8 +2606,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				pushArray((sArray*)&curStatusPtr->curValue.newVar, getToken(curStatusPtr));
 				
 				curStatusPtr->curValue.newVar.state = 1;
-				
-				break; }
+				}
+				break;
 				
 			case TOK_POINT:
 				if (curStatusPtr->curValue.newVar.state == 0) {
@@ -2660,8 +2665,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				freeArray((sArray*)&curStatusPtr->curValue.newVar);
 				curStatusPtr->valueType = TYPE_NONE;
 				curStatusPtr->status = ST_LINE_START;
-				
-				break; }
+				}
+				break;
 				
 			case TOK_WHITESPACE:
 			case TOK_NEWLINE:
@@ -2682,8 +2687,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				pushArray((sArray*)&curStatusPtr->curValue.newVar, getToken(curStatusPtr));
 				
 				curStatusPtr->curValue.newVar.state = 1;
-				
-				break; }
+				}
+				break;
 				
 			case TOK_POINT:
 				if (curStatusPtr->curValue.newVar.state == 0) {
@@ -2723,8 +2728,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				freeArray((sArray*)&curStatusPtr->curValue.newVar);
 				curStatusPtr->valueType = TYPE_NONE;
 				curStatusPtr->status = ST_LINE_START;
-				
-				break; }
+				}
+				break;
 				
 			case TOK_WHITESPACE:
 			case TOK_NEWLINE:
@@ -2896,8 +2901,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				freeArray((sArray*)&curStatusPtr->curValue.newVar);
 				curStatusPtr->valueType = TYPE_NONE;
 				curStatusPtr->status = ST_LINE_START;
-				
-				break; }
+				}
+				break;
 
 			case TOK_WHITESPACE:
 			case TOK_NEWLINE:
@@ -3089,8 +3094,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				freeArray((sArray*)&curStatusPtr->curValue.newVar);
 				curStatusPtr->valueType = TYPE_NONE;
 				curStatusPtr->status = ST_LINE_START;
-				
-				break; }
+				}
+				break;
 
 			case TOK_WHITESPACE:
 			case TOK_NEWLINE:
@@ -3128,8 +3133,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				FAIL("Cannot redeclare variable");
 			}
 			curStatusPtr->curValue.string = tok;
-			
-			break; }
+			}
+			break;
 			
 		case TOK_WHITESPACE:
 		case TOK_NEWLINE:
@@ -3170,7 +3175,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 			kh_val(curStatusPtr->varsMap, varIdx) = var;
 			
 			curStatusPtr->valueType = TYPE_NONE;
-			break; }
+			}
+			break;
 
 		case TOK_WHITESPACE:
 		case TOK_NEWLINE:
@@ -3240,8 +3246,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				}
 				copyToken(curStatusPtr, faa + strlen(faa));
 				curVarPtr->floatArrAddr = faa;
+				}
 				break;
-			}
 				
 			default:
 				break;
@@ -3266,8 +3272,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				copyToken(curStatusPtr, faa + strlen(faa));
 				curVarPtr->floatArrAddr = faa;
 				++curStatusPtr->curValue.newInst.state;
+				}
 				break;
-			}
 				
 			default:
 				FAIL("Invalid state");
@@ -3312,8 +3318,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				copyToken(curStatusPtr, faa + strlen(faa));
 				curVarPtr->floatArrAddr = faa;
 				curStatusPtr->curValue.newInst.state = STATE_AFTER_VALID_LSQBR_END;
+				}
 				break;
-			}
 				
 			case STATE_LBRACE:
 			case STATE_LBRACE_COM1:
@@ -3334,8 +3340,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 			case STATE_AFTER_SIGN: {
 				pushArray((sArray*)&curStatusPtr->_fixedNewVar, getToken(curStatusPtr));
 				curStatusPtr->curValue.newInst.state = STATE_AFTER_NUMBER;
+				}
 				break;
-			}
 				
 			case STATE_LBRACE:
 			case STATE_LBRACE_COM1:
@@ -3380,8 +3386,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 					pushArray((sArray*)&curStatusPtr->_fixedNewVar, strdup(tok));
 					curStatusPtr->curValue.newInst.state = STATE_AFTER_ELEMENT;
 				}
+				}
 				break;
-			}
 				
 			case STATE_AFTER_DOT:
 				pushArray((sArray*)&curStatusPtr->_fixedNewVar, strdup(tok));
@@ -3417,8 +3423,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				}
 				
 				curStatusPtr->curValue.newInst.state = STATE_AFTER_SWIZZLE;
-				
-				break; }
+				}
+				break;
 				
 			case STATE_AFTER_VALID_LSQBR_START: {
 				khint_t idx = kh_get(variables, curStatusPtr->varsMap, tok);
@@ -3434,8 +3440,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				
 				curVarPtr->floatArrAddr = getToken(curStatusPtr);
 				++curStatusPtr->curValue.newInst.state;
+				}
 				break;
-			}
 				
 			case STATE_AFTER_VALID_LSQBR_ADOT: {
 				if ((getTokenLength(curStatusPtr) != 1) || (tok[0] != 'x')) {
@@ -3511,8 +3517,8 @@ void parseToken(sCurStatus* curStatusPtr, int vertex, char **error_msg, struct s
 				curVarPtr->floatArrAddr = faa;
 				
 				++curStatusPtr->curValue.newInst.state;
+				}
 				break;
-			}
 				
 			case STATE_AFTER_ELEMENT:
 				curStatusPtr->curValue.newInst.state = STATE_AFTER_DOT;
