@@ -19,9 +19,10 @@ void APIENTRY_GL4ES gl4es_glFogfv(GLenum pname, const GLfloat* params) {
         else gl4es_flush();
     noerrorShim();
     #define GO(A,name, size) if(memcmp(A glstate->fog.name, params, size)==0) return; else memcpy(A glstate->fog.name, params, size);
+    #define GOI(name) if(glstate->fog.name==params[0]) return; else glstate->fog.name=params[0];
     switch (pname) {
         case GL_FOG_MODE:
-            GO(&, mode, sizeof(GLfloat))
+            GOI(mode)
             break;
         case GL_FOG_DENSITY:
             if(*params<0.f) {
@@ -51,12 +52,12 @@ void APIENTRY_GL4ES gl4es_glFogfv(GLenum pname, const GLfloat* params) {
 #endif
             break;
         case GL_FOG_COORD_SRC:
-            GO(&, coord_src, sizeof(GLfloat))
+            GOI(coord_src)
             if(hardext.esversion==1)
                 return; // unsupported on GLES1.1
             break;
         case GL_FOG_DISTANCE_MODE_NV:
-            GO(&, distance, sizeof(GLfloat))
+            GOI(distance)
             if(hardext.esversion==1)
                 return; // unsupported on GLES1.1
             break;
@@ -65,6 +66,7 @@ void APIENTRY_GL4ES gl4es_glFogfv(GLenum pname, const GLfloat* params) {
             return;
     }
     #undef GO
+    #undef GOI
     LOAD_GLES_FPE(glFogfv);
     gles_glFogfv(pname, params);
     errorGL();
