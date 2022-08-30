@@ -73,6 +73,7 @@ endif(STATICLIB)
 # Pyra
 if(PYRA)
     add_definitions(-DPYRA)
+    set(USE_CLOCK ON)
     #add_definitions(-DTEXSTREAM)
     add_definitions(-mcpu=cortex-a15 -mfpu=neon-vfpv4 -mfloat-abi=hard -ftree-vectorize -fsingle-precision-constant -ffast-math)
     set(NO_GBM ON)

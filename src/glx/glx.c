@@ -11,7 +11,7 @@
 #endif // USE_FBIO
 #include <signal.h>
 #include <sys/ioctl.h>
-#ifdef USE_CLOCK
+#if defined(USE_CLOCK) || defined(PYRA)
 #include <time.h>
 #else
 #include <sys/time.h>
@@ -1530,6 +1530,27 @@ void gl4es_glXSwapBuffers(Display *display,
         for (int i = 0; i < swapinterval; i++) {
             ioctl(fbdev, FBIO_WAITFORVSYNC, &arg);
         }
+    }
+#endif
+#ifdef PYRA
+    if (globals4es.vsync && PBuffer==0) {
+      static int64_t old_time = 0;
+      struct timespec tp;
+      clock_gettime(CLOCK_REALTIME, &tp);
+#define TARGET_FPS 1000000000LL/61
+      int64_t new_time = tp.tv_sec*1000000000LL + tp.tv_nsec;
+      if (old_time) {
+        int64_t time_wait = new_time - old_time;
+        if(time_wait < TARGET_FPS) {
+          time_wait = TARGET_FPS - time_wait;
+          tp.tv_nsec = time_wait;
+          tp.tv_sec = 0;
+          nanosleep(&tp, NULL);
+          clock_gettime(CLOCK_REALTIME, &tp);
+          new_time = tp.tv_sec*1000000000LL + tp.tv_nsec;
+        }
+      }
+      old_time = new_time;
     }
 #endif
     if (globals4es.usefbo && PBuffer==0) {
