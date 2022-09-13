@@ -774,14 +774,16 @@ void realize_1texture(GLenum target, int wantedTMU, gltexture_t* tex, glsampler_
     if(!sampler) sampler = &tex->sampler;
     GLuint oldtex = 0;
     int TMU = (wantedTMU==-1)?glstate->gleshard->active:wantedTMU;
-    if(wantedTMU==-1) {
-        gltexture_t *bound = glstate->texture.bound[TMU][ENABLED_TEX2D];
-        oldtex = bound->glname;
-        if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
-    }
     GLenum param;
     param = get_texture_min_filter(tex, sampler);
     if(tex->actual.min_filter!=param) {
+        if(wantedTMU==-1) {
+            realize_textures(0);
+            gltexture_t *bound = glstate->texture.bound[TMU][ENABLED_TEX2D];
+            oldtex = bound->glname;
+            if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+            wantedTMU=-2;
+        }
         DBG(printf("Adjusting %s[%d]:Texture[%u].min_filter = %s (binded=%u)\n", PrintEnum(target), TMU, tex->glname, PrintEnum(param), glstate->actual_tex2d[TMU]);)
         if(glstate->gleshard->active!=TMU) {
             glstate->gleshard->active = TMU;
@@ -792,6 +794,13 @@ void realize_1texture(GLenum target, int wantedTMU, gltexture_t* tex, glsampler_
     }
     param = sampler->mag_filter;
     if(tex->actual.mag_filter!=param) {
+        if(wantedTMU==-1) {
+            realize_textures(0);
+            gltexture_t *bound = glstate->texture.bound[TMU][ENABLED_TEX2D];
+            oldtex = bound->glname;
+            if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+            wantedTMU=-2;
+        }
         DBG(printf("Adjusting %s[%d]:Texture[%u].mag_filter = %s (min=%s/%s)\n", PrintEnum(target), TMU, tex->glname, PrintEnum(param), PrintEnum(sampler->min_filter), PrintEnum(tex->actual.min_filter));)
         if(glstate->gleshard->active!=TMU) {
             glstate->gleshard->active = TMU;
@@ -802,6 +811,13 @@ void realize_1texture(GLenum target, int wantedTMU, gltexture_t* tex, glsampler_
     }
     param = get_texture_wrap_s(tex, sampler);
     if(tex->actual.wrap_s!=param) {
+        if(wantedTMU==-1) {
+            realize_textures(0);
+            gltexture_t *bound = glstate->texture.bound[TMU][ENABLED_TEX2D];
+            oldtex = bound->glname;
+            if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+            wantedTMU=-2;
+        }
         DBG(printf("Adjusting %s[%d]:Texture[%u].wrap_s = %s\n", PrintEnum(target), TMU, tex->glname, PrintEnum(param));)
         if(glstate->gleshard->active!=TMU) {
             glstate->gleshard->active = TMU;
@@ -812,6 +828,13 @@ void realize_1texture(GLenum target, int wantedTMU, gltexture_t* tex, glsampler_
     }
     param = get_texture_wrap_t(tex, sampler);
     if(tex->actual.wrap_t!=param) {
+        if(wantedTMU==-1) {
+            realize_textures(0);
+            gltexture_t *bound = glstate->texture.bound[TMU][ENABLED_TEX2D];
+            oldtex = bound->glname;
+            if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+            wantedTMU=-2;
+        }
         DBG(printf("Adjusting %s[%d]:Texture[%u].wrap_t = %s\n", PrintEnum(target), TMU, tex->glname, PrintEnum(param));)
         if(glstate->gleshard->active!=TMU) {
             glstate->gleshard->active = TMU;
@@ -820,7 +843,7 @@ void realize_1texture(GLenum target, int wantedTMU, gltexture_t* tex, glsampler_
         gles_glTexParameteri(target, GL_TEXTURE_WRAP_T, param);
         tex->actual.wrap_t=param;
     }
-    if(wantedTMU==-1) {
+    if(wantedTMU==-2) {
         if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
     }
 }
