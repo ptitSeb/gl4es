@@ -263,6 +263,8 @@ static inline bool should_intercept_render(GLenum mode) {
         return true;
     if ((hardext.esversion==1) && (glstate->vao->vertexattrib[ATT_COLOR].enabled && (glstate->vao->vertexattrib[ATT_COLOR].size != 4)))
         return true;
+    //if (glstate->vao->vertex || glstate->vao->elements)
+    //    return false;   // don't try to intercept VAO
     return (
         (glstate->vao->vertexattrib[ATT_VERTEX].enabled && ! valid_vertex_type(glstate->vao->vertexattrib[ATT_VERTEX].type)) ||
         (mode == GL_LINES && glstate->enable.line_stipple) ||
