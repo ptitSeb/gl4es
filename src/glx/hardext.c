@@ -25,6 +25,7 @@ static int testGLSL(const char* version, int uniformLoc) {
     LOAD_GLES2(glCompileShader);
     LOAD_GLES2(glGetShaderiv);
     LOAD_GLES2(glDeleteShader);
+    LOAD_GLES(glGetError);
 
     GLuint shad = gles_glCreateShader(GL_VERTEX_SHADER);
     const char* shadTest[4] = {
@@ -49,6 +50,7 @@ static int testGLSL(const char* version, int uniformLoc) {
     }
     */
     gles_glDeleteShader(shad);
+    gl4es_glGetError();	// reset GL Error
 
     return compiled;
 }
@@ -59,6 +61,7 @@ static int testTextureCubeLod() {
     LOAD_GLES2(glCompileShader);
     LOAD_GLES2(glGetShaderiv);
     LOAD_GLES2(glDeleteShader);
+    LOAD_GLES(glGetError);
 
     GLuint shad = gles_glCreateShader(GL_FRAGMENT_SHADER);
     const char* shadTest[3] = {
@@ -76,6 +79,7 @@ static int testTextureCubeLod() {
     GLint compiled;
     gles_glGetShaderiv(shad, GL_COMPILE_STATUS, &compiled);
     gles_glDeleteShader(shad);
+    gl4es_glGetError(); // reset GL Error
 
     return compiled;
 }
