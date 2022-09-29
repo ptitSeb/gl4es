@@ -50,7 +50,7 @@ static int testGLSL(const char* version, int uniformLoc) {
     }
     */
     gles_glDeleteShader(shad);
-    gl4es_glGetError();	// reset GL Error
+    gles_glGetError();	// reset GL Error
 
     return compiled;
 }
@@ -79,7 +79,7 @@ static int testTextureCubeLod() {
     GLint compiled;
     gles_glGetShaderiv(shad, GL_COMPILE_STATUS, &compiled);
     gles_glDeleteShader(shad);
-    gl4es_glGetError(); // reset GL Error
+    gles_glGetError(); // reset GL Error
 
     return compiled;
 }
