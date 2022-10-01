@@ -327,8 +327,8 @@ void* NewGLState(void* shared_glstate, int es2only) {
         glstate->texenv[i].env.mode = GL_MODULATE;
         glstate->texenv[i].env.rgb_scale = 1.0f;
         glstate->texenv[i].env.alpha_scale = 1.0f;
-        glstate->texenv[i].env.src0_rgb = glstate->texenv[i].env.src0_alpha = GL_TEXTURE0;
-        glstate->texenv[i].env.src1_rgb = glstate->texenv[i].env.src1_alpha = GL_TEXTURE;
+        glstate->texenv[i].env.src0_rgb = glstate->texenv[i].env.src0_alpha = GL_TEXTURE;
+        glstate->texenv[i].env.src1_rgb = glstate->texenv[i].env.src1_alpha = GL_PREVIOUS;
         glstate->texenv[i].env.src2_rgb = glstate->texenv[i].env.src2_alpha = GL_CONSTANT;
         glstate->texenv[i].env.op0_rgb = glstate->texenv[i].env.op1_rgb = GL_SRC_COLOR;
         glstate->texenv[i].env.op2_rgb = glstate->texenv[i].env.op0_alpha = 
@@ -355,10 +355,10 @@ void* NewGLState(void* shared_glstate, int es2only) {
         // some default are not 0...
         for (int i=0; i<MAX_TEX; i++) {
             //TexEnv Combine that are not 0
-            glstate->fpe_state->texenv[i].texsrcrgb0 = FPE_SRC_TEXTURE0;
-            glstate->fpe_state->texenv[i].texsrcalpha0 = FPE_SRC_TEXTURE0;
-            glstate->fpe_state->texenv[i].texsrcrgb1 = FPE_SRC_TEXTURE;
-            glstate->fpe_state->texenv[i].texsrcalpha1 = FPE_SRC_TEXTURE;
+            glstate->fpe_state->texenv[i].texsrcrgb0 = FPE_SRC_TEXTURE;
+            glstate->fpe_state->texenv[i].texsrcalpha0 = FPE_SRC_TEXTURE;
+            glstate->fpe_state->texenv[i].texsrcrgb1 = FPE_SRC_PREVIOUS;
+            glstate->fpe_state->texenv[i].texsrcalpha1 = FPE_SRC_PREVIOUS;
             glstate->fpe_state->texenv[i].texsrcrgb2 = FPE_SRC_CONSTANT;
             glstate->fpe_state->texenv[i].texsrcalpha2 = FPE_SRC_CONSTANT;
             glstate->fpe_state->texenv[i].texoprgb0 = FPE_OP_SRCCOLOR;
