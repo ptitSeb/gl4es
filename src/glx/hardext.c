@@ -30,6 +30,7 @@ static int testGLSL(const char* version, int uniformLoc) {
     GLuint shad = gles_glCreateShader(GL_VERTEX_SHADER);
     const char* shadTest[4] = {
         version,
+        "#extension require GL_IMG_uniform_buffer_object"
         "\n"
         "layout(location = 0) in vec4 vecPos;\n",
         uniformLoc?"layout(location = 0) uniform mat4 matMVP;\n":"uniform mat4 matMVP;\n",
