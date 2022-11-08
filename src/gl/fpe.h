@@ -193,7 +193,7 @@ typedef struct fpe_state_s {
 
 typedef struct fpe_fpe_s {
   GLuint  frag, vert, prog;   // shader info
-  fpe_state_t state;          // state relevent to the current fpe program
+  fpe_state_t state;          // state relevant to the current fpe program
   program_t *glprogram;
 } fpe_fpe_t;
 
