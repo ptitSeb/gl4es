@@ -28,7 +28,7 @@ const GLubyte * bcdev[10];
 int bcdev_w, bcdev_h, bcdev_n;
 int bcdev_fmt;
 unsigned long buf_paddr[10];    // physical address
-char *buf_vaddr[10];            // virtual adress
+char *buf_vaddr[10];            // virtual address
 
 void Streaming_Initialize() {
     LOAD_EGL(eglGetProcAddress);
