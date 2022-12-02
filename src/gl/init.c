@@ -660,7 +660,7 @@ void initialize_gl4es() {
     }
     env(LIBGL_GLXNATIVE, globals4es.glxnative, "Don't filter GLXConfig with GLX_X_NATIVE_TYPE");
 #endif
-    char cwd[1024];
+    char cwd[4096];
     if (getcwd(cwd, sizeof(cwd))!= NULL)
         SHUT_LOGD("Current folder is:%s\n", cwd);
 
@@ -669,14 +669,21 @@ void initialize_gl4es() {
         if(globals4es.nopsa==0) {
             cwd[0]='\0';
             // TODO: What to do on ANDROID and EMSCRIPTEN?
+            const char* custom_psa = GetEnvVar("LIBGL_PSA_FOLDER");
 #ifdef __linux__
             const char* home = GetEnvVar("HOME");
-            if(home)
+            if(custom_psa)
+              strcpy(cwd, custom_psa);
+            else if(home)
                 strcpy(cwd, home);
-            if(cwd[strlen(cwd)]!='/')
-                strcat(cwd, "/");
+            if(strlen(cwd))
+              if(cwd[strlen(cwd)]!='/')
+                  strcat(cwd, "/");
 #elif defined AMIGAOS4
-            strcpy(cwd, "PROGDIR:");
+            if(custom_psa)
+              strcpy(cwd, custom_psa);
+            else
+              strcpy(cwd, "PROGDIR:");
 #endif
             if(strlen(cwd)) {
                 strcat(cwd, ".gl4es.psa");
@@ -684,7 +691,8 @@ void initialize_gl4es() {
                 fpe_readPSA();
             }
         }
-    }
+    } else 
+      SHUT_LOGD("Not using PSA (prgbin_n=%d, notexarray=%d\n", hardext.prgbin_n, globals4es.notexarray);
 
     env(LIBGL_SKIPTEXCOPIES, globals4es.skiptexcopies, "Texture Copies will be skipped");
     if(GetEnvVarFloat("LIBGL_FB_TEX_SCALE",&globals4es.fbtexscale,0.0f)) {

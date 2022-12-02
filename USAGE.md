@@ -340,6 +340,10 @@ Disable the use of the Precompiled Shader Archive
 * 0 : Default: use (and save) the PSA (it's saved on $HOME/.gl4es.psa on linux)
 * 1 : Don't use PSA.
 
+##### LIBGL_PSA_FOLDER
+Set a custom path for Precompile Shader Archive
+* XXXXX : set that path. Archive will be saved at XXXXX/.gl4es.psa
+
 ##### LIBGL_USEVBO
 Usage of VBO in certain cases. Only for GLES2+. The 2 and 3 mode are experimental and will probably be slower anyway.
 * 0 : Disable the use of VBO.
