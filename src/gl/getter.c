@@ -1161,3 +1161,18 @@ const GLubyte* APIENTRY_GL4ES gl4es_glGetStringi(GLenum name, GLuint index) {
     return glstate->extensions_list[index];
 }
 AliasExport(const GLubyte*,glGetStringi,,(GLenum name, GLuint index));
+
+// Some stuff from the ARB_imaging extension
+void gl4es_glGetMinmaxParameteriv(GLenum target, GLenum pname, GLint* params)
+{
+    DBG(printf("unsupported glGetMinmaxParameteriv(%s, %s, %p)\n", PrintEnum(target), PrintEnum(pname), params);)
+    errorShim(GL_INVALID_VALUE);
+}
+AliasExport(void, glGetMinmaxParameteriv,,(GLenum target, GLenum pname, GLint* params));
+
+void gl4es_glGetMinmaxParameterfv(GLenum target, GLenum pname, GLfloat* params)
+{
+    DBG(printf("unsupported glGetMinmaxParameterfv(%s, %s, %p)\n", PrintEnum(target), PrintEnum(pname), params);)
+    errorShim(GL_INVALID_VALUE);
+}
+AliasExport(void, glGetMinmaxParameterfv,,(GLenum target, GLenum pname, GLfloat* params));
