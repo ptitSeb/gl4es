@@ -108,7 +108,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (APIENTRY_GLES *next)(G
         GO(GL_AUTO_NORMAL, auto_normal);
         proxy_GOFPE(GL_ALPHA_TEST, alpha_test,glstate->fpe_state->alphatest=enable);
         proxy_GOFPE(GL_FOG, fog, glstate->fpe_state->fog=enable);
-        proxy_GO(GL_BLEND, blend);
+        case GL_BLEND: if(glstate->enable.blend != enable) {FLUSH_BEGINEND; glstate->enable.blend = enable; if(glstate->fpe_state && globals4es.shaderblend) { glstate->fpe_state->blend_enable = enable; } else next(cap);} break;
         proxy_GO(GL_CULL_FACE, cull_face);
         proxy_GO(GL_DEPTH_TEST, depth_test);
         proxy_GO(GL_STENCIL_TEST, stencil_test);

@@ -525,6 +525,17 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     Tmp = InplaceInsert(Tmp, GLESFullHeader, Tmp, &tmpsize);
   }
   int headline = 3;
+  // move all "#extension in header zone"
+  while (strstr(Tmp, "#extension") && strstr(Tmp, "#extension")>GetLine(Tmp, headline-2)) {
+    char* ext = strstr(Tmp, "#extension");
+    size_t l = (uintptr_t)strstr(ext, "\n")-(uintptr_t)ext + sizeof("\n");
+    char e[l];
+    memset(e, 0, l);
+    strncpy(e, ext, l-1);
+    Tmp = InplaceReplaceSimple(Tmp, &tmpsize, e, "");
+    Tmp = InplaceInsert(GetLine(Tmp, headline-2), e, Tmp, &tmpsize);
+    ++headline;
+  }
   // check if gl_FragDepth is used
   int fragdepth = (strstr(pBuffer, "gl_FragDepth"))?1:0;
   const char* GLESUseFragDepth = "#extension GL_EXT_frag_depth : enable\n";

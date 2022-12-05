@@ -16,6 +16,7 @@ int GetLineFor(const char* pBuffer, const char* S); // get the line number for 1
 char* StrNext(char *pBuffer, const char* S); // mostly as strstr, but go after the substring if found
 //"blank" (space, tab, cr, lf,":", ",", ";", ".", "/")
 char* NextStr(char* pBuffer);   // go to next non "blank"
+char* PrevStr(char* Str, char* pBuffer);    // go to previous non "blank"
 char* NextBlank(char* pBuffer);   // go to next "blank"
 char* NextLine(char* pBuffer);   // go to next new line (crlf not included)
 

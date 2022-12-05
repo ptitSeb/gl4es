@@ -171,6 +171,20 @@ char* NextStr(char* pBuffer) {
     return pBuffer;
 }
 
+char* PrevStr(char* Str, char* pBuffer) {
+    if(!pBuffer) return NULL;
+    if(pBuffer == Str)
+        return Str;
+    // go to previous non blank
+    do {
+        --pBuffer;
+    } while(isBlank(*pBuffer) && (pBuffer!=Str));
+    // go to blank
+    while((pBuffer!=Str) && !isBlank(*(pBuffer-1)));
+        --pBuffer;
+    return pBuffer;
+}
+
 char* NextBlank(char* pBuffer) {
     if(!pBuffer) return NULL;
     while(!isBlank(*pBuffer))

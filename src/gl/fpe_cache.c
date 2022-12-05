@@ -18,7 +18,7 @@
 #endif
 
 static const char PSA_SIGN[] = "GL4ES PrecompiledShaderArchive";
-#define CACHE_VERSION 111
+#define CACHE_VERSION 112
 
 static kh_inline khint_t _hash_fpe(fpe_state_t *p)
 {

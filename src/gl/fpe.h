@@ -111,6 +111,28 @@
 #define FPE_TG_REFLECMAP       4
 #define FPE_TG_NONE            5  // dummy, to help fpe
 
+#define FPE_BLEND_ZERO                      0
+#define FPE_BLEND_ONE                       1
+#define FPE_BLEND_SRC_COLOR                 2
+#define FPE_BLEND_ONE_MINUS_SRC_COLOR       3
+#define FPE_BLEND_DST_COLOR                 4
+#define FPE_BLEND_ONE_MINUS_DST_COLOR       5
+#define FPE_BLEND_SRC_ALPHA                 6
+#define FPE_BLEND_ONE_MINUS_SRC_ALPHA       7
+#define FPE_BLEND_DST_ALPHA                 8
+#define FPE_BLEND_ONE_MINUS_DST_ALPHA       9
+#define FPE_BLEND_CONSTANT_COLOR            10
+#define FPE_BLEND_ONE_MINUS_CONSTANT_COLOR  11
+#define FPE_BLEND_CONSTANT_ALPHA            12
+#define FPE_BLEND_ONE_MINUS_CONSTANT_ALPHA  13
+#define FPE_BLEND_SRC_ALPHA_SATURATE        14
+
+#define FPE_BLENDEQ_FUNC_ADD                0
+#define FPE_BLENDEQ_FUNC_SUBTRACT           1
+#define FPE_BLENDEQ_FUNC_REVERSE_SUBTRACT   2
+#define FPE_BLENDEQ_MIN                     3
+#define FPE_BLENDEQ_MAX                     4
+
 typedef struct fpe_texgen_s {
   unsigned int texgen_s:1;              // texgen S enabled on 1 bit
   unsigned int texgen_s_mode:3;         // texgen S on 3 bits
@@ -186,6 +208,13 @@ typedef struct fpe_state_s {
     unsigned int pointsprite_upper:1;    // if coord is upper left and not lower left
     unsigned int vertex_prg_enable:1;    // if vertex program is enabled
     unsigned int fragment_prg_enable:1;  // if fragment program is enabled
+    unsigned int blend_enable:1;
+    unsigned int blendsrcrgb:4;
+    unsigned int blendsrcalpha:4;
+    unsigned int blenddstrgb:4;
+    unsigned int blenddstalpha:4;
+    unsigned int blendeqrgb:3;
+    unsigned int blendeqalpha:3;
     uint16_t     vertex_prg_id;          // Id of vertex program currently binded (0 most of the time), 16bits is more than enough...
     uint16_t     fragment_prg_id;        // Id of fragment program currently binded (0 most of the time)
 } fpe_state_t;

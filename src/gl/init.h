@@ -75,6 +75,7 @@ typedef struct _globals4es {
  int normalize;         // force normal normalization (workaround a bug)
  int blitfb0;
  int skiptexcopies;
+ int shaderblend;
  float fbtexscale;
  #ifndef NO_GBM
  char drmcard[50];

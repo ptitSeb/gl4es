@@ -253,6 +253,8 @@ typedef struct {
     GLint                           builtin_texadjust[MAX_TEX];
     int                             has_builtin_texadjust;
     texunit_t                       texunits[MAX_TEX];
+    int                             has_builtin_blendcolor;
+    GLint                           builtin_blendcolor;
     // ARB_shaders (oldprograms) uniforms
     int                             has_vtx_progenv;
     GLint                           vtx_progenv[MAX_VTX_PROG_ENV_PARAMS];

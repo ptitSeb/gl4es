@@ -664,6 +664,9 @@ void initialize_gl4es() {
     if (getcwd(cwd, sizeof(cwd))!= NULL)
         SHUT_LOGD("Current folder is:%s\n", cwd);
 
+    if(hardext.shader_fbfetch) {
+      env(LIBGL_SHADERBLEND, globals4es.shaderblend, "Blend will be handle in shaders");
+    }
     if(hardext.prgbin_n>0 && !globals4es.notexarray) {
         env(LIBGL_NOPSA, globals4es.nopsa, "Don't use PrecompiledShaderArchive");
         if(globals4es.nopsa==0) {

@@ -73,10 +73,6 @@ typedef struct glstate_s {
     GLenum              shademodel;
     GLenum              alphafunc;
     GLfloat             alpharef;
-    GLenum              blendsfactorrgb;
-    GLenum              blenddfactorrgb;
-    GLenum              blendsfactoralpha;
-    GLenum              blenddfactoralpha;
     GLenum              logicop;
     glsl_t              *glsl;              //shared
     fpe_state_t         *fpe_state;
@@ -127,6 +123,14 @@ typedef struct glstate_s {
     queries_t           queries;
     // Binded buffer (if used)
     bind_buffers_t      bind_buffer;
+    // Blend status
+    float               blend_color[4];
+    GLenum              blendsfactorrgb;
+    GLenum              blenddfactorrgb;
+    GLenum              blendsfactoralpha;
+    GLenum              blenddfactoralpha;
+    GLenum              blendeqrgb;
+    GLenum              blendeqalpha;
 } glstate_t;
 
 

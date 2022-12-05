@@ -363,7 +363,11 @@ void* NewGLState(void* shared_glstate, int es2only) {
             glstate->fpe_state->texenv[i].texsrcalpha2 = FPE_SRC_CONSTANT;
             glstate->fpe_state->texenv[i].texoprgb0 = FPE_OP_SRCCOLOR;
             glstate->fpe_state->texenv[i].texoprgb1 = FPE_OP_SRCCOLOR;
-        }            
+        }
+        if(globals4es.shaderblend) {
+            glstate->fpe_state->blendsrcrgb = FPE_BLEND_ONE;
+            glstate->fpe_state->blendsrcalpha = FPE_BLEND_ONE;
+        }
     }
 
     // GLSL stuff
