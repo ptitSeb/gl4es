@@ -67,6 +67,7 @@ typedef struct _hardext {
     int eglnoalpha;     // EGL surface doesn't seems to have any alpha channel (auto detect)
     int prgbinary;      // GL_OES_get_program extension
     int prgbin_n;       // number of program binary format support
+    int shader_fbfetch; // GL_ARM_shader_framebuffer_fetch
     int glsl120;        // does version 120 glsl shader are supported ?
     int glsl300es;      // does version 300es glsl shader are supported ?
     int glsl310es;      // does version 300es glsl shader are supported ?

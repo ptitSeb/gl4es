@@ -692,7 +692,7 @@ void initialize_gl4es() {
             }
         }
     } else 
-      SHUT_LOGD("Not using PSA (prgbin_n=%d, notexarray=%d\n", hardext.prgbin_n, globals4es.notexarray);
+      SHUT_LOGD("Not using PSA (prgbin_n=%d, notexarray=%d)\n", hardext.prgbin_n, globals4es.notexarray);
 
     env(LIBGL_SKIPTEXCOPIES, globals4es.skiptexcopies, "Texture Copies will be skipped");
     if(GetEnvVarFloat("LIBGL_FB_TEX_SCALE",&globals4es.fbtexscale,0.0f)) {
