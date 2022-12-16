@@ -106,7 +106,7 @@ void *open_lib(const char **names, const char *override) {
 
     char path_name[PATH_MAX + 1];
     int flags = RTLD_LOCAL | RTLD_NOW;
-#if defined(RTLD_DEEPBIND) && !defined(PYRA)
+#if defined(RTLD_DEEPBIND)
     static int totest = 1;
     static int sanitizer = 0;
     if(totest) {
@@ -116,7 +116,7 @@ void *open_lib(const char **names, const char *override) {
             sanitizer = 1;
     }
     // note: breaks address sanitizer
-    if(!sanitizer)
+    if(!sanitizer && globals4es.deepbind)
         flags |= RTLD_DEEPBIND;
 #endif
     if (override) {

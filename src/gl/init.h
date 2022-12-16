@@ -76,6 +76,7 @@ typedef struct _globals4es {
  int blitfb0;
  int skiptexcopies;
  int shaderblend;
+ int deepbind;
  float fbtexscale;
  #ifndef NO_GBM
  char drmcard[50];

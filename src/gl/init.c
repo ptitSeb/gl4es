@@ -96,6 +96,11 @@ void initialize_gl4es() {
     globals4es.mergelist = 1;
     globals4es.queries = 1;
     globals4es.beginend = 1;
+    #ifdef PYRA
+    GetEnvVarInt("LIBGL_DEEPBIND", &globals4es.deepbind, 0);
+    #else
+    GetEnvVarInt("LIBGL_DEEPBIND", &globals4es.deepbind, 1);
+    #endif
     // overrides by env. variables
 		#ifdef GL4ES_COMPILE_FOR_USE_IN_SHARED_LIB
 			GetEnvVarInt("LIBGL_NOBANNER",&globals4es.nobanner,1);

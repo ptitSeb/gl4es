@@ -380,3 +380,8 @@ Force normals to be normliazed in FPE
 Blit to FB 0 force a SwapBuffer
 * 0 : Default, don't force a SwapBuffer when glBlitFramebuffer to draw fb0 is used (unless the full FB0 if blitted)
 * 1 : Force a SwapBuffer each time glBlitFramebuffer on FB0 is used (can help some windowed Wine games)
+
+###### LIBGL_DEEPBIND
+Use RTLD_DEEPBIND when loading EGL and GLES library
+* 0 : Default except on PYRA, use RTLD_DEEPBIND when loading EGL/GLES libraries
+* 1 : Default only on PYRA, don't use RTLD_DEEPBIND when loading EGL/GLES libraries
