@@ -54,6 +54,11 @@ void* gl4es_eglGetProcAddress(const char *name) {
     _EX(eglWaitNative);
     _EX(eglSwapBuffers);
     _EX(eglCopyBuffers);
+    _EX(eglCreateSyncKHR);
+    _EX(eglClientWaitSyncKHR);
+
+    _EX(egl_create_pixmap_ID_mapping);
+    _EX(egl_destroy_pixmap_ID_mapping);
     
     _EX(glXGetProcAddress);
     _ARB(glXGetProcAddress);

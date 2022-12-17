@@ -199,6 +199,28 @@ EGLBoolean gl4es_eglCopyBuffers(EGLDisplay dpy, EGLSurface surface, EGLNativePix
     return egl_eglCopyBuffers(dpy, surface, target);
 }
 
+EGLSyncKHR gl4es_eglCreateSyncKHR(EGLDisplay dpy, EGLenum type, const EGLint *attrib_list) {
+    LOAD_EGL(eglCreateSyncKHR);
+    return egl_eglCreateSyncKHR(dpy, type, attrib_list);
+}
+
+EGLint gl4es_eglClientWaitSyncKHR(EGLDisplay dpy, EGLSyncKHR sync, EGLint flags, EGLTimeKHR timeout) {
+    LOAD_EGL(eglClientWaitSyncKHR);
+    return egl_eglClientWaitSyncKHR(dpy, sync, flags, timeout);
+}
+
+NativePixmapType gl4es_egl_create_pixmap_ID_mapping(void *pixmap)
+{
+    LOAD_EGL(egl_create_pixmap_ID_mapping);
+    return egl_egl_create_pixmap_ID_mapping(pixmap);
+}
+
+NativePixmapType gl4es_egl_destroy_pixmap_ID_mapping(int id)
+{
+    LOAD_EGL(egl_destroy_pixmap_ID_mapping);
+    return egl_egl_destroy_pixmap_ID_mapping(id);
+}
+
 AliasExport(EGLint, eglGetError,,(void));
 AliasExport(EGLDisplay, eglGetDisplay,,(EGLNativeDisplayType display_id));
 AliasExport(EGLBoolean, eglInitialize,,(EGLDisplay dpy, EGLint *major, EGLint *minor));
@@ -234,4 +256,8 @@ AliasExport(EGLBoolean, eglWaitGL,,(void));
 AliasExport(EGLBoolean, eglWaitNative,,(EGLint engine));
 AliasExport(EGLBoolean, eglSwapBuffers,,(EGLDisplay dpy, EGLSurface surface));
 AliasExport(EGLBoolean, eglCopyBuffers,,(EGLDisplay dpy, EGLSurface surface, EGLNativePixmapType target));
+AliasExport(EGLSyncKHR, eglCreateSyncKHR,,(EGLDisplay dpy, EGLenum type, const EGLint *attrib_list));
+AliasExport(EGLint, eglClientWaitSyncKHR,,(EGLDisplay dpy, EGLSyncKHR sync, EGLint flags, EGLTimeKHR timeout));
 
+AliasExport(NativePixmapType, egl_create_pixmap_ID_mapping,,(void *pixmap));
+AliasExport(NativePixmapType, egl_destroy_pixmap_ID_mapping,,(int id));
