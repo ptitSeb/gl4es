@@ -812,7 +812,7 @@ bool pixel_convert(const GLvoid *src, GLvoid **dst,
     uintptr_t src_pos = widthalign((uintptr_t)src, align);
     uintptr_t dst_pos = widthalign((uintptr_t)*dst, align);
     // fast optimized loop for common conversion cases first...
-    // TODO: Rewrite that with some Macro, it's obviously doable to simplify the reading (and writting) of all this
+    // TODO: Rewrite that with some Macro, it's obviously doable to simplify the reading (and writing) of all this
     // simple BGRA <-> RGBA / UNSIGNED_BYTE 
     if ((((src_format == GL_BGRA) && (dst_format == GL_RGBA)) || ((src_format == GL_RGBA) && (dst_format == GL_BGRA))) 
         && (dst_type == GL_UNSIGNED_BYTE) && ((src_type == GL_UNSIGNED_BYTE))) {

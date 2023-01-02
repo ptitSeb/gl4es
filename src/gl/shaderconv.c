@@ -944,7 +944,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     while((p=strstr(p, "gl_LightSource["))) {
       char *p2 = strchr(p, ']');
       if (p2 && !strncmp(p2, "].halfVector", strlen("].halfVector"))) {
-        // found an occurence, lets change
+        // found an occurrence, lets change
         char p3[500];
         strncpy(p3,p, (p2-p)+1); p3[(p2-p)+1]='\0';
         char p4[500], p5[500];

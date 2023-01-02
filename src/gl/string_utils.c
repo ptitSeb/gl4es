@@ -15,7 +15,7 @@ char* InplaceReplace(char* pBuffer, int* size, const char* S, const char* D)
     char* p = pBuffer;
     while((p = strstr(p, S)))
     {
-        // found an occurence of S
+        // found an occurrence of S
         // check if good to replace, strchr also found '\0' :)
         if(strchr(AllSeparators, p[lS])!=NULL && (p==pBuffer || strchr(AllSeparators, p[-1])!=NULL)) {
             // move out rest of string
@@ -86,7 +86,7 @@ int CountString(const char* pBuffer, const char* S)
     int n = 0;
     while((p = strstr(p, S)))
     {
-        // found an occurence of S
+        // found an occurrence of S
         // check if good to count, strchr also found '\0' :)
         if(strchr(AllSeparators, p[lS])!=NULL && (p==pBuffer || strchr(AllSeparators, p[-1])!=NULL))
             n++;
@@ -101,7 +101,7 @@ const char* FindString(const char* pBuffer, const char* S)
     int lS = strlen(S);
     while((p = strstr(p, S)))
     {
-        // found an occurence of S
+        // found an occurrence of S
         // check if good to count, strchr also found '\0' :)
         if(strchr(AllSeparators, p[lS])!=NULL && (p==pBuffer || strchr(AllSeparators, p[-1])!=NULL))
             return p;
@@ -116,7 +116,7 @@ char* FindStringNC(char* pBuffer, const char* S)
     int lS = strlen(S);
     while((p = strstr(p, S)))
     {
-        // found an occurence of S
+        // found an occurrence of S
         // check if good to count, strchr also found '\0' :)
         if(strchr(AllSeparators, p[lS])!=NULL && (p==pBuffer || strchr(AllSeparators, p[-1])!=NULL))
             return p;
@@ -221,7 +221,7 @@ int CountStringSimple(char* pBuffer, const char* S)
     int n = 0;
     while((p = strstr(p, S)))
     {
-        // found an occurence of S
+        // found an occurrence of S
         n++;
         p+=lS;
     }
@@ -235,7 +235,7 @@ char* InplaceReplaceSimple(char* pBuffer, int* size, const char* S, const char* 
     char* p = pBuffer;
     while((p = strstr(p, S)))
     {
-        // found an occurence of S
+        // found an occurrence of S
         // move out rest of string
         memmove(p+lD, p+lS, strlen(p)-lS+1);
         // replace
