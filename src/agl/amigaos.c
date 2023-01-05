@@ -20,13 +20,21 @@
 struct Library *LOGLES2 = NULL; 
 struct OGLES2IFace *IOGLES2 = NULL;
 
+struct so_bases
+{
+	struct ExecIFace *IExec;
+};
+
+struct so_bases so_exec;
+
 // Open OGLES2 library and interface
 void os4OpenLib(void** lib)
-{
+{	
+	so_exec.IExec = (struct ExecIFace *)(*(struct ExecBase **)4)->MainInterface;
 	if(!IOGLES2) {
 	  // first check version for Warp3DNova lib
 	  struct Library *Warp3DNovaBase = NULL;
-		Warp3DNovaBase = IExec->OpenLibrary("Warp3DNova.library", MIN_W3DNOVA_LIB_VERSION);
+		Warp3DNovaBase = so_exec.IExec->OpenLibrary("Warp3DNova.library", MIN_W3DNOVA_LIB_VERSION);
 		if(!Warp3DNovaBase) {
 	        SHUT_LOGE("Error, cannot open Warp3DNova.library!\n");
 	        return;
@@ -36,10 +44,10 @@ void os4OpenLib(void** lib)
 	        SHUT_LOGE("Warning, your Warp3DNovaBase.library is too old, minimum is v%d.%d, please update!\n", MIN_W3DNOVA_LIB_VERSION,MIN_W3DNOVA_LIB_REVISION);
 		}	
 		//close warp3dnova.library, we open it just for version check
-		IExec->CloseLibrary(Warp3DNovaBase);
+		so_exec.IExec->CloseLibrary(Warp3DNovaBase);
 		Warp3DNovaBase = NULL;
 
-	  LOGLES2 = IExec->OpenLibrary("ogles2.library", MIN_OGLES2_LIB_VERSION);
+	  LOGLES2 = so_exec.IExec->OpenLibrary("ogles2.library", MIN_OGLES2_LIB_VERSION);
 	  if(!LOGLES2) {
 	      SHUT_LOGE("Error, cannot open ogles2 Library!\n");
 	      return;
@@ -48,10 +56,10 @@ void os4OpenLib(void** lib)
 		if (!(LOGLES2->lib_Version > MIN_OGLES2_LIB_VERSION || (LOGLES2->lib_Version == MIN_OGLES2_LIB_VERSION && LOGLES2->lib_Revision >= MIN_OGLES2_LIB_REVISION)))  {
 	        SHUT_LOGE("Warning, your OGLES2.library is too old, minimum is v%d.%d, please update!\n", MIN_OGLES2_LIB_VERSION,MIN_OGLES2_LIB_REVISION);
 		}	
-	  IOGLES2 = (struct OGLES2IFace *)IExec->GetInterface(LOGLES2, "main", 1, NULL); 
+	  IOGLES2 = (struct OGLES2IFace *)so_exec.IExec->GetInterface(LOGLES2, "main", 1, NULL); 
 	  if(!IOGLES2) {
 	      SHUT_LOGE("Error, cannot open ogles2 Interface!\n");
-	      IExec->CloseLibrary(LOGLES2);
+	      so_exec.IExec->CloseLibrary(LOGLES2);
 	      LOGLES2 = NULL;
 	      return;
 	  }
@@ -68,11 +76,11 @@ void os4OpenLib(void** lib)
 void os4CloseLib()
 {
     if(IOGLES2) {
-        IExec->DropInterface((struct Interface*)IOGLES2);
+        so_exec.IExec->DropInterface((struct Interface*)IOGLES2);
         IOGLES2 = NULL;
     }
     if(LOGLES2) {
-        IExec->CloseLibrary(LOGLES2);
+        so_exec.IExec->CloseLibrary(LOGLES2);
         LOGLES2 = NULL;
     }
     SHUT_LOGD("OGLES2 Library and Interface closed\n");
