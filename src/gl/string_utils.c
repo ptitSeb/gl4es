@@ -110,7 +110,7 @@ const char* gl4es_find_string(const char* pBuffer, const char* S)
     return NULL;
 }
 
-char* gl4es_findstring_nc(char* pBuffer, const char* S)
+char* gl4es_find_string_nc(char* pBuffer, const char* S)
 {
     char* p = pBuffer;
     int lS = strlen(S);
