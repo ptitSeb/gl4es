@@ -3,12 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../envvars.h"
 #include "../attributes.h"
+#include "../init.h"
 
 #define STUB(ret, def, args)\
 ret APIENTRY_GL4ES gl4es_ ## def args {\
-    if(IsEnvVarTrue("LIBGL_DEBUG"))\
+    if(!globals4es.silentstub)\
         printf("stub: %s;\n", #def);\
 } \
 AliasExport(ret,def,,args);
