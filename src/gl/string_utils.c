@@ -180,7 +180,7 @@ char* gl4es_prev_str(char* Str, char* pBuffer) {
         --pBuffer;
     } while(gl4es_is_blank(*pBuffer) && (pBuffer!=Str));
     // go to blank
-    while((pBuffer!=Str) && !gl4es_is_blank(*(pBuffer-1)));
+    while((pBuffer!=Str) && !gl4es_is_blank(*(pBuffer-1)))
         --pBuffer;
     return pBuffer;
 }
