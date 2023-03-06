@@ -1178,7 +1178,7 @@ void gl4es_scratch_vertex(int alloc) {
 #ifdef AMIGAOS4
         LOAD_GLES(glDeleteBuffers);
         GLuint old_buffer = glstate->scratch_vertex;
-        glGenBuffers(1, &glstate->scratch_vertex);
+        gles_glGenBuffers(1, &glstate->scratch_vertex);
         gles_glDeleteBuffers(1, &old_buffer);
 #endif
         bindBuffer(GL_ARRAY_BUFFER, glstate->scratch_vertex);
