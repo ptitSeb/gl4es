@@ -1494,11 +1494,11 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                         gles_glVertexAttribIPointer(i, v->size, v->type, v->stride, v->pointer);
                     else
                         gles_glVertexAttribPointer(i, v->size, v->type, 0, v->stride, v->pointer);
-                    DBG(printf("glVertexAttribIPointer(%d, %d, %s, %d, %p)\n", i, v->size, PrintEnum(v->type), v->stride, (GLvoid*)((uintptr_t)v->pointer+((v->buffer)?(uintptr_t)v->buffer->data:0)));)
+                    DBG(printf("glVertexAttribIPointer(%d, %d, %s, %d, %p)\n", i, v->size, PrintEnum(v->type), v->stride, v->pointer);)
                 }
                 else {
                     gles_glVertexAttribPointer(i, v->size, v->type, v->normalized, v->stride, v->pointer);
-                    DBG(printf("glVertexAttribPointer(%d, %d, %s, %d, %d, %p)\n", i, v->size, PrintEnum(v->type), v->normalized, v->stride, (GLvoid*)((uintptr_t)v->pointer+((v->buffer)?(uintptr_t)v->buffer->data:0)));)
+                    DBG(printf("glVertexAttribPointer(%d, %d, %s, %d, %d, %p)\n", i, v->size, PrintEnum(v->type), v->normalized, v->stride, v->pointer);)
                 }
             }
         } else {
