@@ -2012,7 +2012,7 @@ const char* const* fpe_CustomFragmentShader(const char* initial, fpe_state_t* st
             }
         }
         if((alpha_test || planes || shaderblend) && is_fragcolor)
-            ShadAppend("g_FragColor = _gl4es_FragColor;\n");
+            ShadAppend("gl_FragColor = _gl4es_FragColor;\n");
 
         ShadAppend("}");
     }
