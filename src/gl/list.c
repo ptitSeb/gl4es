@@ -763,7 +763,7 @@ void free_renderlist(renderlist_t *list) {
         if(list->vbo_array)
             deleteSingleBuffer(list->vbo_array);
         if(list->vbo_indices)
-            deleteSingleBuffer(list->vbo_array);
+            deleteSingleBuffer(list->vbo_indices);
 
         next = list->next;
         free(list);
