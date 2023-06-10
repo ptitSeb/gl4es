@@ -59,7 +59,7 @@ void APIENTRY_GL4ES gl4es_glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
 }
 
 void APIENTRY_GL4ES gl4es_glViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
-	if (glstate->fbo.current_fb->id != 0) {
+	if (glstate && glstate->fbo.current_fb->id != 0) {
     	gltexture_t *tex = gl4es_getTexture(glstate->fbo.current_fb->t_color[0], glstate->fbo.current_fb->color[0]);
 		if (tex->fbtex_ratio > 0.0f) {
 			width *= tex->fbtex_ratio;
