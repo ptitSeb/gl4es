@@ -2511,7 +2511,7 @@ GLXPbuffer gl4es_glXCreatePbuffer(Display * dpy, GLXFBConfig config, const int *
     egl_eglQuerySurface(eglDisplay,Surface,EGL_WIDTH,&Width);
     egl_eglQuerySurface(eglDisplay,Surface,EGL_HEIGHT,&Height);
 
-    return addPBuffer(Surface, Width, Height, Context, Config[1]);
+    return addPBuffer(Surface, Width, Height, Context, Config[0]);
 }
 
 GLXPbuffer addPixBuffer(Display *dpy, EGLSurface surface, EGLConfig Config, int Width, int Height, EGLContext Context, Pixmap pixmap, int depth, int emulated)
