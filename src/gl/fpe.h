@@ -236,7 +236,7 @@ typedef struct scratch_s {
 void free_scratch(scratch_t* scratch);
 
 
-fpe_fpe_t *fpe_GetCache();
+fpe_fpe_t *fpe_GetCache(fpe_cache_t *cur, fpe_state_t *state, int fixed);
 void fpe_disposeCache(fpe_cache_t* cache, int freeprog);
 
 // fpe is gles export replacement, so should use same caling conversion
