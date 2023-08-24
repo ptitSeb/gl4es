@@ -1441,12 +1441,12 @@ void APIENTRY_GL4ES gl4es_glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX
             if(!created) {
                 if((tex->actual.min_filter!=filter) || (tex->actual.mag_filter!=filter)) {
                     gltexture_t *old = glstate->texture.bound[ENABLED_TEX2D][0];
-                    if(old->texture != glname);
+                    if(old->texture != glname)
                         gl4es_glBindTexture(GL_TEXTURE_2D, glname);
                     gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
                     gl4es_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
                     tex->actual.min_filter = tex->actual.mag_filter = filter;
-                    if(old->texture != glname);
+                    if(old->texture != glname)
                         gl4es_glBindTexture(GL_TEXTURE_2D, old->texture);
                 }
             }
