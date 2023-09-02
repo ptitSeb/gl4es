@@ -1,3 +1,4 @@
+#include "host.h"
 #include "list.h"
 
 #include "../glx/hardext.h"
@@ -22,9 +23,9 @@ typedef struct array2vbo_s {
 
 int list2VBO(renderlist_t* list)
 {
-    LOAD_GLES2(glGenBuffers);
-    LOAD_GLES2(glBufferData);
-    LOAD_GLES2(glBufferSubData);
+    
+    
+    
     array2vbo_t work[ATT_MAX] = {0};
     // list -> work
     int imax = 0;
@@ -107,13 +108,13 @@ int list2VBO(renderlist_t* list)
     if(!vbo_base)   // no data?!
         return 1;
     // Create the VBO and fill the data
-    gles_glGenBuffers(1, &list->vbo_array);
+    host_functions.glGenBuffers(1, &list->vbo_array);
     bindBuffer(GL_ARRAY_BUFFER, list->vbo_array);
-    gles_glBufferData(GL_ARRAY_BUFFER, vbo_base, NULL, GL_STATIC_DRAW);
+    host_functions.glBufferData(GL_ARRAY_BUFFER, vbo_base, NULL, GL_STATIC_DRAW);
     for(int i=0; i<imax; ++i) {
         array2vbo_t *r = work+sorted[i];
         if(r->vbo_base==r->vbo_basebase)
-            gles_glBufferSubData(GL_ARRAY_BUFFER, r->vbo_basebase, r->real_size, (void*)r->real_base);
+            host_functions.glBufferSubData(GL_ARRAY_BUFFER, r->vbo_basebase, r->real_size, (void*)r->real_base);
     }
     // work -> list
     imax = 0;
@@ -365,14 +366,14 @@ void draw_renderlist(renderlist_t *list) {
     while (list->prev) list = list->prev;
     // ok, go on now, draw everything
 //printf("draw_renderlist %p, size=%i, mode=%s(%s), ilen=%d, next=%p, color=%p, secondarycolor=%p fogcoord=%p\n", list, list->len, PrintEnum(list->mode), PrintEnum(list->mode_init), list->ilen, list->next, list->color, list->secondary, list->fogcoord);
-    LOAD_GLES_FPE(glDrawArrays);
-    LOAD_GLES_FPE(glDrawElements);
-    LOAD_GLES_FPE(glVertexPointer);
-    LOAD_GLES_FPE(glNormalPointer);
-    LOAD_GLES_FPE(glColorPointer);
-    LOAD_GLES_FPE(glTexCoordPointer);
-    LOAD_GLES_FPE(glEnable);
-    LOAD_GLES_FPE(glDisable);
+    
+    
+    
+    
+    
+    
+    
+    
     gl4es_glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
 
 	int old_tex;
@@ -531,14 +532,14 @@ void draw_renderlist(renderlist_t *list) {
         }
         if (list->vert) {
             fpe_glEnableClientState(GL_VERTEX_ARRAY);
-            gles_glVertexPointer(4, GL_FLOAT, list->vert_stride, list->vert);
+            host_functions.fpe_glVertexPointer(4, GL_FLOAT, list->vert_stride, list->vert);
         } else {
             fpe_glDisableClientState(GL_VERTEX_ARRAY);
         }
 
         if (list->normal) {
             fpe_glEnableClientState(GL_NORMAL_ARRAY);
-            gles_glNormalPointer(GL_FLOAT, list->normal_stride, list->normal);
+            host_functions.fpe_glNormalPointer(GL_FLOAT, list->normal_stride, list->normal);
         } else {
             fpe_glDisableClientState(GL_NORMAL_ARRAY);
         }
@@ -563,10 +564,10 @@ void draw_renderlist(renderlist_t *list) {
                             list->final_colors[i]=list->color[i] + list->secondary[i];
                     }
                 }
-                gles_glColorPointer(4, GL_FLOAT, 0, list->final_colors);
+                host_functions.fpe_glColorPointer(4, GL_FLOAT, 0, list->final_colors);
             } else {
 //printf("colors=%f, %f, %f, %f / %f, %f, %f, %f\n", list->color[0],list->color[1],list->color[2],list->color[3], list->color[4],list->color[5],list->color[6],list->color[7]);
-                gles_glColorPointer(4, GL_FLOAT, list->color_stride, list->color);
+                host_functions.fpe_glColorPointer(4, GL_FLOAT, list->color_stride, list->color);
             }
         } else {
             fpe_glDisableClientState(GL_COLOR_ARRAY);
@@ -601,7 +602,7 @@ void draw_renderlist(renderlist_t *list) {
             if(!use_vbo_array) use_vbo_array = 1;
             stipple_old = glstate->gleshard->active;
             if(glstate->gleshard->active!=stipple_tmu) {
-                LOAD_GLES(glActiveTexture);
+                
                 gl4es_glActiveTexture(GL_TEXTURE0+stipple_tmu);
             }
             TEXTURE(stipple_tmu);
@@ -672,7 +673,7 @@ void draw_renderlist(renderlist_t *list) {
                 if ((list->tex[a] || (use_texgen[a] && !needclean[a]))/* && glstate->enable.texture[a]*/) {
                     TEXTURE(a);
                     fpe_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-                    gles_glTexCoordPointer(4, GL_FLOAT, (use_texgen[a])?0:list->tex_stride[a], (use_texgen[a])?glstate->texgened[a]:list->tex[a]);
+                    host_functions.fpe_glTexCoordPointer(4, GL_FLOAT, (use_texgen[a])?0:list->tex_stride[a], (use_texgen[a])?glstate->texgened[a]:list->tex[a]);
                 } else {
                     if (glstate->gleshard->vertexattrib[ATT_MULTITEXCOORD0+a].enabled || (hardext.esversion!=1)) {   // optim for ES1.1 to avoid useless texture switch
                         TEXTURE(a);
@@ -685,7 +686,7 @@ void draw_renderlist(renderlist_t *list) {
                     TEXTURE(a);
                     gl4es_glActiveTexture(GL_TEXTURE0+a);
                     realize_active();
-                    gles_glEnable(GL_TEXTURE_2D);
+                    host_functions.fpe_glEnable(GL_TEXTURE_2D);
                 }
             }
         } else {
@@ -694,7 +695,7 @@ void draw_renderlist(renderlist_t *list) {
                 if(list->tex[a]) {
                     TEXTURE(a);
                     fpe_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-                    gles_glTexCoordPointer(4, GL_FLOAT, list->tex_stride[a], list->tex[a]);
+                    host_functions.fpe_glTexCoordPointer(4, GL_FLOAT, list->tex_stride[a], list->tex[a]);
                 } else {
                     TEXTURE(a);
                     fpe_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -748,17 +749,17 @@ void draw_renderlist(renderlist_t *list) {
                         list->ind_line = k;
                     }
                     bindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-                    gles_glDrawElements(mode, list->ind_line, GL_UNSIGNED_SHORT, list->ind_lines);
+                    host_functions.fpe_glDrawElements(mode, list->ind_line, GL_UNSIGNED_SHORT, list->ind_lines);
                     use_vbo_indices = 1;
                 } else {
                     int vbo_indices = 0;
                     if(!use_vbo_indices) {
                         // create VBO for indices
-                        LOAD_GLES2(glGenBuffers);
-                        LOAD_GLES2(glBufferData);
-                        gles_glGenBuffers(1, &list->vbo_indices);
+                        
+                        
+                        host_functions.glGenBuffers(1, &list->vbo_indices);
                         bindBuffer(GL_ELEMENT_ARRAY_BUFFER, list->vbo_indices);
-                        gles_glBufferData(GL_ELEMENT_ARRAY_BUFFER, list->ilen*sizeof(GLushort), indices, GL_STATIC_DRAW);
+                        host_functions.glBufferData(GL_ELEMENT_ARRAY_BUFFER, list->ilen*sizeof(GLushort), indices, GL_STATIC_DRAW);
                         use_vbo_indices = 2;
                         vbo_indices = 1;
                     } else if(use_vbo_indices==2) {
@@ -767,10 +768,10 @@ void draw_renderlist(renderlist_t *list) {
                     } else
                         realize_bufferIndex();
                     if(list->instanceCount==1)
-                        gles_glDrawElements(mode, list->ilen, GL_UNSIGNED_SHORT, vbo_indices?NULL:indices);
+                        host_functions.fpe_glDrawElements(mode, list->ilen, GL_UNSIGNED_SHORT, vbo_indices?NULL:indices);
                     else {
                         for (glstate->instanceID=0; glstate->instanceID<list->instanceCount; ++glstate->instanceID)
-                            gles_glDrawElements(mode, list->ilen, GL_UNSIGNED_SHORT, vbo_indices?NULL:indices);
+                            host_functions.fpe_glDrawElements(mode, list->ilen, GL_UNSIGNED_SHORT, vbo_indices?NULL:indices);
                         glstate->instanceID = 0;
                     }
                 }
@@ -795,13 +796,13 @@ void draw_renderlist(renderlist_t *list) {
                         list->ind_line = k;
                     }
                     bindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-					gles_glDrawElements(mode, list->ind_line, GL_UNSIGNED_SHORT, list->ind_lines);
+					host_functions.fpe_glDrawElements(mode, list->ind_line, GL_UNSIGNED_SHORT, list->ind_lines);
                 } else {
                     if(list->instanceCount==1)
-                        gles_glDrawArrays(mode, 0, len);
+                        host_functions.fpe_glDrawArrays(mode, 0, len);
                     else {
                         for (glstate->instanceID=0; glstate->instanceID<list->instanceCount; ++glstate->instanceID)
-                            gles_glDrawArrays(mode, 0, len);
+                            host_functions.fpe_glDrawArrays(mode, 0, len);
                         glstate->instanceID = 0;
                     }
                 }
@@ -821,7 +822,7 @@ void draw_renderlist(renderlist_t *list) {
                 }
                 if (!IS_TEX2D(glstate->enable.texture[a]) && (IS_ANYTEX(glstate->enable.texture[a]))) {
                     TEXTURE(a);
-                    gles_glDisable(GL_TEXTURE_2D);
+                    host_functions.fpe_glDisable(GL_TEXTURE_2D);
                 }
             }
         if (glstate->texture.client!=old_tex)
@@ -832,7 +833,7 @@ void draw_renderlist(renderlist_t *list) {
             if(!list->use_glstate)   //TODO: avoid that malloc/free...
                 free(list->tex[stipple_tmu]);
             list->tex[stipple_tmu]=NULL;
-            LOAD_GLES(glActiveTexture);
+            
             if(glstate->gleshard->active!=stipple_tmu)
                 gl4es_glActiveTexture(GL_TEXTURE0+stipple_tmu);
             GLenum matmode;

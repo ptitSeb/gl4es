@@ -1,3 +1,4 @@
+#include "host.h"
 #include "../glx/hardext.h"
 #include "array.h"
 #include "enum_info.h"
@@ -288,15 +289,15 @@ static void glDrawElementsCommon(GLenum mode, GLint first, GLsizei count, GLuint
     if (glstate->raster.bm_drawing)
         bitmap_flush();
     DBG(printf("glDrawElementsCommon(%s, %d, %d, %d, %p, %p, %d)\n", PrintEnum(mode), first, count, len, sindices, iindices, instancecount);)
-    LOAD_GLES_FPE(glDrawElements);
-    LOAD_GLES_FPE(glDrawArrays);
-    LOAD_GLES_FPE(glNormalPointer);
-    LOAD_GLES_FPE(glVertexPointer);
-    LOAD_GLES_FPE(glColorPointer);
-    LOAD_GLES_FPE(glTexCoordPointer);
-    LOAD_GLES_FPE(glEnable);
-    LOAD_GLES_FPE(glDisable);
-    LOAD_GLES_FPE(glMultiTexCoord4f);
+    
+    
+    
+    
+    
+    
+    
+    
+    
 #define client_state(A, B, C) \
         if((glstate->vao->vertexattrib[A].enabled != glstate->gleshard->vertexattrib[A].enabled) || (hardext.esversion!=1)) {   \
             C                                               \
@@ -374,15 +375,15 @@ if(count>500000) return;
             client_state(ATT_COLOR, GL_COLOR_ARRAY, );
             p = GetP(ATT_COLOR);
             if (p->enabled)
-                gles_glColorPointer(p->size, p->type, p->stride, p->pointer);
+                host_functions.fpe_glColorPointer(p->size, p->type, p->stride, p->pointer);
             client_state(ATT_NORMAL, GL_NORMAL_ARRAY, );
             p = GetP(ATT_NORMAL);
             if (p->enabled)
-                gles_glNormalPointer(p->type, p->stride, p->pointer);
+                host_functions.fpe_glNormalPointer(p->type, p->stride, p->pointer);
             client_state(ATT_VERTEX, GL_VERTEX_ARRAY, );
             p = GetP(ATT_VERTEX);
             if (p->enabled)
-                gles_glVertexPointer(p->size, p->type, p->stride, p->pointer);
+                host_functions.fpe_glVertexPointer(p->size, p->type, p->stride, p->pointer);
             for (int aa=0; aa<hardext.maxtex; aa++) {
                 client_state(ATT_MULTITEXCOORD0+aa, GL_TEXTURE_COORD_ARRAY, TEXTURE(aa););
                 p = GetP(ATT_MULTITEXCOORD0+aa);
@@ -392,7 +393,7 @@ if(count>500000) return;
                     if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
                         gl4es_glActiveTexture(GL_TEXTURE0+aa);
                         realize_active();
-                        gles_glEnable(GL_TEXTURE_2D);
+                        host_functions.fpe_glEnable(GL_TEXTURE_2D);
                     }
                     if (p->enabled) {
                         TEXTURE(aa);
@@ -400,7 +401,7 @@ if(count>500000) return;
                         if(changes && !len) len = len_indices(sindices, iindices, count);
                         tex_setup_texcoord(len, changes, itarget, p);
                     } else
-                        gles_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
+                        host_functions.fpe_glMultiTexCoord4f(GL_TEXTURE0+aa, glstate->texcoord[aa][0], glstate->texcoord[aa][1], glstate->texcoord[aa][2], glstate->texcoord[aa][3]);
                 }
             }
             #undef GetP
@@ -425,9 +426,9 @@ if(count>500000) return;
         // POLYGON mode as LINE is "intercepted" and drawn using list
         if(instancecount==1 || hardext.esversion==1) {
             if(!iindices && !sindices)
-                gles_glDrawArrays(mode, first, count);
+                host_functions.fpe_glDrawArrays(mode, first, count);
             else
-                gles_glDrawElements(mode, count, (sindices)?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, (sindices?((void*)sindices):((void*)iindices)));
+                host_functions.fpe_glDrawElements(mode, count, (sindices)?GL_UNSIGNED_SHORT:GL_UNSIGNED_INT, (sindices?((void*)sindices):((void*)iindices)));
         } else {
             if(!iindices && !sindices)
                 fpe_glDrawArraysInstanced(mode, first, count,instancecount);
@@ -442,7 +443,7 @@ if(count>500000) return;
             if (!IS_TEX2D(glstate->enable.texture[aa]) && (IS_ANYTEX(glstate->enable.texture[aa]))) {
                 gl4es_glActiveTexture(GL_TEXTURE0+aa);
                 realize_active();
-                gles_glDisable(GL_TEXTURE_2D);
+                host_functions.fpe_glDisable(GL_TEXTURE_2D);
             }
         }
         if (glstate->texture.client!=old_tex)

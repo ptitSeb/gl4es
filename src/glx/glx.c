@@ -1,3 +1,4 @@
+#include "../gl/host.h"
 #include "glx.h"
 #include "../gl/init.h"
 
@@ -1576,8 +1577,8 @@ void gl4es_glXSwapBuffers(Display *display,
     }
     // check emulated Pixmap
     if(PBuffer && glstate->emulatedPixmap) {
-        LOAD_GLES(glFinish);
-        gles_glFinish();
+        
+        host_functions.glFinish();
         BlitEmulatedPixmap(drawable);
     } else
         egl_eglSwapBuffers(eglDisplay, surface);
@@ -2835,17 +2836,17 @@ void BlitEmulatedPixmap(int win) {
     // grab framebuffer
     void* tmp = NULL;
 #ifdef PANDORA
-    LOAD_GLES(glReadPixels);
+    
     if(hardext.esversion==1) {
         if(Depth==16) {
             tmp = (void*)(pix + Width*Height*2);
-            gles_glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, tmp);
+            host_functions.glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, tmp);
         } else {
-            gles_glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, (void*)pix);
+            host_functions.glReadPixels(0, 0, Width, Height, GL_BGRA, GL_UNSIGNED_BYTE, (void*)pix);
         }
     } else 
     if(Depth==16)
-        gles_glReadPixels(0, 0, Width, Height, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, (void*)pix);
+        host_functions.glReadPixels(0, 0, Width, Height, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, (void*)pix);
     else
 #endif
     gl4es_glReadPixels(0, 0, Width, Height, (Depth==16)?GL_RGB:GL_BGRA, (Depth==16)?GL_UNSIGNED_SHORT_5_6_5:GL_UNSIGNED_BYTE, (void*)pix);

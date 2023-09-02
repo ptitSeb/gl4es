@@ -1,3 +1,4 @@
+#include "host.h"
 #include "stencil.h"
 
 #include "../glx/hardext.h"
@@ -9,7 +10,7 @@
 void APIENTRY_GL4ES gl4es_glStencilMask(GLuint mask) {
     if(!glstate->list.pending) 
         PUSH_IF_COMPILING(glStencilMask);
-    LOAD_GLES(glStencilMask);
+    
     if(glstate->stencil.mask[0]==glstate->stencil.mask[1] && glstate->stencil.mask[0]==mask) {
         noerrorShim();
         return;
@@ -17,7 +18,7 @@ void APIENTRY_GL4ES gl4es_glStencilMask(GLuint mask) {
     FLUSH_BEGINEND;
     glstate->stencil.mask[0] = glstate->stencil.mask[1] = mask;
     errorGL();
-    gles_glStencilMask(mask);
+    host_functions.glStencilMask(mask);
 }
 AliasExport(void,glStencilMask,,(GLuint mask));
 
@@ -36,13 +37,13 @@ void APIENTRY_GL4ES gl4es_glStencilMaskSeparate(GLenum face, GLuint mask) {
         noerrorShim();
         return;
     }
-    LOAD_GLES2_OR_OES(glStencilMaskSeparate);
+    
     FLUSH_BEGINEND;
     glstate->stencil.mask[(face==GL_FRONT)?0:1] = mask;
 
     errorGL();
-    if(gles_glStencilMaskSeparate) {
-        gles_glStencilMaskSeparate(face, mask);
+    if(host_functions.glStencilMaskSeparate) {
+        host_functions.glStencilMaskSeparate(face, mask);
     } else {
         // fake function..., call it only for front or front_and_back, just ignore back (crappy, I know)
         if (face==GL_FRONT)
@@ -62,13 +63,13 @@ void APIENTRY_GL4ES gl4es_glStencilFunc(GLenum func, GLint ref, GLuint mask) {
           noerrorShim();
           return;
       }
-    LOAD_GLES(glStencilFunc);
+    
     errorGL();
     FLUSH_BEGINEND;
     glstate->stencil.func[0] = glstate->stencil.func[1] = func;
     glstate->stencil.f_ref[0] = glstate->stencil.f_ref[1] = ref;
     glstate->stencil.f_mask[0] = glstate->stencil.f_mask[1] = mask;
-    gles_glStencilFunc(func, ref, mask);
+    host_functions.glStencilFunc(func, ref, mask);
 }
 AliasExport(void,glStencilFunc,,(GLenum func, GLint ref, GLuint mask));
 
@@ -89,14 +90,14 @@ void APIENTRY_GL4ES gl4es_glStencilFuncSeparate(GLenum face, GLenum func, GLint 
         noerrorShim();
         return;
     }
-    LOAD_GLES2_OR_OES(glStencilFuncSeparate);
+    
     errorGL();
     FLUSH_BEGINEND;
     glstate->stencil.func[idx]=func;
     glstate->stencil.f_ref[idx]=ref;
     glstate->stencil.f_mask[idx]=mask;
-    if(gles_glStencilFuncSeparate) {
-        gles_glStencilFuncSeparate(face, func, ref, mask);
+    if(host_functions.glStencilFuncSeparate) {
+        host_functions.glStencilFuncSeparate(face, func, ref, mask);
     } else {
         // fake function..., call it only for front or front_and_back, just ignore back (crappy, I know)
         if (face==GL_FRONT)
@@ -116,13 +117,13 @@ void APIENTRY_GL4ES gl4es_glStencilOp(GLenum fail, GLenum zfail, GLenum zpass) {
           noerrorShim();
           return;
       }
-    LOAD_GLES(glStencilOp);
+    
     FLUSH_BEGINEND;
     glstate->stencil.sfail[0] = glstate->stencil.sfail[1] = fail;
     glstate->stencil.dpfail[0] = glstate->stencil.dpfail[1] = zfail;
     glstate->stencil.dppass[0] = glstate->stencil.dppass[1] = zpass;
     errorGL();
-    gles_glStencilOp(fail, zfail, zpass);
+    host_functions.glStencilOp(fail, zfail, zpass);
 }
 AliasExport(void,glStencilOp,,(GLenum fail, GLenum zfail, GLenum zpass));
 
@@ -143,13 +144,13 @@ void APIENTRY_GL4ES gl4es_glStencilOpSeparate(GLenum face, GLenum sfail, GLenum 
         noerrorShim();
         return;
     }
-    LOAD_GLES2_OR_OES(glStencilOpSeparate);
+    
     errorGL();
     glstate->stencil.sfail[idx] = sfail;
     glstate->stencil.dpfail[idx] = zfail;
     glstate->stencil.dppass[idx] = zpass;
-    if(gles_glStencilOpSeparate) {
-        gles_glStencilOpSeparate(face, sfail, zfail, zpass);
+    if(host_functions.glStencilOpSeparate) {
+        host_functions.glStencilOpSeparate(face, sfail, zfail, zpass);
     } else {
         //fake, again
         if (face==GL_FRONT)
@@ -167,10 +168,10 @@ void APIENTRY_GL4ES gl4es_glClearStencil(GLint s) {
           noerrorShim();
           return;
       }
-    LOAD_GLES(glClearStencil);
+    
     FLUSH_BEGINEND;
     glstate->stencil.clear = s;
     errorGL();
-    gles_glClearStencil(s);
+    host_functions.glClearStencil(s);
 }
 AliasExport(void,glClearStencil,,(GLint s));

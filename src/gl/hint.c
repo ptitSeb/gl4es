@@ -1,3 +1,4 @@
+#include "host.h"
 #include "hint.h"
 
 #include <gl4eshint.h>
@@ -14,29 +15,29 @@ void APIENTRY_GL4ES gl4es_glHint(GLenum pname, GLenum mode) {
     
     FLUSH_BEGINEND;
 
-    LOAD_GLES(glHint);
+    
     noerrorShim();
     switch(pname) {
         // some Hint are not supported in GLES2, so just ignoring them
         case GL_FOG_HINT:
             if(hardext.esversion>1)
                 return;
-            gles_glHint(pname, mode);
+            host_functions.glHint(pname, mode);
             break;
         case GL_PERSPECTIVE_CORRECTION_HINT:
             if(hardext.esversion>1)
                 return;
-            gles_glHint(pname, mode);
+            host_functions.glHint(pname, mode);
             break;
         case GL_LINE_SMOOTH_HINT:
             if(hardext.esversion>1)
                 return;
-            gles_glHint(pname, mode);
+            host_functions.glHint(pname, mode);
             break;
         case GL_POINT_SMOOTH_HINT:
             if(hardext.esversion>1)
                 return;
-            gles_glHint(pname, mode);
+            host_functions.glHint(pname, mode);
             break;
         case GL_TEXTURE_COMPRESSION_HINT:   // ignore this one
             // TODO: track setted value
@@ -129,7 +130,7 @@ void APIENTRY_GL4ES gl4es_glHint(GLenum pname, GLenum mode) {
             break;
         default:
             errorGL();
-            gles_glHint(pname, mode);
+            host_functions.glHint(pname, mode);
     }
 }
 AliasExport(void,glHint,,(GLenum pname, GLenum mode));

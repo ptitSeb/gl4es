@@ -1,3 +1,4 @@
+#include "host.h"
 #include "texture.h"
 
 #include "../glx/hardext.h"
@@ -58,9 +59,9 @@ void APIENTRY_GL4ES gl4es_glCopyTexImage2D(GLenum target,  GLint level,  GLenum 
     gltexture_t* bound = glstate->texture.bound[glstate->texture.active][itarget];
 
     if(glstate->fbo.current_fb->read_type==0) {
-        LOAD_GLES(glGetIntegerv);
-        gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, (GLint *) &glstate->fbo.current_fb->read_format);
-        gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, (GLint *) &glstate->fbo.current_fb->read_type);
+        
+        host_functions.glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, (GLint *) &glstate->fbo.current_fb->read_format);
+        host_functions.glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, (GLint *) &glstate->fbo.current_fb->read_type);
     }
     int copytex = ((bound->format==GL_RGBA && bound->type==GL_UNSIGNED_BYTE) 
         || (bound->format==glstate->fbo.current_fb->read_format && bound->type==glstate->fbo.current_fb->read_type));
@@ -83,8 +84,8 @@ void APIENTRY_GL4ES gl4es_glCopyTexImage2D(GLenum target,  GLint level,  GLenum 
             default:
                 fmt = GL_RGBA;
         }
-        LOAD_GLES(glCopyTexImage2D);
-        gles_glCopyTexImage2D(target, level, fmt, x, y, width, height, border);
+        
+        host_functions.glCopyTexImage2D(target, level, fmt, x, y, width, height, border);
     } else {
         void* tmp = malloc(width*height*4);
         gl4es_glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, tmp);
@@ -112,7 +113,7 @@ void APIENTRY_GL4ES gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint 
         return;
     }
  
-    LOAD_GLES(glCopyTexSubImage2D);
+    
     errorGL();
     realize_bound(glstate->texture.active, target);
     
@@ -143,18 +144,18 @@ void APIENTRY_GL4ES gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint 
     {
         int copytex = 0;
         if(glstate->fbo.current_fb->read_type==0) {
-            LOAD_GLES(glGetIntegerv);
-            gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, (GLint *) &glstate->fbo.current_fb->read_format);
-            gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, (GLint *) &glstate->fbo.current_fb->read_type);
+            
+            host_functions.glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, (GLint *) &glstate->fbo.current_fb->read_format);
+            host_functions.glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, (GLint *) &glstate->fbo.current_fb->read_type);
         }
         copytex = ((bound->format==GL_RGBA && bound->type==GL_UNSIGNED_BYTE) 
             || (bound->format==glstate->fbo.current_fb->read_format && bound->type==glstate->fbo.current_fb->read_type));
         if (copytex || !glstate->colormask[0] || !glstate->colormask[1] || !glstate->colormask[2] || !glstate->colormask[3]) {
-            gles_glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
+            host_functions.glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
             if(((((bound->max_level == level) && (level || bound->mipmap_need)) && (globals4es.automipmap!=3) && (bound->mipmap_need!=0))) && !(bound->max_level==bound->base_level && bound->base_level==0)) {
-                LOAD_GLES2_OR_OES(glGenerateMipmap);
-                if(gles_glGenerateMipmap)
-                    gles_glGenerateMipmap(to_target(itarget));
+                
+                if(host_functions.glGenerateMipmap)
+                    host_functions.glGenerateMipmap(to_target(itarget));
             }
         } else {
             void* tmp = malloc(width*height*4);
@@ -179,7 +180,7 @@ void APIENTRY_GL4ES gl4es_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei 
         errorShim(GL_INVALID_OPERATION);
         return;	// never in list
     }
-    LOAD_GLES(glReadPixels);
+    
     errorGL();
     GLvoid* dst = data;
     if (glstate->vao->pack)
@@ -191,7 +192,7 @@ void APIENTRY_GL4ES gl4es_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei 
        || (format == GL_DEPTH_COMPONENT && (type == GL_FLOAT || type==GL_HALF_FLOAT)))   // this one will probably fail, as DEPTH is not readable on most GLES hardware 
     {
         // easy passthru
-        gles_glReadPixels(x, y, width, height, format, type, dst);
+        host_functions.glReadPixels(x, y, width, height, format, type, dst);
         readfboEnd();
         return;
     }
@@ -200,7 +201,7 @@ void APIENTRY_GL4ES gl4es_glReadPixels(GLint x, GLint y, GLsizei width, GLsizei 
     if(glstate->readf==GL_BGRA && glstate->readt==GL_UNSIGNED_BYTE)
         use_bgra = 1;   // if IMPLEMENTATION_READ is BGRA, then use it as it's probably faster then RGBA.
     GLvoid *pixels = malloc(width*height*4);
-    gles_glReadPixels(x, y, width, height, use_bgra?GL_BGRA:GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+    host_functions.glReadPixels(x, y, width, height, use_bgra?GL_BGRA:GL_RGBA, GL_UNSIGNED_BYTE, pixels);
     if (! pixel_convert(pixels, &dst, width, height,
                         use_bgra?GL_BGRA:GL_RGBA, GL_UNSIGNED_BYTE, format, type, 0,glstate->texture.pack_align)) {
         LOGE("ReadPixels error: (%s, UNSIGNED_BYTE -> %s, %s )\n",

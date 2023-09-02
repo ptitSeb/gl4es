@@ -1,3 +1,4 @@
+#include "host.h"
 #include "texture.h"
 
 #include "../glx/hardext.h"
@@ -103,7 +104,7 @@ int tex_setup_needchange(GLuint itarget) {
     return 0;
 }
 void tex_setup_texcoord(GLuint len, int changes, GLuint itarget, vertexattrib_t* ptr) {
-    LOAD_GLES_FPE(glTexCoordPointer);
+    
     GLuint texunit = glstate->texture.client;
     
     gltexture_t *bound = glstate->texture.bound[texunit][itarget];
@@ -126,9 +127,9 @@ void tex_setup_texcoord(GLuint len, int changes, GLuint itarget, vertexattrib_t*
         if (bound->adjust)
             tex_coord_npot(glstate->helper_tex[texunit], len, bound->width, bound->height, bound->nwidth, bound->nheight);
         // All done, setup the texcoord array now
-        gles_glTexCoordPointer(4, GL_FLOAT, 0, glstate->helper_tex[texunit]);
+        host_functions.fpe_glTexCoordPointer(4, GL_FLOAT, 0, glstate->helper_tex[texunit]);
     } else {
-        gles_glTexCoordPointer(ptr->size, ptr->type, ptr->stride, ptr->pointer);
+        host_functions.fpe_glTexCoordPointer(ptr->size, ptr->type, ptr->stride, ptr->pointer);
     }
 }
 
@@ -146,13 +147,13 @@ gltexture_t* gl4es_getTexture(GLenum target, GLuint texture) {
     k = kh_get(tex, list, texture);
     
     if (k == kh_end(list)){
-        LOAD_GLES(glGenTextures);
+        
         k = kh_put(tex, list, texture, &ret);
         tex = kh_value(list, k) = malloc(sizeof(gltexture_t));
         memset(tex, 0, sizeof(gltexture_t));
         tex->texture = texture;
         if (texture)
-            gles_glGenTextures(1, &tex->glname);
+            host_functions.glGenTextures(1, &tex->glname);
         else
             tex->glname = 0;    // special case for texture n# 0
         DBG(printf("getTexture(%s, %u), failed, creating texture %u\n", PrintEnum(target), texture, tex->glname);)
@@ -195,7 +196,7 @@ void APIENTRY_GL4ES gl4es_glBindTexture(GLenum target, GLuint texture) {
         tex_changed = glstate->texture.active+1;
         glstate->texture.bound[glstate->texture.active][itarget] = tex;
 
-        LOAD_GLES(glBindTexture);
+        
         switch(target) {
             // cube map are bounded immediatly, other are defered and will be applied with realize_bound or realize_textures
             case GL_TEXTURE_CUBE_MAP:
@@ -205,7 +206,7 @@ void APIENTRY_GL4ES gl4es_glBindTexture(GLenum target, GLuint texture) {
             case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y:
             case GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
             case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
-                gles_glBindTexture(target, tex?tex->glname:0);
+                host_functions.glBindTexture(target, tex?tex->glname:0);
                 break;
             case GL_TEXTURE_1D:
             case GL_TEXTURE_2D:
@@ -299,7 +300,7 @@ void APIENTRY_GL4ES gl4es_glTexParameterfv(GLenum target, GLenum pname, const GL
     const GLuint rtarget = map_tex_target(target);
     gltexture_t *texture = glstate->texture.bound[glstate->texture.active][itarget];
     if(!samplerParameterfv(&texture->sampler, pname, params)) {
-        LOAD_GLES(glTexParameterfv);
+        
         GLint param = params[0];
         switch (pname) {
             case GL_TEXTURE_MAX_LEVEL:
@@ -322,7 +323,7 @@ void APIENTRY_GL4ES gl4es_glTexParameterfv(GLenum target, GLenum pname, const GL
                         // force regeneration, if possible
                         FLUSH_BEGINEND;
                         realize_bound(glstate->texture.active, target);
-                        LOAD_GLES2_OR_OES(glGenerateMipmap);
+                        
                         gl4es_glGenerateMipmap(rtarget);
                     }*/
                     return;
@@ -343,7 +344,7 @@ void APIENTRY_GL4ES gl4es_glTexParameterfv(GLenum target, GLenum pname, const GL
         }
         FLUSH_BEGINEND;
         realize_bound(glstate->texture.active, target);
-        gles_glTexParameterfv(rtarget, pname, params);
+        host_functions.glTexParameterfv(rtarget, pname, params);
         errorGL();
     }
 }
@@ -371,7 +372,7 @@ void APIENTRY_GL4ES gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
     FLUSH_BEGINEND;
     
     noerrorShim();
-    LOAD_GLES(glDeleteTextures);
+    
     khash_t(tex) *list = glstate->texture.list;
     if (list) {
         khint_t k;
@@ -397,7 +398,7 @@ void APIENTRY_GL4ES gl4es_glDeleteTextures(GLsizei n, const GLuint *textures) {
                     if(found)
                         glstate->bound_changed = a+1;
                 }
-                gles_glDeleteTextures(1, &tex->glname);
+                host_functions.glDeleteTextures(1, &tex->glname);
                 // check if renderbuffer where associeted
                 if(tex->binded_fbo) {
                     if(tex->renderdepth)
@@ -431,8 +432,8 @@ void APIENTRY_GL4ES gl4es_glGenTextures(GLsizei n, GLuint * textures) {
     if (n<=0) 
         return;
     FLUSH_BEGINEND;
-    LOAD_GLES(glGenTextures);
-    gles_glGenTextures(n, textures);
+    
+    host_functions.glGenTextures(n, textures);
     errorGL();
     // now, add all the textures to the list
     int ret;
@@ -637,8 +638,8 @@ void APIENTRY_GL4ES gl4es_glClientActiveTexture( GLenum texture ) {
         return;
     FLUSH_BEGINEND;
     glstate->texture.client = tmu;
-    LOAD_GLES_FPE(glClientActiveTexture);
-    gles_glClientActiveTexture(texture);
+    
+    host_functions.fpe_glClientActiveTexture(texture);
     errorGL();
 }
 
@@ -646,7 +647,7 @@ void APIENTRY_GL4ES gl4es_glPixelStorei(GLenum pname, GLint param) {
     DBG(printf("glPixelStorei(%s, %d)\n", PrintEnum(pname), param);)
     // TODO: add to glGetIntegerv?
 
-    LOAD_GLES(glPixelStorei);
+    
     noerrorShim();
     switch (pname) {
         case GL_UNPACK_ROW_LENGTH:
@@ -704,19 +705,19 @@ void APIENTRY_GL4ES gl4es_glPixelStorei(GLenum pname, GLint param) {
             break;
     }
     errorGL();
-    gles_glPixelStorei(pname, param);
+    host_functions.glPixelStorei(pname, param);
 }
 
 // bind the correct texture on Tex2D or TEXCUBE mapper...
 void realize_bound(int TMU, GLenum target) {
     realize_active();
-    LOAD_GLES(glBindTexture);
+    
     gltexture_t *tex = glstate->texture.bound[TMU][what_target(target)];
     GLuint t = tex->glname;
     DBG(printf("realize_bound(%d, %s), glsate->actual_tex2d[%d]=%u / %u\n", TMU, PrintEnum(target), TMU, glstate->actual_tex2d[TMU], t);)
 #ifdef TEXSTREAM
-    LOAD_GLES(glEnable);
-    LOAD_GLES(glDisable);
+    
+    
 #endif
     switch (target) {
         case GL_TEXTURE_1D:
@@ -726,25 +727,25 @@ void realize_bound(int TMU, GLenum target) {
 #ifdef TEXSTREAM
             if(glstate->bound_stream[TMU]) {
                 realize_active();
-                gles_glDisable(GL_TEXTURE_STREAM_IMG);
+                host_functions.glDisable(GL_TEXTURE_STREAM_IMG);
                 DeactivateStreaming();
                 glstate->bound_stream[TMU] = 0;
             }
             int streamingID = tex->streamingID;
             if (globals4es.texstream && (streamingID>-1)) {
-                if(hardext.esversion<2) gles_glDisable(GL_TEXTURE_2D);
+                if(hardext.esversion<2) host_functions.glDisable(GL_TEXTURE_2D);
                 ActivateStreaming(streamingID);
                 glstate->bound_stream[TMU] = 1;
                 glstate->actual_tex2d[TMU] = t;
                 if (hardext.esversion<2)
-                    gles_glEnable(GL_TEXTURE_STREAM_IMG);
+                    host_functions.glEnable(GL_TEXTURE_STREAM_IMG);
                 if (glstate->bound_changed < TMU+1)
                     glstate->bound_changed = TMU+1;
             } else
 #endif
             if(glstate->actual_tex2d[TMU] != t) {
                 realize_active();
-                gles_glBindTexture(GL_TEXTURE_2D, t);
+                host_functions.glBindTexture(GL_TEXTURE_2D, t);
                 glstate->actual_tex2d[TMU] = t;
                 if (glstate->bound_changed < TMU+1)
                     glstate->bound_changed = TMU+1;
@@ -757,19 +758,19 @@ void realize_bound(int TMU, GLenum target) {
 }
 
 void realize_active() {
-    LOAD_GLES(glActiveTexture);
+    
     if(glstate->gleshard->active == glstate->texture.active)
         return;
     glstate->gleshard->active = glstate->texture.active;
-    gles_glActiveTexture(GL_TEXTURE0 + glstate->gleshard->active);
+    host_functions.glActiveTexture(GL_TEXTURE0 + glstate->gleshard->active);
 }
 
 void realize_1texture(GLenum target, int wantedTMU, gltexture_t* tex, glsampler_t* sampler)
 {
     DBG(printf("realize_1texture(%s, %d, %p[%u], %p)\n", PrintEnum(target), wantedTMU, tex, tex->glname, sampler);)
-    LOAD_GLES(glActiveTexture);
-    LOAD_GLES(glTexParameteri);
-    LOAD_GLES(glBindTexture);
+    
+    
+    
     // check sampler stuff
     if(!sampler) sampler = &tex->sampler;
     GLuint oldtex = 0;
@@ -781,15 +782,15 @@ void realize_1texture(GLenum target, int wantedTMU, gltexture_t* tex, glsampler_
             realize_textures(0);
             gltexture_t *bound = glstate->texture.bound[TMU][ENABLED_TEX2D];
             oldtex = bound->glname;
-            if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+            if (oldtex!=tex->glname) host_functions.glBindTexture(GL_TEXTURE_2D, tex->glname);
             wantedTMU=-2;
         }
         DBG(printf("Adjusting %s[%d]:Texture[%u].min_filter = %s (binded=%u)\n", PrintEnum(target), TMU, tex->glname, PrintEnum(param), glstate->actual_tex2d[TMU]);)
         if(glstate->gleshard->active!=TMU) {
             glstate->gleshard->active = TMU;
-            gles_glActiveTexture(GL_TEXTURE0+TMU);
+            host_functions.glActiveTexture(GL_TEXTURE0+TMU);
         }
-        gles_glTexParameteri(target, GL_TEXTURE_MIN_FILTER, param);
+        host_functions.glTexParameteri(target, GL_TEXTURE_MIN_FILTER, param);
         tex->actual.min_filter=param;
     }
     param = sampler->mag_filter;
@@ -798,15 +799,15 @@ void realize_1texture(GLenum target, int wantedTMU, gltexture_t* tex, glsampler_
             realize_textures(0);
             gltexture_t *bound = glstate->texture.bound[TMU][ENABLED_TEX2D];
             oldtex = bound->glname;
-            if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+            if (oldtex!=tex->glname) host_functions.glBindTexture(GL_TEXTURE_2D, tex->glname);
             wantedTMU=-2;
         }
         DBG(printf("Adjusting %s[%d]:Texture[%u].mag_filter = %s (min=%s/%s)\n", PrintEnum(target), TMU, tex->glname, PrintEnum(param), PrintEnum(sampler->min_filter), PrintEnum(tex->actual.min_filter));)
         if(glstate->gleshard->active!=TMU) {
             glstate->gleshard->active = TMU;
-            gles_glActiveTexture(GL_TEXTURE0+TMU);
+            host_functions.glActiveTexture(GL_TEXTURE0+TMU);
         }
-        gles_glTexParameteri(target, GL_TEXTURE_MAG_FILTER, param);
+        host_functions.glTexParameteri(target, GL_TEXTURE_MAG_FILTER, param);
         tex->actual.mag_filter=param;
     }
     param = get_texture_wrap_s(tex, sampler);
@@ -815,15 +816,15 @@ void realize_1texture(GLenum target, int wantedTMU, gltexture_t* tex, glsampler_
             realize_textures(0);
             gltexture_t *bound = glstate->texture.bound[TMU][ENABLED_TEX2D];
             oldtex = bound->glname;
-            if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+            if (oldtex!=tex->glname) host_functions.glBindTexture(GL_TEXTURE_2D, tex->glname);
             wantedTMU=-2;
         }
         DBG(printf("Adjusting %s[%d]:Texture[%u].wrap_s = %s\n", PrintEnum(target), TMU, tex->glname, PrintEnum(param));)
         if(glstate->gleshard->active!=TMU) {
             glstate->gleshard->active = TMU;
-            gles_glActiveTexture(GL_TEXTURE0+TMU);
+            host_functions.glActiveTexture(GL_TEXTURE0+TMU);
         }
-        gles_glTexParameteri(target, GL_TEXTURE_WRAP_S, param);
+        host_functions.glTexParameteri(target, GL_TEXTURE_WRAP_S, param);
         tex->actual.wrap_s=param;
     }
     param = get_texture_wrap_t(tex, sampler);
@@ -832,28 +833,28 @@ void realize_1texture(GLenum target, int wantedTMU, gltexture_t* tex, glsampler_
             realize_textures(0);
             gltexture_t *bound = glstate->texture.bound[TMU][ENABLED_TEX2D];
             oldtex = bound->glname;
-            if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, tex->glname);
+            if (oldtex!=tex->glname) host_functions.glBindTexture(GL_TEXTURE_2D, tex->glname);
             wantedTMU=-2;
         }
         DBG(printf("Adjusting %s[%d]:Texture[%u].wrap_t = %s\n", PrintEnum(target), TMU, tex->glname, PrintEnum(param));)
         if(glstate->gleshard->active!=TMU) {
             glstate->gleshard->active = TMU;
-            gles_glActiveTexture(GL_TEXTURE0+TMU);
+            host_functions.glActiveTexture(GL_TEXTURE0+TMU);
         }
-        gles_glTexParameteri(target, GL_TEXTURE_WRAP_T, param);
+        host_functions.glTexParameteri(target, GL_TEXTURE_WRAP_T, param);
         tex->actual.wrap_t=param;
     }
     if(wantedTMU==-2) {
-        if (oldtex!=tex->glname) gles_glBindTexture(GL_TEXTURE_2D, oldtex);
+        if (oldtex!=tex->glname) host_functions.glBindTexture(GL_TEXTURE_2D, oldtex);
     }
 }
 
 void realize_textures(int drawing) {
-    LOAD_GLES(glEnable);
-    LOAD_GLES(glDisable);
-    LOAD_GLES(glBindTexture);
-    LOAD_GLES(glActiveTexture);
-    LOAD_GLES(glTexParameteri);
+    
+    
+    
+    
+    
 #ifdef TEXSTREAM
     DBG(printf("realize_textures(%d), glstate->bound_changed=%d, glstate->enable.texture[0]=%X glsate->actual_tex2d[0]=%u / glstate->bound_stream[0]=%u\n", drawing, glstate->bound_changed, glstate->enable.texture[0], glstate->actual_tex2d[0], glstate->bound_stream[0]);)
 #else
@@ -881,7 +882,7 @@ void realize_textures(int drawing) {
 #ifdef TEXSTREAM
             if(glstate->bound_stream[i]) {
                 realize_active();
-                if(hardext.esversion<2) gles_glDisable(GL_TEXTURE_STREAM_IMG);
+                if(hardext.esversion<2) host_functions.glDisable(GL_TEXTURE_STREAM_IMG);
                 DeactivateStreaming();
                 glstate->bound_stream[i] = 0;
             }
@@ -893,33 +894,33 @@ void realize_textures(int drawing) {
             ) {
                 if(glstate->gleshard->active!=i) {
                     glstate->gleshard->active = i;
-                    gles_glActiveTexture(GL_TEXTURE0+i);
+                    host_functions.glActiveTexture(GL_TEXTURE0+i);
                 }
 #ifdef TEXSTREAM
                 int streamed = tex->streamed;
                 int streamingID = tex->streamingID;
                 if(glstate->bound_stream[i]) {
-                    if(hardext.esversion<2) gles_glDisable(GL_TEXTURE_STREAM_IMG);
+                    if(hardext.esversion<2) host_functions.glDisable(GL_TEXTURE_STREAM_IMG);
                     DeactivateStreaming();
-                    if(hardext.esversion<2) gles_glEnable(GL_TEXTURE_2D);
+                    if(hardext.esversion<2) host_functions.glEnable(GL_TEXTURE_2D);
                     glstate->bound_stream[i] = 0;
                 }
                 if (globals4es.texstream && (streamingID>-1)) {
                     if (IS_ANYTEX(tmp) && hardext.esversion<2)
-                        gles_glDisable(GL_TEXTURE_2D);
+                        host_functions.glDisable(GL_TEXTURE_2D);
                     target = GL_TEXTURE_STREAM_IMG;
                     ActivateStreaming(streamingID);
                     glstate->bound_stream[i] = 1;
                     glstate->actual_tex2d[i] = t;
                     if (IS_ANYTEX(tmp))
-                        gles_glEnable(GL_TEXTURE_STREAM_IMG);
+                        host_functions.glEnable(GL_TEXTURE_STREAM_IMG);
                     continue;
                 }
 #endif
 
                 // bound...
                 DBG(printf("Binding %s/%s[%d]:Texture[%u] (sampler[%d]=%p)\n", PrintEnum(to_target(tgt)), PrintEnum(target), i, t, i, glstate->samplers.sampler[i]);)
-                gles_glBindTexture(GL_TEXTURE_2D, t);
+                host_functions.glBindTexture(GL_TEXTURE_2D, t);
                 glstate->actual_tex2d[i] = t;
             }
         }
@@ -932,8 +933,8 @@ void realize_textures(int drawing) {
             if(tex->mipmap_need && !tex->mipmap_done) {
                 if(!tex->mipmap_auto) {
                     // should check if glGenerateMipmap exist, and fall back to no mipmap if not
-                    LOAD_GLES2_OR_OES(glGenerateMipmap);
-                    gles_glGenerateMipmap(GL_TEXTURE_2D);
+                    
+                    host_functions.glGenerateMipmap(GL_TEXTURE_2D);
                 }
                 tex->mipmap_done = 1;
             }

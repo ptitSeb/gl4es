@@ -249,3 +249,27 @@ EXPORT extern void *egl;
 #endif // defined(AMIGAOS4) || defined(NOEGL)
 
 #endif // _GL4ES_LOADER_H_
+
+#define LOAD_GLES_EXT_CACHED(name) \
+    {  \
+        if (!host_functions.name) {                   \
+            host_functions.name = (name##_PTR) host_functions.eglGetProcAddress(#name"EXT");      \
+            WARN_NULL(host_functions.name); \
+        }   \
+    }
+
+#define LOAD_GLES_OES_CACHED(name) \
+    {  \
+        if (!host_functions.name) {                   \
+            host_functions.name = (name##_PTR) host_functions.eglGetProcAddress(#name"OES");      \
+            WARN_NULL(host_functions.name); \
+        } \
+    }
+
+#define LOAD_GLES_OR_OES_CACHED(name) \
+    {  \
+        if (!host_functions.name && globals4es.es == 1) {                   \
+            host_functions.name = (name##_PTR) host_functions.eglGetProcAddress(#name"OES");      \
+            WARN_NULL(host_functions.name); \
+            } \
+    }

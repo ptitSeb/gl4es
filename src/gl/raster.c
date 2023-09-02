@@ -1,3 +1,4 @@
+#include "host.h"
 #include "raster.h"
 
 #include "../glx/hardext.h"
@@ -78,8 +79,8 @@ void APIENTRY_GL4ES gl4es_glViewport(GLint x, GLint y, GLsizei width, GLsizei he
 	{
 		FLUSH_BEGINEND;
 		if (glstate->raster.bm_drawing)	bitmap_flush();
-    	LOAD_GLES(glViewport);
-		gles_glViewport(x, y, width, height);
+    	
+		host_functions.glViewport(x, y, width, height);
 		glstate->raster.viewport.x = x;
 		glstate->raster.viewport.y = y;
 		glstate->raster.viewport.width = width;
@@ -119,8 +120,8 @@ void APIENTRY_GL4ES gl4es_glScissor(GLint x, GLint y, GLsizei width, GLsizei hei
 	{
 		FLUSH_BEGINEND;
 		if (glstate->raster.bm_drawing) bitmap_flush();
-    	LOAD_GLES(glScissor);
-		gles_glScissor(x, y, width, height);
+    	
+		host_functions.glScissor(x, y, width, height);
 		glstate->raster.scissor.x = x;
 		glstate->raster.scissor.y = y;
 		glstate->raster.scissor.width = width;
@@ -130,12 +131,12 @@ void APIENTRY_GL4ES gl4es_glScissor(GLint x, GLint y, GLsizei width, GLsizei hei
 
 // hacky viewport temporary changes
 void pushViewport(GLint x, GLint y, GLsizei width, GLsizei height) {
-    LOAD_GLES(glViewport);
-    gles_glViewport(x, y, width, height);
+    
+    host_functions.glViewport(x, y, width, height);
 }
 void popViewport() {
-    LOAD_GLES(glViewport);
-    gles_glViewport(glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);
+    
+    host_functions.glViewport(glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);
 }
 
 

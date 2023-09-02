@@ -1,3 +1,4 @@
+#include "host.h"
 #include "face.h"
 
 #include "loader.h"
@@ -18,8 +19,8 @@ void APIENTRY_GL4ES gl4es_glCullFace(GLenum mode) {
     FLUSH_BEGINEND;
     
     glstate->face.cull = mode;
-    LOAD_GLES(glCullFace);
-    gles_glCullFace(mode);
+    
+    host_functions.glCullFace(mode);
 }
 
 void APIENTRY_GL4ES gl4es_glFrontFace(GLenum mode) {
@@ -36,8 +37,8 @@ void APIENTRY_GL4ES gl4es_glFrontFace(GLenum mode) {
     FLUSH_BEGINEND;
     
     glstate->face.front = mode;
-    LOAD_GLES(glFrontFace);
-    gles_glFrontFace(mode);
+    
+    host_functions.glFrontFace(mode);
 }
 
 

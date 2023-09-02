@@ -1,3 +1,4 @@
+#include "host.h"
 #include "blend.h"
 
 #include "../glx/hardext.h"
@@ -65,9 +66,9 @@ void APIENTRY_GL4ES gl4es_glBlendColor(GLclampf red, GLclampf green, GLclampf bl
     glstate->blend_color[3] = alpha;
 
     if(!globals4es.shaderblend) {
-        LOAD_GLES2_OR_OES(glBlendColor);
-        if  (gles_glBlendColor)
-            gles_glBlendColor(red, green, blue, alpha);
+        
+        if  (host_functions.glBlendColor)
+            host_functions.glBlendColor(red, green, blue, alpha);
         else {
             static int test = 1;
             if (test) {
@@ -86,7 +87,7 @@ void APIENTRY_GL4ES gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorR
     if(!glstate->list.pending) 
         PUSH_IF_COMPILING(glBlendFuncSeparate)
 
-    LOAD_GLES2_OR_OES(glBlendFuncSeparate);
+    
     if(sfactorRGB==glstate->blendsfactorrgb && dfactorRGB==glstate->blenddfactorrgb 
         && sfactorAlpha==glstate->blendsfactoralpha && dfactorAlpha==glstate->blenddfactoralpha)
         return; // no change...
@@ -108,7 +109,7 @@ void APIENTRY_GL4ES gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorR
         glstate->fpe_state->blenddstalpha = dstalpha;
     } else {
     #ifndef PANDORA
-        if(gles_glBlendFuncSeparate==NULL) {
+        if(host_functions.glBlendFuncSeparate==NULL) {
             // some fallback function to have better rendering with SDL2, better then nothing...
             if(sfactorRGB==GL_SRC_ALPHA && dfactorRGB==GL_ONE_MINUS_SRC_ALPHA && sfactorAlpha==GL_ONE && dfactorAlpha==GL_ONE_MINUS_SRC_ALPHA)
                 gl4es_glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -120,7 +121,7 @@ void APIENTRY_GL4ES gl4es_glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorR
                 gl4es_glBlendFunc(sfactorRGB, dfactorRGB);
         } else
     #endif
-        gles_glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
+        host_functions.glBlendFuncSeparate(sfactorRGB, dfactorRGB, sfactorAlpha, dfactorAlpha);
     }
 
     glstate->blendsfactorrgb = sfactorRGB;
@@ -149,11 +150,11 @@ void APIENTRY_GL4ES gl4es_glBlendEquationSeparate(GLenum modeRGB, GLenum modeA) 
         glstate->fpe_state->blendeqrgb = rgb;
         glstate->fpe_state->blendeqalpha = alpha;
     } else {
-        LOAD_GLES2_OR_OES(glBlendEquationSeparate);
+        
         #ifndef PANDORA
-        if(gles_glBlendEquationSeparate)
+        if(host_functions.glBlendEquationSeparate)
         #endif
-        gles_glBlendEquationSeparate(modeRGB, modeA);
+        host_functions.glBlendEquationSeparate(modeRGB, modeA);
     }
 
     glstate->blendeqrgb = modeRGB;
@@ -191,23 +192,23 @@ void APIENTRY_GL4ES gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
         glstate->fpe_state->blendsrcalpha = srcalpha;
         glstate->fpe_state->blenddstalpha = dstalpha;
     } else {
-        LOAD_GLES(glBlendFunc);
-        LOAD_GLES2_OR_OES(glBlendFuncSeparate);
+        
+        
         errorGL();
         
         // There are some limitations in GLES1.1 Blend functions
         switch(sfactor) {
             #if 0
             case GL_SRC_COLOR:
-                if (gles_glBlendFuncSeparate) {
-                    gles_glBlendFuncSeparate(sfactor, dfactor, sfactor, dfactor);
+                if (host_functions.glBlendFuncSeparate) {
+                    host_functions.glBlendFuncSeparate(sfactor, dfactor, sfactor, dfactor);
                     return;
                 }
                 sfactor = GL_ONE;   // approx...
                 break;
             case GL_ONE_MINUS_SRC_COLOR:
-                if (gles_glBlendFuncSeparate) {
-                    gles_glBlendFuncSeparate(sfactor, dfactor, sfactor, dfactor);
+                if (host_functions.glBlendFuncSeparate) {
+                    host_functions.glBlendFuncSeparate(sfactor, dfactor, sfactor, dfactor);
                     return;
                 }
                 sfactor = GL_ONE;  // not sure it make sense...
@@ -257,9 +258,9 @@ void APIENTRY_GL4ES gl4es_glBlendFunc(GLenum sfactor, GLenum dfactor) {
             sfactor = GL_ONE;
         }
     #ifdef ODROID
-        if(gles_glBlendFunc)
+        if(host_functions.glBlendFunc)
     #endif
-        gles_glBlendFunc(sfactor, dfactor);
+        host_functions.glBlendFunc(sfactor, dfactor);
     }
 }
 AliasExport(void,glBlendFunc,,(GLenum sfactor, GLenum dfactor));
@@ -285,12 +286,12 @@ void APIENTRY_GL4ES gl4es_glBlendEquation(GLenum mode) {
         glstate->fpe_state->blendeqrgb = rgb;
         glstate->fpe_state->blendeqalpha = alpha;
     } else {
-        LOAD_GLES2_OR_OES(glBlendEquation);
+        
         errorGL();
         #ifdef ODROID
-        if(gles_glBlendEquation)
+        if(host_functions.glBlendEquation)
         #endif
-        gles_glBlendEquation(mode);
+        host_functions.glBlendEquation(mode);
     }
 }
 AliasExport(void,glBlendEquation,,(GLenum mode));

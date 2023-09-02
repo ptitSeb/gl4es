@@ -1,3 +1,4 @@
+#include "host.h"
 #include "gl4es.h"
 #include "glstate.h"
 #include "init.h"
@@ -282,8 +283,8 @@ void APIENTRY_GL4ES gl4es_glEnable(GLenum cap) {
             cap = GL_TEXTURE_STREAM_IMG;
 	}
 #endif
-    LOAD_GLES(glEnable);
-    proxy_glEnable(cap, true, gles_glEnable);
+    
+    proxy_glEnable(cap, true, host_functions.glEnable);
 }
 AliasExport(void,glEnable,,(GLenum cap));
 
@@ -303,8 +304,8 @@ void APIENTRY_GL4ES gl4es_glDisable(GLenum cap) {
             cap = GL_TEXTURE_STREAM_IMG;
 	}
 #endif
-    LOAD_GLES(glDisable);
-    proxy_glEnable(cap, false, gles_glDisable);
+    
+    proxy_glEnable(cap, false, host_functions.glDisable);
 }
 AliasExport(void,glDisable,,(GLenum cap));
 
@@ -341,7 +342,7 @@ GLboolean APIENTRY_GL4ES gl4es_glIsEnabled(GLenum cap) {
     // should flush for now... but no need if it's just a pending list...
     if (glstate->list.active && !glstate->list.pending)
         gl4es_flush();
-    LOAD_GLES(glIsEnabled);
+    
     noerrorShim();
     switch (cap) {
         isenabled(GL_AUTO_NORMAL, auto_normal);
@@ -418,7 +419,7 @@ GLboolean APIENTRY_GL4ES gl4es_glIsEnabled(GLenum cap) {
         isenabled(GL_VERTEX_PROGRAM_TWO_SIDE_ARB, vertex_two_side_arb);
         default:
 			errorGL();
-            return gles_glIsEnabled(cap);
+            return host_functions.glIsEnabled(cap);
     }
 }
 #undef isenabled

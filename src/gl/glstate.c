@@ -1,3 +1,4 @@
+#include "host.h"
 #include "glstate.h"
 
 #include "../glx/hardext.h"
@@ -19,35 +20,35 @@ void init_matrix(glstate_t* glstate);
 
 static void free_renderbuffer(glrenderbuffer_t *rend)
 {
-    LOAD_GLES2_OR_OES(glDeleteRenderbuffers);
-    if(!rend || !gles_glDeleteRenderbuffers)
+    
+    if(!rend || !host_functions.glDeleteRenderbuffers)
         return;
     if(rend->secondarybuffer)
-        gles_glDeleteRenderbuffers(1, &rend->secondarybuffer);
+        host_functions.glDeleteRenderbuffers(1, &rend->secondarybuffer);
     if(rend->renderbuffer)
-        gles_glDeleteRenderbuffers(1, &rend->renderbuffer);
+        host_functions.glDeleteRenderbuffers(1, &rend->renderbuffer);
     // the texture will be free by the free of the texture list, as it's referenced there...
     free(rend);
 }
 
 static void free_framebuffer(glframebuffer_t *fb)
 {
-    LOAD_GLES2_OR_OES(glDeleteFramebuffers);
-    if(!fb || !gles_glDeleteFramebuffers)
+    
+    if(!fb || !host_functions.glDeleteFramebuffers)
         return;
     if(fb->id)
-        gles_glDeleteFramebuffers(1, &fb->id);
+        host_functions.glDeleteFramebuffers(1, &fb->id);
     // the texture will be free by the free of the texture list, as it's referenced there...
     free(fb);
 }
 
 static void free_texture(gltexture_t *tex)
 {
-    LOAD_GLES(glDeleteTextures);
-    if(!tex || !gles_glDeleteTextures)
+    
+    if(!tex || !host_functions.glDeleteTextures)
         return;
     if(tex->glname)
-        gles_glDeleteTextures(1, &tex->glname);
+        host_functions.glDeleteTextures(1, &tex->glname);
     if(tex->data)
         free(tex->data);
     // renderbuffer linked to this texture will be freed by the free_renderbuffer function.
@@ -387,9 +388,9 @@ void* NewGLState(void* shared_glstate, int es2only) {
 #if defined(AMIGAOS4) || defined(__EMSCRIPTEN__)
     if(!def) {// if it's default_glstate, then there is probably no glcontext...
 #endif
-    LOAD_GLES(glGetIntegerv);
-    gles_glGetIntegerv(GL_VIEWPORT, (GLint*)&glstate->raster.viewport);
-    gles_glGetIntegerv(GL_SCISSOR_BOX, (GLint*)&glstate->raster.scissor);
+    
+    host_functions.glGetIntegerv(GL_VIEWPORT, (GLint*)&glstate->raster.viewport);
+    host_functions.glGetIntegerv(GL_SCISSOR_BOX, (GLint*)&glstate->raster.scissor);
 #if defined(AMIGAOS4) || defined(__EMSCRIPTEN__)
     }
 #endif
@@ -440,10 +441,10 @@ void* NewGLState(void* shared_glstate, int es2only) {
 #if defined(AMIGAOS4) || defined(__EMSCRIPTEN__)
     if(!def) // if it's default_glstate, then there is probably no glcontext...
     {
-    LOAD_GLES(glGetIntegerv);
+    
 #endif
-    gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, (GLint *) &glstate->readf);
-    gles_glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, (GLint *) &glstate->readt);
+    host_functions.glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT_OES, (GLint *) &glstate->readf);
+    host_functions.glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE_OES, (GLint *) &glstate->readt);
 #if defined(AMIGAOS4) || defined(__EMSCRIPTEN__)
     }
 #endif
@@ -559,8 +560,8 @@ void DeleteGLState(void* oldstate) {
     }
     // oldfbos
     if(!state->shared_cnt && state->fbo.old) {
-        LOAD_GLES2_OR_OES(glDeleteFramebuffers);
-        gles_glDeleteFramebuffers(state->fbo.old->nbr, state->fbo.old->fbos);
+        
+        host_functions.glDeleteFramebuffers(state->fbo.old->nbr, state->fbo.old->fbos);
         free(state->fbo.old->fbos);
         free(state->fbo.old);
     }
@@ -611,9 +612,9 @@ void ActivateGLState(void* new_glstate) {
     if(glstate || newstate!=&default_glstate) // avoid getting gles info with no context
 #endif
     if(new_glstate && (newstate->raster.viewport.width==0 || newstate->raster.viewport.height==0)) {
-        LOAD_GLES(glGetIntegerv);
-        gles_glGetIntegerv(GL_VIEWPORT, (GLint*)&newstate->raster.viewport);
-        gles_glGetIntegerv(GL_SCISSOR_BOX, (GLint*)&newstate->raster.scissor);
+        
+        host_functions.glGetIntegerv(GL_VIEWPORT, (GLint*)&newstate->raster.viewport);
+        host_functions.glGetIntegerv(GL_SCISSOR_BOX, (GLint*)&newstate->raster.scissor);
     }
     glstate = newstate;
 }

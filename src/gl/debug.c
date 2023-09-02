@@ -1,3 +1,4 @@
+#include "host.h"
 #include "debug.h"
 
 #include <string.h>
@@ -420,8 +421,8 @@ const char* PrintEGLError(int onlyerror) {
 }
 
 void CheckGLError(int fwd) {
-    LOAD_GLES(glGetError);
-    GLenum err=gles_glGetError();
+    
+    GLenum err=host_functions.glGetError();
     if(err!=GL_NO_ERROR) {
         printf("LIBGL: glGetError(): %s\n", PrintEnum(err));
         if(fwd)

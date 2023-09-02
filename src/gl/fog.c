@@ -1,3 +1,4 @@
+#include "host.h"
 #include "fog.h"
 
 #include "../glx/hardext.h"
@@ -67,8 +68,8 @@ void APIENTRY_GL4ES gl4es_glFogfv(GLenum pname, const GLfloat* params) {
     }
     #undef GO
     #undef GOI
-    LOAD_GLES_FPE(glFogfv);
-    gles_glFogfv(pname, params);
+    
+    host_functions.fpe_glFogfv(pname, params);
     errorGL();
 }
 
