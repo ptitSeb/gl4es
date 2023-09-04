@@ -1,3 +1,4 @@
+#include "../gl/host.h"
 /*
 	Helper fonctions for Streaming textures
 */
@@ -117,9 +118,9 @@ int alloc_buff(int buff, int width, int height) {
 			return 0;
 		}
 	}
-/*	LOAD_GLES(glTexParameterf);
-    gles_glTexParameterf(GL_TEXTURE_STREAM_IMG, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    gles_glTexParameterf(GL_TEXTURE_STREAM_IMG, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
+/*	
+    host_functions.glTexParameterf(GL_TEXTURE_STREAM_IMG, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    host_functions.glTexParameterf(GL_TEXTURE_STREAM_IMG, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
 	
 	ioctl_var.input = 0;
 	if (ioctl(bc_cat[buff], BCIOGET_BUFFERPHYADDR, &ioctl_var) != 0) {
@@ -270,7 +271,7 @@ void ApplyFilterID(int ID, GLenum min_filter, GLenum mag_filter) {
 // Function to activate the Steaming texture ID on current tex...
 void ActivateStreaming(int ID) {
 //printf("ActivateStreaming(%i)\n", ID);
-    LOAD_GLES(glEnable);
+    
 	if (!gl_streaming)
 		return;
 	if ((ID<0) || (ID>9))
@@ -280,16 +281,16 @@ void ActivateStreaming(int ID) {
 	if (!stream_cache[ID].active)
 		return;
 
-//	gles_glEnable(GL_TEXTURE_STREAM_IMG);
+//	host_functions.glEnable(GL_TEXTURE_STREAM_IMG);
 	glTexBindStreamIMG(ID, 0);
 }
 
 // Function to deactivate the Streaming texture on current tex...
 void DeactivateStreaming() {
 //printf("DeactivateStreaming()\n");
-    LOAD_GLES(glDisable);
+    
 	if (!gl_streaming)
 		return;
-//	gles_glDisable(GL_TEXTURE_STREAM_IMG);
+//	host_functions.glDisable(GL_TEXTURE_STREAM_IMG);
 }
 #endif  //TEXSTREAM

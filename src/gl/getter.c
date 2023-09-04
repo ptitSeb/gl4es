@@ -1,3 +1,4 @@
+#include "host.h"
 #include <gl4eshint.h>
 #include "../glx/hardext.h"
 #include "debug.h"
@@ -20,11 +21,11 @@ GLenum APIENTRY_GL4ES gl4es_glGetError(void) {
     DBG(printf("glGetError(), noerror=%d, type_error=%d shim_error=%s\n", globals4es.noerror, glstate->type_error, PrintEnum(glstate->shim_error));)
     if(globals4es.noerror)
         return GL_NO_ERROR;
-	LOAD_GLES(glGetError);
+	
     GLenum err = GL_NO_ERROR;
     if(!glstate->type_error) {
         // check glGetError, forget everything else
-        err = gles_glGetError();
+        err = host_functions.glGetError();
         // If no error, then check "shim" error
         if(err==GL_NO_ERROR)
             err = glstate->shim_error;
@@ -32,7 +33,7 @@ GLenum APIENTRY_GL4ES gl4es_glGetError(void) {
         err = glstate->shim_error;
 	}
     if(glstate->type_error==1)
-        gles_glGetError();  // purge error log
+        host_functions.glGetError();  // purge error log
     glstate->type_error = 2;
     glstate->shim_error = GL_NO_ERROR;
 
@@ -262,8 +263,8 @@ const GLubyte* APIENTRY_GL4ES gl4es_glGetString(GLenum name) {
             return (GLubyte*)glstate->glsl->error_msg;
         default:
             if(name&0x10000) {
-                LOAD_GLES(glGetString);
-                return gles_glGetString(name-0x10000);
+                
+                return host_functions.glGetString(name-0x10000);
             }
 			errorShim(GL_INVALID_ENUM);
             return (GLubyte*)"";
@@ -783,7 +784,7 @@ void APIENTRY_GL4ES gl4es_glGetIntegerv(GLenum pname, GLint *params) {
         return;
     }
     GLint dummy;
-    LOAD_GLES(glGetIntegerv);
+    
     noerrorShim();
     GLfloat fparam;
     if (gl4es_commonGet(pname, &fparam)) {
@@ -816,16 +817,16 @@ void APIENTRY_GL4ES gl4es_glGetIntegerv(GLenum pname, GLint *params) {
         // arrays...
         case GL_POINT_SIZE_RANGE:
         case GL_ALIASED_POINT_SIZE_RANGE:
-            gles_glGetIntegerv(GL_ALIASED_POINT_SIZE_RANGE, params);
+            host_functions.glGetIntegerv(GL_ALIASED_POINT_SIZE_RANGE, params);
             break;
         case GL_NUM_COMPRESSED_TEXTURE_FORMATS:
-            gles_glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, params);
+            host_functions.glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, params);
             (*params)+=4;	// adding fake DXTc
             break;
         case GL_COMPRESSED_TEXTURE_FORMATS:
-            gles_glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &dummy);
+            host_functions.glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &dummy);
             // get standard ones
-            gles_glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, params);
+            host_functions.glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, params);
             // add fake DXTc
             params[dummy++]=GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
             params[dummy++]=GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
@@ -869,14 +870,14 @@ void APIENTRY_GL4ES gl4es_glGetIntegerv(GLenum pname, GLint *params) {
             break;
         default:
             errorGL();
-            gles_glGetIntegerv(pname, params);
+            host_functions.glGetIntegerv(pname, params);
     }
 }
 AliasExport(void,glGetIntegerv,,(GLenum pname, GLint *params));
 
 void APIENTRY_GL4ES gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
     DBG(printf("glGetFloatv(%s, %p)\n", PrintEnum(pname), params);)
-    LOAD_GLES(glGetFloatv);
+    
     noerrorShim();
     if (gl4es_commonGet(pname, params)) {
         return;
@@ -885,7 +886,7 @@ void APIENTRY_GL4ES gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
     switch (pname) {
         case GL_POINT_SIZE_RANGE:
         case GL_ALIASED_POINT_SIZE_RANGE:
-            gles_glGetFloatv(GL_ALIASED_POINT_SIZE_RANGE, params);
+            host_functions.glGetFloatv(GL_ALIASED_POINT_SIZE_RANGE, params);
             break;
         case GL_TRANSPOSE_PROJECTION_MATRIX:
             matrix_transpose(TOP(projection_matrix), params);
@@ -936,7 +937,7 @@ void APIENTRY_GL4ES gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
             break;
         default:
             errorGL();
-            gles_glGetFloatv(pname, params);
+            host_functions.glGetFloatv(pname, params);
     }
 }
 AliasExport(void,glGetFloatv,,(GLenum pname, GLfloat *params));
@@ -944,7 +945,7 @@ AliasExport(void,glGetFloatv,,(GLenum pname, GLfloat *params));
 void APIENTRY_GL4ES gl4es_glGetDoublev(GLenum pname, GLdouble *params) {
     DBG(printf("glGetDoublev(%s, %p)\n", PrintEnum(pname), params);)
     GLfloat tmp[4*4];
-    LOAD_GLES(glGetFloatv);
+    
     noerrorShim();
     if (gl4es_commonGet(pname, tmp)) {
         *params = *tmp;
@@ -953,7 +954,7 @@ void APIENTRY_GL4ES gl4es_glGetDoublev(GLenum pname, GLdouble *params) {
     switch (pname) {
         case GL_POINT_SIZE_RANGE:
         case GL_ALIASED_POINT_SIZE_RANGE:
-            gles_glGetFloatv(GL_ALIASED_POINT_SIZE_RANGE, tmp);
+            host_functions.glGetFloatv(GL_ALIASED_POINT_SIZE_RANGE, tmp);
             params[0] = tmp[0]; params[1] = tmp[1];
             break;
         case GL_TRANSPOSE_PROJECTION_MATRIX:
@@ -1018,7 +1019,7 @@ void APIENTRY_GL4ES gl4es_glGetDoublev(GLenum pname, GLdouble *params) {
             break;
         default:
             errorGL();
-            gles_glGetFloatv(pname, tmp);
+            host_functions.glGetFloatv(pname, tmp);
             params[0] = tmp[0];
     }
 }
@@ -1133,11 +1134,11 @@ void APIENTRY_GL4ES gl4es_glGetClipPlanef(GLenum plane, GLfloat * equation)
         errorShim(GL_INVALID_ENUM);
         return;
     }
-    LOAD_GLES2(glGetClipPlanef);
-    if(gles_glGetClipPlanef)
+    
+    if(host_functions.glGetClipPlanef)
     {
         errorGL();
-        gles_glGetClipPlanef(plane, equation);
+        host_functions.glGetClipPlanef(plane, equation);
     } else {
         int p = plane-GL_CLIP_PLANE0;
         noerrorShim();

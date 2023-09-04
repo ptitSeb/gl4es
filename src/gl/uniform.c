@@ -1,3 +1,4 @@
+#include "host.h"
 #include "uniform.h"
 
 #include "../glx/hardext.h"
@@ -192,16 +193,16 @@ void GoUniformfv(program_t *glprogram, GLint location, int size, int count, cons
     }
     // update uniform
     memcpy((char*)glprogram->cache.cache + m->cache_offs, value, rsize);
-    LOAD_GLES2(glUniform1fv);
-    LOAD_GLES2(glUniform2fv);
-    LOAD_GLES2(glUniform3fv);
-    LOAD_GLES2(glUniform4fv);
-    if(gles_glUniform1fv) {
+    
+    
+    
+    
+    if(host_functions.glUniform1fv) {
         switch (size) {
-            case 1: gles_glUniform1fv(m->id, count, value); break;
-            case 2: gles_glUniform2fv(m->id, count, value); break;
-            case 3: gles_glUniform3fv(m->id, count, value); break;
-            case 4: gles_glUniform4fv(m->id, count, value); break;
+            case 1: host_functions.glUniform1fv(m->id, count, value); break;
+            case 2: host_functions.glUniform2fv(m->id, count, value); break;
+            case 3: host_functions.glUniform3fv(m->id, count, value); break;
+            case 4: host_functions.glUniform4fv(m->id, count, value); break;
         }
         errorGL();
     } else
@@ -240,16 +241,16 @@ void GoUniformiv(program_t *glprogram, GLint location, int size, int count, cons
     DBG(printf("Uniform updated, cache=%p(%d/%d), offset=%p, size=%d\n", glprogram->cache.cache, glprogram->cache.size, glprogram->cache.cap, (void*)m->cache_offs, rsize);)
     // update uniform
     memcpy((char*)glprogram->cache.cache + m->cache_offs, value, rsize);
-    LOAD_GLES2(glUniform1iv);
-    LOAD_GLES2(glUniform2iv);
-    LOAD_GLES2(glUniform3iv);
-    LOAD_GLES2(glUniform4iv);
-    if(gles_glUniform1iv) {
+    
+    
+    
+    
+    if(host_functions.glUniform1iv) {
         switch (size) {
-            case 1: gles_glUniform1iv(m->id, count, value); break;
-            case 2: gles_glUniform2iv(m->id, count, value); break;
-            case 3: gles_glUniform3iv(m->id, count, value); break;
-            case 4: gles_glUniform4iv(m->id, count, value); break;
+            case 1: host_functions.glUniform1iv(m->id, count, value); break;
+            case 2: host_functions.glUniform2iv(m->id, count, value); break;
+            case 3: host_functions.glUniform3iv(m->id, count, value); break;
+            case 4: host_functions.glUniform4iv(m->id, count, value); break;
         }
         errorGL();
     } else
@@ -562,9 +563,9 @@ void GoUniformMatrix2fv(program_t *glprogram, GLint location, GLsizei count, GLb
     }
     // update uniform
     memcpy((char*)glprogram->cache.cache + m->cache_offs, v, rsize);
-    LOAD_GLES2(glUniformMatrix2fv);
-    if (gles_glUniformMatrix2fv) {
-        gles_glUniformMatrix2fv(m->id, count, GL_FALSE, v);
+    
+    if (host_functions.glUniformMatrix2fv) {
+        host_functions.glUniformMatrix2fv(m->id, count, GL_FALSE, v);
         errorGL();
     } else
         errorShim(GL_INVALID_OPERATION);    // no GLSL hardware
@@ -628,9 +629,9 @@ void GoUniformMatrix3fv(program_t *glprogram, GLint location, GLsizei count, GLb
     }
     // update uniform
     memcpy((char*)glprogram->cache.cache + m->cache_offs, v, rsize);
-    LOAD_GLES2(glUniformMatrix3fv);
-    if (gles_glUniformMatrix3fv) {
-        gles_glUniformMatrix3fv(m->id, count, GL_FALSE, v);
+    
+    if (host_functions.glUniformMatrix3fv) {
+        host_functions.glUniformMatrix3fv(m->id, count, GL_FALSE, v);
         errorGL();
     } else
         errorShim(GL_INVALID_OPERATION);    // no GLSL hardware
@@ -690,9 +691,9 @@ void GoUniformMatrix4fv(program_t *glprogram, GLint location, GLsizei count, GLb
     }
     // update uniform
     memcpy((char*)glprogram->cache.cache + m->cache_offs, v, rsize);
-    LOAD_GLES2(glUniformMatrix4fv);
-    if (gles_glUniformMatrix4fv) {
-        gles_glUniformMatrix4fv(m->id, count, GL_FALSE, v);
+    
+    if (host_functions.glUniformMatrix4fv) {
+        host_functions.glUniformMatrix4fv(m->id, count, GL_FALSE, v);
         errorGL();
     } else {
         //printf("No GLES2 function\n");

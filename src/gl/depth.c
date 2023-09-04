@@ -1,3 +1,4 @@
+#include "host.h"
 #include "depth.h"
 
 #include "gl4es.h"
@@ -13,9 +14,9 @@ void APIENTRY_GL4ES gl4es_glDepthFunc(GLenum func) {
         return;
     FLUSH_BEGINEND;
     glstate->depth.func = func;
-    LOAD_GLES(glDepthFunc);
+    
     errorGL();
-    gles_glDepthFunc(func);
+    host_functions.glDepthFunc(func);
 }
 
 void APIENTRY_GL4ES gl4es_glDepthMask(GLboolean flag) {
@@ -27,9 +28,9 @@ void APIENTRY_GL4ES gl4es_glDepthMask(GLboolean flag) {
         return;
     FLUSH_BEGINEND;
     glstate->depth.mask = flag;
-    LOAD_GLES(glDepthMask);
+    
     errorGL();
-    gles_glDepthMask(flag);
+    host_functions.glDepthMask(flag);
 }
 
 GLfloat clamp(GLfloat a) {
@@ -48,9 +49,9 @@ void APIENTRY_GL4ES gl4es_glDepthRangef(GLclampf Near, GLclampf Far) {
     FLUSH_BEGINEND;
     glstate->depth.Near = Near;
     glstate->depth.Far = Far;
-    LOAD_GLES(glDepthRangef);
+    
     errorGL();
-    gles_glDepthRangef(Near, Far);
+    host_functions.glDepthRangef(Near, Far);
 }
 
 void APIENTRY_GL4ES gl4es_glClearDepthf(GLclampf depth) {
@@ -60,9 +61,9 @@ void APIENTRY_GL4ES gl4es_glClearDepthf(GLclampf depth) {
     }
     noerrorShim();
     glstate->depth.clear = depth;
-    LOAD_GLES(glClearDepthf);
+    
     errorGL();
-    gles_glClearDepthf(depth);
+    host_functions.glClearDepthf(depth);
 }
 
 AliasExport(void,glDepthFunc,,(GLenum func));

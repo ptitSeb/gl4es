@@ -1,3 +1,4 @@
+#include "host.h"
 #include "light.h"
 
 #include "../glx/hardext.h"
@@ -55,8 +56,8 @@ void APIENTRY_GL4ES gl4es_glLightModelf(GLenum pname, GLfloat param) {
             errorShim(GL_INVALID_ENUM);
             return;
     }
-    LOAD_GLES_FPE(glLightModelf);
-    gles_glLightModelf(pname, param);
+    
+    host_functions.fpe_glLightModelf(pname, param);
 }
 
 void APIENTRY_GL4ES gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
@@ -126,8 +127,8 @@ void APIENTRY_GL4ES gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
             errorShim(GL_INVALID_ENUM);
             return;
     }
-    LOAD_GLES_FPE(glLightModelfv);
-    gles_glLightModelfv(pname, params);
+    
+    host_functions.fpe_glLightModelfv(pname, params);
 }
 
 void APIENTRY_GL4ES gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
@@ -238,8 +239,8 @@ void APIENTRY_GL4ES gl4es_glLightfv(GLenum light, GLenum pname, const GLfloat* p
             glstate->light.lights[nl].quadraticAttenuation = params[0];
             break;
     }
-    LOAD_GLES_FPE(glLightfv);
-    gles_glLightfv(light, pname, params);
+    
+    host_functions.fpe_glLightfv(light, pname, params);
     errorGL();
 }
 
@@ -340,8 +341,8 @@ void APIENTRY_GL4ES gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat 
         noerrorShim();
         return;
     }
-    LOAD_GLES_FPE(glMaterialfv);
-    gles_glMaterialfv(GL_FRONT_AND_BACK, pname, params);
+    
+    host_functions.fpe_glMaterialfv(GL_FRONT_AND_BACK, pname, params);
     errorGL();
 }
 
@@ -386,8 +387,8 @@ void APIENTRY_GL4ES gl4es_glMaterialf(GLenum face, GLenum pname, GLfloat param) 
         return;
     }
     FLUSH_BEGINEND;
-    LOAD_GLES_FPE(glMaterialf);
-    gles_glMaterialf(GL_FRONT_AND_BACK, pname, param);
+    
+    host_functions.fpe_glMaterialf(GL_FRONT_AND_BACK, pname, param);
     errorGL();
 }
 

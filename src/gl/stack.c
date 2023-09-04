@@ -1,3 +1,4 @@
+#include "host.h"
 #include <stdio.h>
 
 #include "stack.h"
@@ -620,10 +621,10 @@ DBG(printf("glPopAttrib()\n");)
 void APIENTRY_GL4ES gl4es_glPopClientAttrib(void) {
     DBG(printf("glPopClientAttrib()\n");)
     noerrorShim();
-	//LOAD_GLES(glVertexPointer);
-	//LOAD_GLES(glColorPointer);
-	//LOAD_GLES(glNormalPointer);
-	//LOAD_GLES(glTexCoordPointer);
+	//
+	//
+	//
+	//
 
     if (glstate->clientStack == NULL || glstate->clientStack->len == 0) {
         errorShim(GL_STACK_UNDERFLOW);

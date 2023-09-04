@@ -1,3 +1,4 @@
+#include "host.h"
 #include "pointsprite.h"
 
 #include "../glx/hardext.h"
@@ -108,9 +109,9 @@ void APIENTRY_GL4ES gl4es_glPointParameterfv(GLenum pname, const GLfloat * param
             break;
     }
 
-    LOAD_GLES_FPE(glPointParameterfv);
+    
     errorGL();
-    gles_glPointParameterfv(pname, params);
+    host_functions.fpe_glPointParameterfv(pname, params);
 }
 AliasExport(void,glPointParameterfv,,(GLenum pname, const GLfloat * params));
 AliasExport(void,glPointParameterfv,ARB,(GLenum pname, const GLfloat * params));
@@ -123,7 +124,7 @@ void APIENTRY_GL4ES gl4es_glPointSize(GLfloat size) {
     }
     glstate->pointsprite.size = size;
     errorGL();
-    LOAD_GLES_FPE(glPointSize);
-    gles_glPointSize(size);
+    
+    host_functions.fpe_glPointSize(size);
 }
 AliasExport(void,glPointSize,,(GLfloat size));

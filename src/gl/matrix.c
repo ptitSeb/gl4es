@@ -1,3 +1,4 @@
+#include "host.h"
 #include "matrix.h"
 
 #include "../glx/hardext.h"
@@ -122,8 +123,8 @@ DBG(printf("glMatrixMode(%s), list=%p\n", PrintEnum(mode), glstate->list.active)
 	}
     if(glstate->matrix_mode != mode) {
 			glstate->matrix_mode = mode;
-			LOAD_GLES_FPE(glMatrixMode);
-			gles_glMatrixMode(mode);
+			
+			host_functions.fpe_glMatrixMode(mode);
     }
 }
 
@@ -186,7 +187,7 @@ DBG(printf("glPopMatrix(), list=%p\n", glstate->list.active);)
 		#define P(A) if(glstate->A->top) { \
 			--glstate->A->top; \
 			glstate->A->identity = is_identity(update_current_mat()); \
-			if (send_to_hardware()) {LOAD_GLES(glLoadMatrixf); gles_glLoadMatrixf(update_current_mat()); } \
+			if (send_to_hardware()) { host_functions.glLoadMatrixf(update_current_mat()); } \
 		} else errorShim(GL_STACK_UNDERFLOW)
 		case GL_PROJECTION:
 			P(projection_matrix);
@@ -236,10 +237,10 @@ DBG(printf("glLoadMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 	else if((glstate->matrix_mode==GL_TEXTURE) && glstate->fpe_state)
 		set_fpe_textureidentity();
     if(send_to_hardware()) {
-		LOAD_GLES(glLoadMatrixf);
-		LOAD_GLES(glLoadIdentity);
-		if(id) gles_glLoadIdentity();	// in case the driver as some special optimisations
-		else gles_glLoadMatrixf(m);
+		
+		
+		if(id) host_functions.glLoadIdentity();	// in case the driver as some special optimisations
+		else host_functions.glLoadMatrixf(m);
 	}
 }
 
@@ -270,10 +271,10 @@ DBG(printf("glMultMatrix(%f, %f, %f, %f, %f, %f, %f...), list=%p\n", m[0], m[1],
 		set_fpe_textureidentity();
 	DBG(printf(" => (%f, %f, %f, %f, %f, %f, %f...)\n", current_mat[0], current_mat[1], current_mat[2], current_mat[3], current_mat[4], current_mat[5], current_mat[6]);)
 	if(send_to_hardware()) {
-		LOAD_GLES(glLoadMatrixf);
-		LOAD_GLES(glLoadIdentity);
-		if(id) gles_glLoadIdentity();	// in case the driver as some special optimisations
-		else gles_glLoadMatrixf(current_mat);
+		
+		
+		if(id) host_functions.glLoadIdentity();	// in case the driver as some special optimisations
+		else host_functions.glLoadMatrixf(current_mat);
 	}
 }
 
@@ -297,8 +298,8 @@ DBG(printf("glLoadIdentity(), list=%p\n", glstate->list.active);)
 	else if((glstate->matrix_mode==GL_TEXTURE) && glstate->fpe_state)
 		set_fpe_textureidentity();
 	if(send_to_hardware()) {
-		LOAD_GLES(glLoadIdentity);
-		gles_glLoadIdentity();
+		
+		host_functions.glLoadIdentity();
 	}
 }
 

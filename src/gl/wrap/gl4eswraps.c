@@ -1,3 +1,4 @@
+#include "../host.h"
 #include "gl4es.h"
 
 #include "../texgen.h"
@@ -647,9 +648,9 @@ void APIENTRY_GL4ES gl4es_glGetTexParameteriv(GLenum target, GLenum pname, GLint
 // Samples stuff
 #include "../loader.h"
 void APIENTRY_GL4ES gl4es_glSampleCoverage(GLclampf value, GLboolean invert) {
-    LOAD_GLES(glSampleCoverage);
+    
     PUSH_IF_COMPILING(glSampleCoverage)
-    gles_glSampleCoverage(value, invert);
+    host_functions.glSampleCoverage(value, invert);
 }
 AliasExport(void,glSampleCoverage,,(GLclampf value, GLboolean invert));
 AliasExport(void,glSampleCoverage,ARB,(GLclampf value, GLboolean invert));

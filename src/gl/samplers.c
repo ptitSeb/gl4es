@@ -1,3 +1,4 @@
+#include "host.h"
 #include "samplers.h"
 
 #include "../glx/hardext.h"
@@ -73,12 +74,12 @@ void gl4es_glGenSamplers(GLsizei n, GLuint *ids)
 {
     DBG(printf("glGenSamplers(%i, %p)\n", n, ids);)
     // no hardware support taken into account for now
-    /*LOAD_GLES2_OR_OES(glGenFramebuffers);
+    /*
     GLsizei m = 0;
     noerrorShim();
     if(n-m) {
         errorGL();
-        gles_glGenFramebuffers(n-m, ids+m);
+        host_functions.glGenFramebuffers(n-m, ids+m);
     }*/
     FLUSH_BEGINEND;
 	noerrorShim();

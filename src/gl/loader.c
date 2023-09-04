@@ -1,3 +1,4 @@
+#include "host.h"
 #include "loader.h"
 
 void (APIENTRY_GL4ES *gl4es_getMainFBSize)(GLint* width, GLint* height);
@@ -186,6 +187,7 @@ void load_libs() {
     const char *drm_override = GetEnvVar("LIBGL_DRM");
     drm = open_lib(drm_lib, drm_override);
 #endif
+    init_gl_functions();
 }
 #endif
 

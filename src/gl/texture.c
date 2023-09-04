@@ -1,3 +1,4 @@
+#include "host.h"
 #include "texture.h"
 
 #include "../glx/hardext.h"
@@ -900,9 +901,9 @@ void APIENTRY_GL4ES gl4es_glTexImage2D(GLenum target, GLint level, GLint interna
     // proxy case
     const GLuint itarget = what_target(target);
     const GLuint rtarget = map_tex_target(target);
-    LOAD_GLES(glTexImage2D);
-    LOAD_GLES(glTexSubImage2D);
-    LOAD_GLES(glTexParameteri);
+    
+    
+    
 
     if(globals4es.force16bits) {
         if(internalformat==GL_RGBA || internalformat==4 || internalformat==GL_RGBA8)
@@ -974,7 +975,7 @@ void APIENTRY_GL4ES gl4es_glTexImage2D(GLenum target, GLint level, GLint interna
                 gl4es_glRenderbufferStorage(GL_RENDERBUFFER, (bound->binded_attachment==GL_DEPTH_ATTACHMENT)?GL_DEPTH_COMPONENT16:GL_DEPTH24_STENCIL8, nwidth, nheight);
                 gl4es_glBindRenderbuffer(GL_RENDERBUFFER, 0);
             } else {
-                gles_glTexImage2D(GL_TEXTURE_2D, 0, bound->format, bound->nwidth, bound->nheight, 0, bound->format, bound->type, NULL);
+                host_functions.glTexImage2D(GL_TEXTURE_2D, 0, bound->format, bound->nwidth, bound->nheight, 0, bound->format, bound->type, NULL);
             }
         }
         if((bound->binded_attachment==GL_STENCIL_ATTACHMENT || bound->binded_attachment==GL_DEPTH_STENCIL_ATTACHMENT) && bound->renderstencil)
@@ -1208,15 +1209,15 @@ void APIENTRY_GL4ES gl4es_glTexImage2D(GLenum target, GLint level, GLint interna
                     sampler = &bound->sampler;
                 ApplyFilterID(bound->streamingID, sampler->min_filter, sampler->mag_filter);
                 GLboolean tmp = IS_ANYTEX(glstate->enable.texture[glstate->texture.active]);
-                LOAD_GLES(glDisable);
-                LOAD_GLES(glEnable);
+                
+                
                 if (tmp)
-                    gles_glDisable(GL_TEXTURE_2D);
+                    host_functions.glDisable(GL_TEXTURE_2D);
                 ActivateStreaming(bound->streamingID);	//Activate the newly created texture
                 format = GL_RGB;
                 type = GL_UNSIGNED_SHORT_5_6_5;
                 if (tmp)
-                    gles_glEnable(GL_TEXTURE_STREAM_IMG);
+                    host_functions.glEnable(GL_TEXTURE_STREAM_IMG);
                 }
                 glstate->bound_stream[glstate->texture.active] = 1;
         }
@@ -1386,11 +1387,11 @@ void APIENTRY_GL4ES gl4es_glTexImage2D(GLenum target, GLint level, GLint interna
         if (!(globals4es.texstream && bound->streamed)) {
             if ((target!=GL_TEXTURE_RECTANGLE_ARB) && (globals4es.automipmap!=3) && (bound->mipmap_need || bound->mipmap_auto) && !(bound->npot && hardext.npot<2) && (bound->max_level==-1)) {
                 if(hardext.esversion<2)
-                    gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
+                    host_functions.glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
                 else
                     callgeneratemipmap = 1;
             } else {
-                //if(target!=GL_TEXTURE_RECTANGLE_ARB) gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_FALSE );
+                //if(target!=GL_TEXTURE_RECTANGLE_ARB) host_functions.glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_FALSE );
                 if ((itarget!=ENABLED_CUBE_MAP && target!=GL_TEXTURE_RECTANGLE_ARB) 
                 && (bound->mipmap_need || globals4es.automipmap==3)) {
                     // remove the need for mipmap...
@@ -1401,11 +1402,11 @@ void APIENTRY_GL4ES gl4es_glTexImage2D(GLenum target, GLint level, GLint interna
             
             if (height != nheight || width != nwidth) {
                 errorGL();
-                gles_glTexImage2D(rtarget, level, format, nwidth, nheight, border,
+                host_functions.glTexImage2D(rtarget, level, format, nwidth, nheight, border,
                                 format, type, NULL);
                 DBG(CheckGLError(1);)
                 if (pixels) {
-                    gles_glTexSubImage2D(rtarget, level, 0, 0, width, height,
+                    host_functions.glTexSubImage2D(rtarget, level, 0, 0, width, height,
                                         format, type, pixels);
                                         DBG(CheckGLError(1);)
                 }
@@ -1413,17 +1414,17 @@ void APIENTRY_GL4ES gl4es_glTexImage2D(GLenum target, GLint level, GLint interna
                 if(level==0 && (width==1 && height==1 && pixels)) {
                     // complete the texture, juste in case it use GL_REPEAT
                     // also, don't keep the fact we have resized, the non-adjusted coordinates will work (as the texture is enlarged)
-                    if(width==1) {gles_glTexSubImage2D(rtarget, level, 1, 0, width, height, format, type, pixels); nwidth=1;}
-                    if(height==1) {gles_glTexSubImage2D(rtarget, level, 0, 1, width, height, format, type, pixels); nheight=1;}
+                    if(width==1) {host_functions.glTexSubImage2D(rtarget, level, 1, 0, width, height, format, type, pixels); nwidth=1;}
+                    if(height==1) {host_functions.glTexSubImage2D(rtarget, level, 0, 1, width, height, format, type, pixels); nheight=1;}
                     if(width==1 && height==1) {   // create a manual mipmap just in case_state
-                        gles_glTexSubImage2D(rtarget, level, 1, 1, width, height, format, type, pixels);
-                        gles_glTexImage2D(rtarget, 1, format, 1, 1, 0, format, type, pixels);
+                        host_functions.glTexSubImage2D(rtarget, level, 1, 1, width, height, format, type, pixels);
+                        host_functions.glTexImage2D(rtarget, 1, format, 1, 1, 0, format, type, pixels);
                     }
                 }
 #endif
             } else {
                 errorGL();
-                gles_glTexImage2D(rtarget, level, format, width, height, border,
+                host_functions.glTexImage2D(rtarget, level, format, width, height, border,
                                 format, type, pixels);
                 DBG(CheckGLError(1);)
             }
@@ -1445,9 +1446,9 @@ void APIENTRY_GL4ES gl4es_glTexImage2D(GLenum target, GLint level, GLint interna
                     nww <<= 1;
                     nhh <<= 1;
                     --leveln;
-                    gles_glTexImage2D(rtarget, leveln, format, nww, nhh, border,
+                    host_functions.glTexImage2D(rtarget, leveln, format, nww, nhh, border,
                                     format, type, (pot)?ndata:NULL);
-                    if(!pot && pixels) gles_glTexSubImage2D(rtarget, leveln, 0, 0, nw, nh,
+                    if(!pot && pixels) host_functions.glTexSubImage2D(rtarget, leveln, 0, 0, nw, nh,
                                         format, type, ndata);
                 }
                 if (ndata!=pixels)
@@ -1475,16 +1476,16 @@ void APIENTRY_GL4ES gl4es_glTexImage2D(GLenum target, GLint level, GLint interna
                     nww = nlevel(nww, 1);
                     nhh = nlevel(nhh, 1);
                     ++leveln;
-                    gles_glTexImage2D(rtarget, leveln, format, nw, nh, border,
+                    host_functions.glTexImage2D(rtarget, leveln, format, nw, nh, border,
                                     format, type, (pot)?ndata:NULL);
-                    if(!pot && pixels) gles_glTexSubImage2D(rtarget, leveln, 0, 0, nww, nhh,
+                    if(!pot && pixels) host_functions.glTexSubImage2D(rtarget, leveln, 0, 0, nww, nhh,
                                         format, type, ndata);
                 }
                 if (ndata!=pixels)
                     free(ndata);
             }
         /*if (bound && bound->mipmap_need && !bound->mipmap_auto && (globals4es.automipmap!=3))
-            gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_FALSE );*/
+            host_functions.glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_FALSE );*/
         } else {
             if (pixels)
                 gl4es_glTexSubImage2D(rtarget, level, 0, 0, width, height, format, type, pixels);	// (should never happens) updload the 1st data...
@@ -1543,8 +1544,8 @@ void APIENTRY_GL4ES gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoff
     const GLuint itarget = what_target(target);
     const GLuint rtarget = map_tex_target(target);
 
-    LOAD_GLES(glTexSubImage2D);
-    LOAD_GLES(glTexParameteri);
+    
+    
     noerrorShim();
     DBG(printf("glTexSubImage2D on target=%s with unpack_row_length(%d), size(%d,%d), pos(%d,%d) and skip={%d,%d}, format=%s, type=%s, level=%d(base=%d, max=%d), mipmap={need=%d, auto=%d}, texture=%u, data=%p(vao=%p)\n", PrintEnum(target), glstate->texture.unpack_row_length, width, height, xoffset, yoffset, glstate->texture.unpack_skip_pixels, glstate->texture.unpack_skip_rows, PrintEnum(format), PrintEnum(type), level, glstate->texture.bound[glstate->texture.active][itarget]->base_level, glstate->texture.bound[glstate->texture.active][itarget]->max_level, glstate->texture.bound[glstate->texture.active][itarget]->mipmap_need, glstate->texture.bound[glstate->texture.active][itarget]->mipmap_auto, glstate->texture.bound[glstate->texture.active][itarget]->texture, data, glstate->vao->unpack);)
     if (width==0 || height==0) {
@@ -1670,7 +1671,7 @@ void APIENTRY_GL4ES gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoff
     int callgeneratemipmap = 0;
     if ((target!=GL_TEXTURE_RECTANGLE_ARB) && (bound->mipmap_need || bound->mipmap_auto)) {
         if(hardext.esversion<2) {
-            //gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
+            //host_functions.glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_TRUE );
         } else
             callgeneratemipmap = 1;
     }
@@ -1683,7 +1684,7 @@ void APIENTRY_GL4ES gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoff
     }*/
     } else {
         errorGL();
-        gles_glTexSubImage2D(rtarget, level, xoffset, yoffset,
+        host_functions.glTexSubImage2D(rtarget, level, xoffset, yoffset,
                      width, height, format, type, pixels);
         DBG(CheckGLError(1);)
         // check if base_level is set... and calculate lower level mipmap
@@ -1703,7 +1704,7 @@ void APIENTRY_GL4ES gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoff
                 xx <<= 1;
                 yy <<= 1;
                 --leveln;
-                gles_glTexSubImage2D(rtarget, leveln, xx, yy, nw, nh,
+                host_functions.glTexSubImage2D(rtarget, leveln, xx, yy, nw, nh,
                                     format, type, ndata);
             }
             if (ndata!=pixels)
@@ -1733,7 +1734,7 @@ void APIENTRY_GL4ES gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoff
                 xx = xx>>1;
                 yy = yy>>1;
                 ++leveln;
-                gles_glTexSubImage2D(rtarget, leveln, xx, yy, nw, nh,
+                host_functions.glTexSubImage2D(rtarget, leveln, xx, yy, nw, nh,
                                     format, type, ndata);
             }
             if (ndata!=pixels)
@@ -1742,7 +1743,7 @@ void APIENTRY_GL4ES gl4es_glTexSubImage2D(GLenum target, GLint level, GLint xoff
     }
 
     /*if (bound->mipmap_need && !bound->mipmap_auto && (globals4es.automipmap!=3) && (!globals4es.texstream || (globals4es.texstream && !bound->streamed)))
-        gles_glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_FALSE );*/
+        host_functions.glTexParameteri( rtarget, GL_GENERATE_MIPMAP, GL_FALSE );*/
 
     if ((target==GL_TEXTURE_2D) && globals4es.texcopydata && ((globals4es.texstream && !bound->streamed) || !globals4es.texstream)) {
     //printf("*texcopy* glTexSubImage2D, xy=%i,%i, size=%i,%i=>%i,%i, format=%s, type=%s, tex=%u\n", xoffset, yoffset, width, height, bound->width, bound->height, PrintEnum(format), PrintEnum(type), bound->glname);
