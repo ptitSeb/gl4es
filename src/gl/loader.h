@@ -273,3 +273,4 @@ EXPORT extern void *egl;
             WARN_NULL(host_functions.name); \
             } \
     }
+
