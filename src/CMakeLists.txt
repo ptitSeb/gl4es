@@ -30,6 +30,7 @@ SET(GL_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/gl/gl4es.c
     ${CMAKE_CURRENT_SOURCE_DIR}/gl/glstate.c
     ${CMAKE_CURRENT_SOURCE_DIR}/gl/hint.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/host.c
     ${CMAKE_CURRENT_SOURCE_DIR}/gl/init.c
     ${CMAKE_CURRENT_SOURCE_DIR}/gl/light.c
     ${CMAKE_CURRENT_SOURCE_DIR}/gl/line.c
