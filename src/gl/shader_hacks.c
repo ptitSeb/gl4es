@@ -383,6 +383,11 @@ static const hack_t gl4es_hacks[] = {
 "\tFogOffsetU = 0.5 / FogTexSize;\r\n"
 "\tFogScaleU  = ( FogTexSize - 1.0 ) / FogTexSize;\r\n"
 }},
+// for KiCAD
+{"        float derivative   = length( dFdx( tex ) ) * u_fontTextureWidth / 4;\n",
+1, {"        float derivative   = length( dFdx( tex ) ) * float(u_fontTextureWidth) / 4.0;\n"}},
+{"        delta = vec4( 0, 2 * pixelR, 0, 0 );\n",
+1, {"        delta = vec4( 0, 2.0 * pixelR, 0, 0 );\n"}},
 // for Iconoclasts
 // Disable hotspot shaders 1
 #ifdef GOA_CLONE
