@@ -469,7 +469,7 @@ void* APIENTRY_GL4ES gl4es_glMapBuffer(GLenum target, GLenum access) {
 	noerrorShim();
 	return buff->data;		// Not nice, should do some copy or something probably
 }
-void* APIENTRY_GLES gl4es_glMapNamedBuffer(GLuint buffer, GLenum access) {
+void* APIENTRY_GL4ES gl4es_glMapNamedBuffer(GLuint buffer, GLenum access) {
     DBG(printf("glMapNamedBuffer(%u, %s)\n", buffer, PrintEnum(access));)
 
 	glbuffer_t *buff = getbuffer_id(buffer);
