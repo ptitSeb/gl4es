@@ -137,6 +137,7 @@ void APIENTRY_GL4ES gl4es_glBindBuffer(GLenum target, GLuint buffer) {
     // if buffer = 0 => unbind buffer!
     if (buffer == 0) {
         // unbind buffer
+        bindBuffer(target, 0);
         unbind_buffer(target);
     } else {
         // search for an existing buffer

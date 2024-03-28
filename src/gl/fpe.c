@@ -815,10 +815,6 @@ void APIENTRY_GL4ES fpe_glDrawElements(GLenum mode, GLsizei count, GLenum type, 
         indices = (GLvoid*)((uintptr_t)indices - (uintptr_t)(glstate->vao->elements->data));
         DBG(printf("Using VBO %d for indices\n", glstate->vao->elements->real_buffer);)
     }
-    if (!glstate->vao->elements) {
-        bindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        DBG(printf("Unloading EBO\n"));
-    }
     realize_bufferIndex();
     gles_glDrawElements(mode, count, type, indices);
     if(use_vbo)
