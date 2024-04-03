@@ -252,7 +252,7 @@ Hack to define default WRAP mode for texture
 * 1 : Default wrap mode is GL_CLAMP_TO_EDGE: default on limited NPOT or non-NPOT hardware
 * 2 : Default wrap mode is GL_CLAMP_TO_EDGE, enforced (not advised)
 
-##### LIBL_FBOUNBIND
+##### LIBGL_FBOUNBIND
 Workaround on FBO where a bond texture is used for drawing
 * 0 : Disabled (Default for all other configuration)
 * 1 : Enabled (Default on ARM and PowerVR hardware)
