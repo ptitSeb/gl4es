@@ -1,7 +1,20 @@
 Version history
 ----
-##### Current Version
+##### v1.1.6
 * Improve glGetError() handling
+* Improve LIBGL_FB=3 handling
+* Added some ShaderHacks
+* Better Renderbuffer handling
+* Fixed many issues with VAO and VBO
+* Improved ARB shader support
+* optimized some format conversion
+* Improve mipmap handling
+* Improve Android support
+* Added sampler handling
+* Improve texture format handling
+* some fixes to a few matrix computation
+* Added support for a new platform: Windows (thx to @yjh-styx)
+* Added some more extension to GLES2 backend
 
 ##### v1.1.4
 * Fixed some regression, and foobillard++ is working fine now
