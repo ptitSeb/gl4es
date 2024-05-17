@@ -302,7 +302,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->face.front = GL_CCW;
     // Point Sprite
     glstate->pointsprite.size = 1.0f;
-    glstate->pointsprite.sizeMax = 32.0f;   // spec indicate 1., but it seems it's set to hardware limit, so puting 32...
+    glstate->pointsprite.sizeMax = 32.0f;   // spec indicate 1., but it seems it's set to hardware limit, so putting 32...
     glstate->pointsprite.fadeThresholdSize = 1.0f;
     glstate->pointsprite.distance[0] = 1.0f;
     glstate->pointsprite.coordOrigin = GL_UPPER_LEFT;
