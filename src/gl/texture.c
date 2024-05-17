@@ -918,7 +918,7 @@ void APIENTRY_GL4ES gl4es_glTexImage2D(GLenum target, GLint level, GLint interna
         glstate->proxy_intformat = swizzle_internalformat((GLenum *) &internalformat, format, type);
         return;
     }
-    // actualy bound if targetting shared TEX2D
+    // actually bound if targeting shared TEX2D
     realize_bound(glstate->texture.active, target);
 
     if (glstate->list.pending) {
