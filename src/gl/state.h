@@ -104,7 +104,7 @@ typedef struct {
     gltexture_t *bound[MAX_TEX][ENABLED_TEXTURE_LAST];  //TODO: this should be shared
     gltexture_t *zero;  // this is texture 0...
     GLboolean pscoordreplace[MAX_TEX];
-    khash_t(tex) *list;     // this is shared amoung glstate
+    khash_t(tex) *list;     // this is shared among glstate
     GLuint active;	// active texture
 	GLuint client;	// client active texture
 } texture_state_t;
