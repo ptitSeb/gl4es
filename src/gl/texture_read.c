@@ -38,7 +38,7 @@ void APIENTRY_GL4ES gl4es_glCopyTexImage2D(GLenum target,  GLint level,  GLenum 
     FLUSH_BEGINEND;
     const GLuint itarget = what_target(target);
 
-    // actualy bound if targetting shared TEX2D
+    // actually bound if targeting shared TEX2D
     realize_bound(glstate->texture.active, target);
 
     if (globals4es.skiptexcopies) {
@@ -101,7 +101,7 @@ void APIENTRY_GL4ES gl4es_glCopyTexImage2D(GLenum target,  GLint level,  GLenum 
 void APIENTRY_GL4ES gl4es_glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
                                 GLint x, GLint y, GLsizei width, GLsizei height) {
     const GLuint itarget = what_target(target);
-    // WARNING: It seems glColorMask has an impact on what channel are actualy copied by this. The crude glReadPixel / glTexSubImage cannot emulate that, and proper emulation will take need 2 read pixels.
+    // WARNING: It seems glColorMask has an impact on what channel are actually copied by this. The crude glReadPixel / glTexSubImage cannot emulate that, and proper emulation will take need 2 read pixels.
     //  And using the real glCopyTexSubImage2D needs that the FrameBuffer were data are read is compatible with the Texture it's copied to...
     DBG(printf("glCopyTexSubImage2D(%s, %i, %i, %i, %i, %i, %i, %i), bounded texture=%u format/type=%s, %s\n", PrintEnum(target), level, xoffset, yoffset, x, y, width, height, (glstate->texture.bound[glstate->texture.active][itarget])?glstate->texture.bound[glstate->texture.active][itarget]->texture:0, PrintEnum((glstate->texture.bound[glstate->texture.active][itarget])?glstate->texture.bound[glstate->texture.active][itarget]->format:0), PrintEnum((glstate->texture.bound[glstate->texture.active][itarget])?glstate->texture.bound[glstate->texture.active][itarget]->type:0));)
     // PUSH_IF_COMPILING(glCopyTexSubImage2D);
