@@ -68,8 +68,8 @@ void os4OpenLib(void** lib)
 	  }
 	}
   *lib = LOGLES2;
-  // small debug message, always helpfull at beggining
-  SHUT_LOGD("OGLES2 Library and Interface open successfuly\n");
+  // small debug message, always helpful at beginning
+  SHUT_LOGD("OGLES2 Library and Interface opened successfully!\n");
 }
 
 // Close OGLES2 lib and interface
