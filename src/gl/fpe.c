@@ -889,7 +889,7 @@ void APIENTRY_GL4ES fpe_glDrawElementsInstanced(GLenum mode, GLsizei count, GLen
         inds = (void*)indices;
         bindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
-    //realize_bufferIndex();    // not usefull here
+    //realize_bufferIndex();    // not useful here
     for (GLint id=0; id<primcount; ++id) {
         GoUniformiv(glprogram, glprogram->builtin_instanceID, 1, 1, &id);
         for(int i=0; i<hardext.maxvattrib; i++) 
@@ -1735,7 +1735,7 @@ int builtin_CheckUniform(program_t *glprogram, char* name, GLint id, int size) {
     }
     // lightsource
     if(strncmp(name, lightsource_code, strlen(lightsource_code))==0 || strncmp(name, lightsource_fpe_code, strlen(lightsource_fpe_code))==0) {
-        // it a light! grab it's number - also, fpe or not fpe is the same lenght. The fpe version avoid the array...
+        // it's a light! grab it's number - also, fpe or not fpe is the same length. The fpe version avoids the array...
         int n = name[strlen(lightsource_code)]-'0';   // only 8 light, so this works
         if(n>=0 && n<hardext.maxlights) {
             if(strstr(name, ".ambient")) glprogram->builtin_lights[n].ambient = id;
