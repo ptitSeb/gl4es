@@ -80,7 +80,7 @@ Version history
 * Added support for GL_ARB_draw_elements_base_vertex
 
 ##### v1.0.8
-* Fixes and improvments to avoid unnecessary GLES state changes
+* Fixes and improvements to avoid unnecessary GLES state changes
 * Fixes some memory issues with glBitmap
 * Fixes to FPE (when using multitexture and GL_COMBINE)
 * Added some TexEnv extension for GLES2 backend
@@ -136,8 +136,8 @@ Version history
  * Tracking Clip Planes
  * Refactor Blitting function, and use glDrawTex extension if present
  * Restructured README and split in several files
- * Some improvments and fixes to LIBGL_BEGINEND=2 mode
- * Some improvments to some LIBGL_SHRINK mode
+ * Some improvements and fixes to LIBGL_BEGINEND=2 mode
+ * Some improvements to some LIBGL_SHRINK mode
  * Proper support for DOT3 extension
  * Some fixes to Read/Draw Buffer handling
  * Some fix with the PixMap glX context creation
