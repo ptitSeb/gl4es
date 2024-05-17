@@ -197,7 +197,7 @@ void APIENTRY_GL4ES gl4es_glBindTexture(GLenum target, GLuint texture) {
 
         LOAD_GLES(glBindTexture);
         switch(target) {
-            // cube map are bounded immediatly, other are defered and will be applied with realize_bound or realize_textures
+            // cube map are bounded immediately, other are defered and will be applied with realize_bound or realize_textures
             case GL_TEXTURE_CUBE_MAP:
             case GL_TEXTURE_CUBE_MAP_POSITIVE_X:
             case GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
@@ -877,7 +877,7 @@ void realize_textures(int drawing) {
         GLenum target = map_tex_target(to_target(tgt));
         gltexture_t *tex = glstate->texture.bound[i][tgt];
         GLuint t = tex->glname;
-        if(tgt!=ENABLED_CUBE_MAP) {// CUBE MAP are immediatly bound
+        if(tgt!=ENABLED_CUBE_MAP) {// CUBE MAP are immediately bound
 #ifdef TEXSTREAM
             if(glstate->bound_stream[i]) {
                 realize_active();
