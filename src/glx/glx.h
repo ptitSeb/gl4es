@@ -225,7 +225,7 @@ struct __GLXFBConfigRec {
 
     unsigned int multiSampleSize; /* Number of samples per pixel (0 if no ms) */
 
-    unsigned int nMultiSampleBuffers; /* Number of availble ms buffers */
+    unsigned int nMultiSampleBuffers; /* Number of available ms buffers */
     int maxAuxBuffers;
 
     /* frame buffer level */
