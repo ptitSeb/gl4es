@@ -61,7 +61,7 @@ Use with [ios-cmake](https://github.com/leetal/ios-cmake)
 *Custom build*
 ---
 
-Alternatively, you can use the curses-bases ccmake (or any other gui frontend for cmake) to select wich platform to use interactively.
+Alternatively, you can use the curses-bases ccmake (or any other gui frontend for cmake) to select which platform to use interactively.
 
 You can avoid the use of X11 with `NOX11=1` and EGL with `NOEGL=1`, but then, you will need to create the EGL Context yourself (or using SDL for example). Be sure to synchronize the context you create with the Backend you use. By default GLES 1.1 backend is used. To used GLES2 by default, use `DEFAULT_ES=2`
 
