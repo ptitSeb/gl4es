@@ -281,7 +281,7 @@ GLuint len_indices(const GLushort *sindices, const GLuint *iindices, GLsizei cou
         for (int i=0; i<count; i++)
             if (len<iindices[i]) len = iindices[i]; // get the len of the arrays
     }
-    return len+1;  // lenght is max(indices) + 1 !
+    return len+1;  // length is max(indices) + 1 !
 }
 
 static void glDrawElementsCommon(GLenum mode, GLint first, GLsizei count, GLuint len, const GLushort *sindices, const GLuint *iindices, int instancecount) {
