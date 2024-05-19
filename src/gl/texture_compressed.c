@@ -177,7 +177,7 @@ void APIENTRY_GL4ES gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLe
     }
     FLUSH_BEGINEND;
 
-    // actualy bound if targetting shared TEX2D
+    // actually bound if targeting shared TEX2D
     realize_bound(glstate->texture.active, target);
 
     gltexture_t* bound = glstate->texture.bound[glstate->texture.active][itarget]; 
@@ -350,7 +350,7 @@ void APIENTRY_GL4ES gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, 
     const GLuint itarget = what_target(target);
     FLUSH_BEGINEND;
 
-    // actualy bound if targetting shared TEX2D
+    // actually bound if targeting shared TEX2D
     realize_bound(glstate->texture.active, target);
 
     gltexture_t *bound = glstate->texture.bound[glstate->texture.active][itarget];

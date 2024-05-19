@@ -487,7 +487,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   }
   int notexarray = globals4es.notexarray || need->need_notexarray || fpeShader;
 
-  //const char* GLESUseFragHighp = "#extension GL_OES_fragment_precision_high : enable\n"; // does this one is needed?  
+  //const char* GLESUseFragHighp = "#extension GL_OES_fragment_precision_high : enable\n"; // is this needed?  
   char GLESFullHeader[512];
   int wanthighp = !fpeShader;
   if(wanthighp && !hardext.highp) wanthighp = 0;
@@ -495,7 +495,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   #if 0
   // support for higher glsl require much more work
   // around some keyword
-  // like in/out that depend on the shader beeing vertex or fragment
+  // like in/out that depends on the shader being vertex or fragment
   // and a few other little things...
   if(versionString && strcmp(versionString, "120")==0)
      version120 = 1;
@@ -818,7 +818,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
       notexarray = 1;
       need->need_notexarray = 1;
     }
-    // check constaints
+    // check constraints
     if (!notexarray && ntex+nvarying>hardext.maxvarying) ntex = hardext.maxvarying - nvarying;
     need->need_texcoord = ntex;
     char d[100];

@@ -153,7 +153,7 @@ typedef struct {
     GLuint renderstencil;
     int     trace;  // internal use for debug
     GLvoid *data;	// in case we want to keep a copy of it (it that case, always RGBA/GL_UNSIGNED_BYTE
-    glsampler_t sampler;    // internal sampler if not superceeded by glBindSampler
+    glsampler_t sampler;    // internal sampler if not superseded by glBindSampler
     glsampler_t actual;     // actual sampler
     float fbtex_ratio; // Lower rendering resolution
 } gltexture_t;

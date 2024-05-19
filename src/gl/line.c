@@ -104,7 +104,7 @@ GLfloat *gen_stipple_tex_coords(GLfloat *vert, GLushort *sindices, modeinit_t *m
                     vertPos = vert+stride*sindices[i+1];
                 else
                     vertPos+=stride;
-                // need to take "w" componant into acount...
+                // need to take "w" component into account...
                 if(v[3]==0.0f) {
                     x1=v[0]*w; y1=v[1]*h;
                 } else {
@@ -121,7 +121,7 @@ GLfloat *gen_stipple_tex_coords(GLfloat *vert, GLushort *sindices, modeinit_t *m
                 len += sqrtf((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)) / (glstate->linestipple.factor * 16.f);
                 DBG(printf("%f->%f (%f,%f -> %f,%f)\t", oldlen, len, x1, y1, x2, y2);)
                 if(sindices)
-                    texPos = tex+texstride*sindices[i+0];   // it get writen 2*, but that should be ok, it's the same value
+                    texPos = tex+texstride*sindices[i+0];   // it gets written 2*, but that should be ok, it's the same value
                 memset(texPos, 0, 4*sizeof(GLfloat));
                 texPos[0] = oldlen; texPos[3] = 1.0f;
                 if(sindices)

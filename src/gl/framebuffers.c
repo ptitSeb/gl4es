@@ -460,7 +460,7 @@ void APIENTRY_GL4ES gl4es_glFramebufferTexture2D(GLenum target, GLenum attachmen
             texture = tex->glname;
             tex->fbtex_ratio = (globals4es.fbtexscale > 0.0f) ? globals4es.fbtexscale : 0.0f;
 
-            // check if texture is shrinked or if fb texture is being scaled...
+            // check if texture was shrunk or if fb texture is being scaled...
             if (globals4es.fbtexscale > 0.0f || tex->shrink || tex->useratio || (tex->adjust && (hardext.npot==1 || hardext.npot==2) && !globals4es.potframebuffer)) {
                 LOGD("%s texture for FBO\n",(tex->useratio)?"going back to npot size pot'ed":"unshrinking shrinked");
                 if(tex->shrink || tex->useratio) {
@@ -1564,7 +1564,7 @@ void APIENTRY_GL4ES gl4es_glClearBufferiv(GLenum buffer, GLint drawbuffer, const
                 if(hardext.drawbuffers)
                     gles_glDrawBuffers(1, (const GLenum *) &drawbuffer);
                 gl4es_glGetFloatv(GL_COLOR_CLEAR_VALUE, oldclear);
-                // how to convert the value? Most FB will be 8bits / componant for now...
+                // how to convert the value? Most FB will be 8bits / component for now...
                 gl4es_glClearColor(value[0]/127.0f, value[1]/127.0f, value[2]/127.0f, value[3]/127.0f);
                 gl4es_glClear(GL_COLOR_BUFFER_BIT);
                 gl4es_glClearColor(oldclear[0], oldclear[1], oldclear[2], oldclear[3]);
@@ -1609,7 +1609,7 @@ void APIENTRY_GL4ES gl4es_glClearBufferuiv(GLenum buffer, GLint drawbuffer, cons
                 if(hardext.drawbuffers)
                     gles_glDrawBuffers(1, (const GLenum *) &drawbuffer);
                 gl4es_glGetFloatv(GL_COLOR_CLEAR_VALUE, oldclear);
-                // how to convert the value? Most FB will be 8bits / componant for now...
+                // how to convert the value? Most FB will be 8bits / component for now...
                 gl4es_glClearColor(value[0]/255.0f, value[1]/255.0f, value[2]/255.0f, value[3]/255.0f);
                 gl4es_glClear(GL_COLOR_BUFFER_BIT);
                 gl4es_glClearColor(oldclear[0], oldclear[1], oldclear[2], oldclear[3]);
@@ -1642,7 +1642,7 @@ void APIENTRY_GL4ES gl4es_glClearBufferfv(GLenum buffer, GLint drawbuffer, const
                 if(hardext.drawbuffers)
                     gles_glDrawBuffers(1, (const GLenum *) &drawbuffer);
                 gl4es_glGetFloatv(GL_COLOR_CLEAR_VALUE, oldclear);
-                // how to convert the value? Most FB will be 8bits / componant for now...
+                // how to convert the value? Most FB will be 8bits / component for now...
                 gl4es_glClearColor(value[0], value[1], value[2], value[3]);
                 gl4es_glClear(GL_COLOR_BUFFER_BIT);
                 gl4es_glClearColor(oldclear[0], oldclear[1], oldclear[2], oldclear[3]);

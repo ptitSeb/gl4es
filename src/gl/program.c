@@ -955,7 +955,7 @@ GLvoid APIENTRY_GL4ES gl4es_glGetObjectParameteriv(GLhandleARB obj, GLenum pname
         gl4es_glGetProgramiv(obj, pname, params);
     else
         gl4es_glGetShaderiv(obj, pname, params);
-    // hack, some program don't take into account that the lenght return by GL_OBJECT_INFO_LOG_LENGTH_ARB exclude the '\0'.. so adding it here
+    // hack, some programs don't take into account that the length returned by GL_OBJECT_INFO_LOG_LENGTH_ARB exclude the '\0'.. so adding it here
     if(pname==GL_INFO_LOG_LENGTH)
         (*params)++;
 }

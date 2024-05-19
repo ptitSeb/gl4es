@@ -255,7 +255,7 @@ void APIENTRY_GL4ES gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat 
             // if a glMaterialfv is called inside a glBegin/glEnd block
             // then use rlMaterial to store in current list the material wanted
             // as if the material was asked before the glBegin()
-            // It's not real behavour, but it's better then nothing
+            // It's not real behaviour, but it's better then nothing
                 rlMaterialfv(glstate->list.active, face, pname, params);
                 noerrorShim();
                 return;
