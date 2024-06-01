@@ -135,7 +135,7 @@ GLuint APIENTRY_GL4ES gl4es_glCreateProgram(void) {
 }
 
 void actually_deleteshader(GLuint shader);
-void actualy_detachshader(GLuint shader);
+void actually_detachshader(GLuint shader);
 
 void deleteProgram(program_t *glprogram, khint_t k_program) {
     free(glprogram->attach);
