@@ -248,7 +248,7 @@ Comments in shaders are kept (also for generated shaders by fpe_shaders)
 
 ##### LIBGL_DEFAULTWRAP
 Hack to define default WRAP mode for texture
-* 0 : Default wrap mode is GL_REPEAT (normal OpenGL behavour): default on NPOT hardware
+* 0 : Default wrap mode is GL_REPEAT (normal OpenGL behaviour): default on NPOT hardware
 * 1 : Default wrap mode is GL_CLAMP_TO_EDGE: default on limited NPOT or non-NPOT hardware
 * 2 : Default wrap mode is GL_CLAMP_TO_EDGE, enforced (not advised)
 
@@ -265,7 +265,7 @@ For the Color Attachment 0 to be a Texture2D (even if program attachs a Renderbu
 ##### LIBGL_BLITFULLSCREEN
 Hack to trigger a SwapBuffers when a Full Framebuffer Blit on default FBO is done
 * 0 : Don't force
-* 1 : Default: Activate the hack (usefull with Wine/D3D)
+* 1 : Default: Activate the hack (useful with Wine/D3D)
 
 ##### LIBGL_NOARBPROGRAM
 Don't expose ARB Program extensions (GL_ARB_vertex_program, GL_ARB_fragment_program and GL_EXT_program_parameters)
