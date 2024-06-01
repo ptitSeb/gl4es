@@ -33,7 +33,7 @@ Version history
 * Added support for multiple FBO attachement (if hardware support it)
 
 ##### v1.1.2
-* Improved a bit the merger (wich merge subsequent `glBegin(...)`/`glEnd()`) efficiency
+* Improved a bit the merger (which merge subsequent `glBegin(...)`/`glEnd()`) efficiency
 * Removed LIBGL_BEGINEND=2 (that was not working correctly, and it complexify the code too much)
 * Added some Direct Access function (from EXT_direct_access)
 * Fixes and Improvements on depth (and depth_Stencil) Texture handling

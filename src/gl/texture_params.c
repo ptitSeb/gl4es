@@ -197,7 +197,7 @@ void APIENTRY_GL4ES gl4es_glBindTexture(GLenum target, GLuint texture) {
 
         LOAD_GLES(glBindTexture);
         switch(target) {
-            // cube map are bounded immediately, other are defered and will be applied with realize_bound or realize_textures
+            // cube map are immediately bound, other are defered and will be applied with realize_bound or realize_textures
             case GL_TEXTURE_CUBE_MAP:
             case GL_TEXTURE_CUBE_MAP_POSITIVE_X:
             case GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
