@@ -50,6 +50,7 @@ typedef EGLBoolean (*eglWaitClient_PTR)();
 typedef EGLBoolean (*eglWaitGL_PTR)();
 typedef EGLBoolean (*eglWaitNative_PTR)(EGLint engine);
 typedef EGLSyncKHR (*eglCreateSyncKHR_PTR)(EGLDisplay dpy, EGLenum type, const EGLint * attrib_list);
+typedef EGLSyncKHR (*eglDestroySyncKHR_PTR)(EGLDisplay dpy, EGLSyncKHR sync);
 typedef EGLint (*eglClientWaitSyncKHR_PTR)(EGLDisplay dpy, EGLSyncKHR sync, EGLint flags, EGLTimeKHR timeout);
 
 typedef NativePixmapType (*egl_create_pixmap_ID_mapping_PTR)(void *pixmap);
