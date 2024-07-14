@@ -55,6 +55,7 @@ void* gl4es_eglGetProcAddress(const char *name) {
     _EX(eglSwapBuffers);
     _EX(eglCopyBuffers);
     _EX(eglCreateSyncKHR);
+    _EX(eglDestroySyncKHR);
     _EX(eglClientWaitSyncKHR);
 
     _EX(egl_create_pixmap_ID_mapping);

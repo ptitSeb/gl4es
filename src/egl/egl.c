@@ -204,6 +204,11 @@ EGLSyncKHR gl4es_eglCreateSyncKHR(EGLDisplay dpy, EGLenum type, const EGLint *at
     return egl_eglCreateSyncKHR(dpy, type, attrib_list);
 }
 
+EGLSyncKHR gl4es_eglDestroySyncKHR(EGLDisplay dpy, EGLSyncKHR sync) {
+    LOAD_EGL(eglDestroySyncKHR);
+    return egl_eglDestroySyncKHR(dpy, sync);
+}
+
 EGLint gl4es_eglClientWaitSyncKHR(EGLDisplay dpy, EGLSyncKHR sync, EGLint flags, EGLTimeKHR timeout) {
     LOAD_EGL(eglClientWaitSyncKHR);
     return egl_eglClientWaitSyncKHR(dpy, sync, flags, timeout);
@@ -257,6 +262,7 @@ AliasExport(EGLBoolean, eglWaitNative,,(EGLint engine));
 AliasExport(EGLBoolean, eglSwapBuffers,,(EGLDisplay dpy, EGLSurface surface));
 AliasExport(EGLBoolean, eglCopyBuffers,,(EGLDisplay dpy, EGLSurface surface, EGLNativePixmapType target));
 AliasExport(EGLSyncKHR, eglCreateSyncKHR,,(EGLDisplay dpy, EGLenum type, const EGLint *attrib_list));
+AliasExport(EGLSyncKHR, eglDestroySyncKHR,,(EGLDisplay dpy, EGLSyncKHR sync));
 AliasExport(EGLint, eglClientWaitSyncKHR,,(EGLDisplay dpy, EGLSyncKHR sync, EGLint flags, EGLTimeKHR timeout));
 
 AliasExport(NativePixmapType, egl_create_pixmap_ID_mapping,,(void *pixmap));
