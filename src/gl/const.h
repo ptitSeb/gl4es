@@ -187,6 +187,7 @@
 #define GL_INTENSITY16				   0x804D
 #define GL_INTENSITY16F                0x881D
 #define GL_INTENSITY32F                0x8817
+#define GL_R16F                        0x822D
 #define GL_RGB10_A2                    0x8059
 #define GL_RGBA16F                     0x881A
 #define GL_RGB16F                      0x881B
