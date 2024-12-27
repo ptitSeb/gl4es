@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 2.8.12)
 
+# Import modules
+include(CheckCompilerFlag)
+
 project(gl4es LANGUAGES C)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
@@ -24,6 +27,9 @@ option(USE_CCACHE "Set to ON to use ccache if present in the system" ${USE_CCACH
 option(USE_CLOCK "Set to ON to use clock_gettime instead of gttimeofday for LIBGL_FPS" ${USE_CLOCK})
 option(NO_LOADER "disable library loader (useful for static library with NOEGL, NOX11, use include/gl4esinit.h)" ${NO_LOADER})
 option(NO_INIT_CONSTRUCTOR "disable automatic initialization (useful for static library, use include/gl4esinit.h)" ${NO_INIT_CONSTRUCTOR})
+option(DEFAULT_GLES "Set to GLES library path if LIBGL_GLES env variable is not set" ${DEFAULT_GLES})
+option(DEFAULT_EGL "Set to EGL library path if LIBGL_EGL env variable is not set" ${DEFAULT_EGL})
+option(DEFAULT_FB "Set to '1', '2' or '3', overrides DEFAULT_FB env variable" ${DEFAULT_FB})
 option(USE_ANDROID_LOG "Set to ON to use Android log instead of stdio" ${USE_ANDROID_LOG})
 option(EGL_WRAPPER "Set to ON to build EGL wrapper" ${EGL_WRAPPER})
 option(GLX_STUBS "Set to ON to build GLX function stubs" ${GLX_STUBS})
@@ -172,6 +178,18 @@ if(NO_INIT_CONSTRUCTOR)
     add_definitions(-DNO_INIT_CONSTRUCTOR)
 endif()
 
+if(DEFAULT_GLES)
+    add_definitions(-DDEFAULT_GLES="${DEFAULT_GLES}")
+endif()
+
+if(DEFAULT_EGL)
+    add_definitions(-DDEFAULT_EGL="${DEFAULT_EGL}")
+endif()
+
+if(DEFAULT_FB)
+    add_definitions(-DDEFAULT_FB="${DEFAULT_FB}")
+endif()
+
 if(GLX_STUBS)
     add_definitions(-DGLX_STUBS)
 endif()
@@ -193,7 +211,19 @@ endif()
 
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 if(NOT WIN32_MSVC)
-    add_definitions(-std=gnu11 -funwind-tables)
+    check_compiler_flag(C -std=gnu11 SUPPORTS_GNU11)
+    check_compiler_flag(C -funwind-tables SUPPORTS_UNWIND_TABLES)
+    if (SUPPORTS_GNU11)
+        add_compile_options(-std=gnu11)
+    else()
+        check_compiler_flag(C -std=gnu99 SUPPORTS_GNU99)
+        if (SUPPORTS_GNU99)
+            add_compile_options(-std=gnu99)
+        endif()
+    endif()
+    if (SUPPORTS_UNWIND_TABLES)
+        add_compile_options(-funwind-tables)
+    endif()
     if(NOT WIN32_PLATFORM)
        add_definitions(-fvisibility=hidden)
     else()
