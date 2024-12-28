@@ -6,8 +6,21 @@
 #include "logs.h"
 #include "debug.h"
 #include "program.h"
-#include "fpe_cache.h"
+
 #include "fpe.h"
+
+
+#define fpe_state_t fpe_state_t
+#define fpe_fpe_t fpe_fpe_t
+#define kh_fpecachelist_t kh_fpecachelist_t
+#include "fpe_cache.h"
+#undef fpe_state_t
+#undef fpe_fpe_t
+#undef kh_fpecachelist_t
+
+#ifndef fpe_cache_t
+#   define fpe_cache_t kh_fpecachelist_t
+#endif
 
 //#define DEBUG
 #ifdef DEBUG
@@ -23,19 +36,21 @@ static const char PSA_SIGN[] = "GL4ES PrecompiledShaderArchive";
 static kh_inline khint_t _hash_fpe(fpe_state_t *p)
 {
     const char* s = (const char*)p;
-	khint_t h = (khint_t)*s;
-	for (int i=1 ; i<sizeof(fpe_state_t); ++i) h = (h << 5) - h + (khint_t)*(++s);
-	return h;
+    khint_t h = (khint_t)*s;
+    for (int i=1 ; i<sizeof(fpe_state_t); ++i) h = (h << 5) - h + (khint_t)*(++s);
+    return h;
 }
 
 #define kh_fpe_hash_func(key) _hash_fpe(key)
 
 #define kh_fpe_hash_equal(a, b) (memcmp(a, b, sizeof(fpe_state_t)) == 0)
 
-#define KHASH_MAP_INIT_FPE(name, khval_t)								\
-	KHASH_INIT(name, kh_fpe_t, khval_t, 1, kh_fpe_hash_func, kh_fpe_hash_equal)
+#define KHASH_MAP_INIT_FPE(name, khval_t)                                \
+    KHASH_INIT(name, kh_fpe_t, khval_t, 1, kh_fpe_hash_func, kh_fpe_hash_equal)
 
+#define kh_fpecachelist_t kh_fpecachelist_s
 KHASH_MAP_INIT_FPE(fpecachelist, fpe_fpe_t *);
+#undef kh_fpecachelist_t
 
 // ********* Cache handling *********
 

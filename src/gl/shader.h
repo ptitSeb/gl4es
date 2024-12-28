@@ -3,7 +3,11 @@
 
 #include "khash.h"
 #include "gles.h"
+
+#define  shaderconv_need_t struct shaderconv_need_s
 #include "oldprogram.h"
+#undef shaderconv_need_t
+
 #include <stdint.h>
 
 typedef struct shaderconv_need_s {
@@ -20,20 +24,20 @@ typedef struct shaderconv_need_s {
     uint32_t    need_texs;          // flags of what tex is needed
 } shaderconv_need_t;
 
-typedef struct shader_s {
+struct shader_s {
     GLuint          id;     // internal id of the shader
     GLenum          type;   // type of the shader (GL_VERTEX or GL_FRAGMENT)
     int             attached; // number of time the shader is attached
     int             deleted;// flagged for deletion
     int             compiled;// flag if compiled
-    oldprogram_t   *old;     // in case the shader is an old ARB ASM-like program
+    struct oldprogram_s   *old;     // in case the shader is an old ARB ASM-like program
     char*           source; // original source of the shader (or converted if coming from "old")
     char*           converted;  // converted source (or null if nothing)
     // shaderconv
     shaderconv_need_t  need;    // the varying need / provide of the shader
-} shader_t;
+}; // shader_t defined in oldprogram.h
 
-KHASH_MAP_DECLARE_INT(shaderlist, shader_t *);
+KHASH_MAP_DECLARE_INT(shaderlist, struct shader_s *);
 
 GLuint APIENTRY_GL4ES gl4es_glCreateShader(GLenum shaderType);
 void APIENTRY_GL4ES gl4es_glDeleteShader(GLuint shader);
@@ -50,14 +54,14 @@ void APIENTRY_GL4ES gl4es_glReleaseShaderCompiler(void);
 void accumShaderNeeds(GLuint shader, shaderconv_need_t *need);
 int isShaderCompatible(GLuint shader, shaderconv_need_t *need);
 void redoShader(GLuint shader, shaderconv_need_t *need);
-shader_t *getShader(GLuint shader);
+struct shader_s*getShader(GLuint shader);
 
 #define CHECK_SHADER(type, shader) \
     if(!shader) { \
         noerrorShim(); \
         return (type)0; \
     } \
-    shader_t *glshader = NULL; \
+    struct shader_s *glshader = NULL; \
     khint_t k_##shader; \
     { \
         khash_t(shaderlist) *shaders = glstate->glsl->shaders; \

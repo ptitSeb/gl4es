@@ -1,13 +1,16 @@
+
+#include "oldprogram.h"
+
 #include "debug.h"
 #include "fpe.h"
 #include "gl4es.h"
 #include "glstate.h"
 #include "loader.h"
-#include "oldprogram.h"
 #include "shaderconv.h"
 #include "vertexattrib.h"
 #include "arbconverter.h"
 #include "debug.h"
+
 
 //#define DEBUG
 #ifdef DEBUG
@@ -20,7 +23,9 @@
 // the core of this is a conversion between ARB ASM-like syntax to GLSL, then using regular functions
 // Note that a program in this context is in fact a shader in ARB_vertex_shader (and GLSL) extension
 
+#define kh_oldprograms_t kh_oldprograms_s
 KHASH_MAP_INIT_INT(oldprograms, oldprogram_t *);
+#undef kh_oldprograms_t
 
 void freeOldProgram(oldprogram_t* old)
 {

@@ -226,7 +226,9 @@ typedef struct fpe_fpe_s {
   program_t *glprogram;
 } fpe_fpe_t;
 
+#ifndef kh_fpecachelist_t
 typedef struct kh_fpecachelist_s kh_fpecachelist_t;
+#endif
 #define fpe_cache_t kh_fpecachelist_t
 
 typedef struct scratch_s {
@@ -234,7 +236,6 @@ typedef struct scratch_s {
     int         size;
 } scratch_t;
 void free_scratch(scratch_t* scratch);
-
 
 fpe_fpe_t *fpe_GetCache(fpe_cache_t *cur, fpe_state_t *state, int fixed);
 void fpe_disposeCache(fpe_cache_t* cache, int freeprog);
