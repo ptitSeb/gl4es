@@ -40,6 +40,13 @@ struct HINSTANCE__* __stdcall LoadLibraryW(const wchar_t*);
 #include "init.h"
 #include "envvars.h"
 
+#ifndef DEFAULT_GLES
+#define DEFAULT_GLES NULL
+#endif
+#ifndef DEFAULT_EGL
+#define DEFAULT_EGL NULL
+#endif
+
 void *gles = NULL, *egl = NULL, *bcm_host = NULL, *vcos = NULL, *gbm = NULL, *drm = NULL;
 #ifndef _WIN32
 #ifndef NO_GBM
@@ -155,15 +162,18 @@ void load_libs() {
     first = 0;
 #ifndef _WIN32
     const char *gles_override = GetEnvVar("LIBGL_GLES");
+    if (!gles_override) {
+        gles_override = DEFAULT_GLES;
 #if defined(BCMHOST) && !defined(ANDROID)
-    // optimistically try to load the raspberry pi libs
-    if (! gles_override) {
-        const char *bcm_host_name[] = {"libbcm_host", NULL};
-        const char *vcos_name[] = {"libvcos", NULL};
-        bcm_host = open_lib(bcm_host_name, NULL);
-        vcos = open_lib(vcos_name, NULL);
-    }
+        // optimistically try to load the raspberry pi libs
+        if (! gles_override) {
+            const char *bcm_host_name[] = {"libbcm_host", NULL};
+            const char *vcos_name[] = {"libvcos", NULL};
+            bcm_host = open_lib(bcm_host_name, NULL);
+            vcos = open_lib(vcos_name, NULL);
+        }
 #endif
+    }
     gles = open_lib((globals4es.es==1)?gles_lib:gles2_lib, gles_override);
 #else
     gles = open_lib(L"LIBGL_GLES", L"libGLESv2.dll");
@@ -174,6 +184,9 @@ void load_libs() {
     egl = gles;
 #elif !defined(_WIN32)
     const char *egl_override = GetEnvVar("LIBGL_EGL");
+    if (!egl_override) {
+        egl_override = DEFAULT_EGL;
+    }
     egl = open_lib(egl_lib, egl_override);
 #else
     egl = open_lib(L"LIBGL_EGL", L"libEGL.dll");
