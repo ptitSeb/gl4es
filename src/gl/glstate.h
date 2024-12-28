@@ -1,6 +1,7 @@
 #ifndef _GL4ES_GLSTATE_H_
 #define _GL4ES_GLSTATE_H_
 
+#include "oldprogram.h"
 #include "fog.h"
 #include "fpe.h"
 #include "light.h"
@@ -9,7 +10,7 @@
 #include "stack.h"
 #include "stencil.h"
 
-typedef struct glstate_s {
+struct glstate_s {
     int                 dummy[16];  // dummy zone, test for memory overwriting...
     displaylist_state_t list;
     enable_state_t      enable;
@@ -20,7 +21,7 @@ typedef struct glstate_s {
     texenv_state_t      texenv[MAX_TEX];
     texture_state_t     texture;
     GLboolean           colormask[4];
-    int	                render_mode;
+    int                 render_mode;
     int                 polygon_mode;
     int                 clamp_read_color;
     namestack_t         namestack;
@@ -131,7 +132,7 @@ typedef struct glstate_s {
     GLenum              blenddfactoralpha;
     GLenum              blendeqrgb;
     GLenum              blendeqalpha;
-} glstate_t;
+}; // glstate_t defined in oldprogram.h
 
 
 #endif // _GL4ES_GLSTATE_H_

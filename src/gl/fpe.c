@@ -10,8 +10,20 @@
 #include "matvec.h"
 #include "program.h"
 #include "shaderconv.h"
-#include "fpe_cache.h"
+
 #include "fpe.h"
+
+#define fpe_state_t fpe_state_t
+#define fpe_fpe_t fpe_fpe_t
+#define kh_fpecachelist_t kh_fpecachelist_t
+#include "fpe_cache.h"
+#undef fpe_state_t
+#undef fpe_fpe_t
+#undef kh_fpecachelist_t
+
+#ifndef fpe_cache_t
+#   define fpe_cache_t kh_fpecachelist_t
+#endif
 
 //#define DEBUG
 #ifdef DEBUG
