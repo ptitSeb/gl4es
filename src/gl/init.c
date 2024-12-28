@@ -16,13 +16,10 @@
 #include "logs.h"
 
 #define fpe_state_t struct fpe_state_s
-#define fpe_fpe_t struct fpe_fpe_t_s
 #define kh_fpecachelist_t struct kh_fpecachelist_s
 #include "fpe_cache.h"
-#undef fpe_state_t
 #undef fpe_fpe_t
 #undef kh_fpecachelist_t
-
 #include "init.h"
 #include "envvars.h"
 #if defined(__EMSCRIPTEN__) || defined(__APPLE__)
