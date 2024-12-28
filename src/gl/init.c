@@ -14,12 +14,7 @@
 #include "debug.h"
 #include "loader.h"
 #include "logs.h"
-
-#define fpe_state_t struct fpe_state_s
-#define kh_fpecachelist_t struct kh_fpecachelist_s
 #include "fpe_cache.h"
-#undef fpe_fpe_t
-#undef kh_fpecachelist_t
 #include "init.h"
 #include "envvars.h"
 #if defined(__EMSCRIPTEN__) || defined(__APPLE__)
@@ -127,15 +122,13 @@ void initialize_gl4es() {
     env(LIBGL_STACKTRACE, globals4es.stacktrace, "stacktrace will be printed on crash");
 
     const int LIBGL_FB_ENV_VAR = 
-	    ReturnEnvVarInt("LIBGL_FB");
-	const int LIBGL_FB_VALUE = 
 #       ifndef LIBGL_FB
-        LIBGL_FB_ENV_VAR
+        ReturnEnvVarInt("LIBGL_FB")
 #       else
-        0 == LIBGL_FB_ENV_VAR ? LIBGL_FB : 0
+        ReturnEnvVarIntDef("LIBGL_FB", LIBGL_FB)
 #       endif
     ;
-    switch(LIBGL_FB_VALUE) {
+    switch(LIBGL_FB_ENV_VAR) {
         case 1:
         SHUT_LOGD("framebuffer output enabled\n");
         globals4es.usefb = 1;
