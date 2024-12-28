@@ -305,12 +305,12 @@ void APIENTRY_GL4ES gl4es_glTexParameterfv(GLenum target, GLenum pname, const GL
             case GL_TEXTURE_MAX_LEVEL:
                 if (texture)
                     texture->max_level = param;
-                return;			// not on GLES
+                return;            // not on GLES
             case GL_TEXTURE_BASE_LEVEL:
                 texture->base_level = param;
-                return;			// not on GLES
+                return;            // not on GLES
             case GL_TEXTURE_LOD_BIAS:
-                return;			// not on GLES
+                return;            // not on GLES
             case GL_GENERATE_MIPMAP:
                 if(globals4es.automipmap==3)
                     return; // no mipmap, so no need to generate any
@@ -592,7 +592,7 @@ void APIENTRY_GL4ES gl4es_glGetTexLevelParameterfv(GLenum target, GLint level, G
                 break;
 
             default:
-                errorShim(GL_INVALID_ENUM);	//Wrong here...
+                errorShim(GL_INVALID_ENUM);    //Wrong here...
                 printf("Stubbed glGetTexLevelParameteriv(%s, %i, %s, %p)\n", PrintEnum(target), level, PrintEnum(pname), params);
         }
     }
@@ -768,7 +768,7 @@ void realize_1texture(GLenum target, int wantedTMU, gltexture_t* tex, glsampler_
 {
     DBG(printf("realize_1texture(%s, %d, %p[%u], %p)\n", PrintEnum(target), wantedTMU, tex, tex->glname, sampler);)
     LOAD_GLES(glActiveTexture);
-    LOAD_GLES(glTexParameteri);
+    void gles_glTexParameteri(glTexParameteri_ARG_EXPAND); //LOAD_GLES(glTexParameteri);
     LOAD_GLES(glBindTexture);
     // check sampler stuff
     if(!sampler) sampler = &tex->sampler;
@@ -853,7 +853,7 @@ void realize_textures(int drawing) {
     LOAD_GLES(glDisable);
     LOAD_GLES(glBindTexture);
     LOAD_GLES(glActiveTexture);
-    LOAD_GLES(glTexParameteri);
+    void gles_glTexParameteri(glTexParameteri_ARG_EXPAND); //LOAD_GLES(glTexParameteri);
 #ifdef TEXSTREAM
     DBG(printf("realize_textures(%d), glstate->bound_changed=%d, glstate->enable.texture[0]=%X glsate->actual_tex2d[0]=%u / glstate->bound_stream[0]=%u\n", drawing, glstate->bound_changed, glstate->enable.texture[0], glstate->actual_tex2d[0], glstate->bound_stream[0]);)
 #else

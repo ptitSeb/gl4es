@@ -2,6 +2,40 @@
 #include "../gl4es.h"
 #include "../loader.h"
 #include "skips.h"
+
+// emulation of 'glTexParameteri' (for internal use only)
+void gles_glTexParameteri(glTexParameteri_ARG_EXPAND)
+{
+    LOAD_GLES(glTexParameteri); if (gles_glTexParameteri) return gles_glTexParameteri(target, pname, param);
+
+    LOAD_GLES(glTexParameterx);
+
+    return gles_glTexParameterx(target, pname, param);
+}
+
+// emulation of 'glGetBooleanv' (for internal use only)
+void gles_glGetBooleanv(glGetBooleanv_ARG_EXPAND)
+{
+    LOAD_GLES(glGetBooleanv); if (gles_glGetBooleanv) return gles_glGetBooleanv(pname, params);
+
+    LOAD_GLES(glGetIntegerv);
+
+    GLint result = GL_FALSE;
+    gles_glGetIntegerv(pname, &result);
+    if (params) *params = (result == GL_TRUE ? GL_TRUE : GL_FALSE);
+}
+
+// emulation of 'glIsEnabled' (for internal use only)
+GLboolean gles_glIsEnabled(glIsEnabled_ARG_EXPAND)
+{
+    LOAD_GLES(glIsEnabled); if (gles_glIsEnabled) return gles_glIsEnabled(cap);
+
+    GLboolean result = GL_FALSE;
+
+    gles_glGetBooleanv(cap, &result);
+    return result;
+}
+
 #ifndef skip_glActiveTexture
 void APIENTRY_GL4ES gl4es_glActiveTexture(GLenum texture) {
     LOAD_GLES(glActiveTexture);
@@ -844,7 +878,7 @@ AliasExport(GLint,glGetAttribLocation,,(GLuint program, const GLchar * name));
 #endif
 #ifndef skip_glGetBooleanv
 void APIENTRY_GL4ES gl4es_glGetBooleanv(GLenum pname, GLboolean * params) {
-    LOAD_GLES(glGetBooleanv);
+    void gles_glGetBooleanv(glGetBooleanv_ARG_EXPAND); //LOAD_GLES(glGetBooleanv);
 #ifndef direct_glGetBooleanv
     PUSH_IF_COMPILING(glGetBooleanv)
 #endif
@@ -1214,7 +1248,7 @@ AliasExport(GLboolean,glIsBuffer,,(GLuint buffer));
 #endif
 #ifndef skip_glIsEnabled
 GLboolean APIENTRY_GL4ES gl4es_glIsEnabled(GLenum cap) {
-    LOAD_GLES(glIsEnabled);
+    GLboolean gles_glIsEnabled(glIsEnabled_ARG_EXPAND); //LOAD_GLES(glIsEnabled);
 #ifndef direct_glIsEnabled
     PUSH_IF_COMPILING(glIsEnabled)
 #endif
@@ -2024,7 +2058,7 @@ AliasExport(void,glTexParameterfv,,(GLenum target, GLenum pname, const GLfloat *
 #endif
 #ifndef skip_glTexParameteri
 void APIENTRY_GL4ES gl4es_glTexParameteri(GLenum target, GLenum pname, GLint param) {
-    LOAD_GLES(glTexParameteri);
+    void gles_glTexParameteri(glTexParameteri_ARG_EXPAND); //LOAD_GLES(glTexParameteri);
 #ifndef direct_glTexParameteri
     PUSH_IF_COMPILING(glTexParameteri)
 #endif
