@@ -814,6 +814,8 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
 
 const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *state) {
     // state can be NULL, so provide a 0 default
+    if(!shad_cap) shad_cap = 1024;
+    if(!shad) shad = (char*)malloc(shad_cap);
     fpe_state_t default_state = {0};
     int is_default = !need;
     if(!state) state = &default_state;
