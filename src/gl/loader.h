@@ -131,11 +131,10 @@ EXPORT extern void *egl;
 
 #if defined(_WIN32) || defined(_WIN64)
   #define THREAD_LOCAL __declspec(thread)
+#elif (__STDC_VERSION__ > 201710L) // > C23
+  #define THREAD_LOCAL thread_local
 #elif (__STDC_VERSION__ >= 201112L) // >= C11
   #define THREAD_LOCAL _Thread_local
-#elif (__STDC_VERSION__ > 201710L) // > C23
-  #undef THREAD_LOCAL
-  #define THREAD_LOCAL thread_local
 #elif defined (__GCC__) || defined(__clang__)
   #define THREAD_LOCAL __thread
 #else
