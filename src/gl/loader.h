@@ -129,10 +129,22 @@ EXPORT extern void *egl;
 
 #define PUSH_IF_COMPILING(name) PUSH_IF_COMPILING_EXT(name, name##_ARG_NAMES)
 
+#if defined(_WIN32) || defined(_WIN64)
+  #define THREAD_LOCAL __declspec(thread)
+#elif (__STDC_VERSION__ > 201710L) // > C23
+  #define THREAD_LOCAL thread_local
+#elif (__STDC_VERSION__ >= 201112L) // >= C11
+  #define THREAD_LOCAL _Thread_local
+#elif defined (__GCC__) || defined(__clang__)
+  #define THREAD_LOCAL __thread
+#else
+  #define THREAD_LOCAL 
+#endif
+
 #define DEFINE_RAW(lib, name) static name##_PTR lib##_##name = NULL
 #define LOAD_RAW(lib, name, ...) \
     { \
-        static bool first = true; \
+        static THREAD_LOCAL bool first = true; \
         if (first) { \
             first = false; \
             if (lib != NULL) { \
@@ -144,7 +156,7 @@ EXPORT extern void *egl;
 
 #define LOAD_RAW_3(lib, name, fnc1, fnc2, ...) \
     { \
-        static bool first = true; \
+        static THREAD_LOCAL bool first = true; \
         if (first) { \
             first = false; \
             if (lib != NULL) { \
@@ -160,7 +172,7 @@ EXPORT extern void *egl;
 
 #define LOAD_RAW_SILENT(lib, name, ...) \
     { \
-        static bool first = true; \
+        static THREAD_LOCAL bool first = true; \
         if (first) { \
             first = false; \
             if (lib != NULL) { \
@@ -171,7 +183,7 @@ EXPORT extern void *egl;
 
 #define LOAD_RAW_ALT(lib, alt, name, ...) \
     { \
-        static bool first = true; \
+        static THREAD_LOCAL bool first = true; \
         if (first) { \
             first = false; \
             if (lib != NULL) { \
