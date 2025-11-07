@@ -1084,7 +1084,7 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         glstate->fpe_bound_changed = 0;
     }
     // activate program if needed
-    if(glstate->glsl->program) {
+    if(gl4es_glIsProgram(glstate->glsl->program)) {
         // but first, check if some fixedpipeline state (like GL_ALPHA_TEST) need to alter the original program
         fpe_state_t state;
         fpe_ReleventState(&state, glstate->fpe_state, 0);
@@ -1111,8 +1111,10 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         {
             glstate->gleshard->program = program;
             glstate->gleshard->glprogram = glprogram;
-            gles_glUseProgram(glstate->gleshard->program);
-            DBG(printf("Use GLSL program %d\n", glstate->gleshard->program);)
+            if (gl4es_glIsProgram(glstate->gleshard->program)) {
+              gles_glUseProgram(glstate->gleshard->program);
+              DBG(printf("Use GLSL program %d\n", glstate->gleshard->program);)
+            }
         }
         // synchronize uniforms with parent!
         if(glprogram != glstate->glsl->glprogram)
@@ -1123,8 +1125,10 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
         {
             glstate->gleshard->program = glstate->fpe->prog;
             glstate->gleshard->glprogram = glstate->fpe->glprogram;
-            gles_glUseProgram(glstate->gleshard->program);
-            DBG(printf("Use FPE program %d\n", glstate->gleshard->program);)
+            if (gl4es_glIsProgram(glstate->gleshard->program)) {
+              gles_glUseProgram(glstate->gleshard->program);
+              DBG(printf("Use FPE program %d\n", glstate->gleshard->program);)
+            }
         }
     }
     program_t *glprogram = glstate->gleshard->glprogram;
