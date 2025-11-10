@@ -937,14 +937,29 @@ void APIENTRY_GL4ES gl4es_glMultiDrawElements( GLenum mode, GLsizei *counts, GLe
             (!compiling && !intercept && type==GL_UNSIGNED_INT && hardext.elementuint)
             );
         if(need_free) {
-            sindices = copy_gl_array((glstate->vao->elements)?(void*)((char*)glstate->vao->elements->data + (uintptr_t)indices):indices,
-                type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count, NULL);
-            old_index = wantBufferIndex(0);
+              GLvoid *src;
+              if (glstate->vao->elements) {
+                  src = (void*)(char*)glstate->vao->elements->data + (uintptr_t)indices;
+              } else {
+                  src = (GLvoid *) indices[i];
+              }
+              sindices = copy_gl_array(src, type, 1, 0, GL_UNSIGNED_SHORT, 1, 0, count, NULL);  
+          old_index = wantBufferIndex(0);
         } else {
-            if(type==GL_UNSIGNED_INT)
-                iindices = (glstate->vao->elements)?((void*)((char*)glstate->vao->elements->data + (uintptr_t)indices)):(GLvoid*)indices;
-            else
-                sindices = (glstate->vao->elements)?((void*)((char*)glstate->vao->elements->data + (uintptr_t)indices)):(GLvoid*)indices;
+              if(type==GL_UNSIGNED_INT) {
+                  if (glstate->vao->elements) {
+                      iindices = (void*)(char*)glstate->vao->elements->data + (uintptr_t)indices;
+                  } else {
+                      iindices = (GLuint *) indices[i];
+                  }
+              }
+              else {
+                  if (glstate->vao->elements) {
+                      sindices = (void*)(char*)glstate->vao->elements->data + (uintptr_t)indices;
+                  } else {
+                      sindices = (GLushort *) indices[i];
+                  }
+              }
         }
 
         if (compiling) {
