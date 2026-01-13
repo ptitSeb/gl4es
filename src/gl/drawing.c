@@ -857,7 +857,7 @@ void APIENTRY_GL4ES gl4es_glMultiDrawArrays(GLenum mode, const GLint *firsts, co
                     }
                     indfirst = realfirst;
                     GLushort *p = indices;
-                    for (int i=0, j=indfirst; i+3<indcnt; i+=4, j+=4) {
+                    for (int k=0, j=indfirst; k+3<indcnt; k+=4, k+=4) {
                             *(p++) = j + 0;
                             *(p++) = j + 1;
                             *(p++) = j + 2;
