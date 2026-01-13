@@ -833,11 +833,11 @@ void APIENTRY_GL4ES gl4es_glMultiDrawArrays(GLenum mode, const GLint *firsts, co
         if (intercept) {
             if(list) {
                 NewStage(list, STAGE_DRAW);
-            }
-            if(globals4es.mergelist && list->stage>=STAGE_DRAW && is_list_compatible(list) && !list->use_glstate) {
-                list = NewDrawStage(list, mode);
-                list = arrays_add_renderlist(list, mode, first, count+first, NULL, 0);
-                NewStage(list, STAGE_POSTDRAW);
+                if(globals4es.mergelist && list->stage>=STAGE_DRAW && is_list_compatible(list) && !list->use_glstate) {
+                    list = NewDrawStage(list, mode);
+                    list = arrays_add_renderlist(list, mode, first, count+first, NULL, 0);
+                    NewStage(list, STAGE_POSTDRAW);
+                }
             }
             else
                 list = arrays_to_renderlist(NULL, mode, first, count+first);
