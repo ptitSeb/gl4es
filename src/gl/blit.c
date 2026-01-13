@@ -210,7 +210,7 @@ void gl4es_blitTexture_gles2(GLuint texture,
         {
             LOAD_GLES(glGetShaderInfoLog);
             char log[400];
-            gles_glGetShaderInfoLog(glstate->blit->pixelshader_alpha, 399, NULL, log);
+            gles_glGetShaderInfoLog(glstate->blit->pixelshader, 399, NULL, log);
             SHUT_LOGE("Failed to produce blit fragment shader.\n%s", log);
             free(glstate->blit);
             glstate->blit = NULL;
@@ -240,7 +240,7 @@ void gl4es_blitTexture_gles2(GLuint texture,
         {
             LOAD_GLES(glGetShaderInfoLog);
             char log[400];
-            gles_glGetShaderInfoLog(glstate->blit->pixelshader_alpha, 399, NULL, log);
+            gles_glGetShaderInfoLog(glstate->blit->vertexshader, 399, NULL, log);
             SHUT_LOGE("Failed to produce blit vertex shader.\n%s", log);
             free(glstate->blit);
             glstate->blit = NULL;
@@ -255,7 +255,7 @@ void gl4es_blitTexture_gles2(GLuint texture,
         {
             LOAD_GLES(glGetShaderInfoLog);
             char log[400];
-            gles_glGetShaderInfoLog(glstate->blit->pixelshader_alpha, 399, NULL, log);
+            gles_glGetShaderInfoLog(glstate->blit->vertexshader_alpha, 399, NULL, log);
             SHUT_LOGE("Failed to produce blit with alpha vertex shader.\n%s", log);
             free(glstate->blit);
             glstate->blit = NULL;
