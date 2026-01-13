@@ -857,7 +857,7 @@ void APIENTRY_GL4ES gl4es_glMultiDrawArrays(GLenum mode, const GLint *firsts, co
                     }
                     indfirst = realfirst;
                     GLushort *p = indices;
-                    for (int i=0, j=indfirst; i+3<indcnt; i+=4, j+=4) {
+                    for (int k=0, j=indfirst; k+3<indcnt; k+=4, k+=4) {
                             *(p++) = j + 0;
                             *(p++) = j + 1;
                             *(p++) = j + 2;
@@ -939,7 +939,7 @@ void APIENTRY_GL4ES gl4es_glMultiDrawElements( GLenum mode, GLsizei *counts, GLe
         if(need_free) {
               GLvoid *src;
               if (glstate->vao->elements) {
-                  src = (void*)(char*)glstate->vao->elements->data + (uintptr_t)indices;
+                  src = (void*)(char*)glstate->vao->elements->data + (uintptr_t)indices[i];
               } else {
                   src = (GLvoid *) indices[i];
               }
@@ -948,14 +948,14 @@ void APIENTRY_GL4ES gl4es_glMultiDrawElements( GLenum mode, GLsizei *counts, GLe
         } else {
               if(type==GL_UNSIGNED_INT) {
                   if (glstate->vao->elements) {
-                      iindices = (void*)(char*)glstate->vao->elements->data + (uintptr_t)indices;
+                      iindices = (void*)(char*)glstate->vao->elements->data + (uintptr_t)indices[i];
                   } else {
                       iindices = (GLuint *) indices[i];
                   }
               }
               else {
                   if (glstate->vao->elements) {
-                      sindices = (void*)(char*)glstate->vao->elements->data + (uintptr_t)indices;
+                      sindices = (void*)(char*)glstate->vao->elements->data + (uintptr_t)indices[i];
                   } else {
                       sindices = (GLushort *) indices[i];
                   }
