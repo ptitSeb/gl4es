@@ -18,6 +18,9 @@ static int tested = 0;
 
 hardext_t hardext = {0};
 
+char* gl4es_original_vendor = NULL;
+char* gl4es_original_renderer = NULL;
+
 static int testGLSL(const char* version, int uniformLoc) {
     // check if glsl 120 shaders are supported... by compiling one !
     LOAD_GLES2(glCreateShader);
@@ -420,6 +423,9 @@ void GetHardwareExtensions(int notest)
     // get GLES driver signatures...
     const char *vendor = (const char *) gles_glGetString(GL_VENDOR);
     SHUT_LOGD("Hardware vendor is %s\n", vendor);
+    if(!gl4es_original_vendor) {
+        gl4es_original_vendor = strdup(vendor);
+    }
     if(strstr(vendor, "ARM"))
         hardext.vendor = VEND_ARM;
     else if(strstr(vendor, "Imagination Technologies"))
@@ -431,6 +437,10 @@ void GetHardwareExtensions(int notest)
             hardext.glsl300es = 1;
         if(testGLSL("#version 310 es", 1))
             hardext.glsl310es = 1;
+    }
+    if(!gl4es_original_renderer) {
+        const char* renderer = (const char *) gles_glGetString(GL_RENDERER);
+        gl4es_original_renderer = strdup(renderer);
     }
     if(hardext.glsl120) {
         SHUT_LOGD("GLSL 120 supported and used\n");

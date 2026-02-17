@@ -239,6 +239,11 @@ void BuildExtensionsList() {
     }
 }
 
+static char renderer_string[128] = {0};
+static char vendor_string[128] = {0};
+extern char* gl4es_original_vendor;
+extern char* gl4es_original_renderer;
+
 const GLubyte* APIENTRY_GL4ES gl4es_glGetString(GLenum name) {
     DBG(printf("glGetString(%s)\n", PrintEnum(name));)
     errorShim(GL_NO_ERROR);
@@ -249,9 +254,15 @@ const GLubyte* APIENTRY_GL4ES gl4es_glGetString(GLenum name) {
             BuildExtensionsList();
             return glstate->extensions;
 		case GL_VENDOR:
-			return (GLubyte *)"ptitSeb";
+            if(!vendor_string[0]) {
+                snprintf(vendor_string, 127, "GL4ES wrapping %s", gl4es_original_vendor?gl4es_original_vendor:"an unknown hardware");
+            }
+			return (GLubyte *)vendor_string;
 		case GL_RENDERER:
-			return (GLubyte *)"GL4ES wrapper";
+            if(!renderer_string[0]) {
+                snprintf(renderer_string, 127, "GL4ES using %s", gl4es_original_renderer?gl4es_original_renderer:"an unknown renderer");
+            }
+			return (GLubyte *)renderer_string;
 		case GL_SHADING_LANGUAGE_VERSION:
             if(globals4es.gl==21)
             return (GLubyte *)"1.20 via gl4es";
