@@ -1866,7 +1866,7 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
                 attr[1] = EGL_PBUFFER_BIT;
                 egl_eglChooseConfig(eglDisplay, attr, NULL, 0, count);
                 // On Pandora and GLES2, only 565 PBuffer are available!
-                if(cr || cg || cb || ca) {
+                if((*count==0) && (cr || cg || cb || ca)) {
                     --cur;
                     if(cr) attr[cr] = 5; else { attr[cur] = EGL_RED_SIZE; attr[cur++] = 5; }
                     if(cg) attr[cg] = 6; else { attr[cur] = EGL_GREEN_SIZE; attr[cur++] = 6; }
