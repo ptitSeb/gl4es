@@ -2822,13 +2822,17 @@ void BlitEmulatedPixmap(int win) {
     }
     static int direct_copy = 1;
     if(direct_copy) {
-        LOAD_EGL(eglCopyBuffers);
-        if(!egl_eglCopyBuffers(eglDisplay, buff->Surface, (EGLNativePixmapType)frame)) {
-            LOGE("Cannot use eglCopyBuffers, disabling it's use: ");
-            CheckEGLErrors();
+        if(hardext.android)
             direct_copy = 0;
-        } else
-            return;
+        else {
+            LOAD_EGL(eglCopyBuffers);
+            if(!egl_eglCopyBuffers(eglDisplay, buff->Surface, (EGLNativePixmapType)frame)) {
+                LOGE("Cannot use eglCopyBuffers, disabling it's use: ");
+                CheckEGLErrors();
+                direct_copy = 0;
+            } else
+                return;
+        }
     }
     uintptr_t pix=(uintptr_t)frame->data;
 

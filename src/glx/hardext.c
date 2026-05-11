@@ -213,13 +213,18 @@ void GetHardwareExtensions(int notest)
     }
 
     egl_eglChooseConfig(eglDisplay, configAttribs, pbufConfigs, 1, &configsFound);
+    const char* eglExts = egl_eglQueryString(eglDisplay, EGL_EXTENSIONS);
 #ifndef NO_GBM
-    const char* eglExts = egl_eglQueryString(EGL_NO_DISPLAY, EGL_EXTENSIONS);
     if(eglExts && strstr(eglExts, "EGL_KHR_platform_gbm ")) {
         SHUT_LOGD("GBM Surfaces supported%s\n", globals4es.usegbm?" and used":"");
         hardext.gbm = 1;
     }
 #endif
+    //SHUT_LOGD("EGL extension: %s\n", eglExts);
+    if(eglExts && strstr(eglExts, "EGL_ANDROID_image_native_buffer ")) {
+        hardext.android = 1;
+        SHUT_LOGD("Android driver detected, disabling X11 direct_copy for PBuffer\n");
+    }
 #ifndef PANDORA
     if(!configsFound) {
         // try without alpha channel
