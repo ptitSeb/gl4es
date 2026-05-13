@@ -1947,7 +1947,7 @@ GLXFBConfig *gl4es_glXGetFBConfigs(Display *display, int screen, int *count) {
     int cur = 0;
     int tmp;
     attr[cur++] = EGL_SURFACE_TYPE;
-    attr[cur++] = (globals4es.usepbuffer)?(hardext.android?EGL_PBUFFER_BIT:EGL_PBUFFER_BIT|EGL_PIXMAP_BIT):EGL_WINDOW_BIT;
+    attr[cur++] = (globals4es.usepbuffer)?(hardext.android?EGL_PBUFFER_BIT:(EGL_PBUFFER_BIT|EGL_PIXMAP_BIT)):EGL_WINDOW_BIT;
     attr[cur++] = EGL_RENDERABLE_TYPE;
     attr[cur++] = (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT;
     attr[cur++] = EGL_NONE; // end list
