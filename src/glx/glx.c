@@ -1841,7 +1841,10 @@ GLXFBConfig *gl4es_glXChooseFBConfig(Display *display, int screen,
         attr[cur++] = EGL_STENCIL_SIZE;
         attr[cur++] = 8;
     }
-    attr[1] |= (globals4es.usepbuffer)?(/*EGL_PBUFFER_BIT|*/EGL_PIXMAP_BIT):EGL_WINDOW_BIT;
+
+    // Android (E)GL drivers usually don't support the EGL_PIXMAP_BIT here,
+    // so only use EGL_PBUFFER_BIT
+    attr[1] |= (globals4es.usepbuffer)?(hardext.android?(EGL_PBUFFER_BIT):(/*EGL_PBUFFER_BIT|*/EGL_PIXMAP_BIT)):(EGL_WINDOW_BIT);
 
     attr[cur++] = EGL_RENDERABLE_TYPE;
     attr[cur++] = (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT;
@@ -1944,7 +1947,7 @@ GLXFBConfig *gl4es_glXGetFBConfigs(Display *display, int screen, int *count) {
     int cur = 0;
     int tmp;
     attr[cur++] = EGL_SURFACE_TYPE;
-    attr[cur++] = (globals4es.usepbuffer)?(EGL_PBUFFER_BIT|EGL_PIXMAP_BIT):EGL_WINDOW_BIT;
+    attr[cur++] = (globals4es.usepbuffer)?(hardext.android?EGL_PBUFFER_BIT:(EGL_PBUFFER_BIT|EGL_PIXMAP_BIT)):EGL_WINDOW_BIT;
     attr[cur++] = EGL_RENDERABLE_TYPE;
     attr[cur++] = (hardext.esversion==1)?EGL_OPENGL_ES_BIT:EGL_OPENGL_ES2_BIT;
     attr[cur++] = EGL_NONE; // end list
