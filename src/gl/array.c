@@ -6,10 +6,14 @@
 #include "light.h"
 #include "state.h"
 
+static int valid_copy_range(GLsizei skip, GLsizei count) {
+    return count > 0 && skip >= 0 && skip < count;
+}
+
 GLvoid *copy_gl_array(const GLvoid *src,
                       GLenum from, GLsizei width, GLsizei stride,
                       GLenum to, GLsizei to_width, GLsizei skip, GLsizei count, void* dst) {
-    if (! src || !count)
+    if (!src || !valid_copy_range(skip, count))
         return NULL;
 						  
     if (! stride)
@@ -79,7 +83,7 @@ GLvoid *copy_gl_array(const GLvoid *src,
 GLvoid *copy_gl_array_texcoord(const GLvoid *src,
                       GLenum from, GLsizei width, GLsizei stride,
                       GLsizei to_width, GLsizei skip, GLsizei count, void* dst) {
-    if (! src || !count)
+    if (!src || !valid_copy_range(skip, count))
         return NULL;
 						  
     if (! stride)
@@ -137,7 +141,9 @@ GLvoid *copy_gl_array_texcoord(const GLvoid *src,
 GLvoid *copy_gl_array_quickconvert(const GLvoid *src,
                       GLenum from, GLsizei stride,
                       GLsizei skip, GLsizei count, void* dest) {
-                          
+    if (!src || !valid_copy_range(skip, count))
+        return NULL;
+
     if (! stride)
         stride = 4 * gl_sizeof(from);
     const char *unknown_str = "LIBGL: copy_gl_array_quickconvert -> unknown type: %x\n";
@@ -168,7 +174,7 @@ GLvoid *copy_gl_array_quickconvert(const GLvoid *src,
 GLvoid *copy_gl_array_convert(const GLvoid *src,
                       GLenum from, GLsizei width, GLsizei stride,
                       GLenum to, GLsizei to_width, GLsizei skip, GLsizei count, GLvoid* filler, void* dst) {
-    if (! src || !count)
+    if (!src || !valid_copy_range(skip, count))
         return NULL;
 
     if (! stride)
@@ -460,7 +466,7 @@ void *copy_gl_array_bgra(void* dest, const void *ptr, GLint stride, GLsizei widt
 	// this one only convert from BGRA (unsigned byte) to RGBA FLOAT
     GLubyte* src = (GLubyte*)ptr;
 
-    if (! src || !(count-skip))
+    if (!src || !valid_copy_range(skip, count))
         return NULL;
 						  
     if (! stride)
