@@ -352,7 +352,7 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
         if(need)
             t = (need->need_texs&(1<<i))?1:0;
         if(t) {
-            sprintf(buff, "varying %s _gl4es_TexCoord_%d;\n", texvecsize[t-1], i);
+            sprintf(buff, "varying highp %s _gl4es_TexCoord_%d;\n", texvecsize[t-1], i);
             ShadAppend(buff);
             headers++;
             if(state->texture[i].texmat) {
@@ -913,7 +913,7 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
             if(t && !need->need_texs&(1<<i))
                 t = 0;
         if(t) {
-            sprintf(buff, "varying %s _gl4es_TexCoord_%d;\n", texvecsize[t-1], i);
+            sprintf(buff, "varying highp %s _gl4es_TexCoord_%d;\n", texvecsize[t-1], i);
             ShadAppend(buff);
             sprintf(buff, "uniform %s _gl4es_TexSampler_%d;\n", texsampler[t-1], i);
             ShadAppend(buff);
