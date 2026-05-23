@@ -141,6 +141,7 @@ void GetHardwareExtensions(int notest)
     LOAD_EGL(eglBindAPI);
     LOAD_EGL(eglInitialize);
     LOAD_EGL(eglGetDisplay);
+    LOAD_EGL(eglGetPlatformDisplay);
     LOAD_EGL(eglCreatePbufferSurface);
     LOAD_EGL(eglDestroySurface);
     LOAD_EGL(eglDestroyContext);
@@ -203,7 +204,14 @@ void GetHardwareExtensions(int notest)
     }
     else
 #endif
+#ifdef HYBRIS
+    {
+        EGLint attribs[] = { EGL_NONE };
+        eglDisplay = egl_eglGetPlatformDisplay(EGL_PLATFORM_ANDROID_KHR, EGL_DEFAULT_DISPLAY, attribs);
+    }
+#else
         eglDisplay = egl_eglGetDisplay(EGL_DEFAULT_DISPLAY);
+#endif
 
     egl_eglBindAPI(EGL_OPENGL_ES_API);
     if (egl_eglInitialize(eglDisplay, NULL, NULL) != EGL_TRUE) {
