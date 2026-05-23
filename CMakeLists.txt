@@ -17,6 +17,7 @@ option(BCMHOST "Set to ON if targeting an RPi(2) device" ${BCMHOST})
 option(ODROID "Set to ON if targeting an ODroid device" ${ODROID})
 option(GOA_CLONE "Set to ON if targeting GO Advance clones, like RG351p/v, Gameforce Chi, RGB10..." ${GOA_CLONE})
 option(ANDROID "Set to ON if targeting an Android device" ${ANDROID})
+option(HYBRIS "Set to ON if targeting Android drivers on GNU/Linux" ${HYBRIS})
 option(CHIP "Set to ON if targeting an C.H.I.P. device" ${CHIP})
 option(AMIGAOS4 "Set to ON if targeting an AmigaOS4/Warp3D platform (activate NOEGL and NOX11)" ${AMIGAOS4})
 option(NOX11 "Set to ON to not use X11 (creation of context has to be done outside gl4es)" ${NOX11})
@@ -119,6 +120,12 @@ endif()
 if(USE_ANDROID_LOG)
     add_definitions(-DUSE_ANDROID_LOG)
     find_library(log-lib log)
+endif()
+
+# Android drivers on GNU/Linux aka "libhybris"
+if (HYBRIS)
+    add_definitions(-DHYBRIS)
+    add_definitions(-DNO_GBM -DDEFAULT_ES=2)
 endif()
 
 #PocketCHIP

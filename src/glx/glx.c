@@ -377,6 +377,7 @@ static int get_config_default(Display *display, int attribute, int *value) {
 
 static void init_display(Display *display) {
     LOAD_EGL(eglGetDisplay);
+    LOAD_EGL(eglGetPlatformDisplay);
 
     if (! g_display) {
         g_display = display;//XOpenDisplay(NULL);
@@ -384,6 +385,12 @@ static void init_display(Display *display) {
     if(globals4es.usegbm) {
         eglDisplay = OpenGBMDisplay(display);
     }
+
+#ifdef HYBRIS
+    EGLint attribs[] = { EGL_NONE };
+    eglDisplay = egl_eglGetPlatformDisplay(EGL_PLATFORM_ANDROID_KHR, EGL_DEFAULT_DISPLAY, attribs);
+#endif
+
     if(!eglDisplay) {
         if (globals4es.usefb || globals4es.usepbuffer) {
             eglDisplay = egl_eglGetDisplay(EGL_DEFAULT_DISPLAY);
