@@ -520,7 +520,7 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts,
                     if(tok.type==TK_SPACE)
                         status = 310;
                     else if(tok.type==TK_TEXT) {
-                        int v = -1;
+                        int v = 1;
                         if(gl_es && (strcmp(tok.str, "GL_ES")==0))
                             v = 1;
                         else if(kh_get(alldefine, alldefines, tok.str)!=kh_end(alldefines)) {
@@ -541,7 +541,7 @@ char* preproc(const char* code, int keepcomments, int gl_es, extensions_t* exts,
                     if(tok.type==TK_SPACE)
                         status = 320;
                     else if(tok.type==TK_TEXT) {
-                        int v = -1;
+                        int v = 0;
                         if(gl_es && strcmp(tok.str, "GL_ES")==0)
                             v = 0;
                         else if(kh_get(alldefine, alldefines, tok.str)!=kh_end(alldefines)) {
