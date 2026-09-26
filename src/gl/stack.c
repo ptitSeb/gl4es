@@ -294,6 +294,10 @@ void APIENTRY_GL4ES gl4es_glPushAttrib(GLbitfield mask) {
 		gl4es_glGetIntegerv(GL_MATRIX_MODE, (GLint *) &cur->matrix_mode);
 		cur->rescale_normal_flag = gl4es_glIsEnabled(GL_RESCALE_NORMAL);
 		cur->normalize_flag = gl4es_glIsEnabled(GL_NORMALIZE);
+		// eye-space equations, as stored by gl4es_glClipPlanef's ES2 path
+		cur->clip_planes = (GLfloat *)malloc(hardext.maxplanes * 4 * sizeof(GLfloat));
+		for (int i = 0; i < hardext.maxplanes; i++)
+			memcpy(cur->clip_planes + i*4, glstate->planes[i], 4*sizeof(GLfloat));
 	}
     // GL_VIEWPORT_BIT
     if (mask & GL_VIEWPORT_BIT) {
@@ -629,6 +633,12 @@ DBG(printf("glPopAttrib()\n");)
 		gl4es_glMatrixMode(cur->matrix_mode);
 		enable_disable(GL_NORMALIZE, cur->normalize_flag);		
 		enable_disable(GL_RESCALE_NORMAL, cur->rescale_normal_flag);		
+		if (cur->clip_planes) {
+			// restore the stored eye-space equations directly: going through
+			// gl4es_glClipPlanef would re-transform by the current modelview
+			for (int i = 0; i < hardext.maxplanes; i++)
+				memcpy(glstate->planes[i], cur->clip_planes + i*4, 4*sizeof(GLfloat));
+		}
 	}
 
     if (cur->mask & GL_VIEWPORT_BIT) {
