@@ -140,6 +140,8 @@ typedef struct _glstack_t {
     // GL_TEXTURE_BIT
     GLint texture[MAX_TEX][ENABLED_TEXTURE_LAST];
     texgen_state_t texgen[MAX_TEX];
+    GLenum texenv_mode[MAX_TEX];
+    GLfloat texenv_color[MAX_TEX][4];
     GLint active;
 
     // GL_TRANSFORM_BIT

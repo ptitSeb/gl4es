@@ -276,6 +276,8 @@ void APIENTRY_GL4ES gl4es_glPushAttrib(GLbitfield mask) {
             cur->texgen_t[a] = glstate->enable.texgen_t[a];
             cur->texgen_q[a] = glstate->enable.texgen_q[a];
             cur->texgen[a] = glstate->texgen[a];   // all mode and planes per texture in 1 line
+            cur->texenv_mode[a] = glstate->texenv[a].env.mode;
+            memcpy(cur->texenv_color[a], glstate->texenv[a].env.color, 4*sizeof(GLfloat));
             for (int j=0; j<ENABLED_TEXTURE_LAST; j++)
 	            cur->texture[a][j] = glstate->texture.bound[a][j]->texture;
         }
@@ -602,6 +604,18 @@ DBG(printf("glPopAttrib()\n");)
             glstate->enable.texgen_t[a] = cur->texgen_t[a];
             glstate->enable.texgen_q[a] = cur->texgen_q[a];
             glstate->texgen[a] = cur->texgen[a];   // all mode and planes per texture in 1 line
+            // restore through gl4es_glTexEnv* (not a struct copy): they also
+            // refresh the fpe_state bits the shader generator reads
+            if (cur->texenv_mode[a] != glstate->texenv[a].env.mode) {
+                if(glstate->texture.active!=a)
+                    gl4es_glActiveTexture(GL_TEXTURE0+a);
+                gl4es_glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, cur->texenv_mode[a]);
+            }
+            if (memcmp(cur->texenv_color[a], glstate->texenv[a].env.color, 4*sizeof(GLfloat)) != 0) {
+                if(glstate->texture.active!=a)
+                    gl4es_glActiveTexture(GL_TEXTURE0+a);
+                gl4es_glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, cur->texenv_color[a]);
+            }
             for (int j=0; j<ENABLED_TEXTURE_LAST; j++)
                 if (cur->texture[a][j] != glstate->texture.bound[a][j]->texture) {
                     if(glstate->texture.active!=a)
