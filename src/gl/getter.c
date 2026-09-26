@@ -284,6 +284,26 @@ AliasExport(const GLubyte*,glGetString,,(GLenum name));
 
 #define TOP(A) (glstate->A->stack+(glstate->A->top*16))
 
+static int getter_viewport4(GLfloat *params) {
+    if (!glstate->raster.viewport_known)
+        return 0;
+    params[0] = (GLfloat)glstate->raster.viewport.x;
+    params[1] = (GLfloat)glstate->raster.viewport.y;
+    params[2] = (GLfloat)glstate->raster.viewport.width;
+    params[3] = (GLfloat)glstate->raster.viewport.height;
+    return 1;
+}
+
+static int getter_scissor4(GLfloat *params) {
+    if (!glstate->raster.scissor_known)
+        return 0;
+    params[0] = (GLfloat)glstate->raster.scissor.x;
+    params[1] = (GLfloat)glstate->raster.scissor.y;
+    params[2] = (GLfloat)glstate->raster.scissor.width;
+    params[3] = (GLfloat)glstate->raster.scissor.height;
+    return 1;
+}
+
 int gl4es_commonGet(GLenum pname, GLfloat *params) {
     switch (pname) {
         case GL_MAJOR_VERSION:
@@ -307,6 +327,12 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             break;
         case GL_AUX_BUFFERS:
             *params = 0;
+            break;
+        case GL_LINE_WIDTH:
+            *params = glstate->line_width;
+            break;
+        case GL_GENERATE_MIPMAP_HINT:
+            *params = glstate->mipmap_hint;
             break;
         case GL_MAX_TEXTURE_UNITS:
             *params = hardext.maxtex;
@@ -878,6 +904,38 @@ void APIENTRY_GL4ES gl4es_glGetIntegerv(GLenum pname, GLint *params) {
             params[0] = glstate->depth.Near*2147483647l;
             params[1] = glstate->depth.Far*2147483647l;
             break;
+        case GL_VIEWPORT: {
+            GLfloat v[4];
+            if (getter_viewport4(v)) {
+                params[0] = (GLint)v[0];
+                params[1] = (GLint)v[1];
+                params[2] = (GLint)v[2];
+                params[3] = (GLint)v[3];
+            } else {
+                gles_glGetIntegerv(GL_VIEWPORT, params);
+            }
+            break;
+        }
+        case GL_SCISSOR_BOX: {
+            GLfloat v[4];
+            if (getter_scissor4(v)) {
+                params[0] = (GLint)v[0];
+                params[1] = (GLint)v[1];
+                params[2] = (GLint)v[2];
+                params[3] = (GLint)v[3];
+            } else {
+                gles_glGetIntegerv(GL_SCISSOR_BOX, params);
+            }
+            break;
+        }
+        case GL_COLOR_CLEAR_VALUE:
+            // colors and depths map [0, 1] onto [0, INT_MAX], like the depth range above
+            for (int i=0; i<4; i++)
+                params[i] = glstate->clear_color[i]*2147483647.0;
+            break;
+        case GL_DEPTH_CLEAR_VALUE:
+            params[0] = glstate->depth.clear*2147483647.0;
+            break;
         default:
             errorGL();
             gles_glGetIntegerv(pname, params);
@@ -944,6 +1002,20 @@ void APIENTRY_GL4ES gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
         case GL_DEPTH_RANGE:
             params[0] = glstate->depth.Near;
             params[1] = glstate->depth.Far;
+            break;
+        case GL_COLOR_CLEAR_VALUE:
+            memcpy(params, glstate->clear_color, 4*sizeof(GLfloat));
+            break;
+        case GL_DEPTH_CLEAR_VALUE:
+            params[0] = glstate->depth.clear;
+            break;
+        case GL_VIEWPORT:
+            if (!getter_viewport4(params))
+                gles_glGetFloatv(GL_VIEWPORT, params);
+            break;
+        case GL_SCISSOR_BOX:
+            if (!getter_scissor4(params))
+                gles_glGetFloatv(GL_SCISSOR_BOX, params);
             break;
         default:
             errorGL();
@@ -1026,6 +1098,28 @@ void APIENTRY_GL4ES gl4es_glGetDoublev(GLenum pname, GLdouble *params) {
         case GL_DEPTH_RANGE:
             params[0] = glstate->depth.Near;
             params[1] = glstate->depth.Far;
+            break;
+        case GL_COLOR_CLEAR_VALUE:
+            for (int i=0; i<4; i++) params[i] = glstate->clear_color[i];
+            break;
+        case GL_DEPTH_CLEAR_VALUE:
+            params[0] = glstate->depth.clear;
+            break;
+        case GL_VIEWPORT:
+            if (getter_viewport4(tmp)) {
+                for (int i=0; i<4; i++) params[i] = tmp[i];
+            } else {
+                gles_glGetFloatv(GL_VIEWPORT, tmp);
+                for (int i=0; i<4; i++) params[i] = tmp[i];
+            }
+            break;
+        case GL_SCISSOR_BOX:
+            if (getter_scissor4(tmp)) {
+                for (int i=0; i<4; i++) params[i] = tmp[i];
+            } else {
+                gles_glGetFloatv(GL_SCISSOR_BOX, tmp);
+                for (int i=0; i<4; i++) params[i] = tmp[i];
+            }
             break;
         default:
             errorGL();

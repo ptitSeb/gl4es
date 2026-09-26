@@ -132,6 +132,10 @@ struct glstate_s {
     GLenum              blenddfactoralpha;
     GLenum              blendeqrgb;
     GLenum              blendeqalpha;
+    // Tracked so glGet* can answer without asking the driver
+    GLfloat             clear_color[4];
+    GLfloat             line_width;
+    GLenum              mipmap_hint;
 }; // glstate_t defined in oldprogram.h
 
 
