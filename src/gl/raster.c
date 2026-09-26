@@ -356,6 +356,13 @@ void bitmap_flush() {
 	);
 
 	glstate->raster.bm_drawing = 0;
+	/* Keep the CPU-side bitmap buffer transparent between batches without
+	 * clearing the entire viewport for every run of glyphs.  Only this dirty
+	 * rectangle can contain non-zero pixels: the buffer is fully initialized
+	 * when allocated, and every completed batch is cleared here after its
+	 * upload and blit have consumed the pixels. */
+	for (int i=0; i<ey; i++)
+		memset((char*)glstate->raster.bitmap+4*(sx+(sy+i)*glstate->raster.bm_width), 0, 4*ex);
 
 	if(IS_TEX1D(old_active)) gl4es_glEnable(GL_TEXTURE_1D);
 	if(!IS_TEX2D(old_active)) gl4es_glDisable(GL_TEXTURE_2D);
@@ -428,15 +435,29 @@ void APIENTRY_GL4ES gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig,
 	if (sx>=ex || sy>=ey)	// nothing to draw, no changes
 		return;
 	// create/realloc buffer if needed
+	int bitmap_reallocated = 0;
 	if(glstate->raster.bm_alloc < glstate->raster.viewport.width*glstate->raster.viewport.height*4) {
 		if(glstate->raster.bitmap)
 			free(glstate->raster.bitmap);
 		glstate->raster.bm_alloc = glstate->raster.viewport.width*glstate->raster.viewport.height*4;
 		glstate->raster.bitmap = (GLubyte*)malloc(glstate->raster.bm_alloc);
+		if(!glstate->raster.bitmap) {
+			glstate->raster.bm_alloc = 0;
+			return;
+		}
+		bitmap_reallocated = 1;
 	}
-	// clear buffer if needed
-	if(!glstate->raster.bm_drawing) {
-		memset(glstate->raster.bitmap, 0, glstate->raster.viewport.width*glstate->raster.viewport.height*4);
+	/* A new allocation has no prior dirty rectangle (and the old buffer
+	 * is gone), so always zero it — including realloc-while-drawing. */
+	if(bitmap_reallocated) {
+		memset(glstate->raster.bitmap, 0, glstate->raster.bm_alloc);
+		glstate->raster.bm_width = glstate->raster.viewport.width;
+		glstate->raster.bm_height = glstate->raster.viewport.height;
+		glstate->raster.bm_x1 = glstate->raster.bm_width;
+		glstate->raster.bm_y1 = glstate->raster.bm_height;
+		glstate->raster.bm_x2 = 0;
+		glstate->raster.bm_y2 = 0;
+	} else if(!glstate->raster.bm_drawing) {
 		glstate->raster.bm_width = glstate->raster.viewport.width;
 		glstate->raster.bm_height = glstate->raster.viewport.height;
 		glstate->raster.bm_x1 = glstate->raster.bm_width;
