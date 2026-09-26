@@ -226,7 +226,15 @@ void APIENTRY_GL4ES gl4es_glPushAttrib(GLbitfield mask) {
         }
     }
 
-    // TODO: GL_POLYGON_BIT
+    if (mask & GL_POLYGON_BIT) {
+        cur->cull_face = gl4es_glIsEnabled(GL_CULL_FACE);
+        gl4es_glGetIntegerv(GL_CULL_FACE_MODE, &cur->cull_face_mode);
+        gl4es_glGetIntegerv(GL_FRONT_FACE, &cur->front_face);
+        cur->polygon_mode = glstate->polygon_mode;  // 0 means GL_FILL here
+        cur->polygon_offset_fill = gl4es_glIsEnabled(GL_POLYGON_OFFSET_FILL);
+        //TODO: GL_POLYGON_SMOOTH & GL_POLYGON_STIPPLE enables (not tracked)
+        //TODO: GL_POLYGON_OFFSET_LINE/POINT enables, offset factor & units (not shadowed)
+    }
     // TODO: GL_POLYGON_STIPPLE_BIT
 
     if (mask & GL_SCISSOR_BIT) {
@@ -540,6 +548,14 @@ DBG(printf("glPopAttrib()\n");)
             }
             if (glstate->texture.active!= old_tex) gl4es_glActiveTexture(GL_TEXTURE0+old_tex);
         }
+    }
+
+    if (cur->mask & GL_POLYGON_BIT) {
+        enable_disable(GL_CULL_FACE, cur->cull_face);
+        gl4es_glCullFace(cur->cull_face_mode);
+        gl4es_glFrontFace(cur->front_face);
+        gl4es_glPolygonMode(GL_FRONT_AND_BACK, cur->polygon_mode?cur->polygon_mode:GL_FILL);
+        enable_disable(GL_POLYGON_OFFSET_FILL, cur->polygon_offset_fill);
     }
 
     if (cur->mask & GL_SCISSOR_BIT) {

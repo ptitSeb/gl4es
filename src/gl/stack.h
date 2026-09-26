@@ -111,7 +111,11 @@ typedef struct _glstack_t {
     GLboolean point_smooth;
     GLfloat point_size;
 
-    // TODO: GL_POLYGON_BIT
+    // GL_POLYGON_BIT (cull_face & polygon_offset_fill enables shared with GL_ENABLE_BIT)
+    GLint cull_face_mode;
+    GLint front_face;
+    GLenum polygon_mode;
+
     // TODO: GL_POLYGON_STIPPLE_BIT
 
     // GL_SCISSOR_BIT
