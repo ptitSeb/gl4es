@@ -813,6 +813,26 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
 }
 
 // glGet
+void APIENTRY_GL4ES gl4es_glGetBooleanv(GLenum pname, GLboolean *params) {
+    DBG(printf("glGetBooleanv(%s, %p)\n", PrintEnum(pname), params);)
+    if (params==NULL) {
+        errorShim(GL_INVALID_OPERATION);
+        return;
+    }
+    /* Only the state gl4es tracks itself has to be intercepted here; anything
+     * GLES knows about keeps going straight to the driver, as before. */
+    GLfloat fparam;
+    if (gl4es_commonGet(pname, &fparam)) {
+        noerrorShim();
+        *params = (fparam != 0.0f) ? GL_TRUE : GL_FALSE;
+        return;
+    }
+    LOAD_GLES(glGetBooleanv);
+    errorGL();
+    gles_glGetBooleanv(pname, params);
+}
+AliasExport(void,glGetBooleanv,,(GLenum pname, GLboolean *params));
+
 void APIENTRY_GL4ES gl4es_glGetIntegerv(GLenum pname, GLint *params) {
     DBG(printf("glGetIntegerv(%s, %p)\n", PrintEnum(pname), params);)
     if (params==NULL) {
