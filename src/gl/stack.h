@@ -95,7 +95,9 @@ typedef struct _glstack_t {
 
     // GL_LINE_BIT
     GLboolean line_smooth;
-    GLboolean line_stipple; // TODO: needs to be hooked locally?
+    GLboolean line_stipple;
+    GLint line_stipple_factor;
+    GLushort line_stipple_pattern;
     GLfloat line_width;
 
     // GL_LIST_BIT
