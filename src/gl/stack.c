@@ -220,6 +220,10 @@ void APIENTRY_GL4ES gl4es_glPushAttrib(GLbitfield mask) {
     if (mask & GL_POINT_BIT) {
         cur->point_smooth = gl4es_glIsEnabled(GL_POINT_SMOOTH);
         gl4es_glGetFloatv(GL_POINT_SIZE, &cur->point_size);
+        cur->point_size_min = glstate->pointsprite.sizeMin;
+        cur->point_size_max = glstate->pointsprite.sizeMax;
+        cur->point_fade_threshold = glstate->pointsprite.fadeThresholdSize;
+        memcpy(cur->point_distance_attenuation, glstate->pointsprite.distance, 3*sizeof(GLfloat));
         if(hardext.pointsprite) {
             cur->pointsprite = gl4es_glIsEnabled(GL_POINT_SPRITE);
             int a;
@@ -543,6 +547,10 @@ DBG(printf("glPopAttrib()\n");)
     if (cur->mask & GL_POINT_BIT) {
         enable_disable(GL_POINT_SMOOTH, cur->point_smooth);
         gl4es_glPointSize(cur->point_size);
+        gl4es_glPointParameterf(GL_POINT_SIZE_MIN, cur->point_size_min);
+        gl4es_glPointParameterf(GL_POINT_SIZE_MAX, cur->point_size_max);
+        gl4es_glPointParameterf(GL_POINT_FADE_THRESHOLD_SIZE, cur->point_fade_threshold);
+        gl4es_glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, cur->point_distance_attenuation);
         if(hardext.pointsprite) {
             enable_disable(GL_POINT_SPRITE, cur->pointsprite);
             int old_tex = glstate->texture.active;

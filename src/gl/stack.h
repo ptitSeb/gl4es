@@ -112,6 +112,10 @@ typedef struct _glstack_t {
     // GL_POINT_BIT
     GLboolean point_smooth;
     GLfloat point_size;
+    GLfloat point_size_min;
+    GLfloat point_size_max;
+    GLfloat point_fade_threshold;
+    GLfloat point_distance_attenuation[3];
 
     // GL_POLYGON_BIT (cull_face & polygon_offset_fill enables shared with GL_ENABLE_BIT)
     GLint cull_face_mode;
