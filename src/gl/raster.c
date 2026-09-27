@@ -425,17 +425,7 @@ void APIENTRY_GL4ES gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig,
 	if (ry+sy<0) sy = -ry;
 	if (rx+ex>glstate->raster.viewport.width) ex = glstate->raster.viewport.width-rx;
 	if (ry+ey>glstate->raster.viewport.height) ey = glstate->raster.viewport.height-ry;
-	if( ex<sx) {
-		int tmp =ex;
-		ex = sx;
-		sx = tmp;
-	}
-	if( ey<sy) {
-		int tmp =ey;
-		ey = sy;
-		sy = tmp;
-	}
-	if (ex<0 || ey<0 || sx<0 || sy<0 || sx==ex || sy==ey)	// nothing to draw, no changes
+	if (sx>=ex || sy>=ey)	// nothing to draw, no changes
 		return;
 	// create/realloc buffer if needed
 	if(glstate->raster.bm_alloc < glstate->raster.viewport.width*glstate->raster.viewport.height*4) {
@@ -470,7 +460,7 @@ void APIENTRY_GL4ES gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig,
         for (int y = sy; y < ey; ++y) {
 			int by = floor(y/zoomy);
             from = bitmap + (by * ((width+7)/8));
-			to = glstate->raster.bitmap + 4 * (GLint)(rx+((ry+y) * glstate->raster.bm_width));
+			to = glstate->raster.bitmap + 4 * (GLint)(rx+sx+((ry+y) * glstate->raster.bm_width));
             for (int x = sx; x < ex; ++x) {
 				int bx = floor(x/zoomx);
                 GLubyte b = from[(bx / 8)];
@@ -486,7 +476,7 @@ void APIENTRY_GL4ES gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig,
         for (int y = sy; y < ey; ++y) {
 			int by = floor(y/zoomy);
             from = bitmap + (by * ((width+7)/8));
-			to = glstate->raster.bitmap + 4 * (GLint)(rx+((ry+y) * glstate->raster.bm_width));
+			to = glstate->raster.bitmap + 4 * (GLint)(rx+sx+((ry+y) * glstate->raster.bm_width));
             for (int x = sx; x < ex; ++x) {
 				int bx = floor(x/zoomx);
                 GLubyte b = from[(bx / 8)];
