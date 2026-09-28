@@ -95,7 +95,9 @@ typedef struct _glstack_t {
 
     // GL_LINE_BIT
     GLboolean line_smooth;
-    GLboolean line_stipple; // TODO: needs to be hooked locally?
+    GLboolean line_stipple;
+    GLint line_stipple_factor;
+    GLushort line_stipple_pattern;
     GLfloat line_width;
 
     // GL_LIST_BIT
@@ -110,8 +112,16 @@ typedef struct _glstack_t {
     // GL_POINT_BIT
     GLboolean point_smooth;
     GLfloat point_size;
+    GLfloat point_size_min;
+    GLfloat point_size_max;
+    GLfloat point_fade_threshold;
+    GLfloat point_distance_attenuation[3];
 
-    // TODO: GL_POLYGON_BIT
+    // GL_POLYGON_BIT (cull_face & polygon_offset_fill enables shared with GL_ENABLE_BIT)
+    GLint cull_face_mode;
+    GLint front_face;
+    GLenum polygon_mode;
+
     // TODO: GL_POLYGON_STIPPLE_BIT
 
     // GL_SCISSOR_BIT
@@ -130,6 +140,8 @@ typedef struct _glstack_t {
     // GL_TEXTURE_BIT
     GLint texture[MAX_TEX][ENABLED_TEXTURE_LAST];
     texgen_state_t texgen[MAX_TEX];
+    GLenum texenv_mode[MAX_TEX];
+    GLfloat texenv_color[MAX_TEX][4];
     GLint active;
 
     // GL_TRANSFORM_BIT

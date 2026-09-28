@@ -4,6 +4,7 @@
 
 #include "../glx/hardext.h"
 #include "wrap/gl4es.h"
+#include "line.h"
 #include "matrix.h"
 #include "debug.h"
 
@@ -185,7 +186,9 @@ void APIENTRY_GL4ES gl4es_glPushAttrib(GLbitfield mask) {
 
     if (mask & GL_LINE_BIT) {
         cur->line_smooth = gl4es_glIsEnabled(GL_LINE_SMOOTH);
-        // TODO: stipple stuff here
+        cur->line_stipple = gl4es_glIsEnabled(GL_LINE_STIPPLE);
+        cur->line_stipple_factor = glstate->linestipple.factor;
+        cur->line_stipple_pattern = glstate->linestipple.pattern;
         gl4es_glGetFloatv(GL_LINE_WIDTH, &cur->line_width);
     }
 
@@ -217,6 +220,10 @@ void APIENTRY_GL4ES gl4es_glPushAttrib(GLbitfield mask) {
     if (mask & GL_POINT_BIT) {
         cur->point_smooth = gl4es_glIsEnabled(GL_POINT_SMOOTH);
         gl4es_glGetFloatv(GL_POINT_SIZE, &cur->point_size);
+        cur->point_size_min = glstate->pointsprite.sizeMin;
+        cur->point_size_max = glstate->pointsprite.sizeMax;
+        cur->point_fade_threshold = glstate->pointsprite.fadeThresholdSize;
+        memcpy(cur->point_distance_attenuation, glstate->pointsprite.distance, 3*sizeof(GLfloat));
         if(hardext.pointsprite) {
             cur->pointsprite = gl4es_glIsEnabled(GL_POINT_SPRITE);
             int a;
@@ -226,7 +233,15 @@ void APIENTRY_GL4ES gl4es_glPushAttrib(GLbitfield mask) {
         }
     }
 
-    // TODO: GL_POLYGON_BIT
+    if (mask & GL_POLYGON_BIT) {
+        cur->cull_face = gl4es_glIsEnabled(GL_CULL_FACE);
+        gl4es_glGetIntegerv(GL_CULL_FACE_MODE, &cur->cull_face_mode);
+        gl4es_glGetIntegerv(GL_FRONT_FACE, &cur->front_face);
+        cur->polygon_mode = glstate->polygon_mode;  // 0 means GL_FILL here
+        cur->polygon_offset_fill = gl4es_glIsEnabled(GL_POLYGON_OFFSET_FILL);
+        //TODO: GL_POLYGON_SMOOTH & GL_POLYGON_STIPPLE enables (not tracked)
+        //TODO: GL_POLYGON_OFFSET_LINE/POINT enables, offset factor & units (not shadowed)
+    }
     // TODO: GL_POLYGON_STIPPLE_BIT
 
     if (mask & GL_SCISSOR_BIT) {
@@ -261,6 +276,8 @@ void APIENTRY_GL4ES gl4es_glPushAttrib(GLbitfield mask) {
             cur->texgen_t[a] = glstate->enable.texgen_t[a];
             cur->texgen_q[a] = glstate->enable.texgen_q[a];
             cur->texgen[a] = glstate->texgen[a];   // all mode and planes per texture in 1 line
+            cur->texenv_mode[a] = glstate->texenv[a].env.mode;
+            memcpy(cur->texenv_color[a], glstate->texenv[a].env.color, 4*sizeof(GLfloat));
             for (int j=0; j<ENABLED_TEXTURE_LAST; j++)
 	            cur->texture[a][j] = glstate->texture.bound[a][j]->texture;
         }
@@ -279,6 +296,10 @@ void APIENTRY_GL4ES gl4es_glPushAttrib(GLbitfield mask) {
 		gl4es_glGetIntegerv(GL_MATRIX_MODE, (GLint *) &cur->matrix_mode);
 		cur->rescale_normal_flag = gl4es_glIsEnabled(GL_RESCALE_NORMAL);
 		cur->normalize_flag = gl4es_glIsEnabled(GL_NORMALIZE);
+		// eye-space equations, as stored by gl4es_glClipPlanef's ES2 path
+		cur->clip_planes = (GLfloat *)malloc(hardext.maxplanes * 4 * sizeof(GLfloat));
+		for (int i = 0; i < hardext.maxplanes; i++)
+			memcpy(cur->clip_planes + i*4, glstate->planes[i], 4*sizeof(GLfloat));
 	}
     // GL_VIEWPORT_BIT
     if (mask & GL_VIEWPORT_BIT) {
@@ -513,7 +534,12 @@ DBG(printf("glPopAttrib()\n");)
 
     if (cur->mask & GL_LINE_BIT) {
         enable_disable(GL_LINE_SMOOTH, cur->line_smooth);
-        // TODO: stipple stuff here
+        enable_disable(GL_LINE_STIPPLE, cur->line_stipple);
+        // only on a change: the first gl4es_glLineStipple call creates the
+        // stipple emulation texture, even for the default factor/pattern
+        if (cur->line_stipple_factor != glstate->linestipple.factor
+         || cur->line_stipple_pattern != glstate->linestipple.pattern)
+            gl4es_glLineStipple(cur->line_stipple_factor, cur->line_stipple_pattern);
         gl4es_glLineWidth(cur->line_width);
     }
 
@@ -527,6 +553,10 @@ DBG(printf("glPopAttrib()\n");)
     if (cur->mask & GL_POINT_BIT) {
         enable_disable(GL_POINT_SMOOTH, cur->point_smooth);
         gl4es_glPointSize(cur->point_size);
+        gl4es_glPointParameterf(GL_POINT_SIZE_MIN, cur->point_size_min);
+        gl4es_glPointParameterf(GL_POINT_SIZE_MAX, cur->point_size_max);
+        gl4es_glPointParameterf(GL_POINT_FADE_THRESHOLD_SIZE, cur->point_fade_threshold);
+        gl4es_glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, cur->point_distance_attenuation);
         if(hardext.pointsprite) {
             enable_disable(GL_POINT_SPRITE, cur->pointsprite);
             int old_tex = glstate->texture.active;
@@ -540,6 +570,14 @@ DBG(printf("glPopAttrib()\n");)
             }
             if (glstate->texture.active!= old_tex) gl4es_glActiveTexture(GL_TEXTURE0+old_tex);
         }
+    }
+
+    if (cur->mask & GL_POLYGON_BIT) {
+        enable_disable(GL_CULL_FACE, cur->cull_face);
+        gl4es_glCullFace(cur->cull_face_mode);
+        gl4es_glFrontFace(cur->front_face);
+        gl4es_glPolygonMode(GL_FRONT_AND_BACK, cur->polygon_mode?cur->polygon_mode:GL_FILL);
+        enable_disable(GL_POLYGON_OFFSET_FILL, cur->polygon_offset_fill);
     }
 
     if (cur->mask & GL_SCISSOR_BIT) {
@@ -566,6 +604,18 @@ DBG(printf("glPopAttrib()\n");)
             glstate->enable.texgen_t[a] = cur->texgen_t[a];
             glstate->enable.texgen_q[a] = cur->texgen_q[a];
             glstate->texgen[a] = cur->texgen[a];   // all mode and planes per texture in 1 line
+            // restore through gl4es_glTexEnv* (not a struct copy): they also
+            // refresh the fpe_state bits the shader generator reads
+            if (cur->texenv_mode[a] != glstate->texenv[a].env.mode) {
+                if(glstate->texture.active!=a)
+                    gl4es_glActiveTexture(GL_TEXTURE0+a);
+                gl4es_glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, cur->texenv_mode[a]);
+            }
+            if (memcmp(cur->texenv_color[a], glstate->texenv[a].env.color, 4*sizeof(GLfloat)) != 0) {
+                if(glstate->texture.active!=a)
+                    gl4es_glActiveTexture(GL_TEXTURE0+a);
+                gl4es_glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, cur->texenv_color[a]);
+            }
             for (int j=0; j<ENABLED_TEXTURE_LAST; j++)
                 if (cur->texture[a][j] != glstate->texture.bound[a][j]->texture) {
                     if(glstate->texture.active!=a)
@@ -597,6 +647,12 @@ DBG(printf("glPopAttrib()\n");)
 		gl4es_glMatrixMode(cur->matrix_mode);
 		enable_disable(GL_NORMALIZE, cur->normalize_flag);		
 		enable_disable(GL_RESCALE_NORMAL, cur->rescale_normal_flag);		
+		if (cur->clip_planes) {
+			// restore the stored eye-space equations directly: going through
+			// gl4es_glClipPlanef would re-transform by the current modelview
+			for (int i = 0; i < hardext.maxplanes; i++)
+				memcpy(glstate->planes[i], cur->clip_planes + i*4, 4*sizeof(GLfloat));
+		}
 	}
 
     if (cur->mask & GL_VIEWPORT_BIT) {
