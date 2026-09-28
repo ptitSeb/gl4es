@@ -128,6 +128,8 @@ typedef struct {
                                 /* TODO: expose as GL_CURRENT_RASTER_POSITION_VALID */
     viewport_t viewport;
     viewport_t scissor;
+    int         viewport_known; /* 1 after glViewport or an init query; width==0 is legal */
+    int         scissor_known;  /* 1 after glScissor or an init query */
     GLfloat raster_scale[4];
     GLfloat raster_bias[4];
     GLfloat raster_zoomx;

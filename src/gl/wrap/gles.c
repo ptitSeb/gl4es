@@ -1,6 +1,7 @@
 #include "gles.h"
 #include "../gl4es.h"
 #include "../loader.h"
+#include "../depth.h"
 #include "skips.h"
 
 // emulation of 'glTexParameteri' (for internal use only)
@@ -222,6 +223,10 @@ void APIENTRY_GL4ES gl4es_glClearColor(GLclampf red, GLclampf green, GLclampf bl
 #ifndef direct_glClearColor
     PUSH_IF_COMPILING(glClearColor)
 #endif
+    glstate->clear_color[0] = clamp(red);
+    glstate->clear_color[1] = clamp(green);
+    glstate->clear_color[2] = clamp(blue);
+    glstate->clear_color[3] = clamp(alpha);
     gles_glClearColor(red, green, blue, alpha);
 }
 AliasExport(void,glClearColor,,(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha));
@@ -232,6 +237,10 @@ void APIENTRY_GL4ES gl4es_glClearColorx(GLclampx red, GLclampx green, GLclampx b
 #ifndef direct_glClearColorx
     PUSH_IF_COMPILING(glClearColorx)
 #endif
+    glstate->clear_color[0] = clamp(red/65536.0f);
+    glstate->clear_color[1] = clamp(green/65536.0f);
+    glstate->clear_color[2] = clamp(blue/65536.0f);
+    glstate->clear_color[3] = clamp(alpha/65536.0f);
     gles_glClearColorx(red, green, blue, alpha);
 }
 AliasExport(void,glClearColorx,,(GLclampx red, GLclampx green, GLclampx blue, GLclampx alpha));
@@ -252,6 +261,7 @@ void APIENTRY_GL4ES gl4es_glClearDepthx(GLclampx depth) {
 #ifndef direct_glClearDepthx
     PUSH_IF_COMPILING(glClearDepthx)
 #endif
+    glstate->depth.clear = clamp(depth/65536.0f);
     gles_glClearDepthx(depth);
 }
 AliasExport(void,glClearDepthx,,(GLclampx depth));
@@ -1392,6 +1402,8 @@ void APIENTRY_GL4ES gl4es_glLineWidth(GLfloat width) {
 #ifndef direct_glLineWidth
     PUSH_IF_COMPILING(glLineWidth)
 #endif
+    if(width>0.f)   // otherwise GL_INVALID_VALUE, from the driver
+        glstate->line_width = width;
     gles_glLineWidth(width);
 }
 AliasExport(void,glLineWidth,,(GLfloat width));
@@ -1402,6 +1414,8 @@ void APIENTRY_GL4ES gl4es_glLineWidthx(GLfixed width) {
 #ifndef direct_glLineWidthx
     PUSH_IF_COMPILING(glLineWidthx)
 #endif
+    if(width>0)
+        glstate->line_width = width/65536.0f;
     gles_glLineWidthx(width);
 }
 AliasExport(void,glLineWidthx,,(GLfixed width));

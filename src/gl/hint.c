@@ -127,6 +127,12 @@ void APIENTRY_GL4ES gl4es_glHint(GLenum pname, GLenum mode) {
             pandora_set_gamma();
 #endif
             break;
+        case GL_GENERATE_MIPMAP_HINT:
+            if(mode==GL_FASTEST || mode==GL_NICEST || mode==GL_DONT_CARE)
+                glstate->mipmap_hint = mode;
+            errorGL();
+            gles_glHint(pname, mode);
+            break;
         default:
             errorGL();
             gles_glHint(pname, mode);
