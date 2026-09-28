@@ -1,5 +1,7 @@
 #include "raster.h"
 
+#include <math.h>
+
 #include "../glx/hardext.h"
 #include "blit.h"
 #include "debug.h"
@@ -34,15 +36,24 @@ void APIENTRY_GL4ES gl4es_glRasterPos3f(GLfloat x, GLfloat y, GLfloat z) {
     matrix_transpose(glmatrix, modelview);
     matrix_vector(modelview, transl, t);
     matrix_vector(projection, t, transl);
+    /* The raster position is valid only inside the clip volume,
+     * -w <= x, y, z <= w; outside it, glBitmap must draw nothing rather than
+     * keep using the previous position. Non-finite input spreads NaN through
+     * matrix_vector (0 * inf and 0 * NaN are NaN), which isnan(w) catches. */
+    GLfloat w = transl[3];
+    if (isnan(w) || w <= 0.0f || fabsf(transl[0]) > w
+        || fabsf(transl[1]) > w || fabsf(transl[2]) > w) {
+      glstate->raster.rPos_valid = GL_FALSE;
+      return;
+    }
+    GLfloat invw = 1.0f / w;    /* |x| <= w, so x * invw can't overflow */
     GLfloat w2, h2;
     w2=glstate->raster.viewport.width/2.0f;
     h2=glstate->raster.viewport.height/2.0f;
-    
-    if ((transl[0] * w2 + w2) >= 0 && (transl[1] * h2 + h2) >= 0 && transl[2] >= 0) {
-      glstate->raster.rPos.x = transl[0]*w2+w2;
-      glstate->raster.rPos.y = transl[1]*h2+h2;
-      glstate->raster.rPos.z = transl[2];
-    }
+    glstate->raster.rPos.x = transl[0]*invw*w2+w2;
+    glstate->raster.rPos.y = transl[1]*invw*h2+h2;
+    glstate->raster.rPos.z = transl[2]*invw*0.5f+0.5f;
+    glstate->raster.rPos_valid = GL_TRUE;
 }
 #if !defined(NO_EGL) && !defined(NOX11)
 void refreshMainFBO();
@@ -59,7 +70,11 @@ void APIENTRY_GL4ES gl4es_glWindowPos3f(GLfloat x, GLfloat y, GLfloat z) {
     if (x >= 0 && y >= 0 && z >= 0) {
       glstate->raster.rPos.x = x;
       glstate->raster.rPos.y = y;
-      glstate->raster.rPos.z = z;	
+      glstate->raster.rPos.z = z;
+      glstate->raster.rPos_valid = GL_TRUE;
+    } else {
+      // TODO: glWindowPos never invalidates per spec; negative coords should still draw, clipped
+      glstate->raster.rPos_valid = GL_FALSE;
     }
 }
 
@@ -375,7 +390,6 @@ void APIENTRY_GL4ES gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig,
               GLfloat xmove, GLfloat ymove, const GLubyte *bitmap) {
 /*printf("glBitmap, xy={%f, %f}, xyorig={%f, %f}, size={%u, %u}, zoom={%f, %f}, viewport={%i, %i, %i, %i}\n", 	
 	glstate->raster.rPos.x, glstate->raster.rPos.y, xorig, yorig, width, height, glstate->raster.raster_zoomx, glstate->raster.raster_zoomy, glstate->raster.viewport.x, glstate->raster.viewport.y, glstate->raster.viewport.width, glstate->raster.viewport.height);*/
-    // TODO: shouldn't be drawn if the raster pos is outside the viewport?
     // TODO: negative width/height mirrors bitmap?
 	noerrorShim();
 	FLUSH_BEGINEND;
@@ -403,6 +417,10 @@ void APIENTRY_GL4ES gl4es_glBitmap(GLsizei width, GLsizei height, GLfloat xorig,
 		memcpy(l->bitmap, bitmap, sz);
 		return;
 	}
+	// Invalid raster position (see gl4es_glRasterPos3f): ignore the bitmap,
+	// including the xmove/ymove advance of the raster position.
+	if(!glstate->raster.rPos_valid)
+		return;
   if (((!width && !height) || (bitmap==0)) && glstate->raster.rPos.x + xmove >= 0 && glstate->raster.rPos.y + ymove >= 0) {
 		  glstate->raster.rPos.x += xmove;
 		  glstate->raster.rPos.y += ymove;
@@ -510,6 +528,8 @@ void APIENTRY_GL4ES gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum for
 
     noerrorShim();
 	FLUSH_BEGINEND;
+	// TODO: no rPos_valid check (gl4es_glBitmap has one): an invalid raster position
+	// still draws at the last valid one. Fix in render_raster_list(), which list replay also calls.
 
     if (glstate->raster.bm_drawing) bitmap_flush();
 
@@ -589,6 +609,7 @@ void APIENTRY_GL4ES gl4es_glDrawPixels(GLsizei width, GLsizei height, GLenum for
 }
 
 void render_raster_list(rasterlist_t* rast) {
+	// TODO: glDrawPixels ignores rPos_valid; skip the blit (and the move) when it is false
 //printf("render_raster_list, rast->x/y=%f/%f rast->width/height=%i/%i, rPos.x/y/z=%f/%f/%f, rast->zoomxy=%f/%f raster->texture=%u\n", rast->xorig, rast->yorig, rast->width, rast->height, glstate->raster.rPos.x, glstate->raster.rPos.y, glstate->raster.rPos.z, rast->zoomx, rast->zoomy, rast->texture);
 	if (rast->texture)
 		gl4es_blitTexture(

@@ -124,6 +124,8 @@ typedef struct {
 
 typedef struct {
     rasterpos_t rPos;
+    GLboolean   rPos_valid;     /* 0 once glRasterPos clips or w<=0 */
+                                /* TODO: expose as GL_CURRENT_RASTER_POSITION_VALID */
     viewport_t viewport;
     viewport_t scissor;
     GLfloat raster_scale[4];

@@ -172,6 +172,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     //raster & viewport
     glstate->raster.raster_zoomx=1.0f;
     glstate->raster.raster_zoomy=1.0f;
+    glstate->raster.rPos_valid = GL_TRUE;
     glstate->raster.map_i2i_size=1;
     glstate->raster.map_i2r_size=1;
     glstate->raster.map_i2g_size=1;
