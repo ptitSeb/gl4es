@@ -90,6 +90,8 @@ typedef struct _glstack_t {
     GLfloat *lights;
     GLfloat light_model_ambient[4];
     GLint light_model_two_side;
+    GLint color_material_face;
+    GLint color_material_parameter;
     GLfloat *materials;
     GLint shade_model;
 

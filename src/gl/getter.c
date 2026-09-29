@@ -534,6 +534,12 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_LIGHT_MODEL_TWO_SIDE:
             *params=glstate->light.two_side;
             break;
+        case GL_COLOR_MATERIAL_FACE:
+            *params=glstate->material.color_material_face;
+            break;
+        case GL_COLOR_MATERIAL_PARAMETER:
+            *params=glstate->material.color_material_mode;
+            break;
         case GL_FOG_MODE:
             *params=glstate->fog.mode;
             break;
