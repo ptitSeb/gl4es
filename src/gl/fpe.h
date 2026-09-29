@@ -196,6 +196,8 @@ typedef struct fpe_state_s {
     unsigned int alphatest:1;            // alpha test
     unsigned int twosided:1;             // lightmodel: two sided
     unsigned int color_material:1;       // color material enabled
+    unsigned int cm_front_active:1;      // current color tracks front material
+    unsigned int cm_back_active:1;       // current color tracks back material
     unsigned int cm_front_mode:3;        // front color material mode
     unsigned int cm_back_mode:3;         // back color material mode
     unsigned int cm_front_nullexp:1;     // front material shininess is 0
