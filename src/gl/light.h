@@ -36,6 +36,8 @@ typedef struct {
 typedef struct {
     material_t      front;
     material_t      back;
+    GLenum          color_material_face;
+    GLenum          color_material_mode;
 } material_state_t;
 
 void APIENTRY_GL4ES gl4es_glLightModelf(GLenum pname, GLfloat param);
@@ -49,5 +51,7 @@ void APIENTRY_GL4ES gl4es_glGetLightiv(GLenum light, GLenum pname, GLint * param
 void APIENTRY_GL4ES gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params) ;
 void APIENTRY_GL4ES gl4es_glMaterialf(GLenum face, GLenum pname, GLfloat param);
 void APIENTRY_GL4ES gl4es_glColorMaterial(GLenum face, GLenum mode);
+void gl4es_glColorMaterialSync(void);
+void gl4es_glColorMaterialUpdate(const GLfloat *color);
 
 #endif // _GL4ES_LIGHT_H_

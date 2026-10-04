@@ -63,6 +63,8 @@ void APIENTRY_GL4ES fpe_ReleventState_DefaultVertex(fpe_state_t *dest, fpe_state
         dest->light_direction = 0;
         dest->twosided = 0;
         dest->color_material = 0;
+        dest->cm_front_active = 0;
+        dest->cm_back_active = 0;
         dest->cm_front_mode = 0;
         dest->cm_back_mode = 0;
         dest->cm_front_nullexp = 0;
@@ -168,6 +170,8 @@ void APIENTRY_GL4ES fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int f
         dest->light_direction = 0;
         dest->twosided = 0;
         dest->color_material = 0;
+        dest->cm_front_active = 0;
+        dest->cm_back_active = 0;
         dest->cm_front_mode = 0;
         dest->cm_back_mode = 0;
         dest->cm_front_nullexp = 0;

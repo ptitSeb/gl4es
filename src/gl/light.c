@@ -391,6 +391,67 @@ void APIENTRY_GL4ES gl4es_glMaterialf(GLenum face, GLenum pname, GLfloat param) 
     errorGL();
 }
 
+static int color_material_mode_to_fpe(GLenum mode) {
+    switch(mode) {
+        case GL_EMISSION: return FPE_CM_EMISSION;
+        case GL_AMBIENT: return FPE_CM_AMBIENT;
+        case GL_DIFFUSE: return FPE_CM_DIFFUSE;
+        case GL_SPECULAR: return FPE_CM_SPECULAR;
+        default: return FPE_CM_AMBIENTDIFFUSE;
+    }
+}
+
+static void update_color_material_value(material_t *material, GLenum mode,
+                                        const GLfloat *color) {
+    switch(mode) {
+        case GL_EMISSION:
+            memcpy(material->emission, color, 4*sizeof(GLfloat));
+            break;
+        case GL_AMBIENT:
+            memcpy(material->ambient, color, 4*sizeof(GLfloat));
+            break;
+        case GL_DIFFUSE:
+            memcpy(material->diffuse, color, 4*sizeof(GLfloat));
+            break;
+        case GL_SPECULAR:
+            memcpy(material->specular, color, 4*sizeof(GLfloat));
+            break;
+        case GL_AMBIENT_AND_DIFFUSE:
+            memcpy(material->ambient, color, 4*sizeof(GLfloat));
+            memcpy(material->diffuse, color, 4*sizeof(GLfloat));
+            break;
+    }
+}
+
+void gl4es_glColorMaterialUpdate(const GLfloat *color) {
+    GLenum face;
+
+    if(!glstate->enable.color_material)
+        return;
+    face = glstate->material.color_material_face;
+    if(face==GL_FRONT || face==GL_FRONT_AND_BACK)
+        update_color_material_value(&glstate->material.front,
+                                    glstate->material.color_material_mode, color);
+    if(face==GL_BACK || face==GL_FRONT_AND_BACK)
+        update_color_material_value(&glstate->material.back,
+                                    glstate->material.color_material_mode, color);
+}
+
+void gl4es_glColorMaterialSync(void) {
+    GLenum face = glstate->material.color_material_face;
+    int value = color_material_mode_to_fpe(glstate->material.color_material_mode);
+
+    if(glstate->fpe_state) {
+        glstate->fpe_state->cm_front_active = (face!=GL_BACK);
+        glstate->fpe_state->cm_back_active = (face!=GL_FRONT);
+        if(glstate->fpe_state->cm_front_active)
+            glstate->fpe_state->cm_front_mode = value;
+        if(glstate->fpe_state->cm_back_active)
+            glstate->fpe_state->cm_back_mode = value;
+    }
+    gl4es_glColorMaterialUpdate(glstate->color);
+}
+
 void APIENTRY_GL4ES gl4es_glColorMaterial(GLenum face, GLenum mode) {
     ERROR_IN_BEGIN
     if(glstate->list.active)
@@ -410,25 +471,13 @@ void APIENTRY_GL4ES gl4es_glColorMaterial(GLenum face, GLenum mode) {
         errorShim(GL_INVALID_ENUM);
         return;
     }
+    glstate->material.color_material_face = face;
+    glstate->material.color_material_mode = mode;
     if(face==GL_FRONT_AND_BACK || face==GL_FRONT)
         glstate->material.front.colormat = mode;
     if(face==GL_FRONT_AND_BACK || face==GL_BACK)
         glstate->material.back.colormat = mode;
-    if(glstate->fpe_state) {
-        int value = FPE_CM_AMBIENTDIFFUSE;
-        switch(mode) {
-            case GL_EMISSION: value = FPE_CM_EMISSION; break;
-            case GL_AMBIENT: value=FPE_CM_AMBIENT; break;
-            case GL_DIFFUSE: value=FPE_CM_DIFFUSE; break;
-            case GL_SPECULAR: value=FPE_CM_SPECULAR; break;
-        }
-        if(face==GL_FRONT_AND_BACK || face==GL_FRONT) {
-            glstate->fpe_state->cm_front_mode = value;
-        }
-        if(face==GL_FRONT_AND_BACK || face==GL_BACK) {
-            glstate->fpe_state->cm_back_mode = value;
-        }
-    }
+    gl4es_glColorMaterialSync();
     noerrorShim();
 }
 

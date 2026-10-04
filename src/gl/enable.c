@@ -139,7 +139,19 @@ static void proxy_glEnable(GLenum cap, bool enable, void (APIENTRY_GLES *next)(G
         proxy_GOFPE(GL_LIGHTING, lighting, glstate->fpe_state->lighting=enable);
         proxy_GOFPE(GL_NORMALIZE, normalize, glstate->fpe_state->normalize=enable);
         proxy_GOFPE(GL_RESCALE_NORMAL, normal_rescale, glstate->fpe_state->rescaling=enable);
-        proxy_GOFPE(GL_COLOR_MATERIAL, color_material, glstate->fpe_state->color_material=enable);
+        case GL_COLOR_MATERIAL:
+            if(glstate->enable.color_material != enable) {
+                FLUSH_BEGINEND;
+                glstate->enable.color_material = enable;
+                if(glstate->fpe_state) {
+                    glstate->fpe_state->color_material = enable;
+                    gl4es_glColorMaterialSync();
+                } else {
+                    next(cap);
+                    gl4es_glColorMaterialSync();
+                }
+            }
+            break;
 
         // point sprite
         proxy_GOFPE(GL_POINT_SPRITE, pointsprite, glstate->fpe_state->pointsprite=enable); // TODO: plugin fpe stuffs

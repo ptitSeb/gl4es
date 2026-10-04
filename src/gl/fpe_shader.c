@@ -172,6 +172,8 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
     int fogdist = state->fogdist;
     int fogmode = state->fogmode;
     int color_material = state->color_material && lighting;
+    int color_material_front = color_material && state->cm_front_active;
+    int color_material_back = color_material && state->cm_back_active;
     int point = state->point;
     int pointsprite = state->pointsprite;
     int headers = 0;
@@ -277,21 +279,21 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
         ShadAppend(buff);
         headers += gl4es_countline(buff);
 
-        if(!(cm_front_nullexp && color_material)) {
+        if(!(cm_front_nullexp && color_material_front)) {
             ShadAppend("uniform highp float _gl4es_FrontMaterial_shininess;\n");
             headers++;
         }
-        if(twosided && !(cm_back_nullexp && color_material)) {
+        if(twosided && !(cm_back_nullexp && color_material_back)) {
             ShadAppend("uniform highp float _gl4es_BackMaterial_shininess;\n");
             headers++;
         }
-        if(!(color_material && (state->cm_front_mode==FPE_CM_DIFFUSE || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE))) {
+        if(!(color_material_front && (state->cm_front_mode==FPE_CM_DIFFUSE || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE))) {
             ShadAppend("uniform highp float _gl4es_FrontMaterial_alpha;\n");
             headers++;
-            if(twosided) {
-                ShadAppend("uniform highp float _gl4es_BackMaterial_alpha;\n");
-                headers++;
-            }
+        }
+        if(twosided && !(color_material_back && (state->cm_back_mode==FPE_CM_DIFFUSE || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE))) {
+            ShadAppend("uniform highp float _gl4es_BackMaterial_alpha;\n");
+            headers++;
         }
         for(int i=0; i<hardext.maxlights; i++) {
             if(state->light&(1<<i)) {
@@ -398,7 +400,7 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
         }
     } else {
         if(comments) {
-            sprintf(buff, "// ColorMaterial On/Off=%d Front = %d Back = %d\n", color_material, state->cm_front_mode, state->cm_back_mode);
+            sprintf(buff, "// ColorMaterial On/Off=%d Front = %d/%d Back = %d/%d\n", color_material, color_material_front, state->cm_front_mode, color_material_back, state->cm_back_mode);
             ShadAppend(buff);
         }
         if(is_default && need) {
@@ -413,23 +415,23 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
         // material emission
         char fm_emission[60], fm_ambient[60], fm_diffuse[60], fm_specular[60];
         char bm_emission[60], bm_ambient[60], bm_diffuse[60], bm_specular[60];
-        sprintf(fm_emission, "%s", (color_material && state->cm_front_mode==FPE_CM_EMISSION)?"gl_Color":"gl_FrontMaterial.emission");
-        sprintf(fm_ambient, "%s", (color_material && (state->cm_front_mode==FPE_CM_AMBIENT || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color":"gl_FrontMaterial.ambient");
-        sprintf(fm_diffuse, "%s", (color_material && (state->cm_front_mode==FPE_CM_DIFFUSE || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color.xyz * _gl4es_LightSource_":"_gl4es_FrontLightProduct_");
-        sprintf(fm_specular, "%s", (color_material && state->cm_front_mode==FPE_CM_SPECULAR)?"gl_Color.xyz * _gl4es_LightSource_":"_gl4es_FrontLightProduct_");
+        sprintf(fm_emission, "%s", (color_material_front && state->cm_front_mode==FPE_CM_EMISSION)?"gl_Color":"gl_FrontMaterial.emission");
+        sprintf(fm_ambient, "%s", (color_material_front && (state->cm_front_mode==FPE_CM_AMBIENT || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color":"gl_FrontMaterial.ambient");
+        sprintf(fm_diffuse, "%s", (color_material_front && (state->cm_front_mode==FPE_CM_DIFFUSE || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color.xyz * _gl4es_LightSource_":"_gl4es_FrontLightProduct_");
+        sprintf(fm_specular, "%s", (color_material_front && state->cm_front_mode==FPE_CM_SPECULAR)?"gl_Color.xyz * _gl4es_LightSource_":"_gl4es_FrontLightProduct_");
         if(twosided) {
-            sprintf(bm_emission, "%s", (color_material && state->cm_back_mode==FPE_CM_EMISSION)?"gl_Color":"gl_BackMaterial.emission");
-            sprintf(bm_ambient, "%s", (color_material && (state->cm_back_mode==FPE_CM_AMBIENT || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color":"gl_BackMaterial.ambient");
-            sprintf(bm_diffuse, "%s", (color_material && (state->cm_back_mode==FPE_CM_DIFFUSE || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color.xyz * _gl4es_LightSource_":"_gl4es_BackLightProduct_");
-            sprintf(bm_specular, "%s", (color_material && state->cm_back_mode==FPE_CM_SPECULAR)?"gl_Color.xyz * _gl4es_LightSource_":"_gl4es_BackLightProduct_");
+            sprintf(bm_emission, "%s", (color_material_back && state->cm_back_mode==FPE_CM_EMISSION)?"gl_Color":"gl_BackMaterial.emission");
+            sprintf(bm_ambient, "%s", (color_material_back && (state->cm_back_mode==FPE_CM_AMBIENT || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color":"gl_BackMaterial.ambient");
+            sprintf(bm_diffuse, "%s", (color_material_back && (state->cm_back_mode==FPE_CM_DIFFUSE || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color.xyz * _gl4es_LightSource_":"_gl4es_BackLightProduct_");
+            sprintf(bm_specular, "%s", (color_material_back && state->cm_back_mode==FPE_CM_SPECULAR)?"gl_Color.xyz * _gl4es_LightSource_":"_gl4es_BackLightProduct_");
         }
 
-        if(color_material && 
-            (state->cm_front_mode==FPE_CM_EMISSION 
+        if((color_material_front &&
+            (state->cm_front_mode==FPE_CM_EMISSION
             || state->cm_front_mode==FPE_CM_AMBIENT
-            || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE
-            || (twosided && 
-                (state->cm_back_mode==FPE_CM_EMISSION || state->cm_back_mode==FPE_CM_AMBIENT || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE)))) 
+            || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE))
+            || (twosided && color_material_back &&
+                (state->cm_back_mode==FPE_CM_EMISSION || state->cm_back_mode==FPE_CM_AMBIENT || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE)))
         {
             sprintf(buff, "Color = %s;\n", fm_emission);
             ShadAppend(buff);
@@ -501,7 +503,7 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
                     ShadAppend(buff);
                     ShadAppend("att *= spot;\n");
                 }
-                if(color_material && (state->cm_front_mode==FPE_CM_AMBIENT || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE)) {
+                if(color_material_front && (state->cm_front_mode==FPE_CM_AMBIENT || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE)) {
                     sprintf(buff, "aa = %s.xyz * _gl4es_LightSource_%d.ambient.xyz;\n", fm_ambient, i);
                     ShadAppend(buff);
                 } else {
@@ -510,7 +512,7 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
                     need_lightproduct[0][i] = 1;
                 }
                 if(twosided) {
-                    if(color_material && (state->cm_back_mode==FPE_CM_AMBIENT || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE)) {
+                    if(color_material_back && (state->cm_back_mode==FPE_CM_AMBIENT || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE)) {
                         sprintf(buff, "back_aa = %s.xyz * _gl4es_LightSource_%d.ambient.xyz;\n", bm_ambient, i);
                         ShadAppend(buff);
                     } else {
@@ -566,11 +568,11 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
                 }
             }
         }
-        sprintf(buff, "Color.a = %s;\n", (color_material && (state->cm_front_mode==FPE_CM_DIFFUSE || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color.a":"_gl4es_FrontMaterial_alpha");
+        sprintf(buff, "Color.a = %s;\n", (color_material_front && (state->cm_front_mode==FPE_CM_DIFFUSE || state->cm_front_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color.a":"_gl4es_FrontMaterial_alpha");
         ShadAppend(buff);
         ShadAppend("Color.rgb = clamp(Color.rgb, 0., 1.);\n");
         if(twosided) {
-            sprintf(buff, "BackColor.a = %s;\n", (color_material && (state->cm_back_mode==FPE_CM_DIFFUSE || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color.a":"_gl4es_BackMaterial_alpha");
+            sprintf(buff, "BackColor.a = %s;\n", (color_material_back && (state->cm_back_mode==FPE_CM_DIFFUSE || state->cm_back_mode==FPE_CM_AMBIENTDIFFUSE))?"gl_Color.a":"_gl4es_BackMaterial_alpha");
             ShadAppend("BackColor.rgb = clamp(BackColor.rgb, 0., 1.);\n");
             ShadAppend(buff);
         }

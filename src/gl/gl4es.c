@@ -402,6 +402,7 @@ void APIENTRY_GL4ES gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GL
     // change the state last thing
     glstate->color[0] = red; glstate->color[1] = green;
     glstate->color[2] = blue; glstate->color[3] = alpha;
+    gl4es_glColorMaterialUpdate(glstate->color);
 }
 AliasExport(void,glColor4f,,(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha));
 
@@ -430,6 +431,7 @@ void APIENTRY_GL4ES gl4es_glColor4fv(GLfloat* v) {
     }
     // change the state last thing
     memcpy(glstate->color, v, 4*sizeof(GLfloat));
+    gl4es_glColorMaterialUpdate(glstate->color);
 }
 AliasExport(void,glColor4fv,,(GLfloat* v));
 

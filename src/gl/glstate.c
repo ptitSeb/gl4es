@@ -279,6 +279,8 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->material.front.emission[3] = 1.0f;
     glstate->material.front.colormat = GL_AMBIENT_AND_DIFFUSE;
     memcpy(&glstate->material.back, &glstate->material.front, sizeof(material_t));
+    glstate->material.color_material_face = GL_FRONT_AND_BACK;
+    glstate->material.color_material_mode = GL_AMBIENT_AND_DIFFUSE;
     // Fog
     glstate->fog.mode = GL_EXP;
     glstate->fog.density = 1.0f;

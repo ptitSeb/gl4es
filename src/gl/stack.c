@@ -155,6 +155,9 @@ void APIENTRY_GL4ES gl4es_glPushAttrib(GLbitfield mask) {
         cur->lighting = gl4es_glIsEnabled(GL_LIGHTING);
         gl4es_glGetFloatv(GL_LIGHT_MODEL_AMBIENT, cur->light_model_ambient);
         gl4es_glGetIntegerv(GL_LIGHT_MODEL_TWO_SIDE, &cur->light_model_two_side);
+        gl4es_glGetIntegerv(GL_COLOR_MATERIAL_FACE, &cur->color_material_face);
+        gl4es_glGetIntegerv(GL_COLOR_MATERIAL_PARAMETER, &cur->color_material_parameter);
+        cur->colormaterial = gl4es_glIsEnabled(GL_COLOR_MATERIAL);
 
         int i;
         int j=0;
@@ -486,6 +489,8 @@ DBG(printf("glPopAttrib()\n");)
         enable_disable(GL_LIGHTING, cur->lighting);
         gl4es_glLightModelfv(GL_LIGHT_MODEL_AMBIENT, cur->light_model_ambient);
         gl4es_glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, cur->light_model_two_side);
+        gl4es_glColorMaterial(cur->color_material_face, cur->color_material_parameter);
+        enable_disable(GL_COLOR_MATERIAL, cur->colormaterial);
 
         int i;
         int j=0;
