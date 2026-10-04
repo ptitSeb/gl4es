@@ -965,7 +965,7 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
     // Desktop GL_POINT_SMOOTH is coverage-based antialiasing; GLES2/WebGL has
     // no equivalent, so derive coverage from gl_PointCoord (always available
     // for point primitives, independent of point sprite enable) and fold it
-    // into alpha below, after the alpha test.
+    // into alpha below (see the TODO there).
     if(point_smooth) {
         if(comments)
             ShadAppend("// Point Smooth\n");
@@ -1359,8 +1359,14 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
         }
     }
 
-    //*** Point Smooth coverage, folded into alpha after the alpha test to
-    // match GL, where point antialiasing coverage applies at the blend stage.
+    //*** Point Smooth coverage, folded into alpha.
+    // TODO: GL applies antialiasing coverage at the end of rasterization (GL
+    // 2.1 section 3.12), before the alpha test (4.1.4), so this belongs above
+    // the alpha test. GL's coverage is also the part of each pixel inside the
+    // circle, not a fixed 15% feather, which makes large points look smaller
+    // and blurrier than on desktop GL. A fix that matched desktop GL well:
+    // pass gl_PointSize to the fragment shader in a varying and use
+    // clamp(0.5 + 0.5*size - length(gl_PointCoord - vec2(0.5))*size, 0., 1.).
     if(point_smooth)
         ShadAppend("fColor.a *= _gl4es_PointCov;\n");
 
