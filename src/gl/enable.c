@@ -162,7 +162,7 @@ static void proxy_glEnable(GLenum cap, bool enable, void (APIENTRY_GLES *next)(G
         proxy_GOFPE(GL_SAMPLE_COVERAGE, sample_coverage, );
         proxy_GOFPE(GL_SAMPLE_ALPHA_TO_COVERAGE, sample_alpha_to_coverage, );
         proxy_GOFPE(GL_SAMPLE_ALPHA_TO_ONE, sample_alpha_to_one, );
-        proxy_GOFPE(GL_POINT_SMOOTH, point_smooth, );
+        proxy_GOFPE(GL_POINT_SMOOTH, point_smooth, glstate->fpe_state->point_smooth=enable);
         proxy_GOFPE(GL_LINE_SMOOTH, line_smooth, );
 
         proxy_GO(GL_POLYGON_OFFSET_FILL, polyfill_offset);

@@ -834,6 +834,7 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
     int fogdist = state->fogdist;
     int planes = state->plane;
     int point = state->point;
+    int point_smooth = state->point_smooth && state->point;
     int pointsprite = state->pointsprite;
     int pointsprite_coord = state->pointsprite_coord;
     int pointsprite_upper = state->pointsprite_upper;
@@ -958,6 +959,22 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
             }
         }
         ShadAppend(")<0.) discard;\n");
+    }
+
+    //*** Point Smooth: round out the square point raster, with a soft edge.
+    // Desktop GL_POINT_SMOOTH is coverage-based antialiasing; GLES2/WebGL has
+    // no equivalent, so derive coverage from gl_PointCoord (always available
+    // for point primitives, independent of point sprite enable) and fold it
+    // into alpha below, after the alpha test.
+    if(point_smooth) {
+        if(comments)
+            ShadAppend("// Point Smooth\n");
+        ShadAppend("mediump float _gl4es_PointCov = 1.0;\n");
+        ShadAppend("{\n");
+        ShadAppend("mediump float _gl4es_pd = length(gl_PointCoord - vec2(0.5)) * 2.0;\n");
+        ShadAppend("if(_gl4es_pd > 1.0) discard;\n");
+        ShadAppend("_gl4es_PointCov = 1.0 - smoothstep(0.85, 1.0, _gl4es_pd);\n");
+        ShadAppend("}\n");
     }
 
     //*** initial color
@@ -1341,6 +1358,11 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
             ShadAppend(buff);
         }
     }
+
+    //*** Point Smooth coverage, folded into alpha after the alpha test to
+    // match GL, where point antialiasing coverage applies at the blend stage.
+    if(point_smooth)
+        ShadAppend("fColor.a *= _gl4es_PointCov;\n");
 
     //*** Add secondary color
     if(light_separate || secondary) {
