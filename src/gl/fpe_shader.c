@@ -714,7 +714,7 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
     if(point) {
         if(!need_vertex)
             need_vertex = 1;
-        ShadAppend("float ps_d = length(vertex);\n");
+        ShadAppend("highp float ps_d = length(vertex);\n");
         sprintf(buff, "gl_PointSize = clamp(gl_Point.size*inversesqrt(gl_Point.distanceConstantAttenuation + ps_d*(gl_Point.distanceLinearAttenuation + ps_d*gl_Point.distanceQuadraticAttenuation)), gl_Point.sizeMin, gl_Point.sizeMax);\n");
         ShadAppend(buff);
     }
@@ -722,7 +722,7 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
     if(need_vertex) {
         buff[0] = '\0';
         if(need_vertex==1)
-            strcat(buff, "vec4 ");
+            strcat(buff, "highp vec4 ");
         strcat(buff, "vertex = gl_ModelViewMatrix * gl_Vertex;\n");
         shad = gl4es_inplace_insert(gl4es_getline(shad, normal_line + headers), buff, shad, &shad_cap);
         normal_line += gl4es_countline(buff);
