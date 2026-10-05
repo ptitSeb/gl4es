@@ -205,6 +205,7 @@ typedef struct fpe_state_s {
     unsigned int light_separate:1;       // light separate specular color
     unsigned int light_localviewer:1;    // light local viewer
     unsigned int point:1;                // point rendering
+    unsigned int point_smooth:1;         // GL_POINT_SMOOTH: round, antialiased points
     unsigned int pointsprite:1;          // point sprite rendering
     unsigned int pointsprite_coord:1;    // point sprite coord replace
     unsigned int pointsprite_upper:1;    // if coord is upper left and not lower left
