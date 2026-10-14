@@ -714,7 +714,7 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
     if(point) {
         if(!need_vertex)
             need_vertex = 1;
-        ShadAppend("float ps_d = length(vertex);\n");
+        ShadAppend("highp float ps_d = length(vertex);\n");
         sprintf(buff, "gl_PointSize = clamp(gl_Point.size*inversesqrt(gl_Point.distanceConstantAttenuation + ps_d*(gl_Point.distanceLinearAttenuation + ps_d*gl_Point.distanceQuadraticAttenuation)), gl_Point.sizeMin, gl_Point.sizeMax);\n");
         ShadAppend(buff);
     }
@@ -722,7 +722,7 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
     if(need_vertex) {
         buff[0] = '\0';
         if(need_vertex==1)
-            strcat(buff, "vec4 ");
+            strcat(buff, "highp vec4 ");
         strcat(buff, "vertex = gl_ModelViewMatrix * gl_Vertex;\n");
         shad = gl4es_inplace_insert(gl4es_getline(shad, normal_line + headers), buff, shad, &shad_cap);
         normal_line += gl4es_countline(buff);
@@ -834,6 +834,7 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
     int fogdist = state->fogdist;
     int planes = state->plane;
     int point = state->point;
+    int point_smooth = state->point_smooth && state->point;
     int pointsprite = state->pointsprite;
     int pointsprite_coord = state->pointsprite_coord;
     int pointsprite_upper = state->pointsprite_upper;
@@ -958,6 +959,22 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
             }
         }
         ShadAppend(")<0.) discard;\n");
+    }
+
+    //*** Point Smooth: round out the square point raster, with a soft edge.
+    // Desktop GL_POINT_SMOOTH is coverage-based antialiasing; GLES2/WebGL has
+    // no equivalent, so derive coverage from gl_PointCoord (always available
+    // for point primitives, independent of point sprite enable) and fold it
+    // into alpha below (see the TODO there).
+    if(point_smooth) {
+        if(comments)
+            ShadAppend("// Point Smooth\n");
+        ShadAppend("mediump float _gl4es_PointCov = 1.0;\n");
+        ShadAppend("{\n");
+        ShadAppend("mediump float _gl4es_pd = length(gl_PointCoord - vec2(0.5)) * 2.0;\n");
+        ShadAppend("if(_gl4es_pd > 1.0) discard;\n");
+        ShadAppend("_gl4es_PointCov = 1.0 - smoothstep(0.85, 1.0, _gl4es_pd);\n");
+        ShadAppend("}\n");
     }
 
     //*** initial color
@@ -1341,6 +1358,17 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
             ShadAppend(buff);
         }
     }
+
+    //*** Point Smooth coverage, folded into alpha.
+    // TODO: GL applies antialiasing coverage at the end of rasterization (GL
+    // 2.1 section 3.12), before the alpha test (4.1.4), so this belongs above
+    // the alpha test. GL's coverage is also the part of each pixel inside the
+    // circle, not a fixed 15% feather, which makes large points look smaller
+    // and blurrier than on desktop GL. A fix that matched desktop GL well:
+    // pass gl_PointSize to the fragment shader in a varying and use
+    // clamp(0.5 + 0.5*size - length(gl_PointCoord - vec2(0.5))*size, 0., 1.).
+    if(point_smooth)
+        ShadAppend("fColor.a *= _gl4es_PointCov;\n");
 
     //*** Add secondary color
     if(light_separate || secondary) {

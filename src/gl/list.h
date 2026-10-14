@@ -213,6 +213,9 @@ typedef struct _renderlist_t {
     int     pointparam_op;
     GLfloat pointparam_val[4];
 
+    int     pointsize_op;
+    GLfloat pointsize_val;
+
     int     linestipple_op;
     GLuint  linestipple_factor, linestipple_pattern;
 
@@ -317,6 +320,7 @@ void rlSecondary3f(renderlist_t *list, GLfloat r, GLfloat g, GLfloat b) FASTMATH
 void rlRasterOp(renderlist_t *list, int op, GLfloat x, GLfloat y, GLfloat z) FASTMATH;
 void rlFogOp(renderlist_t *list, int op, const GLfloat* v);
 void rlPointParamOp(renderlist_t *list, int op, const GLfloat* v);
+void rlPointSizeOp(renderlist_t *list, GLfloat size);
 void rlFogCoordf(renderlist_t *list, GLfloat coord);
 void rlEnd(renderlist_t *list);
 

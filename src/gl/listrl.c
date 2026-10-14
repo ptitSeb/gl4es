@@ -413,6 +413,11 @@ void rlPointParamOp(renderlist_t *list, int op, const GLfloat* v) {
     list->pointparam_val[3] = v[3];
 }
 
+void rlPointSizeOp(renderlist_t *list, GLfloat size) {
+    list->pointsize_op = 1;
+    list->pointsize_val = size;
+}
+
 void rlPushCall(renderlist_t *list, packed_call_t *data) {
     call_list_t *cl = &list->calls;
     if (!cl->calls) {

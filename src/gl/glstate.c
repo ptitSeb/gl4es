@@ -308,7 +308,10 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->face.front = GL_CCW;
     // Point Sprite
     glstate->pointsprite.size = 1.0f;
-    glstate->pointsprite.sizeMax = 32.0f;   // spec indicate 1., but it seems it's set to hardware limit, so putting 32...
+    // TODO: query from driver - GL starts GL_POINT_SIZE_MAX at the largest
+    // point size the implementation supports (GL_ALIASED_POINT_SIZE_RANGE);
+    // 32 draws larger points too small.
+    glstate->pointsprite.sizeMax = 32.0f;
     glstate->pointsprite.fadeThresholdSize = 1.0f;
     glstate->pointsprite.distance[0] = 1.0f;
     glstate->pointsprite.coordOrigin = GL_UPPER_LEFT;

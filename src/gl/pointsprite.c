@@ -121,6 +121,18 @@ void APIENTRY_GL4ES gl4es_glPointSize(GLfloat size) {
         errorShim(GL_INVALID_VALUE);
         return;
     }
+    // The point size reaches the shader as the gl_Point.size uniform, uploaded
+    // from glstate at draw time -- so a size set while a renderlist is pending
+    // would apply to points already recorded in it. Handle the list exactly as
+    // glPointParameterfv above does: record it when compiling, flush the
+    // pending immediate-mode batch otherwise.
+    if (glstate->list.active) {
+        if (glstate->list.compiling) {
+            NewStage(glstate->list.active, STAGE_POINTPARAM);
+            rlPointSizeOp(glstate->list.active, size);
+            return;
+        } else gl4es_flush();
+    }
     glstate->pointsprite.size = size;
     errorGL();
     LOAD_GLES_FPE(glPointSize);

@@ -424,6 +424,9 @@ void draw_renderlist(renderlist_t *list) {
                     break;
             }
         }
+        if (list->pointsize_op) {
+            gl4es_glPointSize(list->pointsize_val);
+        }
         if (list->matrix_op) {
             switch (list->matrix_op) {
                 case 1: // load

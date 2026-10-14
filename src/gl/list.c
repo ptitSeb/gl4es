@@ -61,6 +61,8 @@ bool ispurerender_renderlist(renderlist_t *list) {
         return false;
     if (list->pointparam_op)
         return false;
+    if (list->pointsize_op)
+        return false;
     if (list->mode_init == 0)
         return false;
     if (list->ind_lines || list->final_colors)
