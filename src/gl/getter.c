@@ -638,6 +638,11 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_SHADE_MODEL:
             *params=glstate->shademodel;
             break;
+        case GL_EDGE_FLAG:
+            /* CPU-only state (see gl4es_glEdgeFlag): GLES has no edge flag, so
+             * without this the query falls through and raises GL_INVALID_ENUM. */
+            *params=glstate->edgeflag;
+            break;
         case GL_ALPHA_TEST_FUNC:
             *params=glstate->alphafunc;
             break;

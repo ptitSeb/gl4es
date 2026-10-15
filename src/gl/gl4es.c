@@ -375,6 +375,36 @@ void APIENTRY_GL4ES gl4es_glVertex4fv(GLfloat* v) {
 }
 AliasExport(void,glVertex4fv,,(GLfloat* v));
 
+/* Edge flags.  GLES has no such state: the value is consumed entirely on the
+ * CPU, when polygon-mode lines are generated in fill_lineIndices(), so this
+ * never reaches a gles_* entry point.  It needs no packed-call entry for
+ * display lists either - a compiling list picks the flag up through its own
+ * lastEdgeFlag, and a freshly extended one through the copied list state. The
+ * explicit-state bit keeps inherited compilation state from leaking through
+ * glCallList. */
+void APIENTRY_GL4ES gl4es_glEdgeFlag(GLboolean flag) {
+    flag = flag ? GL_TRUE : GL_FALSE;
+    if (glstate->list.active) {
+        glstate->list.active->lastEdgeFlag = (GLubyte)flag;
+        glstate->list.active->lastEdgeFlagSet = 1;
+        noerrorShimNoPurge();
+    } else {
+        noerrorShim();
+    }
+    if (!glstate->list.compiling || glstate->list.mode == GL_COMPILE_AND_EXECUTE)
+        glstate->edgeflag = flag;
+}
+AliasExport(void,glEdgeFlag,,(GLboolean flag));
+
+void APIENTRY_GL4ES gl4es_glEdgeFlagv(const GLboolean *flag) {
+    if (!flag) {
+        errorShim(GL_INVALID_VALUE);
+        return;
+    }
+    gl4es_glEdgeFlag(*flag);
+}
+AliasExport(void,glEdgeFlagv,,(const GLboolean *flag));
+
 void APIENTRY_GL4ES gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     if (glstate->list.active) {
         if (glstate->list.active->stage != STAGE_DRAW) {
@@ -874,13 +904,31 @@ renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a);
 void APIENTRY_GL4ES gl4es_glCallList(GLuint list) {
 	noerrorShim();
     if (glstate->list.active) {
-        glstate->list.active = append_calllist(glstate->list.active, gl4es_glGetList(list));
+        renderlist_t *called = gl4es_glGetList(list);
+        glstate->list.active = append_calllist(glstate->list.active, called);
+        if (called) {
+            renderlist_t *tail = called;
+            while (tail->next) tail = tail->next;
+            if (tail->lastEdgeFlagSet) {
+                glstate->list.active->lastEdgeFlag = tail->lastEdgeFlag;
+                glstate->list.active->lastEdgeFlagSet = 1;
+                if (!glstate->list.compiling ||
+                    glstate->list.mode == GL_COMPILE_AND_EXECUTE)
+                    glstate->edgeflag = tail->lastEdgeFlag;
+            }
+        }
 		return;
 	}
     // TODO: the output of this call can be compiled into another display list
     renderlist_t *l = gl4es_glGetList(list);
     if (l)
         draw_renderlist(l);
+    if (l) {
+        renderlist_t *tail = l;
+        while (tail->next) tail = tail->next;
+        if (tail->lastEdgeFlagSet)
+            glstate->edgeflag = tail->lastEdgeFlag;
+    }
 }
 AliasExport(void,glCallList,,(GLuint list));
 

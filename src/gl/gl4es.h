@@ -42,6 +42,8 @@ void APIENTRY_GL4ES gl4es_glBegin(GLenum mode);
 void APIENTRY_GL4ES gl4es_glEnd(void);
 void APIENTRY_GL4ES gl4es_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz);
 void APIENTRY_GL4ES gl4es_glVertex4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+void APIENTRY_GL4ES gl4es_glEdgeFlag(GLboolean flag);
+void APIENTRY_GL4ES gl4es_glEdgeFlagv(const GLboolean *flag);
 void APIENTRY_GL4ES gl4es_glColor4f(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
 void APIENTRY_GL4ES gl4es_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
 void APIENTRY_GL4ES gl4es_glMaterialfv(GLenum face, GLenum pname, const GLfloat *params);

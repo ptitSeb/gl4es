@@ -316,6 +316,7 @@ void* APIENTRY_GL4ES gl4es_GetProcAddress(const char *name) {
     _EX(glDrawRangeElements);
     _EXT(glDrawRangeElements);
     _EX(glEdgeFlag);
+    _EX(glEdgeFlagv);
     _EX(glEnd);
     _EX(glEndList);
     _EX(glEvalCoord1d);
@@ -484,7 +485,6 @@ void* APIENTRY_GL4ES gl4es_GetProcAddress(const char *name) {
     /*STUB(glEdgeFlagPointerEXT);
     STUB(glIndexPointerEXT);*/
     STUB(glClearIndex);
-    STUB(glEdgeFlagv);
     STUB(glIndexMask);
     
     //EXT_direct_state_access

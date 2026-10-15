@@ -239,6 +239,82 @@ void listInactiveVBO(renderlist_t* list, save_vbo_t* saved) {
     }
 }
 
+/* Build boundary indices from vertex-order flags and modeinit_t.vlen.  The
+ * caller allocates four indices per vertex; return -1 for a topology that
+ * cannot be reconstructed within that bound so it can fall back to
+ * fill_lineIndices().  GL_QUAD_STRIP fits the allocation. */
+#define EDGE_EMIT(a, b)                                   \
+    do {                                                  \
+        if (edgeflag[(a)]) {                              \
+            ind_line[k++] = (GLushort)(a);                \
+            ind_line[k++] = (GLushort)(b);                \
+        }                                                 \
+    } while (0)
+
+static int build_lineIndices_edgeflag(const modeinit_t *modes, int length,
+                                      int total_verts,
+                                      const GLubyte *edgeflag,
+                                      GLushort *ind_line)
+{
+    int k = 0;
+    int start = 0;
+    for (int m = 0; m < length; ++m) {
+        /* The last block's recorded span can lag the list's final length
+         * (rlEnd trims, and a block is stamped as the next one opens), so the
+         * tail always runs to the real vertex count. */
+        int end = (m + 1 < length) ? modes[m].vlen : total_verts;
+        if (end > total_verts)
+            end = total_verts;
+        if (end < start)
+            return -1;      /* bookkeeping we do not trust: use the old path */
+        int len = end - start;
+        if (len == 0)
+            continue;
+        switch (modes[m].mode_init) {
+            case GL_TRIANGLES:
+                for (int i = 0; i + 2 < len; i += 3) {
+                    int a = start + i;
+                    EDGE_EMIT(a + 0, a + 1);
+                    EDGE_EMIT(a + 1, a + 2);
+                    EDGE_EMIT(a + 2, a + 0);
+                }
+                break;
+            case GL_QUADS:
+                for (int i = 0; i + 3 < len; i += 4) {
+                    int a = start + i;
+                    EDGE_EMIT(a + 0, a + 1);
+                    EDGE_EMIT(a + 1, a + 2);
+                    EDGE_EMIT(a + 2, a + 3);
+                    EDGE_EMIT(a + 3, a + 0);
+                }
+                break;
+            case GL_QUAD_STRIP:
+                /* quad q is bounded by v(2q) -> v(2q+1) -> v(2q+3) -> v(2q+2) */
+                for (int i = 0; i + 3 < len; i += 2) {
+                    int a = start + i;
+                    EDGE_EMIT(a + 0, a + 1);
+                    EDGE_EMIT(a + 1, a + 3);
+                    EDGE_EMIT(a + 3, a + 2);
+                    EDGE_EMIT(a + 2, a + 0);
+                }
+                break;
+            case GL_POLYGON:
+                if (len > 2) {
+                    for (int i = 0; i < len - 1; ++i)
+                        EDGE_EMIT(start + i, start + i + 1);
+                    EDGE_EMIT(start + len - 1, start);
+                }
+                break;
+            default:
+                return -1;
+        }
+        start = end;
+    }
+    return k;
+}
+
+#undef EDGE_EMIT
+
 int fill_lineIndices(modeinit_t *modes, int length, GLenum mode, GLushort* indices, GLushort *ind_line)
 {
     #define ind(a)  indices?indices[a]:(a)
@@ -682,7 +758,14 @@ void draw_renderlist(renderlist_t *list) {
                     modeinit_t tmp;
                     tmp.mode_init = list->mode_init;
                     tmp.ilen = source_count;
-                    list->ind_line = fill_lineIndices(
+                    tmp.vlen = list->len;
+                    int ef_k = -1;
+                    if (list->edgeflag)
+                        ef_k = build_lineIndices_edgeflag(
+                            list->mode_inits ? list->mode_inits : &tmp,
+                            list->mode_inits ? list->mode_init_len : 1,
+                            list->len, list->edgeflag, list->ind_lines);
+                    list->ind_line = (ef_k >= 0) ? ef_k : fill_lineIndices(
                         list->mode_inits ? list->mode_inits : &tmp,
                         list->mode_inits ? list->mode_init_len : 1,
                         list->mode, indices, list->ind_lines);
@@ -954,8 +1037,9 @@ void draw_renderlist(renderlist_t *list) {
                     int ilen = list->ilen;
                     if(!list->ind_lines) {
                         GLushort *ind_line = list->ind_lines = (GLushort*)malloc(sizeof(GLushort)*ilen*4+2);
-                        modeinit_t tmp; tmp.mode_init = list->mode_init; tmp.ilen=list->ilen;
-                        int k = fill_lineIndices(list->mode_inits?list->mode_inits:&tmp, list->mode_inits?list->mode_init_len:1, list->mode, indices, list->ind_lines);
+                        modeinit_t tmp; tmp.mode_init = list->mode_init; tmp.ilen=list->ilen; tmp.vlen=list->len;
+                        int ef_k = list->edgeflag ? build_lineIndices_edgeflag(list->mode_inits?list->mode_inits:&tmp, list->mode_inits?list->mode_init_len:1, list->len, list->edgeflag, list->ind_lines) : -1;
+                        int k = (ef_k >= 0) ? ef_k : fill_lineIndices(list->mode_inits?list->mode_inits:&tmp, list->mode_inits?list->mode_init_len:1, list->mode, indices, list->ind_lines);
                         list->ind_line = k;
                     }
                     bindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -1001,8 +1085,9 @@ void draw_renderlist(renderlist_t *list) {
                 if ((glstate->polygon_mode == GL_LINE) && (list->mode_init>=GL_TRIANGLES)) {
                     if(!list->ind_lines) {
                         GLushort *ind_line = list->ind_lines = (GLushort*)malloc(sizeof(GLushort)*len*4+2);
-                        modeinit_t tmp; tmp.mode_init = list->mode_init; tmp.ilen=len;
-                        int k = fill_lineIndices(list->mode_inits?list->mode_inits:&tmp, list->mode_inits?list->mode_init_len:1, list->mode, NULL, list->ind_lines);
+                        modeinit_t tmp; tmp.mode_init = list->mode_init; tmp.ilen=len; tmp.vlen=list->len;
+                        int ef_k = list->edgeflag ? build_lineIndices_edgeflag(list->mode_inits?list->mode_inits:&tmp, list->mode_inits?list->mode_init_len:1, list->len, list->edgeflag, list->ind_lines) : -1;
+                        int k = (ef_k >= 0) ? ef_k : fill_lineIndices(list->mode_inits?list->mode_inits:&tmp, list->mode_inits?list->mode_init_len:1, list->mode, NULL, list->ind_lines);
                         list->ind_line = k;
                     }
                     bindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

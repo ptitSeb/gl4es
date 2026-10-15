@@ -30,6 +30,7 @@ renderlist_t *alloc_renderlist() {
     memcpy(list->lastSecondaryColors, glstate->secondary, 3*sizeof(GLfloat));
     memcpy(list->lastColors, glstate->color, 4*sizeof(GLfloat));
     memcpy(&list->lastFogCoord, glstate->fogcoord, 1*sizeof(GLfloat));
+    list->lastEdgeFlag = glstate->edgeflag;
 
     list->instanceCount = 1;
 
@@ -358,6 +359,7 @@ void list_add_modeinit(renderlist_t* list, GLenum mode) {
         list->mode_inits = (modeinit_t*)realloc(list->mode_inits, list->mode_init_cap*sizeof(modeinit_t));
     }
     list->mode_inits[list->mode_init_len].mode_init = mode;
+    list->mode_inits[list->mode_init_len].vlen = list->cur_istart?list->cur_istart:list->len;
     list->mode_inits[list->mode_init_len++].ilen = list->indices?list->ilen:(list->cur_istart?list->cur_istart:list->len);
 }
 
@@ -389,6 +391,12 @@ void unshared_renderlist(renderlist_t *a, int cap) {
         if (tmp) {
             a->fogcoord = alloc_sublist(1, cap);
             memcpy(a->fogcoord, tmp, 1*a->len*sizeof(GLfloat));
+        }
+        if (a->edgeflag) {
+            GLubyte *tmpe = a->edgeflag;
+            a->edgeflag = (GLubyte *)malloc(cap * sizeof(GLubyte));
+            if (a->edgeflag)
+                memcpy(a->edgeflag, tmpe, a->len * sizeof(GLubyte));
         }
         for (int i=0; i<a->maxtex; i++) {
             tmp = a->tex[i];
@@ -429,6 +437,8 @@ void redim_renderlist(renderlist_t *a, int cap) {
         realloc_sublist(a->color, 4, cap);
         realloc_sublist(a->secondary, 4, cap);
         realloc_sublist(a->fogcoord, 1, cap);
+        if (a->edgeflag)
+            a->edgeflag = (GLubyte *)realloc(a->edgeflag, cap * sizeof(GLubyte));
         for (int i=0; i<a->maxtex; i++)
             realloc_sublist(a->tex[i], 4, cap);
     }
@@ -557,6 +567,25 @@ void append_renderlist(renderlist_t *a, renderlist_t *b) {
     if (a->color) memcpy(a->color+a->len*4, b->color, b->len*4*sizeof(GLfloat));
     if (a->secondary) memcpy(a->secondary+a->len*4, b->secondary, b->len*4*sizeof(GLfloat));
     if (a->fogcoord) memcpy(a->fogcoord+a->len*1, b->fogcoord, b->len*1*sizeof(GLfloat));
+    // Edge flags: NULL on either side means "all GL_TRUE", so the merged list
+    // only needs an array when at least one of the two carries one.
+    if (a->edgeflag || b->edgeflag) {
+        if (!a->edgeflag) {
+            a->edgeflag = (GLubyte *)malloc(a->cap * sizeof(GLubyte));
+            if (a->edgeflag)
+                memset(a->edgeflag, GL_TRUE, a->len * sizeof(GLubyte));
+        }
+        if (a->edgeflag) {
+            if (b->edgeflag)
+                memcpy(a->edgeflag+a->len, b->edgeflag, b->len * sizeof(GLubyte));
+            else
+                memset(a->edgeflag+a->len, GL_TRUE, b->len * sizeof(GLubyte));
+        }
+    }
+    if (b->lastEdgeFlagSet) {
+        a->lastEdgeFlag = b->lastEdgeFlag;
+        a->lastEdgeFlagSet = 1;
+    }
     for (int i=0; i<a->maxtex; i++)
         if (a->tex[i]) memcpy(a->tex[i]+a->len*4, b->tex[i], b->len*4*sizeof(GLfloat));
     // indices
@@ -604,6 +633,8 @@ renderlist_t *extend_renderlist(renderlist_t *list) {
         memcpy(new->lastSecondaryColors, list->lastSecondaryColors, 3*sizeof(GLfloat));
         memcpy(new->lastColors, list->lastColors, 4*sizeof(GLfloat));
         new->lastColorsSet = list->lastColorsSet;
+        new->lastEdgeFlag = list->lastEdgeFlag;
+        new->lastEdgeFlagSet = list->lastEdgeFlagSet;
         // detach
         list->prev = NULL;
         // free list now
@@ -619,6 +650,8 @@ renderlist_t *extend_renderlist(renderlist_t *list) {
         memcpy(new->lastSecondaryColors, list->lastSecondaryColors, 3*sizeof(GLfloat));
         memcpy(new->lastColors, (list->post_color)?list->post_colors:list->lastColors, 4*sizeof(GLfloat));
         new->lastColorsSet = (list->post_color || list->lastColorsSet)?1:0;
+        new->lastEdgeFlag = list->lastEdgeFlag;
+        new->lastEdgeFlagSet = list->lastEdgeFlagSet;
         return new;
     }
 }
@@ -736,6 +769,7 @@ void free_renderlist(renderlist_t *list) {
                 if (list->color) free(list->color);
                 if (list->secondary) free(list->secondary);
                 if (list->fogcoord) free(list->fogcoord);
+                if (list->edgeflag) free(list->edgeflag);
                 for (a=0; a<list->maxtex; a++)
                     if (list->tex[a]) free(list->tex[a]);
             }
@@ -744,8 +778,13 @@ void free_renderlist(renderlist_t *list) {
                 if (list->indices)
                     free(list->indices);
             }
-        } else
+        } else {
+            /* A merger list's float arrays live in glstate, but its edge flags
+             * are its own malloc.  Skip it when the list was shallow-copied
+             * (shared_arrays set): leaking a few bytes beats a double free. */
+            if (list->edgeflag && !list->shared_arrays) free(list->edgeflag);
             glstate->merger_used = 0;
+        }
 
         if (list->material) {
             rendermaterial_t *m;
@@ -822,6 +861,10 @@ void resize_renderlist(renderlist_t *list) {
             if(list->tex[1]) list->tex[1] = glstate->merger_master+4+4+4;
             if(list->fogcoord) list->fogcoord = glstate->merger_master+4+4+2*4+3;
             if(list->secondary) list->secondary = glstate->merger_secondary;
+            /* Edge flags are per-list, not part of merger_master. */
+            if(list->edgeflag)
+                list->edgeflag = (GLubyte *)realloc(list->edgeflag,
+                                                    glstate->merger_cap * sizeof(GLubyte));
             for (int a=2; a<list->maxtex; a++)
                 if(list->tex[a]) list->tex[a] = glstate->merger_tex[a-2];
         }
@@ -833,6 +876,9 @@ void resize_renderlist(renderlist_t *list) {
             realloc_sublist(list->color, 4, list->cap);
             realloc_sublist(list->secondary, 4, list->cap);
             realloc_sublist(list->fogcoord, 1, list->cap);
+            if(list->edgeflag)
+                list->edgeflag = (GLubyte *)realloc(list->edgeflag,
+                                                    list->cap * sizeof(GLubyte));
             for (int a=0; a<list->maxtex; a++)
             realloc_sublist(list->tex[a], 4, list->cap);
         }

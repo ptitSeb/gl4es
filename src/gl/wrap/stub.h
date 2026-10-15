@@ -8,7 +8,6 @@ void APIENTRY_GL4ES gl4es_glBlendFuncSeparatei(GLuint buf, GLenum srcRGB, GLenum
 //void APIENTRY_GL4ES gl4es_glColorMaterial(GLenum face, GLenum mode);
 void APIENTRY_GL4ES gl4es_glCopyPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum type);
 void APIENTRY_GL4ES gl4es_glDrawBuffer(GLenum mode);
-void APIENTRY_GL4ES gl4es_glEdgeFlag(GLboolean flag);
 //void APIENTRY_GL4ES gl4es_glFogCoordd(GLdouble coord);
 //void APIENTRY_GL4ES gl4es_glFogCoorddv(const GLdouble *coord);
 //void APIENTRY_GL4ES gl4es_glFogCoordf(GLfloat coord);
@@ -37,4 +36,3 @@ void APIENTRY_GL4ES gl4es_glGetPixelMapusv(GLenum map, GLushort *data);
 void APIENTRY_GL4ES gl4es_glClearIndex(GLfloat c);
 void APIENTRY_GL4ES gl4es_glGetPolygonStipple(GLubyte *pattern);
 void APIENTRY_GL4ES gl4es_glFeedbackBuffer(GLsizei size, GLenum type, GLfloat *buffer);
-void APIENTRY_GL4ES gl4es_glEdgeFlagv(GLboolean *flag);

@@ -71,6 +71,10 @@ struct glstate_s {
     float               planes[MAX_CLIP_PLANES][4];
     pointsprite_t       pointsprite;
     linestipple_t       linestipple;
+    /* Current edge flag (glEdgeFlag).  CPU-only state: it is consumed
+     * when polygon-mode lines are generated (fill_lineIndices), never
+     * uploaded to GL.  Defaults to GL_TRUE. */
+    GLboolean           edgeflag;
     GLenum              shademodel;
     GLenum              alphafunc;
     GLfloat             alpharef;

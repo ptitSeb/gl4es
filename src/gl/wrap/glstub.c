@@ -29,7 +29,6 @@ STUB(void,glClearAccum,(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
 //STUB(void,glColorMaterial,(GLenum face, GLenum mode));
 STUB(void,glCopyPixels,(GLint x, GLint y, GLsizei width, GLsizei height, GLenum type));
 STUB(void,glDrawBuffer,(GLenum mode));
-STUB(void,glEdgeFlag,(GLboolean flag));
 STUB(void,glIndexf,(GLfloat c));
 STUB(void,glPolygonStipple,(const GLubyte *mask));
 STUB(void,glReadBuffer,(GLenum mode));
@@ -49,6 +48,5 @@ STUB(void,glIndexMask,(GLuint mask));
 STUB(void,glClearIndex,(GLfloat c));
 STUB(void,glGetPolygonStipple,(GLubyte *pattern));
 STUB(void,glFeedbackBuffer,(GLsizei size, GLenum type, GLfloat *buffer));
-STUB(void,glEdgeFlagv,(GLboolean *flag));
 //STUB(void glIndexPointer(GLenum  type,  GLsizei  stride,  const GLvoid *  pointer));
 #undef STUB
