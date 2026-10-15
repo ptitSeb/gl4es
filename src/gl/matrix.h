@@ -55,5 +55,21 @@ static inline GLfloat* getMVPMat()
 	return glstate->mvp_matrix;
 }
 
+/* Transient MV/P poke. Never use public glPushMatrix: a full stack
+ * would GL_STACK_OVERFLOW and silently skip the draw. Always dirty
+ * mvp / inv_mv / normal on poke and restore so a getInvMVMat /
+ * getNormalMat during the poke cannot leave a stale-but-clean cache. */
+typedef struct {
+    GLfloat mv[16];
+    GLfloat p[16];
+    int mv_identity;
+    int p_identity;
+} gl4es_mvp_save_t;
+
+void gl4es_mat_mark_dirty(void);
+void gl4es_mvp_save(gl4es_mvp_save_t *s);
+void gl4es_mvp_restore(const gl4es_mvp_save_t *s);
+void gl4es_mvp_poke_proj_zbias(GLfloat d);
+GLfloat gl4es_polygon_offset_ndc_d(void);
 
 #endif // _GL4ES_MATRIX_H_

@@ -1716,6 +1716,8 @@ void APIENTRY_GL4ES gl4es_glPolygonOffset(GLfloat factor, GLfloat units) {
 #ifndef direct_glPolygonOffset
     PUSH_IF_COMPILING(glPolygonOffset)
 #endif
+    glstate->polygon_offset_factor = factor;
+    glstate->polygon_offset_units = units;
     gles_glPolygonOffset(factor, units);
 }
 AliasExport(void,glPolygonOffset,,(GLfloat factor, GLfloat units));
@@ -1726,6 +1728,8 @@ void APIENTRY_GL4ES gl4es_glPolygonOffsetx(GLfixed factor, GLfixed units) {
 #ifndef direct_glPolygonOffsetx
     PUSH_IF_COMPILING(glPolygonOffsetx)
 #endif
+    glstate->polygon_offset_factor = factor / 65536.0f;
+    glstate->polygon_offset_units = units / 65536.0f;
     gles_glPolygonOffsetx(factor, units);
 }
 AliasExport(void,glPolygonOffsetx,,(GLfixed factor, GLfixed units));

@@ -60,6 +60,7 @@ typedef struct _glstack_t {
     GLboolean cull_face;
     GLboolean normalize;
     GLboolean polygon_offset_fill;
+    GLboolean polygon_offset_line;
     GLboolean stencil_test;
     GLuint    tex_enabled[MAX_TEX];
     GLboolean texgen_s[MAX_TEX];
@@ -120,10 +121,12 @@ typedef struct _glstack_t {
     GLfloat point_fade_threshold;
     GLfloat point_distance_attenuation[3];
 
-    // GL_POLYGON_BIT (cull_face & polygon_offset_fill enables shared with GL_ENABLE_BIT)
+    // GL_POLYGON_BIT (cull / offset enables shared with GL_ENABLE_BIT)
     GLint cull_face_mode;
     GLint front_face;
     GLenum polygon_mode;
+    GLfloat polygon_offset_factor;
+    GLfloat polygon_offset_units;
 
     // TODO: GL_POLYGON_STIPPLE_BIT
 

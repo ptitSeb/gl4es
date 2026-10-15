@@ -57,6 +57,7 @@ typedef struct {
               line_smooth,
               point_smooth,
               polyfill_offset,
+              polyline_offset,
               vertex_arb,
               vertex_two_side_arb,
               fragment_arb,

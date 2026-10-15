@@ -14,6 +14,8 @@ typedef struct _hardext {
     int maxlights;      // maximum number of light
     int maxsize;        // maximum texture size
     int maxplanes;      // maximum clip planes
+    int maxlinewidth;   // GL_ALIASED_LINE_WIDTH_RANGE upper bound (1 on stacks that cannot widen a line)
+    int depthbits;      // GL_DEPTH_BITS cached at init, clamped [8, 32], default 16
     int blendsub;       // GL_OES_blend_subtract
     int blendfunc;      // GL_OES_blend_func_separate
     int blendeq;        // GL_OES_blend_equation_separate
@@ -77,5 +79,9 @@ typedef struct _hardext {
 EXPORT extern hardext_t hardext;
 
 EXPORT void GetHardwareExtensions(int test);
+/* Probe ALIASED_LINE_WIDTH_RANGE and DEPTH_BITS once a GL context exists.
+ * GetHardwareExtensions(notest) on Emscripten runs before glutCreateWindow,
+ * so those defaults stay at 1 / 16 until this runs. Idempotent. */
+void gl4es_probe_line_width_and_depth(void);
 
 #endif

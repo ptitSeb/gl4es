@@ -140,6 +140,8 @@ struct glstate_s {
     GLfloat             clear_color[4];
     GLfloat             line_width;
     GLenum              mipmap_hint;
+    GLfloat             polygon_offset_factor;  // glPolygonOffset, also for the
+    GLfloat             polygon_offset_units;   // polygon-mode line depth bias
 }; // glstate_t defined in oldprogram.h
 
 

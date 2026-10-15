@@ -4,6 +4,10 @@
 #include "loader.h"
 #include "debug.h"
 
+#ifndef GL_POLYGON_OFFSET_LINE
+#define GL_POLYGON_OFFSET_LINE 0x2A02
+#endif
+
 //#define DEBUG
 #ifdef DEBUG
 #define DBG(a) a
@@ -166,6 +170,8 @@ static void proxy_glEnable(GLenum cap, bool enable, void (APIENTRY_GLES *next)(G
         proxy_GOFPE(GL_LINE_SMOOTH, line_smooth, );
 
         proxy_GO(GL_POLYGON_OFFSET_FILL, polyfill_offset);
+        /* Desktop-only enum: shadow it, do not forward to GLES. */
+        GO(GL_POLYGON_OFFSET_LINE, polyline_offset);
 
         // color logic op
         proxy_GOFPE(GL_COLOR_LOGIC_OP, color_logic_op, );
@@ -394,6 +400,7 @@ GLboolean APIENTRY_GL4ES gl4es_glIsEnabled(GLenum cap) {
         isenabled(GL_POINT_SMOOTH, point_smooth);
         isenabled(GL_LINE_SMOOTH, line_smooth);
         isenabled(GL_POLYGON_OFFSET_FILL, polyfill_offset);
+        isenabled(GL_POLYGON_OFFSET_LINE, polyline_offset);
         isenabled(GL_COLOR_LOGIC_OP, color_logic_op);
         clientisenabled(GL_SECONDARY_COLOR_ARRAY, vertexattrib[ATT_SECONDARY].enabled);
         clientisenabled(GL_FOG_COORD_ARRAY, vertexattrib[ATT_FOGCOORD].enabled);
