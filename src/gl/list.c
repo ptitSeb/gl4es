@@ -37,6 +37,34 @@ renderlist_t *alloc_renderlist() {
     return list;
 }
 
+void clear_line_arrays(line_arrays_t *arrays) {
+    if (!arrays)
+        return;
+    free(arrays->vert);
+    free(arrays->normal);
+    free(arrays->color);
+    free(arrays->secondary);
+    free(arrays->fogcoord);
+    for (int a = 0; a < MAX_TEX; ++a)
+        free(arrays->tex[a]);
+    if (arrays->vbo_array)
+        deleteSingleBuffer(arrays->vbo_array);
+    memset(arrays, 0, sizeof(*arrays));
+}
+
+void invalidate_line_arrays(renderlist_t *list) {
+    if (list->line_arrays) {
+        clear_line_arrays(list->line_arrays);
+        free(list->line_arrays);
+        list->line_arrays = NULL;
+    }
+    if (list->ind_lines) {
+        free(list->ind_lines);
+        list->ind_lines = NULL;
+        list->ind_line = 0;
+    }
+}
+
 bool ispurerender_renderlist(renderlist_t *list) {
     // return true if renderlist contains only rendering command, no state changes
     if (list->calls.len)
@@ -621,6 +649,14 @@ renderlist_t* append_calllist(renderlist_t *list, renderlist_t *a)
             }
             // batch copy first
             memcpy(new, a, sizeof(renderlist_t));
+            /* Edge indices and their expanded arrays are derived caches, not
+             * part of the refcounted source arrays copied below.  A called
+             * list must build its own cache or it would double-free the
+             * display list's copy. */
+            new->ind_lines = NULL;
+            new->ind_line = 0;
+            new->line_arrays = NULL;
+            new->line_arrays_cacheable = 0;
             list->next = new;
             new->prev = list;
             // ok, now on new list
@@ -758,8 +794,7 @@ void free_renderlist(renderlist_t *list) {
             free(list->bitmaps);
         }
         
-        if(list->ind_lines)
-            free(list->ind_lines);
+        invalidate_line_arrays(list);
         if(list->final_colors)
             free(list->final_colors);
         if(list->vbo_array)

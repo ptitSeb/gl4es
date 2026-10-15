@@ -359,6 +359,129 @@ int fill_lineIndices(modeinit_t *modes, int length, GLenum mode, GLushort* indic
     return k;
 }
 
+/* WebGL's client-side glDrawElements path is unusually expensive: Emscripten
+ * has to upload the index array and scan it to discover the client vertex
+ * range for every draw.  Polygon-mode lines are generated indices, so expand
+ * the enabled arrays in that order and use glDrawArrays(GL_LINES) instead.
+ *
+ * Keep this ES2+ only.  The ES1 path can synthesize texture coordinates and
+ * final colors below, after this point, and still uses the indexed fallback.
+ * And keep it to Emscripten: native drivers read client-side arrays in place,
+ * so there the expansion is only extra copying. */
+#ifdef __EMSCRIPTEN__
+#define LINE_ARRAYS 1
+#else
+#define LINE_ARRAYS 0
+#endif
+static GLfloat *expand_line_array(const GLfloat *src, int stride,
+                                  int components, const GLushort *indices,
+                                  int count)
+{
+    if (!src)
+        return NULL;
+    if (!stride)
+        stride = components * (int)sizeof(GLfloat);
+    GLfloat *dst = (GLfloat *)malloc((size_t)count * components * sizeof(GLfloat));
+    if (!dst)
+        return NULL;
+    for (int i = 0; i < count; ++i) {
+        const GLfloat *item = (const GLfloat *)((const char *)src +
+                                                (size_t)indices[i] * stride);
+        memcpy(dst + (size_t)i * components, item,
+               (size_t)components * sizeof(GLfloat));
+    }
+    return dst;
+}
+
+static int build_line_arrays(line_arrays_t *arrays, const renderlist_t *list,
+                             const GLushort *indices, int count)
+{
+    if (!list->vert)
+        return 0;
+    memset(arrays, 0, sizeof(*arrays));
+    arrays->count = count;
+    arrays->vert = expand_line_array(list->vert, list->vert_stride, 4,
+                                     indices, count);
+    if (list->vert && !arrays->vert)
+        goto failed;
+    arrays->normal = expand_line_array(list->normal, list->normal_stride, 3,
+                                       indices, count);
+    if (list->normal && !arrays->normal)
+        goto failed;
+    arrays->color = expand_line_array(list->color, list->color_stride, 4,
+                                      indices, count);
+    if (list->color && !arrays->color)
+        goto failed;
+    arrays->secondary = expand_line_array(list->secondary,
+                                          list->secondary_stride, 4,
+                                          indices, count);
+    if (list->secondary && !arrays->secondary)
+        goto failed;
+    arrays->fogcoord = expand_line_array(list->fogcoord, list->fogcoord_stride,
+                                         1, indices, count);
+    if (list->fogcoord && !arrays->fogcoord)
+        goto failed;
+    for (int a = 0; a < list->maxtex; ++a) {
+        arrays->tex[a] = expand_line_array(list->tex[a], list->tex_stride[a],
+                                           4, indices, count);
+        if (list->tex[a] && !arrays->tex[a])
+            goto failed;
+    }
+    return 1;
+
+failed:
+    clear_line_arrays(arrays);
+    return 0;
+}
+
+static int line_arrays_to_vbo(line_arrays_t *arrays, const renderlist_t *list)
+{
+    renderlist_t expanded = {0};
+    expanded.len = arrays->count;
+    expanded.vert = arrays->vert;
+    expanded.normal = arrays->normal;
+    expanded.color = arrays->color;
+    expanded.secondary = arrays->secondary;
+    expanded.fogcoord = arrays->fogcoord;
+    expanded.maxtex = list->maxtex;
+    for (int a = 0; a < list->maxtex; ++a)
+        expanded.tex[a] = arrays->tex[a];
+    if (list2VBO(&expanded) != 2)
+        return 0;
+    arrays->vbo_array = expanded.vbo_array;
+    arrays->vbo_vert = expanded.vbo_vert;
+    arrays->vbo_normal = expanded.vbo_normal;
+    arrays->vbo_color = expanded.vbo_color;
+    arrays->vbo_secondary = expanded.vbo_secondary;
+    arrays->vbo_fogcoord = expanded.vbo_fogcoord;
+    for (int a = 0; a < list->maxtex; ++a)
+        arrays->vbo_tex[a] = expanded.vbo_tex[a];
+    return 1;
+}
+
+static void line_arrays_vbo_view(renderlist_t *view,
+                                 const line_arrays_t *arrays,
+                                 int maxtex)
+{
+    memset(view, 0, sizeof(*view));
+    view->vert = arrays->vert;
+    view->normal = arrays->normal;
+    view->color = arrays->color;
+    view->secondary = arrays->secondary;
+    view->fogcoord = arrays->fogcoord;
+    view->maxtex = maxtex;
+    view->vbo_array = arrays->vbo_array;
+    view->vbo_vert = arrays->vbo_vert;
+    view->vbo_normal = arrays->vbo_normal;
+    view->vbo_color = arrays->vbo_color;
+    view->vbo_secondary = arrays->vbo_secondary;
+    view->vbo_fogcoord = arrays->vbo_fogcoord;
+    for (int a = 0; a < maxtex; ++a) {
+        view->tex[a] = arrays->tex[a];
+        view->vbo_tex[a] = arrays->vbo_tex[a];
+    }
+}
+
 void draw_renderlist(renderlist_t *list) {
     if (!list) return;
     // go to 1st...
@@ -532,25 +655,77 @@ void draw_renderlist(renderlist_t *list) {
         if(!use_vbo_indices &&  (hardext.esversion==1 || globals4es.usevbo==0 || !list->name)) {
             use_vbo_indices = 1;
         }
-        if (list->vert) {
+        indices = list->indices;
+        line_arrays_t transient_line_arrays = {0};
+        line_arrays_t *line_arrays = &transient_line_arrays;
+        int use_line_arrays = 0;
+        if (LINE_ARRAYS && hardext.esversion > 1 && glstate->render_mode != GL_SELECT &&
+                glstate->polygon_mode == GL_LINE &&
+                list->mode_init >= GL_TRIANGLES) {
+            int source_count = indices ? list->ilen : list->len;
+            if (!list->ind_lines) {
+                list->ind_lines = (GLushort *)malloc(
+                    sizeof(GLushort) * (source_count * 4 + 2));
+                if (list->ind_lines) {
+                    modeinit_t tmp;
+                    tmp.mode_init = list->mode_init;
+                    tmp.ilen = source_count;
+                    list->ind_line = fill_lineIndices(
+                        list->mode_inits ? list->mode_inits : &tmp,
+                        list->mode_inits ? list->mode_init_len : 1,
+                        list->mode, indices, list->ind_lines);
+                }
+            }
+            if (list->ind_lines && list->ind_line > 0 &&
+                    list->line_arrays_cacheable) {
+                if (!list->line_arrays) {
+                    line_arrays_t *cached = (line_arrays_t *)calloc(
+                        1, sizeof(line_arrays_t));
+                    if (cached && build_line_arrays(
+                            cached, list, list->ind_lines, list->ind_line)) {
+                        list->line_arrays = cached;
+                    } else
+                        free(cached);
+                }
+                if (list->line_arrays) {
+                    line_arrays = list->line_arrays;
+                    use_line_arrays = 1;
+                }
+            }
+            if (!use_line_arrays && list->ind_lines && list->ind_line > 0)
+                use_line_arrays = build_line_arrays(
+                    line_arrays, list, list->ind_lines, list->ind_line);
+            if (use_line_arrays)
+                use_vbo_array = 1;
+        }
+        GLfloat *draw_vert = use_line_arrays ? line_arrays->vert : list->vert;
+        GLfloat *draw_normal = use_line_arrays ? line_arrays->normal : list->normal;
+        GLfloat *draw_color = use_line_arrays ? line_arrays->color : list->color;
+        GLfloat *draw_secondary = use_line_arrays ? line_arrays->secondary : list->secondary;
+        GLfloat *draw_fogcoord = use_line_arrays ? line_arrays->fogcoord : list->fogcoord;
+        int draw_vert_stride = use_line_arrays ? 0 : list->vert_stride;
+        int draw_normal_stride = use_line_arrays ? 0 : list->normal_stride;
+        int draw_color_stride = use_line_arrays ? 0 : list->color_stride;
+        int draw_secondary_stride = use_line_arrays ? 0 : list->secondary_stride;
+        int draw_fogcoord_stride = use_line_arrays ? 0 : list->fogcoord_stride;
+
+        if (draw_vert) {
             fpe_glEnableClientState(GL_VERTEX_ARRAY);
-            gles_glVertexPointer(4, GL_FLOAT, list->vert_stride, list->vert);
+            gles_glVertexPointer(4, GL_FLOAT, draw_vert_stride, draw_vert);
         } else {
             fpe_glDisableClientState(GL_VERTEX_ARRAY);
         }
 
-        if (list->normal) {
+        if (draw_normal) {
             fpe_glEnableClientState(GL_NORMAL_ARRAY);
-            gles_glNormalPointer(GL_FLOAT, list->normal_stride, list->normal);
+            gles_glNormalPointer(GL_FLOAT, draw_normal_stride, draw_normal);
         } else {
             fpe_glDisableClientState(GL_NORMAL_ARRAY);
         }
-    
-        indices = list->indices;
 
         if(glstate->raster.bm_drawing)
             bitmap_flush();
-        if (list->color) {
+        if (draw_color) {
             fpe_glEnableClientState(GL_COLOR_ARRAY);
             if (glstate->enable.color_sum && (list->secondary) && hardext.esversion==1 && !list->use_glstate) {
                 if(!list->final_colors) {
@@ -569,23 +744,23 @@ void draw_renderlist(renderlist_t *list) {
                 gles_glColorPointer(4, GL_FLOAT, 0, list->final_colors);
             } else {
 //printf("colors=%f, %f, %f, %f / %f, %f, %f, %f\n", list->color[0],list->color[1],list->color[2],list->color[3], list->color[4],list->color[5],list->color[6],list->color[7]);
-                gles_glColorPointer(4, GL_FLOAT, list->color_stride, list->color);
+                gles_glColorPointer(4, GL_FLOAT, draw_color_stride, draw_color);
             }
         } else {
             fpe_glDisableClientState(GL_COLOR_ARRAY);
         }
         if(hardext.esversion > 1) {
             // secondary color only on ES2+
-            if (glstate->enable.color_sum && (list->secondary)) {
+            if (glstate->enable.color_sum && draw_secondary) {
                 fpe_glEnableClientState(GL_SECONDARY_COLOR_ARRAY);
-                fpe_glSecondaryColorPointer(4, GL_FLOAT, list->secondary_stride, list->secondary);
+                fpe_glSecondaryColorPointer(4, GL_FLOAT, draw_secondary_stride, draw_secondary);
             } else {
                 fpe_glDisableClientState(GL_SECONDARY_COLOR_ARRAY);
             }
             // fog coord only on ES2+
-            if ((glstate->fog.coord_src==GL_FOG_COORD) && (list->fogcoord)) {
+            if ((glstate->fog.coord_src==GL_FOG_COORD) && draw_fogcoord) {
                 fpe_glEnableClientState(GL_FOG_COORD_ARRAY);
-                fpe_glFogCoordPointer(GL_FLOAT, list->fogcoord_stride, list->fogcoord);
+                fpe_glFogCoordPointer(GL_FLOAT, draw_fogcoord_stride, draw_fogcoord);
             } else {
                 fpe_glDisableClientState(GL_FOG_COORD_ARRAY);
             }
@@ -694,10 +869,13 @@ void draw_renderlist(renderlist_t *list) {
         } else {
             // texture loop for ES2+ version
             for (int a=0; a<hardext.maxtex; a++) {
-                if(list->tex[a]) {
+                GLfloat *draw_tex = use_line_arrays ? line_arrays->tex[a] : list->tex[a];
+                if(draw_tex) {
                     TEXTURE(a);
                     fpe_glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-                    gles_glTexCoordPointer(4, GL_FLOAT, list->tex_stride[a], list->tex[a]);
+                    gles_glTexCoordPointer(4, GL_FLOAT,
+                                           use_line_arrays ? 0 : list->tex_stride[a],
+                                           draw_tex);
                 } else {
                     TEXTURE(a);
                     fpe_glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -717,10 +895,20 @@ void draw_renderlist(renderlist_t *list) {
                 // evaluated, seems good to go !
                 use_vbo_array = list2VBO(list);
         }
+        if (use_line_arrays && list->line_arrays == line_arrays &&
+                !line_arrays->vbo_array)
+            line_arrays_to_vbo(line_arrays, list);
         save_vbo_t saved[NB_VA];
         if(use_vbo_array==2)
             listActiveVBO(list, saved);
-        if(list->use_vbo_array != use_vbo_array)
+        renderlist_t line_vbo_view;     // filled by line_arrays_vbo_view() when used
+        save_vbo_t line_saved[NB_VA];
+        int use_line_vbo = use_line_arrays && line_arrays->vbo_array;
+        if (use_line_vbo) {
+            line_arrays_vbo_view(&line_vbo_view, line_arrays, list->maxtex);
+            listActiveVBO(&line_vbo_view, line_saved);
+        }
+        if(!use_line_arrays && list->use_vbo_array != use_vbo_array)
             list->use_vbo_array = use_vbo_array;
         
         GLenum mode;
@@ -730,7 +918,15 @@ void draw_renderlist(renderlist_t *list) {
 		if ((glstate->polygon_mode == GL_POINT) && (mode>=GL_TRIANGLES))
 			mode = GL_POINTS;
 
-        if (indices) {
+        if (use_line_arrays) {
+            if(list->instanceCount==1)
+                gles_glDrawArrays(GL_LINES, 0, line_arrays->count);
+            else {
+                for (glstate->instanceID=0; glstate->instanceID<list->instanceCount; ++glstate->instanceID)
+                    gles_glDrawArrays(GL_LINES, 0, line_arrays->count);
+                glstate->instanceID = 0;
+            }
+        } else if (indices) {
             if (glstate->render_mode == GL_SELECT) {
                 vertexattrib_t vtx = {0};
                 vtx.pointer = list->vert;
@@ -814,6 +1010,10 @@ void draw_renderlist(renderlist_t *list) {
             list->use_vbo_indices = use_vbo_indices;
         if(use_vbo_array==2)
             listInactiveVBO(list, saved);
+        if(use_line_vbo)
+            listInactiveVBO(&line_vbo_view, line_saved);
+        if (use_line_arrays && line_arrays == &transient_line_arrays)
+            clear_line_arrays(&transient_line_arrays);
 
         #define TEXTURE(A) if (cur_tex!=A) {gl4es_glClientActiveTexture(A+GL_TEXTURE0); cur_tex=A;}
         if(hardext.esversion==1)

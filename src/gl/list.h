@@ -137,6 +137,23 @@ typedef struct {
     int    ilen;
 } modeinit_t;
 
+typedef struct line_arrays_s {
+    GLfloat *vert;
+    GLfloat *normal;
+    GLfloat *color;
+    GLfloat *secondary;
+    GLfloat *fogcoord;
+    GLfloat *tex[MAX_TEX];
+    GLuint vbo_array;
+    GLfloat *vbo_vert;
+    GLfloat *vbo_normal;
+    GLfloat *vbo_color;
+    GLfloat *vbo_secondary;
+    GLfloat *vbo_fogcoord;
+    GLfloat *vbo_tex[MAX_TEX];
+    int count;
+} line_arrays_t;
+
 typedef struct _renderlist_t {
     unsigned long len;
     unsigned long ilen;
@@ -226,6 +243,8 @@ typedef struct _renderlist_t {
 
     GLushort    *ind_lines;
     int         ind_line;
+    line_arrays_t *line_arrays;
+    int         line_arrays_cacheable;
     GLfloat      *final_colors;
 
     int         instanceCount;
@@ -275,6 +294,8 @@ renderlist_t* GetFirst(renderlist_t* list);
 renderlist_t *alloc_renderlist();
 renderlist_t *extend_renderlist(renderlist_t *list);
 void free_renderlist(renderlist_t *list);
+void clear_line_arrays(line_arrays_t *arrays);
+void invalidate_line_arrays(renderlist_t *list);
 void draw_renderlist(renderlist_t *list);
 renderlist_t* end_renderlist(renderlist_t *list);
 bool isempty_renderlist(renderlist_t *list);

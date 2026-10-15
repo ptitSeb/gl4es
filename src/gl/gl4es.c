@@ -853,6 +853,7 @@ void APIENTRY_GL4ES gl4es_glEndList(void) {
         // set name
         while(l) {
             l->name = list;
+            l->line_arrays_cacheable = 1;
             l = l->next;
         }
         glstate->list.compiling = false;
