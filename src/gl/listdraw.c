@@ -249,6 +249,17 @@ int fill_lineIndices(modeinit_t *modes, int length, GLenum mode, GLushort* indic
         int len = modes[k].ilen;
         switch (mode) {
             case GL_TRIANGLE_STRIP:
+                if (mode_init==GL_QUAD_STRIP) {
+                    /* Quad q is bounded by v(2q)->v(2q+1)->v(2q+3)->v(2q+2). */
+                    for (; i+3<len; i+=2) {
+                        ind_line[k++] = ind(i+0); ind_line[k++] = ind(i+1);
+                        ind_line[k++] = ind(i+1); ind_line[k++] = ind(i+3);
+                        ind_line[k++] = ind(i+3); ind_line[k++] = ind(i+2);
+                        ind_line[k++] = ind(i+2); ind_line[k++] = ind(i+0);
+                    }
+                    i = len;
+                    break;
+                }
                 // first 3 points a triangle, then a 2 lines per new point
                 if (len>2) {
                     ind_line[k++] = ind(i+0); ind_line[k++] = ind(i+1);
@@ -271,7 +282,8 @@ int fill_lineIndices(modeinit_t *modes, int length, GLenum mode, GLushort* indic
                             ind_line[k++] = ind(i+0); ind_line[k++] = ind(i+1);
                         }
                     }
-                } else if(mode_init==GL_POLYGON) {
+                } else if(mode_init==GL_POLYGON || mode_init==GL_QUADS) {
+                    /* A lone GL_QUADS block is a four-vertex fan; walk its ring. */
                     if (len) {
                         int z = i;
                         ind_line[k++] = ind(i+0); ind_line[k++] = ind(i+1);
