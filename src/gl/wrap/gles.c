@@ -2,6 +2,7 @@
 #include "../gl4es.h"
 #include "../loader.h"
 #include "../depth.h"
+#include "../../glx/hardext.h"
 #include "skips.h"
 
 // emulation of 'glTexParameteri' (for internal use only)
@@ -1402,8 +1403,22 @@ void APIENTRY_GL4ES gl4es_glLineWidth(GLfloat width) {
 #ifndef direct_glLineWidth
     PUSH_IF_COMPILING(glLineWidth)
 #endif
-    if(width>0.f)   // otherwise GL_INVALID_VALUE, from the driver
+    if(width>0.f) {   // otherwise GL_INVALID_VALUE, from the driver
+        // Same-width early-out is *after* PUSH_IF_COMPILING: a compiled
+        // glLineWidth(4) must record even when the live width is already 4.
+        if (glstate->line_width == width)
+            return;
+        // Same trap as glPointSize: immediate-mode geometry is batched and
+        // drawn later, so a width set between primitives would otherwise apply
+        // to the ones already recorded. Flush only where the driver can
+        // actually widen a line -- a stack reporting
+        // GL_ALIASED_LINE_WIDTH_RANGE [1, 1] (most GLES/WebGL, including
+        // ANGLE) renders every width identically, so the flush would break
+        // batching and change no pixel.
+        if (hardext.maxlinewidth > 1)
+            FLUSH_BEGINEND;
         glstate->line_width = width;
+    }
     gles_glLineWidth(width);
 }
 AliasExport(void,glLineWidth,,(GLfloat width));
@@ -1414,8 +1429,14 @@ void APIENTRY_GL4ES gl4es_glLineWidthx(GLfixed width) {
 #ifndef direct_glLineWidthx
     PUSH_IF_COMPILING(glLineWidthx)
 #endif
-    if(width>0)
-        glstate->line_width = width/65536.0f;
+    if(width>0) {   // otherwise GL_INVALID_VALUE, from the driver
+        GLfloat fwidth = (GLfloat)width / 65536.0f;
+        if (glstate->line_width == fwidth)
+            return;
+        if (hardext.maxlinewidth > 1)
+            FLUSH_BEGINEND;
+        glstate->line_width = fwidth;
+    }
     gles_glLineWidthx(width);
 }
 AliasExport(void,glLineWidthx,,(GLfixed width));
