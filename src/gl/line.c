@@ -430,11 +430,16 @@ static int wide_emit_segment(int dst, wide_end_t e0, wide_end_t e1,
                          have_fog, have_normal, maxtex, tex);
         return dst + 6;
     }
-    GLfloat inv = 1.f / sqrtf(len2);
-    GLfloat nx = -dy_px * inv;
-    GLfloat ny =  dx_px * inv;
-    hx = nx * width / vp_w;
-    hy = ny * width / vp_h;
+    /* GL widens a non-antialiased line along its minor axis (GL 2.1
+     * section 3.4.2): w pixels vertically for an x-major line, horizontally
+     * for a y-major one, with the ends not extended. */
+    if (fabsf(dx_px) >= fabsf(dy_px)) {
+        hx = 0.f;
+        hy = width / vp_h;
+    } else {
+        hx = width / vp_w;
+        hy = 0.f;
+    }
     x00 = ndc0x - hx; y00 = ndc0y - hy;
     x01 = ndc0x + hx; y01 = ndc0y + hy;
     x10 = ndc1x - hx; y10 = ndc1y - hy;
