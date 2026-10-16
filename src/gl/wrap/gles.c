@@ -1408,13 +1408,9 @@ void APIENTRY_GL4ES gl4es_glLineWidth(GLfloat width) {
         // glLineWidth(4) must record even when the live width is already 4.
         if (glstate->line_width == width)
             return;
-        // Same trap as glPointSize: immediate-mode geometry is batched and
-        // drawn later, so a width set between primitives would otherwise apply
-        // to the ones already recorded. Flush only where the driver can
-        // actually widen a line -- a stack reporting
-        // GL_ALIASED_LINE_WIDTH_RANGE [1, 1] (most GLES/WebGL, including
-        // ANGLE) renders every width identically, so the flush would break
-        // batching and change no pixel.
+        // Immediate-mode geometry is batched and drawn later. Flush before
+        // changing the driver width so it does not affect earlier primitives.
+        // TODO: check whether emulated widths also require a flush here.
         if (hardext.maxlinewidth > 1)
             FLUSH_BEGINEND;
         glstate->line_width = width;

@@ -178,13 +178,12 @@ GLfloat *gen_stipple_tex_coords(GLfloat *vert, GLushort *sindices, modeinit_t *m
 int gl4es_wide_lines_needed(void)
 {
     gl4es_probe_line_width_and_depth();
-    int maxw = hardext.maxlinewidth;
-    if (maxw < 1)
-        maxw = 1;
-    if (glstate->line_width <= (GLfloat)maxw)
+    /* Only where the driver can't widen a line at all: elsewhere GL clamps
+     * the width to the driver's range, which glGet reports. */
+    if (hardext.maxlinewidth > 1 || glstate->line_width <= 1.f)
         return 0;
-    /* raster.viewport is 0 until the first glViewport. Treating that
-     * as 1 px makes Δndc = width and fills the clip volume. */
+    /* Expansion needs nonzero viewport dimensions to convert pixel widths
+     * to normalized device coordinates. */
     if (glstate->raster.viewport.width < 1 ||
             glstate->raster.viewport.height < 1)
         return 0;
@@ -589,13 +588,8 @@ int gl4es_draw_wide_lines(
     GLfloat width = glstate->line_width;
     if (width > GL4ES_EMULATED_LINE_WIDTH_MAX)
         width = GL4ES_EMULATED_LINE_WIDTH_MAX;
-    {
-        int maxw = hardext.maxlinewidth;
-        if (maxw < 1)
-            maxw = 1;
-        if (width <= (GLfloat)maxw)
-            return GL4ES_WIDE_FALLBACK;
-    }
+    if (hardext.maxlinewidth > 1 || width <= 1.f)
+        return GL4ES_WIDE_FALLBACK;
 
     GLfloat vp_w = (GLfloat)glstate->raster.viewport.width;
     GLfloat vp_h = (GLfloat)glstate->raster.viewport.height;
