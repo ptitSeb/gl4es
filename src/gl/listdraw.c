@@ -13,7 +13,9 @@
 
 /* Temporary projection-row bias for polygon-mode lines when
  * GL_POLYGON_OFFSET_LINE is on. GLES fill-offset does not apply to
- * GL_LINES; cached object-space verts are never written. */
+ * GL_LINES; cached object-space verts are never written.
+ * TODO: only shaders that use the projection matrix get the bias; a program
+ * that writes gl_Position without it isn't offset. */
 static int begin_polygon_line_zbias(int from_polygon_mode, gl4es_mvp_save_t *saved)
 {
     if (!from_polygon_mode || !glstate->enable.polyline_offset)

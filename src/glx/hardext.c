@@ -104,7 +104,9 @@ void gl4es_probe_line_width_and_depth(void)
     if (!gles_glGetFloatv || !gles_glGetError)
         return;
     /* A missing context returns error; keep the safe defaults and retry later.
-     * Bounded: without a context some drivers report an error on every call. */
+     * Bounded: without a context some drivers report an error on every call.
+     * TODO: this also discards an error the application hasn't read yet, on
+     * the first glViewport (Emscripten), where the hardware test doesn't run. */
     for (int i = 0; i < 16 && gles_glGetError() != GL_NO_ERROR; i++)
         ;
     gles_glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, linewidthrange);
@@ -115,6 +117,8 @@ void gl4es_probe_line_width_and_depth(void)
     hardext.maxlinewidth = (int)linewidthrange[1];
     if (hardext.maxlinewidth < 1)
         hardext.maxlinewidth = 1;
+    /* TODO: GL_DEPTH_BITS is the current framebuffer's; this keeps the first
+     * one's, so a framebuffer with another depth size gets a wrong offset. */
     GLint bits = 16;
     if (gles_glGetIntegerv) {
         bits = 0;
