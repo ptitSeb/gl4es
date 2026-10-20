@@ -923,6 +923,8 @@ void APIENTRY_GL4ES gl4es_glCallList(GLuint list) {
     renderlist_t *l = gl4es_glGetList(list);
     if (l)
         draw_renderlist(l);
+    // TODO: replay edge-flag changes in command order instead; this
+    // overwrites a glPopAttrib(GL_CURRENT_BIT) restore inside the list.
     if (l) {
         renderlist_t *tail = l;
         while (tail->next) tail = tail->next;

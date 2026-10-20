@@ -22,6 +22,8 @@ static inline void rlVertexCommon(renderlist_t *list, int idx, int l) {
         if (list->fogcoord) memcpy(list->fogcoord + (l * 1), glstate->fogcoord, sizeof(GLfloat) * 1);
     }
     // common part
+    // TODO: a display list without glEdgeFlag should use the flag current
+    // when glCallList runs, not the one current when it was compiled.
     if (list->edgeflag == NULL && !list->lastEdgeFlag)
         rlEdgeFlag(list, list->lastEdgeFlag);
     if (list->edgeflag) list->edgeflag[l] = list->lastEdgeFlag;
