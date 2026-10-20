@@ -250,6 +250,11 @@ void listInactiveVBO(renderlist_t* list, save_vbo_t* saved) {
             ind_line[k++] = (GLushort)(b);                \
         }                                                 \
     } while (0)
+#define EDGE_ALWAYS(a, b)                                 \
+    do {                                                  \
+        ind_line[k++] = (GLushort)(a);                    \
+        ind_line[k++] = (GLushort)(b);                    \
+    } while (0)
 
 static int build_lineIndices_edgeflag(const modeinit_t *modes, int length,
                                       int total_verts,
@@ -289,13 +294,14 @@ static int build_lineIndices_edgeflag(const modeinit_t *modes, int length,
                 }
                 break;
             case GL_QUAD_STRIP:
-                /* quad q is bounded by v(2q) -> v(2q+1) -> v(2q+3) -> v(2q+2) */
+                /* quad q is bounded by v(2q) -> v(2q+1) -> v(2q+3) -> v(2q+2);
+                 * GL ignores edge flags for strips, so all four are drawn */
                 for (int i = 0; i + 3 < len; i += 2) {
                     int a = start + i;
-                    EDGE_EMIT(a + 0, a + 1);
-                    EDGE_EMIT(a + 1, a + 3);
-                    EDGE_EMIT(a + 3, a + 2);
-                    EDGE_EMIT(a + 2, a + 0);
+                    EDGE_ALWAYS(a + 0, a + 1);
+                    EDGE_ALWAYS(a + 1, a + 3);
+                    EDGE_ALWAYS(a + 3, a + 2);
+                    EDGE_ALWAYS(a + 2, a + 0);
                 }
                 break;
             case GL_POLYGON:
@@ -314,6 +320,7 @@ static int build_lineIndices_edgeflag(const modeinit_t *modes, int length,
 }
 
 #undef EDGE_EMIT
+#undef EDGE_ALWAYS
 
 int fill_lineIndices(modeinit_t *modes, int length, GLenum mode, GLushort* indices, GLushort *ind_line)
 {
