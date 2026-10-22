@@ -41,6 +41,7 @@ typedef struct _glstack_t {
     GLfloat normal[4];
     GLfloat tex[4];
     GLfloat secondary[4];
+    GLboolean edgeflag;
 
     // TODO: can only fill this via raster.c
     GLfloat raster_pos[3];

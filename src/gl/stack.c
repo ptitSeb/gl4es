@@ -67,6 +67,7 @@ void APIENTRY_GL4ES gl4es_glPushAttrib(GLbitfield mask) {
         gl4es_glGetFloatv(GL_CURRENT_COLOR, cur->color);
         gl4es_glGetFloatv(GL_CURRENT_NORMAL, cur->normal);
         gl4es_glGetFloatv(GL_CURRENT_TEXTURE_COORDS, cur->tex);
+        cur->edgeflag = glstate->edgeflag;
     }
 
     if (mask & GL_DEPTH_BUFFER_BIT) {
@@ -394,6 +395,7 @@ DBG(printf("glPopAttrib()\n");)
         gl4es_glColor4f(v4(cur->color));
         gl4es_glNormal3f(v3(cur->normal));
         gl4es_glTexCoord4f(v4(cur->tex));
+        gl4es_glEdgeFlag(cur->edgeflag);
     }
 
     if (cur->mask & GL_DEPTH_BUFFER_BIT) {

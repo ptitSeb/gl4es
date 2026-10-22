@@ -330,6 +330,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     for(int i=0; i<4; i++)
         glstate->raster.raster_scale[i] = 1.0f;
     // ShadeModel
+    glstate->edgeflag = GL_TRUE;
     glstate->shademodel = GL_SMOOTH;
     // TexEnv
     for (int i=0; i<hardext.maxtex; i++) {

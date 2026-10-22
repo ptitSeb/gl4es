@@ -135,7 +135,30 @@ typedef struct {
 typedef struct {
     GLenum mode_init;
     int    ilen;
+    /* Cumulative *vertex* count at this block's end.  ilen is in index space
+     * once the list carries an index array, which loses the original
+     * primitive grouping; edge-flag line generation needs the vertex-space
+     * spans, because vertices stay in specification order even after the
+     * indices are triangulated. */
+    int    vlen;
 } modeinit_t;
+
+typedef struct line_arrays_s {
+    GLfloat *vert;
+    GLfloat *normal;
+    GLfloat *color;
+    GLfloat *secondary;
+    GLfloat *fogcoord;
+    GLfloat *tex[MAX_TEX];
+    GLuint vbo_array;
+    GLfloat *vbo_vert;
+    GLfloat *vbo_normal;
+    GLfloat *vbo_color;
+    GLfloat *vbo_secondary;
+    GLfloat *vbo_fogcoord;
+    GLfloat *vbo_tex[MAX_TEX];
+    int count;
+} line_arrays_t;
 
 typedef struct _renderlist_t {
     unsigned long len;
@@ -152,6 +175,8 @@ typedef struct _renderlist_t {
     GLfloat lastColors[4];
     GLfloat lastSecondaryColors[4];
     GLfloat lastFogCoord;
+    GLubyte lastEdgeFlag;
+    GLubyte lastEdgeFlagSet;
     int use_glstate;
 
     int lastColorsSet;
@@ -165,6 +190,13 @@ typedef struct _renderlist_t {
     GLfloat *color;
     GLfloat *secondary;
     GLfloat *fogcoord;
+    /* Per-vertex edge flags, one GLubyte per vertex, indexed 0..len-1.
+     * NULL means "every vertex is GL_TRUE", which is the case for all
+     * geometry that never calls glEdgeFlag(GL_FALSE) - so the common
+     * path allocates nothing.  CPU-only: consumed by fill_lineIndices()
+     * when polygon mode is GL_LINE, never uploaded, so it deliberately
+     * stays out of the interleaved merger_master layout. */
+    GLubyte *edgeflag;
     GLfloat *tex[MAX_TEX];
     int      vert_stride;
     int      normal_stride;
@@ -226,6 +258,8 @@ typedef struct _renderlist_t {
 
     GLushort    *ind_lines;
     int         ind_line;
+    line_arrays_t *line_arrays;
+    int         line_arrays_cacheable;
     GLfloat      *final_colors;
 
     int         instanceCount;
@@ -275,6 +309,8 @@ renderlist_t* GetFirst(renderlist_t* list);
 renderlist_t *alloc_renderlist();
 renderlist_t *extend_renderlist(renderlist_t *list);
 void free_renderlist(renderlist_t *list);
+void clear_line_arrays(line_arrays_t *arrays);
+void invalidate_line_arrays(renderlist_t *list);
 void draw_renderlist(renderlist_t *list);
 renderlist_t* end_renderlist(renderlist_t *list);
 bool isempty_renderlist(renderlist_t *list);
@@ -322,6 +358,11 @@ void rlFogOp(renderlist_t *list, int op, const GLfloat* v);
 void rlPointParamOp(renderlist_t *list, int op, const GLfloat* v);
 void rlPointSizeOp(renderlist_t *list, GLfloat size);
 void rlFogCoordf(renderlist_t *list, GLfloat coord);
+/* Records `flag` as the list's current edge flag; every vertex appended
+ * afterwards carries it.  Allocates list->edgeflag (and back-fills the
+ * vertices already emitted with GL_TRUE) the first time a GL_FALSE flag
+ * reaches the list, so all-TRUE geometry stays allocation-free. */
+void rlEdgeFlag(renderlist_t *list, GLubyte flag);
 void rlEnd(renderlist_t *list);
 
 #endif // _GL4ES_LIST_H_

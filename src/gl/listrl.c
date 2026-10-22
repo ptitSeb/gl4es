@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <string.h>
+
 #include "list.h"
 
 #include "../glx/hardext.h"
@@ -19,6 +22,11 @@ static inline void rlVertexCommon(renderlist_t *list, int idx, int l) {
         if (list->fogcoord) memcpy(list->fogcoord + (l * 1), glstate->fogcoord, sizeof(GLfloat) * 1);
     }
     // common part
+    // TODO: a display list without glEdgeFlag should use the flag current
+    // when glCallList runs, not the one current when it was compiled.
+    if (list->edgeflag == NULL && !list->lastEdgeFlag)
+        rlEdgeFlag(list, list->lastEdgeFlag);
+    if (list->edgeflag) list->edgeflag[l] = list->lastEdgeFlag;
     if (list->color)    memcpy(list->color + idx, list->lastColors, sizeof(GLfloat) * 4);
     if (list->secondary)    memcpy(list->secondary + (l * 4), glstate->secondary, sizeof(GLfloat) * 4);
     if (list->tex[0])   memcpy(list->tex[0] + idx, glstate->texcoord[0], sizeof(GLfloat) * 4);
@@ -51,6 +59,24 @@ void FASTMATH rlVertex4fv(renderlist_t *list, GLfloat* v) {
     GLfloat * const vert = list->vert + idx;
     ++list->len;
     memcpy(vert, v, 4*sizeof(GLfloat));
+}
+
+void rlEdgeFlag(renderlist_t *list, GLubyte flag) {
+    list->lastEdgeFlag = flag;
+    if (list->edgeflag == NULL) {
+        // GL_TRUE is the default, so an all-TRUE list needs no array at all
+        if (flag)
+            return;
+        /* A merger list indexes vertices up to glstate->merger_cap; its own
+         * ->cap stays at the initial capacity, so size from the right one. */
+        const unsigned long cap = list->use_glstate ? (unsigned long)glstate->merger_cap
+                                                    : list->cap;
+        list->edgeflag = (GLubyte *)malloc(cap * sizeof(GLubyte));
+        if (!list->edgeflag)
+            return;
+        // catch up: everything already emitted took the default
+        memset(list->edgeflag, GL_TRUE, list->len * sizeof(GLubyte));
+    }
 }
 
 void rlEnd(renderlist_t *list) {
