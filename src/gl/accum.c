@@ -243,6 +243,9 @@ static int accum_try_format(glesaccum_t *a, GLenum intformat, GLenum format,
             gles_glBlendFunc(GL_ONE, GL_ONE);
             if(gles_glBlendEquation)
                 gles_glBlendEquation(GL_FUNC_ADD);
+            // don't sample the texture being drawn into: WebGL rejects that
+            // feedback loop with GL_INVALID_OPERATION, failing the probe
+            gles_glBindTexture(GL_TEXTURE_2D, 0);
             realize_accumenv(a, 0.f);
             gles_glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
             ok = (gles_glGetError()==GL_NO_ERROR);
