@@ -611,10 +611,10 @@ void gl4es_accum_clear() {
 
 void APIENTRY_GL4ES gl4es_glClearAccum(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
     glesaccum_t *a = accum_state();
-    a->clear[0] = red;
-    a->clear[1] = green;
-    a->clear[2] = blue;
-    a->clear[3] = alpha;
+    const GLfloat c[4] = {red, green, blue, alpha};
+    // GL clamps the accumulation clear value to [-1, 1]
+    for(int i=0; i<4; i++)
+        a->clear[i] = (c[i]<-1.f)?-1.f:((c[i]>1.f)?1.f:c[i]);
     noerrorShim();
 }
 AliasExport(void,glClearAccum,,(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha));

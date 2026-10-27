@@ -1005,12 +1005,11 @@ void APIENTRY_GL4ES gl4es_glGetIntegerv(GLenum pname, GLint *params) {
             params[0] = glstate->depth.clear*2147483647.0;
             break;
         case GL_ACCUM_CLEAR_VALUE: {
+            // [-1, 1] maps onto [-INT_MAX, INT_MAX], like the clear color's [0, 1]
             GLfloat c[4];
             gl4es_accum_get_clear(c);
-            params[0] = (GLint)c[0];
-            params[1] = (GLint)c[1];
-            params[2] = (GLint)c[2];
-            params[3] = (GLint)c[3];
+            for (int i=0; i<4; i++)
+                params[i] = c[i]*2147483647.0;
             break;
         }
         default:
