@@ -4,6 +4,7 @@
 
 #include "../glx/hardext.h"
 #include "wrap/gl4es.h"
+#include "const.h"
 #include "line.h"
 #include "matrix.h"
 #include "debug.h"
@@ -110,7 +111,7 @@ void APIENTRY_GL4ES gl4es_glPushAttrib(GLbitfield mask) {
         cur->multisample = gl4es_glIsEnabled(GL_MULTISAMPLE);
         cur->normalize = gl4es_glIsEnabled(GL_NORMALIZE);
         cur->point_smooth = gl4es_glIsEnabled(GL_POINT_SMOOTH);
-        //TODO: GL_POLYGON_OFFSET_LINE
+        cur->polygon_offset_line = gl4es_glIsEnabled(GL_POLYGON_OFFSET_LINE);
         cur->polygon_offset_fill = gl4es_glIsEnabled(GL_POLYGON_OFFSET_FILL);
         //TODO: GL_POLYGON_OFFSET_POINT
         //TODO: GL_POLYGON_SMOOTH
@@ -243,8 +244,11 @@ void APIENTRY_GL4ES gl4es_glPushAttrib(GLbitfield mask) {
         gl4es_glGetIntegerv(GL_FRONT_FACE, &cur->front_face);
         cur->polygon_mode = glstate->polygon_mode;  // 0 means GL_FILL here
         cur->polygon_offset_fill = gl4es_glIsEnabled(GL_POLYGON_OFFSET_FILL);
+        cur->polygon_offset_line = gl4es_glIsEnabled(GL_POLYGON_OFFSET_LINE);
+        gl4es_glGetFloatv(GL_POLYGON_OFFSET_FACTOR, &cur->polygon_offset_factor);
+        gl4es_glGetFloatv(GL_POLYGON_OFFSET_UNITS, &cur->polygon_offset_units);
         //TODO: GL_POLYGON_SMOOTH & GL_POLYGON_STIPPLE enables (not tracked)
-        //TODO: GL_POLYGON_OFFSET_LINE/POINT enables, offset factor & units (not shadowed)
+        //TODO: GL_POLYGON_OFFSET_POINT enable (not shadowed)
     }
     // TODO: GL_POLYGON_STIPPLE_BIT
 
@@ -436,7 +440,7 @@ DBG(printf("glPopAttrib()\n");)
         enable_disable(GL_MULTISAMPLE, cur->multisample);
         enable_disable(GL_NORMALIZE, cur->normalize);
         enable_disable(GL_POINT_SMOOTH, cur->point_smooth);
-        //TODO: GL_POLYGON_OFFSET_LINE
+        enable_disable(GL_POLYGON_OFFSET_LINE, cur->polygon_offset_line);
         enable_disable(GL_POLYGON_OFFSET_FILL, cur->polygon_offset_fill);
         //TODO: GL_POLYGON_OFFSET_POINT
         //TODO: GL_POLYGON_SMOOTH
@@ -585,6 +589,8 @@ DBG(printf("glPopAttrib()\n");)
         gl4es_glFrontFace(cur->front_face);
         gl4es_glPolygonMode(GL_FRONT_AND_BACK, cur->polygon_mode?cur->polygon_mode:GL_FILL);
         enable_disable(GL_POLYGON_OFFSET_FILL, cur->polygon_offset_fill);
+        enable_disable(GL_POLYGON_OFFSET_LINE, cur->polygon_offset_line);
+        gl4es_glPolygonOffset(cur->polygon_offset_factor, cur->polygon_offset_units);
     }
 
     if (cur->mask & GL_SCISSOR_BIT) {

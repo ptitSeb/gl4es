@@ -11,6 +11,26 @@
 #include "render.h"
 #include "fpe.h"
 
+/* Temporary projection-row bias for polygon-mode lines when
+ * GL_POLYGON_OFFSET_LINE is on. GLES fill-offset does not apply to
+ * GL_LINES; cached object-space verts are never written.
+ * TODO: only shaders that use the projection matrix get the bias; a program
+ * that writes gl_Position without it isn't offset. */
+static int begin_polygon_line_zbias(int from_polygon_mode, gl4es_mvp_save_t *saved)
+{
+    if (!from_polygon_mode || !glstate->enable.polyline_offset)
+        return 0;
+    gl4es_mvp_save(saved);
+    gl4es_mvp_poke_proj_zbias(gl4es_polygon_offset_ndc_d());
+    return 1;
+}
+
+static void end_polygon_line_zbias(int applied, const gl4es_mvp_save_t *saved)
+{
+    if (applied)
+        gl4es_mvp_restore(saved);
+}
+
 /* return 1 if failed, 2 if succeed */
 typedef struct array2vbo_s {
     uintptr_t   real_base;
@@ -1021,6 +1041,8 @@ void draw_renderlist(renderlist_t *list) {
 			mode = GL_POINTS;
 
         if (use_line_arrays) {
+            gl4es_mvp_save_t zbias_saved;
+            int zbias = begin_polygon_line_zbias(1, &zbias_saved);
             if(list->instanceCount==1)
                 gles_glDrawArrays(GL_LINES, 0, line_arrays->count);
             else {
@@ -1028,6 +1050,7 @@ void draw_renderlist(renderlist_t *list) {
                     gles_glDrawArrays(GL_LINES, 0, line_arrays->count);
                 glstate->instanceID = 0;
             }
+            end_polygon_line_zbias(zbias, &zbias_saved);
         } else if (indices) {
             if (glstate->render_mode == GL_SELECT) {
                 vertexattrib_t vtx = {0};
@@ -1050,7 +1073,12 @@ void draw_renderlist(renderlist_t *list) {
                         list->ind_line = k;
                     }
                     bindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-                    gles_glDrawElements(mode, list->ind_line, GL_UNSIGNED_SHORT, list->ind_lines);
+                    {
+                        gl4es_mvp_save_t zbias_saved;
+                        int zbias = begin_polygon_line_zbias(1, &zbias_saved);
+                        gles_glDrawElements(mode, list->ind_line, GL_UNSIGNED_SHORT, list->ind_lines);
+                        end_polygon_line_zbias(zbias, &zbias_saved);
+                    }
                     use_vbo_indices = 1;
                 } else {
                     int vbo_indices = 0;
@@ -1098,7 +1126,12 @@ void draw_renderlist(renderlist_t *list) {
                         list->ind_line = k;
                     }
                     bindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-					gles_glDrawElements(mode, list->ind_line, GL_UNSIGNED_SHORT, list->ind_lines);
+                    {
+                        gl4es_mvp_save_t zbias_saved;
+                        int zbias = begin_polygon_line_zbias(1, &zbias_saved);
+                        gles_glDrawElements(mode, list->ind_line, GL_UNSIGNED_SHORT, list->ind_lines);
+                        end_polygon_line_zbias(zbias, &zbias_saved);
+                    }
                 } else {
                     if(list->instanceCount==1)
                         gles_glDrawArrays(mode, 0, len);

@@ -106,6 +106,7 @@ void APIENTRY_GL4ES gl4es_glViewport(GLint x, GLint y, GLsizei width, GLsizei he
 		  glstate->raster.viewport.width = width;
 		  glstate->raster.viewport.height = height;
 		  glstate->raster.viewport_known = 1;
+		  gl4es_probe_line_width_and_depth();
     }
 #if !defined(NO_EGL) && !defined(NOX11)
 		if(!globals4es.usefbo && !globals4es.usefb && glstate->fbo.fbo_draw->id==0) {

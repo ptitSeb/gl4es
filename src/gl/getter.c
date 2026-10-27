@@ -315,6 +315,12 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_DOUBLEBUFFER:
             *params = 1;    // Fake double buffering...
             break;
+        case GL_POLYGON_OFFSET_FACTOR:
+            *params = glstate->polygon_offset_factor;
+            break;
+        case GL_POLYGON_OFFSET_UNITS:
+            *params = glstate->polygon_offset_units;
+            break;
         case GL_MAX_ELEMENTS_INDICES:
             *params = 1024;
             break;

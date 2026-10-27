@@ -1,5 +1,8 @@
 #include "matrix.h"
 
+#include <math.h>
+#include <string.h>
+
 #include "../glx/hardext.h"
 #include "debug.h"
 #include "fpe.h"
@@ -7,6 +10,60 @@
 #include "glstate.h"
 #include "init.h"
 #include "loader.h"
+
+void gl4es_mat_mark_dirty(void)
+{
+    glstate->mvp_matrix_dirty = 1;
+    glstate->inv_mv_matrix_dirty = 1;
+    glstate->normal_matrix_dirty = 1;
+}
+
+void gl4es_mvp_save(gl4es_mvp_save_t *s)
+{
+    memcpy(s->mv, getMVMat(), 16 * sizeof(GLfloat));
+    memcpy(s->p, getPMat(), 16 * sizeof(GLfloat));
+    s->mv_identity = glstate->modelview_matrix->identity;
+    s->p_identity = glstate->projection_matrix->identity;
+}
+
+void gl4es_mvp_restore(const gl4es_mvp_save_t *s)
+{
+    memcpy(getMVMat(), s->mv, 16 * sizeof(GLfloat));
+    memcpy(getPMat(), s->p, 16 * sizeof(GLfloat));
+    glstate->modelview_matrix->identity = s->mv_identity;
+    glstate->projection_matrix->identity = s->p_identity;
+    gl4es_mat_mark_dirty();
+}
+
+// TODO: biasing clip-space z also moves the near and far clip planes, so
+// lines within the offset of either plane are clipped; GL offsets depth
+// after clipping and clamps it (GL 2.1 section 3.5.5).
+void gl4es_mvp_poke_proj_zbias(GLfloat d)
+{
+    GLfloat *P = getPMat();
+    P[2]  += d * P[3];
+    P[6]  += d * P[7];
+    P[10] += d * P[11];
+    P[14] += d * P[15];
+    glstate->projection_matrix->identity = 0;
+    gl4es_mat_mark_dirty();
+}
+
+GLfloat gl4es_polygon_offset_ndc_d(void)
+{
+    gl4es_probe_line_width_and_depth();
+    GLfloat denom = glstate->depth.Far - glstate->depth.Near;
+    if (denom == 0.f)
+        denom = 1.f;
+    int bits = hardext.depthbits;
+    if (bits < 8 || bits > 32)
+        bits = 16;
+    GLfloat r = ldexpf(1.f, -bits);
+    GLfloat d = 2.f * glstate->polygon_offset_units * r / denom;
+    if (d >  1.f) d =  1.f;
+    if (d < -1.f) d = -1.f;
+    return d;
+}
 
 //#define DEBUG
 #ifdef DEBUG

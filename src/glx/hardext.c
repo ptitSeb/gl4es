@@ -88,6 +88,54 @@ static int testTextureCubeLod() {
     return compiled;
 }
 
+/* Line-width range and depth bits. Only call this after a GL context
+ * exists: the Emscripten notest path runs before glutCreateWindow and
+ * therefore keeps the defaults installed by GetHardwareExtensions. */
+void gl4es_probe_line_width_and_depth(void)
+{
+    static int probed = 0;
+    if (probed)
+        return;
+
+    GLfloat linewidthrange[2] = {1.0f, 1.0f};
+    LOAD_GLES(glGetFloatv);
+    LOAD_GLES(glGetIntegerv);
+    LOAD_GLES(glGetError);
+    if (!gles_glGetFloatv || !gles_glGetError)
+        return;
+    /* A missing context returns error; keep the safe defaults and retry later.
+     * Bounded: without a context some drivers report an error on every call.
+     * TODO: this also discards an error the application hasn't read yet, on
+     * the first glViewport (Emscripten), where the hardware test doesn't run. */
+    for (int i = 0; i < 16 && gles_glGetError() != GL_NO_ERROR; i++)
+        ;
+    gles_glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, linewidthrange);
+    if (gles_glGetError() != GL_NO_ERROR)
+        return;
+    if (linewidthrange[1] < 1.0f)
+        linewidthrange[1] = 1.0f;
+    hardext.maxlinewidth = (int)linewidthrange[1];
+    if (hardext.maxlinewidth < 1)
+        hardext.maxlinewidth = 1;
+    /* TODO: GL_DEPTH_BITS is the current framebuffer's; this keeps the first
+     * one's, so a framebuffer with another depth size gets a wrong offset. */
+    GLint bits = 16;
+    if (gles_glGetIntegerv) {
+        bits = 0;
+        gles_glGetIntegerv(GL_DEPTH_BITS, &bits);
+        if (gles_glGetError() != GL_NO_ERROR || bits <= 0)
+            bits = 16;
+        if (bits < 8)
+            bits = 8;
+        if (bits > 32)
+            bits = 32;
+    }
+    hardext.depthbits = bits;
+    probed = 1;
+    SHUT_LOGD("Max line width: %d\n", hardext.maxlinewidth);
+    SHUT_LOGD("Depth bits: %d\n", hardext.depthbits);
+}
+
 EXPORT
 void GetHardwareExtensions(int notest)
 {
@@ -98,6 +146,8 @@ void GetHardwareExtensions(int notest)
     hardext.maxlights = 8;
     hardext.maxplanes = 6;
     hardext.maxdrawbuffers = 1;
+    hardext.maxlinewidth = 1;
+    hardext.depthbits = 16;
 
     hardext.esversion = globals4es.es;
     if(notest) 
@@ -391,6 +441,7 @@ void GetHardwareExtensions(int notest)
     // Now get some max stuffs
     gles_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &hardext.maxsize);
     SHUT_LOGD("Max texture size: %d\n", hardext.maxsize);
+    gl4es_probe_line_width_and_depth();
     gles_glGetIntegerv((hardext.esversion==1)?GL_MAX_TEXTURE_UNITS:GL_MAX_TEXTURE_IMAGE_UNITS, &hardext.maxtex);
     if (hardext.esversion==1) {
         gles_glGetIntegerv(GL_MAX_LIGHTS, &hardext.maxlights);
