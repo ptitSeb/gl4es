@@ -1,5 +1,6 @@
 #include <gl4eshint.h>
 #include "../glx/hardext.h"
+#include "accum.h"
 #include "debug.h"
 #include "gl4es.h"
 #include "glstate.h"
@@ -341,6 +342,13 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             break;
         case GL_AUX_BUFFERS:
             *params = 0;
+            break;
+        case GL_ACCUM_RED_BITS:
+        case GL_ACCUM_GREEN_BITS:
+        case GL_ACCUM_BLUE_BITS:
+        case GL_ACCUM_ALPHA_BITS:
+            // accum-buffer FBO emulation (accum.c): 16 / 8 / 0 (= none)
+            *params = gl4es_accum_get_bits();
             break;
         case GL_LINE_WIDTH:
             *params = glstate->line_width;
@@ -996,6 +1004,15 @@ void APIENTRY_GL4ES gl4es_glGetIntegerv(GLenum pname, GLint *params) {
         case GL_DEPTH_CLEAR_VALUE:
             params[0] = glstate->depth.clear*2147483647.0;
             break;
+        case GL_ACCUM_CLEAR_VALUE: {
+            GLfloat c[4];
+            gl4es_accum_get_clear(c);
+            params[0] = (GLint)c[0];
+            params[1] = (GLint)c[1];
+            params[2] = (GLint)c[2];
+            params[3] = (GLint)c[3];
+            break;
+        }
         default:
             errorGL();
             gles_glGetIntegerv(pname, params);
@@ -1077,6 +1094,9 @@ void APIENTRY_GL4ES gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
             break;
         case GL_DEPTH_CLEAR_VALUE:
             params[0] = glstate->depth.clear;
+            break;
+        case GL_ACCUM_CLEAR_VALUE:
+            gl4es_accum_get_clear(params);
             break;
         case GL_VIEWPORT:
             if (!getter_viewport4(params))
@@ -1183,6 +1203,10 @@ void APIENTRY_GL4ES gl4es_glGetDoublev(GLenum pname, GLdouble *params) {
             break;
         case GL_DEPTH_CLEAR_VALUE:
             params[0] = glstate->depth.clear;
+            break;
+        case GL_ACCUM_CLEAR_VALUE:
+            gl4es_accum_get_clear(tmp);
+            for (int i=0; i<4; i++) params[i] = tmp[i];
             break;
         case GL_VIEWPORT:
             if (getter_viewport4(tmp)) {

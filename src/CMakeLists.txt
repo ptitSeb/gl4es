@@ -2,6 +2,7 @@ include_directories(util)
 
 #file(GLOB_RECURSE GL_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/gl/*.c)
 SET(GL_SRC
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/accum.c
     ${CMAKE_CURRENT_SOURCE_DIR}/gl/arbconverter.c
 	${CMAKE_CURRENT_SOURCE_DIR}/gl/arbgenerator.c
 	${CMAKE_CURRENT_SOURCE_DIR}/gl/arbhelper.c
@@ -74,6 +75,7 @@ SET(GL_SRC
 
 SET(GL_H
     ${CMAKE_CURRENT_SOURCE_DIR}/../version.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/gl/accum.h
     ${CMAKE_CURRENT_SOURCE_DIR}/gl/arbconverter.h
 	${CMAKE_CURRENT_SOURCE_DIR}/gl/arbgenerator.h
 	${CMAKE_CURRENT_SOURCE_DIR}/gl/arbhelper.h
