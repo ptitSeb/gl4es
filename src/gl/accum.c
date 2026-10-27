@@ -468,6 +468,8 @@ static int accum_ensure(glesaccum_t *a) {
     // RGB8 -- an RGBA destination raises GL_INVALID_OPERATION and the copy
     // silently drops. RGB works against both RGB8 and RGBA8 sources; the
     // sampled alpha is then 1.0, matching an opaque native backbuffer.
+    // TODO: so a read buffer's alpha is lost too: GL_ACCUM and GL_LOAD add
+    // 1 for it. An RGBA copy where the read buffer has alpha would keep it.
     gles_glGenTextures(1, &a->scratch_tex);
     gles_glBindTexture(GL_TEXTURE_2D, a->scratch_tex);
     gles_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -606,6 +608,9 @@ void gl4es_accum_clear() {
     gles_glBindFramebuffer(GL_FRAMEBUFFER, a->fbo);
     gles_glClearColor(a->clear[0], a->clear[1], a->clear[2], a->clear[3]);
     // like the real thing, bounded by the live scissor box
+    // TODO: the color mask applies too, so under glColorMask(GL_FALSE, ...)
+    // nothing is cleared, but GL doesn't mask the accumulation buffer; the
+    // first clear in accum_ensure has the same problem
     gles_glClear(GL_COLOR_BUFFER_BIT);
     gles_glClearColor(glstate->clear_color[0], glstate->clear_color[1],
                       glstate->clear_color[2], glstate->clear_color[3]);
@@ -626,6 +631,10 @@ void APIENTRY_GL4ES gl4es_glAccum(GLenum op, GLfloat value) {
     DBG(printf("glAccum(%s, %f)\n", PrintEnum(op), value);)
     FLUSH_BEGINEND;
     // no display-list recording: executed immediately (was a stub upstream)
+    // TODO: so while a list is compiled, glAccum draws at once under the
+    // caller's state, and the glPushAttrib, glDisable and other gl4es calls
+    // below are recorded into the list instead of run. glClearAccum isn't
+    // recorded either.
     switch(op) {
         case GL_ACCUM:
         case GL_LOAD:
@@ -684,6 +693,9 @@ void APIENTRY_GL4ES gl4es_glAccum(GLenum op, GLfloat value) {
         readfboBegin();
         accum_force_tmu0();
         gles_glBindTexture(GL_TEXTURE_2D, a->scratch_tex);
+        // TODO: GLES 3 refuses to copy from a multisampled read framebuffer
+        // (WebGL resolves it first), so natively a multisampled window gets
+        // nothing from GL_ACCUM and GL_LOAD; it needs a resolve first
         gles_glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, a->width, a->height);
         gles_glBindTexture(GL_TEXTURE_2D, glstate->actual_tex2d[0]);
         readfboEnd();
