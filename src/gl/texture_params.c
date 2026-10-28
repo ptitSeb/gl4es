@@ -329,14 +329,12 @@ void APIENTRY_GL4ES gl4es_glTexParameterfv(GLenum target, GLenum pname, const GL
                 }
                 break;  // fallback to calling actual glTexParameteri
             case GL_TEXTURE_MAX_ANISOTROPY:
-                if(!hardext.aniso) {
-                    errorShim(GL_INVALID_ENUM);
-                    return;
-                }
-                if(param<0){
+                if(params[0]<1.0f){
                     errorShim(GL_INVALID_VALUE);
                     return;
                 }
+                if(!hardext.aniso)
+                    return; // not advertised, but some programs (Minecraft 1.7.10) set it anyway
                 if(param>hardext.aniso) param=hardext.aniso;
                 texture->aniso = param;
                 break;
@@ -579,10 +577,8 @@ void APIENTRY_GL4ES gl4es_glGetTexLevelParameterfv(GLenum target, GLint level, G
                 (*params) = (bound->orig_internal==GL_LUMINANCE || bound->orig_internal==GL_LUMINANCE_ALPHA)?8:0;
                 break;
             case GL_TEXTURE_MAX_ANISOTROPY:
-                if(!hardext.aniso)
-                    errorShim(GL_INVALID_ENUM);
-                else
-                    (*params) = bound->aniso;
+                // 1.0 is the GL default, and all we do without anisotropic filtering
+                (*params) = (hardext.aniso && bound->aniso)?bound->aniso:1.0f;
                 break;
             case GL_TEXTURE_MAX_LEVEL:
                 if(!bound->valid || bound->max_level==-1)
