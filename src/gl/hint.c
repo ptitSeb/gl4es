@@ -19,6 +19,11 @@ void APIENTRY_GL4ES gl4es_glHint(GLenum pname, GLenum mode) {
     switch(pname) {
         // some Hint are not supported in GLES2, so just ignoring them
         case GL_FOG_HINT:
+            if(mode!=GL_FASTEST && mode!=GL_NICEST && mode!=GL_DONT_CARE) {
+                errorShim(GL_INVALID_ENUM);
+                return;
+            }
+            glstate->fog_hint = mode;
             if(hardext.esversion>1)
                 return;
             gles_glHint(pname, mode);
