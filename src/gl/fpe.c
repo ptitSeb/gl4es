@@ -135,6 +135,7 @@ void APIENTRY_GL4ES fpe_ReleventState_DefaultVertex(fpe_state_t *dest, fpe_state
         dest->fogsource = 0;
         dest->fogdist = 0;
     }
+    dest->fogvertex = 0;
     if(!dest->point) {
         dest->pointsprite = 0;
         dest->point_smooth = 0;
@@ -244,6 +245,8 @@ void APIENTRY_GL4ES fpe_ReleventState(fpe_state_t *dest, fpe_state_t *src, int f
         dest->fogsource = 0;
         dest->fogdist = 0;
     }
+    if(!fixed || !dest->fog || dest->vertex_prg_enable || dest->fragment_prg_enable)
+        dest->fogvertex = 0;
     if(!fixed || !dest->point) {
         dest->pointsprite = 0;
         dest->point_smooth = 0;
@@ -385,6 +388,7 @@ void APIENTRY_GL4ES fpe_oldprogram(fpe_state_t* state) {
 // ********* Shader stuffs handling *********
 void APIENTRY_GL4ES fpe_program(int ispoint) {
     glstate->fpe_state->point = ispoint;
+    glstate->fpe_state->fogvertex = globals4es.vertexfog && glstate->fog_hint!=GL_NICEST;
     fpe_state_t state;
     fpe_ReleventState(&state, glstate->fpe_state, 1);
     if(glstate->fpe==NULL || memcmp(&glstate->fpe->state, &state, sizeof(fpe_state_t))) {

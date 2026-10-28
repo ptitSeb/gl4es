@@ -18,6 +18,7 @@ typedef struct _globals4es {
  int showfps;
  int vsync;
  int automipmap;
+ int vertexfog;
  int texcopydata;
  int tested_env;
  int texshrink;
