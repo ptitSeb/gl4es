@@ -346,6 +346,12 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_MAX_TEXTURE_COORDS:
             *params = hardext.maxtex;
             break;
+        case GL_ACTIVE_TEXTURE:
+            *params = GL_TEXTURE0 + glstate->texture.active;
+            break;
+        case GL_CLIENT_ACTIVE_TEXTURE:
+            *params = GL_TEXTURE0 + glstate->texture.client;
+            break;
         case GL_PACK_ALIGNMENT:
             *params = glstate->texture.pack_align;
             break;
