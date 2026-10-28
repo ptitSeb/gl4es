@@ -66,6 +66,7 @@ struct glstate_s {
     int                 *shared_cnt;
     light_state_t       light;
     fog_t               fog;
+    GLenum              fog_hint;
     material_state_t    material;
     stencil_t           stencil;
     float               planes[MAX_CLIP_PLANES][4];

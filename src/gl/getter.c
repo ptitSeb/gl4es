@@ -759,7 +759,7 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             break;
         case GL_FOG_HINT:
             if(hardext.esversion==1) return 0; // fall back to actual glGet
-            *params=GL_DONT_CARE;
+            *params=glstate->fog_hint;
             break;
         case GL_TEXTURE_COMPRESSION_HINT:
             *params=GL_DONT_CARE;
