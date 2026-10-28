@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #ifndef _WIN32
 #include <unistd.h>
 #else
@@ -17,6 +18,9 @@
 #include "fpe_cache.h"
 #include "init.h"
 #include "envvars.h"
+
+extern char* gl4es_original_renderer;
+
 #if defined(__EMSCRIPTEN__) || defined(__APPLE__)
 #define NO_INIT_CONSTRUCTOR
 #endif
@@ -460,6 +464,14 @@ void initialize_gl4es() {
             break;
         }
       }
+
+    // PowerVR SGX 545 (DDK 1.7) draws GL_LINE_STRIP from glDrawArrays wrong; glDrawElements is right
+    GetEnvVarBool("LIBGL_NOLINESTRIP", &globals4es.nolinestrip, hardext.esversion>1 && (hardext.vendor&VEND_IMGTEC)
+        && gl4es_original_renderer && strstr(gl4es_original_renderer, "SGX 545"));
+    if(hardext.esversion==1)
+        globals4es.nolinestrip = 0;
+    if(globals4es.nolinestrip)
+        SHUT_LOGD("Line strips from glDrawArrays will be drawn with glDrawElements\n");
 
     if(GetEnvVarBool("LIBGL_AVOID16BITS", &globals4es.avoid16bits, (hardext.vendor&VEND_IMGTEC)?0:1)) {
       if(globals4es.avoid16bits) {

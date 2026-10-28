@@ -385,3 +385,8 @@ Blit to FB 0 force a SwapBuffer
 Use RTLD_DEEPBIND when loading EGL and GLES library
 * 0 : Default except on PYRA, use RTLD_DEEPBIND when loading EGL/GLES libraries
 * 1 : Default only on PYRA, don't use RTLD_DEEPBIND when loading EGL/GLES libraries
+
+##### LIBGL_NOLINESTRIP
+Draw GL_LINE_STRIP from glDrawArrays with glDrawElements and sequential indices (GLES2 backend only)
+ * 0 : Default, except on PowerVR SGX 545: use glDrawArrays as is
+ * 1 : Default on PowerVR SGX 545, whose driver (DDK 1.7) draws GL_LINE_STRIP from glDrawArrays wrong. Off when LIBGL_NOTEST=1 (the renderer is unknown then) unless set explicitly

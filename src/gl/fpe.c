@@ -814,12 +814,52 @@ void APIENTRY_GL4ES fpe_glNormal3f(GLfloat nx, GLfloat ny, GLfloat nz) {
     noerrorShim();
 }
 
+// LIBGL_NOLINESTRIP: PowerVR SGX 545 (DDK 1.7) draws GL_LINE_STRIP from glDrawArrays wrong (only every other
+// segment, plus a stray one), while glDrawElements(GL_LINE_STRIP) is right: draw the strip through sequential indices
+static int fpe_linestrip_by_elements(GLenum mode, GLint first, GLsizei count) {
+    static GLushort* sequence = NULL;   // 0..65535, shared by every short strip
+    if(!globals4es.nolinestrip || mode!=GL_LINE_STRIP || count<2 || first<0)
+        return 0;
+    const unsigned long long last = (unsigned long long)first + count - 1;
+    const int use_uint = (last>65535);
+    if(use_uint && !hardext.elementuint)
+        return 0;
+    if(!use_uint && !sequence) {
+        GLushort* table = (GLushort*)malloc(65536*sizeof(GLushort));
+        if(!table)
+            return 0;
+        for(int i=0; i<65536; ++i)
+            table[i] = i;
+        sequence = table;   // publish only once filled
+    }
+    GLuint* idx = NULL;
+    if(use_uint) {
+        idx = (GLuint*)malloc(count*sizeof(GLuint));
+        if(!idx)
+            return 0;
+        for(int i=0; i<count; ++i)
+            idx[i] = first+i;
+    }
+    DBG(printf("fpe_linestrip_by_elements(%d, %d)\n", first, count);)
+    LOAD_GLES(glDrawElements);
+    GLuint old_buffer = wantBufferIndex(0);   // the indices are client side
+    realize_bufferIndex();
+    if(use_uint)
+        gles_glDrawElements(GL_LINE_STRIP, count, GL_UNSIGNED_INT, idx);
+    else
+        gles_glDrawElements(GL_LINE_STRIP, count, GL_UNSIGNED_SHORT, sequence+first);
+    wantBufferIndex(old_buffer);
+    free(idx);
+    return 1;
+}
+
 void APIENTRY_GL4ES fpe_glDrawArrays(GLenum mode, GLint first, GLsizei count) {
     DBG(printf("fpe_glDrawArrays(%s, %d, %d), program=%d, instanceID=%u\n", PrintEnum(mode), first, count, glstate->glsl->program, glstate->instanceID);)
     scratch_t scratch = {0};
     realize_glenv(mode==GL_POINTS, first, count, 0, NULL, &scratch);
     LOAD_GLES(glDrawArrays);
-    gles_glDrawArrays(mode, first, count);
+    if(!fpe_linestrip_by_elements(mode, first, count))
+        gles_glDrawArrays(mode, first, count);
     free_scratch(&scratch);
 }
 
@@ -887,7 +927,8 @@ void APIENTRY_GL4ES fpe_glDrawArraysInstanced(GLenum mode, GLint first, GLsizei 
                 }
             }
         }
-        gles_glDrawArrays(mode, first, count);
+        if(!fpe_linestrip_by_elements(mode, first, count))
+            gles_glDrawArrays(mode, first, count);
     }
     free_scratch(&scratch);
 }
