@@ -376,6 +376,11 @@ Force normals to be normliazed in FPE
 * 0 : Default, don't force normalizations
 * 1 : Force normalization on normals on FPE, even when it's disabled (workaround for a bug that prevent colors on Minecraft 1.16+)
 
+##### LIBGL_VERTEXFOG
+Fog computed per vertex instead of per pixel, for the fixed pipeline (GLES2 backend only)
+ * 0 : Default, fog is computed per pixel
+ * 1 : Fog is computed per vertex and interpolated, unless the application sets GL_FOG_HINT to GL_NICEST. Faster on fill-rate-limited GPUs, less accurate on large polygons
+
 ###### LIBGL_BLITFB0
 Blit to FB 0 force a SwapBuffer
 * 0 : Default, don't force a SwapBuffer when glBlitFramebuffer to draw fb0 is used (unless the full FB0 if blitted)

@@ -188,6 +188,7 @@ typedef struct fpe_state_s {
     unsigned int fogdist:2;              // fog distance mode
     unsigned int fogsource:1;            // fog source
     unsigned int fog:1;                  // Fog enabled or not
+    unsigned int fogvertex:1;            // Fog computed per vertex (LIBGL_VERTEXFOG)
     unsigned int colorsum:1;             // secondary color enabled
     unsigned int lighting:1;             // global lighting enabled
     unsigned int normalize:1;            // normalization

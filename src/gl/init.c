@@ -120,6 +120,7 @@ void initialize_gl4es() {
 
     env(LIBGL_XREFRESH, globals4es.xrefresh, "xrefresh will be called on cleanup");
     env(LIBGL_STACKTRACE, globals4es.stacktrace, "stacktrace will be printed on crash");
+    env(LIBGL_VERTEXFOG, globals4es.vertexfog, "Fog will be computed per vertex unless GL_FOG_HINT is GL_NICEST");
 
     const int LIBGL_FB_ENV_VAR = 
 #       ifndef LIBGL_FB
