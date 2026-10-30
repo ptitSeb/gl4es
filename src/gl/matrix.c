@@ -35,6 +35,15 @@ void gl4es_mvp_restore(const gl4es_mvp_save_t *s)
     gl4es_mat_mark_dirty();
 }
 
+void gl4es_mvp_load_identity(void)
+{
+    set_identity(getMVMat());
+    set_identity(getPMat());
+    glstate->modelview_matrix->identity = 1;
+    glstate->projection_matrix->identity = 1;
+    gl4es_mat_mark_dirty();
+}
+
 // TODO: biasing clip-space z also moves the near and far clip planes, so
 // lines within the offset of either plane are clipped; GL offsets depth
 // after clipping and clamps it (GL 2.1 section 3.5.5).

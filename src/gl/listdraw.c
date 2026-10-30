@@ -621,6 +621,7 @@ void draw_renderlist(renderlist_t *list) {
     GLint needclean[MAX_TEX] = {0};
     bool stipple;
     int stipple_tmu;
+    int stipple_saved_maxtex = 0;
     GLenum stipple_env;
     GLenum stipple_afunc;
     GLfloat stipple_aref;
@@ -928,6 +929,9 @@ void draw_renderlist(renderlist_t *list) {
             bind_stipple_tex();
             modeinit_t tmp; tmp.mode_init = list->mode_init; tmp.ilen=list->ilen?list->ilen:list->len;
             list->tex[stipple_tmu] = gen_stipple_tex_coords(list->vert, list->indices, list->mode_inits?list->mode_inits:&tmp, list->vert_stride, list->mode_inits?list->mode_init_len:1, (list->use_glstate)?(list->vert+8+stipple_tmu*4):NULL);
+            stipple_saved_maxtex = list->maxtex;
+            if (list->tex[stipple_tmu] && list->maxtex < stipple_tmu + 1)
+                list->maxtex = stipple_tmu + 1;
         }
         #define RS(A, len) if(glstate->texgenedsz[A]<len) {free(glstate->texgened[A]); glstate->texgened[A]=malloc(4*sizeof(GLfloat)*len); glstate->texgenedsz[A]=len; } use_texgen[A]=1
         // cannot use list->maxtex because some TMU can be using TexGen or point sprites...
@@ -1010,11 +1014,83 @@ void draw_renderlist(renderlist_t *list) {
 
         realize_textures(1);
 
+        /* Wide-line quads: expand from CPU arrays and skip both
+         * list2VBO and line_arrays_to_vbo (and therefore
+         * listActiveVBO). Object-space caches stay unuploaded. */
+        int wide_drew = 0;
+        if (glstate->render_mode != GL_SELECT && gl4es_wide_lines_needed()) {
+            int from_polygon_mode = (glstate->polygon_mode == GL_LINE &&
+                                     list->mode_init >= GL_TRIANGLES);
+            int is_line = from_polygon_mode
+                || list->mode == GL_LINES
+                || list->mode == GL_LINE_STRIP
+                || list->mode == GL_LINE_LOOP;
+            if (is_line) {
+                const GLfloat *wvert;
+                const GLfloat *wcolor;
+                const GLfloat *wsec;
+                const GLfloat *wfog;
+                const GLfloat *wnorm;
+                GLfloat *wtex[MAX_TEX];
+                int wtex_stride[MAX_TEX];
+                int wvert_s, wcolor_s, wsec_s, wfog_s, wnorm_s;
+                GLenum wmode;
+                const GLushort *wind;
+                int wcount;
+                int wmaxtex = list->maxtex;
+                int a;
+                if (use_line_arrays) {
+                    wvert = line_arrays->vert;
+                    wcolor = line_arrays->color;
+                    wsec = line_arrays->secondary;
+                    wfog = line_arrays->fogcoord;
+                    wnorm = line_arrays->normal;
+                    wvert_s = wcolor_s = wsec_s = wfog_s = wnorm_s = 0;
+                    for (a = 0; a < MAX_TEX; a++) {
+                        wtex[a] = (a < wmaxtex) ? line_arrays->tex[a] : NULL;
+                        wtex_stride[a] = 0;
+                    }
+                    wmode = GL_LINES;
+                    wind = NULL;
+                    wcount = line_arrays->count;
+                } else {
+                    wvert = list->vert;
+                    wcolor = list->color;
+                    wsec = list->secondary;
+                    wfog = list->fogcoord;
+                    wnorm = list->normal;
+                    wvert_s = list->vert_stride;
+                    wcolor_s = list->color_stride;
+                    wsec_s = list->secondary_stride;
+                    wfog_s = list->fogcoord_stride;
+                    wnorm_s = list->normal_stride;
+                    for (a = 0; a < MAX_TEX; a++) {
+                        wtex[a] = (a < wmaxtex) ? list->tex[a] : NULL;
+                        wtex_stride[a] = (a < wmaxtex) ? list->tex_stride[a] : 0;
+                    }
+                    if (from_polygon_mode && list->ind_lines && list->ind_line > 0) {
+                        wmode = GL_LINES;
+                        wind = list->ind_lines;
+                        wcount = list->ind_line;
+                    } else {
+                        wmode = list->mode;
+                        wind = list->indices;
+                        wcount = list->indices ? (int)list->ilen : (int)list->len;
+                    }
+                }
+                if (wvert && wcount >= 2)
+                    wide_drew = (gl4es_draw_wide_lines(
+                        wmode, wvert, wvert_s, wcolor, wcolor_s,
+                        wsec, wsec_s, wfog, wfog_s, wnorm, wnorm_s,
+                        wtex, wtex_stride, wmaxtex, wind, wcount,
+                        from_polygon_mode, list->instanceCount) == GL4ES_WIDE_HANDLED);
+            }
+        }
+        if (!wide_drew) {
         if(use_vbo_array==0) {
             if((glstate->render_mode == GL_SELECT) || (glstate->polygon_mode == GL_LINE) || (glstate->polygon_mode == GL_POINT))
                 use_vbo_array = 1;
             else
-                // evaluated, seems good to go !
                 use_vbo_array = list2VBO(list);
         }
         if (use_line_arrays && list->line_arrays == line_arrays &&
@@ -1149,6 +1225,7 @@ void draw_renderlist(renderlist_t *list) {
             listInactiveVBO(list, saved);
         if(use_line_vbo)
             listInactiveVBO(&line_vbo_view, line_saved);
+        } /* !wide_drew */
         if (use_line_arrays && line_arrays == &transient_line_arrays)
             clear_line_arrays(&transient_line_arrays);
 
@@ -1172,6 +1249,7 @@ void draw_renderlist(renderlist_t *list) {
             if(!list->use_glstate)   //TODO: avoid that malloc/free...
                 free(list->tex[stipple_tmu]);
             list->tex[stipple_tmu]=NULL;
+            list->maxtex = stipple_saved_maxtex;
             LOAD_GLES(glActiveTexture);
             if(glstate->gleshard->active!=stipple_tmu)
                 gl4es_glActiveTexture(GL_TEXTURE0+stipple_tmu);

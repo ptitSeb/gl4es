@@ -69,6 +69,7 @@ typedef struct {
 void gl4es_mat_mark_dirty(void);
 void gl4es_mvp_save(gl4es_mvp_save_t *s);
 void gl4es_mvp_restore(const gl4es_mvp_save_t *s);
+void gl4es_mvp_load_identity(void);
 void gl4es_mvp_poke_proj_zbias(GLfloat d);
 GLfloat gl4es_polygon_offset_ndc_d(void);
 

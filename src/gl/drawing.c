@@ -6,6 +6,7 @@
 #include "gles.h"
 #include "glstate.h"
 #include "init.h"
+#include "line.h"
 #include "list.h"
 #include "loader.h"
 #include "render.h"
@@ -268,6 +269,8 @@ static inline bool should_intercept_render(GLenum mode) {
     return (
         (glstate->vao->vertexattrib[ATT_VERTEX].enabled && ! valid_vertex_type(glstate->vao->vertexattrib[ATT_VERTEX].type)) ||
         (mode == GL_LINES && glstate->enable.line_stipple) ||
+        ((mode == GL_LINES || mode == GL_LINE_STRIP || mode == GL_LINE_LOOP)
+            && gl4es_wide_lines_needed()) ||
         /*(mode == GL_QUADS) ||*/ (glstate->list.active && !glstate->list.pending)
     );
 }
