@@ -252,6 +252,28 @@ typedef struct {
     GLfloat         vert[8], tex[8];
 } glesblit_t;
 
+// accumulation-buffer emulation state (accum.c)
+typedef struct {
+    // one-time renderability probe
+    int             probed;
+    int             bits;           // 16, 8 or 0 (= unavailable)
+    GLenum          intformat;      // accum texture internalformat
+    GLenum          format;
+    GLenum          type;
+    // buffers, lazily (re)created at the drawable size
+    GLuint          fbo;
+    GLuint          accum_tex;
+    GLuint          scratch_tex;    // framebuffer snapshot for GL_ACCUM/GL_LOAD
+    int             width, height;
+    GLfloat         clear[4];       // glClearAccum value
+    // private scaled-copy program
+    GLuint          vertexshader;
+    GLuint          pixelshader;
+    GLuint          program;
+    GLint           uscale;
+    GLfloat         vert[8], tex[8];
+} glesaccum_t;
+
 typedef struct {
     char*           shadersource; // scrach buffer for fpe shader construction
     int             shadersize;

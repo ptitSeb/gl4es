@@ -1,6 +1,7 @@
 #include "glstate.h"
 
 #include "../glx/hardext.h"
+#include "accum.h"
 #include "fpe.h"
 #include "framebuffers.h"
 #include "gl4es.h"
@@ -581,6 +582,10 @@ void DeleteGLState(void* oldstate) {
     if(state->blit) {
         //TODO: check if should delete GL object too
         free(state->blit);
+    }
+    if(state->accum) {
+        gl4es_accum_dispose(state->accum);
+        state->accum = NULL;
     }
     if(!state->shared_cnt) {
         FreeOldProgramMap(state);

@@ -1,6 +1,7 @@
 #include "attributes.h"
 #include "wrap/gl4es.h"
 #include "wrap/stub.h"
+#include "accum.h"
 #include "directstate.h"
 #include "framebuffers.h"
 #include "init.h"
@@ -442,10 +443,11 @@ void* APIENTRY_GL4ES gl4es_GetProcAddress(const char *name) {
     _EX(glLoadTransposeMatrixd);
     _EX(glMultTransposeMatrixd);
     _EX(glMultTransposeMatrixf);
+    // accum buffer emulation (accum.c)
+    _EX(glAccum);
+    _EX(glClearAccum);
     // stubs for unimplemented functions
-    STUB(glAccum);
     STUB(glAreTexturesResident);
-    STUB(glClearAccum);
     _EX(glColorMaterial);
     _EX(glCopyTexSubImage3D);   // It's a stub, calling the 2D one
     STUB(glFeedbackBuffer);

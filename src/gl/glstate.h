@@ -87,6 +87,7 @@ struct glstate_s {
     fpe_cache_t         *fpe_cache;
     gleshard_t          *gleshard;          //shared
     glesblit_t          *blit;
+    glesaccum_t         *accum;             // accumulation-buffer emulation (accum.c)
     fbo_t               fbo;
     int                 fbowidth, fboheight;    // initial size (useful only on LIBGL_FB=1 or 2)
     depth_state_t       depth;

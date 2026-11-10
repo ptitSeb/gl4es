@@ -23,7 +23,6 @@ void APIENTRY_GL4ES gl4es_glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b);
 void APIENTRY_GL4ES gl4es_glColorTable (GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, const GLvoid *table);
 //void APIENTRY_GL4ES gl4es_glIndexPointer(GLenum  type,  GLsizei  stride,  const GLvoid *  pointer);
 
-void APIENTRY_GL4ES gl4es_glAccum(GLenum op, GLfloat value);
 void APIENTRY_GL4ES gl4es_glPrioritizeTextures(GLsizei n, const GLuint *textures, const GLclampf *priorities);
 void APIENTRY_GL4ES gl4es_glPixelMapfv(GLenum map, GLsizei mapsize, const GLfloat *values);
 void APIENTRY_GL4ES gl4es_glPixelMapuiv(GLenum map,GLsizei mapsize, const GLuint *values);

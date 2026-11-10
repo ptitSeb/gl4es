@@ -25,7 +25,6 @@ STUB(void,glDiscardFramebufferEXT,(GLenum target, GLsizei numAttachments, const 
 STUB(void glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha))
 STUB(void glBlendFuncSeparatei(GLuint buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha))
 */
-STUB(void,glClearAccum,(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha));
 //STUB(void,glColorMaterial,(GLenum face, GLenum mode));
 STUB(void,glCopyPixels,(GLint x, GLint y, GLsizei width, GLsizei height, GLenum type));
 STUB(void,glDrawBuffer,(GLenum mode));
@@ -35,7 +34,6 @@ STUB(void,glReadBuffer,(GLenum mode));
 //STUB(void glSecondaryColor3f(GLfloat r, GLfloat g, GLfloat b));
 STUB(void,glColorTable,(GLenum target, GLenum internalformat, GLsizei width, GLenum format, GLenum type, const GLvoid *table));
 
-STUB(void,glAccum,(GLenum op, GLfloat value));
 STUB(void,glPrioritizeTextures,(GLsizei n, const GLuint *textures, const GLclampf *priorities));
 //STUB(void,glPixelMapfv,(GLenum map, GLsizei mapsize, const GLfloat *values));
 //STUB(void,glPixelMapuiv,(GLenum map,GLsizei mapsize, const GLuint *values));

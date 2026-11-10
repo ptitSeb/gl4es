@@ -119,6 +119,20 @@
 #define GL_ALL_ATTRIB_BITS      0xFFFFF
 #define GL_MULTISAMPLE_BIT      0x20000000
 
+// accumulation buffer (emulated via FBO in accum.c)
+#define GL_ACCUM                0x0100
+#define GL_LOAD                 0x0101
+#define GL_RETURN               0x0102
+#define GL_MULT                 0x0103
+#ifndef GL_ADD
+#define GL_ADD                  0x0104
+#endif
+#define GL_ACCUM_RED_BITS       0x0D58
+#define GL_ACCUM_GREEN_BITS     0x0D59
+#define GL_ACCUM_BLUE_BITS      0x0D5A
+#define GL_ACCUM_ALPHA_BITS     0x0D5B
+#define GL_ACCUM_CLEAR_VALUE    0x0B80
+
 #define GL_CLIENT_PIXEL_STORE_BIT  0x00000001
 #define GL_CLIENT_VERTEX_ARRAY_BIT 0x00000002
 #define GL_ALL_CLIENT_ATTRIB_BITS  0xFFFFFFFF

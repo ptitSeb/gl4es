@@ -7,6 +7,7 @@
 #include "../config.h"
 #include "../glx/hardext.h"
 #include "wrap/gl4es.h"
+#include "accum.h"
 #include "array.h"
 #include "debug.h"
 #include "enum_info.h"
@@ -1194,6 +1195,8 @@ AliasExport(void,glColorMask,,(GLboolean red, GLboolean green, GLboolean blue, G
 void APIENTRY_GL4ES gl4es_glClear(GLbitfield mask) {
     PUSH_IF_COMPILING(glClear);
 
+    if(mask & GL_ACCUM_BUFFER_BIT)
+        gl4es_accum_clear();
     mask &= GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT;
     LOAD_GLES(glClear);
     gles_glClear(mask);
