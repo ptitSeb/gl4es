@@ -100,7 +100,7 @@ void APIENTRY_GL4ES gl4es_glViewport(GLint x, GLint y, GLsizei width, GLsizei he
 		if (glstate->raster.bm_drawing)	bitmap_flush();
     	LOAD_GLES(glViewport);
 		gles_glViewport(x, y, width, height);
-    if (x >= 0 && y >= 0 && width >= 0 && height >= 0) {
+    if (width >= 0 && height >= 0) {
 		  glstate->raster.viewport.x = x;
 		  glstate->raster.viewport.y = y;
 		  glstate->raster.viewport.width = width;
@@ -146,7 +146,7 @@ void APIENTRY_GL4ES gl4es_glScissor(GLint x, GLint y, GLsizei width, GLsizei hei
     	LOAD_GLES(glScissor);
 		gles_glScissor(x, y, width, height);
 
-    if (x >= 0 && y >= 0 && width >= 0 && height >= 0) {
+    if (width >= 0 && height >= 0) {
 		  glstate->raster.scissor.x = x;
 		  glstate->raster.scissor.y = y;
 		  glstate->raster.scissor.width = width;
