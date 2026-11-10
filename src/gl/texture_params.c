@@ -919,6 +919,10 @@ void realize_textures(int drawing) {
                 glstate->actual_tex2d[i] = t;
             }
         }
+#ifdef __EMSCRIPTEN__
+        // texture 0 is no texture in WebGL
+        if(!t) continue;
+#endif
         // check, if drawing, if mipmap needs some special care...
         if(drawing) {
             if((globals4es.automipmap==3) || ((globals4es.automipmap==1) && (tex->mipmap_auto==0)) || (tex->compressed && (tex->mipmap_auto==0)))
