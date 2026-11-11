@@ -377,7 +377,9 @@ static int get_config_default(Display *display, int attribute, int *value) {
 
 static void init_display(Display *display) {
     LOAD_EGL(eglGetDisplay);
+#ifdef HYBRIS
     LOAD_EGL(eglGetPlatformDisplay);
+#endif
 
     if (! g_display) {
         g_display = display;//XOpenDisplay(NULL);
