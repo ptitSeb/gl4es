@@ -337,6 +337,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     // TexEnv
     for (int i=0; i<hardext.maxtex; i++) {
         glstate->texenv[i].env.mode = GL_MODULATE;
+        glstate->texenv[i].env.combine_rgb = glstate->texenv[i].env.combine_alpha = GL_MODULATE;   // OpenGL's initial value
         glstate->texenv[i].env.rgb_scale = 1.0f;
         glstate->texenv[i].env.alpha_scale = 1.0f;
         glstate->texenv[i].env.src0_rgb = glstate->texenv[i].env.src0_alpha = GL_TEXTURE;
@@ -375,6 +376,8 @@ void* NewGLState(void* shared_glstate, int es2only) {
             glstate->fpe_state->texenv[i].texsrcalpha2 = FPE_SRC_CONSTANT;
             glstate->fpe_state->texenv[i].texoprgb0 = FPE_OP_SRCCOLOR;
             glstate->fpe_state->texenv[i].texoprgb1 = FPE_OP_SRCCOLOR;
+            // GL_COMBINE_RGB and GL_COMBINE_ALPHA start as GL_MODULATE, not GL_REPLACE (0); keep in sync with texenv above
+            glstate->fpe_state->texcombine[i] = FPE_CR_MODULATE | (FPE_CR_MODULATE<<4);
         }
         if(globals4es.shaderblend) {
             glstate->fpe_state->blendsrcrgb = FPE_BLEND_ONE;
